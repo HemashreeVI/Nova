@@ -147,7 +147,9 @@ try {
   const ts = (t) => `${Math.floor(t / 60)}:${String(Math.floor(t % 60)).padStart(2, '0')}`;
   const chapters = [];
   for (const s of timing.scenes) {
-    if (chapters.length && s.start - chapters[chapters.length - 1].start < 10) continue; // YouTube: ≥10 s each
+    const prev = chapters[chapters.length - 1];
+    // YouTube needs every chapter ≥ 10 s: fold a too-short chapter into the one that follows it
+    if (prev && s.start - prev.start < 10) { if (prev.start > 0) prev.title = s.title; continue; }
     chapters.push({ start: chapters.length ? s.start : 0, title: s.title });
   }
   const yt = [
