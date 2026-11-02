@@ -108,7 +108,7 @@ def main():
             s = synth(txt)
             d = len(s) / SR
             lines.append({"text": txt, "start": round(cur, 3), "end": round(cur + d, 3),
-                          "chunks": chunk(txt, cur, cur + d)})
+                          "chunks": chunk(txt, cur, cur + d, 7 if cfg.get("format") == "vertical" else 12)})
             clips.append((t + cur, s))
             cur += d + (gap if i < len(sc["lines"]) - 1 else 0)
         dur = max(cur + float(tail) + float(sc.get("hold", 0)), float(sc.get("minDur", 0)))
@@ -125,7 +125,9 @@ def main():
     audio *= 0.89 / peak
     sf.write(os.path.join(out, "narration.wav"), audio[: int(total * SR)], SR)
 
+    vertical = cfg.get("format") == "vertical"
     timing = {"title": cfg.get("title", ""), "total": total, "captions": bool(cfg.get("captions", True)),
+              "width": 1080 if vertical else 1920, "height": 1920 if vertical else 1080,
               "scenes": scenes}
     json.dump(timing, open(os.path.join(out, "timing.json"), "w"), indent=1)
     with open(os.path.join(proj, "timing.js"), "w") as f:

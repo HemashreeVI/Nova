@@ -64,7 +64,7 @@ function resolveTime(spec) {
 }
 
 async function openPage(browser) {
-  const page = await browser.newPage({ viewport: { width: 1920, height: 1080 }, deviceScaleFactor: 1 });
+  const page = await browser.newPage({ viewport: { width: timing.width || 1920, height: timing.height || 1080 }, deviceScaleFactor: 1 });
   page.on('pageerror', (e) => console.error('[page error]', e.message));
   page.on('console', (m) => { if (m.type() === 'error' || m.type() === 'warning') console.error('[page]', m.text()); });
   await page.goto(pageUrl);
@@ -140,13 +140,13 @@ try {
   await page.evaluate(() => { const c = document.getElementById('fv-caption'); if (c) c.style.display = 'none'; });
   const big = path.join(out, 'thumbnail_1080.png');
   await shot(page, thumbT, big);
-  run('ffmpeg', [...ffmpegQuiet, '-i', big, '-vf', 'scale=1280:720', path.join(out, 'thumbnail.png')]);
+  run('ffmpeg', [...ffmpegQuiet, '-i', big, '-vf', timing.height > timing.width ? 'scale=720:1280' : 'scale=1280:720', path.join(out, 'thumbnail.png')]);
   fs.unlinkSync(big);
 
   // 6. youtube.txt with chapters
   const ts = (t) => `${Math.floor(t / 60)}:${String(Math.floor(t % 60)).padStart(2, '0')}`;
   const chapters = [];
-  for (const s of timing.scenes) {
+  for (const s of timing.height > timing.width ? [] : timing.scenes) {   // Shorts have no chapters
     const prev = chapters[chapters.length - 1];
     // YouTube needs every chapter ≥ 10 s: fold a too-short chapter into the one that follows it
     if (prev && s.start - prev.start < 10) { if (prev.start > 0) prev.title = s.title; continue; }

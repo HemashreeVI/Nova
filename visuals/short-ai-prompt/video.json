@@ -1,0 +1,39 @@
+{
+  "title": "What Happens Inside an AI When You Hit Enter? #shorts",
+  "slug": "short-ai-prompt",
+  "format": "vertical",
+  "description": "How a large language model turns your prompt into an answer, in under a minute: tokens, embeddings, attention, next-token prediction, and the generation loop.\n\nFull 3-minute version on my channel.\n\n#AI #LLM #HowAIWorks #MachineLearning #shorts",
+  "tags": ["AI", "LLM", "how AI works", "ChatGPT explained", "transformer", "shorts"],
+  "voice": "am_michael",
+  "speed": 1.08,
+  "lineGap": 0.25,
+  "captions": true,
+  "thumbnail": "hook@2.2",
+  "endHold": 0.3,
+  "scenes": [
+    { "id": "hook", "pad": [0.3, 0.4], "lines": [
+      "What happens inside an AI when you hit Enter?",
+      "Here it is, in under a minute."
+    ]},
+    { "id": "tokens", "pad": [0.3, 0.5], "lines": [
+      "First, your text is chopped into tokens, and each token becomes a number."
+    ]},
+    { "id": "embed", "pad": [0.3, 0.5], "lines": [
+      "Each number becomes a vector: a long list of numbers that captures meaning."
+    ]},
+    { "id": "attention", "pad": [0.3, 0.6], "lines": [
+      "Then dozens of transformer layers run attention, so every word can look at every other word.",
+      "Blue pays attention to sky."
+    ]},
+    { "id": "predict", "pad": [0.3, 0.6], "lines": [
+      "At the top, the model scores every possible next token, and picks one."
+    ]},
+    { "id": "loop", "pad": [0.3, 0.8], "lines": [
+      "Then it adds that token to the input, and runs again.",
+      "One token at a time. That's why answers stream in, word by word."
+    ]},
+    { "id": "outro", "pad": [0.3, 1.6], "lines": [
+      "Follow for more AI, explained visually."
+    ]}
+  ]
+}

@@ -17,7 +17,9 @@
  */
 (function () {
   'use strict';
-  const W = 1920, H = 1080, FADE = 0.5;
+  const T0 = window.FV_TIMING || {};
+  const W = T0.width || 1920, H = T0.height || 1080, FADE = 0.5;
+  const VERT = H > W;
   const RENDER = new URLSearchParams(location.search).has('render');
   const FV = (window.FV = window.FV || {});
   FV.W = W; FV.H = H; FV.render = RENDER; FV.time = 0;
@@ -118,8 +120,8 @@
     html,body{margin:0;height:100%;overflow:hidden;background:#000}
     #fv-stage{position:absolute;left:50%;top:50%;width:${W}px;height:${H}px;overflow:hidden;transform-origin:center center}
     .fv-scene{position:absolute;inset:0;opacity:0;visibility:hidden}
-    #fv-caption{position:absolute;left:50%;bottom:54px;transform:translateX(-50%);width:max-content;max-width:1500px;padding:14px 30px;border-radius:14px;
-      background:rgba(0,0,0,.62);color:#fff;font:500 40px/1.3 Inter,system-ui,sans-serif;text-align:center;z-index:50;pointer-events:none}
+    #fv-caption{position:absolute;left:50%;bottom:${T0.captionBottom || (VERT ? 470 : 54)}px;transform:translateX(-50%);width:max-content;max-width:${W - (VERT ? 140 : 420)}px;padding:14px 30px;border-radius:14px;
+      background:rgba(0,0,0,.62);color:#fff;font:${VERT ? '700 50px/1.25' : '500 40px/1.3'} Inter,system-ui,sans-serif;text-align:center;z-index:50;pointer-events:none}
     #fv-ui{position:fixed;left:0;right:0;bottom:0;display:flex;gap:12px;align-items:center;padding:10px 16px;z-index:100;
       background:linear-gradient(transparent,rgba(0,0,0,.75));font:500 14px Inter,system-ui,sans-serif;color:#fff}
     #fv-ui button{background:rgba(255,255,255,.14);color:#fff;border:0;border-radius:8px;padding:8px 14px;font:inherit;cursor:pointer}
