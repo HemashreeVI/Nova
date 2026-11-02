@@ -1,0 +1,356 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Internet Short</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{--ink:#e8edf7;--mut:#8b97b0;--c1:#22d3ee;--c2:#a78bfa;--c3:#fbbf24;--c4:#f472b6;--c5:#34d399;--red:#f87171}
+  #fv-stage{background:radial-gradient(1000px 1300px at 70% 15%,#0f2f45 0%,#08182a 50%,#060b14 80%);color:var(--ink);font-family:Inter,system-ui,sans-serif}
+  #bg-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(120,200,220,.16) 1px,transparent 1px),linear-gradient(90deg,rgba(120,200,220,.16) 1px,transparent 1px);background-size:90px 90px;opacity:.2}
+  .abs{position:absolute}
+  .step{position:absolute;left:0;right:0;top:250px;text-align:center;font:700 34px/1 'JetBrains Mono',monospace;letter-spacing:.2em;color:var(--c1)}
+  .head{position:absolute;left:60px;right:60px;top:305px;text-align:center;font:800 84px/1.05 Inter;letter-spacing:-.03em}
+  .panel{position:absolute;border:3px solid rgba(148,190,210,.28);border-radius:32px;background:rgba(10,24,40,.85)}
+  .mono{font-family:'JetBrains Mono',monospace}
+  .label{font:600 32px Inter;color:var(--mut)}
+  .badge{position:absolute;left:50%;top:150px;transform:translateX(-50%);padding:12px 26px;border-radius:40px;background:rgba(34,211,238,.12);border:2px solid rgba(34,211,238,.5);font:700 30px Inter;color:var(--c1);white-space:nowrap}
+  .pill{display:inline-block;padding:12px 28px;border-radius:40px;font:800 40px Inter}
+  .pkt{position:absolute;width:270px;height:130px;border-radius:18px;border:3px solid var(--c);background:color-mix(in srgb,var(--c) 18%,#0a1828);box-sizing:border-box;padding:14px 16px}
+  .pkt b{display:block;font:800 40px Inter}
+  .pkt span{white-space:nowrap;font:700 24px 'JetBrains Mono';color:var(--mut)}
+</style>
+</head>
+<body>
+<div id="fv-stage">
+  <div id="bg-grid"></div>
+  <div class="badge">Tech, decoded</div>
+
+  <!-- HOOK -->
+  <section class="fv-scene" data-scene="hook">
+    <div id="hk-h" class="abs" style="left:50px;right:50px;top:420px;text-align:center;font:800 104px/1.05 Inter;letter-spacing:-.04em">What happens when you open a <span style="color:var(--c1)">website?</span></div>
+    <svg id="globe" class="abs" width="1080" height="1920" style="inset:0"></svg>
+    <div id="hk-sub" class="abs" style="left:0;right:0;top:1265px;text-align:center"><span class="pill" style="background:var(--c3);color:#1a1300">1 click · 60 seconds</span></div>
+  </section>
+
+  <!-- DNS -->
+  <section class="fv-scene" data-scene="dns">
+    <div class="step">STEP 1</div><div class="head">DNS</div>
+    <div id="dn-url" class="panel" style="left:90px;right:90px;top:470px;height:110px;display:flex;align-items:center;padding:0 34px;border-radius:60px">
+      <span class="mono" style="font-size:30px;color:var(--mut);margin-right:16px">https://</span><span id="dn-typed" style="font:700 46px Inter"></span>
+    </div>
+    <div id="dn-book" class="panel" style="left:90px;right:90px;top:640px;height:430px;padding:30px 36px;box-sizing:border-box">
+      <div class="label" style="color:var(--c1)">DNS · the internet's phone book</div>
+      <div id="dn-rows" style="margin-top:20px"></div>
+    </div>
+    <div id="dn-ip" class="abs" style="left:0;right:0;top:1110px;text-align:center"><span class="pill mono" style="background:rgba(52,211,153,.16);border:3px solid var(--c5);color:var(--c5);font-size:46px">IP: 203.0.113.7</span></div>
+  </section>
+
+  <!-- PACKETS -->
+  <section class="fv-scene" data-scene="packets">
+    <div class="step">STEP 2</div><div class="head">Packets</div>
+    <div id="pk-msg" class="panel" style="left:140px;right:140px;top:560px;height:180px;display:flex;flex-direction:column;align-items:center;justify-content:center">
+      <div class="label">your request</div><div class="mono" style="font-size:44px;font-weight:700;margin-top:10px">GET example.com/</div>
+    </div>
+    <div id="pk-host"></div>
+  </section>
+
+  <!-- ROUTERS -->
+  <section class="fv-scene" data-scene="routers">
+    <div class="step">STEP 3</div><div class="head">Routers</div>
+    <svg id="rt-svg" class="abs" width="1080" height="1920" style="inset:0"></svg>
+  </section>
+
+  <!-- SERVER -->
+  <section class="fv-scene" data-scene="server">
+    <div class="step">STEP 4</div><div class="head">The server</div>
+    <div id="sv-rack" class="abs" style="left:300px;width:480px;top:560px"></div>
+    <div id="sv-lbl" class="abs label" style="left:0;right:0;top:1000px;text-align:center">a computer that's always on, somewhere</div>
+    <svg id="sv-svg" class="abs" width="1080" height="1920" style="inset:0"></svg>
+  </section>
+
+  <!-- ASSEMBLE -->
+  <section class="fv-scene" data-scene="assemble">
+    <div class="step">STEP 5</div><div class="head">Rebuild the page</div>
+    <div id="as-pk"></div>
+    <div id="as-win" class="panel" style="left:110px;right:110px;top:720px;height:560px;overflow:hidden;background:#f8fafc;border-color:#cbd5e1">
+      <div style="height:60px;background:#e2e8f0;display:flex;align-items:center;gap:10px;padding:0 22px">
+        <i style="width:16px;height:16px;border-radius:50%;background:#f87171"></i><i style="width:16px;height:16px;border-radius:50%;background:#fbbf24"></i><i style="width:16px;height:16px;border-radius:50%;background:#34d399"></i>
+        <span class="mono" style="margin-left:14px;font-size:24px;color:#475569">example.com</span>
+      </div>
+      <div id="as-b1" style="margin:30px 36px 0;height:56px;width:60%;border-radius:10px;background:#0f172a"></div>
+      <div id="as-b2" style="margin:24px 36px 0;height:190px;border-radius:16px;background:linear-gradient(135deg,#22d3ee,#a78bfa)"></div>
+      <div id="as-b3" style="margin:24px 36px 0;height:22px;border-radius:8px;background:#94a3b8"></div>
+      <div id="as-b4" style="margin:16px 36px 0;height:22px;width:80%;border-radius:8px;background:#94a3b8"></div>
+      <div id="as-b5" style="margin:16px 36px 0;height:22px;width:65%;border-radius:8px;background:#94a3b8"></div>
+    </div>
+  </section>
+
+  <!-- HTTPS -->
+  <section class="fv-scene" data-scene="https">
+    <div class="step">STEP 6</div><div class="head">HTTPS</div>
+    <svg id="hs-lock" class="abs" width="220" height="260" viewBox="0 0 220 260" style="left:430px;top:470px">
+      <path id="hs-shackle" d="M55 120 V80 a55 55 0 0 1 110 0 V120" fill="none" stroke="#34d399" stroke-width="22" stroke-linecap="round"/>
+      <rect x="20" y="115" width="180" height="140" rx="26" fill="#34d399"/>
+      <circle cx="110" cy="175" r="18" fill="#06281c"/><rect x="102" y="180" width="16" height="40" rx="6" fill="#06281c"/>
+    </svg>
+    <div id="hs-pkt" class="panel" style="left:110px;right:110px;top:800px;height:170px;display:flex;align-items:center;justify-content:center">
+      <span id="hs-txt" class="mono" style="font-size:46px;font-weight:700"></span>
+    </div>
+    <div id="hs-spy" class="abs" style="left:0;right:0;top:1030px;text-align:center;font:700 40px Inter"></div>
+  </section>
+
+  <!-- OUTRO -->
+  <section class="fv-scene" data-scene="outro">
+    <div id="oc-list" class="abs" style="left:0;right:0;top:400px;display:flex;flex-direction:column;align-items:center;gap:12px"></div>
+    <div id="oc-cta" class="abs" style="left:0;right:0;top:1150px;text-align:center"><span class="pill" style="background:var(--c3);color:#1a1300;font-size:52px;padding:16px 38px">Follow · Tech, Decoded</span></div>
+  </section>
+</div>
+<script src="timing.js"></script>
+<script src="fv-runtime.js"></script>
+<script>
+(() => {
+const { seg, css, enter, lerp, clamp, ease, pulse, rand, $ } = FV;
+const NS = 'http://www.w3.org/2000/svg';
+const svg = (tag, attrs, parent) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; };
+const div = (cls, html, parent, style) => { const e = document.createElement('div'); if (cls) e.className = cls; if (html !== undefined) e.innerHTML = html; if (style) e.style.cssText = style; if (parent) parent.appendChild(e); return e; };
+const pop = (el, t, a, d = 0.45) => { const p = seg(t, a, a + d, ease.back); if (el instanceof SVGElement) { el.setAttribute('opacity', clamp(p * 1.5)); el.style.transformBox = 'fill-box'; el.style.transformOrigin = 'center'; el.style.transform = `scale(${Math.max(0, p)})`; } else css(el, { o: clamp(p * 1.5), s: Math.max(0, p) }); return p; };
+const head = (el, t) => { enter($('.step', el), t, 0.0, 0.4); enter($('.head', el), t, 0.08, 0.45, 30); };
+const frac = (ctx, i, f) => ctx.line(i) + (ctx.lineEnd(i) - ctx.line(i)) * f;
+const C = ['#22d3ee', '#a78bfa', '#fbbf24', '#f472b6', '#34d399'];
+const PK = [C[0], C[1], C[2], C[3]];
+const packet = (n, c, parent, sub = 'to 203.0.113.7') => { const p = div('pkt', `<b>#${n}</b><span>${sub}</span>`, parent); p.style.setProperty('--c', c); return p; };
+
+/* HOOK: spinning wireframe globe with arcs */
+{
+  const g = $('#globe'), CX = 540, CY = 1010, R = 215;
+  svg('circle', { cx: CX, cy: CY, r: R + 40, fill: 'rgba(34,211,238,.06)' }, g);
+  svg('circle', { cx: CX, cy: CY, r: R, fill: '#0a2238', stroke: C[0], 'stroke-width': 4 }, g);
+  const lats = [-0.66, -0.33, 0, 0.33, 0.66].map((k) => svg('ellipse', { cx: CX, cy: CY + k * R, rx: R * Math.sqrt(1 - k * k), ry: 18 * Math.sqrt(1 - k * k), fill: 'none', stroke: C[0], 'stroke-width': 2, opacity: 0.45 }, g));
+  const mers = [0, 1, 2, 3, 4, 5].map(() => svg('ellipse', { cx: CX, cy: CY, rx: 10, ry: R, fill: 'none', stroke: C[0], 'stroke-width': 2, opacity: 0.45 }, g));
+  const cities = [[-1.0, -0.3], [0.2, -0.45], [0.9, -0.1], [-0.4, 0.35], [1.6, 0.25], [2.4, -0.2]].map(([lon, lat]) => ({ lon, lat, el: svg('circle', { r: 11, fill: C[2] }, g) }));
+  const arcs = [[0, 1], [1, 2], [0, 3], [2, 4], [3, 2]].map(([a, b]) => ({ a, b, el: svg('path', { fill: 'none', stroke: C[3], 'stroke-width': 4, 'stroke-linecap': 'round' }, g) }));
+  const proj = (lon, lat, rot) => { const l = lon + rot; return { x: CX + R * Math.cos(lat) * Math.sin(l), y: CY + R * Math.sin(lat), z: Math.cos(lat) * Math.cos(l) }; };
+  FV.scene('hook', (t, ctx) => {
+    enter($('#hk-h'), t, 0.05, 0.5, 50);
+    const gp = seg(t, 0.2, 0.8, ease.back);
+    g.style.opacity = clamp(gp); g.style.transformOrigin = `${CX}px ${CY}px`; g.style.transform = `scale(${0.7 + 0.3 * gp})`;
+    const rot = t * 0.5;
+    mers.forEach((m, i) => { const a = rot + (i * Math.PI) / 6; m.setAttribute('rx', Math.abs(Math.sin(a)) * R); });
+    const P = cities.map((c) => { const p = proj(c.lon, c.lat, rot); c.el.setAttribute('cx', p.x); c.el.setAttribute('cy', p.y); c.el.setAttribute('opacity', p.z > 0 ? 1 : 0.15); return p; });
+    arcs.forEach((a, i) => {
+      const p = P[a.a], q = P[a.b];
+      const mx = (p.x + q.x) / 2, my = (p.y + q.y) / 2 - 120;
+      a.el.setAttribute('d', `M${p.x} ${p.y} Q${mx} ${my} ${q.x} ${q.y}`);
+      const L = a.el.getTotalLength(), k = ((t * 0.7 + i * 0.37) % 1.4) / 1.0;
+      a.el.setAttribute('stroke-dasharray', `${L * 0.35} ${L * 2}`);
+      a.el.setAttribute('stroke-dashoffset', L * 0.35 - k * L * 1.35);
+      a.el.setAttribute('opacity', p.z > 0 && q.z > 0 ? 0.95 : 0.15);
+    });
+    pop($('#hk-sub'), t, ctx.line(1) + 0.2);
+  });
+}
+
+/* DNS */
+{
+  const rows = [['google.com', '142.250.80.46'], ['example.com', '203.0.113.7'], ['wikipedia.org', '208.80.154.224'], ['youtube.com', '142.250.72.14']];
+  const host = $('#dn-rows');
+  const R = rows.map(([n, ip]) => div('', `<span style="font:700 40px Inter">${n}</span><span class="mono" style="font-size:32px;color:#8b97b0">${ip}</span>`, host,
+    'display:flex;justify-content:space-between;align-items:center;height:74px;padding:0 20px;border-radius:16px;margin-bottom:6px'));
+  FV.scene('dns', (t, ctx) => {
+    head(ctx.el, t);
+    enter($('#dn-url'), t, 0.1, 0.4);
+    $('#dn-typed').textContent = FV.type('example.com', seg(t, 0.3, 1.2, ease.linear));
+    const b = frac(ctx, 0, 0.1);
+    enter($('#dn-book'), t, b, 0.45, 30);
+    R.forEach((r, i) => enter(r, t, b + 0.3 + i * 0.12, 0.35, 14));
+    const h = seg(t, frac(ctx, 0, 0.36), frac(ctx, 0, 0.36) + 0.3);
+    R[1].style.background = `rgba(52,211,153,${0.2 * h})`;
+    R[1].style.boxShadow = h ? `inset 0 0 0 3px rgba(52,211,153,${h})` : 'none';
+    R[1].lastChild.style.color = h > 0.5 ? '#34d399' : '';
+    pop($('#dn-ip'), t, frac(ctx, 0, 0.5));
+  });
+}
+
+/* PACKETS */
+{
+  const host = $('#pk-host');
+  const P = [1, 2, 3, 4].map((n, i) => packet(n, PK[i], host));
+  const home = [[200, 850], [610, 850], [200, 1040], [610, 1040]];
+  FV.scene('packets', (t, ctx) => {
+    head(ctx.el, t);
+    enter($('#pk-msg'), t, 0.1, 0.4);
+    const s = seg(t, frac(ctx, 0, 0.2), frac(ctx, 0, 0.2) + 0.8);
+    $('#pk-msg').style.opacity = Math.min(seg(t, 0.1, 0.5), 1 - 0.55 * s);
+    P.forEach((p, i) => {
+      const a = seg(t, frac(ctx, 0, 0.2) + i * 0.1, frac(ctx, 0, 0.2) + i * 0.1 + 0.7, ease.back);
+      const [x, y] = home[i];
+      css(p, { o: clamp(a * 2), x: lerp(445, x, a), y: lerp(600, y, a), r: lerp(0, i % 2 ? 4 : -4, a), left: '0px', top: '0px' });
+      p.lastChild.style.opacity = seg(t, frac(ctx, 0, 0.62) + i * 0.08, frac(ctx, 0, 0.62) + i * 0.08 + 0.3);
+    });
+  });
+}
+
+/* ROUTERS */
+{
+  const sv = $('#rt-svg');
+  const N = { you: [170, 1230], a: [350, 1060], b: [290, 800], c: [570, 1000], d: [560, 730], e: [800, 900], f: [780, 640], srv: [920, 510] };
+  const ocean = svg('path', { d: 'M420 1120 C520 1060 640 1080 700 1020 C760 960 860 1000 900 1080 C800 1180 520 1200 420 1120 Z', fill: 'rgba(34,130,238,.25)', stroke: 'rgba(34,180,238,.5)', 'stroke-width': 3 }, sv);
+  const oceanLbl = svg('text', { x: 660, y: 1150, fill: '#7dd3fc', 'font-size': 30, 'font-weight': 700, 'font-family': 'Inter', 'text-anchor': 'middle' }, sv); oceanLbl.textContent = 'undersea cable';
+  const E = [['you', 'a'], ['you', 'b'], ['a', 'b'], ['a', 'c'], ['b', 'd'], ['c', 'd'], ['c', 'e'], ['d', 'e'], ['d', 'f'], ['e', 'f'], ['e', 'srv'], ['f', 'srv']];
+  const edges = E.map(([p, q]) => svg('line', { x1: N[p][0], y1: N[p][1], x2: N[q][0], y2: N[q][1], stroke: '#3b6b88', 'stroke-width': 5 }, sv));
+  const nodes = {};
+  for (const k in N) {
+    const [x, y] = N[k];
+    if (k === 'you' || k === 'srv') {
+      const g = svg('g', {}, sv);
+      svg('rect', { x: x - 80, y: y - 50, width: 160, height: 100, rx: 18, fill: '#0a1828', stroke: k === 'you' ? C[2] : C[4], 'stroke-width': 5 }, g);
+      const tx = svg('text', { x, y: y + 12, fill: '#fff', 'font-size': 34, 'font-weight': 800, 'font-family': 'Inter', 'text-anchor': 'middle' }, g); tx.textContent = k === 'you' ? 'You' : 'Server';
+      nodes[k] = g;
+    } else nodes[k] = svg('circle', { cx: x, cy: y, r: 30, fill: '#0e3550', stroke: C[0], 'stroke-width': 5 }, sv);
+  }
+  const lbl = svg('text', { x: 300, y: 720, fill: C[0], 'font-size': 32, 'font-weight': 700, 'font-family': 'Inter', 'text-anchor': 'middle' }, sv); lbl.textContent = 'router';
+  const route = (ks) => svg('path', { d: 'M' + ks.map((k) => N[k].join(' ')).join(' L'), fill: 'none', stroke: 'none' }, sv);
+  const paths = [route(['you', 'a', 'c', 'e', 'srv']), route(['you', 'b', 'd', 'f', 'srv']), route(['you', 'a', 'c', 'd', 'f', 'srv']), route(['you', 'b', 'd', 'e', 'srv'])];
+  const dots = paths.map((_, i) => svg('circle', { r: 20, fill: PK[i], stroke: '#fff', 'stroke-width': 4 }, sv));
+  FV.scene('routers', (t, ctx) => {
+    head(ctx.el, t);
+    edges.forEach((e, i) => e.setAttribute('opacity', seg(t, 0.2 + i * 0.03, 0.5 + i * 0.03)));
+    Object.values(nodes).forEach((n, i) => pop(n, t, 0.2 + i * 0.05, 0.4));
+    lbl.setAttribute('opacity', seg(t, 0.8, 1.1) * (1 - seg(t, 3.5, 3.8)));
+    const oa = frac(ctx, 0, 0.42);
+    ocean.setAttribute('opacity', seg(t, oa, oa + 0.4)); oceanLbl.setAttribute('opacity', seg(t, oa, oa + 0.4));
+    const pos = [];
+    dots.forEach((d, i) => {
+      const L = paths[i].getTotalLength();
+      const st = 0.9 + i * 0.35, per = 2.6;
+      const k = t < st ? -1 : ((t - st) % per) / per;
+      const p = k < 0 ? 0 : ease.inOut(k);
+      const pt = paths[i].getPointAtLength(p * L);
+      d.setAttribute('cx', pt.x); d.setAttribute('cy', pt.y);
+      d.setAttribute('opacity', k < 0 ? 0 : clamp(k * 12) * clamp((1 - k) * 12));
+      pos.push(pt);
+    });
+    for (const k in nodes) {
+      if (k === 'you' || k === 'srv') continue;
+      const [x, y] = N[k];
+      let g = 0; pos.forEach((p) => (g = Math.max(g, 1 - Math.hypot(p.x - x, p.y - y) / 70)));
+      nodes[k].setAttribute('fill', `rgba(34,211,238,${0.15 + 0.7 * clamp(g)})`);
+    }
+  });
+}
+
+/* SERVER */
+{
+  const rack = $('#sv-rack');
+  const units = [0, 1, 2].map(() => {
+    const u = div('', '', rack, 'height:110px;margin-bottom:14px;border-radius:16px;border:3px solid #3b6b88;background:linear-gradient(#10263b,#0a1828);display:flex;align-items:center;padding:0 26px;gap:14px');
+    const leds = [0, 1, 2].map(() => div('', '', u, 'width:18px;height:18px;border-radius:50%'));
+    div('', '', u, 'flex:1;height:14px;margin-left:20px;border-radius:7px;background:repeating-linear-gradient(90deg,#1e3a52 0 14px,transparent 14px 24px)');
+    return { u, leds };
+  });
+  const sv = $('#sv-svg');
+  const inP = svg('path', { d: 'M-20 470 C200 470 260 520 300 600', fill: 'none' }, sv);
+  const outPs = [0, 1, 2].map((i) => svg('path', { d: `M900 ${620 + i * 124} C960 ${700 + i * 124} 1000 ${900 + i * 120} 1180 ${1000 + i * 120}`, fill: 'none' }, sv));
+  const req = svg('g', {}, sv);
+  svg('rect', { x: -95, y: -45, width: 190, height: 90, rx: 16, fill: '#0a1828', stroke: C[2], 'stroke-width': 4 }, req);
+  const rt = svg('text', { x: 0, y: 12, fill: '#fff', 'font-size': 30, 'font-weight': 800, 'font-family': 'JetBrains Mono', 'text-anchor': 'middle' }, req); rt.textContent = 'GET /';
+  const outs = outPs.map((_, i) => {
+    const g = svg('g', {}, sv);
+    svg('rect', { x: -95, y: -45, width: 190, height: 90, rx: 16, fill: '#0a1828', stroke: C[4], 'stroke-width': 4 }, g);
+    const tx = svg('text', { x: 0, y: 12, fill: '#fff', 'font-size': 28, 'font-weight': 800, 'font-family': 'JetBrains Mono', 'text-anchor': 'middle' }, g); tx.textContent = `page #${i + 1}`;
+    return g;
+  });
+  FV.scene('server', (t, ctx) => {
+    head(ctx.el, t);
+    units.forEach((u, i) => {
+      enter(u.u, t, 0.2 + i * 0.1, 0.4);
+      u.leds.forEach((l, j) => { const on = Math.floor(t * 6 + i * 3 + j * 5) % (j + 3) !== 0; l.style.background = on ? [C[4], C[0], C[2]][j] : '#1e3a52'; l.style.boxShadow = on ? `0 0 12px ${[C[4], C[0], C[2]][j]}` : 'none'; });
+    });
+    enter($('#sv-lbl'), t, frac(ctx, 0, 0.3), 0.4);
+    const a = seg(t, 0.4, frac(ctx, 0, 0.35), ease.inOut);
+    const p = inP.getPointAtLength(a * inP.getTotalLength());
+    req.setAttribute('transform', `translate(${p.x} ${p.y}) scale(${1 - 0.5 * seg(a, 0.8, 1)})`);
+    req.setAttribute('opacity', a > 0 && a < 1 ? 1 : 0);
+    const flash = pulse(t, frac(ctx, 0, 0.35), frac(ctx, 0, 0.35) + 0.6);
+    rack.style.filter = `drop-shadow(0 0 ${40 * flash}px rgba(52,211,153,${flash}))`;
+    outs.forEach((g, i) => {
+      const s = frac(ctx, 0, 0.6) + i * 0.3;
+      const k = seg(t, s, s + 1.3, ease.in);
+      const q = outPs[i].getPointAtLength(k * outPs[i].getTotalLength());
+      g.setAttribute('transform', `translate(${q.x} ${q.y})`);
+      g.setAttribute('opacity', k > 0 && k < 1 ? 1 : 0);
+    });
+  });
+}
+
+/* ASSEMBLE */
+{
+  const host = $('#as-pk');
+  const order = [3, 1, 4, 2];
+  const P = order.map((n) => packet(n, PK[n - 1], host, 'page'));
+  P.forEach((p) => { p.style.width = '200px'; p.style.height = '110px'; });
+  const slotX = (k) => 50 + k * 250;
+  FV.scene('assemble', (t, ctx) => {
+    head(ctx.el, t);
+    const s = seg(t, frac(ctx, 0, 0.18), frac(ctx, 0, 0.18) + 0.9);
+    const m = seg(t, frac(ctx, 0, 0.55), frac(ctx, 0, 0.55) + 0.6);
+    P.forEach((p, i) => {
+      const n = order[i];
+      const arrive = seg(t, 0.2 + i * 0.12, 0.6 + i * 0.12, ease.out);
+      const x = lerp(slotX(i), slotX(n - 1), s);
+      const y = 520 - Math.sin(s * Math.PI) * (n - 1 > i ? 60 : -60) + m * 260;
+      css(p, { o: arrive * (1 - m), x, y: y - (1 - arrive) * 120, s: 1 - 0.4 * m, left: '0px', top: '0px' });
+    });
+    const w = enter($('#as-win'), t, frac(ctx, 0, 0.55), 0.45, 40);
+    ['#as-b1', '#as-b2', '#as-b3', '#as-b4', '#as-b5'].forEach((id, i) => { const b = seg(t, frac(ctx, 0, 0.65) + i * 0.15, frac(ctx, 0, 0.65) + i * 0.15 + 0.3); css($(id), { o: b, y: (1 - b) * 20 }); });
+  });
+}
+
+/* HTTPS */
+{
+  const plain = 'password: hunter2';
+  const glyph = 'A9#kQz$7x!Lp2&mW%vR8^';
+  FV.scene('https', (t, ctx) => {
+    head(ctx.el, t);
+    enter($('#hs-pkt'), t, 0.15, 0.4);
+    const lockAt = frac(ctx, 0, 0.4);
+    const lp = pop($('#hs-lock'), t, lockAt - 0.3, 0.45);
+    const shut = seg(t, lockAt, lockAt + 0.3, ease.back);
+    $('#hs-shackle').setAttribute('transform', `translate(0 ${-26 * (1 - shut)})`);
+    const enc = seg(t, lockAt + 0.2, lockAt + 0.9, ease.linear);
+    const r = rand(Math.floor(t * 12) + 1);
+    const n = Math.round(plain.length * enc);
+    let txt = '';
+    for (let i = 0; i < plain.length; i++) txt += i < n ? glyph[Math.floor(r() * glyph.length)] : plain[i];
+    $('#hs-txt').textContent = txt;
+    $('#hs-txt').style.color = enc >= 1 ? '#34d399' : enc > 0 ? '#e8edf7' : '#f87171';
+    $('#hs-pkt').style.borderColor = enc >= 1 ? '#34d399' : 'rgba(248,113,113,.7)';
+    const spy = $('#hs-spy');
+    spy.innerHTML = enc < 0.5 ? '<span style="color:#f87171">👀 anyone in between: "I can read this!"</span>' : '<span style="color:#34d399">👀 anyone in between: "…just noise"</span>';
+    spy.style.opacity = seg(t, 0.6, 1.0);
+  });
+}
+
+/* OUTRO */
+{
+  const L = $('#oc-list');
+  const steps = [['DNS', 'name → IP', C[0]], ['Packets', 'split it up', C[1]], ['Routers', 'hop across the world', C[2]], ['Server', 'sends the page', C[4]], ['Browser', 'rebuilds it', C[3]]];
+  const items = steps.map(([a, b, c], i) => {
+    const e = div('', `<span style="font:700 28px 'JetBrains Mono';color:${c};width:56px">0${i + 1}</span><span style="font:800 50px Inter;width:280px">${a}</span><span style="font:600 32px Inter;color:#8b97b0">${b}</span>`, L,
+      `display:flex;align-items:center;padding:14px 32px;border-radius:24px;border:3px solid ${c}88;background:${c}1f;width:820px;box-sizing:border-box`);
+    if (i < steps.length - 1) div('', '↓', L, 'font:700 34px Inter;color:#8b97b0;height:30px;line-height:30px');
+    return e;
+  });
+  const arrows = Array.from(L.children).filter((c) => c.textContent === '↓');
+  FV.scene('outro', (t, ctx) => {
+    items.forEach((e, i) => enter(e, t, 0.05 + i * 0.18, 0.35, 24));
+    arrows.forEach((a, i) => (a.style.opacity = seg(t, 0.2 + i * 0.18, 0.4 + i * 0.18)));
+    pop($('#oc-cta'), t, ctx.line(1) - 0.1, 0.5);
+  });
+}
+})();
+</script>
+</body>
+</html>
