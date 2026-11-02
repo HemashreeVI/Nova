@@ -1,0 +1,72 @@
+{
+  "title": "What Happens Inside an AI When You Hit Enter?",
+  "slug": "how-ai-handles-a-prompt",
+  "description": "You type a question, press Enter, and an AI starts answering. This animated explainer follows a single prompt through a large language model: tokenization, embeddings, positional information, transformer layers, attention, feed-forward networks, next-token prediction, sampling with temperature, and the generation loop that streams the answer word by word.\n\nNumbers shown on screen (token IDs, probabilities, layer counts) are illustrative.",
+  "tags": ["AI", "LLM", "how AI works", "transformer", "attention", "tokens", "machine learning", "ChatGPT explained", "Claude", "explainer"],
+  "voice": "am_michael",
+  "speed": 1.0,
+  "fps": 30,
+  "captions": true,
+  "thumbnail": "intro@4.2",
+  "scenes": [
+    { "id": "intro", "title": "Intro", "pad": [0.8, 1.0], "lines": [
+      "You type a question, press Enter, and a moment later an AI starts answering.",
+      "But what actually happens inside, in that one second?",
+      "Let's follow a single prompt all the way through."
+    ]},
+    { "id": "prompt", "title": "The prompt", "lines": [
+      "Here's our prompt: Why is the sky blue?",
+      "To you, that's a sentence. To the model, it isn't even text yet."
+    ]},
+    { "id": "tokens", "title": "1. Tokenization", "lines": [
+      "First, a tokenizer chops the text into small pieces called tokens.",
+      "A token can be a whole word, part of a word, or even just a space and a question mark.",
+      "Each token is swapped for a number: its ID in a vocabulary of around a hundred thousand pieces."
+    ]},
+    { "id": "embed", "title": "2. Embeddings", "lines": [
+      "Numbers alone don't carry meaning, so each ID is turned into an embedding.",
+      "That's a long list of numbers, thousands of them, that places the token in a kind of meaning space.",
+      "Words with similar meanings end up close together, like sky, cloud, and ocean."
+    ]},
+    { "id": "position", "title": "3. Word order", "pad": [0.5, 1.2], "lines": [
+      "The model also adds information about position.",
+      "Dog bites man, and man bites dog, use exactly the same words, but they mean very different things."
+    ]},
+    { "id": "stack", "title": "4. Transformer layers", "lines": [
+      "Now the real work begins. The vectors flow up through a tall stack of layers, called transformer blocks.",
+      "Large models have dozens of them, sometimes more than a hundred.",
+      "And every block does two things: attention, and a feed-forward step."
+    ]},
+    { "id": "attention", "title": "5. Attention", "lines": [
+      "Attention lets every token look at every other token, and decide which ones matter.",
+      "When the model processes the word blue, it pays strong attention to sky, because that's what blue is describing.",
+      "Many attention heads run in parallel, each one tracking a different kind of relationship."
+    ]},
+    { "id": "ffn", "title": "6. Feed-forward", "lines": [
+      "Then a feed-forward network processes each token on its own, mixing in facts and patterns learned during training.",
+      "Layer by layer, the vectors go from raw words to rich understanding: this is a question, about physics, about light and the atmosphere."
+    ]},
+    { "id": "predict", "title": "7. Predicting the next token", "lines": [
+      "At the very top, the final vector is turned into a score for every token in the vocabulary.",
+      "Those scores become probabilities. Which token is most likely to come next?",
+      "Here, The is on top, followed by Because, and Sunlight."
+    ]},
+    { "id": "sample", "title": "8. Sampling & temperature", "pad": [0.5, 1.4], "lines": [
+      "The model then picks one token from this distribution.",
+      "A setting called temperature controls how adventurous that choice is. Low temperature plays it safe. Higher temperature gets more creative."
+    ]},
+    { "id": "loop", "title": "9. One token at a time", "pad": [0.5, 2.0], "lines": [
+      "And here's the key idea: the model only ever predicts one token at a time.",
+      "The new token is added to the end of the input, and the whole process runs again, and again, and again.",
+      "That's why answers appear word by word, streaming onto your screen."
+    ]},
+    { "id": "stop", "title": "10. Stopping", "lines": [
+      "Generation stops when the model produces a special end token, or hits a length limit.",
+      "The tokens are turned back into text, and you see the finished answer."
+    ]},
+    { "id": "recap", "title": "Recap", "pad": [0.5, 3.0], "lines": [
+      "So, in about a second: text became tokens, tokens became vectors, attention and layers built up meaning, and the model predicted the answer, one token at a time.",
+      "That's what happens, every time you hit Enter."
+    ]}
+  ]
+}

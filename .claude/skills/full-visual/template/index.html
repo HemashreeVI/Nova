@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How X Works</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{--ink:#e8edf7;--mut:#8b97b0;--c1:#38bdf8;--c2:#a78bfa;--c3:#fbbf24;--c4:#f472b6;--c5:#34d399}
+  #fv-stage{background:radial-gradient(1300px 900px at 72% 18%,#16204a 0%,#0a1024 45%,#070b16 75%);color:var(--ink);font-family:Inter,system-ui,sans-serif}
+  .abs{position:absolute}
+  .kicker{position:absolute;left:120px;top:92px;font:700 24px/1 'JetBrains Mono',monospace;letter-spacing:.16em;color:var(--c1);text-transform:uppercase}
+  .title{position:absolute;left:120px;top:132px;font:800 66px/1.08 Inter,sans-serif;letter-spacing:-.025em}
+</style>
+</head>
+<body>
+<div id="fv-stage">
+  <section class="fv-scene" data-scene="intro">
+    <div id="hook" class="abs" style="left:0;right:0;top:380px;text-align:center;font:800 110px/1.1 Inter">How does <span style="color:var(--c1)">X</span> work?</div>
+  </section>
+  <section class="fv-scene" data-scene="step1">
+    <div class="kicker">Step 1</div>
+    <div class="title">The first step</div>
+    <div id="box" class="abs" style="left:860px;top:440px;width:200px;height:200px;border-radius:28px;background:var(--c2)"></div>
+  </section>
+</div>
+<script src="timing.js"></script>
+<script src="fv-runtime.js"></script>
+<script>
+const { seg, enter, css, ease } = FV;
+FV.scene('intro', (t, ctx) => {
+  enter(document.getElementById('hook'), t, 0.4, 0.9, 40);
+});
+FV.scene('step1', (t, ctx) => {
+  enter(ctx.el.querySelector('.kicker'), t, 0.05);
+  enter(ctx.el.querySelector('.title'), t, 0.15);
+  const p = seg(t, ctx.line(0), ctx.lineEnd(0), ease.inOut);   // animate across the first narration line
+  css(document.getElementById('box'), { o: p, r: p * 180, s: 0.5 + 0.5 * p });
+});
+</script>
+</body>
+</html>

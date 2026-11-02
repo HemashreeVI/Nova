@@ -1,0 +1,775 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Inside an AI Prompt</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#070b16; --ink:#e8edf7; --mut:#8b97b0; --line:rgba(148,163,200,.18);
+    --c1:#38bdf8; --c2:#a78bfa; --c3:#fbbf24; --c4:#f472b6; --c5:#34d399; --c6:#fb923c; --red:#f87171;
+  }
+  #fv-stage{background:radial-gradient(1300px 900px at 72% 18%,#16204a 0%,#0a1024 45%,#070b16 75%);color:var(--ink);font-family:Inter,system-ui,sans-serif}
+  #bg-grid{position:absolute;inset:0;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+    background-size:80px 80px;opacity:.22;mask-image:radial-gradient(1100px 700px at 50% 45%,#000 30%,transparent 80%)}
+  .abs{position:absolute}
+  .kicker{position:absolute;left:120px;top:92px;font:700 24px/1 'JetBrains Mono',monospace;letter-spacing:.16em;color:var(--c1);text-transform:uppercase}
+  .title{position:absolute;left:120px;top:132px;font:800 66px/1.08 Inter,sans-serif;letter-spacing:-.025em}
+  .mut{color:var(--mut)}
+  .mono{font-family:'JetBrains Mono',monospace}
+  .foot{position:absolute;right:120px;top:104px;font:500 22px Inter;color:var(--mut);opacity:.8}
+  .chip{display:inline-flex;align-items:center;white-space:pre;font:600 50px/1 Inter;padding:18px 24px;border-radius:16px;
+    border:2px solid var(--c);background:color-mix(in srgb,var(--c) 17%,transparent);color:#fff}
+  .chip.sm{font-size:32px;padding:12px 16px;border-radius:12px}
+  .chip.xs{font-size:26px;padding:9px 12px;border-radius:10px}
+  .sp{display:inline-block;color:var(--mut);font-weight:400}
+  .panel{position:absolute;border:2px solid rgba(148,163,200,.25);border-radius:24px;background:rgba(13,20,42,.72)}
+  .label{font:600 26px Inter;color:var(--mut);letter-spacing:.02em}
+  .key{display:inline-block;padding:4px 26px 10px;border-radius:18px;background:linear-gradient(#26324f,#1a2340);border:2px solid #3b4a70;
+    box-shadow:0 10px 0 #0e1428,0 0 0 rgba(56,189,248,0);color:#fff}
+  .arrow{font:500 54px Inter;color:var(--mut)}
+  svg text{font-family:Inter,sans-serif}
+</style>
+</head>
+<body>
+<div id="fv-stage">
+  <div id="bg-grid"></div>
+
+  <!-- ============ INTRO ============ -->
+  <section class="fv-scene" data-scene="intro">
+    <svg id="net" class="abs" width="1920" height="1080" viewBox="0 0 1920 1080" style="inset:0"></svg>
+    <div class="abs" style="left:0;right:0;top:300px;text-align:center">
+      <div id="in-eye" class="mono" style="font-size:28px;letter-spacing:.3em;color:var(--c1)">INSIDE A LARGE LANGUAGE MODEL</div>
+      <div id="in-h" style="font:800 118px/1.08 Inter;letter-spacing:-.035em;margin-top:36px">What happens when<br>you hit <span id="in-key" class="key">Enter</span>?</div>
+    </div>
+    <div id="in-dot" class="abs" style="left:0;top:0;width:26px;height:26px;border-radius:50%;background:var(--c1);box-shadow:0 0 30px 10px rgba(56,189,248,.55)"></div>
+  </section>
+
+  <!-- ============ PROMPT ============ -->
+  <section class="fv-scene" data-scene="prompt">
+    <div class="kicker">The prompt</div>
+    <div class="title">It starts with a question</div>
+    <div id="pr-win" class="panel" style="left:360px;top:270px;width:1200px;height:330px;overflow:hidden">
+      <div style="height:56px;border-bottom:2px solid rgba(148,163,200,.18);display:flex;align-items:center;gap:12px;padding:0 24px">
+        <i style="width:16px;height:16px;border-radius:50%;background:#f87171"></i><i style="width:16px;height:16px;border-radius:50%;background:#fbbf24"></i><i style="width:16px;height:16px;border-radius:50%;background:#34d399"></i>
+        <span class="label" style="margin-left:16px;font-size:22px">AI assistant</span>
+      </div>
+      <div id="pr-input" style="position:absolute;left:32px;right:32px;bottom:32px;height:120px;border-radius:20px;border:2px solid rgba(148,163,200,.35);background:rgba(7,11,22,.8);display:flex;align-items:center;padding:0 32px">
+        <span id="pr-typed" style="font:500 54px Inter;white-space:pre"></span><span id="pr-caret" style="width:4px;height:60px;background:var(--c1);margin-left:4px"></span>
+        <div id="pr-send" style="margin-left:auto;width:84px;height:84px;border-radius:50%;background:var(--c1);display:flex;align-items:center;justify-content:center;color:#071022;font:800 46px Inter">↑</div>
+      </div>
+      <div id="pr-hint" class="label" style="position:absolute;left:36px;top:84px;font-size:26px">Type a message…</div>
+    </div>
+    <div id="pr-bytes" class="abs mono" style="left:200px;right:200px;top:680px;text-align:center;font-size:30px;line-height:1.55;color:var(--c5)"></div>
+    <div id="pr-bl" class="abs label" style="left:0;right:0;top:632px;text-align:center;font-size:24px">what the computer actually stores: bytes</div>
+  </section>
+
+  <!-- ============ TOKENS ============ -->
+  <section class="fv-scene" data-scene="tokens">
+    <div class="kicker">Step 1</div>
+    <div class="title">Tokenization</div>
+    <div class="foot">IDs are illustrative</div>
+    <div id="tk-row" class="abs" style="left:0;right:0;top:330px;display:flex;justify-content:center;align-items:flex-start"></div>
+    <div id="tk-sub" class="abs" style="left:150px;top:660px;display:flex;align-items:center;gap:22px">
+      <div class="label" style="width:250px;line-height:1.3">Longer words<br>become pieces</div>
+      <div id="tk-subrow" style="display:flex"></div>
+    </div>
+    <div id="tk-vocab" class="panel" style="left:1180px;top:630px;width:600px;height:220px;padding:26px 32px;box-sizing:border-box">
+      <div class="label">Vocabulary</div>
+      <div style="font:800 64px Inter;margin-top:8px">~100,000 <span style="font-size:36px;font-weight:600" class="mut">tokens</span></div>
+      <div class="mono mut" style="font-size:22px;margin-top:10px">… " sky"→17971 · " blue"→9861 · "?"→30 …</div>
+    </div>
+  </section>
+
+  <!-- ============ EMBEDDINGS ============ -->
+  <section class="fv-scene" data-scene="embed">
+    <div class="kicker">Step 2</div>
+    <div class="title">Embeddings</div>
+    <div id="em-rows" class="abs" style="left:120px;top:270px"></div>
+    <div id="em-note" class="abs mono" style="left:120px;top:800px;font-size:26px;color:var(--mut)">each token → a vector of <span style="color:var(--c1)">4,096</span> numbers (only 26 shown)</div>
+    <div id="em-panel" class="panel" style="left:1140px;top:250px;width:660px;height:600px">
+      <div class="label" style="position:absolute;left:28px;top:22px">Meaning space <span style="font-weight:500">(squashed to 2D)</span></div>
+      <svg id="em-svg" width="660" height="600" style="position:absolute;inset:0"></svg>
+    </div>
+  </section>
+
+  <!-- ============ POSITION ============ -->
+  <section class="fv-scene" data-scene="position">
+    <div class="kicker">Step 3</div>
+    <div class="title">Word order matters</div>
+    <div id="po-wrap" class="abs" style="left:0;top:0;width:1920px;height:1080px"></div>
+    <div id="po-foot" class="abs" style="left:0;right:0;top:840px;text-align:center;font:600 34px Inter" class="mut">same words · different order · <span style="color:var(--c3)">different meaning</span></div>
+  </section>
+
+  <!-- ============ STACK ============ -->
+  <section class="fv-scene" data-scene="stack">
+    <div class="kicker">Step 4</div>
+    <div class="title">Transformer layers</div>
+    <div id="st-stack" class="abs" style="left:700px;top:0;width:520px;height:1080px"></div>
+    <div id="st-count" class="abs" style="left:150px;top:420px">
+      <div class="label">Layers in large models</div>
+      <div id="st-num" style="font:800 150px/1 Inter;letter-spacing:-.04em;margin-top:10px">12</div>
+    </div>
+    <svg id="st-svg" class="abs" width="1920" height="1080" style="inset:0;pointer-events:none"></svg>
+    <div id="st-zoom" class="panel" style="left:1330px;top:300px;width:470px;height:500px;padding:28px;box-sizing:border-box">
+      <div class="label">Inside one block</div>
+      <div id="st-att" style="margin-top:22px;border-radius:18px;padding:22px 24px;border:2px solid var(--c2);background:color-mix(in srgb,var(--c2) 15%,transparent)">
+        <div style="font:700 38px Inter">Attention</div><div class="mut" style="font:500 24px/1.35 Inter;margin-top:6px">tokens share information with each other</div>
+      </div>
+      <div class="mut" style="text-align:center;font:500 34px Inter;margin:8px 0">↓</div>
+      <div id="st-ff" style="border-radius:18px;padding:22px 24px;border:2px solid var(--c5);background:color-mix(in srgb,var(--c5) 15%,transparent)">
+        <div style="font:700 38px Inter">Feed-forward</div><div class="mut" style="font:500 24px/1.35 Inter;margin-top:6px">each token is processed on its own</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ ATTENTION ============ -->
+  <section class="fv-scene" data-scene="attention">
+    <div class="kicker">Step 5</div>
+    <div class="title">Attention</div>
+    <svg id="at-svg" class="abs" width="1920" height="1080" style="inset:0"></svg>
+    <div id="at-row" class="abs" style="left:0;right:0;top:450px;display:flex;justify-content:center;gap:30px"></div>
+    <div id="at-heads" class="abs" style="left:0;right:0;top:650px;display:flex;justify-content:center;gap:90px"></div>
+    <div id="at-hl" class="abs label" style="left:0;right:0;top:598px;text-align:center;font-size:24px">attention heads, running in parallel (each grid: which earlier tokens each token looks at)</div>
+  </section>
+
+  <!-- ============ FFN ============ -->
+  <section class="fv-scene" data-scene="ffn">
+    <div class="kicker">Step 6</div>
+    <div class="title">Feed-forward network</div>
+    <svg id="ff-svg" class="abs" width="1920" height="1080" style="inset:0"></svg>
+    <div id="ff-note" class="abs label" style="left:200px;top:735px;width:860px;text-align:center">weights learned during training · billions of them</div>
+    <div id="ff-tags" class="abs" style="left:1240px;top:300px;display:flex;flex-direction:column;gap:22px"></div>
+    <div id="ff-meter" class="abs" style="left:200px;top:810px;width:1520px">
+      <div style="display:flex;justify-content:space-between" class="label"><span>raw words</span><span style="color:var(--c5)">rich understanding</span></div>
+      <div style="position:relative;height:14px;margin-top:14px;border-radius:7px;background:linear-gradient(90deg,#334155,var(--c5))">
+        <div id="ff-mark" style="position:absolute;top:-11px;width:36px;height:36px;border-radius:50%;background:#fff;box-shadow:0 0 20px rgba(52,211,153,.8)"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PREDICT ============ -->
+  <section class="fv-scene" data-scene="predict">
+    <div class="kicker">Step 7</div>
+    <div class="title">Predicting the next token</div>
+    <div class="foot">numbers are illustrative</div>
+    <div id="pd-vec" class="panel" style="left:120px;top:300px;width:300px;height:470px">
+      <div class="label" style="position:absolute;left:0;right:0;top:20px;text-align:center">final vector</div>
+      <div id="pd-bars" style="position:absolute;left:40px;right:40px;top:76px;bottom:30px;display:flex;flex-direction:column;justify-content:space-between"></div>
+    </div>
+    <div id="pd-arrow" class="abs arrow" style="left:450px;top:490px">→</div>
+    <div id="pd-head" class="abs label" style="left:560px;top:262px;font-size:28px"></div>
+    <div id="pd-list" class="abs" style="left:560px;top:310px;width:1240px"></div>
+  </section>
+
+  <!-- ============ SAMPLE ============ -->
+  <section class="fv-scene" data-scene="sample">
+    <div class="kicker">Step 8</div>
+    <div class="title">Sampling &amp; temperature</div>
+    <div class="panel" style="left:120px;top:300px;width:520px;height:420px;padding:34px;box-sizing:border-box">
+      <div class="label">Temperature</div>
+      <div id="sa-T" style="font:800 110px/1 Inter;margin-top:18px;letter-spacing:-.03em">1.0</div>
+      <div style="position:relative;height:12px;border-radius:6px;margin-top:56px;background:linear-gradient(90deg,var(--c1),var(--c2),var(--c4))">
+        <div id="sa-knob" style="position:absolute;top:-16px;width:44px;height:44px;margin-left:-22px;border-radius:50%;background:#fff;box-shadow:0 4px 20px rgba(0,0,0,.5)"></div>
+      </div>
+      <div class="label" style="display:flex;justify-content:space-between;margin-top:30px;font-size:24px"><span>safe</span><span>creative</span></div>
+    </div>
+    <div id="sa-list" class="abs" style="left:720px;top:300px;width:1080px"></div>
+  </section>
+
+  <!-- ============ LOOP ============ -->
+  <section class="fv-scene" data-scene="loop">
+    <div class="kicker">Step 9</div>
+    <div class="title">One token at a time</div>
+    <div id="lp-ans" class="panel" style="left:120px;top:250px;width:1680px;height:120px;padding:0 36px;box-sizing:border-box;display:flex;align-items:center;font:500 44px Inter;white-space:pre"></div>
+    <svg id="lp-svg" class="abs" width="1920" height="1080" style="inset:0"></svg>
+    <div class="panel" style="left:120px;top:470px;width:720px;height:250px">
+      <div class="label" style="position:absolute;left:28px;top:20px">input so far</div>
+      <div id="lp-in" style="position:absolute;right:26px;top:104px;display:flex;gap:10px;flex-wrap:nowrap"></div>
+    </div>
+    <div class="panel" style="left:930px;top:440px;width:330px;height:310px;border-color:var(--c2);background:color-mix(in srgb,var(--c2) 12%,rgba(13,20,42,.8))">
+      <div style="position:absolute;left:0;right:0;top:72px;text-align:center;font:800 64px Inter">Model</div>
+      <div id="lp-pass" class="mono" style="position:absolute;left:0;right:0;top:170px;text-align:center;font-size:28px;color:var(--c2)">pass 1</div>
+    </div>
+    <div class="panel" style="left:1350px;top:470px;width:450px;height:250px">
+      <div class="label" style="position:absolute;left:28px;top:20px">next token</div>
+    </div>
+    <div id="lp-fly" class="abs chip sm" style="left:0;top:0;--c:var(--c3)">The</div>
+  </section>
+
+  <!-- ============ STOP ============ -->
+  <section class="fv-scene" data-scene="stop">
+    <div class="kicker">Step 10</div>
+    <div class="title">Knowing when to stop</div>
+    <div id="sp-a" class="abs" style="left:0;top:0;width:1920px;height:1080px">
+      <div class="panel" style="left:300px;top:330px;width:330px;height:260px;border-color:var(--c2)">
+        <div style="position:absolute;left:0;right:0;top:94px;text-align:center;font:800 60px Inter">Model</div>
+      </div>
+      <div class="abs arrow" style="left:680px;top:420px">→</div>
+      <div id="sp-end" class="abs chip" style="left:800px;top:410px;--c:var(--red);font-family:'JetBrains Mono',monospace">&lt;END&gt;</div>
+      <div id="sp-or" class="abs" style="left:1200px;top:360px;width:520px">
+        <div class="label">or: a length limit is reached</div>
+        <div style="position:relative;height:28px;margin-top:20px;border-radius:14px;background:rgba(148,163,200,.18);overflow:hidden">
+          <div id="sp-fill" style="position:absolute;left:0;top:0;bottom:0;background:linear-gradient(90deg,var(--c1),var(--c2))"></div>
+        </div>
+        <div class="mono mut" style="font-size:22px;margin-top:12px;text-align:right">max tokens</div>
+      </div>
+    </div>
+    <div id="sp-chat" class="abs" style="left:240px;top:300px;width:1440px">
+      <div id="sp-q" style="margin-left:auto;width:max-content;padding:22px 32px;border-radius:26px 26px 6px 26px;background:#1e3a8a;font:500 42px Inter">Why is the sky blue?</div>
+      <div id="sp-bub" style="margin-top:34px;padding:28px 34px;border-radius:26px 26px 26px 6px;background:rgba(30,41,72,.9);border:2px solid rgba(148,163,200,.25);width:max-content;max-width:1440px">
+        <div id="sp-toks" style="display:flex;flex-wrap:wrap;align-items:center;row-gap:14px"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ RECAP ============ -->
+  <section class="fv-scene" data-scene="recap">
+    <div class="kicker">Recap</div>
+    <div class="title">In about one second…</div>
+    <div id="rc-row" class="abs" style="left:0;right:0;top:340px;display:flex;justify-content:center;align-items:center;gap:18px"></div>
+    <svg id="rc-svg" class="abs" width="1920" height="1080" style="inset:0"></svg>
+    <div id="rc-end" class="abs" style="left:0;right:0;top:330px;text-align:center">
+      <div style="font:800 96px/1.12 Inter;letter-spacing:-.03em">That's what happens<br>every time you hit <span id="rc-key" class="key">Enter</span></div>
+    </div>
+  </section>
+</div>
+
+<script src="timing.js"></script>
+<script src="fv-runtime.js"></script>
+<script>
+(() => {
+const { seg, css, enter, lerp, clamp, ease, pulse, rand, $, $$ } = FV;
+const NS = 'http://www.w3.org/2000/svg';
+const C = ['#38bdf8', '#a78bfa', '#fbbf24', '#f472b6', '#34d399', '#fb923c'];
+const rgb = (h) => [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16));
+const rgba = (h, a) => `rgba(${rgb(h).join(',')},${a})`;
+const svg = (tag, attrs, parent) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; };
+const div = (cls, html, parent, style) => { const e = document.createElement('div'); if (cls) e.className = cls; if (html !== undefined) e.innerHTML = html; if (style) e.style.cssText = style; if (parent) parent.appendChild(e); return e; };
+const chip = (text, color, size = '', parent) => { const e = div('chip ' + size, '', parent); e.textContent = text; e.style.setProperty('--c', color); return e; };
+const head = (el, t) => { enter($('.kicker', el), t, 0.05); enter($('.title', el), t, 0.15); const f = $('.foot', el); if (f) enter(f, t, 0.6); };
+const frac = (ctx, i, f) => ctx.line(i) + (ctx.lineEnd(i) - ctx.line(i)) * f;   // time at fraction f through line i
+const TOK = ['Why', ' is', ' the', ' sky', ' blue', '?'];
+const spaced = (s) => s.replace(/^ /, '␣');
+const LOGITS = [['The', 9.1], ['Because', 8.5], ['Sunlight', 8.0], ['It', 7.6], ['Blue', 7.0], ['Light', 6.6], ['…all others', 7.3]];
+const softmax = (T) => { const e = LOGITS.map(([, l]) => Math.exp((l - 9.1) / T)); const s = e.reduce((a, b) => a + b, 0); return e.map((x) => x / s); };
+
+/* ================= INTRO ================= */
+{
+  const net = $('#net'), r = rand(7), nodes = [], edges = [];
+  for (let i = 0; i < 70; i++) nodes.push({ x: 60 + r() * 1800, y: 60 + r() * 960 });
+  nodes.forEach((a, i) => nodes.forEach((b, j) => { if (j > i && Math.hypot(a.x - b.x, a.y - b.y) < 230) edges.push([i, j]); }));
+  const eEls = edges.map(([i, j]) => svg('line', { x1: nodes[i].x, y1: nodes[i].y, x2: nodes[j].x, y2: nodes[j].y, stroke: C[0], 'stroke-width': 1.5 }, net));
+  const nEls = nodes.map((n, i) => svg('circle', { cx: n.x, cy: n.y, r: 3 + (i % 4), fill: C[i % 3 === 0 ? 1 : 0] }, net));
+  FV.scene('intro', (t, ctx) => {
+    const fade = seg(t, 0, 1.5);
+    const w = (x) => 0.5 + 0.5 * Math.sin(t * 1.4 - x / 260);
+    nEls.forEach((e, i) => e.setAttribute('opacity', fade * (0.15 + 0.55 * w(nodes[i].x))));
+    eEls.forEach((e, k) => e.setAttribute('opacity', fade * (0.03 + 0.12 * w(nodes[edges[k][0]].x))));
+    enter($('#in-eye'), t, 0.3, 0.8);
+    enter($('#in-h'), t, 0.6, 0.9, 40);
+    const press = frac(ctx, 0, 0.42);
+    const k = pulse(t, press, press + 0.4);
+    css($('#in-key'), { y: k * 8, boxShadow: `0 ${10 - k * 8}px 0 #0e1428, 0 0 ${60 * k}px rgba(56,189,248,${0.9 * k})` });
+    // a single "prompt" travels across under the title
+    const p = seg(t, ctx.line(2), ctx.dur, ease.inOut);
+    css($('#in-dot'), { o: seg(t, ctx.line(2), ctx.line(2) + 0.4) * (1 - seg(t, ctx.dur - 0.4, ctx.dur)), x: lerp(300, 1600, p), y: 820 + Math.sin(p * Math.PI * 3) * 26 });
+  });
+}
+
+/* ================= PROMPT ================= */
+{
+  const Q = 'Why is the sky blue?';
+  const bytes = Array.from(Q).map((ch) => ch.charCodeAt(0).toString(2).padStart(8, '0'));
+  const by = $('#pr-bytes');
+  const spans = bytes.map((b) => { const s = document.createElement('span'); s.textContent = b + ' '; by.appendChild(s); return s; });
+  FV.scene('prompt', (t, ctx) => {
+    head(ctx.el, t);
+    enter($('#pr-win'), t, 0.2, 0.7, 40);
+    const ts = frac(ctx, 0, 0.42), te = ts + 1.5;
+    const typed = FV.type(Q, seg(t, ts, te, ease.linear));
+    $('#pr-typed').textContent = typed;
+    $('#pr-hint').style.opacity = typed ? 0 : 0.7;
+    $('#pr-caret').style.opacity = t > ts && t < te ? 1 : Math.floor(t * 2.2) % 2 ? 0 : 1;
+    const sp = pulse(t, te + 0.25, te + 0.7);
+    css($('#pr-send'), { s: 1 + sp * 0.18, boxShadow: `0 0 ${50 * sp}px rgba(56,189,248,${sp})` });
+    const hl = seg(t, ctx.line(1), ctx.line(1) + 0.5) * (1 - seg(t, frac(ctx, 1, 0.45), frac(ctx, 1, 0.55)));
+    $('#pr-typed').style.color = hl > 0.01 ? `rgb(${lerp(232, 56, hl)},${lerp(237, 189, hl)},${lerp(247, 248, hl)})` : '';
+    const b0 = frac(ctx, 1, 0.45);
+    enter($('#pr-bl'), t, b0, 0.5);
+    spans.forEach((s, i) => { s.style.opacity = seg(t, b0 + i * 0.07, b0 + i * 0.07 + 0.3); });
+  });
+}
+
+/* ================= TOKENS ================= */
+{
+  const row = $('#tk-row');
+  const IDS = [10445, 382, 290, 17971, 9861, 30];
+  const cols = TOK.map((tk, i) => {
+    const col = div('', '', row, 'display:flex;flex-direction:column;align-items:center');
+    const c = div('chip', '', col);
+    c.style.setProperty('--c', C[i]);
+    if (tk.startsWith(' ')) { const s = div('sp', '␣', c); s.style.display = 'inline-block'; c.appendChild(document.createTextNode(tk.slice(1))); }
+    else c.textContent = tk;
+    const id = div('mono', '', col, `font-size:36px;font-weight:700;margin-top:22px;color:${C[i]}`);
+    const arrow = div('mut', '↓', col, 'font-size:30px;margin-top:14px');
+    col.insertBefore(arrow, id);
+    return { col, c, id, arrow, sp: $('.sp', c) };
+  });
+  const sub = $('#tk-subrow');
+  const whole = chip('unbelievable', C[1], 'sm', sub);
+  const pieces = ['un', 'believ', 'able'].map((p, i) => chip(p, C[[1, 2, 4][i]], 'sm', sub));
+  pieces.forEach((p) => (p.style.position = 'absolute'));
+  FV.scene('tokens', (t, ctx) => {
+    head(ctx.el, t);
+    enter(row, t, 0.2, 0.6);
+    const s = seg(t, frac(ctx, 0, 0.45), frac(ctx, 0, 0.45) + 1.0);
+    row.style.gap = `${lerp(0, 26, s)}px`;
+    const L1 = ctx.line(1), D1 = ctx.lineEnd(1) - L1;
+    cols.forEach((k, i) => {
+      const c = k.c, rgbv = rgb(C[i]).join(',');
+      let glow = 0;
+      if (i === 3) glow = pulse(t, L1 + D1 * 0.05, L1 + D1 * 0.3);
+      if (i === 5) glow = pulse(t, L1 + D1 * 0.8, L1 + D1 + 0.4);
+      c.style.padding = `${lerp(4, 18, s)}px ${lerp(0, 22, s)}px`;
+      c.style.borderColor = `rgba(${rgbv},${s})`;
+      c.style.background = `rgba(${rgbv},${0.17 * s + 0.3 * glow})`;
+      c.style.boxShadow = glow ? `0 0 ${40 * glow}px rgba(${rgbv},${glow})` : 'none';
+      c.style.transform = `scale(${1 + 0.1 * glow})`;
+      if (k.sp) {
+        const g = pulse(t, L1 + D1 * 0.62, L1 + D1 * 0.86);
+        k.sp.style.width = `${lerp(14, 34, s)}px`;
+        k.sp.style.opacity = s * (0.55 + 0.45 * g);
+        k.sp.style.color = g > 0.05 ? C[2] : '';
+      }
+      const ta = frac(ctx, 2, 0.3) + i * 0.18;
+      const p = seg(t, ta, ta + 0.6, ease.out);
+      css(k.arrow, { o: p }); css(k.id, { o: p, y: (1 - p) * 20 });
+      k.id.textContent = Math.round(IDS[i] * seg(t, ta, ta + 0.9, ease.out));
+    });
+    // subword example
+    const sa = L1 + D1 * 0.22;
+    enter($('#tk-sub'), t, sa, 0.5);
+    const ps = seg(t, sa + 0.6, sa + 1.4);
+    whole.style.opacity = 1 - ps;
+    let x = 0;
+    const sw = [0, 0, 0];
+    pieces.forEach((p, i) => { sw[i] = p.offsetWidth; });
+    const tot = sw.reduce((a, b) => a + b, 0), wW = whole.offsetWidth;
+    pieces.forEach((p, i) => {
+      const startX = (wW - tot) / 2 + x;   // overlapping word layout
+      const endX = x + i * 18;
+      x += sw[i];
+      css(p, { o: ps, x: lerp(startX, endX, ps), left: '272px', top: '0px' });
+    });
+    enter($('#tk-vocab'), t, frac(ctx, 2, 0.6), 0.6);
+  });
+}
+
+/* ================= EMBEDDINGS ================= */
+{
+  const rows = $('#em-rows'), r = rand(42), N = 26;
+  const R = TOK.map((tk, i) => {
+    const rw = div('', '', rows, 'display:flex;align-items:center;height:84px');
+    const c = chip(spaced(tk), C[i], 'sm', rw); c.style.minWidth = '120px'; c.style.justifyContent = 'center';
+    div('mut', '→', rw, 'font-size:32px;margin:0 22px');
+    const bars = [];
+    const br = div('', '', rw, 'display:flex;align-items:center;gap:6px;height:70px');
+    for (let k = 0; k < N; k++) { const v = r() * 2 - 1; const b = div('', '', br, `width:16px;border-radius:3px;background:${v > 0 ? C[0] : C[3]}`); bars.push({ b, v }); }
+    div('mut mono', '…', rw, 'font-size:30px;margin-left:12px');
+    return { rw, c, bars };
+  });
+  const sv = $('#em-svg');
+  const PTS = [
+    ['sky', 210, 190, 0], ['cloud', 290, 140, 0], ['ocean', 230, 270, 0], ['rain', 320, 220, 0],
+    ['dog', 470, 410, 2], ['cat', 550, 460, 2], ['puppy', 520, 350, 2],
+    ['king', 150, 450, 1], ['queen', 230, 510, 1], ['prince', 120, 530, 1],
+    ['blue', 420, 170, 3], ['why', 560, 230, 5],
+  ];
+  const ring = svg('ellipse', { cx: 262, cy: 205, rx: 140, ry: 110, fill: 'none', stroke: C[0], 'stroke-width': 3, 'stroke-dasharray': '10 8' }, sv);
+  const P = PTS.map(([w, x, y, c]) => {
+    const g = svg('g', {}, sv);
+    const dot = svg('circle', { cx: x, cy: y, r: 9, fill: C[c] }, g);
+    const tx = svg('text', { x: x + 16, y: y + 8, fill: '#e8edf7', 'font-size': 26, 'font-weight': 600 }, g); tx.textContent = w;
+    return { g, dot, w };
+  });
+  FV.scene('embed', (t, ctx) => {
+    head(ctx.el, t);
+    R.forEach((k, i) => {
+      enter(k.rw, t, 0.3 + i * 0.1, 0.5);
+      const a = frac(ctx, 0, 0.55) + i * 0.15;
+      k.bars.forEach(({ b, v }, j) => { b.style.height = `${Math.max(3, Math.abs(v) * 66 * seg(t, a + j * 0.012, a + j * 0.012 + 0.5, ease.out))}px`; });
+    });
+    enter($('#em-note'), t, frac(ctx, 1, 0.2), 0.6);
+    const pa = frac(ctx, 1, 0.55);
+    enter($('#em-panel'), t, pa, 0.6, 30);
+    P.forEach((p, i) => { p.g.setAttribute('opacity', seg(t, pa + 0.3 + i * 0.07, pa + 0.6 + i * 0.07)); });
+    const ra = frac(ctx, 2, 0.45);
+    const rp = seg(t, ra, ra + 0.6);
+    ring.setAttribute('opacity', rp);
+    ring.setAttribute('stroke-dashoffset', -t * 30);
+    const g = rp * (0.6 + 0.4 * Math.sin(t * 5));
+    [0, 1, 2].forEach((i) => P[i].dot.setAttribute('r', 9 + 5 * g));
+    R[3].c.style.boxShadow = `0 0 ${40 * rp}px ${rgba(C[3], rp)}`;
+  });
+}
+
+/* ================= POSITION ================= */
+{
+  const wrap = $('#po-wrap');
+  const SL = (i) => 960 + (i - 1) * 330;
+  const mk = (word, color, y) => { const c = chip(word, color, '', wrap); c.style.position = 'absolute'; c.style.top = y + 'px'; return c; };
+  const A = [mk('dog', C[2], 380), mk('bites', C[0], 380), mk('man', C[3], 380)];
+  const B = [mk('man', C[3], 600), mk('bites', C[0], 600), mk('dog', C[2], 600)];
+  const badge = (n, y) => div('mono', n, wrap, `position:absolute;top:${y}px;width:46px;height:46px;margin-left:-23px;border-radius:50%;background:#e8edf7;color:#0a1024;font-size:26px;font-weight:700;display:flex;align-items:center;justify-content:center`);
+  const BA = [1, 2, 3].map((n, i) => { const b = badge(n, 318); b.style.left = SL(i) + 'px'; return b; });
+  const BB = [1, 2, 3].map((n, i) => { const b = badge(n, 538); b.style.left = SL(i) + 'px'; return b; });
+  const mA = div('mut', '→ the dog did it', wrap, 'position:absolute;left:1430px;top:405px;font:600 32px Inter');
+  const mB = div('mut', '→ the man did it', wrap, 'position:absolute;left:1430px;top:625px;font:600 32px Inter');
+  const place = (c, slot, y = 0) => css(c, { x: slot - c.offsetWidth / 2, y });
+  FV.scene('position', (t, ctx) => {
+    head(ctx.el, t);
+    const a0 = 0.3;
+    A.forEach((c, i) => { const p = seg(t, a0 + i * 0.12, a0 + i * 0.12 + 0.5, ease.out); place(c, SL(i), (1 - p) * 20); c.style.opacity = p; c.style.left = '0px'; });
+    BA.forEach((b, i) => { const p = seg(t, frac(ctx, 0, 0.6) + i * 0.15, frac(ctx, 0, 0.6) + i * 0.15 + 0.4, ease.back); css(b, { o: clamp(p), s: p }); });
+    const b0 = ctx.line(1) + 0.2;
+    const sw = seg(t, frac(ctx, 1, 0.3), frac(ctx, 1, 0.3) + 1.1);
+    B.forEach((c, i) => {
+      c.style.left = '0px';
+      const appear = seg(t, b0, b0 + 0.5);
+      c.style.opacity = appear;
+      let x = SL(i), y = 0;
+      if (i === 0) { x = lerp(SL(2), SL(0), sw); y = -Math.sin(sw * Math.PI) * 70; }
+      if (i === 2) { x = lerp(SL(0), SL(2), sw); y = Math.sin(sw * Math.PI) * 70; }
+      if (sw === 0) y = (1 - appear) * -220;   // drops down from row A
+      place(c, x, y);
+    });
+    BB.forEach((b, i) => { const p = seg(t, frac(ctx, 1, 0.5) + i * 0.1, frac(ctx, 1, 0.5) + i * 0.1 + 0.4, ease.back); css(b, { o: clamp(p), s: p }); });
+    enter(mA, t, frac(ctx, 1, 0.62), 0.5); enter(mB, t, frac(ctx, 1, 0.72), 0.5);
+    enter($('#po-foot'), t, frac(ctx, 1, 0.85), 0.6);
+  });
+}
+
+/* ================= STACK ================= */
+{
+  const st = $('#st-stack');
+  const NB = 7, BH = 62, GAP = 18, TOP = 300;
+  const labels = ['Block 1', 'Block 2', 'Block 3', 'Block 4', '⋮', 'Block 79', 'Block 80'];
+  const blocks = labels.map((l, i) => {
+    const y = TOP + (NB - 1 - i) * (BH + GAP);
+    if (l === '⋮') return { el: div('mut', '⋮', st, `position:absolute;left:0;right:0;top:${y - 4}px;text-align:center;font:700 48px Inter`), y, dots: true };
+    const el = div('', `<span style="font:700 26px Inter">${l}</span>`, st, `position:absolute;left:0;width:520px;top:${y}px;height:${BH}px;border-radius:14px;border:2px solid rgba(167,139,250,.55);background:rgba(167,139,250,.12);display:flex;align-items:center;justify-content:center`);
+    return { el, y };
+  });
+  const sv = $('#st-svg');
+  const dots = TOK.map((_, i) => svg('circle', { cx: 700 + 60 + i * 80, cy: 0, r: 11, fill: C[i] }, sv));
+  const conn = svg('path', { d: `M1220 ${TOP + 31} C1270 ${TOP + 31}, 1280 330, 1330 330`, stroke: C[1], 'stroke-width': 3, fill: 'none', 'stroke-dasharray': '8 8' }, sv);
+  FV.scene('stack', (t, ctx) => {
+    head(ctx.el, t);
+    blocks.forEach((b, i) => enter(b.el, t, 0.3 + i * 0.1, 0.5));
+    const flow = seg(t, frac(ctx, 0, 0.5), frac(ctx, 0, 0.5) + 0.6);
+    const ys = [];
+    dots.forEach((d, i) => {
+      const y = 900 - ((t * 190 + i * 55) % 680);
+      ys.push(y);
+      d.setAttribute('cy', y);
+      d.setAttribute('opacity', flow * clamp((900 - y) / 80) * clamp((y - 220) / 80));
+    });
+    blocks.forEach((b) => {
+      if (b.dots) return;
+      let g = 0; ys.forEach((y) => { g = Math.max(g, 1 - Math.abs(y - (b.y + BH / 2)) / 50); });
+      g = clamp(g) * flow;
+      b.el.style.background = `rgba(167,139,250,${0.12 + 0.3 * g})`;
+      b.el.style.boxShadow = `0 0 ${30 * g}px rgba(167,139,250,${0.6 * g})`;
+    });
+    const L1 = ctx.line(1);
+    enter($('#st-count'), t, L1 - 0.1, 0.5);
+    const steps = [12, 24, 32, 48, 64, 80, 96, 120, 126];
+    const n = Math.floor(seg(t, L1 + 0.2, ctx.lineEnd(1), ease.linear) * (steps.length - 1));
+    $('#st-num').textContent = t < L1 ? '12' : steps[n] + (n === steps.length - 1 ? '+' : '');
+    const za = ctx.line(2);
+    enter($('#st-zoom'), t, za, 0.6, 30);
+    conn.setAttribute('opacity', seg(t, za, za + 0.6));
+    const ga = pulse(t, frac(ctx, 2, 0.45), frac(ctx, 2, 0.75) + 0.6), gf = pulse(t, frac(ctx, 2, 0.75), ctx.dur);
+    $('#st-att').style.boxShadow = `0 0 ${50 * ga}px ${rgba(C[1], ga)}`;
+    $('#st-ff').style.boxShadow = `0 0 ${50 * gf}px ${rgba(C[4], gf)}`;
+  });
+}
+
+/* ================= ATTENTION ================= */
+{
+  const row = $('#at-row');
+  const chips = TOK.map((tk, i) => chip(spaced(tk), C[i], '', row));
+  const sv = $('#at-svg');
+  let pos = null;
+  const web = [], focus = [];
+  const W = [0.05, 0.07, 0.06, 0.64, 0.1, 0.08]; // weights of "blue" (idx 4) over tokens
+  const arc = (i, j) => { const a = pos[i], b = pos[j], d = Math.abs(a - b); const h = Math.min(220, 40 + d * 0.24); return `M${a} 440 Q${(a + b) / 2} ${440 - h * 2} ${b} 440`; };
+  // heads
+  const HEADS = [
+    ['what describes what', (i, j) => (i === 4 && j === 3 ? 1 : i === j ? 0.35 : 0.08)],
+    ['previous word', (i, j) => (j === i - 1 ? 1 : i === j ? 0.2 : 0.05)],
+    ['the question word', (i, j) => (j === 0 ? 0.9 : 0.1)],
+    ['the token itself', (i, j) => (i === j ? 1 : 0.06)],
+  ];
+  const hs = $('#at-heads');
+  const heads = HEADS.map(([name, f], h) => {
+    const box = div('', '', hs, 'display:flex;flex-direction:column;align-items:center');
+    const g = div('', '', box, 'display:grid;grid-template-columns:repeat(6,22px);gap:3px');
+    for (let i = 0; i < 6; i++) for (let j = 0; j < 6; j++) div('', '', g, `width:22px;height:22px;border-radius:4px;background:${j > i ? 'rgba(148,163,200,.06)' : rgba(C[[1, 0, 2, 4][h]], 0.12 + 0.88 * f(i, j))}`);
+    div('label', `Head ${h + 1}`, box, 'margin-top:12px;font-size:24px;color:#e8edf7');
+    div('label', name, box, 'font-size:22px;font-weight:500');
+    return box;
+  });
+  const lbl = svg('text', { 'text-anchor': 'middle', fill: '#fff', 'font-size': 40, 'font-weight': 800 }, sv);
+  FV.scene('attention', (t, ctx) => {
+    head(ctx.el, t);
+    enter(row, t, 0.2, 0.5);
+    if (!pos) {
+      pos = chips.map((c) => c.offsetLeft + c.offsetWidth / 2);
+      for (let i = 0; i < 6; i++) for (let j = i + 1; j < 6; j++) web.push(svg('path', { d: arc(i, j), fill: 'none', stroke: '#94a3c8', 'stroke-width': 2 }, sv));
+      for (let j = 0; j < 6; j++) if (j !== 4) focus.push({ j, p: svg('path', { d: arc(4, j), fill: 'none', stroke: C[j], 'stroke-linecap': 'round' }, sv) });
+      sv.appendChild(lbl);
+      const s = pos[3], b = pos[4];
+      lbl.setAttribute('x', (s + b) / 2); lbl.setAttribute('y', 440 - Math.min(220, 40 + Math.abs(s - b) * 0.24) - 14);
+    }
+    const wp = seg(t, frac(ctx, 0, 0.25), frac(ctx, 0, 0.8));
+    const fa = seg(t, frac(ctx, 1, 0.12), frac(ctx, 1, 0.3));
+    web.forEach((p, k) => {
+      const L = 1400;
+      p.setAttribute('stroke-dasharray', L); p.setAttribute('stroke-dashoffset', L * (1 - seg(t, frac(ctx, 0, 0.25) + k * 0.05, frac(ctx, 0, 0.25) + k * 0.05 + 0.8)));
+      p.setAttribute('opacity', lerp(0.45, 0.07, fa) * wp);
+    });
+    const sky = seg(t, frac(ctx, 1, 0.5), frac(ctx, 1, 0.65));
+    focus.forEach(({ j, p }) => {
+      const w = W[j];
+      p.setAttribute('stroke-width', 2 + w * 34);
+      p.setAttribute('opacity', fa * (j === 3 ? lerp(0.55, 1, sky) : lerp(0.55, 0.3, sky)));
+      p.style.filter = j === 3 && sky > 0 ? `drop-shadow(0 0 ${14 * sky}px ${C[3]})` : '';
+    });
+    lbl.textContent = '64%'; lbl.setAttribute('opacity', sky);
+    chips.forEach((c, i) => {
+      const keep = i === 4 || (i === 3 && sky > 0);
+      c.style.opacity = keep ? 1 : lerp(1, 0.4, fa * (1 - seg(t, ctx.line(2), ctx.line(2) + 0.5)));
+      c.style.boxShadow = i === 4 ? `0 0 ${40 * fa}px ${rgba(C[4], fa)}` : '';
+    });
+    const ha = frac(ctx, 2, 0.1);
+    enter($('#at-hl'), t, ha, 0.5);
+    heads.forEach((h, i) => enter(h, t, ha + 0.3 + i * 0.25, 0.5, 30));
+  });
+}
+
+/* ================= FFN ================= */
+{
+  const sv = $('#ff-svg');
+  const LAY = [5, 9, 9, 5], X0 = 240, DX = 260, YC = 470, r = rand(3);
+  const nodes = LAY.map((n, l) => Array.from({ length: n }, (_, k) => ({ x: X0 + l * DX, y: YC + (k - (n - 1) / 2) * 52, a: 0.3 + 0.7 * r() })));
+  const edges = [];
+  for (let l = 0; l < LAY.length - 1; l++) nodes[l].forEach((a) => nodes[l + 1].forEach((b) => edges.push({ a, b, w: r(), el: svg('line', { x1: a.x, y1: a.y, x2: b.x, y2: b.y, stroke: C[4], 'stroke-width': 1.6 }, sv) })));
+  nodes.flat().forEach((n) => (n.el = svg('circle', { cx: n.x, cy: n.y, r: 15, fill: '#0f1a33', stroke: C[4], 'stroke-width': 3 }, sv)));
+  const tagWords = ['this is a question', 'about physics', 'about light', 'the atmosphere'];
+  const tags = tagWords.map((w, i) => { const c = chip(w, C[[0, 1, 2, 4][i]], 'sm', $('#ff-tags')); c.style.alignSelf = 'flex-start'; return c; });
+  const tagAt = [0.6, 0.73, 0.83, 0.93];
+  FV.scene('ffn', (t, ctx) => {
+    head(ctx.el, t);
+    const show = seg(t, 0.3, 1.3);
+    const wave = ((t * 0.9) % 1.6) / 1.2;  // 0..1.33 sweep left→right
+    const wx = X0 + wave * (DX * (LAY.length - 1) + 200) - 100;
+    nodes.flat().forEach((n) => {
+      const g = clamp(1 - Math.abs(wx - n.x) / 120) * n.a;
+      n.el.setAttribute('fill', `rgba(52,211,153,${0.08 + 0.85 * g})`);
+      n.el.setAttribute('opacity', show);
+      n.el.setAttribute('r', 14 + 6 * g);
+    });
+    edges.forEach((e) => {
+      const g = clamp(1 - Math.abs(wx - (e.a.x + e.b.x) / 2) / 130) * e.w;
+      e.el.setAttribute('opacity', show * (0.06 + 0.6 * g));
+    });
+    enter($('#ff-note'), t, frac(ctx, 0, 0.6), 0.6);
+    tags.forEach((c, i) => { const p = seg(t, frac(ctx, 1, tagAt[i]), frac(ctx, 1, tagAt[i]) + 0.45, ease.back); css(c, { o: clamp(p), x: (1 - p) * 40 }); });
+    enter($('#ff-meter'), t, ctx.line(1), 0.6);
+    $('#ff-mark').style.left = `calc(${seg(t, ctx.line(1) + 0.3, frac(ctx, 1, 0.97)) * 100}% - 18px)`;
+  });
+}
+
+/* ================= PREDICT / SAMPLE shared bar list ================= */
+function barList(host, opts = {}) {
+  return LOGITS.map(([w], i) => {
+    const other = i === LOGITS.length - 1;
+    const rw = div('', '', host, 'display:flex;align-items:center;height:70px;margin-bottom:8px;border-radius:14px;padding:0 14px');
+    const lb = div('', w, rw, `width:${opts.lw || 230}px;font:${other ? 500 : 700} ${other ? 26 : 36}px Inter;color:${other ? '#8b97b0' : '#e8edf7'}`);
+    const track = div('', '', rw, `position:relative;flex:1;height:38px;border-radius:10px;background:rgba(148,163,200,.1)`);
+    const bar = div('', '', track, `position:absolute;left:0;top:0;bottom:0;border-radius:10px;background:${other ? '#475569' : C[i % C.length]}`);
+    const val = div('mono', '', rw, 'width:150px;text-align:right;font-size:32px;font-weight:700');
+    return { rw, lb, bar, val, other };
+  });
+}
+
+/* ================= PREDICT ================= */
+{
+  const bars = barList($('#pd-list'));
+  const vb = $('#pd-bars'), r = rand(9);
+  const vbars = Array.from({ length: 14 }, () => div('', '', vb, `height:18px;border-radius:4px;background:${C[r() > 0.5 ? 0 : 3]};width:${20 + r() * 80}%`));
+  const P = softmax(1);
+  FV.scene('predict', (t, ctx) => {
+    head(ctx.el, t);
+    enter($('#pd-vec'), t, 0.2, 0.5); enter($('#pd-arrow'), t, 0.5, 0.5);
+    vbars.forEach((b, i) => (b.style.opacity = seg(t, 0.3 + i * 0.04, 0.6 + i * 0.04)));
+    const cv = seg(t, frac(ctx, 1, 0.2), frac(ctx, 1, 0.2) + 1.0);
+    $('#pd-head').textContent = cv < 0.5 ? 'raw scores (logits) — one for every token' : 'probabilities (softmax) — they add up to 100%';
+    enter($('#pd-head'), t, frac(ctx, 0, 0.3), 0.5);
+    const hiAt = [frac(ctx, 2, 0.1), frac(ctx, 2, 0.5), frac(ctx, 2, 0.8)];
+    bars.forEach((b, i) => {
+      const a = frac(ctx, 0, 0.45) + i * 0.1;
+      const p = seg(t, a, a + 0.5, ease.out);
+      b.rw.style.opacity = p;
+      const logitW = (LOGITS[i][1] - 5) / 5;
+      const w = lerp(logitW, P[i] / 0.45, cv) * seg(t, a, a + 0.8, ease.out);
+      b.bar.style.width = `${clamp(w) * 100}%`;
+      b.val.textContent = cv < 0.5 ? LOGITS[i][1].toFixed(1) : `${Math.round(P[i] * 100)}%`;
+      b.val.style.opacity = Math.abs(cv - 0.5) * 2;
+      const hl = i < 3 ? seg(t, hiAt[i], hiAt[i] + 0.4) * (i === 0 ? 1 : 1 - seg(t, hiAt[i] + 1, hiAt[i] + 1.5)) : 0;
+      b.rw.style.background = hl ? rgba(C[i], 0.18 * hl) : 'transparent';
+      b.rw.style.boxShadow = hl ? `inset 0 0 0 2px ${rgba(C[i], hl)}` : 'none';
+    });
+  });
+}
+
+/* ================= SAMPLE ================= */
+{
+  const bars = barList($('#sa-list'), { lw: 210 });
+  const temp = (t, ctx) => {
+    const L1 = ctx.line(1), D = ctx.lineEnd(1) - L1;
+    const k = [[0, 1.0], [L1 + D * 0.45, 1.0], [L1 + D * 0.6, 0.3], [L1 + D * 0.74, 0.3], [L1 + D * 0.92, 1.8]];
+    let T = k[0][1];
+    for (let i = 1; i < k.length; i++) if (t > k[i - 1][0]) T = lerp(k[i - 1][1], k[i][1], seg(t, k[i - 1][0], k[i][0]));
+    return T;
+  };
+  FV.scene('sample', (t, ctx) => {
+    head(ctx.el, t);
+    const T = temp(t, ctx);
+    $('#sa-T').textContent = T.toFixed(1);
+    $('#sa-knob').style.left = `${((T - 0.1) / 1.9) * 100}%`;
+    const P = softmax(T);
+    // roulette pick during line 0, landing on "The"
+    const q = seg(t, frac(ctx, 0, 0.2), ctx.lineEnd(0) + 0.3, ease.out);
+    const pick = Math.floor(q * 12.999) % 6;
+    const landed = q >= 1;
+    bars.forEach((b, i) => {
+      enter(b.rw, t, 0.2 + i * 0.08, 0.5);
+      b.bar.style.width = `${P[i] * 100}%`;
+      b.val.textContent = `${Math.round(P[i] * 100)}%`;
+      const on = q > 0 && i === pick && !b.other;
+      const a = on ? (landed ? 1 : 0.7) : 0;
+      b.rw.style.background = a ? rgba(C[i], 0.2 * a) : 'transparent';
+      b.rw.style.boxShadow = a ? `inset 0 0 0 3px ${rgba(C[i], a)}` : 'none';
+    });
+  });
+}
+
+/* ================= LOOP ================= */
+{
+  const ANS = ['The', ' sky', ' looks', ' blue', ' because', ' air', ' scatters', ' blue', ' light', ' more', ' than', ' red', ' light', '.'];
+  const PROMPT = ['…', ' sky', ' blue', '?'];
+  const sv = $('#lp-svg');
+  const arrowHead = (x, y, dir) => svg('path', { d: dir === 'r' ? `M${x - 16} ${y - 12} L${x} ${y} L${x - 16} ${y + 12}` : `M${x + 12} ${y + 16} L${x} ${y} L${x - 12} ${y + 16}`, stroke: '#8b97b0', 'stroke-width': 4, fill: 'none' }, sv);
+  svg('line', { x1: 850, y1: 595, x2: 915, y2: 595, stroke: '#8b97b0', 'stroke-width': 4 }, sv); arrowHead(918, 595, 'r');
+  svg('line', { x1: 1270, y1: 595, x2: 1335, y2: 595, stroke: '#8b97b0', 'stroke-width': 4 }, sv); arrowHead(1338, 595, 'r');
+  const ret = svg('path', { d: 'M1575 730 C1575 880, 1300 860, 960 860 C620 860, 480 880, 480 735', stroke: C[2], 'stroke-width': 4, fill: 'none', 'stroke-dasharray': '12 10' }, sv);
+  arrowHead(480, 733, 'u');
+  const retLbl = svg('text', { x: 960, y: 845, 'text-anchor': 'middle', fill: C[2], 'font-size': 26, 'font-weight': 600 }, sv); retLbl.textContent = 'append & run again';
+  const RL = ret.getTotalLength();
+  const inRow = $('#lp-in'), fly = $('#lp-fly');
+  const inChips = [...PROMPT, ...ANS].map((tk, i) => { const c = chip(spaced(tk), i < PROMPT.length ? '#64748b' : C[2], 'xs', inRow); return c; });
+  FV.scene('loop', (t, ctx) => {
+    head(ctx.el, t);
+    const start = frac(ctx, 0, 0.6), end = ctx.dur - 2.2;
+    const x = clamp((t - start) / (end - start));
+    const c = ANS.length * (0.3 * x + 0.7 * x * x);
+    const k = Math.min(ANS.length, Math.floor(c)), f = c - Math.floor(c);
+    const landed = k + (k < ANS.length && f > 0.85 ? 1 : 0);
+    $('#lp-ans').textContent = ANS.slice(0, landed).join('') || ' ';
+    $('#lp-pass').textContent = `pass ${Math.min(ANS.length, k + 1)}`;
+    inChips.forEach((ch, i) => {
+      const vis = i < PROMPT.length + landed;
+      const fromEnd = PROMPT.length + landed - 1 - i;
+      ch.style.display = vis && fromEnd < 6 ? '' : 'none';
+    });
+    if (t < start || k >= ANS.length) { fly.style.opacity = 0; }
+    else {
+      fly.textContent = ANS[k].trim() || ANS[k];
+      let px, py, o = 1, s = 1;
+      if (f < 0.35) { const p = seg(f, 0, 0.35, ease.out); px = 1575; py = 595; s = p; o = p; }
+      else { const p = seg(f, 0.35, 0.85); const pt = ret.getPointAtLength(p * RL); px = pt.x; py = pt.y; o = 1 - seg(f, 0.8, 0.9); }
+      css(fly, { o, x: px - fly.offsetWidth / 2, y: py - fly.offsetHeight / 2, s });
+    }
+    ret.setAttribute('stroke-dashoffset', -t * 40);
+  });
+}
+
+/* ================= STOP ================= */
+{
+  const ANS = ['The', ' sky', ' looks', ' blue', ' because', ' air', ' scatters', ' blue', ' light', ' more', ' than', ' red', ' light', '.'];
+  const host = $('#sp-toks');
+  const ch = ANS.map((tk, i) => { const c = chip(tk, C[i % 6], 'sm', host); c.style.fontSize = '42px'; c.style.fontWeight = '500'; return c; });
+  FV.scene('stop', (t, ctx) => {
+    head(ctx.el, t);
+    const L1 = ctx.line(1);
+    const a = 1 - seg(t, L1 - 0.3, L1 + 0.3);
+    $('#sp-a').style.opacity = a;
+    const e = seg(t, frac(ctx, 0, 0.35), frac(ctx, 0, 0.35) + 0.5, ease.back);
+    css($('#sp-end'), { o: clamp(e), s: e, boxShadow: `0 0 ${40 * pulse(t, frac(ctx, 0, 0.4), frac(ctx, 0, 0.4) + 1.2)}px ${C[3]}` });
+    enter($('#sp-or'), t, frac(ctx, 0, 0.7), 0.5);
+    $('#sp-fill').style.width = `${seg(t, frac(ctx, 0, 0.72), ctx.lineEnd(0) + 0.3) * 100}%`;
+    const chat = seg(t, L1, L1 + 0.5);
+    $('#sp-chat').style.opacity = chat;
+    $('#sp-chat').style.visibility = chat > 0 ? 'visible' : 'hidden';
+    const m = seg(t, frac(ctx, 1, 0.35), frac(ctx, 1, 0.35) + 1.2);   // detokenize: chips melt into text
+    host.style.columnGap = `${lerp(12, 0, m)}px`;
+    ch.forEach((c, i) => {
+      const rgbv = rgb(C[i % 6]).join(',');
+      c.style.padding = `${lerp(10, 2, m)}px ${lerp(14, 0, m)}px`;
+      c.style.borderColor = `rgba(${rgbv},${1 - m})`;
+      c.style.background = `rgba(${rgbv},${0.17 * (1 - m)})`;
+      c.style.whiteSpace = 'pre';
+    });
+  });
+}
+
+/* ================= RECAP ================= */
+{
+  const STEPS = [['Text', '“Why is the sky blue?”', C[0]], ['Tokens', 'Why · is · the · sky…', C[2]], ['Vectors', '[0.12, −0.8, 0.45 …]', C[3]], ['Attention + layers', 'meaning builds up', C[1]], ['Next token', 'one at a time ↻', C[4]]];
+  const row = $('#rc-row');
+  const cards = [];
+  STEPS.forEach(([h, s, c], i) => {
+    if (i) div('arrow', '→', row, 'font-size:44px');
+    cards.push(div('', `<div class="mono" style="font-size:22px;color:${c};font-weight:700">0${i + 1}</div><div style="font:800 36px/1.15 Inter;margin-top:10px">${h}</div><div class="mut" style="font:500 22px/1.35 Inter;margin-top:12px">${s}</div>`, row,
+      `width:250px;height:230px;box-sizing:border-box;padding:26px;border-radius:22px;border:2px solid ${rgba(c, 0.6)};background:rgba(13,20,42,.8)`));
+    cards[i].dataset.c = c;
+  });
+  const at = [0.0, 0.14, 0.33, 0.55, 0.78];
+  FV.scene('recap', (t, ctx) => {
+    head(ctx.el, t);
+    const out = seg(t, ctx.line(1) - 0.2, ctx.line(1) + 0.5);
+    row.style.opacity = 1 - out;
+    cards.forEach((c, i) => {
+      const a = frac(ctx, 0, at[i]);
+      const p = seg(t, a, a + 0.5, ease.out);
+      const hot = pulse(t, a, a + 2.2);
+      css(c, { o: 0.25 + 0.75 * p, y: (1 - p) * 20 - hot * 12, boxShadow: `0 0 ${50 * hot}px ${rgba(c.dataset.c, 0.8 * hot)}` });
+    });
+    css($('.title', ctx.el), { o: seg(t, 0.15, 0.75) * (1 - out) });
+    css($('.kicker', ctx.el), { o: seg(t, 0.05, 0.65) * (1 - out) });
+    const e = seg(t, ctx.line(1) + 0.1, ctx.line(1) + 0.9, ease.out);
+    css($('#rc-end'), { o: e, y: (1 - e) * 40 });
+    const press = frac(ctx, 1, 0.85);
+    const k = pulse(t, press, press + 0.4);
+    css($('#rc-key'), { y: k * 8, boxShadow: `0 ${10 - k * 8}px 0 #0e1428, 0 0 ${60 * k}px rgba(56,189,248,${0.9 * k})` });
+  });
+}
+})();
+</script>
+</body>
+</html>

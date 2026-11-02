@@ -1,0 +1,20 @@
+{
+  "title": "How X Works",
+  "slug": "how-x-works",
+  "description": "An animated explainer of how X works.",
+  "tags": ["explainer"],
+  "voice": "am_michael",
+  "speed": 1.0,
+  "fps": 30,
+  "captions": true,
+  "thumbnail": "intro@3",
+  "scenes": [
+    { "id": "intro", "title": "Intro", "pad": [0.8, 1.0], "lines": [
+      "Every day you use X without thinking about it.",
+      "But how does it actually work?"
+    ]},
+    { "id": "step1", "title": "1. The first step", "lines": [
+      "It all starts with one simple idea."
+    ]}
+  ]
+}
