@@ -1,0 +1,41 @@
+{
+  "title": "How Docker Works in 60 Seconds 🐳 #shorts",
+  "slug": "short-docker",
+  "format": "vertical",
+  "description": "\"It works on my machine\" — Docker fixes that. A Dockerfile builds an image (a read-only, layered blueprint of your app and everything it needs). Running an image gives you a container: an isolated, running copy. Containers share the host's kernel, so they're far lighter than virtual machines, and registries like Docker Hub let you share images anywhere.\n\n#Docker #DevOps #Containers #Programming #TechExplained #shorts",
+  "tags": ["docker", "how docker works", "docker explained", "docker tutorial", "containers", "docker image", "docker container", "dockerfile", "docker vs virtual machine", "docker hub", "devops", "cloud computing", "programming", "tech explained", "shorts"],
+  "voice": "am_michael",
+  "speed": 1.08,
+  "lineGap": 0.25,
+  "captions": true,
+  "thumbnail": "hook@4.5",
+  "endHold": 0.3,
+  "scenes": [
+    { "id": "hook", "pad": [0.3, 0.4], "lines": [
+      "It works on my machine. But not on yours.",
+      "Docker fixes that. Here's how, in under a minute."
+    ]},
+    { "id": "problem", "pad": [0.3, 0.5], "lines": [
+      "Your app needs the right version of Python, the right libraries, and the right settings. Change one thing, and it breaks."
+    ]},
+    { "id": "image", "pad": [0.3, 0.6], "lines": [
+      "Docker packs your code and everything it needs into an image: a read-only blueprint, built in layers from a Dockerfile."
+    ]},
+    { "id": "container", "pad": [0.3, 0.5], "lines": [
+      "When you run an image, you get a container: an isolated, running copy of your app."
+    ]},
+    { "id": "vm", "pad": [0.3, 0.6], "lines": [
+      "Unlike a virtual machine, containers share the host's kernel, so they start in seconds and stay lightweight."
+    ]},
+    { "id": "scale", "pad": [0.3, 0.5], "lines": [
+      "Need more? Run ten containers from the same image, on your laptop, a server, or the cloud."
+    ]},
+    { "id": "registry", "pad": [0.3, 0.6], "lines": [
+      "And you share images through a registry, like Docker Hub. Pull, run, done."
+    ]},
+    { "id": "outro", "pad": [0.3, 1.6], "lines": [
+      "Same app, everywhere.",
+      "Follow for more tech, decoded."
+    ]}
+  ]
+}
