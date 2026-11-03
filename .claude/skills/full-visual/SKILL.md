@@ -55,6 +55,9 @@ Requirements: `python3` with `pip install kokoro-onnx soundfile` (≈350 MB mode
    - Design: dark background, Inter / JetBrains Mono, ≥ 24 px text, big readable diagrams, a consistent color per
      concept. Keep the bottom ~170 px clear for captions. Show *mechanisms* (things moving, splitting, flowing),
      not bullet lists. Label illustrative numbers as illustrative.
+   - **No follow/subscribe call-to-action.** Never put a "Follow · Tech, Decoded" button (or any
+     follow/subscribe pill) on screen, and never narrate "Follow for more…". End on the recap and the
+     `fv-endcard` (GitHub link) only.
    - SVG for lines/arcs/graphs, HTML for chips/panels. Measure layout with `offsetLeft/offsetWidth` (not
      `getBoundingClientRect`, which is scaled in preview).
 

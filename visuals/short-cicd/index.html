@@ -97,8 +97,7 @@
     <div id="oc-h" class="abs" style="left:60px;right:60px;top:300px;text-align:center;font:900 96px/1.08 Inter;letter-spacing:-.04em">Push. Test. Ship.<br><span style="color:var(--v2)">Automatically.</span></div>
     <div id="oc-a" class="item" style="--c:var(--blu);top:600px;height:170px;flex-direction:column;align-items:flex-start;justify-content:center;gap:6px"><div style="font:900 56px Inter;color:var(--blu)">CI</div><div style="font:700 34px Inter">build + test every push</div></div>
     <div id="oc-b" class="item" style="--c:var(--grn);top:800px;height:170px;flex-direction:column;align-items:flex-start;justify-content:center;gap:6px"><div style="font:900 56px Inter;color:var(--grn)">CD</div><div style="font:700 34px Inter">package + ship it automatically</div></div>
-    <div id="oc-gh" class="abs" style="left:0;right:0;top:1112px;text-align:center"><span class="fv-endcard"></span></div>
-    <div id="oc-cta" class="abs" style="left:0;right:0;top:1206px;text-align:center"><span class="pill" style="background:var(--yel);color:#1a1300;font-size:52px;padding:16px 38px">Follow · Tech, Decoded</span></div>
+    <div id="oc-gh" class="abs" style="left:0;right:0;top:1130px;text-align:center"><span class="fv-endcard" style="font-size:34px;padding:16px 30px"></span></div>
   </section>
 </div>
 <script src="timing.js"></script>
@@ -243,8 +242,7 @@ FV.scene('outro', (t, ctx) => {
   pop($('#oc-h'), t, 0.05, 0.5);
   const a = seg(t, 0.4, 0.8, ease.out); css($('#oc-a'), { o: a, x: (1 - a) * -80 });
   const b = seg(t, 0.6, 1.0, ease.out); css($('#oc-b'), { o: b, x: (1 - b) * 80 });
-  pop($('#oc-gh'), t, 1.1, 0.45);
-  pop($('#oc-cta'), t, ctx.line(1) - 0.1, 0.5);
+  pop($('#oc-gh'), t, 1.2, 0.5);
 });
 })();
 </script>
