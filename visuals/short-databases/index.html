@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Databases Short</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{--ink:#e8edf7;--mut:#8b97b0;--e:#10b981;--sql:#60a5fa;--nos:#34d399;--yel:#fbbf24;--red:#f87171;--pur:#a78bfa;--pink:#f472b6}
+  #fv-stage{background:radial-gradient(1000px 1300px at 70% 15%,#0b3a33 0%,#0a1a1f 50%,#060c10 80%);color:var(--ink);font-family:Inter,system-ui,sans-serif}
+  #bg-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(16,185,129,.14) 1px,transparent 1px),linear-gradient(90deg,rgba(16,185,129,.14) 1px,transparent 1px);background-size:90px 90px;opacity:.22}
+  .abs{position:absolute}
+  .step{position:absolute;left:0;right:0;top:250px;text-align:center;font:700 34px/1 'JetBrains Mono',monospace;letter-spacing:.2em;color:var(--e)}
+  .head{position:absolute;left:60px;right:60px;top:305px;text-align:center;font:800 84px/1.05 Inter;letter-spacing:-.03em}
+  .panel{position:absolute;border:3px solid rgba(150,220,200,.25);border-radius:28px;background:rgba(10,24,28,.9)}
+  .mono{font-family:'JetBrains Mono',monospace}
+  .label{font:600 30px Inter;color:var(--mut)}
+  .badge{position:absolute;left:50%;top:150px;transform:translateX(-50%);padding:12px 26px;border-radius:40px;background:rgba(16,185,129,.12);border:2px solid rgba(16,185,129,.5);font:700 30px Inter;color:var(--e);white-space:nowrap}
+  .pill{display:inline-block;padding:12px 28px;border-radius:40px;font:800 40px Inter}
+  table.t{border-collapse:separate;border-spacing:0;width:100%;font:600 38px Inter}
+  table.t th{font:700 30px 'JetBrains Mono';color:var(--sql);text-align:left;padding:14px 22px;border-bottom:3px solid rgba(96,165,250,.5)}
+  table.t td{padding:16px 22px;border-bottom:2px solid rgba(148,163,200,.15)}
+  .card{position:absolute;left:80px;right:80px;border-radius:26px;border:3px solid var(--c);background:color-mix(in srgb,var(--c) 12%,#0a181c);padding:24px 30px;box-sizing:border-box}
+  .card .ct{display:flex;justify-content:space-between;align-items:center;font:800 42px Inter}
+  .card .ct span{font:600 26px 'JetBrains Mono';color:var(--mut)}
+  .fv-endcard{display:inline-block;padding:12px 28px;border-radius:40px;font:700 32px 'JetBrains Mono',monospace;border:3px solid #e6edf3;background:rgba(230,237,243,.08)}
+  .cell{width:60px;height:34px;border-radius:6px;background:rgba(148,163,200,.18)}
+</style>
+</head>
+<body>
+<div id="fv-stage">
+  <div id="bg-grid"></div>
+  <div class="badge">Tech, decoded</div>
+
+  <!-- HOOK -->
+  <section class="fv-scene" data-scene="hook">
+    <div id="hk-h" class="abs" style="left:60px;right:60px;top:300px;text-align:center;font:800 84px/1.08 Inter;letter-spacing:-.03em">Where does your<br><span style="color:var(--e)">data</span> go?</div>
+    <svg id="hk-db" class="abs" width="1080" height="1920" style="inset:0"></svg>
+    <div id="hk-ic"></div>
+    <div id="hk-name" class="abs" style="left:0;right:0;top:1150px;text-align:center;font:900 96px/1 Inter;letter-spacing:-.04em;color:var(--e)">Database</div>
+    <div id="hk-verbs" class="abs" style="left:0;right:0;top:1270px;display:flex;justify-content:center;gap:18px"></div>
+  </section>
+
+  <!-- SQL -->
+  <section class="fv-scene" data-scene="sql">
+    <div class="step">TYPE 1</div><div class="head">SQL databases</div>
+    <div id="sq-tab" class="panel" style="left:70px;right:70px;top:460px;padding:24px 20px 10px;box-sizing:border-box">
+      <div class="label" style="padding:0 22px 8px;color:var(--sql)">table: users</div>
+      <table class="t" id="sq-t"></table>
+    </div>
+    <div class="abs" style="left:0;right:0;top:965px;display:flex;justify-content:center;gap:24px">
+      <span id="sq-row" class="pill mono" style="font-size:30px;border:3px solid var(--yel);color:var(--yel);background:rgba(251,191,36,.12)">▬ row</span>
+      <span id="sq-col" class="pill mono" style="font-size:30px;border:3px solid var(--pink);color:var(--pink);background:rgba(244,114,182,.12)">▮ column</span>
+    </div>
+    <div id="sq-lock" class="abs" style="left:0;right:0;top:1050px;text-align:center"><span class="pill" style="font-size:34px;border:3px solid var(--sql);background:rgba(96,165,250,.12)">🔒 strict structure</span></div>
+    <div id="sq-ex" class="abs mono" style="left:0;right:0;top:1150px;text-align:center;font-size:30px;color:var(--mut)">PostgreSQL · MySQL · SQLite</div>
+  </section>
+
+  <!-- QUERY -->
+  <section class="fv-scene" data-scene="query">
+    <div class="step">ASKING QUESTIONS</div><div class="head">SQL queries</div>
+    <div id="qr-q" class="panel" style="left:70px;right:70px;top:450px;height:210px;padding:26px 32px;box-sizing:border-box;background:#04100e">
+      <div id="qr-code" class="mono" style="font-size:40px;font-weight:700;line-height:1.45;white-space:pre"></div>
+    </div>
+    <div id="qr-tab" class="panel" style="left:70px;right:70px;top:700px;padding:14px 20px 6px;box-sizing:border-box">
+      <table class="t" id="qr-t"></table>
+    </div>
+    <div id="qr-res" class="abs" style="left:0;right:0;top:1150px;text-align:center"><span class="pill" style="font-size:40px;border:3px solid var(--e);background:rgba(16,185,129,.14)">→ Priya, Arjun <span class="mono" style="color:var(--yel);font-size:34px;margin-left:14px">⚡ 3 ms</span></span></div>
+  </section>
+
+  <!-- NOSQL -->
+  <section class="fv-scene" data-scene="nosql">
+    <div class="step">TYPE 2</div><div class="head">NoSQL databases</div>
+    <div id="ns-doc" class="card" style="--c:var(--nos);top:450px;height:250px">
+      <div class="ct">📄 Document <span>e.g. MongoDB</span></div>
+      <div class="mono" style="font-size:30px;margin-top:14px;line-height:1.45">{ <span style="color:var(--nos)">"name"</span>: "Priya",<br>&nbsp;&nbsp;<span style="color:var(--nos)">"tags"</span>: ["ai", "git"] }</div>
+    </div>
+    <div id="ns-kv" class="card" style="--c:var(--yel);top:730px;height:190px">
+      <div class="ct">🔑 Key-value <span>e.g. Redis</span></div>
+      <div class="mono" style="font-size:32px;margin-top:16px"><span style="color:var(--yel)">session:42</span> → "logged_in"</div>
+    </div>
+    <div id="ns-gr" class="card" style="--c:var(--pur);top:950px;height:270px">
+      <div class="ct">🕸️ Graph <span>e.g. Neo4j</span></div>
+      <svg id="ns-svg" width="880" height="170" style="position:absolute;left:30px;top:84px"></svg>
+    </div>
+    <div id="ns-free" class="abs mono" style="left:0;right:0;top:1250px;text-align:center;font-size:32px;font-weight:700;color:var(--nos)">no fixed structure ✓</div>
+  </section>
+
+  <!-- WHEN -->
+  <section class="fv-scene" data-scene="when">
+    <div class="step">WHICH ONE?</div><div class="head">SQL or NoSQL</div>
+    <div id="wh-a" class="card" style="--c:var(--sql);top:460px;height:360px">
+      <div class="ct" style="font-size:56px">SQL</div>
+      <div style="font:700 38px/1.35 Inter;margin-top:16px">data must stay <span style="color:var(--sql)">consistent</span></div>
+      <div style="font:800 46px Inter;margin-top:30px">🏦 bank transactions</div>
+    </div>
+    <div id="wh-b" class="card" style="--c:var(--nos);top:870px;height:360px">
+      <div class="ct" style="font-size:56px">NoSQL</div>
+      <div style="font:700 38px/1.35 Inter;margin-top:16px"><span style="color:var(--nos)">flexible</span> data at huge scale</div>
+      <div style="font:800 46px Inter;margin-top:30px">📱 social feeds</div>
+    </div>
+  </section>
+
+  <!-- INDEX -->
+  <section class="fv-scene" data-scene="index">
+    <div class="step">THE SPEED TRICK</div><div class="head">Indexes</div>
+    <div id="ix-box" class="panel" style="left:110px;right:110px;top:450px;height:270px;padding:24px 34px;box-sizing:border-box;border-color:var(--yel)">
+      <div class="label" style="color:var(--yel)">📖 index on "city"</div>
+      <div id="ix-list" class="mono" style="font-size:34px;line-height:1.5;margin-top:10px"></div>
+    </div>
+    <div id="ix-l1" class="abs" style="left:90px;right:90px;top:770px">
+      <div class="label">without index: read every row</div>
+      <div id="ix-g1" style="display:grid;grid-template-columns:repeat(13,60px);gap:8px;margin-top:14px"></div>
+    </div>
+    <div id="ix-l2" class="abs" style="left:90px;right:90px;top:1030px">
+      <div class="label" style="color:var(--e)">with index: jump straight there</div>
+      <div id="ix-g2" style="display:grid;grid-template-columns:repeat(13,60px);gap:8px;margin-top:14px"></div>
+    </div>
+  </section>
+
+  <!-- OUTRO -->
+  <section class="fv-scene" data-scene="outro">
+    <div id="oc-a" class="card" style="--c:var(--sql);top:420px;height:270px">
+      <div style="font:900 84px/1 Inter;color:var(--sql)">SQL</div><div style="font:700 48px Inter;margin-top:20px">for structure</div>
+    </div>
+    <div id="oc-b" class="card" style="--c:var(--nos);top:730px;height:270px">
+      <div style="font:900 84px/1 Inter;color:var(--nos)">NoSQL</div><div style="font:700 48px Inter;margin-top:20px">for flexibility</div>
+    </div>
+    <div id="oc-gh" class="abs" style="left:0;right:0;top:1090px;text-align:center"><span class="fv-endcard"></span></div>
+    <div id="oc-cta" class="abs" style="left:0;right:0;top:1190px;text-align:center"><span class="pill" style="background:var(--yel);color:#1a1300;font-size:52px;padding:16px 38px">Follow · Tech, Decoded</span></div>
+  </section>
+</div>
+<script src="timing.js"></script>
+<script src="fv-runtime.js"></script>
+<script>
+(() => {
+const { seg, css, enter, lerp, clamp, ease, pulse, $, $$ } = FV;
+const NS = 'http://www.w3.org/2000/svg';
+const svg = (tag, attrs, parent) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; };
+const div = (cls, html, parent, style) => { const e = document.createElement('div'); if (cls) e.className = cls; if (html !== undefined) e.innerHTML = html; if (style) e.style.cssText = style; if (parent) parent.appendChild(e); return e; };
+const pop = (el, t, a, d = 0.45) => { const p = seg(t, a, a + d, ease.back); css(el, { o: clamp(p * 1.5), s: Math.max(0, p) }); return p; };
+const head = (el, t) => { enter($('.step', el), t, 0.0, 0.4); enter($('.head', el), t, 0.08, 0.45, 30); };
+const frac = (ctx, i, f) => ctx.line(i) + (ctx.lineEnd(i) - ctx.line(i)) * f;
+const E = '#10b981', SQL = '#60a5fa', NOS = '#34d399', YEL = '#fbbf24', PINK = '#f472b6', PUR = '#a78bfa';
+const ROWS = [[1, 'Priya', 'Chennai'], [2, 'Rahul', 'Delhi'], [3, 'Arjun', 'Chennai'], [4, 'Meera', 'Mumbai']];
+const table = (el) => {
+  el.innerHTML = '<tr><th>id</th><th>name</th><th>city</th></tr>' + ROWS.map((r) => `<tr>${r.map((c) => `<td>${c}</td>`).join('')}</tr>`).join('');
+  return Array.from(el.querySelectorAll('tr')).slice(1);
+};
+
+/* HOOK */
+{
+  const sv = $('#hk-db');
+  const g = svg('g', {}, sv);
+  const X = 540, Y = 760, RX = 210, RY = 56, H = 300;
+  svg('path', { d: `M${X - RX} ${Y} L${X - RX} ${Y + H} A${RX} ${RY} 0 0 0 ${X + RX} ${Y + H} L${X + RX} ${Y}`, fill: 'rgba(16,185,129,.18)', stroke: E, 'stroke-width': 6 }, g);
+  [Y + 100, Y + 200].forEach((y) => svg('path', { d: `M${X - RX} ${y} A${RX} ${RY} 0 0 0 ${X + RX} ${y}`, fill: 'none', stroke: E, 'stroke-width': 4, opacity: 0.6 }, g));
+  const lid = svg('ellipse', { cx: X, cy: Y, rx: RX, ry: RY, fill: '#0d2b26', stroke: E, 'stroke-width': 6 }, g);
+  const icons = [['❤️', 160, 560, 0.1], ['💬', 540, 520, 0.3], ['🛒', 920, 560, 0.55]].map(([s, x, y, f]) => ({ el: div('', s, $('#hk-ic'), 'position:absolute;left:0;top:0;font-size:96px;line-height:1'), x, y, f }));
+  const verbs = [['💾 save', 0.5], ['🔍 find', 0.62], ['✏️ update', 0.75], ['⚡ fast', 0.92]].map(([w, f]) => ({ el: div('', w, $('#hk-verbs'), 'padding:12px 24px;border-radius:30px;border:3px solid #10b981;background:rgba(16,185,129,.14);font:800 34px Inter'), f }));
+  FV.scene('hook', (t, ctx) => {
+    pop($('#hk-h'), t, 0.05, 0.5);
+    g.setAttribute('opacity', seg(t, 0.2, 0.6));
+    let glow = 0;
+    icons.forEach((ic) => {
+      const a = frac(ctx, 0, ic.f), p = seg(t, a + 0.3, a + 1.2, ease.in);
+      const w = ic.el.offsetWidth;
+      css(ic.el, { o: seg(t, a, a + 0.3) * (1 - seg(t, a + 1.0, a + 1.2)), x: lerp(ic.x, X, p) - w / 2, y: lerp(ic.y, Y, p) - 48, s: 1 - 0.5 * p });
+      glow = Math.max(glow, pulse(t, a + 1.1, a + 1.7));
+    });
+    lid.setAttribute('fill', `rgba(16,185,129,${0.15 + 0.6 * glow})`);
+    enter($('#hk-name'), t, frac(ctx, 1, 0.2), 0.45, 30);
+    verbs.forEach((v) => pop(v.el, t, frac(ctx, 1, v.f), 0.4));
+  });
+}
+
+/* SQL */
+{
+  const rows = table($('#sq-t'));
+  FV.scene('sql', (t, ctx) => {
+    head(ctx.el, t);
+    enter($('#sq-tab'), t, 0.15, 0.4);
+    rows.forEach((r, i) => (r.style.opacity = seg(t, 0.4 + i * 0.15, 0.7 + i * 0.15)));
+    const ra = frac(ctx, 0, 0.6), ca = frac(ctx, 0, 0.7);
+    const rh = seg(t, ra, ra + 0.3);
+    rows[1].style.background = `rgba(251,191,36,${0.2 * rh})`;
+    pop($('#sq-row'), t, ra, 0.4);
+    const ch = seg(t, ca, ca + 0.3);
+    $$('#sq-t tr').forEach((tr) => { const c = tr.children[2]; c.style.background = `rgba(244,114,182,${0.18 * ch})`; });
+    pop($('#sq-col'), t, ca, 0.4);
+    pop($('#sq-lock'), t, frac(ctx, 0, 0.85), 0.45);
+    enter($('#sq-ex'), t, 1.0, 0.4);
+  });
+}
+
+/* QUERY */
+{
+  const rows = table($('#qr-t'));
+  const parts = [['SELECT', ' name', 0.28], ['\nFROM', ' users', 0.4], ['\nWHERE', " city = 'Chennai'", 0.55]];
+  FV.scene('query', (t, ctx) => {
+    head(ctx.el, t);
+    enter($('#qr-q'), t, 0.15, 0.4);
+    enter($('#qr-tab'), t, 0.3, 0.4);
+    let html = '';
+    parts.forEach(([k, v, f]) => {
+      const a = frac(ctx, 0, f), p = seg(t, a, a + 0.5, ease.linear);
+      const full = k + v, s = FV.type(full, p);
+      if (!s) return;
+      const kk = s.slice(0, Math.min(s.length, k.length)), vv = s.slice(k.length);
+      html += `<span style="color:#10b981">${kk}</span><span style="color:#e2e8f0">${vv.replace(/'Chennai'/, "<span style=\"color:#fbbf24\">'Chennai'</span>")}</span>`;
+    });
+    $('#qr-code').innerHTML = html || ' ';
+    const f = seg(t, frac(ctx, 0, 0.68), frac(ctx, 0, 0.68) + 0.4);
+    rows.forEach((r, i) => {
+      const hit = ROWS[i][2] === 'Chennai';
+      r.style.opacity = 1 - (hit ? 0 : 0.7 * f);
+      r.style.background = hit ? `rgba(16,185,129,${0.25 * f})` : 'transparent';
+      r.children[1].style.color = hit && f > 0.5 ? '#6ee7b7' : '';
+    });
+    pop($('#qr-res'), t, frac(ctx, 0, 0.8), 0.45);
+  });
+}
+
+/* NOSQL */
+{
+  const sv = $('#ns-svg');
+  const N = [['Priya', 120, 80], ['Arjun', 440, 50], ['Meera', 760, 95]];
+  svg('line', { x1: 120, y1: 80, x2: 440, y2: 50, stroke: PUR, 'stroke-width': 4 }, sv);
+  svg('line', { x1: 440, y1: 50, x2: 760, y2: 95, stroke: PUR, 'stroke-width': 4 }, sv);
+  [[280, 50], [600, 58]].forEach(([x, y]) => { const tx = svg('text', { x, y, fill: '#c4b5fd', 'font-size': 24, 'font-weight': 700, 'font-family': 'JetBrains Mono', 'text-anchor': 'middle' }, sv); tx.textContent = 'follows'; });
+  N.forEach(([n, x, y]) => { svg('circle', { cx: x, cy: y, r: 22, fill: PUR }, sv); const tx = svg('text', { x, y: y + 56, fill: '#fff', 'font-size': 30, 'font-weight': 700, 'font-family': 'Inter', 'text-anchor': 'middle' }, sv); tx.textContent = n; });
+  FV.scene('nosql', (t, ctx) => {
+    head(ctx.el, t);
+    [['#ns-doc', 0.42], ['#ns-kv', 0.56], ['#ns-gr', 0.7]].forEach(([id, f]) => { const a = frac(ctx, 0, f) - 0.3; const p = seg(t, a, a + 0.45, ease.back); css($(id), { o: clamp(p * 1.5), x: (1 - p) * 120 }); });
+    pop($('#ns-free'), t, frac(ctx, 0, 0.86), 0.4);
+  });
+}
+
+/* WHEN */
+FV.scene('when', (t, ctx) => {
+  head(ctx.el, t);
+  const a = frac(ctx, 0, 0.02), b = frac(ctx, 0, 0.5);
+  enter($('#wh-a'), t, a, 0.45, 40);
+  enter($('#wh-b'), t, b, 0.45, 40);
+  const ha = pulse(t, frac(ctx, 0, 0.3), b + 0.2), hb = pulse(t, frac(ctx, 0, 0.82), ctx.dur);
+  $('#wh-a').style.boxShadow = `0 0 ${50 * ha}px rgba(96,165,250,${ha})`;
+  $('#wh-b').style.boxShadow = `0 0 ${50 * hb}px rgba(52,211,153,${hb})`;
+});
+
+/* INDEX */
+{
+  const L = [['Chennai', '→ rows 1, 3'], ['Delhi', '→ row 2'], ['Mumbai', '→ row 4']];
+  const items = L.map(([k, v]) => div('', `<span style="color:#fbbf24">${k}</span> <span style="color:#cbd5e1">${v}</span>`, $('#ix-list')));
+  const N = 39, TARGET = 31;
+  const g1 = Array.from({ length: N }, () => div('cell', '', $('#ix-g1')));
+  const g2 = Array.from({ length: N }, () => div('cell', '', $('#ix-g2')));
+  FV.scene('index', (t, ctx) => {
+    head(ctx.el, t);
+    enter($('#ix-box'), t, 0.15, 0.4);
+    items.forEach((it, i) => (it.style.opacity = seg(t, frac(ctx, 0, 0.1) + i * 0.2, frac(ctx, 0, 0.1) + i * 0.2 + 0.3)));
+    enter($('#ix-l1'), t, frac(ctx, 0, 0.3), 0.4); enter($('#ix-l2'), t, frac(ctx, 0, 0.42), 0.4);
+    const s0 = frac(ctx, 0, 0.35), s1 = ctx.dur - 0.4;
+    const scan = Math.min(TARGET + 1, Math.floor(seg(t, s0, s1, ease.linear) * (TARGET + 1.01)));
+    g1.forEach((c, i) => { c.style.background = i === TARGET && scan > TARGET ? E : i < scan ? 'rgba(248,113,113,.45)' : i === scan && scan <= TARGET ? '#fbbf24' : 'rgba(148,163,200,.18)'; });
+    const j = frac(ctx, 0, 0.5);
+    const hit = t > j + 0.25;
+    g2.forEach((c, i) => { c.style.background = i === TARGET && hit ? E : 'rgba(148,163,200,.18)'; c.style.boxShadow = i === TARGET && hit ? `0 0 ${30 * pulse(t, j + 0.25, j + 1.5)}px ${E}` : 'none'; });
+    items[0].style.background = `rgba(251,191,36,${0.2 * pulse(t, j - 0.3, j + 0.6)})`;
+  });
+}
+
+/* OUTRO */
+FV.scene('outro', (t, ctx) => {
+  const a = enter($('#oc-a'), t, 0.1, 0.4, 0); css($('#oc-a'), { o: a, x: (1 - a) * -80 });
+  const b = enter($('#oc-b'), t, frac(ctx, 0, 0.5), 0.4, 0); css($('#oc-b'), { o: b, x: (1 - b) * 80 });
+  pop($('#oc-gh'), t, frac(ctx, 0, 0.9), 0.45);
+  pop($('#oc-cta'), t, ctx.line(1) - 0.1, 0.5);
+});
+})();
+</script>
+</body>
+</html>

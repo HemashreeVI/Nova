@@ -1,0 +1,105 @@
+{
+  "title": "How Databases Work: SQL vs NoSQL in 60 Seconds 🗄️ #shorts",
+  "slug": "short-databases",
+  "format": "vertical",
+  "description": "Every like, message and order is saved in a database. SQL databases store data in tables with a strict structure and are queried with SQL; NoSQL databases store documents, key-value pairs or graphs with flexible structure. When to use each, plus how indexes make lookups instant.\n\n📘 More to learn + my projects: https://github.com/HemashreeVI\n\n#Database #SQL #NoSQL #Programming #Backend #TechExplained #shorts",
+  "tags": [
+    "database",
+    "databases",
+    "how databases work",
+    "sql vs nosql",
+    "sql",
+    "nosql",
+    "what is a database",
+    "mysql",
+    "postgresql",
+    "mongodb",
+    "redis",
+    "database index",
+    "backend",
+    "programming",
+    "tech explained",
+    "shorts"
+  ],
+  "voice": "am_michael",
+  "speed": 1.1,
+  "lineGap": 0.25,
+  "captions": true,
+  "endCard": "📘 more to learn → github.com/HemashreeVI",
+  "thumbnail": "sql@6",
+  "endHold": 0.3,
+  "scenes": [
+    {
+      "id": "hook",
+      "pad": [
+        0.3,
+        0.5
+      ],
+      "lines": [
+        "Every like, every message, every order you place gets saved somewhere.",
+        "That somewhere is a database, built to save, find, and update data, fast."
+      ]
+    },
+    {
+      "id": "sql",
+      "pad": [
+        0.3,
+        0.5
+      ],
+      "lines": [
+        "SQL databases store data in tables, like a super-powered spreadsheet: rows, columns, and a strict structure."
+      ]
+    },
+    {
+      "id": "query",
+      "pad": [
+        0.3,
+        0.6
+      ],
+      "lines": [
+        "You ask questions in SQL. Select name, from users, where city is Chennai. Answer: in milliseconds."
+      ]
+    },
+    {
+      "id": "nosql",
+      "pad": [
+        0.3,
+        0.5
+      ],
+      "lines": [
+        "NoSQL databases are more flexible. They store documents, key-value pairs, or graphs, with no fixed structure."
+      ]
+    },
+    {
+      "id": "when",
+      "pad": [
+        0.3,
+        0.6
+      ],
+      "lines": [
+        "Use SQL when data must stay consistent, like bank transactions. Use NoSQL for flexible data at huge scale, like social feeds."
+      ]
+    },
+    {
+      "id": "index",
+      "pad": [
+        0.3,
+        0.6
+      ],
+      "lines": [
+        "And an index works like a book's index: the database jumps straight to your data, instead of reading everything."
+      ]
+    },
+    {
+      "id": "outro",
+      "pad": [
+        0.3,
+        1.6
+      ],
+      "lines": [
+        "SQL for structure. NoSQL for flexibility.",
+        "Follow for more tech, decoded."
+      ]
+    }
+  ]
+}
