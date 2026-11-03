@@ -1,0 +1,54 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>
+  @font-face { font-family: ID; src: url(file:///usr/share/fonts/opentype/inter/InterDisplay-Black.otf); }
+  @font-face { font-family: IDB; src: url(file:///usr/share/fonts/opentype/inter/InterDisplay-Bold.otf); }
+  html,body{margin:0;padding:0}
+  .t{width:1280px;height:720px;position:relative;overflow:hidden;
+     background:
+       radial-gradient(700px 520px at 940px 360px, rgba(63,185,80,.30), transparent 70%),
+       radial-gradient(600px 500px at 80px 720px, rgba(188,140,255,.22), transparent 70%),
+       #070a10;
+     font-family: ID, IDB, sans-serif; color:#fff;}
+  .planet{position:absolute; right:-120px; top:-40px; width:860px; height:auto;
+     -webkit-mask-image: radial-gradient(closest-side, #000 62%, transparent 100%);
+     mask-image: radial-gradient(closest-side, #000 62%, transparent 100%);
+     filter: saturate(1.5) brightness(1.25) contrast(1.1);}
+  .graph{position:absolute; left:560px; top:250px;}
+  .brand{position:absolute; left:64px; top:56px; display:flex; align-items:center; gap:18px;
+     font-family: IDB; font-size:52px; letter-spacing:-1px;}
+  .brand b{color:#3fb950}
+  .h1{position:absolute; left:56px; top:170px; font-size:240px; line-height:.86; letter-spacing:-10px;
+     text-shadow: 0 10px 0 #000, 0 0 60px rgba(0,0,0,.8);}
+  .h2{position:absolute; left:60px; top:395px; font-size:200px; line-height:.86; letter-spacing:-8px;
+     background: linear-gradient(90deg,#3fb950 0%,#58e6ff 55%,#bc8cff 100%);
+     -webkit-background-clip:text; background-clip:text; color:transparent;
+     filter: drop-shadow(0 8px 0 #000) drop-shadow(0 0 30px rgba(63,185,80,.5));}
+  .tag{position:absolute; left:64px; top:600px; font-family:IDB; font-size:40px; color:#e6edf3;
+     background:#161b22; border:3px solid #3fb950; border-radius:16px; padding:8px 22px;}
+  .tag span{color:#3fb950; font-family: 'DejaVu Sans Mono', monospace;}
+</style></head>
+<body><div class="t">
+  <img class="planet" src="planet.png">
+  <svg class="graph" width="700" height="300" viewBox="0 0 700 300">
+    <defs><filter id="glow"><feGaussianBlur stdDeviation="7" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+    <g filter="url(#glow)" stroke-width="12" fill="none" stroke-linecap="round">
+      <path d="M90 90 L590 90" stroke="#3fb950"/>
+      <path d="M215 90 C 260 90, 260 220, 320 220 L 400 220 C 460 220, 470 90, 520 90" stroke="#58a6ff"/>
+    </g>
+    <g filter="url(#glow)" stroke="#070a10" stroke-width="6">
+      <circle cx="90"  cy="90" r="32" fill="#3fb950"/>
+      <circle cx="215" cy="90" r="32" fill="#3fb950"/>
+      <circle cx="360" cy="90" r="32" fill="#3fb950"/>
+      <circle cx="360" cy="220" r="32" fill="#58a6ff"/>
+      <rect x="555" y="55" width="70" height="70" fill="#7dff8e" transform="rotate(45 590 90)"/>
+    </g>
+  </svg>
+  <div class="brand">
+    <svg width="64" height="64" viewBox="0 0 64 64"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3fb950"/><stop offset="1" stop-color="#58a6ff"/></linearGradient></defs><circle cx="32" cy="32" r="13" fill="url(#g)"/><ellipse cx="32" cy="32" rx="28" ry="10" fill="none" stroke="#bc8cff" stroke-width="4" transform="rotate(-25 32 32)"/><circle cx="56" cy="22" r="5" fill="#d29922"/></svg>
+    <div>Dev<b>Orbit</b></div>
+  </div>
+  <div class="h1">GIT…</div>
+  <div class="h2">IN 3D</div>
+  <div class="tag"><span>$ git merge</span> → watch it move</div>
+</div></body></html>
