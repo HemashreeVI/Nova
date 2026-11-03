@@ -198,6 +198,8 @@
       captionEl.id = 'fv-caption';
       stage.appendChild(captionEl);
       if (document.fonts) await document.fonts.ready;
+      // end card: every .fv-endcard element gets the text of video.json "endCard" (e.g. the GitHub link)
+      FV.$$('.fv-endcard').forEach((e) => { e.textContent = timing.endCard || ''; if (!timing.endCard) e.style.display = 'none'; });
       FV.total = timing.total;
       FV.timing = timing;
       render(0);

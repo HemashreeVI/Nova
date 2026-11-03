@@ -127,6 +127,7 @@ def main():
 
     vertical = cfg.get("format") == "vertical"
     timing = {"title": cfg.get("title", ""), "total": total, "captions": bool(cfg.get("captions", True)),
+              "endCard": cfg.get("endCard", ""),
               "width": 1080 if vertical else 1920, "height": 1920 if vertical else 1080,
               "scenes": scenes}
     json.dump(timing, open(os.path.join(out, "timing.json"), "w"), indent=1)

@@ -34,6 +34,9 @@ Requirements: `python3` with `pip install kokoro-onnx soundfile` (≈350 MB mode
      is available to the page as `ctx.line(i)` — this is how animations land on the words.
    - Write for the ear: no symbols, no abbreviations the voice can't read, spell numbers as words when unclear.
    - `title` of each scene becomes a YouTube chapter. Top-level `title`, `description`, `tags` go to `youtube.txt`.
+   - `endCard`: text for the channel's end card (the template defaults to the GitHub link). Put an element
+     with class `fv-endcard` in the last scene (style it as a pill and animate it in like any element); the
+     runtime fills it with this text. Every video should carry it.
    - Voices: `am_michael` (default, warm male), `am_adam`, `af_heart`, `af_bella`, `bf_emma` (British), `bm_george`.
      `speed` 0.9–1.1. `pad: [lead, tail]` seconds around a scene's narration; `hold` adds extra seconds.
 

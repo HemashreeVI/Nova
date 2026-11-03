@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>APIs Short</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{--ink:#e8edf7;--mut:#8b97b0;--o:#fb923c;--t:#2dd4bf;--grn:#34d399;--red:#f87171;--yel:#fbbf24;--blu:#60a5fa;--pur:#a78bfa}
+  #fv-stage{background:radial-gradient(1000px 1300px at 70% 15%,#3a1f12 0%,#1a1220 50%,#0a0a12 80%);color:var(--ink);font-family:Inter,system-ui,sans-serif}
+  #bg-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(251,146,60,.13) 1px,transparent 1px),linear-gradient(90deg,rgba(251,146,60,.13) 1px,transparent 1px);background-size:90px 90px;opacity:.22}
+  .abs{position:absolute}
+  .step{position:absolute;left:0;right:0;top:250px;text-align:center;font:700 34px/1 'JetBrains Mono',monospace;letter-spacing:.2em;color:var(--o)}
+  .head{position:absolute;left:60px;right:60px;top:305px;text-align:center;font:800 84px/1.05 Inter;letter-spacing:-.03em}
+  .panel{position:absolute;border:3px solid rgba(230,180,150,.25);border-radius:28px;background:rgba(24,18,30,.9)}
+  .mono{font-family:'JetBrains Mono',monospace}
+  .label{font:600 30px Inter;color:var(--mut)}
+  .badge{position:absolute;left:50%;top:150px;transform:translateX(-50%);padding:12px 26px;border-radius:40px;background:rgba(251,146,60,.12);border:2px solid rgba(251,146,60,.5);font:700 30px Inter;color:var(--o);white-space:nowrap}
+  .pill{display:inline-block;padding:12px 28px;border-radius:40px;font:800 40px Inter}
+  .card{position:absolute;border-radius:26px;border:3px solid var(--c);background:color-mix(in srgb,var(--c) 14%,#15101c);box-sizing:border-box;display:flex;flex-direction:column;align-items:center;justify-content:center}
+  .card .ic{font-size:70px;line-height:1}
+  .card .nm{font:800 40px Inter;margin-top:10px}
+  .card .sb{font:600 26px Inter;color:var(--mut);margin-top:4px}
+  .tok{position:absolute;padding:14px 22px;border-radius:16px;font:800 34px Inter;white-space:nowrap;border:3px solid var(--c);background:color-mix(in srgb,var(--c) 20%,#15101c)}
+  .row{position:absolute;left:90px;right:90px;height:150px;border-radius:26px;border:3px solid var(--c);background:color-mix(in srgb,var(--c) 12%,#15101c);display:flex;align-items:center;padding:0 34px;box-sizing:border-box;gap:30px}
+  .fv-endcard{display:inline-block;padding:12px 28px;border-radius:40px;font:700 32px 'JetBrains Mono',monospace;border:3px solid #e6edf3;background:rgba(230,237,243,.08)}
+</style>
+</head>
+<body>
+<div id="fv-stage">
+  <div id="bg-grid"></div>
+  <div class="badge">Tech, decoded</div>
+
+  <!-- HOOK -->
+  <section class="fv-scene" data-scene="hook">
+    <svg id="hk-svg" class="abs" width="1080" height="1920" style="inset:0"></svg>
+    <div id="hk-app" class="card" style="--c:var(--o);left:390px;top:760px;width:300px;height:300px"><div class="ic">📱</div><div class="nm">your app</div></div>
+    <div id="hk-w" class="card" style="--c:var(--blu);left:70px;top:460px;width:280px;height:200px"><div class="ic">🌦️</div><div class="nm">weather</div></div>
+    <div id="hk-p" class="card" style="--c:var(--grn);left:730px;top:460px;width:280px;height:200px"><div class="ic">💳</div><div class="nm">payments</div></div>
+    <div id="hk-l" class="card" style="--c:var(--pur);left:400px;top:1150px;height:190px;width:280px"><div class="ic">🔑</div><div class="nm">login</div></div>
+  </section>
+
+  <!-- WAITER -->
+  <section class="fv-scene" data-scene="waiter">
+    <div class="step">THE IDEA</div><div class="head">APIs are waiters</div>
+    <svg id="wt-svg" class="abs" width="1080" height="1920" style="inset:0"></svg>
+    <div id="wt-you" class="card" style="--c:var(--blu);left:300px;top:460px;width:480px;height:170px;flex-direction:row;gap:24px"><div class="ic">📱</div><div><div class="nm" style="margin:0">You</div><div class="sb">your app</div></div></div>
+    <div id="wt-api" class="card" style="--c:var(--o);left:300px;top:760px;width:480px;height:170px;flex-direction:row;gap:24px"><div class="ic">🤵</div><div><div class="nm" style="margin:0">API</div><div class="sb">the waiter</div></div></div>
+    <div id="wt-kit" class="card" style="--c:var(--t);left:300px;top:1060px;width:480px;height:170px;flex-direction:row;gap:24px"><div class="ic">👨‍🍳</div><div><div class="nm" style="margin:0">Kitchen</div><div class="sb">the server</div></div></div>
+    <div id="wt-no" class="abs" style="left:110px;top:800px;font:900 90px Inter;color:var(--red)">⛔</div>
+    <div id="wt-order" class="tok" style="--c:var(--yel);left:0;top:0">🧾 order</div>
+    <div id="wt-food" class="tok" style="--c:var(--grn);left:0;top:0">🍝 food</div>
+  </section>
+
+  <!-- REQUEST -->
+  <section class="fv-scene" data-scene="request">
+    <div class="step">STEP 1</div><div class="head">The request</div>
+    <div id="rq-m" class="abs" style="left:90px;top:470px"><div class="label">method</div><span class="pill mono" style="margin-top:12px;background:rgba(52,211,153,.18);border:3px solid var(--grn);color:var(--grn);font-size:56px">GET</span></div>
+    <div id="rq-e" class="panel" style="left:90px;right:90px;top:660px;padding:24px 30px;box-sizing:border-box"><div class="label">endpoint</div><div class="mono" style="font-size:38px;font-weight:700;margin-top:10px;line-height:1.35"><span style="color:#8b97b0">https://</span>api.example.com<span style="color:var(--o)">/weather</span><br><span style="color:var(--t)">?city=Chennai</span></div></div>
+    <div id="rq-k" class="panel" style="left:90px;right:90px;top:930px;padding:24px 30px;box-sizing:border-box;border-color:rgba(251,191,36,.6)"><div class="label">🔑 API key: proves who you are</div><div class="mono" style="font-size:36px;font-weight:700;margin-top:10px">Authorization: <span style="color:var(--yel)">Bearer sk_••••••</span></div></div>
+  </section>
+
+  <!-- SERVER -->
+  <section class="fv-scene" data-scene="server">
+    <div class="step">STEP 2</div><div class="head">The server</div>
+    <svg id="sv-svg" class="abs" width="1080" height="1920" style="inset:0"></svg>
+    <div id="sv-box" class="card" style="--c:var(--t);left:290px;top:600px;width:500px;height:220px"><div class="ic">🖥️</div><div class="nm">API server</div><div id="sv-chk" class="sb" style="color:var(--grn);height:32px"></div></div>
+    <div id="sv-req" class="tok mono" style="--c:var(--grn);left:0;top:0">GET /weather</div>
+    <div id="sv-res" class="tok mono" style="--c:var(--o);left:0;top:0">response ↑</div>
+    <div id="sv-dbl" class="abs" style="left:0;right:0;top:1250px;text-align:center;font:800 38px Inter;color:var(--blu)">database</div>
+    <div id="sv-q" class="abs mono" style="left:600px;top:900px;font-size:28px;font-weight:700;color:var(--blu)"></div>
+  </section>
+
+  <!-- RESPONSE -->
+  <section class="fv-scene" data-scene="response">
+    <div class="step">STEP 3</div><div class="head">The response</div>
+    <div id="rs-json" class="panel" style="left:90px;right:90px;top:450px;height:440px;padding:26px 34px;box-sizing:border-box;background:#0c0a12">
+      <div class="label" style="color:var(--o)">JSON</div>
+      <div id="rs-code" class="mono" style="font-size:40px;line-height:1.5;margin-top:8px;white-space:pre"></div>
+    </div>
+    <div id="rs-sl" class="abs label" style="left:0;right:0;top:930px;text-align:center">status code</div>
+    <div id="rs-codes" class="abs" style="left:60px;right:60px;top:990px;display:flex;justify-content:space-between"></div>
+  </section>
+
+  <!-- METHODS -->
+  <section class="fv-scene" data-scene="methods">
+    <div class="step">STEP 4</div><div class="head">4 main methods</div>
+    <div id="mt-host"></div>
+  </section>
+
+  <!-- REAL LIFE -->
+  <section class="fv-scene" data-scene="real">
+    <div class="step">IN REAL LIFE</div><div class="head">Your weather app</div>
+    <div id="rl-ph" class="abs" style="left:330px;top:450px;width:420px;height:690px;border-radius:60px;border:8px solid #3a3346;background:linear-gradient(#1e3a8a,#0e7490);box-sizing:border-box;overflow:hidden">
+      <div style="width:120px;height:26px;border-radius:13px;background:#0a0a12;margin:16px auto 0"></div>
+      <div style="text-align:center;margin-top:50px;font:700 40px Inter">Chennai</div>
+      <div id="rl-spin" style="width:90px;height:90px;margin:90px auto 0;border-radius:50%;border:10px solid rgba(255,255,255,.25);border-top-color:#fff;box-sizing:border-box"></div>
+      <div id="rl-temp" style="text-align:center;font:900 170px/1 Inter;margin-top:-90px">24°</div>
+      <div id="rl-sky" style="text-align:center;font:700 44px Inter;margin-top:20px">☀️ Sunny</div>
+    </div>
+    <div id="rl-call" class="abs mono" style="left:0;right:0;top:1180px;text-align:center;font-size:32px;font-weight:700"><span style="padding:12px 22px;border-radius:14px;background:rgba(52,211,153,.14);border:3px solid var(--grn);color:var(--grn)">GET /weather?city=Chennai → 200 OK</span></div>
+  </section>
+
+  <!-- OUTRO -->
+  <section class="fv-scene" data-scene="outro">
+    <div id="oc-h" class="abs" style="left:60px;right:60px;top:300px;text-align:center;font:900 88px/1.08 Inter;letter-spacing:-.035em">Apps talking<br><span style="color:var(--o)">to apps.</span></div>
+    <div id="oc-list" class="abs" style="left:0;right:0;top:560px;display:flex;flex-direction:column;align-items:center;gap:8px"></div>
+    <div id="oc-gh" class="abs" style="left:0;right:0;top:1112px;text-align:center"><span class="fv-endcard"></span></div>
+    <div id="oc-cta" class="abs" style="left:0;right:0;top:1206px;text-align:center"><span class="pill" style="background:var(--yel);color:#1a1300;font-size:52px;padding:16px 38px">Follow · Tech, Decoded</span></div>
+  </section>
+</div>
+<script src="timing.js"></script>
+<script src="fv-runtime.js"></script>
+<script>
+(() => {
+const { seg, css, enter, lerp, clamp, ease, pulse, $ } = FV;
+const NS = 'http://www.w3.org/2000/svg';
+const svg = (tag, attrs, parent) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; };
+const div = (cls, html, parent, style) => { const e = document.createElement('div'); if (cls) e.className = cls; if (html !== undefined) e.innerHTML = html; if (style) e.style.cssText = style; if (parent) parent.appendChild(e); return e; };
+const pop = (el, t, a, d = 0.45) => { const p = seg(t, a, a + d, ease.back); css(el, { o: clamp(p * 1.5), s: Math.max(0, p) }); return p; };
+const head = (el, t) => { enter($('.step', el), t, 0.0, 0.4); enter($('.head', el), t, 0.08, 0.45, 30); };
+const frac = (ctx, i, f) => ctx.line(i) + (ctx.lineEnd(i) - ctx.line(i)) * f;
+const at = (el, x, y, o = 1, s = 1) => css(el, { o, x: x - el.offsetWidth / 2, y: y - el.offsetHeight / 2, s });
+const O = '#fb923c', T = '#2dd4bf', GRN = '#34d399', RED = '#f87171', YEL = '#fbbf24', BLU = '#60a5fa', PUR = '#a78bfa';
+
+/* HOOK */
+{
+  const sv = $('#hk-svg');
+  const C = [540, 910];
+  const ends = [[210, 560, BLU], [870, 560, GRN], [540, 1250, PUR]];
+  const lines = ends.map(([x, y, c]) => svg('path', { d: `M${C[0]} ${C[1]} L${x} ${y}`, stroke: c, 'stroke-width': 6, 'stroke-dasharray': '12 10', fill: 'none' }, sv));
+  const dots = ends.map(([, , c]) => svg('circle', { r: 14, fill: c, stroke: '#fff', 'stroke-width': 3 }, sv));
+  const tags = ends.map(([x, y], i) => { const g = svg('g', {}, sv); svg('rect', { x: -58, y: -28, width: 116, height: 56, rx: 28, fill: O }, g); const tx = svg('text', { y: 11, fill: '#1a0f05', 'font-size': 30, 'font-weight': 900, 'font-family': 'Inter', 'text-anchor': 'middle' }, g); tx.textContent = 'API'; g.setAttribute('transform', `translate(${[358, 722, 540][i]} ${[712, 712, 1105][i]})`); return g; });
+  const ids = ['#hk-w', '#hk-p', '#hk-l'], whenAt = [0.62, 0.78, 0.92];
+  FV.scene('hook', (t, ctx) => {
+    pop($('#hk-app'), t, 0.1, 0.5);
+    ids.forEach((id, i) => {
+      const a = frac(ctx, 0, whenAt[i]) - 0.15;
+      pop($(id), t, a, 0.4);
+      lines[i].setAttribute('opacity', seg(t, a, a + 0.3));
+      lines[i].setAttribute('stroke-dashoffset', -t * 40);
+      const k = ((t - a) * 0.8) % 1, [x, y] = ends[i];
+      dots[i].setAttribute('cx', lerp(C[0], x, k)); dots[i].setAttribute('cy', lerp(C[1], y, k));
+      dots[i].setAttribute('opacity', t > a + 0.3 ? 1 : 0);
+      const tp = seg(t, ctx.line(1) + i * 0.15, ctx.line(1) + i * 0.15 + 0.4, ease.back);
+      tags[i].setAttribute('opacity', clamp(tp * 1.5));
+    });
+  });
+}
+
+/* WAITER */
+{
+  const sv = $('#wt-svg');
+  const direct = svg('path', { d: 'M300 545 C140 650 140 1040 300 1145', stroke: RED, 'stroke-width': 6, 'stroke-dasharray': '14 12', fill: 'none' }, sv);
+  const a1 = svg('path', { d: 'M540 630 L540 760', stroke: '#8b97b0', 'stroke-width': 5, fill: 'none' }, sv);
+  const a2 = svg('path', { d: 'M540 930 L540 1060', stroke: '#8b97b0', 'stroke-width': 5, fill: 'none' }, sv);
+  FV.scene('waiter', (t, ctx) => {
+    head(ctx.el, t);
+    enter($('#wt-you'), t, 0.2, 0.4); pop($('#wt-api'), t, frac(ctx, 0, 0.1), 0.45); enter($('#wt-kit'), t, 0.4, 0.4);
+    [a1, a2].forEach((a) => a.setAttribute('opacity', seg(t, 0.6, 0.9)));
+    const no = frac(ctx, 0, 0.27);
+    direct.setAttribute('opacity', seg(t, no, no + 0.3) * (1 - seg(t, frac(ctx, 0, 0.5), frac(ctx, 0, 0.55))));
+    pop($('#wt-no'), t, no + 0.3, 0.4);
+    $('#wt-no').style.opacity = clamp(seg(t, no + 0.3, no + 0.6) * 1.5) * (1 - seg(t, frac(ctx, 0, 0.5), frac(ctx, 0, 0.55)));
+    const o1 = frac(ctx, 0, 0.5), o2 = frac(ctx, 0, 0.74);
+    const po = seg(t, o1, o2, ease.inOut);
+    at($('#wt-order'), 860, lerp(545, 1145, po), seg(t, o1 - 0.1, o1 + 0.1) * (1 - seg(t, o2 - 0.1, o2)));
+    const f1 = frac(ctx, 0, 0.76), f2 = frac(ctx, 0, 1.0);
+    const pf = seg(t, f1, f2, ease.inOut);
+    at($('#wt-food'), 860, lerp(1145, 545, pf), seg(t, f1 - 0.1, f1 + 0.1) * (1 - seg(t, ctx.dur - 0.2, ctx.dur)));
+    const g = pulse(t, o1, o2 + 0.2) + pulse(t, f1, f2);
+    $('#wt-api').style.boxShadow = `0 0 ${50 * clamp(g)}px rgba(251,146,60,${clamp(g)})`;
+  });
+}
+
+/* REQUEST */
+FV.scene('request', (t, ctx) => {
+  head(ctx.el, t);
+  const m = frac(ctx, 0, 0.3), e = frac(ctx, 0, 0.45), k = frac(ctx, 0, 0.72);
+  enter($('#rq-m'), t, m, 0.4, 30);
+  enter($('#rq-e'), t, e, 0.4, 30);
+  enter($('#rq-k'), t, k, 0.4, 30);
+  $('#rq-e').style.boxShadow = `0 0 ${40 * pulse(t, e, e + 1.2)}px rgba(251,146,60,.7)`;
+  $('#rq-k').style.boxShadow = `0 0 ${40 * pulse(t, k, k + 1.4)}px rgba(251,191,36,.7)`;
+});
+
+/* SERVER */
+{
+  const sv = $('#sv-svg');
+  const g = svg('g', {}, sv);
+  svg('path', { d: 'M420 1000 L420 1180 A120 34 0 0 0 660 1180 L660 1000', fill: 'rgba(96,165,250,.18)', stroke: BLU, 'stroke-width': 5 }, g);
+  svg('ellipse', { cx: 540, cy: 1000, rx: 120, ry: 34, fill: '#18223a', stroke: BLU, 'stroke-width': 5 }, g);
+  [1060, 1120].forEach((y) => svg('path', { d: `M420 ${y} A120 34 0 0 0 660 ${y}`, fill: 'none', stroke: BLU, 'stroke-width': 3, opacity: 0.6 }, g));
+  const dn = svg('path', { d: 'M500 820 L500 960', stroke: BLU, 'stroke-width': 5, 'stroke-dasharray': '10 8', fill: 'none' }, sv);
+  const up = svg('path', { d: 'M580 960 L580 820', stroke: BLU, 'stroke-width': 5, 'stroke-dasharray': '10 8', fill: 'none' }, sv);
+  FV.scene('server', (t, ctx) => {
+    head(ctx.el, t);
+    pop($('#sv-box'), t, 0.1, 0.45);
+    const r0 = 0.3, r1 = frac(ctx, 0, 0.12);
+    const pr = seg(t, r0, r1, ease.out);
+    at($('#sv-req'), 540, lerp(470, 600, pr), seg(t, r0 - 0.1, r0 + 0.1) * (1 - seg(t, r1, r1 + 0.2)), 1 - 0.3 * pr);
+    const chk = frac(ctx, 0, 0.2);
+    $('#sv-chk').textContent = t > chk ? '✓ request checked' : '';
+    const d0 = frac(ctx, 0, 0.38);
+    g.setAttribute('opacity', seg(t, d0 - 0.3, d0)); $('#sv-dbl').style.opacity = seg(t, d0 - 0.3, d0);
+    dn.setAttribute('opacity', seg(t, d0, d0 + 0.3)); up.setAttribute('opacity', seg(t, d0 + 0.6, d0 + 0.9));
+    dn.setAttribute('stroke-dashoffset', -t * 40); up.setAttribute('stroke-dashoffset', -t * 40);
+    $('#sv-q').innerHTML = t > d0 + 0.6 ? '← data found' : t > d0 ? 'query →' : '';
+    g.style.filter = `drop-shadow(0 0 ${30 * pulse(t, d0 + 0.3, d0 + 1.3)}px ${BLU})`;
+    const s0 = frac(ctx, 0, 0.75);
+    const ps = seg(t, s0, ctx.dur - 0.2, ease.in);
+    at($('#sv-res'), 540, lerp(570, 440, ps), seg(t, s0 - 0.1, s0 + 0.1), 1);
+  });
+}
+
+/* RESPONSE */
+{
+  const L = [['{', '#e8edf7'], ['  "city": "Chennai",', 'kv'], ['  "temp": 24,', 'kv'], ['  "sky": "sunny"', 'kv'], ['}', '#e8edf7']];
+  const lines = L.map(([s, c]) => {
+    let html = s;
+    if (c === 'kv') { const [k, v] = s.split(': '); html = `<span style="color:${T}">${k}</span>: <span style="color:${YEL}">${v}</span>`; }
+    return div('', html, $('#rs-code'), 'padding:0 8px;border-radius:8px');
+  });
+  const codes = [['200', 'OK', GRN], ['404', 'Not Found', YEL], ['500', 'Server Error', RED]].map(([n, w, c]) =>
+    div('', `<div class="mono" style="font:800 64px 'JetBrains Mono';color:${c}">${n}</div><div style="font:700 28px Inter;margin-top:6px">${w}</div>`, $('#rs-codes'),
+      `width:300px;height:170px;border-radius:24px;border:3px solid ${c};background:${c}1a;display:flex;flex-direction:column;align-items:center;justify-content:center`));
+  FV.scene('response', (t, ctx) => {
+    head(ctx.el, t);
+    enter($('#rs-json'), t, 0.15, 0.4);
+    lines.forEach((l, i) => (l.style.opacity = seg(t, 0.4 + i * 0.2, 0.6 + i * 0.2)));
+    const lab = frac(ctx, 0, 0.27);
+    lines.slice(1, 4).forEach((l) => (l.style.background = `rgba(45,212,191,${0.18 * pulse(t, lab, lab + 1.4)})`));
+    const sc = frac(ctx, 0, 0.45);
+    enter($('#rs-sl'), t, sc, 0.35);
+    codes.forEach((c, i) => enter(c, t, sc + i * 0.12, 0.4, 30));
+    const h = [frac(ctx, 0, 0.62), frac(ctx, 0, 0.84)];
+    codes.forEach((c, i) => {
+      const g = i < 2 ? seg(t, h[i], h[i] + 0.3) * (i === 0 ? 1 - seg(t, h[1], h[1] + 0.3) : 1) : 0;
+      css(c, { s: 1 + 0.08 * g, boxShadow: `0 0 ${50 * g}px ${[GRN, YEL][i] || RED}` });
+      c.style.opacity = t < sc ? 0 : g > 0.05 || t < h[0] ? 1 : 0.45;
+    });
+  });
+}
+
+/* METHODS */
+{
+  const M = [['GET', 'reads data', '📖', GRN], ['POST', 'creates it', '➕', BLU], ['PUT', 'updates it', '✏️', YEL], ['DELETE', 'removes it', '🗑️', RED]];
+  const rows = M.map(([m, w, ic, c], i) => div('row', `<span class="mono" style="font:800 56px 'JetBrains Mono';color:${c};width:300px">${m}</span><span style="font:700 46px Inter;flex:1">${w}</span><span style="font-size:60px">${ic}</span>`, $('#mt-host'),
+    `--c:${c};top:${470 + i * 180}px`));
+  const whenAt = [0.02, 0.26, 0.5, 0.74];
+  FV.scene('methods', (t, ctx) => {
+    head(ctx.el, t);
+    rows.forEach((r, i) => {
+      const a = frac(ctx, 0, whenAt[i]);
+      const p = seg(t, a, a + 0.4, ease.back);
+      css(r, { o: clamp(p * 1.5), x: (1 - p) * -120 });
+      r.style.boxShadow = `0 0 ${40 * pulse(t, a, a + 1.2)}px ${M[i][3]}`;
+    });
+  });
+}
+
+/* REAL */
+FV.scene('real', (t, ctx) => {
+  head(ctx.el, t);
+  enter($('#rl-ph'), t, 0.1, 0.45, 40);
+  const load = frac(ctx, 0, 0.42);
+  const sp = $('#rl-spin');
+  sp.style.opacity = t < load ? 1 : 0;
+  sp.style.transform = `rotate(${t * 400}deg)`;
+  pop($('#rl-temp'), t, load, 0.5);
+  enter($('#rl-sky'), t, load + 0.3, 0.4);
+  pop($('#rl-call'), t, frac(ctx, 0, 0.6), 0.45);
+  $('#rl-call').style.filter = `drop-shadow(0 0 ${30 * pulse(t, frac(ctx, 0, 0.6), frac(ctx, 0, 0.6) + 1.4)}px rgba(52,211,153,.9))`;
+});
+
+/* OUTRO */
+{
+  const steps = [['Request', 'method + endpoint + key', GRN], ['API', 'the waiter', O], ['Server', 'fetches the data', T], ['Response', 'JSON + status code', YEL]];
+  const items = [];
+  steps.forEach(([a, b, c], i) => {
+    items.push(div('', `<span style="font:800 48px Inter;width:300px">${a}</span><span style="font:600 32px Inter;color:#8b97b0">${b}</span>`, $('#oc-list'),
+      `display:flex;align-items:center;padding:14px 34px;border-radius:22px;border:3px solid ${c}99;background:${c}1f;width:860px;box-sizing:border-box`));
+    if (i < steps.length - 1) items.push(div('', '↓', $('#oc-list'), 'font:700 32px Inter;color:#8b97b0;height:32px;line-height:32px'));
+  });
+  FV.scene('outro', (t, ctx) => {
+    pop($('#oc-h'), t, 0.05, 0.5);
+    items.forEach((e, i) => enter(e, t, 0.3 + i * 0.08, 0.35, 24));
+    pop($('#oc-gh'), t, 1.2, 0.45);
+    pop($('#oc-cta'), t, ctx.line(1) - 0.1, 0.5);
+  });
+}
+})();
+</script>
+</body>
+</html>
