@@ -79,9 +79,17 @@ def main():
     os.makedirs(cache, exist_ok=True)
 
     kokoro = None
+    # pronunciation fixes: spoken text only, captions keep the original wording
+    fixes = sorted(cfg.get("pronounce", {}).items(), key=lambda kv: -len(kv[0]))
+
+    def spoken(text):
+        for k, v in fixes:
+            text = re.sub(r"(?<![\w/])" + re.escape(k) + r"(?![\w/])", v, text)
+        return text
 
     def synth(text):
         nonlocal kokoro
+        text = spoken(text)
         key = hashlib.sha1(f"{voice}|{speed}|{lang}|{text}".encode()).hexdigest()[:16]
         p = os.path.join(cache, key + ".wav")
         if not os.path.exists(p):

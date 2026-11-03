@@ -37,6 +37,9 @@ Requirements: `python3` with `pip install kokoro-onnx soundfile` (≈350 MB mode
    - `endCard`: text for the channel's end card (the template defaults to the GitHub link). Put an element
      with class `fv-endcard` in the last scene (style it as a pill and animate it in like any element); the
      runtime fills it with this text. Every video should carry it.
+   - `pronounce`: `{"CI/CD": "C I C D"}`: spoken-only replacements for words the voice gets wrong
+     (acronyms, product names). Captions keep the original text. Check suspicious words first with
+     `Kokoro(...).tokenizer.phonemize(text, 'en-us')`.
    - Voices: `am_michael` (default, warm male), `am_adam`, `af_heart`, `af_bella`, `bf_emma` (British), `bm_george`.
      `speed` 0.9–1.1. `pad: [lead, tail]` seconds around a scene's narration; `hold` adds extra seconds.
 
