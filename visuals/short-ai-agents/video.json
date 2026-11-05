@@ -1,0 +1,38 @@
+{
+  "title": "How AI Agents Work in 60 Seconds 🤖 #shorts",
+  "slug": "short-ai-agents",
+  "format": "vertical",
+  "description": "A chatbot answers. An AI agent acts. An agent is an LLM in a loop: think, act, observe, repeat. Its actions come from tools (web search, calculator, calendar, running code). The model writes a tool request, your app runs it and returns the result, and the agent keeps notes as it works. Good agents ask permission before risky actions.\n\n📘 More to learn + my projects: https://github.com/HemashreeVI\n\n#AI #AIAgents #LLM #GenerativeAI #ChatGPT #Claude #TechExplained #shorts",
+  "tags": ["ai agents", "how ai agents work", "what is an ai agent", "agentic ai", "llm agents", "tool calling", "function calling", "ai tools", "autonomous ai", "chatgpt", "claude", "generative ai", "ai engineering", "ai explained", "tech explained", "shorts"],
+  "voice": "am_michael",
+  "speed": 1.1,
+  "lineGap": 0.25,
+  "captions": true,
+  "endCard": "📘 more to learn → github.com/HemashreeVI",
+  "thumbnail": "hook@3",
+  "endHold": 0.3,
+  "scenes": [
+    { "id": "hook", "pad": [0.3, 0.5], "lines": [
+      "A chatbot answers. An AI agent acts.",
+      "It can book trips, fix code, and research the web, on its own. Here's how."
+    ]},
+    { "id": "loop", "pad": [0.3, 0.6], "lines": [
+      "An agent is an LLM in a loop. It thinks about the goal, takes an action, looks at the result, and repeats until the job is done."
+    ]},
+    { "id": "tools", "pad": [0.3, 0.5], "lines": [
+      "Its actions come from tools: functions it's allowed to use, like web search, a calculator, your calendar, or running code."
+    ]},
+    { "id": "call", "pad": [0.3, 0.6], "lines": [
+      "The model doesn't run them itself. It writes a request, like: search flights to Tokyo. Your app runs it, and hands back the result."
+    ]},
+    { "id": "example", "pad": [0.3, 0.6], "lines": [
+      "Ask it to plan a trip under five hundred dollars. It searches flights, checks the budget, compares hotels, and adds it all to your calendar."
+    ]},
+    { "id": "safety", "pad": [0.3, 0.6], "lines": [
+      "And because agents take real actions, good ones ask your permission before anything risky, like spending money."
+    ]},
+    { "id": "outro", "pad": [0.3, 2.4], "lines": [
+      "Think. Act. Observe. Repeat. That's an AI agent."
+    ]}
+  ]
+}

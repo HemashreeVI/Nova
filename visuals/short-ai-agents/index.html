@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Agents Short</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{--ink:#eef2ff;--mut:#9ca3c7;--i:#6366f1;--i2:#818cf8;--l:#a3e635;--yel:#fbbf24;--grn:#34d399;--red:#f87171;--pink:#f472b6;--c:#22d3ee;--org:#fb923c}
+  #fv-stage{background:radial-gradient(1000px 1300px at 70% 15%,#1e1b5e 0%,#0f0f2e 50%,#07071a 80%);color:var(--ink);font-family:Inter,system-ui,sans-serif}
+  #bg-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(129,140,248,.14) 1px,transparent 1px),linear-gradient(90deg,rgba(129,140,248,.14) 1px,transparent 1px);background-size:90px 90px;opacity:.22}
+  .abs{position:absolute}
+  .step{position:absolute;left:0;right:0;top:250px;text-align:center;font:700 34px/1 'JetBrains Mono',monospace;letter-spacing:.2em;color:var(--l)}
+  .head{position:absolute;left:60px;right:60px;top:305px;text-align:center;font:800 84px/1.05 Inter;letter-spacing:-.03em}
+  .panel{position:absolute;border:3px solid rgba(170,180,250,.25);border-radius:28px;background:rgba(16,16,44,.92)}
+  .mono{font-family:'JetBrains Mono',monospace}
+  .label{font:600 28px Inter;color:var(--mut)}
+  .badge{position:absolute;left:50%;top:150px;transform:translateX(-50%);padding:12px 26px;border-radius:40px;background:rgba(163,230,53,.1);border:2px solid rgba(163,230,53,.5);font:700 30px Inter;color:var(--l);white-space:nowrap}
+  .pill{display:inline-block;padding:12px 28px;border-radius:40px;font:800 36px Inter}
+  .node{position:absolute;width:250px;height:130px;margin-left:-125px;margin-top:-65px;border-radius:26px;border:3px solid var(--cc);background:color-mix(in srgb,var(--cc) 14%,#10102c);display:flex;flex-direction:column;align-items:center;justify-content:center;font:800 38px Inter}
+  .node span{font-size:46px;line-height:1}
+  .tool{border-radius:26px;border:3px solid var(--cc);background:color-mix(in srgb,var(--cc) 12%,#10102c);padding:26px;box-sizing:border-box;height:250px}
+  .row{display:flex;align-items:center;gap:20px;height:96px;padding:0 24px;border-radius:20px;border:3px solid rgba(170,180,250,.25);background:rgba(16,16,44,.9);margin-bottom:14px}
+  .fv-endcard{display:inline-block;padding:16px 30px;border-radius:40px;font:700 34px 'JetBrains Mono',monospace;border:3px solid #eef2ff;background:rgba(238,242,255,.08)}
+</style>
+</head>
+<body>
+<div id="fv-stage">
+  <div id="bg-grid"></div>
+  <div class="badge">Tech, decoded</div>
+
+  <!-- HOOK -->
+  <section class="fv-scene" data-scene="hook">
+    <div id="hk-a" class="panel" style="left:90px;right:90px;top:320px;height:220px;padding:28px 36px;box-sizing:border-box">
+      <div style="font:800 52px Inter">💬 Chatbot <span style="color:var(--mut);font-weight:600">→ answers</span></div>
+      <div style="margin-top:20px;display:inline-block;padding:14px 22px;border-radius:18px;background:rgba(170,180,250,.12);font:500 32px Inter;color:#cbd5e1">"Here's how you could book a flight…"</div>
+    </div>
+    <div id="hk-b" class="panel" style="left:90px;right:90px;top:580px;height:220px;padding:28px 36px;box-sizing:border-box;border-color:var(--l)">
+      <div style="font:800 52px Inter">🤖 AI Agent <span style="color:var(--l)">→ acts</span></div>
+      <div style="margin-top:20px;display:inline-block;padding:14px 22px;border-radius:18px;background:rgba(163,230,53,.14);font:700 32px Inter;color:var(--l)">✓ Flight booked. Added to your calendar.</div>
+    </div>
+    <div id="hk-acts" class="abs" style="left:0;right:0;top:850px;display:flex;flex-direction:column;align-items:center;gap:16px"></div>
+  </section>
+
+  <!-- LOOP -->
+  <section class="fv-scene" data-scene="loop">
+    <div class="step">THE CORE IDEA</div><div class="head">An LLM in a loop</div>
+    <svg id="lp-svg" class="abs" width="1080" height="1920" style="inset:0"></svg>
+    <div id="lp-goal" class="abs" style="left:390px;top:800px;width:300px;height:120px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center"><div style="font-size:54px;line-height:1">🎯</div><div class="label" style="margin-top:6px;color:#eef2ff;font-weight:700">goal</div><div id="lp-done" class="pill" style="font-size:30px;margin-top:8px;background:var(--l);color:#1a2e05;padding:8px 20px">✓ done</div></div>
+    <div id="lp-nodes"></div>
+  </section>
+
+  <!-- TOOLS -->
+  <section class="fv-scene" data-scene="tools">
+    <div class="step">THE HANDS</div><div class="head">Tools</div>
+    <div id="tl-ring" class="abs" style="left:50px;right:50px;top:440px;height:720px;border:4px dashed rgba(163,230,53,.5);border-radius:36px"></div>
+    <div id="tl-tag" class="abs mono" style="left:90px;top:418px;padding:0 14px;background:#11112f;font-size:28px;font-weight:700;color:var(--l)">allowed tools</div>
+    <div id="tl-grid" class="abs" style="left:90px;right:90px;top:490px;display:grid;grid-template-columns:1fr 1fr;gap:26px"></div>
+  </section>
+
+  <!-- TOOL CALL -->
+  <section class="fv-scene" data-scene="call">
+    <div class="step">TOOL CALLING</div><div class="head">Request → result</div>
+    <div id="cl-no" class="abs" style="left:0;right:0;top:440px;text-align:center"><span class="pill" style="font-size:30px;border:3px solid var(--red);background:rgba(248,113,113,.1)">🧠 the model can't run tools itself</span></div>
+    <div id="cl-req" class="panel" style="left:80px;right:80px;top:530px;height:220px;padding:24px 32px;box-sizing:border-box;border-color:var(--i2)">
+      <div class="label" style="color:var(--i2)">🧠 LLM writes a request</div>
+      <div id="cl-json" class="mono" style="font-size:36px;font-weight:700;margin-top:14px;line-height:1.45;white-space:pre"></div>
+    </div>
+    <div id="cl-run" class="abs" style="left:80px;right:80px;top:780px;height:130px;border-radius:26px;border:3px solid var(--yel);background:rgba(251,191,36,.1);display:flex;align-items:center;gap:22px;padding:0 32px;box-sizing:border-box">
+      <span style="font-size:52px">⚙️</span><div><div style="font:800 36px Inter">your app runs it</div><div class="mono" style="font-size:28px;color:var(--yel);margin-top:4px">search_flights("Tokyo")</div></div>
+      <div id="cl-spin" style="margin-left:auto;width:60px;height:60px;border-radius:50%;border:8px solid rgba(251,191,36,.25);border-top-color:#fbbf24;box-sizing:border-box"></div>
+      <div id="cl-ok" style="margin-left:auto;font:900 52px Inter;color:var(--grn)">✓</div>
+    </div>
+    <div id="cl-res" class="panel" style="left:80px;right:80px;top:940px;height:240px;padding:24px 32px;box-sizing:border-box;border-color:var(--grn)">
+      <div class="label" style="color:var(--grn)">📦 result → back to the LLM</div>
+      <div id="cl-rj" class="mono" style="font-size:36px;font-weight:700;margin-top:14px;line-height:1.45;white-space:pre"></div>
+    </div>
+  </section>
+
+  <!-- EXAMPLE -->
+  <section class="fv-scene" data-scene="example">
+    <div class="step">EXAMPLE</div><div class="head">Plan a trip</div>
+    <div id="ex-task" class="abs" style="left:0;right:0;top:440px;text-align:center"><span class="pill" style="font-size:36px;border:3px solid var(--l);background:rgba(163,230,53,.12)">🎯 Tokyo trip under $500</span></div>
+    <div id="ex-list" class="abs" style="left:60px;right:60px;top:560px"></div>
+    <div id="ex-bud" class="abs" style="left:80px;right:80px;top:1040px">
+      <div style="display:flex;justify-content:space-between" class="label"><span>budget: $500</span><span id="ex-left" class="mono" style="color:#eef2ff"></span></div>
+      <div style="height:34px;margin-top:12px;border-radius:17px;background:rgba(170,180,250,.15);overflow:hidden"><div id="ex-fill" style="height:100%;border-radius:17px;background:linear-gradient(90deg,#a3e635,#fbbf24)"></div></div>
+    </div>
+  </section>
+
+  <!-- SAFETY -->
+  <section class="fv-scene" data-scene="safety">
+    <div class="step">STAYING SAFE</div><div class="head">Ask first</div>
+    <div id="sf-warn" class="abs" style="left:0;right:0;top:440px;text-align:center"><span class="pill" style="font-size:32px;border:3px solid var(--yel);background:rgba(251,191,36,.1)">⚠️ real actions, real consequences</span></div>
+    <div id="sf-dlg" class="panel" style="left:110px;right:110px;top:560px;height:470px;padding:34px 40px;box-sizing:border-box;background:#f1f5f9;color:#0f172a;border-color:#e2e8f0">
+      <div style="font:700 32px Inter;color:#475569">🤖 Agent wants to:</div>
+      <div style="font:900 52px/1.2 Inter;margin-top:20px">💳 Pay $420</div>
+      <div style="font:600 34px Inter;color:#334155;margin-top:8px">Tokyo flight · Tue</div>
+      <div style="display:flex;gap:20px;margin-top:44px">
+        <div id="sf-ok" style="flex:1;height:100px;border-radius:20px;background:#16a34a;color:#fff;display:flex;align-items:center;justify-content:center;font:800 40px Inter">Approve</div>
+        <div style="flex:1;height:100px;border-radius:20px;border:4px solid #94a3b8;display:flex;align-items:center;justify-content:center;font:800 40px Inter;color:#334155">Deny</div>
+      </div>
+    </div>
+    <div id="sf-done" class="abs" style="left:0;right:0;top:1090px;text-align:center"><span class="pill" style="font-size:36px;background:var(--grn);color:#052e1a">✓ approved by you</span></div>
+  </section>
+
+  <!-- OUTRO -->
+  <section class="fv-scene" data-scene="outro">
+    <div id="oc-words" class="abs" style="left:0;right:0;top:300px;display:flex;flex-direction:column;align-items:center;gap:6px"></div>
+    <div id="oc-h" class="abs" style="left:60px;right:60px;top:910px;text-align:center;font:900 76px/1.1 Inter;letter-spacing:-.03em">That's an <span style="color:var(--l)">AI agent.</span></div>
+    <div id="oc-gh" class="abs" style="left:0;right:0;top:1120px;text-align:center"><span class="fv-endcard"></span></div>
+  </section>
+</div>
+<script src="timing.js"></script>
+<script src="fv-runtime.js"></script>
+<script>
+(() => {
+const { seg, css, enter, lerp, clamp, ease, pulse, $ } = FV;
+const NS = 'http://www.w3.org/2000/svg';
+const svg = (tag, attrs, parent) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; };
+const div = (cls, html, parent, style) => { const e = document.createElement('div'); if (cls) e.className = cls; if (html !== undefined) e.innerHTML = html; if (style) e.style.cssText = style; if (parent) parent.appendChild(e); return e; };
+const pop = (el, t, a, d = 0.45) => { const p = seg(t, a, a + d, ease.back); css(el, { o: clamp(p * 1.5), s: Math.max(0, p) }); return p; };
+const head = (el, t) => { enter($('.step', el), t, 0.0, 0.4); enter($('.head', el), t, 0.08, 0.45, 30); };
+const frac = (ctx, i, f) => ctx.line(i) + (ctx.lineEnd(i) - ctx.line(i)) * f;
+const L = '#a3e635', I2 = '#818cf8', YEL = '#fbbf24', GRN = '#34d399', C = '#22d3ee', PINK = '#f472b6', ORG = '#fb923c';
+const typeJSON = (el, s, p) => { const v = FV.type(s, p); el.innerHTML = v.replace(/("[^"]*")(\s*:)/g, '<span style="color:#818cf8">$1</span>$2').replace(/:\s*("[^"]*")/g, ': <span style="color:#a3e635">$1</span>') || ' '; };
+
+/* HOOK */
+{
+  const acts = [['✈️ book trips', 0.15], ['🛠️ fix code', 0.3], ['🔎 research the web', 0.45]].map(([w, f]) => ({ e: div('', w, $('#hk-acts'), 'padding:16px 34px;border-radius:40px;border:3px solid #a3e635;background:rgba(163,230,53,.12);font:800 42px Inter'), f }));
+  FV.scene('hook', (t, ctx) => {
+    enter($('#hk-a'), t, frac(ctx, 0, 0.05), 0.4, 30);
+    const b = frac(ctx, 0, 0.52);
+    enter($('#hk-b'), t, b, 0.4, 30);
+    $('#hk-b').style.boxShadow = `0 0 ${50 * pulse(t, b, b + 1.5)}px rgba(163,230,53,.7)`;
+    $('#hk-a').style.opacity = Math.min(seg(t, frac(ctx, 0, 0.05), frac(ctx, 0, 0.05) + 0.4), 1 - 0.5 * seg(t, b, b + 0.5));
+    acts.forEach((a) => pop(a.e, t, frac(ctx, 1, a.f), 0.4));
+  });
+}
+
+/* LOOP */
+{
+  const sv = $('#lp-svg');
+  const CX = 540, CY = 860, R = 280;
+  const ring = svg('circle', { cx: CX, cy: CY, r: R, fill: 'none', stroke: 'rgba(163,230,53,.45)', 'stroke-width': 8, 'stroke-dasharray': '18 14' }, sv);
+  const dot = svg('circle', { r: 20, fill: L, stroke: '#fff', 'stroke-width': 4 }, sv);
+  const N = [['🧠', 'Think', I2, -90, 0.3], ['🛠️', 'Act', YEL, 0, 0.5], ['👀', 'Observe', C, 90, 0.66], ['🔁', 'Repeat', PINK, 180, 0.82]];
+  const nodes = N.map(([ic, w, c, ang]) => { const a = (ang * Math.PI) / 180; const e = div('node', `<span>${ic}</span>${w}`, $('#lp-nodes'), `left:${CX + R * Math.cos(a)}px;top:${CY + R * Math.sin(a)}px`); e.style.setProperty('--cc', c); return e; });
+  FV.scene('loop', (t, ctx) => {
+    head(ctx.el, t);
+    ring.setAttribute('opacity', seg(t, 0.3, 0.7)); ring.setAttribute('stroke-dashoffset', -t * 40);
+    pop($('#lp-goal'), t, frac(ctx, 0, 0.25), 0.45);
+    nodes.forEach((n, i) => {
+      const a = frac(ctx, 0, N[i][4]) - 0.3;
+      pop(n, t, a, 0.4);
+      n.style.boxShadow = `0 0 ${40 * pulse(t, a + 0.2, a + 1.3)}px ${N[i][2]}`;
+    });
+    // dot: one slow lap through the steps, then fast laps ("repeats")
+    const s0 = frac(ctx, 0, 0.27), s1 = frac(ctx, 0, 0.85), s2 = ctx.dur - 0.8;
+    let ang = -90;
+    if (t > s0) ang = -90 + 360 * seg(t, s0, s1, ease.linear) + (t > s1 ? 720 * seg(t, s1, s2, ease.inOut) : 0);
+    const ra = (ang * Math.PI) / 180;
+    dot.setAttribute('cx', CX + R * Math.cos(ra)); dot.setAttribute('cy', CY + R * Math.sin(ra));
+    dot.setAttribute('opacity', seg(t, s0 - 0.2, s0));
+    pop($('#lp-done'), t, s2, 0.4);
+  });
+}
+
+/* TOOLS */
+{
+  const T = [['🔎', 'web_search()', 'find anything online', C], ['🧮', 'calculator()', 'exact math', YEL], ['📅', 'calendar()', 'read & add events', PINK], ['💻', 'run_code()', 'execute programs', L]];
+  const cards = T.map(([ic, fn, d, c]) => { const e = div('tool', `<div style="font-size:72px;line-height:1">${ic}</div><div class="mono" style="font-size:34px;font-weight:700;margin-top:18px;color:${c}">${fn}</div><div style="font:600 26px Inter;color:#9ca3c7;margin-top:8px">${d}</div>`, $('#tl-grid')); e.style.setProperty('--cc', c); return e; });
+  const at = [0.55, 0.66, 0.78, 0.9];
+  FV.scene('tools', (t, ctx) => {
+    head(ctx.el, t);
+    const r = seg(t, frac(ctx, 0, 0.18), frac(ctx, 0, 0.18) + 0.5);
+    css($('#tl-ring'), { o: r, s: 1.04 - 0.04 * r }); $('#tl-tag').style.opacity = r;
+    cards.forEach((c, i) => pop(c, t, frac(ctx, 0, at[i]) - 0.25, 0.4));
+  });
+}
+
+/* TOOL CALL */
+FV.scene('call', (t, ctx) => {
+  head(ctx.el, t);
+  pop($('#cl-no'), t, frac(ctx, 0, 0.02), 0.4);
+  const q = frac(ctx, 0, 0.24);
+  enter($('#cl-req'), t, q, 0.4, 20);
+  typeJSON($('#cl-json'), '{ "tool": "search_flights",\n  "to": "Tokyo" }', seg(t, q + 0.2, frac(ctx, 0, 0.55), ease.linear));
+  const r = frac(ctx, 0, 0.6);
+  enter($('#cl-run'), t, r, 0.4, 20);
+  const done = frac(ctx, 0, 0.76);
+  $('#cl-spin').style.display = t < done ? '' : 'none';
+  $('#cl-spin').style.transform = `rotate(${t * 500}deg)`;
+  $('#cl-ok').style.display = t < done ? 'none' : '';
+  enter($('#cl-res'), t, done, 0.4, 20);
+  typeJSON($('#cl-rj'), '{ "cheapest": "$420",\n  "day": "Tuesday" }', seg(t, done + 0.15, ctx.dur - 0.5, ease.linear));
+});
+
+/* EXAMPLE */
+{
+  const S = [['🔎', 'search_flights("Tokyo")', '$420 ✈️', 0.32], ['🧮', 'calculator(500 − 420)', '$80 left', 0.46], ['🏨', 'compare_hotels(2 nights)', '$76 hostel', 0.6], ['📅', 'add_to_calendar(trip)', 'saved', 0.8]];
+  const rows = S.map(([ic, fn, r]) => div('row', `<span style="font-size:46px">${ic}</span><span class="mono" style="font-size:28px;font-weight:700;color:#c7d2fe;flex:1">${fn}</span><span style="font:800 32px Inter;color:#a3e635">${r} ✓</span>`, $('#ex-list')));
+  FV.scene('example', (t, ctx) => {
+    head(ctx.el, t);
+    pop($('#ex-task'), t, frac(ctx, 0, 0.05), 0.45);
+    rows.forEach((r, i) => { const a = frac(ctx, 0, S[i][3]) - 0.2; const p = seg(t, a, a + 0.4, ease.back); css(r, { o: clamp(p * 1.5), x: (1 - p) * -100 }); r.style.boxShadow = `0 0 ${36 * pulse(t, a, a + 1.1)}px rgba(163,230,53,.6)`; });
+    enter($('#ex-bud'), t, frac(ctx, 0, 0.2), 0.4, 20);
+    const spent = 420 * seg(t, frac(ctx, 0, 0.32), frac(ctx, 0, 0.4)) + 76 * seg(t, frac(ctx, 0, 0.6), frac(ctx, 0, 0.68));
+    $('#ex-fill').style.width = `${(spent / 500) * 100}%`;
+    $('#ex-left').textContent = `spent $${Math.round(spent)} · $${500 - Math.round(spent)} left`;
+  });
+}
+
+/* SAFETY */
+FV.scene('safety', (t, ctx) => {
+  head(ctx.el, t);
+  pop($('#sf-warn'), t, frac(ctx, 0, 0.05), 0.4);
+  const d = frac(ctx, 0, 0.42);
+  pop($('#sf-dlg'), t, d, 0.5);
+  const press = frac(ctx, 0, 0.88);
+  const k = pulse(t, press, press + 0.35);
+  css($('#sf-ok'), { s: 1 - 0.06 * k, boxShadow: `0 0 ${50 * pulse(t, press - 0.6, press + 1)}px rgba(22,163,74,.9)` });
+  pop($('#sf-done'), t, press + 0.3, 0.4);
+});
+
+/* OUTRO */
+{
+  const W = [['Think.', I2, 0.0], ['Act.', YEL, 0.12], ['Observe.', C, 0.26], ['Repeat.', PINK, 0.42]];
+  const words = W.map(([w, c]) => div('', w, $('#oc-words'), `font:900 120px/1.05 Inter;letter-spacing:-.04em;color:${c}`));
+  FV.scene('outro', (t, ctx) => {
+    words.forEach((w, i) => pop(w, t, frac(ctx, 0, W[i][2]), 0.4));
+    enter($('#oc-h'), t, frac(ctx, 0, 0.62), 0.45, 30);
+    pop($('#oc-gh'), t, frac(ctx, 0, 0.95), 0.5);
+  });
+}
+})();
+</script>
+</body>
+</html>
