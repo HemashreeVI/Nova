@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Encryption Short</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{--ink:#e8f0fb;--mut:#93a3bd;--b:#3b82f6;--b2:#60a5fa;--gold:#fbbf24;--grn:#34d399;--red:#f87171;--pur:#a78bfa}
+  #fv-stage{background:radial-gradient(1000px 1300px at 70% 15%,#0f2a55 0%,#0a1630 50%,#050a18 80%);color:var(--ink);font-family:Inter,system-ui,sans-serif}
+  #bg-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(96,165,250,.13) 1px,transparent 1px),linear-gradient(90deg,rgba(96,165,250,.13) 1px,transparent 1px);background-size:90px 90px;opacity:.22}
+  .abs{position:absolute}
+  .step{position:absolute;left:0;right:0;top:250px;text-align:center;font:700 34px/1 'JetBrains Mono',monospace;letter-spacing:.2em;color:var(--gold)}
+  .head{position:absolute;left:60px;right:60px;top:305px;text-align:center;font:800 84px/1.05 Inter;letter-spacing:-.03em}
+  .panel{position:absolute;border:3px solid rgba(147,180,230,.25);border-radius:26px;background:rgba(10,20,44,.93)}
+  .mono{font-family:'JetBrains Mono',monospace}
+  .label{font:600 28px Inter;color:var(--mut)}
+  .badge{position:absolute;left:50%;top:150px;transform:translateX(-50%);padding:12px 26px;border-radius:40px;background:rgba(251,191,36,.1);border:2px solid rgba(251,191,36,.5);font:700 30px Inter;color:var(--gold);white-space:nowrap}
+  .pill{display:inline-block;padding:12px 28px;border-radius:40px;font:800 36px Inter}
+  .person{position:absolute;width:220px;text-align:center}
+  .person .f{font-size:110px;line-height:1}
+  .person .n{font:800 38px Inter;margin-top:8px}
+  .msg{position:absolute;padding:16px 24px;border-radius:18px;font:800 34px 'JetBrains Mono';white-space:nowrap;border:3px solid var(--cc);background:color-mix(in srgb,var(--cc) 16%,#0a1430)}
+  .fv-endcard{display:inline-block;padding:16px 30px;border-radius:40px;font:700 34px 'JetBrains Mono',monospace;border:3px solid #e8f0fb;background:rgba(232,240,251,.08)}
+</style>
+</head>
+<body>
+<div id="fv-stage">
+  <div id="bg-grid"></div>
+  <div class="badge">🔐 Cybersecurity · Tech, decoded</div>
+
+  <!-- HOOK -->
+  <section class="fv-scene" data-scene="hook">
+    <svg id="hk-svg" class="abs" width="1080" height="1920" style="inset:0"></svg>
+    <div id="hk-you" class="person" style="left:430px;top:330px"><div class="f">📱</div><div class="n">You</div></div>
+    <div id="hk-fr" class="person" style="left:430px;top:1060px"><div class="f">💬</div><div class="n">Your friend</div></div>
+    <div id="hk-mids"></div>
+    <div id="hk-msg" class="msg" style="--cc:var(--b2);left:0;top:0"></div>
+  </section>
+
+  <!-- SCRAMBLE -->
+  <section class="fv-scene" data-scene="scramble">
+    <div class="step">THE IDEA</div><div class="head">Scramble with a key</div>
+    <div id="sc-plain" class="abs" style="left:0;right:0;top:460px;text-align:center"><span class="pill mono" style="font-size:46px;border:3px solid var(--b2);background:rgba(96,165,250,.12)">Meet at 7pm</span></div>
+    <div id="sc-k1" class="abs" style="left:0;right:0;top:570px;text-align:center;font:800 40px Inter;color:var(--gold)">🔑 + key ↓</div>
+    <div id="sc-ct" class="panel" style="left:110px;right:110px;top:650px;height:150px;display:flex;align-items:center;justify-content:center">
+      <span id="sc-ctt" class="mono" style="font-size:46px;font-weight:800;letter-spacing:2px"></span>
+    </div>
+    <div id="sc-no" class="abs" style="left:110px;top:850px;width:400px;height:250px;border-radius:24px;border:3px solid var(--red);background:rgba(248,113,113,.1);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center">
+      <div style="font-size:64px">🕵️</div><div style="font:800 32px Inter;margin-top:8px">no key</div><div class="mono" style="font-size:30px;color:var(--red);margin-top:6px">x9#Qp!Lz…</div>
+    </div>
+    <div id="sc-yes" class="abs" style="right:110px;top:850px;width:400px;height:250px;border-radius:24px;border:3px solid var(--grn);background:rgba(52,211,153,.1);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center">
+      <div style="font-size:64px">🔑</div><div style="font:800 32px Inter;margin-top:8px">right key</div><div class="mono" style="font-size:30px;color:var(--grn);margin-top:6px">Meet at 7pm ✓</div>
+    </div>
+  </section>
+
+  <!-- SYMMETRIC -->
+  <section class="fv-scene" data-scene="symmetric">
+    <div class="step">TYPE 1</div><div class="head">One shared key</div>
+    <div id="sy-a" class="person" style="left:90px;top:520px"><div class="f">👩</div><div class="n">Alice</div></div>
+    <div id="sy-b" class="person" style="left:770px;top:520px"><div class="f">👨</div><div class="n">Bob</div></div>
+    <div id="sy-box" class="abs" style="left:0;top:0;font-size:96px;line-height:1">🔒</div>
+    <div id="sy-k1" class="abs" style="left:150px;top:780px;font-size:70px">🔑</div>
+    <div id="sy-k2" class="abs" style="left:830px;top:780px;font-size:70px">🔑</div>
+    <div id="sy-same" class="abs" style="left:0;right:0;top:900px;text-align:center"><span class="pill" style="font-size:32px;border:3px solid var(--gold);background:rgba(251,191,36,.1)">same key locks &amp; unlocks · fast ⚡</span></div>
+    <div id="sy-q" class="abs" style="left:0;right:0;top:1020px;text-align:center">
+      <div style="font:800 42px Inter;color:var(--red)">🤔 but how do you send the key?</div>
+      <div id="sy-spy" style="margin-top:22px;font:800 34px Inter;color:var(--mut)">🔑 → 🕵️ intercepted!</div>
+    </div>
+  </section>
+
+  <!-- PUBLIC KEY -->
+  <section class="fv-scene" data-scene="public">
+    <div class="step">TYPE 2</div><div class="head">Public-key</div>
+    <div id="pk-bob" class="person" style="left:770px;top:450px"><div class="f">👨</div><div class="n">Bob</div></div>
+    <div id="pk-open" class="abs" style="left:0;top:0;text-align:center;width:300px"><div style="font-size:90px;line-height:1">🔓</div><div class="mono" style="font-size:26px;font-weight:800;color:var(--grn);margin-top:6px">public lock</div></div>
+    <div id="pk-priv" class="abs" style="left:780px;top:690px;text-align:center;width:200px"><div style="font-size:72px;line-height:1">🗝️</div><div class="mono" style="font-size:24px;font-weight:800;color:var(--gold);margin-top:6px">private key<br>never shared</div></div>
+    <div id="pk-anyone" class="abs" style="left:60px;top:450px;width:420px;display:flex;flex-wrap:wrap;gap:14px;font-size:64px"></div>
+    <div id="pk-shut" class="abs" style="left:0;right:0;top:960px;text-align:center"><span class="pill" style="font-size:32px;border:3px solid var(--grn);background:rgba(52,211,153,.1)">🔓 → 🔒 anyone can snap it shut</span></div>
+    <div id="pk-only" class="abs" style="left:0;right:0;top:1060px;text-align:center"><span class="pill" style="font-size:32px;border:3px solid var(--gold);background:rgba(251,191,36,.1)">🗝️ only Bob can open it</span></div>
+  </section>
+
+  <!-- HTTPS -->
+  <section class="fv-scene" data-scene="https">
+    <div class="step">IN YOUR BROWSER</div><div class="head">HTTPS</div>
+    <div id="hp-url" class="panel" style="left:90px;right:90px;top:440px;height:100px;border-radius:50px;display:flex;align-items:center;padding:0 32px;gap:16px">
+      <span id="hp-lock" style="font-size:44px">🔓</span><span class="mono" style="font-size:36px"><span style="color:var(--grn)">https://</span>bank.example.com</span>
+    </div>
+    <div id="hp-steps" class="abs" style="left:90px;right:90px;top:590px"></div>
+  </section>
+
+  <!-- STRENGTH -->
+  <section class="fv-scene" data-scene="strength">
+    <div class="step">HOW STRONG?</div><div class="head">Huge keys</div>
+    <div id="st-key" class="panel" style="left:90px;right:90px;top:450px;padding:26px 32px;box-sizing:border-box">
+      <div class="label" style="color:var(--gold)">🔑 a 256-bit key</div>
+      <div id="st-bits" class="mono" style="font-size:25px;line-height:1.5;margin-top:12px;word-break:break-all;color:#9fb8e0"></div>
+    </div>
+    <div id="st-n" class="abs" style="left:0;right:0;top:860px;text-align:center">
+      <div class="label">possible keys</div>
+      <div class="mono" style="font:900 96px 'JetBrains Mono';color:var(--gold);margin-top:6px">2<sup style="font-size:56px">256</sup></div>
+      <div class="mono" style="font-size:30px;color:var(--mut);margin-top:6px">≈ 1 followed by 77 zeros</div>
+    </div>
+    <div id="st-t" class="abs" style="left:0;right:0;top:1150px;text-align:center"><span class="pill" style="font-size:34px;border:3px solid var(--grn);background:rgba(52,211,153,.1)">⏳ brute force: longer than the universe</span></div>
+  </section>
+
+  <!-- OUTRO -->
+  <section class="fv-scene" data-scene="outro">
+    <div id="oc-lock" class="abs" style="left:0;right:0;top:300px;text-align:center;font-size:200px;line-height:1">🔒</div>
+    <div id="oc-list" class="abs" style="left:0;right:0;top:580px;display:flex;flex-direction:column;align-items:center;gap:16px"></div>
+    <div id="oc-gh" class="abs" style="left:0;right:0;top:1130px;text-align:center"><span class="fv-endcard"></span></div>
+  </section>
+</div>
+<script src="timing.js"></script>
+<script src="fv-runtime.js"></script>
+<script>
+(() => {
+const { seg, css, enter, lerp, clamp, ease, pulse, rand, $ } = FV;
+const NS = 'http://www.w3.org/2000/svg';
+const svg = (tag, attrs, parent) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; };
+const div = (cls, html, parent, style) => { const e = document.createElement('div'); if (cls) e.className = cls; if (html !== undefined) e.innerHTML = html; if (style) e.style.cssText = style; if (parent) parent.appendChild(e); return e; };
+const pop = (el, t, a, d = 0.45) => { const p = seg(t, a, a + d, ease.back); css(el, { o: clamp(p * 1.5), s: Math.max(0, p) }); return p; };
+const head = (el, t) => { enter($('.step', el), t, 0.0, 0.4); enter($('.head', el), t, 0.08, 0.45, 30); };
+const frac = (ctx, i, f) => ctx.line(i) + (ctx.lineEnd(i) - ctx.line(i)) * f;
+const at = (el, x, y, o = 1, s = 1) => css(el, { o, x: x - el.offsetWidth / 2, y: y - el.offsetHeight / 2, s });
+const GOLD = '#fbbf24', GRN = '#34d399', RED = '#f87171', B2 = '#60a5fa';
+const GL = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz0123456789#$%&!?@';
+const noise = (n, seed) => { const r = rand(seed); let s = ''; for (let i = 0; i < n; i++) s += GL[Math.floor(r() * GL.length)]; return s; };
+
+/* HOOK */
+{
+  const sv = $('#hk-svg');
+  const M = [['📶', 'Wi-Fi router', 640], ['🏢', 'internet provider', 780], ['🖥️', 'servers', 920]];
+  const path = svg('path', { d: 'M540 470 L540 1060', stroke: 'rgba(147,180,230,.35)', 'stroke-width': 6, 'stroke-dasharray': '14 12', fill: 'none' }, sv);
+  const mids = M.map(([ic, n, y], i) => div('', `<span style="font-size:58px">${ic}</span><span style="font:700 30px Inter">${n}</span><span class="eye" style="font-size:42px;opacity:0">👀</span>`, $('#hk-mids'),
+    `position:absolute;${i % 2 ? 'left:600px' : 'right:600px'};top:${y - 40}px;display:flex;align-items:center;gap:14px;${i % 2 ? '' : 'flex-direction:row-reverse'}`));
+  FV.scene('hook', (t, ctx) => {
+    enter($('#hk-you'), t, 0.05, 0.4, 20); enter($('#hk-fr'), t, 0.15, 0.4, 20);
+    path.setAttribute('opacity', seg(t, 0.2, 0.5)); path.setAttribute('stroke-dashoffset', -t * 40);
+    mids.forEach((m, i) => { enter(m, t, frac(ctx, 0, 0.3 + i * 0.18), 0.35, 0); m.querySelector('.eye').style.opacity = seg(t, frac(ctx, 1, 0.1) + i * 0.1, frac(ctx, 1, 0.2) + i * 0.1); });
+    const enc = t > frac(ctx, 1, 0.7);
+    const p = ((t - 0.6) % 2.6) / 2.6;
+    const m = $('#hk-msg');
+    m.textContent = enc ? '🔒 ' + noise(9, Math.floor(t * 8)) : '“Meet at 7pm”';
+    m.style.setProperty('--cc', enc ? GOLD : B2);
+    at(m, 540, lerp(560, 990, ease.inOut(clamp(p))), t > 0.6 ? clamp(p * 8) * clamp((1 - p) * 8) : 0);
+  });
+}
+
+/* SCRAMBLE */
+FV.scene('scramble', (t, ctx) => {
+  head(ctx.el, t);
+  pop($('#sc-plain'), t, 0.2, 0.4);
+  enter($('#sc-k1'), t, frac(ctx, 0, 0.08), 0.35, 10);
+  enter($('#sc-ct'), t, frac(ctx, 0, 0.12), 0.4, 20);
+  const plain = 'Meet at 7pm', e = seg(t, frac(ctx, 0, 0.15), frac(ctx, 0, 0.35), ease.linear);
+  const n = Math.round(plain.length * e), nz = noise(plain.length, 7 + Math.floor(t * 10));
+  $('#sc-ctt').textContent = nz.slice(0, n) + plain.slice(n);
+  $('#sc-ctt').style.color = e >= 1 ? GOLD : '#e8f0fb';
+  const a = frac(ctx, 0, 0.42), b = frac(ctx, 0, 0.72);
+  enter($('#sc-no'), t, a, 0.4, 30); enter($('#sc-yes'), t, b, 0.4, 30);
+  $('#sc-yes').style.boxShadow = `0 0 ${50 * pulse(t, b, b + 1.5)}px rgba(52,211,153,.7)`;
+});
+
+/* SYMMETRIC */
+FV.scene('symmetric', (t, ctx) => {
+  head(ctx.el, t);
+  enter($('#sy-a'), t, 0.15, 0.4, 20); enter($('#sy-b'), t, 0.25, 0.4, 20);
+  pop($('#sy-k1'), t, frac(ctx, 0, 0.08), 0.4); pop($('#sy-k2'), t, frac(ctx, 0, 0.14), 0.4);
+  const a = frac(ctx, 0, 0.18), b = frac(ctx, 0, 0.42);
+  const p = seg(t, a, b, ease.inOut);
+  const bx = $('#sy-box');
+  bx.textContent = p > 0.95 ? '🔓' : '🔒';
+  at(bx, lerp(330, 750, p), 640 - Math.sin(p * Math.PI) * 160, seg(t, a - 0.2, a));
+  pop($('#sy-same'), t, frac(ctx, 0, 0.42), 0.4);
+  const q = frac(ctx, 0, 0.6);
+  enter($('#sy-q'), t, q, 0.4, 20);
+  const s = frac(ctx, 0, 0.82);
+  $('#sy-spy').style.opacity = seg(t, s, s + 0.3);
+  $('#sy-spy').style.color = t > s ? RED : '';
+});
+
+/* PUBLIC */
+{
+  const ppl = ['🧑', '👩‍💻', '🧔', '👵', '🧑‍🎓', '🏪'].map((e) => div('', e, $('#pk-anyone')));
+  FV.scene('public', (t, ctx) => {
+    head(ctx.el, t);
+    enter($('#pk-bob'), t, 0.15, 0.4, 20);
+    const h = frac(ctx, 0, 0.3);
+    ppl.forEach((e, i) => pop(e, t, h + i * 0.06, 0.35));
+    const op = $('#pk-open'), p = seg(t, h, h + 0.9, ease.inOut);
+    const shut = frac(ctx, 0, 0.6);
+    op.querySelector('div').textContent = t > shut ? '🔒' : '🔓';
+    op.querySelector('.mono').textContent = t > shut ? 'locked message' : 'public lock';
+    at(op, lerp(880, 270, p), lerp(560, 820, p), seg(t, h - 0.2, h));
+    pop($('#pk-shut'), t, shut, 0.4);
+    pop($('#pk-priv'), t, frac(ctx, 0, 0.75), 0.4);
+    pop($('#pk-only'), t, frac(ctx, 0, 0.82), 0.4);
+    $('#pk-priv').style.filter = `drop-shadow(0 0 ${24 * pulse(t, frac(ctx, 0, 0.8), ctx.dur)}px #fbbf24)`;
+  });
+}
+
+/* HTTPS */
+{
+  const S = [['🤝', 'Handshake', 'public keys agree on a secret key', GRN, 0.18], ['🔑', 'Shared secret', 'nobody in between learns it', GOLD, 0.45], ['⚡', 'Fast encryption', 'every request & reply scrambled', B2, 0.7]];
+  const rows = S.map(([ic, a, b, c]) => div('', `<span style="font-size:60px">${ic}</span><div><div style="font:800 42px Inter">${a}</div><div style="font:600 28px Inter;color:#93a3bd;margin-top:6px">${b}</div></div>`, $('#hp-steps'),
+    `display:flex;align-items:center;gap:26px;padding:24px 32px;border-radius:24px;border:3px solid ${c}99;background:${c}1a;margin-bottom:24px`));
+  FV.scene('https', (t, ctx) => {
+    head(ctx.el, t);
+    enter($('#hp-url'), t, 0.1, 0.4, 20);
+    rows.forEach((r, i) => { const a = frac(ctx, 0, S[i][4]); const p = seg(t, a, a + 0.4, ease.back); css(r, { o: clamp(p * 1.5), x: (1 - p) * -100 }); r.style.boxShadow = `0 0 ${36 * pulse(t, a, a + 1.4)}px ${S[i][3]}`; });
+    const l = frac(ctx, 0, 0.5);
+    $('#hp-lock').textContent = t > l ? '🔒' : '🔓';
+    css($('#hp-lock'), { s: 1 + 0.4 * pulse(t, l, l + 0.6) });
+  });
+}
+
+/* STRENGTH */
+{
+  const r = rand(3); let bits = '';
+  for (let i = 0; i < 256; i++) bits += r() > 0.5 ? '1' : '0';
+  FV.scene('strength', (t, ctx) => {
+    head(ctx.el, t);
+    enter($('#st-key'), t, 0.15, 0.4, 20);
+    const n = Math.round(256 * seg(t, 0.4, frac(ctx, 0, 0.4), ease.linear));
+    $('#st-bits').textContent = bits.slice(0, n).replace(/(.{8})/g, '$1 ');
+    pop($('#st-n'), t, frac(ctx, 0, 0.3), 0.45);
+    pop($('#st-t'), t, frac(ctx, 0, 0.62), 0.45);
+  });
+}
+
+/* OUTRO */
+{
+  const L = [['🔀', 'Scramble with a key', B2], ['🔓', 'Share it safely (public keys)', GRN], ['🔒', 'The padlock in your browser', GOLD]];
+  const items = L.map(([ic, w, c]) => div('', `<span style="font-size:52px">${ic}</span><span style="font:800 40px Inter">${w}</span>`, $('#oc-list'),
+    `display:flex;align-items:center;gap:24px;padding:20px 34px;border-radius:22px;border:3px solid ${c}99;background:${c}1a;width:900px;box-sizing:border-box`));
+  const W = [0.0, 0.3, 0.6];
+  FV.scene('outro', (t, ctx) => {
+    pop($('#oc-lock'), t, 0.05, 0.5);
+    css($('#oc-lock'), { r: Math.sin(t * 3) * 5 });
+    items.forEach((e, i) => enter(e, t, frac(ctx, 0, W[i]), 0.4, 24));
+    pop($('#oc-gh'), t, frac(ctx, 0, 0.95), 0.5);
+  });
+}
+})();
+</script>
+</body>
+</html>

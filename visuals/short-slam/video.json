@@ -1,0 +1,39 @@
+{
+  "title": "How Robots Map a Room They've Never Seen: LiDAR SLAM 🤖 #shorts",
+  "slug": "short-slam",
+  "format": "vertical",
+  "description": "Drop a robot into a room it's never seen and it builds a map while figuring out where it is inside it. That's SLAM: Simultaneous Localization and Mapping. A spinning LiDAR fires laser pulses and measures distances from how long they take to bounce back, giving a ring of points. The robot moves, takes a new scan and matches it to the map to work out how far it moved, then adds the new points. Over time an occupancy grid of walls and free space grows, and when the robot returns to a known spot, loop closure corrects accumulated drift.\n\n📘 More to learn + my projects: https://github.com/HemashreeVI\n\n#Robotics #LiDAR #SLAM #RaspberryPi #Engineering #TechExplained #shorts",
+  "tags": ["lidar slam", "how slam works", "slam explained", "simultaneous localization and mapping", "lidar", "how lidar works", "robot mapping", "occupancy grid", "scan matching", "loop closure", "robotics", "raspberry pi robot", "autonomous robot", "breezyslam", "ros", "tech explained", "shorts"],
+  "voice": "am_michael",
+  "speed": 1.1,
+  "lineGap": 0.25,
+  "captions": true,
+  "endCard": "📘 more to learn → github.com/HemashreeVI",
+  "thumbnail": "map@7.5",
+  "endHold": 0.3,
+  "pronounce": { "LiDAR": "lie dar", "SLAM": "slam" },
+  "scenes": [
+    { "id": "hook", "pad": [0.3, 0.5], "lines": [
+      "Drop a robot into a room it has never seen. Within seconds, it draws a map, and knows exactly where it is.",
+      "That's SLAM."
+    ]},
+    { "id": "lidar", "pad": [0.3, 0.6], "lines": [
+      "It starts with LiDAR: a spinning laser. Each pulse bounces off a wall, and the time it takes to return gives the distance."
+    ]},
+    { "id": "scan", "pad": [0.3, 0.5], "lines": [
+      "One full spin gives hundreds of distance points, a 360 degree outline of everything around the robot."
+    ]},
+    { "id": "match", "pad": [0.3, 0.6], "lines": [
+      "The robot moves, scans again, and slides the new scan until it lines up with the old one. That tells it exactly how far it moved."
+    ]},
+    { "id": "map", "pad": [0.3, 0.6], "lines": [
+      "Every scan adds to a grid map: walls in black, free space in white. Localization and mapping, at the same time."
+    ]},
+    { "id": "loop", "pad": [0.3, 0.6], "lines": [
+      "Small errors build up as it drives. But when it returns to a place it has seen before, loop closure snaps the whole map back into shape."
+    ]},
+    { "id": "outro", "pad": [0.3, 2.4], "lines": [
+      "Scan. Match. Map. That's how robots see the world."
+    ]}
+  ]
+}

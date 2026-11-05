@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RAG Short</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{--ink:#e9f3f5;--mut:#92a7b3;--t:#2dd4bf;--i:#818cf8;--yel:#fbbf24;--grn:#34d399;--red:#f87171;--pink:#f472b6;--org:#fb923c}
+  #fv-stage{background:radial-gradient(1000px 1300px at 70% 15%,#0f3a4a 0%,#0b1a2e 50%,#060a14 80%);color:var(--ink);font-family:Inter,system-ui,sans-serif}
+  #bg-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(45,212,191,.13) 1px,transparent 1px),linear-gradient(90deg,rgba(45,212,191,.13) 1px,transparent 1px);background-size:90px 90px;opacity:.22}
+  .abs{position:absolute}
+  .step{position:absolute;left:0;right:0;top:250px;text-align:center;font:700 34px/1 'JetBrains Mono',monospace;letter-spacing:.2em;color:var(--t)}
+  .head{position:absolute;left:60px;right:60px;top:305px;text-align:center;font:800 84px/1.05 Inter;letter-spacing:-.03em}
+  .panel{position:absolute;border:3px solid rgba(150,210,220,.25);border-radius:28px;background:rgba(10,24,36,.92)}
+  .mono{font-family:'JetBrains Mono',monospace}
+  .label{font:600 28px Inter;color:var(--mut)}
+  .badge{position:absolute;left:50%;top:150px;transform:translateX(-50%);padding:12px 26px;border-radius:40px;background:rgba(45,212,191,.12);border:2px solid rgba(45,212,191,.5);font:700 30px Inter;color:var(--t);white-space:nowrap}
+  .pill{display:inline-block;padding:12px 28px;border-radius:40px;font:800 36px Inter}
+  .bub{position:absolute;padding:22px 30px;border-radius:28px;font:600 38px/1.35 Inter;box-sizing:border-box}
+  .src{display:inline-block;padding:8px 18px;border-radius:14px;font:800 28px 'JetBrains Mono';border:3px solid var(--yel);color:var(--yel);background:rgba(251,191,36,.12)}
+  .ck{border-radius:12px;border:3px solid var(--cc);background:color-mix(in srgb,var(--cc) 18%,#0a1824)}
+  .fv-endcard{display:inline-block;padding:16px 30px;border-radius:40px;font:700 34px 'JetBrains Mono',monospace;border:3px solid #e9f3f5;background:rgba(233,243,245,.08)}
+</style>
+</head>
+<body>
+<div id="fv-stage">
+  <div id="bg-grid"></div>
+  <div class="badge">Tech, decoded</div>
+
+  <!-- HOOK -->
+  <section class="fv-scene" data-scene="hook">
+    <div id="hk-file" class="panel" style="left:90px;right:90px;top:300px;height:150px;padding:26px 34px;box-sizing:border-box">
+      <div style="display:flex;align-items:center;gap:20px;font:800 38px Inter"><span style="font-size:50px">📄</span>company-handbook.pdf<span class="label" style="margin-left:auto">200 pages</span></div>
+      <div style="height:12px;border-radius:6px;background:rgba(150,210,220,.18);margin-top:20px;overflow:hidden"><div id="hk-bar" style="height:100%;background:var(--t)"></div></div>
+    </div>
+    <div id="hk-q" class="bub" style="right:90px;top:510px;background:#155e75;border-radius:28px 28px 6px 28px">What's our leave policy?</div>
+    <div id="hk-a" class="bub" style="left:90px;right:150px;top:650px;min-height:200px;background:rgba(20,40,56,.95);border:3px solid rgba(150,210,220,.25);border-radius:28px 28px 28px 6px">
+      <span id="hk-at"></span><div id="hk-src" style="margin-top:14px"><span class="src">📄 page 147</span></div>
+    </div>
+    <div id="hk-no" class="abs" style="left:0;right:0;top:920px;text-align:center"><span class="pill" style="font-size:32px;border:3px solid var(--red);background:rgba(248,113,113,.12)">🧠 the model never saw this file</span></div>
+    <div id="hk-rag" class="abs" style="left:0;right:0;top:1020px;text-align:center">
+      <div style="font:900 170px/1 Inter;letter-spacing:-.04em;color:#fff;text-shadow:0 0 60px rgba(45,212,191,.9)">RAG</div>
+      <div class="mono" style="font-size:32px;font-weight:700;color:var(--t);margin-top:14px">Retrieval-Augmented Generation</div>
+    </div>
+  </section>
+
+  <!-- PROBLEM -->
+  <section class="fv-scene" data-scene="problem">
+    <div class="step">THE PROBLEM</div><div class="head">Models don't know you</div>
+    <div id="pb-m" class="panel" style="left:240px;right:240px;top:470px;height:300px;display:flex;flex-direction:column;align-items:center;justify-content:center;border-color:var(--i)">
+      <div style="font-size:90px;line-height:1">🧠</div><div style="font:800 48px Inter;margin-top:10px">LLM</div>
+      <div class="label" style="margin-top:6px">knows: its training data</div>
+      <div id="pb-qm" style="position:absolute;right:-30px;top:-40px;font:900 110px Inter;color:var(--yel)">?</div>
+    </div>
+    <div id="pb-row" class="abs" style="left:50px;right:50px;top:860px;display:flex;justify-content:space-between"></div>
+  </section>
+
+  <!-- CHUNK + EMBED + STORE -->
+  <section class="fv-scene" data-scene="chunk">
+    <div class="step">STEP 1</div><div class="head">Chunk &amp; embed</div>
+    <div id="ck-doc" class="panel" style="left:70px;width:380px;top:450px;height:560px;padding:24px;box-sizing:border-box;background:#f1f5f9;border-color:#cbd5e1"></div>
+    <div id="ck-out" class="abs" style="left:500px;right:60px;top:450px"></div>
+    <svg id="ck-db" class="abs" width="1080" height="1920" style="inset:0"></svg>
+    <div id="ck-dbl" class="abs" style="left:0;right:0;top:1265px;text-align:center;font:800 34px Inter;color:var(--i)">vector database</div>
+  </section>
+
+  <!-- RETRIEVE -->
+  <section class="fv-scene" data-scene="retrieve">
+    <div class="step">STEP 2</div><div class="head">Retrieve</div>
+    <div id="rt-q" class="abs" style="left:0;right:0;top:445px;text-align:center"><span class="pill" style="background:#155e75;font-size:34px">"What's our leave policy?"</span> <span id="rt-v" class="pill mono" style="font-size:30px;border:3px solid var(--yel);color:var(--yel);background:rgba(251,191,36,.1)">→ ★ vector</span></div>
+    <div id="rt-map" class="panel" style="left:70px;right:70px;top:560px;height:680px">
+      <div class="label" style="position:absolute;left:28px;top:20px">meaning space</div>
+      <svg id="rt-svg" width="940" height="680" style="position:absolute;inset:0"></svg>
+    </div>
+  </section>
+
+  <!-- AUGMENT -->
+  <section class="fv-scene" data-scene="augment">
+    <div class="step">STEP 3</div><div class="head">Augment</div>
+    <div id="ag-p" class="panel" style="left:70px;right:70px;top:450px;height:800px;padding:28px 34px;box-sizing:border-box;background:#06101c">
+      <div class="label mono" style="font-size:26px;color:var(--t)">prompt sent to the model</div>
+      <div class="mono" style="font-size:30px;font-weight:700;color:var(--yel);margin-top:22px">Context:</div>
+      <div id="ag-c1" class="ck" style="--cc:var(--grn);margin-top:14px;padding:18px 22px;font:500 32px/1.4 Inter"><b class="mono" style="color:var(--grn)">[p.147]</b> Full-time employees receive 24 days of paid leave per year…</div>
+      <div id="ag-c2" class="ck" style="--cc:var(--grn);margin-top:14px;padding:18px 22px;font:500 32px/1.4 Inter"><b class="mono" style="color:var(--grn)">[p.148]</b> Leave requests must be approved by your manager…</div>
+      <div class="mono" style="font-size:30px;font-weight:700;color:var(--yel);margin-top:30px">Question:</div>
+      <div id="ag-q" style="margin-top:14px;padding:18px 22px;border-radius:12px;background:#155e75;font:600 34px Inter">What's our leave policy?</div>
+    </div>
+  </section>
+
+  <!-- GENERATE -->
+  <section class="fv-scene" data-scene="generate">
+    <div class="step">STEP 4</div><div class="head">Generate</div>
+    <div id="gn-m" class="panel" style="left:300px;right:300px;top:450px;height:150px;display:flex;align-items:center;justify-content:center;gap:18px;border-color:var(--i)"><span style="font-size:64px">🧠</span><b style="font:800 48px Inter">LLM</b></div>
+    <div id="gn-a" class="bub" style="left:70px;right:70px;top:660px;min-height:330px;background:rgba(20,40,56,.95);border:3px solid rgba(150,210,220,.25);font-size:40px"><span id="gn-t"></span></div>
+    <div id="gn-src" class="abs" style="left:0;right:0;top:1050px;text-align:center"><span class="label" style="margin-right:14px">sources:</span><span class="src">📄 p.147</span> <span class="src">📄 p.148</span></div>
+  </section>
+
+  <!-- OUTRO -->
+  <section class="fv-scene" data-scene="outro">
+    <div id="oc-h" class="abs" style="left:60px;right:60px;top:290px;text-align:center;font:900 100px/1.05 Inter;letter-spacing:-.04em">That's <span style="color:var(--t)">RAG.</span></div>
+    <div id="oc-list" class="abs" style="left:0;right:0;top:500px;display:flex;flex-direction:column;align-items:center;gap:18px"></div>
+    <div id="oc-gh" class="abs" style="left:0;right:0;top:1150px;text-align:center"><span class="fv-endcard"></span></div>
+  </section>
+</div>
+<script src="timing.js"></script>
+<script src="fv-runtime.js"></script>
+<script>
+(() => {
+const { seg, css, enter, lerp, clamp, ease, pulse, rand, $ } = FV;
+const NS = 'http://www.w3.org/2000/svg';
+const svg = (tag, attrs, parent) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; };
+const div = (cls, html, parent, style) => { const e = document.createElement('div'); if (cls) e.className = cls; if (html !== undefined) e.innerHTML = html; if (style) e.style.cssText = style; if (parent) parent.appendChild(e); return e; };
+const pop = (el, t, a, d = 0.45) => { const p = seg(t, a, a + d, ease.back); if (el instanceof SVGElement) { el.setAttribute('opacity', clamp(p * 1.5)); el.style.transformBox = 'fill-box'; el.style.transformOrigin = 'center'; el.style.transform = `scale(${Math.max(0, p)})`; } else css(el, { o: clamp(p * 1.5), s: Math.max(0, p) }); return p; };
+const head = (el, t) => { enter($('.step', el), t, 0.0, 0.4); enter($('.head', el), t, 0.08, 0.45, 30); };
+const frac = (ctx, i, f) => ctx.line(i) + (ctx.lineEnd(i) - ctx.line(i)) * f;
+const T = '#2dd4bf', I = '#818cf8', YEL = '#fbbf24', GRN = '#34d399', RED = '#f87171', PINK = '#f472b6', ORG = '#fb923c';
+
+/* HOOK */
+FV.scene('hook', (t, ctx) => {
+  enter($('#hk-file'), t, 0.05, 0.4, 20);
+  $('#hk-bar').style.width = `${seg(t, 0.3, frac(ctx, 0, 0.32), ease.inOut) * 100}%`;
+  enter($('#hk-q'), t, frac(ctx, 0, 0.36), 0.4, 20);
+  const a = frac(ctx, 0, 0.55);
+  enter($('#hk-a'), t, a, 0.4, 20);
+  $('#hk-at').textContent = FV.type('Full-time employees get 24 days of paid leave a year.', seg(t, a + 0.2, frac(ctx, 0, 0.95), ease.linear));
+  const s = frac(ctx, 0, 0.9);
+  pop($('#hk-src'), t, s, 0.4);
+  $('#hk-src').firstChild.style.boxShadow = `0 0 ${40 * pulse(t, s, s + 1.4)}px rgba(251,191,36,.9)`;
+  pop($('#hk-no'), t, frac(ctx, 1, 0.12), 0.4);
+  pop($('#hk-rag'), t, frac(ctx, 1, 0.68), 0.5);
+});
+
+/* PROBLEM */
+{
+  const cards = [['📝', 'your notes'], ['🏢', 'company docs'], ['📰', "today's news"]].map(([ic, n]) => div('', `<div style="font-size:70px;line-height:1">${ic}</div><div style="font:800 32px Inter;margin-top:12px">${n}</div><div style="font:900 52px Inter;color:#f87171;margin-top:8px">✗</div>`, $('#pb-row'),
+    'width:300px;height:280px;border-radius:24px;border:3px solid rgba(248,113,113,.6);background:rgba(248,113,113,.08);display:flex;flex-direction:column;align-items:center;justify-content:center'));
+  const at = [0.55, 0.7, 0.86];
+  FV.scene('problem', (t, ctx) => {
+    head(ctx.el, t);
+    pop($('#pb-m'), t, 0.15, 0.45);
+    cards.forEach((c, i) => { const a = frac(ctx, 0, at[i]) - 0.15; const p = seg(t, a, a + 0.4, ease.back); css(c, { o: clamp(p * 1.5), y: (1 - p) * 60 }); });
+    pop($('#pb-qm'), t, frac(ctx, 0, 0.9), 0.4);
+    css($('#pb-qm'), { r: Math.sin(t * 4) * 10 * seg(t, frac(ctx, 0, 0.9), ctx.dur) });
+  });
+}
+
+/* CHUNK & EMBED & STORE */
+{
+  const doc = $('#ck-doc');
+  const COLS = [T, I, YEL, GRN, PINK, ORG];
+  const r = rand(21);
+  const blocks = COLS.map((c, i) => {
+    const b = div('', '', doc, `position:relative;height:76px;margin-bottom:10px;border-radius:10px;padding:10px 12px;box-sizing:border-box`);
+    for (let k = 0; k < 3; k++) div('', '', b, `height:10px;border-radius:5px;background:#94a3b8;margin-bottom:9px;width:${60 + r() * 40}%`);
+    return { b, c };
+  });
+  const out = $('#ck-out');
+  const rows = COLS.map((c, i) => {
+    const row = div('', '', out, 'display:flex;align-items:center;gap:14px;height:76px;margin-bottom:10px');
+    div('ck', `<span class="mono" style="font-size:22px;font-weight:700">#${i + 1}</span>`, row, `--cc:${c};width:80px;height:60px;display:flex;align-items:center;justify-content:center`);
+    const bars = div('', '', row, 'display:flex;align-items:center;gap:5px;height:60px');
+    const B = Array.from({ length: 14 }, () => { const v = r() * 2 - 1; return { v, e: div('', '', bars, `width:14px;border-radius:3px;background:${v > 0 ? T : PINK}`) }; });
+    return { row, B };
+  });
+  const sv = $('#ck-db');
+  const db = svg('g', {}, sv);
+  const X = 540, Y = 1080, RX = 190, RY = 40, H = 140;
+  svg('path', { d: `M${X - RX} ${Y} L${X - RX} ${Y + H} A${RX} ${RY} 0 0 0 ${X + RX} ${Y + H} L${X + RX} ${Y}`, fill: 'rgba(129,140,248,.2)', stroke: I, 'stroke-width': 6 }, db);
+  svg('path', { d: `M${X - RX} ${Y + 70} A${RX} ${RY} 0 0 0 ${X + RX} ${Y + 70}`, fill: 'none', stroke: I, 'stroke-width': 4, opacity: 0.6 }, db);
+  const lid = svg('ellipse', { cx: X, cy: Y, rx: RX, ry: RY, fill: '#1e2350', stroke: I, 'stroke-width': 6 }, db);
+  FV.scene('chunk', (t, ctx) => {
+    head(ctx.el, t);
+    enter(doc, t, 0.1, 0.4, 20);
+    blocks.forEach((k, i) => {
+      const a = frac(ctx, 0, 0.1) + i * 0.15;
+      const p = seg(t, a, a + 0.3);
+      k.b.style.background = `color-mix(in srgb, ${k.c} ${Math.round(30 * p)}%, transparent)`;
+      k.b.style.outline = p > 0 ? `3px solid ${k.c}` : 'none';
+    });
+    const st = ctx.line(1);
+    const into = seg(t, st, st + 0.9, ease.in);
+    rows.forEach((rw, i) => {
+      const a = frac(ctx, 0, 0.42) + i * 0.12;
+      const p = seg(t, a, a + 0.4, ease.out);
+      const dy = lerp(0, 1080 - (450 + i * 86 + 38), into), dx = lerp(0, 540 - 760, into);
+      css(rw.row, { o: p * (1 - seg(t, st + 0.6, st + 0.9)), x: (1 - p) * -120 + dx, y: dy, s: 1 - 0.6 * into });
+      const e = frac(ctx, 0, 0.6) + i * 0.08;
+      rw.B.forEach(({ v, e: b }, j) => (b.style.height = `${Math.max(4, Math.abs(v) * 56 * seg(t, e + j * 0.015, e + j * 0.015 + 0.4, ease.out))}px`));
+    });
+    db.setAttribute('opacity', seg(t, st - 0.3, st + 0.1));
+    $('#ck-dbl').style.opacity = seg(t, st - 0.3, st + 0.1);
+    lid.setAttribute('fill', `rgba(129,140,248,${0.2 + 0.6 * pulse(t, st + 0.7, st + 1.6)})`);
+  });
+}
+
+/* RETRIEVE */
+{
+  const sv = $('#rt-svg');
+  const r = rand(9);
+  const clusters = [
+    ['leave', T, [330, 230], [[330, 300], [390, 350], [350, 400], [250, 320], [420, 290]]],
+    ['pricing', I, [740, 125], [[700, 180], [760, 230], [690, 250], [790, 170], [740, 290]]],
+    ['IT help', ORG, [740, 450], [[690, 510], [760, 545], [710, 590], [800, 500], [650, 565]]],
+    ['travel', PINK, [240, 495], [[200, 570], [260, 610], [180, 630], [240, 545], [300, 590]]],
+  ];
+  const pts = [];
+  clusters.forEach(([name, c, [lx, ly], P]) => {
+    const lab = svg('text', { x: lx, y: ly, fill: c, 'font-size': 28, 'font-weight': 800, 'font-family': 'Inter', 'text-anchor': 'middle' }, sv); lab.textContent = name;
+    P.forEach(([x, y]) => pts.push({ x, y, c, el: svg('circle', { cx: x, cy: y, r: 12, fill: c }, sv), lab }));
+  });
+  const Q = [480, 330];
+  const ring = svg('circle', { cx: Q[0], cy: Q[1], r: 0, fill: 'rgba(251,191,36,.08)', stroke: YEL, 'stroke-width': 4, 'stroke-dasharray': '10 8' }, sv);
+  sv.insertBefore(ring, sv.firstChild);
+  const near = pts.map((p, i) => ({ i, d: Math.hypot(p.x - Q[0], p.y - Q[1]) })).sort((a, b) => a.d - b.d).slice(0, 3).map((o) => o.i);
+  const links = near.map((i) => svg('line', { x1: Q[0], y1: Q[1], x2: pts[i].x, y2: pts[i].y, stroke: YEL, 'stroke-width': 4 }, sv));
+  const tags = near.map((i, k) => { const dx = pts[i].x - Q[0], dy = pts[i].y - Q[1], dl = Math.hypot(dx, dy); const tx = svg('text', { x: pts[i].x + dx / dl * 34, y: pts[i].y + dy / dl * 34 + 9, fill: '#fff', 'font-size': 26, 'font-weight': 800, 'font-family': 'JetBrains Mono', 'text-anchor': 'end' }, sv); tx.textContent = ['p.147', 'p.148', 'p.146'][k]; return tx; });
+  const RR = Math.hypot(pts[near[2]].x - Q[0], pts[near[2]].y - Q[1]) + 30;
+  const star = svg('text', { x: Q[0], y: Q[1] + 22, fill: YEL, 'font-size': 64, 'text-anchor': 'middle' }, sv); star.textContent = '★';
+  FV.scene('retrieve', (t, ctx) => {
+    head(ctx.el, t);
+    enter($('#rt-q'), t, 0.1, 0.4);
+    pop($('#rt-v'), t, frac(ctx, 0, 0.25), 0.4);
+    enter($('#rt-map'), t, 0.25, 0.4, 20);
+    pts.forEach((p, i) => { p.el.setAttribute('opacity', seg(t, 0.4 + i * 0.03, 0.6 + i * 0.03)); p.lab.setAttribute('opacity', seg(t, 0.6, 0.9)); });
+    pop(star, t, frac(ctx, 0, 0.4), 0.45);
+    const g = seg(t, frac(ctx, 0, 0.55), frac(ctx, 0, 0.8), ease.out);
+    ring.setAttribute('r', RR * g); ring.setAttribute('opacity', g);
+    ring.setAttribute('stroke-dashoffset', -t * 30);
+    near.forEach((i, k) => {
+      const a = frac(ctx, 0, 0.7) + k * 0.15;
+      links[k].setAttribute('opacity', seg(t, a, a + 0.3));
+      tags[k].setAttribute('opacity', seg(t, a, a + 0.3));
+      pts[i].el.setAttribute('r', 12 + 6 * seg(t, a, a + 0.3));
+      pts[i].el.setAttribute('stroke', t > a ? '#fff' : 'none'); pts[i].el.setAttribute('stroke-width', 4);
+    });
+  });
+}
+
+/* AUGMENT */
+FV.scene('augment', (t, ctx) => {
+  head(ctx.el, t);
+  enter($('#ag-p'), t, 0.1, 0.4, 20);
+  [['#ag-c1', 0.12], ['#ag-c2', 0.35]].forEach(([id, f]) => {
+    const a = frac(ctx, 0, f), p = seg(t, a, a + 0.5, ease.back);
+    css($(id), { o: clamp(p * 1.5), y: (1 - p) * -160 });
+    $(id).style.boxShadow = `0 0 ${36 * pulse(t, a + 0.3, a + 1.4)}px rgba(52,211,153,.8)`;
+  });
+  const q = frac(ctx, 0, 0.68);
+  enter($('#ag-q'), t, q, 0.4, 20);
+});
+
+/* GENERATE */
+FV.scene('generate', (t, ctx) => {
+  head(ctx.el, t);
+  pop($('#gn-m'), t, 0.1, 0.4);
+  $('#gn-m').style.boxShadow = `0 0 ${40 * (0.5 + 0.5 * Math.sin(t * 5)) * seg(t, 0.3, 0.6) * (1 - seg(t, frac(ctx, 0, 0.7), frac(ctx, 0, 0.8)))}px rgba(129,140,248,.8)`;
+  enter($('#gn-a'), t, 0.4, 0.4, 20);
+  $('#gn-t').textContent = FV.type('Full-time employees get 24 days of paid leave per year. Requests need your manager\'s approval.', seg(t, 0.6, frac(ctx, 0, 0.72), ease.linear));
+  const s = frac(ctx, 0, 0.74);
+  pop($('#gn-src'), t, s, 0.45);
+  $('#gn-src').querySelectorAll('.src').forEach((e) => (e.style.boxShadow = `0 0 ${40 * pulse(t, s + 0.2, s + 1.6)}px rgba(251,191,36,.9)`));
+});
+
+/* OUTRO */
+{
+  const R = [['R', 'Retrieve', 'find the closest chunks', T], ['A', 'Augment', 'add them to the prompt', YEL], ['G', 'Generate', 'answer from real text', I]];
+  const items = R.map(([l, w, d, c]) => div('', `<span style="font:900 110px/1 Inter;color:${c};width:110px;text-align:center">${l}</span><div><div style="font:800 48px Inter">${w}</div><div style="font:600 30px Inter;color:#92a7b3;margin-top:6px">${d}</div></div>`, $('#oc-list'),
+    `display:flex;align-items:center;gap:30px;padding:18px 36px;border-radius:26px;border:3px solid ${c}99;background:${c}1a;width:900px;box-sizing:border-box`));
+  const at = [0.0, 0.25, 0.5];
+  FV.scene('outro', (t, ctx) => {
+    items.forEach((e, i) => { const a = frac(ctx, 0, at[i]); const p = seg(t, a, a + 0.4, ease.back); css(e, { o: clamp(p * 1.5), x: (1 - p) * -100 }); e.style.boxShadow = `0 0 ${36 * pulse(t, a, a + 1)}px ${R[i][3]}`; });
+    pop($('#oc-h'), t, frac(ctx, 0, 0.72), 0.5);
+    pop($('#oc-gh'), t, frac(ctx, 0, 0.9), 0.5);
+  });
+}
+})();
+</script>
+</body>
+</html>

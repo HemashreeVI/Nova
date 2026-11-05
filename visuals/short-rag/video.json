@@ -1,0 +1,40 @@
+{
+  "title": "How ChatGPT Reads Your Documents: RAG in 60 Seconds 📄 #shorts",
+  "slug": "short-rag",
+  "format": "vertical",
+  "description": "Upload a 200-page PDF, ask a question, and the AI answers from page 147, even though it was never trained on your file. That's RAG: Retrieval-Augmented Generation. Your documents are split into chunks, turned into embeddings and stored in a vector database; your question is embedded too, the closest chunks are retrieved, pasted into the prompt, and the model answers from real text, with sources.\n\n📘 More to learn + my projects: https://github.com/HemashreeVI\n\n#AI #RAG #LLM #ChatGPT #GenerativeAI #MachineLearning #TechExplained #shorts",
+  "tags": ["rag", "retrieval augmented generation", "what is rag", "rag explained", "how chatgpt reads pdf", "chat with pdf", "vector database", "embeddings", "llm", "chatgpt", "generative ai", "ai engineering", "machine learning", "ai explained", "tech explained", "shorts"],
+  "voice": "am_michael",
+  "speed": 1.1,
+  "lineGap": 0.25,
+  "captions": true,
+  "endCard": "📘 more to learn → github.com/HemashreeVI",
+  "thumbnail": "hook@8.2",
+  "endHold": 0.3,
+  "pronounce": { "PDF": "P D F" },
+  "scenes": [
+    { "id": "hook", "pad": [0.3, 0.6], "lines": [
+      "Upload a 200 page PDF, ask a question, and the AI answers from page 147.",
+      "But it was never trained on your file. That's RAG."
+    ]},
+    { "id": "problem", "pad": [0.3, 0.5], "lines": [
+      "A model only knows what it saw in training. Not your notes, not your company docs, not today's news."
+    ]},
+    { "id": "chunk", "pad": [0.3, 0.5], "lines": [
+      "So first, your documents are split into small chunks, and each chunk becomes an embedding: a vector of its meaning.",
+      "They're stored in a vector database."
+    ]},
+    { "id": "retrieve", "pad": [0.3, 0.6], "lines": [
+      "When you ask a question, it becomes a vector too, and the database finds the chunks with the closest meaning."
+    ]},
+    { "id": "augment", "pad": [0.3, 0.5], "lines": [
+      "Those chunks are pasted into the prompt, right next to your question."
+    ]},
+    { "id": "generate", "pad": [0.3, 0.6], "lines": [
+      "Now the model answers using real text from your document, and can even show where it came from."
+    ]},
+    { "id": "outro", "pad": [0.3, 2.6], "lines": [
+      "Retrieve. Augment. Generate. That's RAG."
+    ]}
+  ]
+}

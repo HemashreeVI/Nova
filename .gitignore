@@ -14,3 +14,7 @@ visuals/*/out/
 visuals/*/narration.mp3
 visuals/*/timing.js
 visuals/*/fv-runtime.js
+visuals/**/out/
+visuals/**/narration.mp3
+visuals/**/timing.js
+visuals/**/fv-runtime.js

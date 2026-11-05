@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Redis Short</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{--ink:#f1eeee;--mut:#a39a9a;--r:#dc382d;--r2:#f87171;--blu:#60a5fa;--grn:#34d399;--yel:#fbbf24;--pur:#a78bfa}
+  #fv-stage{background:radial-gradient(1000px 1300px at 70% 15%,#3a1010 0%,#170c0e 50%,#0a0708 80%);color:var(--ink);font-family:Inter,system-ui,sans-serif}
+  #bg-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(220,56,45,.11) 1px,transparent 1px),linear-gradient(90deg,rgba(220,56,45,.11) 1px,transparent 1px);background-size:90px 90px;opacity:.22}
+  .abs{position:absolute}
+  .step{position:absolute;left:0;right:0;top:250px;text-align:center;font:700 34px/1 'JetBrains Mono',monospace;letter-spacing:.2em;color:var(--r2)}
+  .head{position:absolute;left:60px;right:60px;top:305px;text-align:center;font:800 84px/1.05 Inter;letter-spacing:-.03em}
+  .panel{position:absolute;border:3px solid rgba(220,190,190,.22);border-radius:22px;background:rgba(22,14,16,.94)}
+  .mono{font-family:'JetBrains Mono',monospace}
+  .label{font:600 26px Inter;color:var(--mut)}
+  .badge{position:absolute;left:50%;top:150px;transform:translateX(-50%);padding:12px 26px;border-radius:40px;background:rgba(220,56,45,.12);border:2px solid rgba(220,56,45,.5);font:700 30px Inter;color:var(--r2);white-space:nowrap}
+  .pill{display:inline-block;padding:12px 26px;border-radius:40px;font:800 32px Inter}
+  .node{position:absolute;width:280px;height:150px;margin-left:-140px;margin-top:-75px;border-radius:26px;border:4px solid var(--cc);background:color-mix(in srgb,var(--cc) 14%,#160d0f);display:flex;flex-direction:column;align-items:center;justify-content:center;box-sizing:border-box}
+  .node .ic{font-size:56px;line-height:1}.node .n{font:800 34px Inter;margin-top:6px}.node .s{font:700 20px 'JetBrains Mono';color:var(--mut);margin-top:2px}
+  .tok{position:absolute;padding:10px 18px;border-radius:14px;font:800 24px 'JetBrains Mono';white-space:nowrap;border:3px solid var(--cc);background:color-mix(in srgb,var(--cc) 25%,#160d0f);transform:translate(-50%,-50%)}
+  .kv{display:flex;gap:14px;align-items:center;font:700 28px 'JetBrains Mono';padding:10px 14px;border-radius:12px}
+  .fv-endcard{display:inline-block;padding:16px 30px;border-radius:40px;font:700 34px 'JetBrains Mono',monospace;border:3px solid #f1eeee;background:rgba(241,238,238,.08)}
+</style>
+</head>
+<body>
+<div id="fv-stage">
+  <div id="bg-grid"></div>
+  <div class="badge">⚙️ Backend · Tech, decoded</div>
+
+  <section class="fv-scene" data-scene="hook">
+    <div id="hk-1" class="panel" style="left:90px;right:90px;top:320px;height:200px;padding:24px 32px;box-sizing:border-box">
+      <div style="display:flex;justify-content:space-between"><span style="font:800 36px Inter">1st visit</span><span id="hk-1t" class="mono" style="font-size:36px;font-weight:800;color:var(--r2)"></span></div>
+      <div style="height:26px;border-radius:13px;background:rgba(220,190,190,.15);margin-top:30px;overflow:hidden"><div id="hk-1b" style="height:100%;background:var(--r2)"></div></div>
+    </div>
+    <div id="hk-2" class="panel" style="left:90px;right:90px;top:560px;height:200px;padding:24px 32px;box-sizing:border-box">
+      <div style="display:flex;justify-content:space-between"><span style="font:800 36px Inter">2nd visit</span><span id="hk-2t" class="mono" style="font-size:36px;font-weight:800;color:var(--grn)"></span></div>
+      <div style="height:26px;border-radius:13px;background:rgba(220,190,190,.15);margin-top:30px;overflow:hidden"><div id="hk-2b" style="height:100%;background:var(--grn)"></div></div>
+    </div>
+    <div id="hk-r" class="abs" style="left:0;right:0;top:850px;text-align:center">
+      <div style="font:900 72px Inter;color:#fca5a5">Caching ⚡</div>
+      <div style="display:inline-flex;align-items:center;gap:22px;margin-top:30px"><div style="width:110px;height:110px;border-radius:24px;background:var(--r);display:flex;align-items:center;justify-content:center;font-size:62px">🧱</div><span style="font:900 140px/1 Inter;letter-spacing:-.04em">Redis</span></div>
+    </div>
+  </section>
+
+  <section class="fv-scene" data-scene="slow">
+    <div class="step">THE PROBLEM</div><div class="head">Databases are slow-ish</div>
+    <div id="sl-q" class="panel" style="left:80px;right:80px;top:450px;height:110px;display:flex;align-items:center;padding:0 26px;background:#090607"><span class="mono" style="font-size:28px"><b style="color:var(--blu)">SELECT</b> * <b style="color:var(--blu)">FROM</b> products <b style="color:var(--blu)">WHERE</b> id = 42</span></div>
+    <svg id="sl-db" class="abs" width="1080" height="1920" style="inset:0"></svg>
+    <div id="sl-disk" class="abs" style="left:0;right:0;top:1010px;text-align:center;font:700 30px Inter;color:var(--mut)"><span id="sl-sp" style="display:inline-block;font-size:44px">💽</span> reading from disk…</div>
+    <div id="sl-t" class="abs" style="left:0;right:0;top:1100px;text-align:center"></div>
+  </section>
+
+  <section class="fv-scene" data-scene="ram">
+    <div class="step">THE FIX</div><div class="head">Redis lives in RAM</div>
+    <div id="rm-box" class="panel" style="left:80px;right:80px;top:450px;height:390px;padding:24px 28px;box-sizing:border-box;border-color:var(--r)">
+      <div class="label" style="color:#fca5a5">🧱 Redis · key → value</div>
+      <div id="rm-kv" style="margin-top:14px"></div>
+    </div>
+    <div id="rm-cmp" class="abs" style="left:80px;right:80px;top:880px"></div>
+  </section>
+
+  <section class="fv-scene" data-scene="hit">
+    <div class="step">CACHE HIT</div><div class="head">Check Redis first</div>
+    <svg class="abs flow" width="1080" height="1920" style="inset:0"></svg>
+    <div class="nodes"></div>
+    <div class="abs res" style="left:0;right:0;top:1150px;text-align:center"></div>
+  </section>
+
+  <section class="fv-scene" data-scene="miss">
+    <div class="step">CACHE MISS</div><div class="head">Fall back, then save</div>
+    <svg class="abs flow" width="1080" height="1920" style="inset:0"></svg>
+    <div class="nodes"></div>
+    <div class="abs res" style="left:0;right:0;top:1150px;text-align:center"></div>
+  </section>
+
+  <section class="fv-scene" data-scene="ttl">
+    <div class="step">STAYING FRESH</div><div class="head">TTL: time to live</div>
+    <div id="tl-row" class="panel" style="left:80px;right:80px;top:450px;height:200px;padding:0 30px;box-sizing:border-box;display:flex;align-items:center;gap:26px;border-color:var(--r)">
+      <svg width="130" height="130" viewBox="0 0 130 130"><circle cx="65" cy="65" r="54" fill="none" stroke="rgba(220,190,190,.15)" stroke-width="12"/><circle id="tl-ring" cx="65" cy="65" r="54" fill="none" stroke="#fbbf24" stroke-width="12" stroke-linecap="round" transform="rotate(-90 65 65)" stroke-dasharray="339.3"/><text id="tl-s" x="65" y="76" text-anchor="middle" fill="#fff" font-size="32" font-weight="800" font-family="JetBrains Mono"></text></svg>
+      <div><div class="mono" style="font-size:32px;font-weight:800">product:42</div><div id="tl-v" class="mono" style="font-size:30px;margin-top:8px"></div></div>
+    </div>
+    <div id="tl-db" class="panel" style="left:80px;right:80px;top:690px;height:150px;padding:0 30px;box-sizing:border-box;display:flex;align-items:center;gap:22px;border-color:var(--blu)"><span style="font-size:56px">🗄️</span><div><div style="font:800 32px Inter">database</div><div id="tl-dbv" class="mono" style="font-size:30px;margin-top:6px"></div></div></div>
+    <div id="tl-w" class="abs" style="left:0;right:0;top:890px;text-align:center"></div>
+    <div id="tl-cmd" class="abs" style="left:0;right:0;top:1000px;text-align:center"><span class="pill mono" style="font-size:28px;border:3px solid var(--yel);color:var(--yel);background:rgba(251,191,36,.08)">SET product:42 … EX 60</span></div>
+  </section>
+
+  <section class="fv-scene" data-scene="outro">
+    <div id="oc-list" class="abs" style="left:0;right:0;top:330px;display:flex;flex-direction:column;align-items:center;gap:12px"></div>
+    <div id="oc-h" class="abs" style="left:60px;right:60px;top:880px;text-align:center;font:800 58px/1.2 Inter">Slow queries → <span style="color:#fca5a5">instant answers.</span></div>
+    <div id="oc-gh" class="abs" style="left:0;right:0;top:1060px;text-align:center"><span class="fv-endcard"></span></div>
+  </section>
+</div>
+<script src="timing.js"></script>
+<script src="fv-runtime.js"></script>
+<script>
+(() => {
+const { seg, css, enter, lerp, clamp, ease, pulse, $ } = FV;
+const NS = 'http://www.w3.org/2000/svg';
+const svgEl = (tag, attrs, parent) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; };
+const div = (cls, html, parent, style) => { const e = document.createElement('div'); if (cls) e.className = cls; if (html !== undefined) e.innerHTML = html; if (style) e.style.cssText = style; if (parent) parent.appendChild(e); return e; };
+const pop = (el, t, a, d = 0.45) => { const p = seg(t, a, a + d, ease.back); css(el, { o: clamp(p * 1.5), s: Math.max(0, p) }); return p; };
+const head = (el, t) => { enter($('.step', el), t, 0.0, 0.4); enter($('.head', el), t, 0.08, 0.45, 30); };
+const frac = (ctx, i, f) => ctx.line(i) + (ctx.lineEnd(i) - ctx.line(i)) * f;
+const pill = (txt, c) => `<span class="pill" style="border:3px solid ${c};background:${c}1a">${txt}</span>`;
+const R = '#dc382d', R2 = '#f87171', BLU = '#60a5fa', GRN = '#34d399', YEL = '#fbbf24';
+
+/* HOOK */
+FV.scene('hook', (t, ctx) => {
+  enter($('#hk-1'), t, 0.1, 0.4, 20);
+  const a = 0.4, b = frac(ctx, 0, 0.5);
+  const p1 = seg(t, a, b, ease.linear);
+  $('#hk-1b').style.width = `${p1 * 100}%`; $('#hk-1t').textContent = `${(p1 * 2).toFixed(2)} s`;
+  const c = frac(ctx, 0, 0.62);
+  enter($('#hk-2'), t, c - 0.2, 0.4, 20);
+  const p2 = seg(t, c, c + 0.12, ease.linear);
+  $('#hk-2b').style.width = `${p2 * 100}%`; $('#hk-2t').textContent = t > c ? `${(p2 * 0.01).toFixed(2)} s ⚡` : '';
+  pop($('#hk-r'), t, ctx.line(1), 0.5);
+});
+
+/* SLOW */
+{
+  const sv = $('#sl-db'), X = 540, Y = 640, RX = 200, RY = 46, H = 260;
+  const g = svgEl('g', {}, sv);
+  svgEl('path', { d: `M${X - RX} ${Y} L${X - RX} ${Y + H} A${RX} ${RY} 0 0 0 ${X + RX} ${Y + H} L${X + RX} ${Y}`, fill: 'rgba(96,165,250,.16)', stroke: BLU, 'stroke-width': 6 }, g);
+  [Y + 90, Y + 180].forEach((y) => svgEl('path', { d: `M${X - RX} ${y} A${RX} ${RY} 0 0 0 ${X + RX} ${y}`, fill: 'none', stroke: BLU, 'stroke-width': 4, opacity: 0.6 }, g));
+  svgEl('ellipse', { cx: X, cy: Y, rx: RX, ry: RY, fill: '#16233a', stroke: BLU, 'stroke-width': 6 }, g);
+  const lab = svgEl('text', { x: X, y: Y + 160, 'text-anchor': 'middle', fill: '#fff', 'font-size': 40, 'font-weight': 800, 'font-family': 'Inter' }, g); lab.textContent = '🗄️ PostgreSQL';
+  FV.scene('slow', (t, ctx) => {
+    head(ctx.el, t);
+    enter($('#sl-q'), t, 0.15, 0.4, 20);
+    g.setAttribute('opacity', seg(t, 0.3, 0.7));
+    enter($('#sl-disk'), t, frac(ctx, 0, 0.2), 0.4, 0);
+    $('#sl-sp').style.transform = `rotate(${t * 300}deg)`;
+    const ms = Math.round(120 * seg(t, frac(ctx, 0, 0.5), frac(ctx, 0, 0.9), ease.linear));
+    $('#sl-t').innerHTML = pill(`⏱ ${ms} ms`, R2);
+    $('#sl-t').style.opacity = seg(t, frac(ctx, 0, 0.45), frac(ctx, 0, 0.55));
+  });
+}
+
+/* RAM */
+{
+  const KV = [['product:42', '{"name":"Laptop","price":999}', 0.48], ['user:7:cart', '["shoes","bag"]', 0.6], ['session:abc', '"logged_in"', 0.72]];
+  const rows = KV.map(([k, v]) => div('kv', `<span style="color:#fca5a5">${k}</span><span style="color:#a39a9a">→</span><span style="color:#f1eeee;font-size:24px">${v}</span>`, $('#rm-kv')));
+  const C = [['🗄️ database (disk)', 120, R2, '120 ms'], ['🧱 Redis (RAM)', 0.4, GRN, '0.4 ms']];
+  const bars = C.map(([n, v, c, l]) => { const w = div('', `<div style="display:flex;justify-content:space-between;font:800 32px Inter"><span>${n}</span><span class="mono" style="color:${c}">${l}</span></div><div style="height:44px;border-radius:12px;background:rgba(220,190,190,.12);margin-top:12px;overflow:hidden"><div class="b" style="height:100%;border-radius:12px;background:${c}"></div></div>`, $('#rm-cmp'), 'margin-bottom:34px'); return { w, b: w.querySelector('.b'), v }; });
+  FV.scene('ram', (t, ctx) => {
+    head(ctx.el, t);
+    enter($('#rm-box'), t, frac(ctx, 0, 0.05), 0.4, 20);
+    rows.forEach((r, i) => { const a = frac(ctx, 0, KV[i][2]) - 0.3; const p = seg(t, a, a + 0.4, ease.back); css(r, { o: clamp(p * 1.5), x: (1 - p) * -80 }); });
+    const c0 = frac(ctx, 0, 0.75);
+    bars.forEach((b, i) => { enter(b.w, t, c0 - 0.4 + i * 0.1, 0.4, 20); b.b.style.width = `${Math.max(1, (b.v / 120) * 100 * seg(t, c0, c0 + (i ? 0.2 : 1.2), ease.out))}%`; });
+  });
+}
+
+/* FLOW (hit / miss) */
+const P = { app: [540, 520], redis: [250, 860], db: [830, 860] };
+function flow(sec, extra) {
+  const host = sec.querySelector('.nodes'), sv = sec.querySelector('.flow');
+  const N = { app: ['📱', 'App', 'your backend', '#a78bfa'], redis: ['🧱', 'Redis', 'RAM · fast', R], db: ['🗄️', 'Database', 'disk · slower', BLU] };
+  const nodes = {};
+  for (const k in N) { const [ic, n, s, c] = N[k]; const e = div('node', `<div class="ic">${ic}</div><div class="n">${n}</div><div class="s">${s}</div>`, host, `left:${P[k][0]}px;top:${P[k][1]}px`); e.style.setProperty('--cc', c); nodes[k] = e; }
+  [['app', 'redis'], ['app', 'db']].forEach(([a, b]) => svgEl('line', { x1: P[a][0], y1: P[a][1] + 75, x2: P[b][0], y2: P[b][1] - 75, stroke: 'rgba(220,190,190,.25)', 'stroke-width': 5, 'stroke-dasharray': '12 10' }, sv));
+  return { host, nodes, res: sec.querySelector('.res') };
+}
+const leg = (a, b, u) => [lerp(P[a][0], P[b][0], ease.inOut(u)), lerp(P[a][1] + (P[b][1] > P[a][1] ? 75 : -75), P[b][1] + (P[b][1] > P[a][1] ? -75 : 75), ease.inOut(u))];
+
+{
+  const sec = document.querySelector('[data-scene="hit"]'), F = flow(sec);
+  const tk = div('tok', 'GET product:42', F.host); tk.style.setProperty('--cc', '#a78bfa');
+  FV.scene('hit', (t, ctx) => {
+    head(ctx.el, t);
+    Object.values(F.nodes).forEach((n, i) => enter(n, t, 0.15 + i * 0.1, 0.4, 20));
+    const a = frac(ctx, 0, 0.12), b = frac(ctx, 0, 0.42), c = frac(ctx, 0, 0.62), d = frac(ctx, 0, 0.82);
+    let pos, txt = 'GET product:42', col = '#a78bfa';
+    if (t < b) pos = leg('app', 'redis', seg(t, a, b));
+    else if (t < c) { pos = [P.redis[0], P.redis[1] - 110]; txt = '✓ HIT'; col = GRN; }
+    else { pos = leg('redis', 'app', seg(t, c, d)); txt = '{"Laptop", 999}'; col = GRN; }
+    tk.textContent = txt; tk.style.setProperty('--cc', col);
+    tk.style.left = pos[0] + 'px'; tk.style.top = pos[1] + 'px'; tk.style.opacity = t > a ? 1 : 0;
+    F.nodes.redis.style.boxShadow = `0 0 ${50 * pulse(t, b - 0.1, c + 0.3)}px rgba(52,211,153,.9)`;
+    F.res.innerHTML = pill('⚡ answered in 0.4 ms', GRN);
+    pop(F.res, t, d, 0.4);
+  });
+}
+{
+  const sec = document.querySelector('[data-scene="miss"]'), F = flow(sec);
+  const tk = div('tok', '', F.host);
+  FV.scene('miss', (t, ctx) => {
+    head(ctx.el, t);
+    Object.values(F.nodes).forEach((n, i) => enter(n, t, 0.15 + i * 0.1, 0.4, 20));
+    const T = [0.04, 0.18, 0.3, 0.42, 0.55, 0.68, 0.8, 0.95].map((f) => frac(ctx, 0, f));
+    let pos, txt, col;
+    if (t < T[1]) { pos = leg('app', 'redis', seg(t, T[0], T[1])); txt = 'GET product:99'; col = '#a78bfa'; }
+    else if (t < T[2]) { pos = [P.redis[0], P.redis[1] - 110]; txt = '✗ MISS'; col = R2; }
+    else if (t < T[3]) { pos = leg('redis', 'app', seg(t, T[2], T[3])); txt = '(nothing)'; col = R2; }
+    else if (t < T[4]) { pos = leg('app', 'db', seg(t, T[3], T[4])); txt = 'SELECT … id=99'; col = BLU; }
+    else if (t < T[5]) { pos = leg('db', 'app', seg(t, T[4], T[5])); txt = '{"Phone", 499}'; col = BLU; }
+    else { pos = leg('app', 'redis', seg(t, T[5], T[6])); txt = 'SET product:99'; col = YEL; }
+    tk.textContent = txt; tk.style.setProperty('--cc', col);
+    tk.style.left = pos[0] + 'px'; tk.style.top = pos[1] + 'px'; tk.style.opacity = t > T[0] && t < T[7] ? 1 : 0;
+    F.nodes.redis.style.boxShadow = `0 0 ${40 * pulse(t, T[1] - 0.1, T[2])}px rgba(248,113,113,.9)`;
+    F.nodes.db.style.boxShadow = `0 0 ${40 * pulse(t, T[4] - 0.2, T[4] + 0.6)}px rgba(96,165,250,.9)`;
+    F.res.innerHTML = t < T[6] ? pill('🐢 this time: 120 ms', R2) : pill('💾 saved → next request ⚡ 0.4 ms', GRN);
+    F.res.style.opacity = seg(t, T[4], T[4] + 0.3);
+  });
+}
+
+/* TTL */
+FV.scene('ttl', (t, ctx) => {
+  head(ctx.el, t);
+  enter($('#tl-row'), t, 0.1, 0.4, 20);
+  enter($('#tl-db'), t, frac(ctx, 0, 0.4), 0.4, 20);
+  const c0 = frac(ctx, 0, 0.1), c1 = frac(ctx, 0, 0.72);
+  const left = 1 - seg(t, c0, c1, ease.linear), secs = Math.ceil(60 * left);
+  const exp = t >= c1, refreshed = t >= c1 + 0.6;
+  $('#tl-ring').setAttribute('stroke-dashoffset', 339.3 * (1 - (refreshed ? 1 : left)));
+  $('#tl-s').textContent = refreshed ? '60s' : `${secs}s`;
+  const change = frac(ctx, 0, 0.45);
+  $('#tl-dbv').innerHTML = `price: <b style="color:${t > change ? GRN : '#f1eeee'}">${t > change ? '$899' : '$999'}</b>${t > change ? ' <span style="color:#a39a9a">(updated)</span>' : ''}`;
+  $('#tl-v').innerHTML = refreshed ? 'price: <b style="color:#34d399">$899</b> ✓ fresh' : exp ? '<s style="color:#a39a9a">price: $999</s> expired' : `price: <b style="color:${t > change ? '#f87171' : '#f1eeee'}">$999</b>`;
+  $('#tl-w').innerHTML = refreshed ? pill('🔄 expired → refreshed from DB', GRN) : t > change ? pill('⚠️ stale! cache says $999', R2) : '';
+  $('#tl-w').style.opacity = seg(t, change, change + 0.3);
+  pop($('#tl-cmd'), t, frac(ctx, 0, 0.2), 0.4);
+});
+
+/* OUTRO */
+{
+  const L = [['1', 'Check the cache', 'hit? return in <1 ms', GRN], ['2', 'Fall back to the database', 'miss? query it', BLU], ['3', 'Save for next time', 'SET with a TTL', YEL]];
+  const items = L.map(([n, a, b, c]) => div('', `<span class="mono" style="font:900 60px 'JetBrains Mono';color:${c};width:70px;text-align:center">${n}</span><div><div style="font:800 42px Inter">${a}</div><div style="font:600 28px Inter;color:#a39a9a;margin-top:4px">${b}</div></div>`, $('#oc-list'),
+    `display:flex;align-items:center;gap:26px;padding:20px 34px;border-radius:24px;border:3px solid ${c}99;background:${c}1a;width:880px;box-sizing:border-box`));
+  const at = [0.0, 0.3, 0.68];
+  FV.scene('outro', (t, ctx) => {
+    items.forEach((e, i) => { const a = frac(ctx, 0, at[i]); const p = seg(t, a, a + 0.4, ease.back); css(e, { o: clamp(p * 1.5), x: (1 - p) * -100 }); });
+    enter($('#oc-h'), t, frac(ctx, 0, 0.95), 0.45, 30);
+    pop($('#oc-gh'), t, ctx.lineEnd(0) + 0.5, 0.5);
+  });
+}
+})();
+</script>
+</body>
+</html>

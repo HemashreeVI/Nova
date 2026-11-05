@@ -1,0 +1,36 @@
+{
+  "title": "Distributed Tracing Explained: OpenTelemetry + Jaeger in 60 Seconds 🔍 #shorts",
+  "slug": "short-tracing",
+  "format": "vertical",
+  "description": "Your checkout takes 2 seconds, but it touches 5 services. Which one is slow? Metrics tell you something is wrong; distributed tracing tells you where. OpenTelemetry gives every request a trace ID that's passed along in headers to every service it touches. Each service records a span with its start time and duration, the spans are sent to Jaeger, and Jaeger draws them as a waterfall timeline, so the slow step stands out instantly.\n\n📘 More to learn + my projects: https://github.com/HemashreeVI\n\n#OpenTelemetry #Jaeger #DistributedTracing #Observability #Microservices #DevOps #TechExplained #shorts",
+  "tags": ["distributed tracing", "opentelemetry", "jaeger", "tracing explained", "what is distributed tracing", "opentelemetry explained", "spans and traces", "trace id", "observability", "microservices", "microservices debugging", "latency", "devops", "sre", "spring boot", "tech explained", "shorts"],
+  "voice": "am_michael",
+  "speed": 1.1,
+  "lineGap": 0.25,
+  "captions": true,
+  "endCard": "📘 more to learn → github.com/HemashreeVI",
+  "thumbnail": "jaeger@7",
+  "endHold": 0.3,
+  "pronounce": { "ID": "I D" },
+  "scenes": [
+    { "id": "hook", "pad": [0.3, 0.5], "lines": [
+      "Your checkout takes two seconds. But one click touches five different services.",
+      "So which one is slow?"
+    ]},
+    { "id": "why", "pad": [0.3, 0.6], "lines": [
+      "Metrics tell you something is wrong. Distributed tracing tells you exactly where."
+    ]},
+    { "id": "traceid", "pad": [0.3, 0.6], "lines": [
+      "With OpenTelemetry, every request gets a unique trace ID, and it's passed along in the headers to every service the request touches."
+    ]},
+    { "id": "spans", "pad": [0.3, 0.6], "lines": [
+      "Each service records a span: what it did, when it started, and how long it took. Spans can have child spans, like a database query inside a service."
+    ]},
+    { "id": "jaeger", "pad": [0.3, 0.6], "lines": [
+      "All the spans are sent to Jaeger, which lines them up into a waterfall. And there it is: the payment service spent 1.6 seconds waiting on the bank."
+    ]},
+    { "id": "outro", "pad": [0.3, 2.4], "lines": [
+      "One trace ID. Many spans. Find the slow part in seconds."
+    ]}
+  ]
+}

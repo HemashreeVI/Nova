@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Passwords Short</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{--ink:#e7f5ec;--mut:#8fa59a;--g:#22c55e;--g2:#4ade80;--red:#ef4444;--r2:#f87171;--yel:#fbbf24;--c:#22d3ee}
+  #fv-stage{background:radial-gradient(1000px 1300px at 70% 15%,#0d2b1a 0%,#07140d 50%,#040806 80%);color:var(--ink);font-family:Inter,system-ui,sans-serif}
+  #bg-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(34,197,94,.12) 1px,transparent 1px),linear-gradient(90deg,rgba(34,197,94,.12) 1px,transparent 1px);background-size:90px 90px;opacity:.22}
+  #scan{position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(0,0,0,.18) 0 2px,transparent 2px 5px);pointer-events:none;opacity:.5}
+  .abs{position:absolute}
+  .step{position:absolute;left:0;right:0;top:250px;text-align:center;font:700 34px/1 'JetBrains Mono',monospace;letter-spacing:.2em;color:var(--g)}
+  .head{position:absolute;left:60px;right:60px;top:305px;text-align:center;font:800 84px/1.05 Inter;letter-spacing:-.03em}
+  .panel{position:absolute;border:3px solid rgba(74,222,128,.28);border-radius:26px;background:rgba(6,18,11,.94)}
+  .mono{font-family:'JetBrains Mono',monospace}
+  .label{font:600 28px Inter;color:var(--mut)}
+  .badge{position:absolute;left:50%;top:150px;transform:translateX(-50%);padding:12px 26px;border-radius:40px;background:rgba(34,197,94,.12);border:2px solid rgba(34,197,94,.5);font:700 30px Inter;color:var(--g2);white-space:nowrap}
+  .pill{display:inline-block;padding:12px 28px;border-radius:40px;font:800 36px Inter}
+  .fv-endcard{display:inline-block;padding:16px 30px;border-radius:40px;font:700 34px 'JetBrains Mono',monospace;border:3px solid #e7f5ec;background:rgba(231,245,236,.08)}
+  .trow{display:flex;align-items:center;height:72px;padding:0 24px;border-bottom:2px solid rgba(74,222,128,.12);font:700 32px 'JetBrains Mono'}
+  .card{position:absolute;left:80px;right:80px;border-radius:26px;border:3px solid var(--cc);background:color-mix(in srgb,var(--cc) 12%,#06120b);padding:26px 32px;box-sizing:border-box;display:flex;align-items:center;gap:28px}
+  .card .ic{font-size:72px;line-height:1}
+  .card .t{font:800 44px Inter}.card .d{font:600 30px Inter;color:var(--mut);margin-top:6px}
+</style>
+</head>
+<body>
+<div id="fv-stage">
+  <div id="bg-grid"></div>
+  <div class="badge">🔐 Cybersecurity · Tech, decoded</div>
+
+  <!-- HOOK -->
+  <section class="fv-scene" data-scene="hook">
+    <div id="hk-login" class="panel" style="left:140px;right:140px;top:330px;height:380px;padding:34px 40px;box-sizing:border-box">
+      <div style="font:800 46px Inter">🔒 Sign in</div>
+      <div style="height:84px;border-radius:16px;border:2px solid rgba(74,222,128,.3);margin-top:26px;display:flex;align-items:center;padding:0 24px;font:600 34px Inter;color:#cbd5c9">you@example.com</div>
+      <div style="height:84px;border-radius:16px;border:2px solid rgba(74,222,128,.3);margin-top:18px;display:flex;align-items:center;padding:0 24px" class="mono"><span id="hk-pw" style="font-size:40px;letter-spacing:8px"></span></div>
+    </div>
+    <div id="hk-db" class="panel" style="left:140px;right:140px;top:760px;height:200px;display:flex;align-items:center;gap:30px;padding:0 40px;box-sizing:border-box">
+      <span style="font-size:80px">🗄️</span><div><div style="font:800 40px Inter">website database</div><div class="mono" style="font-size:32px;color:var(--r2);margin-top:8px">your password: <b>not stored</b></div></div>
+    </div>
+    <div id="hk-q" class="abs" style="left:0;right:0;top:1030px;text-align:center"><span style="font-size:110px">🧑‍💻</span><div style="font:900 72px Inter;color:var(--r2);margin-top:6px">…cracked anyway?</div></div>
+  </section>
+
+  <!-- HASH -->
+  <section class="fv-scene" data-scene="hash">
+    <div class="step">STEP 1</div><div class="head">Hashing</div>
+    <div id="hs-in" class="abs" style="left:0;right:0;top:460px;text-align:center"><span class="pill mono" style="font-size:44px;border:3px solid var(--yel);color:var(--yel);background:rgba(251,191,36,.1)">password123</span></div>
+    <div id="hs-a1" class="abs" style="left:0;right:0;top:545px;text-align:center;font:800 50px Inter;color:var(--mut)">↓</div>
+    <div id="hs-box" class="panel" style="left:290px;right:290px;top:615px;height:140px;display:flex;align-items:center;justify-content:center;gap:22px;border-color:var(--g)">
+      <span id="hs-gear" style="font-size:66px;display:inline-block">⚙️</span><span class="mono" style="font:800 52px 'JetBrains Mono'">hash()</span>
+    </div>
+    <div id="hs-a2" class="abs" style="left:0;right:0;top:765px;text-align:center;font:800 50px Inter;color:var(--mut)">↓</div>
+    <div id="hs-out" class="panel" style="left:80px;right:80px;top:840px;height:150px;padding:22px 30px;box-sizing:border-box;text-align:center">
+      <div class="mono" style="font-size:34px;font-weight:700;color:var(--g2);line-height:1.45;word-break:break-all">ef92b778bafe771e89245b89ecbc08a4<br>4a4e166c06659911881f383d4473e94f</div>
+    </div>
+    <div id="hs-same" class="abs" style="left:0;right:0;top:1020px;text-align:center"><span class="pill mono" style="font-size:30px;border:3px solid var(--g);background:rgba(34,197,94,.1)">password123 → ef92b7… <b style="color:var(--g2)">same every time ✓</b></span></div>
+    <div id="hs-rev" class="abs" style="left:0;right:0;top:1120px;text-align:center"><span class="pill" style="font-size:36px;border:3px solid var(--red);color:var(--r2);background:rgba(239,68,68,.1)">↩ reverse it? ✗ one-way only</span></div>
+  </section>
+
+  <!-- LEAK -->
+  <section class="fv-scene" data-scene="leak">
+    <div class="step">STEP 2</div><div class="head">Breach &amp; guess</div>
+    <div id="lk-ban" class="abs" style="left:0;right:0;top:440px;text-align:center"><span class="pill mono" style="font-size:38px;background:var(--red);color:#fff">💥 DATABASE BREACHED</span></div>
+    <div id="lk-tab" class="panel" style="left:80px;right:80px;top:530px;padding:10px 0;box-sizing:border-box;border-color:rgba(239,68,68,.6)">
+      <div class="trow" style="color:var(--mut);font-size:26px"><span style="width:220px">user</span><span>stolen hash</span></div>
+      <div class="trow"><span style="width:220px">alice</span><span style="color:#cbd5c9">ef92b778ba…</span></div>
+      <div id="lk-bob" class="trow"><span style="width:220px">bob</span><span style="color:#cbd5c9">5e884898da…</span><span id="lk-hit" style="margin-left:auto;color:var(--g2)">= "password" ✓</span></div>
+      <div class="trow" style="border:none"><span style="width:220px">carol</span><span style="color:#cbd5c9">9b7f3c21e0…</span></div>
+    </div>
+    <div id="lk-gs" class="panel" style="left:80px;right:80px;top:880px;height:370px;padding:22px 30px;box-sizing:border-box;background:#020704">
+      <div style="display:flex;justify-content:space-between;align-items:baseline"><span class="label" style="color:var(--g2)">guessing…</span><span id="lk-rate" class="mono" style="font-size:30px;font-weight:800;color:var(--yel)"></span></div>
+      <div id="lk-stream" class="mono" style="font-size:32px;line-height:1.6;margin-top:12px;white-space:pre"></div>
+    </div>
+  </section>
+
+  <!-- DICTIONARY -->
+  <section class="fv-scene" data-scene="dict">
+    <div class="step">STEP 3</div><div class="head">Smart guessing</div>
+    <div id="dc-file" class="abs" style="left:0;right:0;top:440px;text-align:center"><span class="pill mono" style="font-size:30px;border:3px solid var(--g);background:rgba(34,197,94,.1)">📄 leaked_passwords.txt · millions of real passwords</span></div>
+    <div id="dc-list" class="panel" style="left:110px;right:110px;top:540px;height:700px;padding:24px 34px;box-sizing:border-box;background:#020704;overflow:hidden">
+      <div id="dc-rows" class="mono" style="font-size:38px;line-height:1.6"></div>
+    </div>
+  </section>
+
+  <!-- LENGTH -->
+  <section class="fv-scene" data-scene="length">
+    <div class="step">YOUR BEST DEFENSE</div><div class="head">Length wins</div>
+    <div id="ln-bars" class="abs" style="left:80px;right:80px;top:470px"></div>
+    <div id="ln-note" class="abs label" style="left:80px;right:80px;top:1150px;text-align:center;font-size:24px">random characters · ~1 trillion guesses/sec (fast hash, GPU rig) · illustrative</div>
+  </section>
+
+  <!-- DEFEND -->
+  <section class="fv-scene" data-scene="defend">
+    <div class="step">STAY SAFE</div><div class="head">Protect yourself</div>
+    <div id="df-1" class="card" style="--cc:var(--g);top:460px;height:220px"><span class="ic">📏</span><div><div class="t">Long</div><div class="d">16+ characters, or a passphrase</div></div></div>
+    <div id="df-2" class="card" style="--cc:var(--c);top:710px;height:220px"><span class="ic">🧰</span><div><div class="t">Unique, every site</div><div class="d">let a password manager create &amp; remember them</div></div></div>
+    <div id="df-3" class="card" style="--cc:var(--yel);top:960px;height:220px"><span class="ic">📱</span><div><div class="t">Two-factor auth</div><div class="d">a stolen password alone isn't enough</div></div></div>
+  </section>
+
+  <!-- OUTRO -->
+  <section class="fv-scene" data-scene="outro">
+    <div id="oc-w" class="abs" style="left:0;right:0;top:330px;display:flex;flex-direction:column;align-items:center;gap:4px"></div>
+    <div id="oc-h" class="abs" style="left:60px;right:60px;top:820px;text-align:center;font:800 60px/1.15 Inter">Now you know what<br>you're <span style="color:var(--r2)">up against.</span> 🛡️</div>
+    <div id="oc-gh" class="abs" style="left:0;right:0;top:1100px;text-align:center"><span class="fv-endcard"></span></div>
+  </section>
+  <div id="scan"></div>
+</div>
+<script src="timing.js"></script>
+<script src="fv-runtime.js"></script>
+<script>
+(() => {
+const { seg, css, enter, lerp, clamp, ease, pulse, $ } = FV;
+const div = (cls, html, parent, style) => { const e = document.createElement('div'); if (cls) e.className = cls; if (html !== undefined) e.innerHTML = html; if (style) e.style.cssText = style; if (parent) parent.appendChild(e); return e; };
+const pop = (el, t, a, d = 0.45) => { const p = seg(t, a, a + d, ease.back); css(el, { o: clamp(p * 1.5), s: Math.max(0, p) }); return p; };
+const head = (el, t) => { enter($('.step', el), t, 0.0, 0.4); enter($('.head', el), t, 0.08, 0.45, 30); };
+const frac = (ctx, i, f) => ctx.line(i) + (ctx.lineEnd(i) - ctx.line(i)) * f;
+const shake = (t, a, b) => (t > a && t < b ? Math.sin(t * 60) * 12 * (1 - (t - a) / (b - a)) : 0);
+// real SHA-256 prefixes
+const H = { '123456': '8d969eef6e', qwerty: '65e84be335', letmein: '1c8bfe8f80', iloveyou: 'e4ad93ca07', admin: '8c6976e5b5', welcome: '280d44ab1e', monkey: '000c285457', dragon: 'a9c43be948', football: '6382deaf1f', password: '5e884898da', sunshine: 'a941a4c4fd', princess: '04e77bf8f9', fluffy: '95d9daee3b', fluffy1: '697bfdb334' };
+
+/* HOOK */
+FV.scene('hook', (t, ctx) => {
+  enter($('#hk-login'), t, 0.1, 0.4, 30);
+  $('#hk-pw').textContent = '•'.repeat(Math.round(11 * seg(t, 0.4, 1.3, ease.linear)));
+  enter($('#hk-db'), t, frac(ctx, 0, 0.2), 0.4, 30);
+  const q = frac(ctx, 0, 0.58);
+  pop($('#hk-q'), t, q, 0.5);
+  css($('#hk-q'), { o: seg(t, q, q + 0.3), x: shake(t, q + 0.4, q + 1.2) });
+});
+
+/* HASH */
+FV.scene('hash', (t, ctx) => {
+  head(ctx.el, t);
+  pop($('#hs-in'), t, 0.25, 0.4);
+  enter($('#hs-a1'), t, frac(ctx, 0, 0.1), 0.3, 0);
+  pop($('#hs-box'), t, frac(ctx, 0, 0.12), 0.4);
+  $('#hs-gear').style.transform = `rotate(${t * 200}deg)`;
+  enter($('#hs-a2'), t, frac(ctx, 0, 0.3), 0.3, 0);
+  enter($('#hs-out'), t, frac(ctx, 0, 0.32), 0.4, 20);
+  pop($('#hs-same'), t, frac(ctx, 0, 0.6), 0.4);
+  pop($('#hs-rev'), t, frac(ctx, 0, 0.82), 0.4);
+  css($('#hs-rev'), { x: shake(t, frac(ctx, 0, 0.86), frac(ctx, 0, 0.86) + 0.7) });
+});
+
+/* LEAK */
+{
+  const G = ['123456', 'qwerty', 'letmein', 'iloveyou', 'admin', 'welcome', 'monkey', 'dragon', 'football', 'password'];
+  FV.scene('leak', (t, ctx) => {
+    head(ctx.el, t);
+    pop($('#lk-ban'), t, 0.15, 0.4);
+    $('#lk-ban').style.filter = `drop-shadow(0 0 ${30 * Math.abs(Math.sin(t * 5)) * (1 - seg(t, 2, 3))}px #ef4444)`;
+    enter($('#lk-tab'), t, frac(ctx, 0, 0.12), 0.4, 20);
+    const g0 = frac(ctx, 0, 0.36);
+    enter($('#lk-gs'), t, g0 - 0.2, 0.4, 20);
+    const rate = Math.round(10e9 * seg(t, g0, g0 + 1.2, ease.out));
+    $('#lk-rate').textContent = `${rate.toLocaleString('en-US')} / sec`;
+    const hitAt = frac(ctx, 0, 0.84);
+    const n = t < g0 ? 0 : Math.min(G.length, 1 + Math.floor(seg(t, g0, hitAt, ease.linear) * (G.length - 1) + 0.0001));
+    const shown = G.slice(Math.max(0, n - 4), n);
+    $('#lk-stream').innerHTML = shown.map((w) => {
+      const hit = w === 'password' && t >= hitAt;
+      return `<span style="color:#cbd5c9">${w.padEnd(9)}</span> → <span style="color:#86efac">${H[w]}</span> ${hit ? '<b style="color:#4ade80">✓ MATCH</b>' : '<span style="color:#f87171">✗</span>'}`;
+    }).join('\n');
+    const hit = t >= hitAt;
+    $('#lk-hit').style.opacity = hit ? 1 : 0;
+    $('#lk-bob').style.background = hit ? `rgba(34,197,94,${0.12 + 0.12 * Math.abs(Math.sin(t * 5))})` : 'transparent';
+  });
+}
+
+/* DICTIONARY */
+{
+  const W = [['sunshine', 0.5], ['qwerty', 0.6], ['princess', 0.66], ['dragon', 0.7], ['fluffy', 0.78], ['fluffy1', 0.88]];
+  const rows = [['123456', 0.12], ['iloveyou', 0.2], ['letmein', 0.28], ['football', 0.36], ...W].map(([w, f]) => ({ w, f, e: div('', '', $('#dc-rows')) }));
+  FV.scene('dict', (t, ctx) => {
+    head(ctx.el, t);
+    pop($('#dc-file'), t, frac(ctx, 0, 0.1), 0.4);
+    enter($('#dc-list'), t, frac(ctx, 0, 0.15), 0.4, 20);
+    rows.forEach(({ w, f, e }) => {
+      const a = frac(ctx, 0, f);
+      const on = t >= a;
+      const win = w === 'fluffy1';
+      const hl = w === 'sunshine' || w === 'qwerty' || w === 'fluffy' || win;
+      e.style.opacity = on ? 1 : 0;
+      e.style.color = win ? '#4ade80' : hl ? '#fde68a' : '#8fa59a';
+      e.innerHTML = w === '…' ? '…' : `${w.padEnd(9, ' ').replace(/ /g, '&nbsp;')} ${win ? '<b>✓ cracked</b>' : '<span style="color:#f87171">✗</span>'}${w === 'fluffy1' ? ' <span style="color:#8fa59a;font-size:28px">(pet + "1")</span>' : ''}`;
+      e.style.textShadow = win ? `0 0 ${24 * pulse(t, a, a + 1.4)}px #22c55e` : '';
+    });
+  });
+}
+
+/* LENGTH */
+{
+  const B = [['8 chars', 'hours', 0.06, '#ef4444', 'K7$p!2qZ'], ['12 chars', '~17,000 years', 0.32, '#fbbf24', 'K7$p!2qZw9#a'], ['16 chars', '≈100× the age of the universe', 1.0, '#22c55e', 'K7$p!2qZw9#aT4&m']];
+  const rows = B.map(([l, tm, w, c, ex]) => {
+    const r = div('', `<div style="display:flex;justify-content:space-between;align-items:baseline"><span style="font:800 46px Inter">${l}</span><span class="mono" style="font-size:28px;color:#8fa59a">${ex}</span></div>
+      <div style="height:60px;margin-top:14px;border-radius:14px;background:rgba(74,222,128,.08);overflow:hidden"><div class="bar" style="height:100%;border-radius:14px;background:${c}"></div></div>
+      <div class="tm" style="font:800 40px Inter;color:${c};margin-top:12px">⏱ ${tm}</div>`, $('#ln-bars'), 'margin-bottom:46px');
+    return { r, bar: r.querySelector('.bar'), tm: r.querySelector('.tm'), w };
+  });
+  const at = [0.25, 0.48, 0.62];
+  FV.scene('length', (t, ctx) => {
+    head(ctx.el, t);
+    rows.forEach((x, i) => {
+      const a = frac(ctx, 0, at[i]);
+      enter(x.r, t, a - 0.25, 0.4, 20);
+      x.bar.style.width = `${Math.max(2, x.w * 100 * seg(t, a, a + (i === 2 ? 1.6 : 0.7), ease.out))}%`;
+      x.tm.style.opacity = seg(t, a + 0.4, a + 0.7);
+    });
+    enter($('#ln-note'), t, frac(ctx, 0, 0.7), 0.4, 0);
+  });
+}
+
+/* DEFEND */
+FV.scene('defend', (t, ctx) => {
+  head(ctx.el, t);
+  [['#df-1', 0.08], ['#df-2', 0.3], ['#df-3', 0.68]].forEach(([id, f], i) => {
+    const a = frac(ctx, 0, f), p = seg(t, a, a + 0.4, ease.back);
+    css($(id), { o: clamp(p * 1.5), x: (1 - p) * -120 });
+    $(id).style.boxShadow = `0 0 ${40 * pulse(t, a, a + 1.4)}px ${['#22c55e', '#22d3ee', '#fbbf24'][i]}`;
+  });
+});
+
+/* OUTRO */
+{
+  const W = [['Hash.', '#4ade80', 0.0], ['Guess.', '#fbbf24', 0.12], ['Compare.', '#f87171', 0.24]];
+  const words = W.map(([w, c]) => div('', w, $('#oc-w'), `font:900 130px/1.05 Inter;letter-spacing:-.04em;color:${c}`));
+  FV.scene('outro', (t, ctx) => {
+    words.forEach((w, i) => pop(w, t, frac(ctx, 0, W[i][2]), 0.4));
+    enter($('#oc-h'), t, frac(ctx, 0, 0.45), 0.45, 30);
+    pop($('#oc-gh'), t, frac(ctx, 0, 0.95), 0.5);
+  });
+}
+})();
+</script>
+</body>
+</html>

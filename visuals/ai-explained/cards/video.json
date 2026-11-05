@@ -1,0 +1,23 @@
+{
+  "title": "AI Explained: Prompts, Image Generation, RAG & AI Agents",
+  "slug": "ai-explained-cards",
+  "voice": "am_michael",
+  "speed": 1.05,
+  "lineGap": 0.3,
+  "captions": true,
+  "endCard": "📘 more to learn → github.com/HemashreeVI",
+  "endHold": 0.2,
+  "scenes": [
+    { "id": "intro", "title": "Intro", "pad": [0.6, 1.0], "lines": [
+      "AI, explained.",
+      "In the next few minutes: how an AI answers your prompt, how it creates images from noise, how it reads your documents, and how AI agents take action."
+    ]},
+    { "id": "ch1", "pad": [0.4, 0.7], "lines": ["Part one. How AI answers your prompt."] },
+    { "id": "ch2", "pad": [0.4, 0.7], "lines": ["Part two. How AI creates images."] },
+    { "id": "ch3", "pad": [0.4, 0.7], "lines": ["Part three. How AI reads your documents."] },
+    { "id": "ch4", "pad": [0.4, 0.7], "lines": ["Part four. How AI agents take action."] },
+    { "id": "outro", "pad": [0.4, 3.0], "lines": [
+      "That's AI, explained. For more to learn, check out the GitHub link in the description."
+    ]}
+  ]
+}
