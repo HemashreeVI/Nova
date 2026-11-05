@@ -1,0 +1,472 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RootLens Explained</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{--paper:#f5f1e8;--ink:#1d1c1a;--mut:#6d6a63;--line:#1d1c1a;--ind:#4f46e5;--red:#d64535;--grn:#1f8a4c;--amb:#c77d00;--blu:#2563eb;--soft:#ebe5d8}
+  #fv-stage{background:var(--paper);color:var(--ink);font-family:'IBM Plex Sans',sans-serif}
+  #dots{position:absolute;inset:0;background-image:radial-gradient(#d7cfbd 1.6px,transparent 1.6px);background-size:34px 34px;opacity:.7}
+  #fv-stage #fv-caption{background:var(--ink);color:#fbf8f1;font:500 38px/1.3 'IBM Plex Sans',sans-serif;border-radius:10px;padding:12px 26px}
+  .abs{position:absolute}
+  .mono{font-family:'IBM Plex Mono',monospace}
+  .gro{font-family:'Space Grotesk',sans-serif}
+  .brand{position:absolute;right:110px;top:58px;display:flex;align-items:center;gap:12px;font:700 26px 'Space Grotesk'}
+  .num{position:absolute;left:110px;top:70px;width:74px;height:74px;border:3px solid var(--ink);border-radius:12px;background:#fff;box-shadow:5px 5px 0 var(--ink);display:flex;align-items:center;justify-content:center;font:700 34px 'Space Grotesk'}
+  .ttl{position:absolute;left:214px;top:70px;font:700 62px/1.15 'Space Grotesk';letter-spacing:-.02em}
+  .ttl u{text-decoration:none;background:linear-gradient(transparent 62%,#c7c2fb 62%)}
+  .box{position:absolute;border:3px solid var(--ink);border-radius:14px;background:#fff;box-shadow:6px 6px 0 var(--ink);box-sizing:border-box}
+  .lbl{font:600 19px 'IBM Plex Mono';letter-spacing:.06em;color:var(--mut);text-transform:uppercase}
+  .tagx{display:inline-block;padding:8px 18px;border:2.5px solid var(--ink);border-radius:30px;background:#fff;font:600 24px 'IBM Plex Sans';white-space:nowrap}
+  .svc{position:absolute;border:3px solid var(--ink);border-radius:12px;background:#fff;box-shadow:5px 5px 0 var(--ink);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;box-sizing:border-box;font:700 28px 'Space Grotesk'}
+  .svc small{font:500 18px 'IBM Plex Mono';color:var(--mut);margin-top:4px}
+  .sticker{position:absolute;padding:6px 14px;border-radius:8px;font:600 18px 'IBM Plex Mono';border:2px solid var(--ink);white-space:nowrap}
+  .code{font:500 24px/1.6 'IBM Plex Mono';white-space:pre;color:var(--ink)}
+  .code b{color:var(--ind);font-weight:600}
+  .chk{display:flex;align-items:flex-start;gap:16px;font:500 27px/1.35 'IBM Plex Sans';margin-bottom:16px}
+  .chk i{flex:none;width:34px;height:34px;border:3px solid var(--ink);border-radius:8px;display:flex;align-items:center;justify-content:center;font:700 22px 'Space Grotesk';font-style:normal;background:#fff}
+  .shot{position:absolute;border:3px solid var(--ink);border-radius:14px;background:#fff;box-shadow:8px 8px 0 var(--ink);overflow:hidden}
+  .shot .bar{height:40px;border-bottom:3px solid var(--ink);background:var(--soft);display:flex;align-items:center;gap:8px;padding:0 16px}
+  .shot .bar i{width:13px;height:13px;border-radius:50%;border:2px solid var(--ink)}
+  .shot .bar span{margin-left:14px;font:500 17px 'IBM Plex Mono';color:var(--mut)}
+  .shot .view{position:relative;overflow:hidden}
+  .shot .view img{position:absolute;left:0;top:0;width:1440px;height:900px;transform-origin:0 0}
+  .mark{position:absolute;border:4px solid var(--red);border-radius:10px}
+</style>
+</head>
+<body>
+<div id="fv-stage">
+  <div id="dots"></div>
+  <div class="brand"><svg width="34" height="34" viewBox="0 0 34 34"><circle cx="14" cy="14" r="10" fill="none" stroke="#1d1c1a" stroke-width="3.5"/><line x1="21.5" y1="21.5" x2="31" y2="31" stroke="#1d1c1a" stroke-width="4" stroke-linecap="round"/><circle cx="14" cy="14" r="3.5" fill="#4f46e5"/></svg>RootLens</div>
+
+  <!-- INTRO -->
+  <section class="fv-scene" data-scene="intro">
+    <svg id="in-lens" class="abs" width="420" height="420" viewBox="0 0 420 420" style="left:1290px;top:250px">
+      <circle cx="170" cy="170" r="130" fill="#fff" stroke="#1d1c1a" stroke-width="10"/>
+      <line x1="265" y1="265" x2="390" y2="390" stroke="#1d1c1a" stroke-width="22" stroke-linecap="round"/>
+      <g id="in-graph"><circle cx="120" cy="130" r="16" fill="#2563eb"/><circle cx="220" cy="110" r="16" fill="#1f8a4c"/><circle cx="200" cy="215" r="20" fill="#d64535"/><line x1="120" y1="130" x2="220" y2="110" stroke="#1d1c1a" stroke-width="4"/><line x1="120" y1="130" x2="200" y2="215" stroke="#1d1c1a" stroke-width="4"/></g>
+    </svg>
+    <div id="in-h" class="abs gro" style="left:110px;top:250px;font:700 160px/1 'Space Grotesk';letter-spacing:-.04em">RootLens</div>
+    <div id="in-s1" class="abs" style="left:116px;top:440px;font:500 42px/1.3 'IBM Plex Sans';width:1180px">An incident-response lab that <u style="text-decoration:none;background:linear-gradient(transparent 60%,#c7c2fb 60%)">finds out why</u>, then fixes it.</div>
+    <div id="in-tags" class="abs" style="left:116px;top:640px;display:flex;flex-wrap:wrap;gap:14px;width:1100px"></div>
+  </section>
+
+  <!-- PROBLEM -->
+  <section class="fv-scene" data-scene="problem">
+    <div class="num">?</div><div class="ttl">A bad release, <u>late at night</u></div>
+    <div id="pb-alert" class="box" style="left:110px;top:220px;width:1700px;height:150px;display:flex;align-items:center;gap:30px;padding:0 36px;background:#fff4f1">
+      <div style="font-size:64px">🚨</div>
+      <div><div class="gro" style="font:700 40px 'Space Grotesk'">payment-service v2 deployed</div><div class="mono" id="pb-fail" style="font-size:28px;color:var(--red);margin-top:6px"></div></div>
+    </div>
+    <div id="pb-steps" class="abs" style="left:110px;top:430px;width:1700px;display:flex;gap:22px"></div>
+    <div id="pb-auto" class="abs gro" style="left:0;right:0;top:760px;text-align:center;font:700 52px 'Space Grotesk'">RootLens <u style="text-decoration:none;background:linear-gradient(transparent 60%,#c7c2fb 60%)">automates this whole loop.</u></div>
+  </section>
+
+  <!-- LOOP -->
+  <section class="fv-scene" data-scene="loop">
+    <div class="num">⟳</div><div class="ttl">Same <u>five steps</u>, every time</div>
+    <svg id="lp-svg" class="abs" width="1920" height="1080" style="inset:0"></svg>
+    <div id="lp-steps"></div>
+  </section>
+
+  <!-- ARCH -->
+  <section class="fv-scene" data-scene="arch">
+    <div class="num">⌂</div><div class="ttl">The lab: <u>8 containers</u></div>
+    <svg id="ar-svg" class="abs" width="1920" height="1080" style="inset:0"></svg>
+    <div id="ar-cust" class="svc" style="left:110px;top:400px;width:190px;height:110px">🧑 customer</div>
+    <div id="ar-ord" class="svc" style="left:410px;top:380px;width:280px;height:150px">order-service<small>FastAPI · :8002</small></div>
+    <div id="ar-usr" class="svc" style="left:850px;top:250px;width:280px;height:130px">user-service<small>FastAPI · :8001</small></div>
+    <div id="ar-pay" class="svc" style="left:850px;top:530px;width:280px;height:130px">payment-service<small>FastAPI · :8003</small></div>
+    <div id="ar-chaos1" class="sticker" style="left:1145px;top:270px;background:#fff1c2">⚡ errors · ⏱ latency</div>
+    <div id="ar-bug1" class="sticker" style="left:1145px;top:322px;background:#ffd9d3">v2 bug: +4 s latency</div>
+    <div id="ar-chaos2" class="sticker" style="left:1145px;top:550px;background:#fff1c2">⚡ errors · ⏱ latency</div>
+    <div id="ar-bug2" class="sticker" style="left:1145px;top:602px;background:#ffd9d3">v2 bug: 50% errors</div>
+    <div id="ar-obs" class="abs" style="left:1460px;top:220px;width:350px"></div>
+    <div id="ar-brain" class="abs" style="left:110px;top:720px;width:1000px;display:flex;gap:24px"></div>
+  </section>
+
+  <!-- DETECT -->
+  <section class="fv-scene" data-scene="detect">
+    <div class="num">1</div><div class="ttl"><u>Detect</u></div>
+    <div id="dt-q" class="box" style="left:110px;top:200px;width:1700px;padding:18px 26px">
+      <div class="lbl">every 10 s · PromQL</div>
+      <div class="code" style="font-size:23px;margin-top:6px">sum(rate(rootlens_order_requests_total{endpoint="/orders",<b>status=~"5.."</b>}[1m]))
+  / sum(rate(rootlens_order_requests_total{endpoint="/orders"}[1m]))</div>
+    </div>
+    <div id="dt-ch" class="box" style="left:110px;top:400px;width:1060px;height:480px"><svg id="dt-svg" width="1054" height="474" style="position:absolute;inset:0"></svg></div>
+    <div id="dt-st" class="box" style="left:1210px;top:400px;width:600px;height:480px;padding:24px 28px">
+      <div class="lbl">state</div>
+      <div id="dt-state" class="gro" style="font:700 44px 'Space Grotesk';margin-top:10px"></div>
+      <div id="dt-cnt" class="mono" style="font-size:26px;margin-top:10px"></div>
+      <div id="dt-ev" class="mono" style="font-size:20px;line-height:1.55;margin-top:22px;color:#3d3a35"></div>
+    </div>
+  </section>
+
+  <!-- INVESTIGATE -->
+  <section class="fv-scene" data-scene="investigate">
+    <div class="num">2</div><div class="ttl"><u>Investigate</u>: score every cause</div>
+    <div id="iv-sc" class="box" style="left:110px;top:210px;width:1060px;height:440px;padding:24px 30px">
+      <div class="lbl">payment-service · real scores from the demo run</div>
+      <div id="iv-bars" style="margin-top:18px"></div>
+    </div>
+    <div id="iv-rule" class="box" style="left:1210px;top:210px;width:600px;height:440px;padding:24px 28px">
+      <div class="lbl">"returning errors" evidence</div>
+      <div id="iv-ev" style="margin-top:16px"></div>
+    </div>
+    <div id="iv-conf" class="box" style="left:110px;top:690px;width:1060px;height:190px;padding:24px 30px">
+      <div class="lbl">confidence</div>
+      <div class="mono" style="font-size:28px;margin-top:14px">HIGH ⇔ top ≥ 0.75 <b style="color:var(--ind)">and</b> top − 2nd ≥ 0.3</div>
+      <div id="iv-calc" class="mono" style="font-size:28px;margin-top:10px;color:var(--grn)"></div>
+    </div>
+    <div id="iv-br" class="box" style="left:1210px;top:690px;width:600px;height:190px;padding:20px 28px">
+      <div class="lbl">blast radius</div>
+      <div id="iv-brt" style="font:600 30px 'IBM Plex Sans';margin-top:14px"></div>
+    </div>
+  </section>
+
+  <!-- CHANGE -->
+  <section class="fv-scene" data-scene="change">
+    <div class="num">?</div><div class="ttl">What <u>changed</u>?</div>
+    <div id="ch-box" class="box" style="left:110px;top:230px;width:1700px;height:430px"><svg id="ch-svg" width="1694" height="424" style="position:absolute;inset:0"></svg></div>
+    <div id="ch-rb" class="box" style="left:110px;top:710px;width:1700px;height:150px;display:flex;align-items:center;gap:26px;padding:0 34px;background:#fff8e6">
+      <div style="font-size:52px">↩️</div><div style="font:500 30px 'IBM Plex Sans'">Latest change was <b class="mono">v2 → v1</b>? That's a <b>rollback</b>. Never roll back twice. Escalate instead.</div>
+    </div>
+  </section>
+
+  <!-- DECIDE -->
+  <section class="fv-scene" data-scene="decide">
+    <div class="num">3</div><div class="ttl"><u>Decide</u>: the rulebook</div>
+    <div id="dc-fn" class="box" style="left:110px;top:210px;width:820px;height:670px;padding:26px 30px">
+      <div class="lbl">controller/policy.py · pure function</div>
+      <div class="code" style="font-size:22px;margin-top:14px">decide(diagnosis, attempts,
+       actions_last_hour)
+  → <b>act</b> | <b>wait</b> | <b>escalate</b></div>
+      <div class="code" style="font-size:21px;margin-top:22px;color:#3d3a35">ALLOWED_ACTIONS = {
+  "rollback_deployment",
+  "restart_service" }
+ALLOWED_TARGETS = {
+  "user-service", "payment-service" }
+MIN_CONFIDENCE = "high"
+MAX_ATTEMPTS_PER_INCIDENT = 2
+COOLDOWN_SECONDS = 60
+MAX_ACTIONS_PER_SERVICE_PER_HOUR = 3</div>
+    </div>
+    <div id="dc-rules" class="abs" style="left:980px;top:220px;width:830px"></div>
+    <div id="dc-ladder" class="abs" style="left:980px;top:740px;width:830px;display:flex;align-items:center;gap:14px"></div>
+  </section>
+
+  <!-- ACT -->
+  <section class="fv-scene" data-scene="act">
+    <div class="num">4·5</div><div class="ttl"><u>Act</u>, then <u>verify</u></div>
+    <div id="ac-modes" class="abs" style="left:110px;top:210px;width:1700px;display:flex;gap:24px"></div>
+    <div id="ac-pre" class="box" style="left:110px;top:430px;width:820px;height:300px;padding:24px 30px">
+      <div class="lbl">pre-flight checks</div>
+      <div id="ac-checks" style="margin-top:16px"></div>
+    </div>
+    <div id="ac-exe" class="box" style="left:980px;top:430px;width:830px;height:300px;padding:24px 30px">
+      <div class="lbl">executor.py · the only code that touches Docker</div>
+      <div class="code" style="font-size:22px;margin-top:14px">docker compose up -d --no-deps \
+  --force-recreate payment-service</div>
+      <div class="lbl" style="margin-top:22px">verify</div>
+      <div id="ac-ver" class="mono" style="font-size:30px;margin-top:10px"></div>
+    </div>
+    <div id="ac-audit" class="box" style="left:110px;top:770px;width:1700px;height:110px;display:flex;align-items:center;gap:20px;padding:0 30px;background:#f1efff">
+      <span style="font-size:40px">📒</span><span style="font:500 28px 'IBM Plex Sans'"><b>Audit log:</b> every decision is recorded, <i>including choosing not to act.</i></span>
+    </div>
+  </section>
+
+  <!-- DEMO -->
+  <section class="fv-scene" data-scene="demo">
+    <div class="num">▶</div><div class="ttl">A <u>real</u> incident</div>
+    <div id="dm-shot" class="shot" style="left:110px;top:190px;width:1180px;height:778px"><div class="bar"><i style="background:#ff8a7a"></i><i style="background:#ffd36b"></i><i style="background:#7fd99a"></i><span id="dm-url">localhost:8002/dashboard</span></div><div class="view" style="width:1174px;height:732px"><img id="dm-img" alt=""><div id="dm-mark" class="mark"></div></div></div>
+    <div id="dm-tl" class="abs" style="left:1340px;top:200px;width:470px"></div>
+  </section>
+
+  <!-- TESTS -->
+  <section class="fv-scene" data-scene="tests">
+    <div class="num">✓</div><div class="ttl"><u>118</u> unit tests</div>
+    <div id="ts-box" class="box" style="left:110px;top:210px;width:1140px;height:660px;padding:26px 32px">
+      <div class="lbl">tests per file</div>
+      <div id="ts-bars" style="margin-top:20px"></div>
+    </div>
+    <div id="ts-ci" class="box" style="left:1300px;top:210px;width:510px;height:660px;padding:26px 30px">
+      <div class="lbl">GitHub Actions · every push</div>
+      <div id="ts-jobs" style="margin-top:22px"></div>
+    </div>
+  </section>
+
+  <!-- HONEST -->
+  <section class="fv-scene" data-scene="honest">
+    <div class="num">!</div><div class="ttl"><u>Honest</u> notes</div>
+    <div id="hn-notes" class="abs" style="left:110px;top:230px;width:1700px;display:grid;grid-template-columns:1fr 1fr;gap:34px"></div>
+  </section>
+
+  <!-- OUTRO -->
+  <section class="fv-scene" data-scene="outro">
+    <div id="oc-steps" class="abs" style="left:110px;top:250px;width:1700px;display:flex;justify-content:space-between"></div>
+    <div id="oc-t" class="abs gro" style="left:0;right:0;top:560px;text-align:center;font:700 60px/1.25 'Space Grotesk'">Fixes only within strict limits.<br><u style="text-decoration:none;background:linear-gradient(transparent 60%,#c7c2fb 60%)">Escalates when it isn't sure.</u></div>
+    <div id="oc-gh" class="abs mono" style="left:0;right:0;top:790px;text-align:center;font-size:30px;color:var(--mut)">github.com/HemashreeVI/rootlens</div>
+  </section>
+</div>
+<script src="timing.js"></script>
+<script src="fv-runtime.js"></script>
+<script>
+(() => {
+const { seg, css, enter, lerp, clamp, ease, pulse, $ } = FV;
+const NS = 'http://www.w3.org/2000/svg';
+const svgEl = (tag, a, p) => { const e = document.createElementNS(NS, tag); for (const k in a) e.setAttribute(k, a[k]); if (p) p.appendChild(e); return e; };
+const div = (cls, html, p, style) => { const e = document.createElement('div'); if (cls) e.className = cls; if (html !== undefined) e.innerHTML = html; if (style) e.style.cssText = style; if (p) p.appendChild(e); return e; };
+const IN = (el, t, a, d = 0.8, rise = 26) => enter(el, t, a, d, rise);           // gentle entrance
+const head = (el, t) => { IN(el.querySelector('.num'), t, 0.1, 0.7, 12); IN(el.querySelector('.ttl'), t, 0.25, 0.8, 18); };
+const F = (ctx, i, f) => ctx.line(i) + (ctx.lineEnd(i) - ctx.line(i)) * f;
+const INK = '#1d1c1a', IND = '#4f46e5', RED = '#d64535', GRN = '#1f8a4c', AMB = '#c77d00', BLU = '#2563eb', MUT = '#6d6a63';
+const line = (svg, x1, y1, x2, y2, c = INK, w = 4, dash = '') => svgEl('line', { x1, y1, x2, y2, stroke: c, 'stroke-width': w, 'stroke-dasharray': dash, 'stroke-linecap': 'round' }, svg);
+const head2 = (svg, x, y, ang, c = INK) => svgEl('path', { d: `M${x} ${y} L${x - 16 * Math.cos(ang - 0.5)} ${y - 16 * Math.sin(ang - 0.5)} L${x - 16 * Math.cos(ang + 0.5)} ${y - 16 * Math.sin(ang + 0.5)}Z`, fill: c }, svg);
+const arrow = (svg, x1, y1, x2, y2, c, dash) => { const g = svgEl('g', {}, svg); line(g, x1, y1, x2, y2, c, 4, dash); head2(g, x2, y2, Math.atan2(y2 - y1, x2 - x1), c); return g; };
+const draw = (el, p) => { const L = el.getTotalLength ? el.getTotalLength() : 1000; el.setAttribute('stroke-dasharray', `${L}`); el.setAttribute('stroke-dashoffset', L * (1 - p)); };
+
+/* INTRO */
+{
+  const tags = ['Python', 'FastAPI', 'Docker', 'Prometheus', 'Grafana', 'OpenTelemetry', 'Jaeger', 'GitHub Actions'].map((s) => div('tagx', s, $('#in-tags')));
+  FV.scene('intro', (t, ctx) => {
+    IN($('#in-h'), t, 0.2, 1.0, 30);
+    IN($('#in-lens'), t, 0.5, 1.0, 20);
+    css($('#in-lens'), { r: Math.sin(t * 0.8) * 4 });
+    IN($('#in-s1'), t, F(ctx, 1, 0.05), 0.9, 20);
+    tags.forEach((g, i) => IN(g, t, F(ctx, 2, 0.1) + i * 0.25, 0.6, 12));
+  });
+}
+
+/* PROBLEM */
+{
+  const S = [['🔔', 'notice the alert'], ['📊', 'open dashboards'], ['🤔', 'which service?'], ['🔍', 'what changed?'], ['↩️', 'roll it back']];
+  const steps = S.map(([ic, w]) => div('box', `<div style="font-size:54px">${ic}</div><div style="font:600 26px 'IBM Plex Sans';margin-top:10px">${w}</div>`, $('#pb-steps'), 'position:relative;flex:1;height:220px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center'));
+  FV.scene('problem', (t, ctx) => {
+    head(ctx.el, t);
+    IN($('#pb-alert'), t, F(ctx, 0, 0.35), 0.8, 20);
+    const f = seg(t, F(ctx, 0, 0.75), F(ctx, 0, 1.0));
+    $('#pb-fail').textContent = f > 0 ? `${Math.round(50 * f)}% of orders failing…` : '';
+    steps.forEach((s, i) => IN(s, t, F(ctx, 1, 0.15 + i * 0.17), 0.7, 20));
+    const auto = seg(t, ctx.line(2) + 1.2, ctx.line(2) + 2);
+    steps.forEach((s) => (s.style.background = auto > 0.5 ? '#f1efff' : '#fff'));
+    IN($('#pb-auto'), t, F(ctx, 2, 0.35), 0.9, 20);
+  });
+}
+
+/* LOOP */
+{
+  const sv = $('#lp-svg');
+  const S = [['1', 'Detect', 'orders failing?', BLU], ['2', 'Investigate', 'rank the causes', IND], ['3', 'Decide', 'check the rules', AMB], ['4', 'Act', 'rollback / restart', RED], ['5', 'Verify', 'customers OK?', GRN]];
+  const X = [260, 610, 960, 1310, 1660], Y = 520;
+  const links = X.slice(0, 4).map((x, i) => arrow(sv, x + 120, Y, X[i + 1] - 125, Y, INK));
+  const back = svgEl('path', { d: `M${X[4]} ${Y + 175} C${X[4]} 880 ${X[0]} 880 ${X[0]} ${Y + 175}`, fill: 'none', stroke: MUT, 'stroke-width': 4, 'stroke-dasharray': '12 10' }, sv);
+  const nodes = S.map(([n, w, d, c], i) => div('', `<div style="width:96px;height:96px;border-radius:50%;border:4px solid ${INK};background:${c};color:#fff;display:flex;align-items:center;justify-content:center;font:700 44px 'Space Grotesk';box-shadow:5px 5px 0 ${INK}">${n}</div><div class="gro" style="font:700 40px 'Space Grotesk';margin-top:22px">${w}</div><div style="font:500 24px 'IBM Plex Sans';color:${MUT};margin-top:6px">${d}</div>`, $('#lp-steps'), `position:absolute;left:${X[i] - 150}px;top:${Y - 50}px;width:300px;display:flex;flex-direction:column;align-items:center;text-align:center`));
+  const at = [0.0, 0.2, 0.4, 0.6, 0.8];
+  FV.scene('loop', (t, ctx) => {
+    head(ctx.el, t);
+    nodes.forEach((n, i) => IN(n, t, F(ctx, 1, at[i]) - 0.3, 0.7, 24));
+    links.forEach((l, i) => l.setAttribute('opacity', seg(t, F(ctx, 1, at[i + 1]) - 0.4, F(ctx, 1, at[i + 1]) - 0.1)));
+    draw(back, seg(t, ctx.lineEnd(1) - 0.2, ctx.dur - 0.2));
+  });
+}
+
+/* ARCH */
+{
+  const sv = $('#ar-svg');
+  const a1 = arrow(sv, 304, 455, 404, 455, INK), a2 = arrow(sv, 694, 430, 844, 330, INK), a3 = arrow(sv, 694, 480, 844, 590, INK);
+  const t1 = svgEl('text', { x: 860, y: 412, 'font-size': 20, 'font-family': 'IBM Plex Mono', fill: MUT }, sv); t1.textContent = '3 s timeout';
+  const t2 = svgEl('text', { x: 860, y: 692, 'font-size': 20, 'font-family': 'IBM Plex Mono', fill: MUT }, sv); t2.textContent = '3 s timeout';
+  const O = [['🔥 Prometheus', 'scrapes every 5 s', '#fff4e8'], ['📈 Grafana', 'dashboards', '#fff4e8'], ['🧵 Jaeger', 'OpenTelemetry traces', '#eef3ff']];
+  const obs = O.map(([h, d, bg]) => div('box', `<div class="gro" style="font:700 30px 'Space Grotesk'">${h}</div><div style="font:500 21px 'IBM Plex Sans';color:${MUT};margin-top:4px">${d}</div>`, $('#ar-obs'), `position:relative;padding:16px 22px;margin-bottom:22px;background:${bg}`));
+  const scr = [line(sv, 1455, 270, 1130, 300, AMB, 3, '8 8'), line(sv, 1455, 280, 1130, 580, AMB, 3, '8 8'), line(sv, 1455, 290, 690, 420, AMB, 3, '8 8')];
+  const B = [['🕵️ detector', 'opens / resolves incidents', '#f1efff'], ['🤖 controller', 'decides · acts · verifies', '#f1efff'], ['🗄️ SQLite', 'incidents · deployments · audit', '#fff']];
+  const brain = B.map(([h, d, bg]) => div('box', `<div class="gro" style="font:700 30px 'Space Grotesk'">${h}</div><div style="font:500 21px 'IBM Plex Sans';color:${MUT};margin-top:4px">${d}</div>`, $('#ar-brain'), `position:relative;flex:1;padding:18px 22px;background:${bg}`));
+  FV.scene('arch', (t, ctx) => {
+    head(ctx.el, t);
+    [['#ar-cust', 0.2], ['#ar-ord', 0.3], ['#ar-usr', 0.55], ['#ar-pay', 0.62]].forEach(([id, f]) => IN($(id), t, F(ctx, 0, f), 0.8, 20));
+    a1.setAttribute('opacity', seg(t, F(ctx, 0, 0.35), F(ctx, 0, 0.45)));
+    [a2, a3, t1, t2].forEach((e) => e.setAttribute('opacity', seg(t, F(ctx, 0, 0.7), F(ctx, 0, 0.8))));
+    [['#ar-chaos1', 0.1], ['#ar-chaos2', 0.15], ['#ar-bug1', 0.55], ['#ar-bug2', 0.65]].forEach(([id, f]) => IN($(id), t, F(ctx, 1, f), 0.6, 10));
+    obs.forEach((o, i) => IN(o, t, F(ctx, 2, 0.05 + i * 0.3), 0.7, 16));
+    scr.forEach((s, i) => { s.setAttribute('opacity', seg(t, F(ctx, 2, 0.15), F(ctx, 2, 0.3)) * 0.8); s.setAttribute('stroke-dashoffset', -t * 18); });
+    brain.forEach((b, i) => IN(b, t, F(ctx, 3, 0.05 + i * 0.3), 0.7, 16));
+  });
+}
+
+/* DETECT */
+{
+  const sv = $('#dt-svg'), L = 70, R = 1010, T = 40, B = 420;
+  const y = (v) => B - (B - T) * v;
+  line(sv, L, B, R, B, INK, 3); line(sv, L, T, L, B, INK, 3);
+  const th = line(sv, L, y(0.3), R, y(0.3), RED, 3, '12 9'), rc = line(sv, L, y(0.1), R, y(0.1), GRN, 3, '12 9');
+  const tl = (x, yy, s, c) => { const e = svgEl('text', { x, y: yy, 'font-size': 20, 'font-family': 'IBM Plex Mono', fill: c }, sv); e.textContent = s; return e; };
+  const thl = tl(R - 230, y(0.3) - 10, 'open at ≥ 0.3', RED), rcl = tl(R - 230, y(0.1) - 10, 'resolve below 0.1', GRN);
+  tl(L + 6, T - 10, 'order failure ratio', MUT); tl(R - 140, B + 32, 'checks →', MUT);
+  // real-ish trace from the demo run: healthy, v2 ships, ~0.52, rollback, 0
+  const V = [0, 0, 0, 0.05, 0.18, 0.31, 0.47, 0.5, 0.52, 0.54, 0.53, 0.35, 0.12, 0.02, 0, 0, 0];
+  const pts = V.map((v, i) => [L + 30 + i * ((R - L - 60) / (V.length - 1)), y(v)]);
+  const poly = svgEl('polyline', { points: pts.map((p) => p.join(',')).join(' '), fill: 'none', stroke: INK, 'stroke-width': 4 }, sv);
+  const dots = pts.map((p, i) => svgEl('circle', { cx: p[0], cy: p[1], r: 9, fill: '#fff', stroke: INK, 'stroke-width': 3 }, sv));
+  const EV = ['payment-service up = 1', 'own error ratio = 0.52', 'error 2.29/s · timeout 0/s', 'p95 latency = 0.05 s', 'v2 deployed 62 s before'];
+  FV.scene('detect', (t, ctx) => {
+    head(ctx.el, t);
+    IN($('#dt-q'), t, F(ctx, 0, 0.35), 0.8, 18);
+    IN($('#dt-ch'), t, ctx.line(1) - 0.4, 0.8, 18); IN($('#dt-st'), t, ctx.line(1) - 0.2, 0.8, 18);
+    const p = seg(t, ctx.line(1), F(ctx, 2, 0.75), ease.linear);
+    const n = Math.min(V.length, Math.floor(p * V.length) + 1);
+    draw(poly, p);
+    dots.forEach((d, i) => { d.setAttribute('opacity', i < n && t > ctx.line(1) ? 1 : 0); d.setAttribute('fill', V[i] >= 0.3 ? RED : V[i] < 0.1 ? '#fff' : '#ffd36b'); });
+    [th, thl].forEach((e) => e.setAttribute('opacity', seg(t, F(ctx, 1, 0.2), F(ctx, 1, 0.4))));
+    [rc, rcl].forEach((e) => e.setAttribute('opacity', seg(t, F(ctx, 2, 0.05), F(ctx, 2, 0.25))));
+    // state machine over the checks
+    let br = 0, ok = 0, open = false, resolved = false;
+    for (let i = 0; i < n; i++) { if (!open) { br = V[i] >= 0.3 ? br + 1 : 0; if (br >= 3) open = true; } else if (!resolved) { ok = V[i] < 0.1 ? ok + 1 : 0; if (ok >= 3) resolved = true; } }
+    const st = $('#dt-state');
+    st.textContent = resolved ? '✓ RESOLVED' : open ? '🚨 INCIDENT OPEN' : 'watching…';
+    st.style.color = resolved ? GRN : open ? RED : INK;
+    $('#dt-cnt').textContent = t < ctx.line(1) ? '' : resolved ? 'healthy 3/3' : open ? (ok ? `healthy ${ok}/3` : 'evidence captured ↓') : `bad checks ${br}/3`;
+    $('#dt-ev').innerHTML = open ? EV.map((e, i) => `<div style="opacity:${seg(t, ctx.line(3) + i * 0.6, ctx.line(3) + i * 0.6 + 0.5)}">• ${e}</div>`).join('') : '';
+  });
+}
+
+/* INVESTIGATE */
+{
+  const C = [['is returning errors', 1.0, RED], ['is too slow (timeouts)', 0.2, AMB], ['is down', 0.0, MUT]];
+  const bars = C.map(([n, v, c]) => { const w = div('', `<div style="display:flex;justify-content:space-between;font:600 30px 'IBM Plex Sans'"><span>payment-service ${n}</span><span class="mono sc" style="color:${c}"></span></div><div style="height:30px;border:3px solid ${INK};border-radius:8px;margin-top:10px;background:#fff;overflow:hidden"><div class="b" style="height:100%;background:${c}"></div></div>`, $('#iv-bars'), 'margin-bottom:28px'); return { w, b: w.querySelector('.b'), s: w.querySelector('.sc'), v }; });
+  const E = [['running (up = 1)', '+0.25'], ['failing 52% of its own requests', '+0.45'], ['almost all failures are errors', '+0.15'], ['responses not slow (p95 0.05 s)', '+0.15']];
+  const ev = E.map(([s, v]) => div('', `<span style="flex:1">✓ ${s}</span><b class="mono" style="color:${GRN}">${v}</b>`, $('#iv-ev'), "display:flex;gap:10px;font:500 24px 'IBM Plex Sans';padding:10px 0;border-bottom:2px dashed #d8d2c4"));
+  FV.scene('investigate', (t, ctx) => {
+    head(ctx.el, t);
+    IN($('#iv-sc'), t, F(ctx, 0, 0.3), 0.8, 18);
+    bars.forEach((b, i) => { IN(b.w, t, F(ctx, 0, 0.45) + i * 0.4, 0.7, 10); const p = seg(t, F(ctx, 1, 0.0) + i * 0.4, F(ctx, 1, 0.0) + i * 0.4 + 1.2, ease.out); b.b.style.width = `${b.v * 100 * p}%`; b.s.textContent = (b.v * p).toFixed(2); });
+    IN($('#iv-rule'), t, F(ctx, 1, 0.05), 0.8, 18);
+    ev.forEach((e, i) => IN(e, t, F(ctx, 1, 0.3 + i * 0.16), 0.6, 10));
+    IN($('#iv-conf'), t, ctx.line(2) - 0.2, 0.8, 18);
+    $('#iv-calc').textContent = t > F(ctx, 2, 0.6) ? '1.00 ≥ 0.75 ✓   1.00 − 0.20 = 0.80 ≥ 0.3 ✓  →  HIGH' : '';
+    IN($('#iv-br'), t, ctx.line(3) - 0.2, 0.8, 18);
+    $('#iv-brt').innerHTML = t > F(ctx, 3, 0.4) ? `payment-service → <span style="color:${RED}">order-service</span> hurt` : '';
+  });
+}
+
+/* CHANGE */
+{
+  const sv = $('#ch-svg'), L = 80, R = 1610, Y = 250;
+  const x = (min) => R - (min / 20) * (R - L);           // 0 = detection, 20 min ago at left
+  const z = (a, b, c, txt, ty) => { const g = svgEl('g', {}, sv); svgEl('rect', { x: x(b), y: Y - 120, width: x(a) - x(b), height: 180, fill: c, opacity: 0.85 }, g); const tt = svgEl('text', { x: (x(a) + x(b)) / 2, y: Y - 140, 'text-anchor': 'middle', 'font-size': 26, 'font-weight': 700, 'font-family': 'Space Grotesk', fill: INK }, g); tt.textContent = txt; return g; };
+  const zs = z(0, 5, '#cfeedd', 'strong (≤ 5 min)'), zm = z(5, 15, '#fff0c9', 'moderate (≤ 15 min)'), zw = z(15, 20, '#ece8df', 'weak');
+  line(sv, L, Y + 60, R, Y + 60, INK, 4);
+  const det = svgEl('g', {}, sv); line(det, R, Y - 140, R, Y + 90, RED, 5); const dt = svgEl('text', { x: R - 10, y: Y + 125, 'text-anchor': 'end', 'font-size': 24, 'font-weight': 700, 'font-family': 'IBM Plex Mono', fill: RED }, det); dt.textContent = 'incident detected';
+  const rel = svgEl('g', {}, sv); const rx = x(62 / 60); svgEl('circle', { cx: rx, cy: Y + 60, r: 16, fill: IND, stroke: INK, 'stroke-width': 3 }, rel); const rt = svgEl('text', { x: rx - 24, y: Y + 30, 'text-anchor': 'end', 'font-size': 26, 'font-weight': 700, 'font-family': 'IBM Plex Mono', fill: IND }, rel); rt.textContent = 'payment v1 → v2 · 62 s before';
+  FV.scene('change', (t, ctx) => {
+    head(ctx.el, t);
+    IN($('#ch-box'), t, F(ctx, 0, 0.3), 0.8, 18);
+    det.setAttribute('opacity', seg(t, F(ctx, 0, 0.6), F(ctx, 0, 0.9)));
+    zs.setAttribute('opacity', seg(t, F(ctx, 1, 0.25), F(ctx, 1, 0.4))); zm.setAttribute('opacity', seg(t, F(ctx, 1, 0.7), F(ctx, 1, 0.85))); zw.setAttribute('opacity', seg(t, F(ctx, 1, 0.9), ctx.lineEnd(1)));
+    rel.setAttribute('opacity', seg(t, F(ctx, 1, 0.5), F(ctx, 1, 0.65)));
+    IN($('#ch-rb'), t, ctx.line(2) - 0.2, 0.8, 18);
+  });
+}
+
+/* DECIDE */
+{
+  const R = [['only rollback or restart', 1, 0.3], ['only user / payment service', 1, 0.7], ['only with HIGH confidence', 2, 0.15], ['more than one service failing → human', 2, 0.6], ['≤ 2 attempts · 60 s cooldown · 3 / hour', 3, 0.35]];
+  const rules = R.map(([s]) => div('chk', `<i>✓</i><span>${s}</span>`, $('#dc-rules')));
+  const L = [['rollback', GRN], ['restart', AMB], ['escalate 🧑', RED]];
+  const lad = [];
+  L.forEach(([s, c], i) => { lad.push(div('box', s, $('#dc-ladder'), `position:relative;padding:16px 24px;font:700 28px 'Space Grotesk';background:${c}22`)); if (i < 2) lad.push(div('', '→', $('#dc-ladder'), "font:700 34px 'Space Grotesk'")); });
+  FV.scene('decide', (t, ctx) => {
+    head(ctx.el, t);
+    IN($('#dc-fn'), t, F(ctx, 0, 0.3), 0.8, 18);
+    rules.forEach((r, i) => { const a = F(ctx, R[i][1], R[i][2]); IN(r, t, a, 0.6, 10); r.querySelector('i').style.background = t > a + 0.4 ? '#cfeedd' : '#fff'; });
+    lad.forEach((l, i) => IN(l, t, F(ctx, 3, 0.7) + i * 0.15, 0.6, 10));
+  });
+}
+
+/* ACT */
+{
+  const M = [['off', 'does nothing'], ['dry-run', 'decides + records, never acts'], ['enforce', 'checks, acts, verifies']];
+  const modes = M.map(([h, d]) => div('box', `<div class="gro" style="font:700 34px 'Space Grotesk'">${h}</div><div style="font:500 23px 'IBM Plex Sans';color:${MUT};margin-top:6px">${d}</div>`, $('#ac-modes'), 'position:relative;flex:1;padding:22px 26px;height:170px'));
+  const C = ['incident is recent (≤ 30 min)', 'still failing right now', 'bad version is still running'];
+  const checks = C.map((s) => div('chk', `<i>✓</i><span>${s}</span>`, $('#ac-checks')));
+  FV.scene('act', (t, ctx) => {
+    head(ctx.el, t);
+    modes.forEach((m, i) => IN(m, t, F(ctx, 0, 0.3 + i * 0.12), 0.7, 14));
+    const cur = t > F(ctx, 0, 0.75) && t < ctx.line(1) ? 1 : t >= ctx.line(1) ? 2 : -1;
+    modes.forEach((m, i) => (m.style.background = i === cur ? '#f1efff' : '#fff'));
+    IN($('#ac-pre'), t, ctx.line(1) - 0.2, 0.8, 18);
+    checks.forEach((c, i) => { const a = F(ctx, 1, 0.25 + i * 0.25); IN(c, t, a, 0.6, 10); c.querySelector('i').style.background = t > a + 0.4 ? '#cfeedd' : '#fff'; });
+    IN($('#ac-exe'), t, ctx.line(2) - 0.2, 0.8, 18);
+    const k = Math.min(3, Math.floor(Math.max(0, t - F(ctx, 3, 0.1)) / 0.9));
+    $('#ac-ver').innerHTML = t > F(ctx, 3, 0.05) ? `${'<span style="color:#1f8a4c">✓</span> '.repeat(k)}${'<span style="color:#c9c2b2">○</span> '.repeat(3 - k)}${k === 3 ? '<b style="color:#1f8a4c">recovered</b>' : ''}` : '';
+    IN($('#ac-audit'), t, F(ctx, 3, 0.6), 0.8, 14);
+  });
+}
+
+/* DEMO */
+{
+  const img = $('#dm-img'), mk = $('#dm-mark'), VW = 1174, VH = 732, S0 = VW / 1440;
+  const show = (src, url, zoom, cx, cy, box) => {
+    if (!img.src.endsWith(src)) img.src = 'shots/' + src;
+    $('#dm-url').textContent = url;
+    const s = S0 * zoom; let tx = VW / 2 - cx * s, ty = VH / 2 - cy * s;
+    tx = Math.min(0, Math.max(VW - 1440 * s, tx)); ty = Math.min(0, Math.max(VH - 900 * s, ty));
+    img.style.transform = `translate(${tx}px,${ty}px) scale(${s})`;
+    if (box) { mk.style.display = 'block'; mk.style.left = `${tx + box[0] * s}px`; mk.style.top = `${ty + box[1] * s}px`; mk.style.width = `${(box[2] - box[0]) * s}px`; mk.style.height = `${(box[3] - box[1]) * s}px`; } else mk.style.display = 'none';
+  };
+  const TL = [['12:25:02', 'payment-service v2 ships', IND], ['12:26:04', 'incident opened · 52% failing', RED], ['12:26:04', 'diagnosis: returning errors · HIGH', AMB], ['12:26:05', 'robot: roll back to v1', IND], ['12:27:54', 'resolved · orders OK', GRN]];
+  const tl = TL.map(([tm, s, c]) => div('', `<div class="mono" style="font-size:22px;color:${c};font-weight:600">${tm}</div><div style="font:600 25px/1.3 'IBM Plex Sans';margin-top:4px">${s}</div>`, $('#dm-tl'), `position:relative;padding:12px 0 18px 26px;border-left:4px solid ${c};margin-bottom:6px`));
+  FV.scene('demo', (t, ctx) => {
+    head(ctx.el, t);
+    IN($('#dm-shot'), t, 0.3, 0.8, 20);
+    const z = (i, a = 0.0, b = 1.0, z0 = 1, z1 = 1.25) => lerp(z0, z1, seg(t, F(ctx, i, a), F(ctx, i, b), ease.inOut));
+    if (t < ctx.line(1)) show('page-deployments.png', 'localhost:8002/dashboard · Deployments', z(0, 0.3, 1, 1, 1.5), 830, 450, t > F(ctx, 0, 0.6) ? [270, 425, 1410, 485] : null);
+    else if (t < ctx.line(2)) show('live/06-122627.png', 'localhost:8002/dashboard · Overview', z(1, 0, 1, 1, 1.35), 840, 260, [270, 105, 1415, 200]);
+    else if (t < ctx.line(3)) show('page-incident-detail.png', 'localhost:8002/dashboard · Incident', z(2, 0, 0.6, 1, 1.45), 640, 420, [272, 280, 945, 400]);
+    else if (t < ctx.line(4)) show('page-automation.png', 'localhost:8002/dashboard · Automation', z(3, 0, 1, 1.2, 1.5), 830, 720, [272, 690, 1405, 765]);
+    else if (t < F(ctx, 4, 0.55)) show('live/17-122818.png', 'localhost:8002/dashboard · Overview', 1.3, 840, 220, [270, 105, 1415, 200]);
+    else show('page-incident-detail.png', 'localhost:8002/dashboard · Incident', 1.5, 1190, 470, [980, 645, 1405, 715]);
+    const at = [F(ctx, 0, 0.3), F(ctx, 1, 0.2), F(ctx, 2, 0.15), F(ctx, 3, 0.15), F(ctx, 4, 0.4)];
+    tl.forEach((e, i) => IN(e, t, at[i], 0.7, 12));
+  });
+}
+
+/* TESTS */
+{
+  const T = [['controller/test_safety.py', 28], ['controller/test_notify.py', 26], ['controller/test_policy.py', 22], ['controller/test_executor.py', 17], ['order-service/test_investigator.py', 15], ['controller/test_controller.py', 10]];
+  const bars = T.map(([f, n]) => { const w = div('', `<div style="display:flex;justify-content:space-between;font:500 24px 'IBM Plex Mono'"><span>${f}</span><b>${n}</b></div><div style="height:22px;border:3px solid ${INK};border-radius:6px;margin-top:8px;background:#fff;overflow:hidden"><div class="b" style="height:100%;background:${IND}"></div></div>`, $('#ts-bars'), 'margin-bottom:20px'); return { w, b: w.querySelector('.b'), n }; });
+  const jobs = [['test', 'runs all 6 test files'], ['build', 'validates compose · builds every image']].map(([h, d]) => div('box', `<div class="gro" style="font:700 34px 'Space Grotesk'">✓ ${h}</div><div style="font:500 23px 'IBM Plex Sans';color:${MUT};margin-top:6px">${d}</div>`, $('#ts-jobs'), 'position:relative;padding:20px 24px;margin-bottom:26px;background:#cfeedd'));
+  FV.scene('tests', (t, ctx) => {
+    head(ctx.el, t);
+    IN($('#ts-box'), t, F(ctx, 0, 0.2), 0.8, 18);
+    bars.forEach((b, i) => { IN(b.w, t, F(ctx, 0, 0.3) + i * 0.35, 0.6, 10); b.b.style.width = `${(b.n / 28) * 100 * seg(t, F(ctx, 0, 0.3) + i * 0.35, F(ctx, 0, 0.3) + i * 0.35 + 1.2, ease.out)}%`; });
+    IN($('#ts-ci'), t, ctx.line(1) - 0.3, 0.8, 18);
+    jobs.forEach((j, i) => IN(j, t, F(ctx, 1, 0.3 + i * 0.3), 0.7, 12));
+  });
+}
+
+/* HONEST */
+{
+  const N = [['🧪', 'The v2 bug is planted', 'a simulated release pipeline on one machine', '#fff4c9', 0, 0.2], ['🔓', 'Write endpoints unauthenticated', 'POST /deployments and friends · next: API auth', '#ffe1da', 1, 0.05], ['🐳', 'Mounts the Docker socket', 'fine on a laptop · production needs narrower permissions', '#e3ecff', 1, 0.55], ['🐢', 'Slow-but-under-3 s not detected', 'next: a latency-based detector', '#e2f4e8', 2, 0.1]];
+  const notes = N.map(([ic, h, d, bg]) => div('box', `<div style="font-size:46px">${ic}</div><div class="gro" style="font:700 34px 'Space Grotesk';margin-top:8px">${h}</div><div style="font:500 24px 'IBM Plex Sans';color:#4b4842;margin-top:8px">${d}</div>`, $('#hn-notes'), `position:relative;padding:26px 30px;height:250px;background:${bg}`));
+  FV.scene('honest', (t, ctx) => {
+    head(ctx.el, t);
+    notes.forEach((n, i) => { IN(n, t, F(ctx, N[i][4], N[i][5]), 0.8, 18); css(n, { r: [-1, 1, 0.6, -0.8][i] }); n.style.opacity = Math.min(+n.style.opacity || 0, 1); });
+  });
+}
+
+/* OUTRO */
+{
+  const S = [['Detect', BLU], ['Investigate', IND], ['Decide', AMB], ['Act', RED], ['Verify', GRN]];
+  const st = S.map(([w, c], i) => div('', `<div style="width:84px;height:84px;margin:0 auto;border-radius:50%;border:4px solid ${INK};background:${c};color:#fff;display:flex;align-items:center;justify-content:center;font:700 38px 'Space Grotesk';box-shadow:5px 5px 0 ${INK}">${i + 1}</div><div class="gro" style="font:700 38px 'Space Grotesk';margin-top:18px;text-align:center">${w}.</div>`, $('#oc-steps'), 'width:300px'));
+  FV.scene('outro', (t, ctx) => {
+    st.forEach((s, i) => IN(s, t, F(ctx, 0, i * 0.2) - 0.1, 0.6, 16));
+    IN($('#oc-t'), t, ctx.line(1) - 0.2, 0.9, 20);
+    IN($('#oc-gh'), t, ctx.lineEnd(1) + 0.3, 0.8, 10);
+  });
+}
+})();
+</script>
+</body>
+</html>

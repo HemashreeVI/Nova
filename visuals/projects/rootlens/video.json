@@ -1,0 +1,94 @@
+{
+  "title": "RootLens: an incident-response lab that finds out why, then fixes it",
+  "slug": "rootlens",
+  "voice": "af_heart",
+  "speed": 0.92,
+  "lineGap": 0.55,
+  "captions": true,
+  "endCard": "",
+  "thumbnail": "loop@6",
+  "endHold": 0.5,
+  "pronounce": {
+    "RootLens": "Root Lens",
+    "FastAPI": "Fast A P I",
+    "SQLite": "S Q Lite",
+    "OpenTelemetry": "Open Telemetry",
+    "p95": "p ninety five",
+    "v1": "v one",
+    "v2": "v two",
+    "12:25": "twelve twenty five",
+    "0.75": "zero point seven five",
+    "0.3": "zero point three"
+  },
+  "scenes": [
+    { "id": "intro", "title": "RootLens: overview", "pad": [1.0, 1.4], "lines": [
+      "This is RootLens, my incident response lab.",
+      "When something breaks in production, it notices, works out why, and fixes it, but only within strict limits.",
+      "It's built with Python, FastAPI, Docker, Prometheus, Grafana and OpenTelemetry."
+    ]},
+    { "id": "problem", "title": "The problem", "pad": [0.9, 1.4], "lines": [
+      "Picture this. It's late at night, and a new release of the payment service goes out with a bug. Half of all customer orders start failing.",
+      "Normally, a human has to notice the alert, open the dashboards, guess which service is to blame, check what changed, and roll it back.",
+      "That takes minutes, sometimes much longer. RootLens automates that whole loop."
+    ]},
+    { "id": "loop", "title": "The five-step loop", "pad": [0.9, 1.6], "lines": [
+      "It runs the same five steps, every time.",
+      "Detect. Investigate. Decide. Act. And verify."
+    ]},
+    { "id": "arch", "title": "Architecture: 8 containers", "pad": [0.9, 1.4], "lines": [
+      "The lab is eight containers. Three FastAPI microservices form a small shop. The order service calls the user service and the payment service, with a three second timeout on each.",
+      "Each service has fault injection switches for errors and latency, and its v2 release contains a deliberately planted bug.",
+      "Prometheus scrapes every service every five seconds. Grafana draws the dashboards, and Jaeger collects OpenTelemetry traces.",
+      "A detector and a controller are the brains, and SQLite stores the incidents, deployments and an audit log."
+    ]},
+    { "id": "detect", "title": "Step 1: Detect", "pad": [0.9, 1.4], "lines": [
+      "Step one: detect. Every ten seconds, the detector asks Prometheus one question: what share of orders failed over the last minute?",
+      "If that ratio stays at or above thirty percent for three checks in a row, it opens an incident.",
+      "It only resolves after three healthy checks below ten percent. Two different thresholds mean an incident doesn't flicker open and closed.",
+      "The moment it opens, it captures evidence: each dependency's up metric, its own error ratio, how calls to it failed, the p95 latency, and recent deployments."
+    ]},
+    { "id": "investigate", "title": "Step 2: Investigate", "pad": [0.9, 1.4], "lines": [
+      "Step two: investigate. For every dependency, the investigator scores three possible causes: it's down, it's returning errors, or it's too slow.",
+      "Each score comes from the evidence. If a service is up, failing more than twenty percent of its own requests, and its responses aren't slow, that points to errors.",
+      "Confidence is only high when the top cause scores at least 0.75, and beats the runner-up by at least 0.3.",
+      "It also works out the blast radius: which other services depend on the culprit."
+    ]},
+    { "id": "change", "title": "What changed? Change correlation", "pad": [0.9, 1.4], "lines": [
+      "Then it asks the most useful question in any outage: what changed?",
+      "Every release is recorded. A release in the five minutes before detection counts as a strong link. Within fifteen minutes, a moderate one.",
+      "It even notices when the latest change was itself a rollback, so it never rolls back twice."
+    ]},
+    { "id": "decide", "title": "Step 3: Decide (the rulebook)", "pad": [0.9, 1.4], "lines": [
+      "Step three: decide. The rulebook is a pure function. It never touches Docker or the network, so every rule can be unit tested.",
+      "Only two actions exist: roll back a release, or restart a service. And only on the user or payment service, never the order service or its database.",
+      "It acts only with high confidence. If more than one service looks broken, it hands over to a human.",
+      "And it's rate limited: at most two attempts per incident, sixty seconds between attempts, and three actions per service per hour. Gentlest fix first: rollback, then restart."
+    ]},
+    { "id": "act", "title": "Steps 4 & 5: Act and verify", "pad": [0.9, 1.4], "lines": [
+      "Steps four and five: act, and verify. The controller has three modes: off, dry run, and enforce. In dry run, it decides and records, but never acts.",
+      "In enforce mode, it first runs preflight checks. Is the incident recent? Is it still failing right now? Is the bad version still the one running?",
+      "Only then does the executor, the only code allowed to touch Docker, recreate the service on the previous version.",
+      "Then it verifies. Three healthy checks in a row means recovered. If not, it escalates to a human. And every decision, even choosing not to act, goes into an audit log."
+    ]},
+    { "id": "demo", "title": "Demo: a real incident", "pad": [0.9, 1.6], "lines": [
+      "Here's a real run. Payment service v2 ships at 12:25.",
+      "About a minute later, the failure ratio hits fifty two percent, and RootLens opens an incident.",
+      "The diagnosis: payment service is returning errors. Score one point zero, high confidence, and v2 was deployed sixty two seconds before detection.",
+      "The robot's decision: roll back payment service to v1.",
+      "After the rollback, three healthy checks later, the incident resolves by itself. The whole incident lasted under two minutes."
+    ]},
+    { "id": "tests", "title": "Tests & CI", "pad": [0.9, 1.4], "lines": [
+      "It's backed by a hundred and eighteen unit tests across six files: the investigator, the rulebook, the safety checks, the executor, the controller loop and the notifications.",
+      "GitHub Actions runs the tests, and builds every image, on every push."
+    ]},
+    { "id": "honest", "title": "Honest limits", "pad": [0.9, 1.4], "lines": [
+      "And the honest notes. The bug in v2 is deliberately planted, and this is a simulated release pipeline on one machine.",
+      "The write endpoints aren't authenticated yet. The controller mounts the Docker socket, which is fine on a laptop, but production would need narrower permissions.",
+      "And slowness that stays under the three second timeout isn't detected yet."
+    ]},
+    { "id": "outro", "title": "Recap", "pad": [0.9, 3.0], "lines": [
+      "Detect. Investigate. Decide. Act. Verify.",
+      "RootLens fixes things only within strict limits, and escalates when it isn't sure."
+    ]}
+  ]
+}
