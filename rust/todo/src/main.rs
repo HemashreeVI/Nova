@@ -1,3 +1,4 @@
+mod due;
 mod store;
 mod tui;
 
@@ -29,6 +30,9 @@ enum Command {
         /// Priority of the task
         #[arg(short, long, value_enum, default_value_t = Priority::Medium)]
         priority: Priority,
+        /// Due date: today, tomorrow, fri, 3d, 2w, dec 24, 2026-12-24
+        #[arg(short, long)]
+        due: Option<String>,
     },
     /// List tasks (open ones by default)
     #[command(alias = "ls")]
@@ -50,6 +54,12 @@ enum Command {
         #[arg(required = true, num_args = 1..)]
         text: Vec<String>,
     },
+    /// Set or clear a task's due date (e.g. `todo due 3 fri`, `todo due 3 none`)
+    Due {
+        id: u32,
+        #[arg(required = true, num_args = 1..)]
+        when: Vec<String>,
+    },
     /// Delete all finished tasks
     Clear,
     /// Open the full-screen app (also the default with no command)
@@ -68,7 +78,8 @@ fn default_path() -> PathBuf {
 }
 
 fn print_list(store: &Store, all: bool) {
-    let tasks = store.sorted(all);
+    let today = due::today();
+    let tasks = store.sorted_on(all, today);
     if tasks.is_empty() {
         println!("Nothing to do. Add a task with: todo add <text>");
         return;
@@ -85,7 +96,20 @@ fn print_list(store: &Store, all: bool) {
             Priority::Medium => "! ",
             Priority::Low => "  ",
         };
-        println!("{:>width$}  {check} {pri} {}", t.id, t.text);
+        let due = t.due.map(|d| {
+            let (label, urgency) = due::label(d, today);
+            match urgency {
+                _ if t.done => format!("  ({label})"),
+                due::Urgency::Overdue | due::Urgency::Today => format!("  ({label}!)"),
+                _ => format!("  ({label})"),
+            }
+        });
+        println!(
+            "{:>width$}  {check} {pri} {}{}",
+            t.id,
+            t.text,
+            due.unwrap_or_default()
+        );
     }
     let open = store.tasks.iter().filter(|t| !t.done).count();
     println!("\n{open} open, {} done", store.tasks.len() - open);
@@ -116,11 +140,36 @@ fn run(cli: Cli) -> io::Result<bool> {
             print_list(&store, all);
             return Ok(true);
         }
-        Command::Add { text, priority } => {
+        Command::Add {
+            text,
+            priority,
+            due,
+        } => {
+            let due = match due.map(|d| due::parse(&d, due::today())).transpose() {
+                Ok(d) => d.flatten(),
+                Err(e) => {
+                    eprintln!("{e}");
+                    return Ok(false);
+                }
+            };
             let id = store.add(text.join(" "), priority);
+            store.get_mut(id).expect("just added").due = due;
             println!("Added task {id}");
             true
         }
+        Command::Due { id, when } => match due::parse(&when.join(" "), due::today()) {
+            Err(e) => {
+                eprintln!("{e}");
+                return Ok(false);
+            }
+            Ok(date) => match store.get_mut(id) {
+                Some(t) => {
+                    t.due = date;
+                    true
+                }
+                None => warn_missing(&[id]),
+            },
+        },
         Command::Done { ids } => warn_missing(&store.set_done(&ids, true)),
         Command::Undo { ids } => warn_missing(&store.set_done(&ids, false)),
         Command::Remove { ids } => warn_missing(&store.remove(&ids)),

@@ -1,6 +1,8 @@
 //! Full-screen terminal interface built with ratatui.
 
+use crate::due::{self, Urgency};
 use crate::store::{Priority, Store, Task};
+use chrono::NaiveDate;
 use ratatui::crossterm::event::{self, Event, KeyCode, KeyEvent, KeyEventKind, KeyModifiers};
 use ratatui::layout::{Constraint, Layout, Rect};
 use ratatui::style::{Color, Modifier, Style, Stylize};
@@ -23,13 +25,22 @@ pub fn run(store: Store, path: PathBuf) -> io::Result<()> {
 #[derive(Debug, PartialEq)]
 enum Mode {
     Normal,
-    /// Typing a new task, or editing the task with this id.
+    /// Typing into the pop-up box.
     Input {
-        editing: Option<u32>,
+        target: Target,
         text: String,
         cursor: usize,
+        /// The pre-filled text is "selected": the first character typed replaces it.
+        fresh: bool,
     },
     ConfirmDelete(u32),
+}
+
+#[derive(Debug, Clone, Copy, PartialEq)]
+enum Target {
+    NewTask,
+    EditText(u32),
+    DueDate(u32),
 }
 
 pub struct App {
@@ -113,29 +124,48 @@ impl App {
                 self.mode = Mode::Normal;
             }
             Mode::Input {
-                editing,
+                target,
                 text,
                 cursor,
+                fresh,
             } => {
+                if std::mem::take(fresh) && matches!(key.code, KeyCode::Char(_)) {
+                    text.clear();
+                    *cursor = 0;
+                }
                 let byte = |s: &str, c: usize| s.char_indices().nth(c).map_or(s.len(), |(i, _)| i);
                 match key.code {
                     KeyCode::Esc => self.mode = Mode::Normal,
                     KeyCode::Enter => {
                         let value = text.trim().to_string();
-                        let editing = *editing;
-                        self.mode = Mode::Normal;
-                        if value.is_empty() {
-                            return;
-                        }
-                        let id = match editing {
-                            Some(id) => {
+                        let target = *target;
+                        let id = match target {
+                            Target::DueDate(id) => match due::parse(&value, due::today()) {
+                                Ok(date) => {
+                                    if let Some(t) = self.store.get_mut(id) {
+                                        t.due = date;
+                                    }
+                                    id
+                                }
+                                // Keep the box open so the date can be fixed.
+                                Err(e) => {
+                                    self.status = Some(e);
+                                    return;
+                                }
+                            },
+                            _ if value.is_empty() => {
+                                self.mode = Mode::Normal;
+                                return;
+                            }
+                            Target::EditText(id) => {
                                 if let Some(t) = self.store.get_mut(id) {
                                     t.text = value;
                                 }
                                 id
                             }
-                            None => self.store.add(value, Priority::Medium),
+                            Target::NewTask => self.store.add(value, Priority::Medium),
                         };
+                        self.mode = Mode::Normal;
                         self.save();
                         self.select_id(id);
                     }
@@ -173,9 +203,10 @@ impl App {
             KeyCode::End | KeyCode::Char('G') => self.selected = len.saturating_sub(1),
             KeyCode::Char('a') | KeyCode::Char('n') => {
                 self.mode = Mode::Input {
-                    editing: None,
+                    target: Target::NewTask,
                     text: String::new(),
                     cursor: 0,
+                    fresh: false,
                 };
             }
             KeyCode::Char('e') | KeyCode::Char('i') => {
@@ -183,9 +214,25 @@ impl App {
                     let text = t.text.clone();
                     let cursor = text.chars().count();
                     self.mode = Mode::Input {
-                        editing: Some(t.id),
+                        target: Target::EditText(t.id),
                         text,
                         cursor,
+                        fresh: false,
+                    };
+                }
+            }
+            KeyCode::Char('t') => {
+                if let Some(t) = id.and_then(|id| self.store.get_mut(id)) {
+                    let text = t
+                        .due
+                        .map(|d| d.format("%Y-%m-%d").to_string())
+                        .unwrap_or_default();
+                    let cursor = text.chars().count();
+                    self.mode = Mode::Input {
+                        target: Target::DueDate(t.id),
+                        text,
+                        cursor,
+                        fresh: true,
                     };
                 }
             }
@@ -234,6 +281,13 @@ impl App {
 
         let open = self.store.tasks.iter().filter(|t| !t.done).count();
         let done = self.store.tasks.len() - open;
+        let today = due::today();
+        let overdue = self
+            .store
+            .tasks
+            .iter()
+            .filter(|t| !t.done && t.due.is_some_and(|d| d < today))
+            .count();
         let filter = if self.hide_done {
             "  (finished hidden)"
         } else {
@@ -242,7 +296,13 @@ impl App {
         frame.render_widget(
             Line::from(vec![
                 " todo ".bold().fg(Color::Black).bg(ACCENT),
-                format!("  {open} open · {done} done{filter}").dark_gray(),
+                format!("  {open} open · {done} done").dark_gray(),
+                if overdue > 0 {
+                    format!(" · {overdue} overdue").red().bold()
+                } else {
+                    Span::raw("")
+                },
+                filter.dark_gray(),
             ]),
             header,
         );
@@ -251,17 +311,18 @@ impl App {
         self.draw_footer(frame, footer);
 
         if let Mode::Input {
-            editing,
+            target,
             text,
             cursor,
+            ..
         } = &self.mode
         {
-            let title = if editing.is_some() {
-                " Edit task "
-            } else {
-                " New task "
+            let (title, hint) = match target {
+                Target::NewTask => (" New task ", ""),
+                Target::EditText(_) => (" Edit task ", ""),
+                Target::DueDate(_) => (" Due date ", due::HELP),
             };
-            draw_input(frame, title, text, *cursor);
+            draw_input(frame, title, hint, text, *cursor);
         }
     }
 
@@ -288,7 +349,8 @@ impl App {
             return;
         }
 
-        let items: Vec<ListItem> = tasks.iter().map(|t| task_item(t)).collect();
+        let today = due::today();
+        let items: Vec<ListItem> = tasks.iter().map(|t| task_item(t, today)).collect();
         let list = List::new(items)
             .block(block)
             .highlight_style(
@@ -310,6 +372,7 @@ impl App {
                     ("a", "add"),
                     ("space", "done"),
                     ("e", "edit"),
+                    ("t", "due date"),
                     ("d", "delete"),
                     ("q", "quit"),
                     ("+/-", "priority"),
@@ -333,7 +396,7 @@ impl App {
     }
 }
 
-fn task_item(t: &Task) -> ListItem<'static> {
+fn task_item(t: &Task, today: NaiveDate) -> ListItem<'static> {
     let (mark, mark_style) = match t.priority {
         Priority::High => ("!! ", Style::new().red().bold()),
         Priority::Medium => ("!  ", Style::new().yellow()),
@@ -360,10 +423,26 @@ fn task_item(t: &Task) -> ListItem<'static> {
         ),
         Span::styled(mark, mark_style),
         text,
+        due_span(t, today),
     ]))
 }
 
-fn draw_input(frame: &mut Frame, title: &str, text: &str, cursor: usize) {
+fn due_span(t: &Task, today: NaiveDate) -> Span<'static> {
+    let Some(date) = t.due else {
+        return Span::raw("");
+    };
+    let (label, urgency) = due::label(date, today);
+    let style = match urgency {
+        _ if t.done => Style::new().dark_gray(),
+        Urgency::Overdue => Style::new().red().bold(),
+        Urgency::Today => Style::new().yellow().bold(),
+        Urgency::Soon => Style::new().fg(ACCENT),
+        Urgency::Later => Style::new().dark_gray(),
+    };
+    Span::styled(format!("  ◷ {label}"), style)
+}
+
+fn draw_input(frame: &mut Frame, title: &str, hint: &str, text: &str, cursor: usize) {
     let area = frame.area();
     let width = area.width.saturating_sub(4).min(70);
     let [row] = Layout::vertical([Constraint::Length(3)])
@@ -376,7 +455,8 @@ fn draw_input(frame: &mut Frame, title: &str, text: &str, cursor: usize) {
     let block = Block::bordered()
         .border_type(BorderType::Rounded)
         .border_style(Style::new().fg(ACCENT))
-        .title(title.bold());
+        .title(title.bold())
+        .title_bottom(Line::from(hint).dark_gray().right_aligned());
     let inner = block.inner(popup);
 
     // Scroll horizontally so the cursor always stays visible.
@@ -453,6 +533,39 @@ mod tests {
         assert_eq!(app.visible().len(), 1);
         press(&mut app, "hc");
         assert_eq!(app.store.tasks.len(), 1);
+        std::fs::remove_dir_all(dir).unwrap();
+    }
+
+    #[test]
+    fn set_and_clear_due_date() {
+        let (mut app, dir) = app();
+        press(&mut app, "jttomorrow\n");
+        let tomorrow = due::today().succ_opt();
+        assert_eq!(app.store.get_mut(2).unwrap().due, tomorrow);
+
+        // Typing over an existing date replaces it rather than appending.
+        press(&mut app, "t3d\n");
+        let in3 = due::today().checked_add_days(chrono::Days::new(3));
+        assert_eq!(app.store.get_mut(2).unwrap().due, in3);
+        press(&mut app, "ttomorrow\n");
+
+        // A date that can't be read keeps the box open and shows why.
+        press(&mut app, "tblah\n");
+        assert!(matches!(app.mode, Mode::Input { .. }));
+        assert!(app.status.as_deref().unwrap().contains("Can't read"));
+        assert_eq!(app.store.get_mut(2).unwrap().due, tomorrow);
+
+        // Overdue tasks move to the top; clearing the text removes the date.
+        app.mode = Mode::Normal;
+        app.store.get_mut(2).unwrap().due = due::today().pred_opt();
+        assert_eq!(app.visible()[0].id, 2);
+        app.select_id(2);
+        press(&mut app, "t");
+        for _ in 0..10 {
+            press(&mut app, "\x08");
+        }
+        press(&mut app, "\n");
+        assert_eq!(app.store.get_mut(2).unwrap().due, None);
         std::fs::remove_dir_all(dir).unwrap();
     }
 

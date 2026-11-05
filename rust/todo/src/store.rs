@@ -1,3 +1,4 @@
+use chrono::NaiveDate;
 use clap::ValueEnum;
 use serde::{Deserialize, Serialize};
 use std::fs;
@@ -20,6 +21,8 @@ pub struct Task {
     pub done: bool,
     pub priority: Priority,
     pub created: u64,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub due: Option<NaiveDate>,
 }
 
 #[derive(Debug, Default, Serialize, Deserialize)]
@@ -71,6 +74,7 @@ impl Store {
             done: false,
             priority,
             created,
+            due: None,
         });
         id
     }
@@ -122,8 +126,17 @@ impl Store {
     }
 
     pub fn sorted(&self, all: bool) -> Vec<&Task> {
+        self.sorted_on(all, crate::due::today())
+    }
+
+    /// Open tasks first; among them, anything due today or overdue comes first,
+    /// then by priority, then the nearest due date, then oldest.
+    pub fn sorted_on(&self, all: bool, today: NaiveDate) -> Vec<&Task> {
         let mut v: Vec<&Task> = self.tasks.iter().filter(|t| all || !t.done).collect();
-        v.sort_by_key(|t| (t.done, t.priority, t.id));
+        v.sort_by_key(|t| {
+            let pressing = t.due.is_some_and(|d| d <= today);
+            (t.done, !pressing, t.priority, t.due.is_none(), t.due, t.id)
+        });
         v
     }
 }
@@ -164,6 +177,13 @@ mod tests {
         assert_eq!(s.sorted(false).len(), 2);
         assert_eq!(s.clear_done(), 1);
         assert_eq!(s.tasks.len(), 2);
+
+        // A low-priority task due today jumps above a high-priority one.
+        let today = NaiveDate::from_ymd_opt(2026, 11, 5).unwrap();
+        let urgent = s.add("urgent".into(), Priority::Low);
+        s.add("big".into(), Priority::High);
+        s.get_mut(urgent).unwrap().due = Some(today);
+        assert_eq!(s.sorted_on(false, today)[0].id, urgent);
     }
 
     #[test]
