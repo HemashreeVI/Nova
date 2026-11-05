@@ -1,0 +1,300 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Images Short</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{--ink:#eef0fb;--mut:#9aa0c3;--m:#e879f9;--c:#22d3ee;--v:#a78bfa;--yel:#fbbf24;--grn:#34d399;--red:#f87171;--org:#fb923c}
+  #fv-stage{background:radial-gradient(1000px 1300px at 70% 15%,#3b1150 0%,#170b2e 50%,#0a0716 80%);color:var(--ink);font-family:Inter,system-ui,sans-serif}
+  #bg-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(232,121,249,.12) 1px,transparent 1px),linear-gradient(90deg,rgba(232,121,249,.12) 1px,transparent 1px);background-size:90px 90px;opacity:.22}
+  .abs{position:absolute}
+  .step{position:absolute;left:0;right:0;top:250px;text-align:center;font:700 34px/1 'JetBrains Mono',monospace;letter-spacing:.2em;color:var(--m)}
+  .head{position:absolute;left:60px;right:60px;top:305px;text-align:center;font:800 84px/1.05 Inter;letter-spacing:-.03em}
+  .panel{position:absolute;border:3px solid rgba(220,180,250,.25);border-radius:28px;background:rgba(24,14,44,.92)}
+  .mono{font-family:'JetBrains Mono',monospace}
+  .label{font:600 28px Inter;color:var(--mut)}
+  .badge{position:absolute;left:50%;top:150px;transform:translateX(-50%);padding:12px 26px;border-radius:40px;background:rgba(232,121,249,.12);border:2px solid rgba(232,121,249,.5);font:700 30px Inter;color:var(--m);white-space:nowrap}
+  .pill{display:inline-block;padding:12px 28px;border-radius:40px;font:800 38px Inter}
+  canvas.im{display:block;border-radius:22px;border:3px solid rgba(255,255,255,.18);box-shadow:0 20px 60px rgba(0,0,0,.5)}
+  canvas.px{image-rendering:pixelated}
+  .chip{display:inline-block;padding:12px 22px;border-radius:16px;font:800 34px Inter;border:3px solid var(--cc);background:color-mix(in srgb,var(--cc) 16%,#170b2e)}
+  .fv-endcard{display:inline-block;padding:16px 30px;border-radius:40px;font:700 34px 'JetBrains Mono',monospace;border:3px solid #eef0fb;background:rgba(238,240,251,.08)}
+</style>
+</head>
+<body>
+<div id="fv-stage">
+  <div id="bg-grid"></div>
+  <div class="badge">Tech, decoded</div>
+  <img id="art" alt="" style="display:none">
+
+  <!-- HOOK -->
+  <section class="fv-scene" data-scene="hook">
+    <div id="hk-pr" class="panel" style="left:80px;right:80px;top:300px;height:120px;display:flex;align-items:center;padding:0 34px;border-radius:60px;border-color:var(--m)">
+      <span style="font-size:44px;margin-right:18px">✨</span><span id="hk-typed" style="font:600 44px Inter"></span><span id="hk-caret" style="width:4px;height:52px;background:var(--m);margin-left:4px"></span>
+    </div>
+    <canvas id="hk-cv" class="im" width="256" height="256" style="position:absolute;left:190px;top:470px;width:700px;height:700px"></canvas>
+    <div id="hk-no" class="abs" style="left:0;right:0;top:1195px;text-align:center"><span class="pill" style="font-size:34px;border:3px solid var(--red);background:rgba(248,113,113,.12)">🔍 not searched</span> <span class="pill" style="font-size:34px;border:3px solid var(--m);background:rgba(232,121,249,.14)">✨ created from noise</span></div>
+  </section>
+
+  <!-- TRAIN -->
+  <section class="fv-scene" data-scene="train">
+    <div class="step">TRAINING</div><div class="head">Add noise</div>
+    <div id="tr-lbl" class="abs" style="left:0;right:0;top:450px;text-align:center"><span class="pill" style="font-size:32px;border:3px solid var(--v);background:rgba(167,139,250,.12)">📚 millions of images</span></div>
+    <div id="tr-grid" class="abs" style="left:90px;right:90px;top:540px;display:grid;grid-template-columns:repeat(6,1fr);gap:14px"></div>
+    <div id="tr-arrow" class="abs mono" style="left:0;right:0;top:860px;text-align:center;font-size:32px;font-weight:700;color:var(--m)">+ noise, step by step →</div>
+    <div id="tr-strip" class="abs" style="left:40px;right:40px;top:920px;display:flex;justify-content:space-between"></div>
+  </section>
+
+  <!-- LEARN -->
+  <section class="fv-scene" data-scene="learn">
+    <div class="step">THE ONE JOB</div><div class="head">Predict the noise</div>
+    <div id="ln-model" class="abs" style="left:0;right:0;top:460px;text-align:center"><span class="pill" style="font-size:36px;border:3px solid var(--c);background:rgba(34,211,238,.12)">🧠 model: "what part is noise?"</span></div>
+    <div class="abs" style="left:30px;right:30px;top:580px;display:flex;justify-content:space-between;align-items:center">
+      <div id="ln-a" style="text-align:center"><canvas id="ln-c1" class="im" width="256" height="256" style="width:280px;height:280px"></canvas><div class="label" style="margin-top:12px">noisy image</div></div>
+      <div id="ln-m" style="font:900 70px Inter;color:var(--mut)">−</div>
+      <div id="ln-b" style="text-align:center"><canvas id="ln-c2" class="im" width="256" height="256" style="width:280px;height:280px;border-color:var(--c)"></canvas><div class="label" style="margin-top:12px;color:var(--c)">predicted noise</div></div>
+      <div id="ln-e" style="font:900 70px Inter;color:var(--mut)">=</div>
+      <div id="ln-c" style="text-align:center"><canvas id="ln-c3" class="im" width="256" height="256" style="width:280px;height:280px;border-color:var(--grn)"></canvas><div class="label" style="margin-top:12px;color:var(--grn)">cleaner</div></div>
+    </div>
+  </section>
+
+  <!-- GENERATE -->
+  <section class="fv-scene" data-scene="generate">
+    <div class="step">GENERATING</div><div class="head">Remove noise</div>
+    <canvas id="gn-cv" class="im" width="256" height="256" style="position:absolute;left:190px;top:450px;width:700px;height:700px"></canvas>
+    <div id="gn-st" class="abs mono" style="left:0;right:0;top:1180px;text-align:center"></div>
+  </section>
+
+  <!-- PROMPT -->
+  <section class="fv-scene" data-scene="prompt">
+    <div class="step">YOUR PROMPT</div><div class="head">Guides every step</div>
+    <div id="pr-chips" class="abs" style="left:0;right:0;top:450px;display:flex;justify-content:center;gap:16px"></div>
+    <div id="pr-enc" class="abs" style="left:0;right:0;top:560px;text-align:center"><span class="pill mono" style="font-size:30px;border:3px solid var(--c);background:rgba(34,211,238,.12)">text encoder → vectors</span></div>
+    <div id="pr-vec" class="abs" style="left:300px;right:300px;top:650px;height:70px;display:flex;align-items:flex-end;gap:6px"></div>
+    <canvas id="pr-cv" class="im" width="256" height="256" style="position:absolute;left:300px;top:760px;width:480px;height:480px"></canvas>
+  </section>
+
+  <!-- LATENT -->
+  <section class="fv-scene" data-scene="latent">
+    <div class="step">THE SPEED TRICK</div><div class="head">Latent space</div>
+    <div id="lt-a" class="abs" style="left:0;right:0;top:450px;display:flex;flex-direction:column;align-items:center">
+      <canvas id="lt-small" class="im px" width="32" height="32" style="width:220px;height:220px"></canvas>
+      <div class="label" style="margin-top:12px">tiny compressed version · <span class="mono" style="color:var(--yel)">64×64</span></div>
+    </div>
+    <div id="lt-dec" class="abs" style="left:0;right:0;top:770px;text-align:center"><span class="pill mono" style="font-size:30px;border:3px solid var(--yel);background:rgba(251,191,36,.12)">decoder ↓</span></div>
+    <div id="lt-b" class="abs" style="left:0;right:0;top:860px;display:flex;flex-direction:column;align-items:center">
+      <canvas id="lt-big" class="im" width="256" height="256" style="width:340px;height:340px"></canvas>
+      <div class="label" style="margin-top:12px">full image · <span class="mono" style="color:var(--grn)">512×512</span></div>
+    </div>
+  </section>
+
+  <!-- OUTRO -->
+  <section class="fv-scene" data-scene="outro">
+    <div id="oc-h" class="abs" style="left:60px;right:60px;top:290px;text-align:center;font:900 92px/1.08 Inter;letter-spacing:-.04em">From noise<br><span style="color:var(--m)">to art.</span></div>
+    <div id="oc-strip" class="abs" style="left:50px;right:50px;top:540px;display:flex;justify-content:space-between;align-items:center"></div>
+    <div id="oc-list" class="abs" style="left:0;right:0;top:790px;display:flex;flex-direction:column;align-items:center;gap:12px"></div>
+    <div id="oc-gh" class="abs" style="left:0;right:0;top:1215px;text-align:center"><span class="fv-endcard"></span></div>
+  </section>
+</div>
+<script>
+// the illustration every scene noises / denoises (drawn as SVG, rasterised once)
+const ART = `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 256 256' width='256' height='256'>
+<defs><radialGradient id='s' cx='50%' cy='30%' r='80%'><stop offset='0' stop-color='#3b2f8a'/><stop offset='1' stop-color='#0a0a26'/></radialGradient></defs>
+<rect width='256' height='256' fill='url(#s)'/>
+<g fill='#fff'><circle cx='20' cy='30' r='1.6'/><circle cx='60' cy='18' r='1.1'/><circle cx='90' cy='50' r='1.3'/><circle cx='150' cy='22' r='1.6'/><circle cx='232' cy='118' r='1.3'/><circle cx='30' cy='92' r='1.1'/><circle cx='176' cy='96' r='1.1'/><circle cx='244' cy='16' r='1.4'/><circle cx='112' cy='14' r='1.1'/><circle cx='14' cy='150' r='1.1'/><circle cx='70' cy='120' r='1.2'/></g>
+<circle cx='205' cy='58' r='28' fill='#2563eb'/><path d='M188 46 q10 -10 20 0 q-4 12 -16 10z M204 72 q12 -6 18 4 q-8 8 -18 -4z' fill='#22c55e'/>
+<path d='M0 196 Q70 176 128 186 T256 190 V256 H0 Z' fill='#a3a3a3'/>
+<ellipse cx='48' cy='222' rx='22' ry='7' fill='#737373'/><ellipse cx='204' cy='230' rx='28' ry='8' fill='#737373'/><ellipse cx='140' cy='242' rx='12' ry='4' fill='#737373'/>
+<line x1='186' y1='194' x2='186' y2='140' stroke='#e5e5e5' stroke-width='3'/><rect x='187' y='140' width='30' height='18' fill='#ef4444'/>
+<rect x='104' y='182' width='14' height='24' rx='5' fill='#f8fafc'/><rect x='126' y='182' width='14' height='24' rx='5' fill='#f8fafc'/>
+<rect x='84' y='146' width='16' height='34' rx='8' fill='#e2e8f0'/><rect x='145' y='140' width='16' height='34' rx='8' fill='#e2e8f0' transform='rotate(-30 153 144)'/>
+<rect x='98' y='140' width='48' height='50' rx='16' fill='#f1f5f9'/><rect x='110' y='156' width='24' height='14' rx='3' fill='#3b82f6'/><circle cx='116' cy='163' r='2' fill='#fbbf24'/><circle cx='128' cy='163' r='2' fill='#34d399'/>
+<circle cx='122' cy='112' r='36' fill='#93c5fd' fill-opacity='.3' stroke='#f8fafc' stroke-width='6'/>
+<path d='M101 106 L105 84 L119 98 Z M143 106 L139 84 L125 98 Z' fill='#fb923c'/><path d='M105 100 L107 90 L114 98 Z M139 100 L137 90 L130 98 Z' fill='#f9a8d4'/>
+<circle cx='122' cy='116' r='23' fill='#fb923c'/>
+<path d='M116 96 l3 8 M122 94 v9 M128 96 l-3 8' stroke='#c2410c' stroke-width='2.5' stroke-linecap='round'/>
+<circle cx='113' cy='114' r='4.5' fill='#111'/><circle cx='131' cy='114' r='4.5' fill='#111'/><circle cx='114.5' cy='112.5' r='1.4' fill='#fff'/><circle cx='132.5' cy='112.5' r='1.4' fill='#fff'/>
+<path d='M119 122 L125 122 L122 126 Z' fill='#f472b6'/><path d='M122 126 q-3 4 -7 2 M122 126 q3 4 7 2' stroke='#7c2d12' stroke-width='1.6' fill='none'/>
+<path d='M106 122 h-12 M106 126 l-11 3 M138 122 h12 M138 126 l11 3' stroke='#7c2d12' stroke-width='1.3'/>
+<path d='M96 96 q6 -16 22 -20' stroke='#fff' stroke-width='4' fill='none' stroke-linecap='round' opacity='.7'/>
+</svg>`;
+document.getElementById('art').src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(ART);
+</script>
+<script src="timing.js"></script>
+<script src="fv-runtime.js"></script>
+<script>
+(() => {
+const { seg, css, enter, lerp, clamp, ease, pulse, rand, $ } = FV;
+const div = (cls, html, parent, style) => { const e = document.createElement('div'); if (cls) e.className = cls; if (html !== undefined) e.innerHTML = html; if (style) e.style.cssText = style; if (parent) parent.appendChild(e); return e; };
+const pop = (el, t, a, d = 0.45) => { const p = seg(t, a, a + d, ease.back); css(el, { o: clamp(p * 1.5), s: Math.max(0, p) }); return p; };
+const head = (el, t) => { enter($('.step', el), t, 0.0, 0.4); enter($('.head', el), t, 0.08, 0.45, 30); };
+const frac = (ctx, i, f) => ctx.line(i) + (ctx.lineEnd(i) - ctx.line(i)) * f;
+const M = '#e879f9', C = '#22d3ee', V = '#a78bfa', YEL = '#fbbf24', GRN = '#34d399', ORG = '#fb923c';
+
+/* ---------- pixel engine: image ⇄ noise ---------- */
+const N = 256;
+let IMG = null, NZ = null, ART_CANVAS = null;
+function initPixels() {
+  if (IMG) return;
+  ART_CANVAS = document.createElement('canvas'); ART_CANVAS.width = ART_CANVAS.height = N;
+  const g = ART_CANVAS.getContext('2d'); g.drawImage($('#art'), 0, 0, N, N);
+  IMG = g.getImageData(0, 0, N, N).data;
+  const r = rand(77); NZ = new Uint8ClampedArray(N * N * 4);
+  for (let i = 0; i < NZ.length; i++) { const v = (r() + r() + r()) / 3; NZ[i] = (v - 0.5) * 2.4 * 255 + 128; }
+}
+/** level 0 = clean image, 1 = pure static */
+function paint(cv, level) {
+  initPixels();
+  level = clamp(level);
+  if (cv._lvl === level) return;
+  cv._lvl = level;
+  const ctx = cv.getContext('2d');
+  const id = cv._id || (cv._id = ctx.createImageData(N, N)), d = id.data;
+  const a = Math.sqrt(1 - level), b = Math.sqrt(level);   // variance-preserving mix, like diffusion
+  for (let i = 0; i < d.length; i += 4) {
+    d[i] = a * IMG[i] + b * (NZ[i] - 128) + (1 - a) * 128;
+    d[i + 1] = a * IMG[i + 1] + b * (NZ[i + 1] - 128) + (1 - a) * 128;
+    d[i + 2] = a * IMG[i + 2] + b * (NZ[i + 2] - 128) + (1 - a) * 128;
+    d[i + 3] = 255;
+  }
+  ctx.putImageData(id, 0, 0);
+}
+function noiseOnly(cv, amount) { // just the noise part (what the model predicts)
+  initPixels();
+  if (cv._lvl === 'n' + amount) return; cv._lvl = 'n' + amount;
+  const ctx = cv.getContext('2d'); const id = ctx.createImageData(N, N), d = id.data;
+  for (let i = 0; i < d.length; i += 4) { for (let k = 0; k < 3; k++) d[i + k] = 128 + (NZ[i + k] - 128) * amount; d[i + 3] = 255; }
+  ctx.putImageData(id, 0, 0);
+}
+
+/* HOOK */
+FV.scene('hook', (t, ctx) => {
+  enter($('#hk-pr'), t, 0.05, 0.4, 20);
+  const P = 'a cat astronaut on the moon';
+  const ty = seg(t, frac(ctx, 0, 0.08), frac(ctx, 0, 0.6), ease.linear);
+  $('#hk-typed').textContent = FV.type(P, ty);
+  $('#hk-caret').style.opacity = ty < 1 || Math.floor(t * 2.2) % 2 ? 1 : 0;
+  const cv = $('#hk-cv');
+  pop(cv, t, frac(ctx, 0, 0.55), 0.4);
+  // paint: noise → image during "seconds later AI paints it"
+  let lvl = 1 - seg(t, frac(ctx, 0, 0.62), ctx.lineEnd(0) + 0.2, ease.inOut);
+  // "from pure noise": dissolve back to static, then re-form
+  const b0 = frac(ctx, 1, 0.42), b1 = frac(ctx, 1, 0.62);
+  if (t > b0) lvl = t < b1 ? seg(t, b0, b1, ease.inOut) : 1 - seg(t, b1, ctx.dur - 0.2, ease.inOut);
+  paint(cv, Math.round(lvl * 60) / 60);
+  pop($('#hk-no'), t, frac(ctx, 1, 0.12), 0.45);
+});
+
+/* TRAIN */
+{
+  const grid = $('#tr-grid');
+  const hues = [0, 40, 80, 120, 160, 200, 240, 280, 320, 20, 100, 260];
+  const tiles = hues.map((h) => { const c = document.createElement('canvas'); c.width = c.height = N; c.className = 'im'; c.style.cssText = `width:136px;height:136px;filter:hue-rotate(${h}deg) saturate(1.3);border-radius:14px`; grid.appendChild(c); return c; });
+  const strip = $('#tr-strip');
+  const lv = [0, 0.25, 0.5, 0.75, 1];
+  const S = lv.map((l, i) => { const w = div('', '', strip, 'text-align:center'); const c = document.createElement('canvas'); c.width = c.height = N; c.className = 'im'; c.style.cssText = 'width:180px;height:180px;border-radius:16px'; w.appendChild(c); div('mono', `t=${l * 1000}`, w, 'font-size:26px;font-weight:700;color:#9aa0c3;margin-top:10px'); return { w, c }; });
+  FV.scene('train', (t, ctx) => {
+    head(ctx.el, t);
+    pop($('#tr-lbl'), t, frac(ctx, 0, 0.08), 0.4);
+    tiles.forEach((c, i) => { paint(c, 0); pop(c, t, frac(ctx, 0, 0.12) + i * 0.05, 0.35); });
+    enter($('#tr-arrow'), t, frac(ctx, 0, 0.38), 0.4);
+    S.forEach((s, i) => {
+      const a = frac(ctx, 0, 0.4 + i * 0.09);
+      enter(s.w, t, a, 0.35, 20);
+      paint(s.c, lv[i]);
+      s.c.style.boxShadow = i === 4 ? `0 0 ${50 * pulse(t, frac(ctx, 0, 0.82), ctx.dur)}px rgba(232,121,249,.9)` : '';
+    });
+  });
+}
+
+/* LEARN */
+FV.scene('learn', (t, ctx) => {
+  head(ctx.el, t);
+  paint($('#ln-c1'), 0.55); noiseOnly($('#ln-c2'), 0.9); paint($('#ln-c3'), 0.25);
+  enter($('#ln-a'), t, frac(ctx, 0, 0.1), 0.4, 20);
+  pop($('#ln-model'), t, frac(ctx, 0, 0.3), 0.4);
+  const p = frac(ctx, 0, 0.5);
+  enter($('#ln-m'), t, p, 0.3, 0); enter($('#ln-b'), t, p + 0.1, 0.4, 20);
+  $('#ln-c2').style.boxShadow = `0 0 ${50 * pulse(t, p + 0.1, p + 1.3)}px rgba(34,211,238,.9)`;
+  const r = frac(ctx, 0, 0.82);
+  enter($('#ln-e'), t, r, 0.3, 0); enter($('#ln-c'), t, r + 0.1, 0.4, 20);
+});
+
+/* GENERATE */
+FV.scene('generate', (t, ctx) => {
+  head(ctx.el, t);
+  const cv = $('#gn-cv');
+  pop(cv, t, 0.15, 0.45);
+  const STEPS = 50;
+  const p = seg(t, frac(ctx, 0, 0.22), frac(ctx, 0, 0.98), ease.linear);
+  const k = Math.floor(p * STEPS);
+  paint(cv, 1 - ease.inOut(k / STEPS));
+  $('#gn-st').innerHTML = `<span class="pill" style="font-size:36px;border:3px solid ${M};background:rgba(232,121,249,.12)">step ${Math.max(1, k)} / ${STEPS} · noise ${Math.round((1 - ease.inOut(k / STEPS)) * 100)}%</span>`;
+  $('#gn-st').style.opacity = seg(t, 0.3, 0.6);
+});
+
+/* PROMPT */
+{
+  const words = [['a cat', ORG, 0.62], ['astronaut', '#e2e8f0', 0.76], ['the moon', '#a3a3a3', 0.9]];
+  const chips = words.map(([w, c]) => { const e = div('chip', w, $('#pr-chips')); e.style.setProperty('--cc', c); return e; });
+  const r = rand(5);
+  const bars = Array.from({ length: 28 }, (_, i) => div('', '', $('#pr-vec'), `flex:1;border-radius:3px;background:${[C, M, V][i % 3]};height:${10 + r() * 60}px`));
+  FV.scene('prompt', (t, ctx) => {
+    head(ctx.el, t);
+    chips.forEach((c, i) => pop(c, t, 0.2 + i * 0.12, 0.4));
+    pop($('#pr-enc'), t, frac(ctx, 0, 0.25), 0.4);
+    bars.forEach((b, i) => (b.style.opacity = seg(t, frac(ctx, 0, 0.32) + i * 0.02, frac(ctx, 0, 0.36) + i * 0.02)));
+    const cv = $('#pr-cv');
+    enter(cv, t, frac(ctx, 0, 0.4), 0.4, 20);
+    const p = seg(t, frac(ctx, 0, 0.45), frac(ctx, 0, 0.98), ease.linear);
+    paint(cv, 1 - ease.inOut(Math.floor(p * 40) / 40));
+    chips.forEach((c, i) => {
+      const h = pulse(t, frac(ctx, 0, words[i][2]) - 0.15, frac(ctx, 0, words[i][2]) + 1.0);
+      c.style.boxShadow = `0 0 ${40 * h}px ${words[i][1]}`;
+      css(c, { s: 1 + 0.12 * h });
+    });
+  });
+}
+
+/* LATENT */
+FV.scene('latent', (t, ctx) => {
+  head(ctx.el, t);
+  initPixels();
+  const sm = $('#lt-small');
+  if (!sm._done) { sm.getContext('2d').drawImage(ART_CANVAS, 0, 0, 32, 32); sm._done = 1; }
+  enter($('#lt-a'), t, frac(ctx, 0, 0.12), 0.45, 20);
+  pop($('#lt-dec'), t, frac(ctx, 0, 0.6), 0.4);
+  const b = frac(ctx, 0, 0.7);
+  const p = seg(t, b, b + 0.7, ease.out);
+  paint($('#lt-big'), 0);
+  css($('#lt-b'), { o: p, s: 0.6 + 0.4 * p });
+  $('#lt-big').style.boxShadow = `0 0 ${50 * pulse(t, b + 0.5, b + 1.8)}px rgba(52,211,153,.8)`;
+});
+
+/* OUTRO */
+{
+  const strip = $('#oc-strip');
+  const lv = [1, 0.6, 0.25, 0];
+  const S = [];
+  lv.forEach((l, i) => {
+    const c = document.createElement('canvas'); c.width = c.height = N; c.className = 'im'; c.style.cssText = 'width:200px;height:200px;border-radius:16px';
+    strip.appendChild(c); S.push(c);
+    if (i < lv.length - 1) S.push(div('', '→', strip, 'font:800 44px Inter;color:#9aa0c3'));
+  });
+  const steps = [['Train', 'add noise to millions of images', V], ['Learn', 'predict the noise', C], ['Generate', 'remove it, step by step', M], ['Prompt', 'guides every step', ORG]];
+  const items = steps.map(([a, b, c]) => div('', `<span style="font:800 40px Inter;width:250px">${a}</span><span style="font:600 28px Inter;color:#9aa0c3">${b}</span>`, $('#oc-list'),
+    `display:flex;align-items:center;padding:12px 32px;border-radius:20px;border:3px solid ${c}99;background:${c}1f;width:900px;box-sizing:border-box`));
+  FV.scene('outro', (t, ctx) => {
+    pop($('#oc-h'), t, 0.05, 0.5);
+    let k = 0;
+    S.forEach((e) => { if (e.tagName === 'CANVAS') { paint(e, lv[k]); enter(e, t, 0.3 + k * 0.15, 0.35, 20); k++; } else e.style.opacity = seg(t, 0.4, 0.7); });
+    items.forEach((e, i) => enter(e, t, 0.9 + i * 0.12, 0.35, 20));
+    pop($('#oc-gh'), t, 1.6, 0.5);
+  });
+}
+})();
+</script>
+</body>
+</html>
