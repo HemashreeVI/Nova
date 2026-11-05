@@ -1,0 +1,39 @@
+{
+  "title": "How Redis Makes Apps Fast: Caching in 60 Seconds ⚡ #shorts",
+  "slug": "short-redis",
+  "format": "vertical",
+  "description": "Why does a page load in 2 seconds the first time and instantly the next? Caching. Databases store data on disk and run queries, often 100+ ms. Redis keeps hot data in RAM as simple key-value pairs, answering in under a millisecond. Apps check Redis first: on a cache hit they return instantly, on a miss they query the database and save the result with a TTL so it expires, keeping data fresh. The hard part: invalidating the cache when the data changes.\n\nTimes shown are typical, illustrative values.\n\n📘 More to learn + my projects: https://github.com/HemashreeVI\n\n#Redis #Caching #Backend #SystemDesign #Database #TechExplained #shorts",
+  "tags": ["redis", "redis caching", "how redis works", "redis explained", "what is redis", "caching explained", "cache hit cache miss", "cache aside pattern", "ttl", "in memory database", "key value store", "cache invalidation", "system design", "backend", "spring boot redis", "tech explained", "shorts"],
+  "voice": "am_michael",
+  "speed": 1.1,
+  "lineGap": 0.25,
+  "captions": true,
+  "endCard": "📘 more to learn → github.com/HemashreeVI",
+  "thumbnail": "hit@6",
+  "endHold": 0.3,
+  "pronounce": { "Redis": "Red iss" },
+  "scenes": [
+    { "id": "hook", "pad": [0.3, 0.5], "lines": [
+      "Why does a page take two seconds to load the first time, and load instantly the next?",
+      "Caching. And the most popular cache is Redis."
+    ]},
+    { "id": "slow", "pad": [0.3, 0.6], "lines": [
+      "A database stores data on disk, and has to run a query every time. That can take a hundred milliseconds or more."
+    ]},
+    { "id": "ram", "pad": [0.3, 0.6], "lines": [
+      "Redis keeps data in memory, in RAM, as simple key-value pairs. Reading from it takes less than a millisecond."
+    ]},
+    { "id": "hit", "pad": [0.3, 0.6], "lines": [
+      "So your app checks Redis first. If the data is there, that's a cache hit, and it's returned instantly."
+    ]},
+    { "id": "miss", "pad": [0.3, 0.6], "lines": [
+      "If not, that's a cache miss. The app asks the database, then saves the answer in Redis, so the next request is fast."
+    ]},
+    { "id": "ttl", "pad": [0.3, 0.6], "lines": [
+      "Each cached value gets a TTL, a time to live, so it expires and gets refreshed. Because the hardest part of caching is stale data."
+    ]},
+    { "id": "outro", "pad": [0.3, 2.4], "lines": [
+      "Check the cache. Fall back to the database. Save for next time."
+    ]}
+  ]
+}
