@@ -1,0 +1,43 @@
+{
+  "title": "Big-O Notation in 60 Seconds (Java) | DSA #1 #shorts",
+  "slug": "dsa-01-big-o",
+  "format": "vertical",
+  "description": "DSA in 60 Seconds #1: Big-O notation, explained with Java.\n\nTwo Java methods answer the same question, does this array contain a duplicate? The nested-loop version compares every pair: O(n²), about a trillion comparisons for a million items. The HashSet version checks each item once: O(n), about a million steps. Big-O describes how running time grows as the input grows; drop constants, keep the biggest term. Common complexities: O(1), O(log n), O(n), O(n log n), O(n²).\n\nLeetCode 217: Contains Duplicate.\nComparison counts are approximate.\n\n📘 More to learn + my projects: https://github.com/HemashreeVI\n\n#DSA #Java #BigO #LeetCode #CodingInterview #Programming #shorts",
+  "tags": ["big o notation", "big o notation explained", "time complexity", "dsa", "data structures and algorithms", "dsa in java", "java", "leetcode", "contains duplicate", "leetcode 217", "hashset java", "coding interview", "placement preparation", "algorithms", "computer science", "dsa in 60 seconds", "shorts"],
+  "voice": "am_michael",
+  "speed": 1.1,
+  "lineGap": 0.25,
+  "captions": true,
+  "endCard": "📘 more to learn → github.com/HemashreeVI",
+  "thumbnail": "race@4",
+  "endHold": 0.3,
+  "pronounce": {
+    "O(n log n)": "O of n log n",
+    "O(log n)": "O of log n",
+    "O(n²)": "O of n squared",
+    "O(n)": "O of n",
+    "O(1)": "O of one",
+    "DSA": "D S A"
+  },
+  "scenes": [
+    { "id": "race", "pad": [0.3, 0.5], "lines": [
+      "Two Java methods. Same answer. With a million items, one finishes instantly. The other takes minutes.",
+      "The difference is Big-O."
+    ]},
+    { "id": "what", "pad": [0.3, 0.5], "lines": [
+      "Big-O describes how your running time grows as the input grows. Not seconds, but the shape of the growth."
+    ]},
+    { "id": "nested", "pad": [0.3, 0.6], "lines": [
+      "To find a duplicate, the slow way compares every pair with two nested loops. Double the input, four times the work. That's O(n²)."
+    ]},
+    { "id": "hashset", "pad": [0.3, 0.6], "lines": [
+      "The fast way walks the array once, and remembers what it has seen in a HashSet. Each lookup is O(1), so the whole thing is O(n)."
+    ]},
+    { "id": "chart", "pad": [0.3, 0.6], "lines": [
+      "From best to worst: O(1), O(log n), O(n), O(n log n), and O(n²). Drop the constants, and keep the biggest term."
+    ]},
+    { "id": "outro", "pad": [0.3, 2.4], "lines": [
+      "In interviews, the brute force is just the start. They want O(n). This is DSA number one."
+    ]}
+  ]
+}
