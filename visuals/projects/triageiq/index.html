@@ -1,0 +1,435 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TriageIQ Explained</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{--paper:#f4f2ec;--ink:#1b1d1c;--mut:#686b68;--tl:#0f766e;--tl2:#14b8a6;--red:#d64535;--grn:#1f8a4c;--amb:#c77d00;--blu:#2563eb;--soft:#e7e3d8;--hi:#fde68a}
+  #fv-stage{background:var(--paper);color:var(--ink);font-family:'IBM Plex Sans',sans-serif}
+  #lines{position:absolute;inset:0;background-image:linear-gradient(#e2ddcf 1.5px,transparent 1.5px);background-size:100% 46px;opacity:.55}
+  #fv-stage #fv-caption{background:var(--ink);color:#fbf8f1;font:500 38px/1.3 'IBM Plex Sans',sans-serif;border-radius:10px;padding:12px 26px}
+  .abs{position:absolute}
+  .mono{font-family:'IBM Plex Mono',monospace}
+  .gro{font-family:'Space Grotesk',sans-serif}
+  .brand{position:absolute;right:110px;top:58px;display:flex;align-items:center;gap:12px;font:700 26px 'Space Grotesk'}
+  .brand i{width:36px;height:36px;border-radius:9px;background:var(--tl);border:3px solid var(--ink);display:flex;align-items:center;justify-content:center;color:#fff;font-style:normal;font-size:18px}
+  .num{position:absolute;left:110px;top:70px;width:74px;height:74px;border:3px solid var(--ink);border-radius:50%;background:var(--tl);color:#fff;box-shadow:5px 5px 0 var(--ink);display:flex;align-items:center;justify-content:center;font:700 32px 'Space Grotesk'}
+  .ttl{position:absolute;left:214px;top:72px;font:700 62px/1.15 'Space Grotesk';letter-spacing:-.02em}
+  .ttl u,.hl{text-decoration:none;background:linear-gradient(transparent 58%,var(--hi) 58%)}
+  .box{position:absolute;border:3px solid var(--ink);border-radius:14px;background:#fff;box-shadow:6px 6px 0 var(--ink);box-sizing:border-box}
+  .lbl{font:600 19px 'IBM Plex Mono';letter-spacing:.06em;color:var(--mut);text-transform:uppercase}
+  .tagx{display:inline-block;padding:8px 18px;border:2.5px solid var(--ink);border-radius:30px;background:#fff;font:600 24px 'IBM Plex Sans';white-space:nowrap}
+  .node{position:absolute;border:3px solid var(--ink);border-radius:12px;background:#fff;box-shadow:5px 5px 0 var(--ink);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;box-sizing:border-box;font:700 27px 'Space Grotesk'}
+  .node small{font:500 18px 'IBM Plex Mono';color:var(--mut);margin-top:4px}
+  .code{font:500 23px/1.6 'IBM Plex Mono';white-space:pre;color:var(--ink)}
+  .code b{color:var(--tl);font-weight:600}
+  .chk{display:flex;align-items:flex-start;gap:16px;font:500 26px/1.35 'IBM Plex Sans';margin-bottom:14px}
+  .chk i{flex:none;width:34px;height:34px;border:3px solid var(--ink);border-radius:8px;display:flex;align-items:center;justify-content:center;font:700 20px 'Space Grotesk';font-style:normal;background:#fff}
+  .pill{display:inline-block;padding:6px 14px;border-radius:8px;border:2px solid var(--ink);font:600 20px 'IBM Plex Sans';white-space:nowrap}
+  .shot{position:absolute;border:3px solid var(--ink);border-radius:14px;background:#fff;box-shadow:8px 8px 0 var(--ink);overflow:hidden}
+  .shot .bar{height:40px;border-bottom:3px solid var(--ink);background:var(--soft);display:flex;align-items:center;gap:8px;padding:0 16px}
+  .shot .bar i{width:13px;height:13px;border-radius:50%;border:2px solid var(--ink)}
+  .shot .bar span{margin-left:14px;font:500 17px 'IBM Plex Mono';color:var(--mut)}
+  .shot .view{position:relative;overflow:hidden}
+  .shot .view img{position:absolute;left:0;top:0;width:1440px;height:900px;transform-origin:0 0}
+  .mark{position:absolute;border:4px solid var(--red);border-radius:10px}
+  .mail{position:absolute;width:300px;padding:14px 18px;border:3px solid var(--ink);border-radius:12px;background:#fff;box-shadow:4px 4px 0 var(--ink);box-sizing:border-box}
+  .mail b{display:block;font:700 22px 'Space Grotesk'}
+  .mail span{font:500 19px 'IBM Plex Sans';color:#3f423f}
+</style>
+</head>
+<body>
+<div id="fv-stage">
+  <div id="lines"></div>
+  <div class="brand"><i>✉</i>TriageIQ</div>
+
+  <!-- INTRO -->
+  <section class="fv-scene" data-scene="intro">
+    <div id="in-h" class="abs gro" style="left:110px;top:250px;font:700 160px/1 'Space Grotesk';letter-spacing:-.04em">Triage<span style="color:var(--tl)">IQ</span></div>
+    <div id="in-s" class="abs" style="left:116px;top:440px;width:1150px;font:500 42px/1.3 'IBM Plex Sans'">Reads every email. <span class="hl">Ranks it.</span> Drafts a reply from tickets you've <span class="hl">already solved.</span></div>
+    <div id="in-dev" class="abs" style="left:116px;top:600px"><span class="pill" style="font-size:28px;background:#d6f5ef">🔒 runs on one laptop · customer text never leaves it</span></div>
+    <div id="in-tags" class="abs" style="left:116px;top:700px;display:flex;flex-wrap:wrap;gap:14px;width:1150px"></div>
+    <div id="in-inbox" class="abs" style="left:1340px;top:240px;width:460px;height:640px"></div>
+  </section>
+
+  <!-- PROBLEM -->
+  <section class="fv-scene" data-scene="problem">
+    <div class="num">?</div><div class="ttl">The inbox is <u>chaos</u></div>
+    <div id="pb-pile" class="abs" style="left:110px;top:200px;width:1700px;height:620px"></div>
+  </section>
+
+  <!-- PIPELINE -->
+  <section class="fv-scene" data-scene="pipeline">
+    <div class="num">→</div><div class="ttl">An <u>event-driven</u> pipeline</div>
+    <svg id="pp-svg" class="abs" width="1920" height="1080" style="inset:0"></svg>
+    <div id="pp-nodes"></div>
+    <div id="pp-ticket" class="abs pill" style="left:0;top:0;background:var(--hi)">✉ TKT-1042</div>
+  </section>
+
+  <!-- KAFKA -->
+  <section class="fv-scene" data-scene="kafka">
+    <div class="num">K</div><div class="ttl">Why <u>Kafka</u> in the middle?</div>
+    <div id="kf-a" class="box" style="left:110px;top:220px;width:1700px;height:300px;padding:24px 30px">
+      <div class="lbl">topic "tickets" · the buffer</div>
+      <div id="kf-log" style="position:absolute;left:30px;right:30px;top:90px;height:110px;display:flex;gap:12px;align-items:center"></div>
+      <div id="kf-slow" style="position:absolute;right:30px;bottom:20px;font:600 26px 'IBM Plex Sans'"></div>
+    </div>
+    <div id="kf-b" class="box" style="left:110px;top:560px;width:1700px;height:300px;padding:24px 30px">
+      <div class="lbl">consumer group "triageiq-classifier"</div>
+      <div id="kf-off" style="position:absolute;left:30px;right:30px;top:90px;height:110px;display:flex;gap:12px;align-items:center"></div>
+      <div id="kf-st" style="position:absolute;left:30px;bottom:22px;font:600 26px 'IBM Plex Sans'"></div>
+    </div>
+  </section>
+
+  <!-- CLASSIFY -->
+  <section class="fv-scene" data-scene="classify">
+    <div class="num">1</div><div class="ttl"><u>Classify</u> with a local LLM</div>
+    <div id="cl-mail" class="box" style="left:110px;top:220px;width:520px;height:300px;padding:24px 28px">
+      <div class="lbl">customer email</div>
+      <div style="font:600 30px/1.35 'IBM Plex Sans';margin-top:14px">"I was charged twice for my subscription and I need a refund today!!"</div>
+    </div>
+    <div id="cl-llm" class="node" style="left:700px;top:250px;width:380px;height:240px;background:#d6f5ef">🦙 Ollama<small>qwen2.5:3b · temperature 0</small><small>local · no API calls</small></div>
+    <div id="cl-out" class="box" style="left:1150px;top:220px;width:660px;height:300px;padding:24px 28px">
+      <div class="lbl">structured output</div>
+      <div id="cl-json" class="code" style="font-size:22px;line-height:1.35;margin-top:8px"></div>
+    </div>
+    <div id="cl-schema" class="box" style="left:110px;top:570px;width:1700px;height:300px;padding:24px 30px">
+      <div class="lbl">JSON schema: the model can only answer this shape</div>
+      <div id="cl-enum" style="margin-top:20px"></div>
+    </div>
+  </section>
+
+  <!-- FALLBACK -->
+  <section class="fv-scene" data-scene="fallback">
+    <div class="num">!</div><div class="ttl">Never trust the model <u>blindly</u></div>
+    <div id="fb-cases" class="abs" style="left:110px;top:220px;width:800px"></div>
+    <div id="fb-term" class="box" style="left:960px;top:220px;width:850px;height:640px;padding:24px 28px;background:#1b1d1c;color:#e9e6dd">
+      <div class="lbl" style="color:#9fe3d6">real run · model switched off</div>
+      <div id="fb-out" class="code" style="font-size:21px;margin-top:16px;color:#e9e6dd;white-space:pre-wrap"></div>
+    </div>
+  </section>
+
+  <!-- RAG -->
+  <section class="fv-scene" data-scene="rag">
+    <div class="num">2</div><div class="ttl"><u>RAG</u> over solved tickets</div>
+    <div id="rg-kb" class="box" style="left:110px;top:220px;width:560px;height:640px;padding:24px 26px">
+      <div class="lbl">30 past tickets → embeddings</div>
+      <div id="rg-list" style="margin-top:16px"></div>
+    </div>
+    <div id="rg-space" class="box" style="left:720px;top:220px;width:1090px;height:640px">
+      <div class="lbl" style="position:absolute;left:24px;top:20px">Qdrant · cosine similarity · top 3</div>
+      <svg id="rg-svg" width="1084" height="634" style="position:absolute;inset:0"></svg>
+    </div>
+  </section>
+
+  <!-- GROUNDED -->
+  <section class="fv-scene" data-scene="grounded">
+    <div class="num">✓</div><div class="ttl"><u>Grounded</u> replies</div>
+    <div id="gd-rules" class="box" style="left:110px;top:220px;width:820px;height:640px;padding:26px 30px">
+      <div class="lbl">rag/drafter.py · system prompt</div>
+      <div id="gd-list" style="margin-top:20px"></div>
+    </div>
+    <div id="gd-draft" class="box" style="left:980px;top:220px;width:830px;height:640px;padding:26px 30px">
+      <div class="lbl">past answer → draft</div>
+      <div id="gd-src" style="margin-top:16px;padding:16px 18px;border:2.5px dashed var(--ink);border-radius:10px;font:500 23px/1.45 'IBM Plex Sans';background:#fffbea"><b class="mono" style="font-size:18px;color:var(--mut)">PT-001 · Billing · how it was solved</b><br>Apologies for the duplicate charge. We confirmed a double payment and issued a refund to the original payment method.</div>
+      <div id="gd-arrow" style="text-align:center;font:700 34px 'Space Grotesk';margin:10px 0">↓ facts only</div>
+      <div id="gd-out" style="padding:16px 18px;border:3px solid var(--tl);border-radius:10px;font:500 23px/1.45 'IBM Plex Sans';background:#e9faf6"></div>
+    </div>
+  </section>
+
+  <!-- HUMAN -->
+  <section class="fv-scene" data-scene="human">
+    <div class="num">3</div><div class="ttl">A <u>human</u> stays in the loop</div>
+    <div id="hu-sse" class="box" style="left:110px;top:220px;width:560px;height:640px;padding:24px 26px">
+      <div class="lbl">GET /events · Server-Sent Events</div>
+      <div id="hu-feed" style="margin-top:16px"></div>
+    </div>
+    <div id="hu-acts" class="abs" style="left:720px;top:220px;width:1090px;display:grid;grid-template-columns:1fr 1fr;gap:22px"></div>
+    <div id="hu-smtp" class="box" style="left:720px;top:620px;width:1090px;height:240px;padding:24px 28px;background:#e9faf6">
+      <div class="lbl">only after approval · smtplib</div>
+      <div class="code" style="font-size:23px;margin-top:12px">msg["In-Reply-To"] = original_id
+msg["References"]  = references + original_id
+<b>smtp.send_message(msg)</b>   # same thread for the customer</div>
+    </div>
+  </section>
+
+  <!-- HARDENING -->
+  <section class="fv-scene" data-scene="hardening">
+    <div class="num">⛨</div><div class="ttl">Hardened for a <u>real inbox</u></div>
+    <div id="hd-grid" class="abs" style="left:110px;top:210px;width:1700px;display:grid;grid-template-columns:1fr 1fr;gap:26px"></div>
+  </section>
+
+  <!-- DEMO -->
+  <section class="fv-scene" data-scene="demo">
+    <div class="num">▶</div><div class="ttl">The <u>console</u></div>
+    <div id="dm-shot" class="shot" style="left:110px;top:190px;width:1240px;height:818px"><div class="bar"><i style="background:#ff8a7a"></i><i style="background:#ffd36b"></i><i style="background:#7fd99a"></i><span id="dm-url">localhost:8050</span></div><div class="view" style="width:1234px;height:772px"><img id="dm-img" alt=""><div id="dm-mark" class="mark"></div></div></div>
+    <div id="dm-notes" class="abs" style="left:1400px;top:200px;width:410px"></div>
+  </section>
+
+  <!-- HONEST -->
+  <section class="fv-scene" data-scene="honest">
+    <div class="num">!</div><div class="ttl"><u>Honest</u> limits</div>
+    <div id="hn-notes" class="abs" style="left:110px;top:230px;width:1700px;display:grid;grid-template-columns:1fr 1fr;gap:34px"></div>
+  </section>
+
+  <!-- OUTRO -->
+  <section class="fv-scene" data-scene="outro">
+    <div id="oc-w" class="abs gro" style="left:0;right:0;top:300px;text-align:center;font:700 96px/1.2 'Space Grotesk'"></div>
+    <div id="oc-t" class="abs" style="left:0;right:0;top:600px;text-align:center;font:500 46px 'IBM Plex Sans'">Nothing is sent until <span class="hl">a human approves.</span></div>
+    <div id="oc-gh" class="abs mono" style="left:0;right:0;top:760px;text-align:center;font-size:30px;color:var(--mut)">github.com/HemashreeVI/TriageIQ</div>
+  </section>
+</div>
+<script src="timing.js"></script>
+<script src="fv-runtime.js"></script>
+<script>
+(() => {
+const { seg, css, enter, lerp, clamp, ease, pulse, rand, $ } = FV;
+const NS = 'http://www.w3.org/2000/svg';
+const svgEl = (tag, a, p) => { const e = document.createElementNS(NS, tag); for (const k in a) e.setAttribute(k, a[k]); if (p) p.appendChild(e); return e; };
+const div = (cls, html, p, style) => { const e = document.createElement('div'); if (cls) e.className = cls; if (html !== undefined) e.innerHTML = html; if (style) e.style.cssText = style; if (p) p.appendChild(e); return e; };
+const IN = (el, t, a, d = 0.8, rise = 24) => enter(el, t, a, d, rise);
+const head = (el, t) => { IN(el.querySelector('.num'), t, 0.1, 0.7, 12); IN(el.querySelector('.ttl'), t, 0.25, 0.8, 18); };
+const F = (ctx, i, f) => ctx.line(i) + (ctx.lineEnd(i) - ctx.line(i)) * f;
+const INK = '#1b1d1c', TL = '#0f766e', RED = '#d64535', GRN = '#1f8a4c', AMB = '#c77d00', BLU = '#2563eb', MUT = '#686b68';
+const arrow = (svg, x1, y1, x2, y2, c = INK, dash = '') => { const g = svgEl('g', {}, svg); svgEl('line', { x1, y1, x2, y2, stroke: c, 'stroke-width': 4, 'stroke-dasharray': dash, 'stroke-linecap': 'round' }, g); const a = Math.atan2(y2 - y1, x2 - x1); svgEl('path', { d: `M${x2} ${y2} L${x2 - 16 * Math.cos(a - 0.5)} ${y2 - 16 * Math.sin(a - 0.5)} L${x2 - 16 * Math.cos(a + 0.5)} ${y2 - 16 * Math.sin(a + 0.5)}Z`, fill: c }, g); return g; };
+const MAILS = [['Refund', 'I was charged twice!!', RED], ['App crash', 'Checkout crashes every time', AMB], ['Password', "Reset email never arrives", BLU], ['Thanks!', 'Support was great 🙂', GRN], ['Where is my order?', 'ORD-48213 tracking?', MUT], ['Hacked?', 'Someone logged in from abroad', RED], ['Invoice', 'Need a GST invoice', MUT], ['Discount', 'Student plan?', GRN]];
+
+/* INTRO */
+{
+  ['Python', 'Kafka', 'Ollama', 'Qdrant', 'FastAPI', 'Docker', 'SSE', 'IMAP / SMTP'].forEach((s) => div('tagx', s, $('#in-tags')));
+  const mails = MAILS.slice(0, 5).map(([s, b], i) => div('mail', `<b>${s}</b><span>${b}</span>`, $('#in-inbox'), `left:${(i % 2) * 120}px;top:${i * 118}px`));
+  FV.scene('intro', (t, ctx) => {
+    IN($('#in-h'), t, 0.2, 1.0, 30);
+    IN($('#in-s'), t, F(ctx, 1, 0.05), 0.9, 20);
+    IN($('#in-dev'), t, ctx.line(2), 0.8, 14);
+    [...$('#in-tags').children].forEach((g, i) => IN(g, t, F(ctx, 2, 0.45) + i * 0.25, 0.6, 12));
+    mails.forEach((m, i) => { IN(m, t, 0.6 + i * 0.3, 0.8, 30); css(m, { r: [-3, 2, -1.5, 3, -2][i] }); m.style.opacity = Math.min(+m.style.opacity || 0, 1); });
+  });
+}
+
+/* PROBLEM */
+{
+  const r = rand(5);
+  const pile = MAILS.map(([s, b, c], i) => { const m = div('mail', `<b>${s}</b><span>${b}</span>`, $('#pb-pile'), `left:${40 + (i % 4) * 410}px;top:${30 + Math.floor(i / 4) * 230 + r() * 60}px;width:360px`); return { m, c, rot: (r() - 0.5) * 8 }; });
+  FV.scene('problem', (t, ctx) => {
+    head(ctx.el, t);
+    pile.forEach((p, i) => { IN(p.m, t, F(ctx, 0, 0.05 + i * 0.09), 0.7, 30); css(p.m, { r: p.rot }); });
+    const sorted = seg(t, ctx.line(2) + 0.5, ctx.line(2) + 2, ease.inOut);
+    const urgent = pile[0];
+    urgent.m.style.borderColor = t > ctx.line(2) ? RED : INK;
+    urgent.m.style.boxShadow = t > ctx.line(2) ? `4px 4px 0 ${RED}` : `4px 4px 0 ${INK}`;
+    css(urgent.m, { r: urgent.rot, x: sorted * 1250, y: sorted * 420 });
+    pile.slice(1).forEach((p) => (p.m.style.filter = t > ctx.line(2) + 1 ? 'opacity(.55)' : 'none'));
+  });
+}
+
+/* PIPELINE */
+{
+  const sv = $('#pp-svg');
+  const N = [['📥 IMAP gateway', 'gateway/inbound.py', 215, 300, '#fff'], ['📨 Kafka', 'topic: tickets', 580, 300, '#fff7d6'], ['🦙 classifier + RAG', 'classifier/consumer.py', 960, 300, '#d6f5ef'], ['📨 Kafka', 'topic: tickets.triaged', 1360, 300, '#fff7d6'], ['🖥️ FastAPI console', 'SSE · live', 1360, 620, '#fff'], ['🧑 agent approves', 'approve / edit / escalate', 960, 620, '#fff'], ['📤 SMTP', 'reply in the same thread', 580, 620, '#e9faf6']];
+  const nodes = N.map(([h, s, x, y, bg]) => div('node', `${h}<small>${s}</small>`, $('#pp-nodes'), `left:${x - 160}px;top:${y - 70}px;width:320px;height:140px;background:${bg}`));
+  const A = [[375, 300, 420, 300], [740, 300, 800, 300], [1120, 300, 1200, 300], [1360, 370, 1360, 550], [1200, 620, 1120, 620], [800, 620, 740, 620]];
+  const arrows = A.map((a) => arrow(sv, ...a));
+  const path = [[215, 300], [580, 300], [960, 300], [1360, 300], [1360, 620], [960, 620], [580, 620]];
+  const at = [[0, 0.05], [0, 0.6], [1, 0.1], [1, 0.75], [2, 0.2], [3, 0.1], [3, 0.6]];
+  FV.scene('pipeline', (t, ctx) => {
+    head(ctx.el, t);
+    nodes.forEach((n, i) => IN(n, t, F(ctx, ...at[i]), 0.7, 20));
+    arrows.forEach((a, i) => a.setAttribute('opacity', seg(t, F(ctx, ...at[i + 1]) - 0.3, F(ctx, ...at[i + 1]))));
+    // the ticket travels along the path following the narration
+    const times = at.map((a) => F(ctx, ...a));
+    let k = 0; while (k < times.length - 1 && t > times[k + 1]) k++;
+    const u = k < times.length - 1 ? seg(t, times[k], times[k + 1], ease.inOut) : 0;
+    const [x1, y1] = path[k], [x2, y2] = path[Math.min(k + 1, path.length - 1)];
+    const tk = $('#pp-ticket');
+    tk.style.left = `${lerp(x1, x2, u) - 70}px`; tk.style.top = `${lerp(y1, y2, u) + 85}px`;
+    tk.style.opacity = t > times[0] ? 1 : 0;
+    tk.textContent = k >= 2 ? '✉ TKT-1042 · Billing · High · Angry' : '✉ TKT-1042';
+    tk.style.background = k >= 6 ? '#bbf7d0' : '#fde68a';
+  });
+}
+
+/* KAFKA */
+{
+  const log = Array.from({ length: 16 }, (_, i) => div('', `${i}`, $('#kf-log'), `width:84px;height:84px;border:3px solid ${INK};border-radius:10px;display:flex;align-items:center;justify-content:center;font:600 24px 'IBM Plex Mono';background:#fff7d6;flex:none`));
+  const off = Array.from({ length: 16 }, (_, i) => div('', `${i}`, $('#kf-off'), `width:84px;height:84px;border:3px solid ${INK};border-radius:10px;display:flex;align-items:center;justify-content:center;font:600 24px 'IBM Plex Mono';flex:none`));
+  FV.scene('kafka', (t, ctx) => {
+    head(ctx.el, t);
+    IN($('#kf-a'), t, F(ctx, 0, 0.1), 0.8, 18);
+    const n = Math.floor(seg(t, F(ctx, 0, 0.2), ctx.lineEnd(0), ease.linear) * 16);
+    log.forEach((l, i) => (l.style.opacity = i < n ? 1 : 0.12));
+    $('#kf-slow').innerHTML = t > F(ctx, 0, 0.45) ? `🐢 model busy… <b>${n}</b> tickets waiting safely` : '';
+    IN($('#kf-b'), t, ctx.line(1) - 0.3, 0.8, 18);
+    const s1 = F(ctx, 1, 0.2), crash = F(ctx, 1, 0.5), back = F(ctx, 1, 0.7);
+    const read = t < crash ? Math.floor(seg(t, s1, crash, ease.linear) * 7) : t < back ? 7 : 7 + Math.floor(seg(t, back, ctx.dur, ease.linear) * 6);
+    off.forEach((o, i) => { o.style.background = i < read ? '#d6f5ef' : '#fff'; o.style.borderColor = i === read ? TL : INK; o.style.boxShadow = i === read ? `0 0 0 4px #99f6e4` : 'none'; });
+    $('#kf-st').innerHTML = t < s1 ? '' : t < crash ? `reading… committed offset <b>${read}</b>` : t < back ? `<span style="color:${RED}">💥 consumer restarted</span>` : `<span style="color:${GRN}">✓ resumed from offset 7, nothing lost, nothing repeated twice</span>`;
+  });
+}
+
+/* CLASSIFY */
+{
+  const E = [['category', ['Billing', 'Technical', 'Delivery', 'Account', 'General']], ['priority', ['High', 'Medium', 'Low']], ['mood', ['Angry', 'Frustrated', 'Neutral', 'Happy']]];
+  const rows = E.map(([k, v]) => div('', `<span class="mono" style="width:160px;display:inline-block;font-size:24px;font-weight:600">${k}</span>${v.map((x) => `<span class="pill" data-v="${x}" style="margin-right:10px;background:#fff">${x}</span>`).join('')}`, $('#cl-enum'), 'margin-bottom:18px'));
+  const pick = { category: 'Billing', priority: 'High', mood: 'Angry' };
+  FV.scene('classify', (t, ctx) => {
+    head(ctx.el, t);
+    IN($('#cl-mail'), t, 0.4, 0.8, 18); IN($('#cl-llm'), t, F(ctx, 0, 0.3), 0.8, 18);
+    IN($('#cl-schema'), t, F(ctx, 1, 0.3), 0.8, 18);
+    rows.forEach((r, i) => IN(r, t, F(ctx, 1, 0.45 + i * 0.12), 0.6, 10));
+    const on = t > F(ctx, 1, 0.9);
+    rows.forEach((r, i) => r.querySelectorAll('.pill').forEach((p) => { const hit = on && p.dataset.v === pick[E[i][0]]; p.style.background = hit ? '#99f6e4' : '#fff'; p.style.borderColor = hit ? TL : INK; }));
+    IN($('#cl-out'), t, ctx.line(2) - 0.3, 0.8, 18);
+    $('#cl-json').innerHTML = t > ctx.line(2) ? '{\n  "category": <b>"Billing"</b>,\n  "priority": <b>"High"</b>,\n  "mood":     <b>"Angry"</b>\n}' + (t > F(ctx, 2, 0.6) ? '\n<span style="color:#686b68">temperature 0 → same every time</span>' : '') : '';
+  });
+}
+
+/* FALLBACK */
+{
+  const C = [['🔌', 'Ollama not running'], ['⏱', 'LLM timed out (120 s)'], ['🤪', 'invalid output (e.g. "Refunds")']];
+  const cs = C.map(([ic, s]) => div('box', `<span style="font-size:40px">${ic}</span><span style="font:600 28px 'IBM Plex Sans'">${s}</span>`, $('#fb-cases'), 'position:relative;display:flex;align-items:center;gap:22px;padding:22px 26px;margin-bottom:24px'));
+  const res = div('box', `<div class="lbl">→ safe fallback</div><div class="code" style="font-size:24px;margin-top:10px">needs_human: <b style="color:#d64535">True</b>\npriority:    <b style="color:#d64535">"High"</b></div>`, $('#fb-cases'), 'position:relative;padding:22px 26px;background:#fff1ee;border-color:#d64535');
+  const OUT = [
+    ['$ python -c "classify_ticket(...)"', '#9fe3d6'],
+    ["{'category': 'Unknown', 'priority': 'High',", '#e9e6dd'],
+    [" 'mood': 'Neutral', 'needs_human': True,", '#e9e6dd'],
+    [" 'error': 'Ollama is not running'}", '#fca5a5'],
+    ['', ''],
+    ['$ validate({"category": "Refunds", ...})', '#9fe3d6'],
+    ['False', '#fca5a5'],
+    ['', ''],
+    ['$ draft_reply("I was charged twice")', '#9fe3d6'],
+    ["{'reply': None, 'sources': [],", '#e9e6dd'],
+    [" 'error': 'Ollama or Qdrant is not running'}", '#fca5a5'],
+  ];
+  FV.scene('fallback', (t, ctx) => {
+    head(ctx.el, t);
+    cs.forEach((c, i) => IN(c, t, F(ctx, 0, 0.3 + i * 0.2), 0.7, 14));
+    IN(res, t, ctx.line(1), 0.8, 14);
+    IN($('#fb-term'), t, ctx.line(2) - 0.4, 0.8, 18);
+    const n = Math.floor(seg(t, ctx.line(2), ctx.dur - 0.3, ease.linear) * OUT.length);
+    $('#fb-out').innerHTML = OUT.slice(0, n).map(([s, c]) => `<span style="color:${c}">${s.replace(/</g, '&lt;')}</span>`).join('\n');
+  });
+}
+
+/* RAG */
+{
+  const PT = ['PT-001 · charged twice → refund', 'PT-002 · reset email missing', 'PT-007 · package delayed', 'PT-011 · invoice request', 'PT-014 · app crashes on login', 'PT-019 · cancel subscription', '… 30 in total'];
+  const list = PT.map((s) => div('', s, $('#rg-list'), "font:500 22px 'IBM Plex Mono';padding:10px 12px;border-bottom:2px dashed #d9d3c4"));
+  const sv = $('#rg-svg'), r = rand(8);
+  const pts = Array.from({ length: 30 }, (_, i) => { const cl = i % 5; const cx = [260, 520, 800, 380, 700][cl], cy = [200, 470, 230, 330, 520][cl]; return { x: cx + (r() - 0.5) * 170, y: cy + (r() - 0.5) * 130, cl }; });
+  const Q = { x: 300, y: 225 };
+  const near = pts.map((p, i) => ({ i, d: Math.hypot(p.x - Q.x, p.y - Q.y) })).sort((a, b) => a.d - b.d).slice(0, 3);
+  const sims = [0.86, 0.71, 0.49];
+  const dots = pts.map((p) => svgEl('circle', { cx: p.x, cy: p.y, r: 11, fill: ['#93c5fd', '#fcd34d', '#a7f3d0', '#fca5a5', '#c4b5fd'][p.cl], stroke: INK, 'stroke-width': 2.5 }, sv));
+  const links = near.map((n) => svgEl('line', { x1: Q.x, y1: Q.y, x2: pts[n.i].x, y2: pts[n.i].y, stroke: INK, 'stroke-width': 3 }, sv));
+  const tags = near.map((n, k) => { const g = svgEl('g', {}, sv); const p = pts[n.i]; const tx = svgEl('text', { x: p.x + (p.x >= Q.x ? 18 : -18), y: p.y + (p.y < Q.y ? -14 : 32), 'text-anchor': p.x >= Q.x ? 'start' : 'end', 'font-size': 22, 'font-weight': 600, 'paint-order': 'stroke', stroke: '#f5f1e8', 'stroke-width': 7, 'font-family': 'IBM Plex Mono', fill: sims[k] >= 0.55 ? GRN : RED }, g); tx.textContent = `${sims[k].toFixed(2)}${sims[k] >= 0.55 ? ' ✓' : ' ✗ < 0.55'}`; return g; });
+  const q = svgEl('g', {}, sv); svgEl('rect', { x: Q.x - 18, y: Q.y - 18, width: 36, height: 36, fill: '#fde68a', stroke: INK, 'stroke-width': 3, transform: `rotate(45 ${Q.x} ${Q.y})` }, q);
+  const ql = svgEl('text', { x: Q.x, y: Q.y + 62, 'text-anchor': 'middle', 'font-size': 24, 'font-weight': 700, 'paint-order': 'stroke', stroke: '#f5f1e8', 'stroke-width': 8, 'font-family': 'Space Grotesk', fill: INK }, q); ql.textContent = 'new ticket';
+  FV.scene('rag', (t, ctx) => {
+    head(ctx.el, t);
+    IN($('#rg-kb'), t, F(ctx, 0, 0.2), 0.8, 18);
+    list.forEach((l, i) => IN(l, t, F(ctx, 0, 0.3) + i * 0.3, 0.6, 8));
+    IN($('#rg-space'), t, F(ctx, 0, 0.6), 0.8, 18);
+    dots.forEach((d, i) => d.setAttribute('opacity', seg(t, F(ctx, 0, 0.7) + i * 0.04, F(ctx, 0, 0.75) + i * 0.04)));
+    q.setAttribute('opacity', seg(t, ctx.line(1), ctx.line(1) + 0.5));
+    links.forEach((l, k) => l.setAttribute('opacity', seg(t, F(ctx, 1, 0.5) + k * 0.4, F(ctx, 1, 0.6) + k * 0.4)));
+    tags.forEach((g, k) => g.setAttribute('opacity', seg(t, ctx.line(2) + k * 0.5, ctx.line(2) + k * 0.5 + 0.5)));
+  });
+}
+
+/* GROUNDED */
+{
+  const R = ['Use ONLY the facts in the past answers', 'Never invent policies, amounts, links or time frames', "Not fully answered? \"A team member will follow up\"", "Don't mention past tickets or IDs", 'End with "Support Team"'];
+  const rules = R.map((s) => div('chk', `<i>✓</i><span>${s}</span>`, $('#gd-list')));
+  const D = 'Thank you for contacting us. Apologies for the duplicate charge. We confirmed a double payment and issued a refund to your original payment method. A team member will follow up if you need anything else. Support Team';
+  FV.scene('grounded', (t, ctx) => {
+    head(ctx.el, t);
+    IN($('#gd-rules'), t, 0.4, 0.8, 18);
+    const at = [F(ctx, 0, 0.15), F(ctx, 0, 0.55), ctx.line(1), F(ctx, 1, 0.8), F(ctx, 2, 0.1)];
+    rules.forEach((r, i) => { IN(r, t, at[i], 0.6, 10); r.querySelector('i').style.background = t > at[i] + 0.4 ? '#99f6e4' : '#fff'; });
+    IN($('#gd-draft'), t, F(ctx, 0, 0.3), 0.8, 18);
+    IN($('#gd-src'), t, F(ctx, 0, 0.4), 0.7, 10); IN($('#gd-arrow'), t, F(ctx, 0, 0.7), 0.6, 8);
+    $('#gd-out').textContent = FV.type(D, seg(t, F(ctx, 0, 0.8), F(ctx, 2, 0.9), ease.linear)) || ' ';
+  });
+}
+
+/* HUMAN */
+{
+  const FEED = [['TKT-1042', 'Billing · High · Angry', RED], ['TKT-1043', 'Delivery · Low · Neutral', GRN], ['TKT-1044', 'Account · High · Frustrated', RED], ['TKT-1045', 'General · Low · Happy', GRN], ['TKT-1046', 'Technical · Medium · Frustrated', AMB]];
+  const feed = FEED.map(([id, s, c]) => div('', `<div class="mono" style="font-size:22px;font-weight:600">${id}</div><div style="font:500 22px 'IBM Plex Sans';color:#3f423f">${s}</div>`, $('#hu-feed'), `padding:12px 14px;margin-bottom:12px;border:2.5px solid ${INK};border-left:10px solid ${c};border-radius:10px;background:#fff`));
+  const A = [['✅ Approve', 'send the draft as written', '#bbf7d0'], ['✏️ Edit', 'change it, then send', '#fde68a'], ['✍️ Write own', 'no draft? reply manually', '#e0e7ff'], ['🧑 Send to a human', 'escalate, nothing sent', '#fecaca']];
+  const acts = A.map(([h, d, bg]) => div('box', `<div class="gro" style="font:700 32px 'Space Grotesk'">${h}</div><div style="font:500 22px 'IBM Plex Sans';color:${MUT};margin-top:4px">${d}</div>`, $('#hu-acts'), `position:relative;padding:20px 24px;height:160px;background:${bg}`));
+  FV.scene('human', (t, ctx) => {
+    head(ctx.el, t);
+    IN($('#hu-sse'), t, F(ctx, 0, 0.3), 0.8, 18);
+    feed.forEach((f, i) => IN(f, t, F(ctx, 0, 0.5) + i * 0.7, 0.6, -20));
+    acts.forEach((a, i) => IN(a, t, F(ctx, 1, 0.05 + i * 0.22), 0.7, 14));
+    IN($('#hu-smtp'), t, ctx.line(2), 0.8, 18);
+    acts[0].style.boxShadow = t > ctx.line(2) ? `6px 6px 0 ${INK}, 0 0 0 6px #22c55e` : `6px 6px 0 ${INK}`;
+  });
+}
+
+/* HARDENING */
+{
+  const H = [['🆔', 'Message-ID de-duplication', 'stored in SQLite: one email → one ticket, even after restarts', 0, 0.1], ['🔁', 'Auto-reply loop protection', 'skips Auto-Submitted, Precedence: bulk, List-Id, bounces, no-reply', 1, 0.05], ['⏳', 'Per-sender rate limit', 'max 5 tickets per sender per hour', 2, 0.05], ['🔐', 'Signed sessions + lockout', 'HMAC-signed 14-day cookie · 6 wrong passwords / 10 min → blocked', 2, 0.5]];
+  const cards = H.map(([ic, h, d]) => div('box', `<div style="font-size:48px">${ic}</div><div class="gro" style="font:700 34px 'Space Grotesk';margin-top:6px">${h}</div><div style="font:500 23px 'IBM Plex Sans';color:#3f423f;margin-top:8px">${d}</div>`, $('#hd-grid'), 'position:relative;padding:24px 28px;height:300px'));
+  const real = div('', '', cards[1], "position:absolute;left:28px;right:28px;bottom:20px;font:500 19px 'IBM Plex Mono';color:#0f766e");
+  FV.scene('hardening', (t, ctx) => {
+    head(ctx.el, t);
+    cards.forEach((c, i) => IN(c, t, F(ctx, H[i][3], H[i][4]), 0.8, 18));
+    real.textContent = t > F(ctx, 1, 0.6) ? 'real run: auto-replied → "automatic message (Auto-Submitted)"' : '';
+  });
+}
+
+/* DEMO */
+{
+  const img = $('#dm-img'), mk = $('#dm-mark'), VW = 1234, VH = 772, S0 = VW / 1440;
+  const show = (src, zoom, cx, cy, box) => {
+    if (!img.src.endsWith(src)) img.src = 'shots/' + src;
+    const s = S0 * zoom; let tx = VW / 2 - cx * s, ty = VH / 2 - cy * s;
+    tx = Math.min(0, Math.max(VW - 1440 * s, tx)); ty = Math.min(0, Math.max(VH - 900 * s, ty));
+    img.style.transform = `translate(${tx}px,${ty}px) scale(${s})`;
+    if (box) { mk.style.display = 'block'; mk.style.left = `${tx + box[0] * s}px`; mk.style.top = `${ty + box[1] * s}px`; mk.style.width = `${(box[2] - box[0]) * s}px`; mk.style.height = `${(box[3] - box[1]) * s}px`; } else mk.style.display = 'none';
+  };
+  const N = [['Overview', 'tickets waiting, by priority'], ['Approval queue', 'tags · message · AI draft'], ['Approve / send to a human', 'nothing goes out before this'], ['System', 'live pipeline counters'], ['Demo mode', 'simulated tickets & AI results']];
+  const notes = N.map(([h, d], i) => div('', `<div class="gro" style="font:700 30px 'Space Grotesk'">${h}</div><div style="font:500 22px 'IBM Plex Sans';color:${MUT}">${d}</div>`, $('#dm-notes'), `padding:12px 0 16px 24px;border-left:5px solid ${i === 4 ? AMB : TL};margin-bottom:10px`));
+  FV.scene('demo', (t, ctx) => {
+    head(ctx.el, t);
+    IN($('#dm-shot'), t, 0.3, 0.8, 20);
+    if (t < ctx.line(1)) show('01-overview.png', lerp(1, 1.2, seg(t, 1, ctx.line(1))), 840, 450, t > F(ctx, 0, 0.5) ? [282, 446, 1408, 642] : null);
+    else if (t < F(ctx, 1, 0.75)) show('02-queue.png', lerp(1.1, 1.4, seg(t, ctx.line(1), F(ctx, 1, 0.75))), 1070, 450, t < F(ctx, 1, 0.4) ? [763, 316, 1060, 338] : [763, 517, 1383, 707]);
+    else if (t < ctx.line(2)) show('02-queue.png', 1.5, 1000, 700, [763, 766, 1041, 806]);
+    else if (t < ctx.line(3)) show('08-system.png', 1.3, 660, 420, [280, 180, 1035, 645]);
+    else show('01-overview.png', 1.6, 700, 112, [282, 94, 1060, 130]);
+    const at = [F(ctx, 0, 0.3), F(ctx, 1, 0.1), F(ctx, 1, 0.75), F(ctx, 2, 0.1), F(ctx, 3, 0.1)];
+    notes.forEach((n, i) => IN(n, t, at[i], 0.7, 12));
+  });
+}
+
+/* HONEST */
+{
+  const N = [['📚', '30 synthetic past tickets', 'draft quality on real company data is untested', '#fff4c9', 0, 0.15], ['📏', 'Accuracy not measured yet', 'next: a labelled evaluation set of 100+ tickets', '#ffe1da', 1, 0.05], ['🦙', 'Small 3B local model', 'fast and private, less accurate than a large hosted model', '#e3ecff', 1, 0.55], ['📈', 'No LLM monitoring yet', 'next: track model latency and errors', '#e2f4e8', 2, 0.3]];
+  const notes = N.map(([ic, h, d, bg]) => div('box', `<div style="font-size:46px">${ic}</div><div class="gro" style="font:700 34px 'Space Grotesk';margin-top:8px">${h}</div><div style="font:500 24px 'IBM Plex Sans';color:#45483f;margin-top:8px">${d}</div>`, $('#hn-notes'), `position:relative;padding:26px 30px;height:250px;background:${bg}`));
+  FV.scene('honest', (t, ctx) => {
+    head(ctx.el, t);
+    notes.forEach((n, i) => { IN(n, t, F(ctx, N[i][4], N[i][5]), 0.8, 18); css(n, { r: [-1, 1, 0.6, -0.8][i] }); n.style.opacity = Math.min(+n.style.opacity || 0, 1); });
+  });
+}
+
+/* OUTRO */
+{
+  const W = [['Reads it.', 0], ['Ranks it.', 0.35], ['Drafts the reply.', 0.65]];
+  const ws = W.map(([w]) => { const s = document.createElement('span'); s.textContent = w + ' '; $('#oc-w').appendChild(s); return s; });
+  FV.scene('outro', (t, ctx) => {
+    ws.forEach((s, i) => { s.style.opacity = seg(t, F(ctx, 0, W[i][1]), F(ctx, 0, W[i][1]) + 0.5); s.style.color = i === 2 ? TL : INK; });
+    IN($('#oc-t'), t, ctx.line(1) - 0.2, 0.8, 16);
+    IN($('#oc-gh'), t, ctx.lineEnd(1) + 0.3, 0.8, 10);
+  });
+}
+})();
+</script>
+</body>
+</html>
