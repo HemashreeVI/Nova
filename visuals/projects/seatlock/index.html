@@ -1,0 +1,513 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SeatLock Explained</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{--ink:#f3eefc;--mut:#a59cbf;--bg:#120c24;--card:rgba(28,20,52,.92);--line:rgba(190,170,240,.22);
+        --amber:#f2b134;--violet:#8b6cf6;--grn:#34d399;--red:#f87171;--blu:#60a5fa;--pink:#f472b6;--cyan:#22d3ee}
+  #fv-stage{background:radial-gradient(1500px 1000px at 78% 10%,#3a2380 0%,#1a1236 45%,#0c0818 80%);color:var(--ink);font-family:Inter,system-ui,sans-serif}
+  #bg-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(160,130,240,.09) 1px,transparent 1px),linear-gradient(90deg,rgba(160,130,240,.09) 1px,transparent 1px);background-size:80px 80px}
+  .abs{position:absolute}
+  .mono{font-family:'JetBrains Mono',monospace;font-variant-ligatures:none;font-feature-settings:'liga' 0,'calt' 0}
+  .brand{position:absolute;left:120px;top:56px;display:flex;align-items:center;gap:14px;font:800 26px Inter;color:#d9cff7}
+  .brand i{width:40px;height:40px;border-radius:11px;background:linear-gradient(135deg,#7c5cf0,#4b2fb8);display:flex;align-items:center;justify-content:center;font-style:normal;font-size:22px}
+  .brand span{font:600 18px 'JetBrains Mono';color:var(--mut);margin-left:6px}
+  .kicker{position:absolute;left:120px;top:122px;font:800 22px 'JetBrains Mono';letter-spacing:.18em;color:var(--amber)}
+  .title{position:absolute;left:120px;top:156px;font:900 60px/1.05 Inter;letter-spacing:-.03em}
+  .card{position:absolute;border:2px solid var(--line);border-radius:22px;background:var(--card);box-sizing:border-box}
+  .pill{display:inline-block;padding:10px 22px;border-radius:40px;font:800 26px Inter;border:2px solid var(--c,#8b6cf6);background:color-mix(in srgb,var(--c,#8b6cf6) 16%,transparent);white-space:nowrap}
+  .lbl{font:700 20px 'JetBrains Mono';letter-spacing:.06em;color:var(--mut)}
+  .code{font:600 25px/1.6 'JetBrains Mono',monospace;white-space:pre;font-variant-ligatures:none;font-feature-settings:'liga' 0,'calt' 0;color:#e6e0f6}
+  .code .k{color:#f2b134}.code .t{color:#60a5fa}.code .s{color:#86efac}.code .c{color:#8a80a8}.code .h{background:rgba(242,177,52,.18);border-radius:6px}
+  .node{position:absolute;border-radius:18px;border:3px solid var(--c);background:color-mix(in srgb,var(--c) 15%,#160f2e);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;box-sizing:border-box;font:800 28px Inter}
+  .node small{font:600 18px 'JetBrains Mono';color:var(--mut);margin-top:6px}
+  .dot{position:absolute;border-radius:50%}
+  .tag{position:absolute;padding:6px 14px;border-radius:10px;font:800 20px 'JetBrains Mono';white-space:nowrap}
+  .browser{position:absolute;border-radius:18px;overflow:hidden;border:2px solid rgba(255,255,255,.18);background:#fff;box-shadow:0 30px 80px rgba(0,0,0,.5)}
+  .browser .bar{height:44px;background:#e9e6f2;display:flex;align-items:center;gap:9px;padding:0 18px}
+  .browser .bar i{width:13px;height:13px;border-radius:50%}
+  .browser .bar span{margin-left:16px;font:600 17px 'JetBrains Mono';color:#4b4566;background:#fff;border-radius:8px;padding:5px 16px}
+  .browser .view{position:relative;overflow:hidden;background:#f5f4fa}
+  .browser .view img{position:absolute;left:0;top:0;transform-origin:0 0;width:1440px;height:900px}
+  .hl{position:absolute;border:4px solid #f2b134;border-radius:12px;box-shadow:0 0 0 9999px rgba(10,6,24,.45),0 0 30px rgba(242,177,52,.8)}
+</style>
+</head>
+<body>
+<div id="fv-stage">
+  <div id="bg-grid"></div>
+  <div class="brand"><i>🎟️</i>SeatLock <span>· project explained</span></div>
+
+  <!-- TITLE -->
+  <section class="fv-scene" data-scene="title">
+    <div id="t-h" class="abs" style="left:120px;top:250px;font:900 150px/1 Inter;letter-spacing:-.05em">Seat<span style="color:var(--amber)">Lock</span></div>
+    <div id="t-sub" class="abs" style="left:124px;top:420px;font:600 38px Inter;color:#d6cdf2">A ticket-booking backend</div>
+    <div id="t-chips" class="abs" style="left:120px;top:500px;display:flex;flex-wrap:wrap;gap:14px;width:820px"></div>
+    <div id="t-big" class="abs" style="left:120px;top:690px;font:900 64px/1.1 Inter;letter-spacing:-.03em">Never sell the same seat <span style="color:var(--red)">twice.</span></div>
+    <div id="t-grid" class="abs" style="left:1130px;top:250px;display:grid;grid-template-columns:repeat(10,52px);gap:10px"></div>
+    <div id="t-cnt" class="abs mono" style="left:1130px;top:690px;width:610px;text-align:center;font-size:26px;font-weight:800"></div>
+  </section>
+
+  <!-- PROBLEM -->
+  <section class="fv-scene" data-scene="problem">
+    <div class="kicker">THE PROBLEM</div><div class="title">The double-booking race</div>
+    <div id="pb-a" class="node" style="--c:var(--blu);left:120px;top:300px;width:280px;height:150px">👩 Alice<small>clicks A1</small></div>
+    <div id="pb-b" class="node" style="--c:var(--pink);left:120px;top:520px;width:280px;height:150px">🧑 Bob<small>clicks A1</small></div>
+    <div id="pb-seat" class="node" style="--c:var(--grn);left:1480px;top:390px;width:300px;height:190px"><div style="font-size:30px">💺 seat A1</div><small id="pb-st" style="font-size:24px;font-weight:800">AVAILABLE</small></div>
+    <div id="pb-steps" class="abs" style="left:470px;top:290px;width:960px"></div>
+    <div id="pb-code" class="card code" style="left:470px;top:700px;width:1310px;padding:20px 28px"><span class="k">if</span> (seat.isAvailable()) {      <span class="c" id="pb-gap">  ⟵ another request slips in here</span>
+    seat.book();
+}</div>
+  </section>
+
+  <!-- ARCH -->
+  <section class="fv-scene" data-scene="arch">
+    <div class="kicker">ARCHITECTURE</div><div class="title">A modular monolith</div>
+    <div id="ar-app" class="card" style="left:120px;top:270px;width:1680px;height:270px;padding:22px 28px">
+      <div class="lbl" style="color:#cbbcf7">☕ ONE SPRING BOOT APP · Java 21</div>
+      <div id="ar-mods" style="display:flex;flex-wrap:wrap;gap:14px;margin-top:20px"></div>
+    </div>
+    <div id="ar-db" class="node" style="--c:var(--blu);left:120px;top:580px;width:530px;height:150px">🐘 PostgreSQL<small>source of truth · ACID</small></div>
+    <div id="ar-rd" class="node" style="--c:var(--red);left:695px;top:580px;width:530px;height:150px">🧱 Redis<small>cache · locks · rate limits · queue</small></div>
+    <div id="ar-kf" class="node" style="--c:var(--amber);left:1270px;top:580px;width:530px;height:150px">📨 Kafka<small>bookings ⇄ payments ⇄ notifications</small></div>
+    <div id="ar-why" class="abs" style="left:120px;top:770px;width:1680px;text-align:center"><span class="pill" style="--c:var(--grn);font-size:27px">hold = ONE transaction over seats + bookings + booking_seats → no distributed coordination</span></div>
+  </section>
+
+  <!-- HOLD -->
+  <section class="fv-scene" data-scene="hold">
+    <div class="kicker">SEAT HOLDS</div><div class="title">Hold → pay → booked</div>
+    <svg id="ho-svg" class="abs" width="1920" height="1080" style="inset:0"></svg>
+    <div id="ho-av" class="node" style="--c:var(--grn);left:150px;top:300px;width:300px;height:130px">AVAILABLE</div>
+    <div id="ho-he" class="node" style="--c:var(--amber);left:810px;top:300px;width:300px;height:130px">HELD<small id="ho-clk">10:00</small></div>
+    <div id="ho-bo" class="node" style="--c:var(--violet);left:1470px;top:300px;width:300px;height:130px">BOOKED</div>
+    <div id="ho-sw" class="card code" style="left:150px;top:600px;width:1100px;padding:20px 28px"><span class="c">-- sweeper, every 5 s</span>
+<span class="k">SELECT</span> id <span class="k">FROM</span> bookings
+<span class="k">WHERE</span> status=<span class="s">'HELD'</span> <span class="k">AND</span> expires_at &lt; now()
+<span class="k">LIMIT</span> 200 <span class="h"><span class="k">FOR UPDATE SKIP LOCKED</span></span></div>
+    <div id="ho-inst" class="abs" style="left:1300px;top:600px;width:480px"></div>
+  </section>
+
+  <!-- LAYER 1 -->
+  <section class="fv-scene" data-scene="layer1">
+    <div class="kicker">LAYER 1 OF 3</div><div class="title">Pick a locking strategy</div>
+    <div id="l1-cols" class="abs" style="left:120px;top:270px;width:1680px;display:flex;gap:28px"></div>
+  </section>
+
+  <!-- DEADLOCK -->
+  <section class="fv-scene" data-scene="deadlock">
+    <div class="kicker">THE TRAP</div><div class="title">Deadlocks</div>
+    <div id="dl-a" class="card" style="left:120px;top:270px;width:810px;height:500px;padding:24px 30px"><div class="lbl" style="color:var(--red)">✗ RANDOM ORDER</div><svg id="dl-sa" width="810" height="440" style="position:absolute;left:0;top:60px"></svg></div>
+    <div id="dl-b" class="card" style="left:990px;top:270px;width:810px;height:500px;padding:24px 30px"><div class="lbl" style="color:var(--grn)">✓ ALWAYS IN ID ORDER</div><svg id="dl-sb" width="810" height="440" style="position:absolute;left:0;top:60px"></svg></div>
+    <div id="dl-code" class="abs code" style="left:120px;top:800px;width:1680px;text-align:center;font-size:27px">seatIds = request.seatIds().stream().distinct()<span class="h">.sorted()</span>.toList();</div>
+  </section>
+
+  <!-- LAYERS 2+3 -->
+  <section class="fv-scene" data-scene="layers23">
+    <div class="kicker">LAYERS 2 & 3</div><div class="title">Version check + database constraint</div>
+    <div id="l2" class="card" style="left:120px;top:270px;width:820px;height:560px;padding:24px 30px">
+      <div class="lbl" style="color:var(--blu)">LAYER 2 · @Version = FENCING TOKEN</div>
+      <div class="code" style="margin-top:14px;font-size:23px"><span class="t">@Version</span> <span class="k">private long</span> version;
+
+<span class="k">UPDATE</span> seats <span class="k">SET</span> status=<span class="s">'HELD'</span>, version=8
+<span class="k">WHERE</span> id=42 <span class="h"><span class="k">AND</span> version=7</span></div>
+      <div id="l2-tl" style="position:relative;height:200px;margin-top:20px"></div>
+    </div>
+    <div id="l3" class="card" style="left:980px;top:270px;width:820px;height:560px;padding:24px 30px">
+      <div class="lbl" style="color:var(--grn)">LAYER 3 · POSTGRES ITSELF</div>
+      <div class="code" style="margin-top:14px;font-size:23px"><span class="k">CREATE UNIQUE INDEX</span> uq_booking_seats_one_active
+  <span class="k">ON</span> booking_seats (seat_id)
+  <span class="h"><span class="k">WHERE</span> active</span>;</div>
+      <div id="l3-ins" class="code" style="margin-top:30px;font-size:22px"></div>
+      <div id="l3-err" class="code" style="margin-top:16px;font-size:21px;color:#fca5a5;white-space:pre-wrap"></div>
+    </div>
+  </section>
+
+  <!-- PROOF -->
+  <section class="fv-scene" data-scene="proof">
+    <div class="kicker">PROVING IT</div><div class="title">200 threads · k6 · numbers</div>
+    <div id="pf-race" class="card" style="left:120px;top:270px;width:820px;height:600px;padding:22px 28px">
+      <div class="lbl">BookingConcurrencyTest · CountDownLatch start gate</div>
+      <svg id="pf-svg" width="820" height="380" style="position:absolute;left:0;top:70px"></svg>
+      <div id="pf-res" class="mono" style="position:absolute;left:0;right:0;top:450px;text-align:center;font-size:30px;font-weight:800"></div>
+      <div id="pf-strat" style="position:absolute;left:0;right:0;top:515px;display:flex;justify-content:center;gap:12px"></div>
+    </div>
+    <div id="pf-k6" class="card" style="left:980px;top:270px;width:820px;height:330px;padding:22px 28px">
+      <div class="lbl">k6 · 500 virtual users · 100 seats</div>
+      <div id="pf-tab" style="margin-top:16px"></div>
+    </div>
+    <div id="pf-fr" class="card" style="left:980px;top:620px;width:820px;height:250px;padding:22px 28px">
+      <div class="lbl">Redis-cached fast reject (pessimistic)</div>
+      <div id="pf-bars" style="margin-top:18px"></div>
+    </div>
+  </section>
+
+  <!-- SAGA -->
+  <section class="fv-scene" data-scene="saga">
+    <div class="kicker">PAYMENTS</div><div class="title">Kafka saga + transactional outbox</div>
+    <div id="sg-bad" class="card" style="left:120px;top:260px;width:1680px;height:130px;display:flex;align-items:center;gap:30px;padding:0 34px">
+      <span class="lbl" style="color:var(--red)">DUAL WRITE ✗</span>
+      <span class="pill" style="--c:var(--blu)">1 · save to DB ✓</span><span id="sg-crash" style="font:900 46px Inter">💥 crash</span><span class="pill" id="sg-lost" style="--c:var(--red)">2 · publish to Kafka — never happens</span>
+    </div>
+    <svg id="sg-svg" class="abs" width="1920" height="1080" style="inset:0"></svg>
+    <div id="sg-tx" class="card" style="left:120px;top:430px;width:470px;height:230px;padding:18px 22px;border-color:var(--amber)">
+      <div class="lbl" style="color:var(--amber)">ONE DB TRANSACTION</div>
+      <div class="mono" style="font-size:22px;line-height:1.8;margin-top:10px">booking → PAYMENT_PENDING<br>payment → PENDING<br><b style="color:var(--amber)">outbox ← PaymentRequested</b></div>
+    </div>
+    <div id="sg-relay" class="node" style="--c:var(--violet);left:660px;top:470px;width:220px;height:150px">🔁 relay<small>at-least-once</small></div>
+    <div id="sg-kafka" class="node" style="--c:var(--amber);left:950px;top:440px;width:300px;height:210px">📨 Kafka<small>payments.requested<br>payments.completed</small></div>
+    <div id="sg-pay" class="node" style="--c:var(--blu);left:1320px;top:440px;width:220px;height:210px">💳 payment<small>gateway call<br>(no tx open)</small></div>
+    <div id="sg-ok" class="node" style="--c:var(--grn);left:1600px;top:420px;width:200px;height:110px">✓ CONFIRMED</div>
+    <div id="sg-fail" class="node" style="--c:var(--red);left:1600px;top:560px;width:200px;height:110px;font-size:22px">✗ CANCELLED<small>seats released</small></div>
+    <div id="sg-chips" class="abs" style="left:120px;top:720px;width:1680px;display:flex;justify-content:center;gap:16px;flex-wrap:wrap"></div>
+  </section>
+
+  <!-- CROWD -->
+  <section class="fv-scene" data-scene="crowd">
+    <div class="kicker">SURVIVING THE RUSH</div><div class="title">Queue · rate limit · cache · live map</div>
+    <div id="cr-grid" class="abs" style="left:120px;top:260px;width:1680px;display:grid;grid-template-columns:1fr 1fr;gap:24px"></div>
+  </section>
+
+  <!-- DEMO -->
+  <section class="fv-scene" data-scene="demo">
+    <div class="kicker">DEMO · RUNNING FOR REAL</div>
+    <div id="dm-br" class="browser" style="left:385px;top:178px;width:1150px;height:763px">
+      <div class="bar"><i style="background:#ff5f57"></i><i style="background:#febc2e"></i><i style="background:#28c840"></i><span id="dm-url">localhost:8080</span></div>
+      <div class="view" style="width:1150px;height:719px"><img id="dm-img" src="shots/01-events.png" alt=""><div id="dm-hl" class="hl"></div></div>
+    </div>
+    <div id="dm-tag" class="abs" style="left:0;right:0;top:108px;text-align:center"></div>
+  </section>
+
+  <!-- OBS -->
+  <section class="fv-scene" data-scene="obs">
+    <div class="kicker">OBSERVABILITY</div><div class="title">Every hold is measured</div>
+    <div id="ob-term" class="card code" style="left:120px;top:270px;width:1680px;padding:24px 30px;background:#07040f;font-size:23px"></div>
+    <div id="ob-chips" class="abs" style="left:120px;top:690px;width:1680px;display:flex;justify-content:center;gap:16px"></div>
+  </section>
+
+  <!-- TRADEOFFS -->
+  <section class="fv-scene" data-scene="tradeoffs">
+    <div class="kicker">HONEST TRADE-OFFS</div><div class="title">What it costs, what's next</div>
+    <div id="tr-cards" class="abs" style="left:120px;top:270px;width:1680px;display:flex;gap:24px"></div>
+    <div id="tr-final" class="abs" style="left:0;right:0;top:700px;text-align:center;font:900 62px Inter;letter-spacing:-.02em">Three layers. <span style="color:var(--amber)">One guarantee.</span></div>
+    <div id="tr-gh" class="abs mono" style="left:0;right:0;top:800px;text-align:center;font-size:28px;color:#cbbcf7">github.com/HemashreeVI/SeatLock</div>
+  </section>
+</div>
+<script src="timing.js"></script>
+<script src="fv-runtime.js"></script>
+<script>
+(() => {
+const { seg, css, enter, lerp, clamp, ease, pulse, rand, $ } = FV;
+const NS = 'http://www.w3.org/2000/svg';
+const svgEl = (tag, a, p) => { const e = document.createElementNS(NS, tag); for (const k in a) e.setAttribute(k, a[k]); if (p) p.appendChild(e); return e; };
+const div = (cls, html, p, style) => { const e = document.createElement('div'); if (cls) e.className = cls; if (html !== undefined) e.innerHTML = html; if (style) e.style.cssText = style; if (p) p.appendChild(e); return e; };
+const pop = (el, t, a, d = 0.45) => { const p = seg(t, a, a + d, ease.back); css(el, { o: clamp(p * 1.5), s: Math.max(0, p) }); return p; };
+const head = (el, t) => { const k = el.querySelector('.kicker'), ti = el.querySelector('.title'); if (k) enter(k, t, 0, 0.4); if (ti) enter(ti, t, 0.08, 0.45, 24); };
+const F = (ctx, i, f) => ctx.line(i) + (ctx.lineEnd(i) - ctx.line(i)) * f;
+const glow = (el, v, c) => (el.style.boxShadow = v > 0.01 ? `0 0 ${50 * v}px ${c}` : 'none');
+const A = '#f2b134', V = '#8b6cf6', G = '#34d399', R = '#f87171', B = '#60a5fa', P = '#f472b6', C = '#22d3ee';
+const arrow = (svg, x1, y1, x2, y2, c, w = 5, dash) => { const g = svgEl('g', {}, svg); svgEl('line', { x1, y1, x2, y2, stroke: c, 'stroke-width': w, 'stroke-dasharray': dash || '' }, g); const an = Math.atan2(y2 - y1, x2 - x1), L = 18; svgEl('path', { d: `M${x2} ${y2} L${x2 - L * Math.cos(an - 0.45)} ${y2 - L * Math.sin(an - 0.45)} L${x2 - L * Math.cos(an + 0.45)} ${y2 - L * Math.sin(an + 0.45)}Z`, fill: c }, g); return g; };
+
+/* ---------------- TITLE ---------------- */
+{
+  ['Java 21', 'Spring Boot', 'PostgreSQL', 'Redis', 'Kafka', 'k6', 'Prometheus', 'Grafana'].forEach((s, i) => div('pill', s, $('#t-chips'), `--c:${[A, G, B, R, A, V, '#fb923c', '#fb923c'][i]};font-size:24px`));
+  const cells = Array.from({ length: 60 }, (_, i) => div('', '', $('#t-grid'), 'width:52px;height:52px;border-radius:12px;border:3px solid rgba(52,211,153,.6);background:rgba(52,211,153,.12)'));
+  const r = rand(3); const order = cells.map((_, i) => i).sort(() => r() - 0.5);
+  FV.scene('title', (t, ctx) => {
+    enter($('#t-h'), t, 0.1, 0.6, 30); enter($('#t-sub'), t, 0.5, 0.5, 20);
+    [...$('#t-chips').children].forEach((c, i) => pop(c, t, 1.2 + i * 0.12, 0.35));
+    const fill = seg(t, 3, F(ctx, 1, 0.6), ease.linear);
+    const n = Math.floor(fill * 60);
+    cells.forEach((c, i) => { const on = order.indexOf(i) < n; c.style.background = on ? 'rgba(139,108,246,.85)' : 'rgba(52,211,153,.12)'; c.style.borderColor = on ? '#8b6cf6' : 'rgba(52,211,153,.6)'; });
+    enter($('#t-grid'), t, 1.5, 0.5, 20);
+    $('#t-cnt').innerHTML = t > 3 ? `${n} / 60 seats sold · <span style="color:${G}">0 sold twice ✓</span>` : '';
+    enter($('#t-big'), t, ctx.line(1) + 0.5, 0.6, 30);
+  });
+}
+
+/* ---------------- PROBLEM ---------------- */
+{
+  const S = [['👩 Alice', 'GET seat A1 → AVAILABLE', B, 0, 0.35], ['🧑 Bob', 'GET seat A1 → AVAILABLE', P, 0, 0.7], ['👩 Alice', 'reads row: AVAILABLE ✓', B, 1, 0.05], ['🧑 Bob', 'reads row: AVAILABLE ✓', P, 1, 0.25], ['👩 Alice', 'UPDATE → BOOKED', B, 1, 0.5], ['🧑 Bob', 'UPDATE → BOOKED', P, 1, 0.72]];
+  const rows = S.map(([w, a, c]) => div('', `<span style="color:${c};width:170px;display:inline-block">${w}</span><span class="mono">${a}</span>`, $('#pb-steps'), 'font:700 28px Inter;padding:10px 18px;border-radius:12px;margin-bottom:8px;background:rgba(255,255,255,.04)'));
+  FV.scene('problem', (t, ctx) => {
+    head(ctx.el, t);
+    enter($('#pb-a'), t, 0.2, 0.4, 20); enter($('#pb-b'), t, 0.35, 0.4, 20); enter($('#pb-seat'), t, 0.5, 0.4, 20);
+    rows.forEach((r, i) => { const a = F(ctx, S[i][3], S[i][4]); const p = seg(t, a, a + 0.4, ease.out); css(r, { o: p, x: (1 - p) * -40 }); });
+    const dbl = t > F(ctx, 1, 0.85);
+    $('#pb-st').textContent = dbl ? '🎫🎫 DOUBLE BOOKED' : t > F(ctx, 1, 0.5) ? 'BOOKED' : 'AVAILABLE';
+    $('#pb-seat').style.setProperty('--c', dbl ? R : t > F(ctx, 1, 0.5) ? V : G);
+    css($('#pb-seat'), { x: dbl && t < F(ctx, 1, 0.85) + 0.7 ? Math.sin(t * 60) * 10 : 0 });
+    enter($('#pb-code'), t, ctx.line(2), 0.45, 20);
+    $('#pb-gap').style.color = t > F(ctx, 2, 0.4) ? R : 'transparent';
+  });
+}
+
+/* ---------------- ARCH ---------------- */
+{
+  const M = ['event', 'seat', 'booking', 'payment', 'notification', 'queue', 'ratelimit', 'messaging', 'ticket', 'auth', 'observability'];
+  const mods = M.map((m, i) => div('pill', m, $('#ar-mods'), `--c:${i < 8 ? V : '#6b6390'};font-size:25px;font-family:'JetBrains Mono'`));
+  FV.scene('arch', (t, ctx) => {
+    head(ctx.el, t);
+    enter($('#ar-app'), t, 0.3, 0.5, 20);
+    mods.forEach((m, i) => pop(m, t, F(ctx, 0, 0.35) + i * 0.12, 0.35));
+    [['#ar-db', 0.2], ['#ar-rd', 0.45], ['#ar-kf', 0.72]].forEach(([id, f]) => { pop($(id), t, F(ctx, 1, f) - 0.3, 0.4); glow($(id), pulse(t, F(ctx, 1, f) - 0.3, F(ctx, 1, f) + 2), 'rgba(242,177,52,.6)'); });
+    pop($('#ar-why'), t, F(ctx, 2, 0.45), 0.45);
+  });
+}
+
+/* ---------------- HOLD ---------------- */
+{
+  const sv = $('#ho-svg');
+  const a1 = arrow(sv, 455, 345, 805, 345, G), a2 = arrow(sv, 1115, 345, 1465, 345, V);
+  const back = svgEl('path', { d: 'M960 435 C960 540 300 540 300 440', fill: 'none', stroke: R, 'stroke-width': 5, 'stroke-dasharray': '12 9' }, sv);
+  const lbl = (x, y, s, c) => { const e = svgEl('text', { x, y, fill: c, 'font-size': 24, 'font-weight': 800, 'font-family': 'JetBrains Mono', 'text-anchor': 'middle' }, sv); e.textContent = s; return e; };
+  const l1 = lbl(630, 325, 'hold (10 min)', G), l2 = lbl(1290, 325, 'paid', V), l3 = lbl(630, 560, 'cancel / expired → released', R);
+  const inst = ['instance 1 → booking 17', 'instance 2 → booking 18', 'instance 3 → booking 19'].map((s, i) => div('', `🖥️ ${s} <b style="color:${G}">✓</b>`, $('#ho-inst'), 'font:700 24px "JetBrains Mono";padding:12px 16px;margin-bottom:12px;border-radius:12px;border:2px solid rgba(52,211,153,.4);background:rgba(52,211,153,.08)'));
+  const skip = div('', 'locked rows are skipped, not waited on', $('#ho-inst'), `font:700 22px Inter;color:${A};margin-top:6px`);
+  FV.scene('hold', (t, ctx) => {
+    head(ctx.el, t);
+    ['#ho-av', '#ho-he', '#ho-bo'].forEach((id, i) => pop($(id), t, 0.3 + i * 0.15, 0.4));
+    a1.setAttribute('opacity', seg(t, F(ctx, 0, 0.15), F(ctx, 0, 0.25))); l1.setAttribute('opacity', seg(t, F(ctx, 0, 0.15), F(ctx, 0, 0.25)));
+    a2.setAttribute('opacity', seg(t, F(ctx, 0, 0.5), F(ctx, 0, 0.6))); l2.setAttribute('opacity', seg(t, F(ctx, 0, 0.5), F(ctx, 0, 0.6)));
+    back.setAttribute('opacity', seg(t, F(ctx, 0, 0.72), F(ctx, 0, 0.82))); l3.setAttribute('opacity', seg(t, F(ctx, 0, 0.72), F(ctx, 0, 0.82)));
+    const left = Math.max(0, 600 - Math.floor(seg(t, F(ctx, 0, 0.2), ctx.dur, ease.linear) * 600));
+    $('#ho-clk').textContent = `${Math.floor(left / 60)}:${String(left % 60).padStart(2, '0')}`;
+    enter($('#ho-sw'), t, ctx.line(1), 0.45, 20);
+    inst.forEach((e, i) => enter(e, t, F(ctx, 1, 0.4) + i * 0.25, 0.35, 16));
+    enter(skip, t, F(ctx, 1, 0.75), 0.35, 10);
+  });
+}
+
+/* ---------------- LAYER 1 ---------------- */
+{
+  const COLS = [
+    ['🔒 Pessimistic', 'SELECT … FOR UPDATE', B, 'waits, then 409', 'exact under heavy contention'],
+    ['🔢 Optimistic', 'UPDATE … WHERE version = 7', V, '0 rows → 409', 'great when conflicts are rare'],
+    ['⚡ Redis lock', 'SET seat-lock:42 NX PX 5000', R, 'fails instantly → 409', 'shields Postgres'],
+  ];
+  const cols = COLS.map(([h, code, c, lose, best]) => {
+    const e = div('card', `<div style="font:800 34px Inter">${h}</div><div class="mono" style="font-size:21px;margin-top:10px;color:${c}">${code}</div><div class="anim" style="position:relative;height:300px;margin-top:16px"></div><div style="font:700 22px Inter;color:#a59cbf">loser: <b style="color:#f3eefc">${lose}</b></div><div style="font:600 20px Inter;color:#a59cbf;margin-top:4px">best: ${best}</div>`, $('#l1-cols'), `position:relative;flex:1;height:560px;padding:24px 26px;border-color:${c}`);
+    return { e, an: e.querySelector('.anim'), c };
+  });
+  // pessimistic: row + queue
+  const pRow = div('', '💺 seat 42 <span class="lk">🔒</span>', cols[0].an, 'position:absolute;left:0;right:0;top:10px;text-align:center;font:800 28px Inter;padding:14px;border-radius:14px;background:rgba(96,165,250,.12)');
+  const pQ = Array.from({ length: 4 }, (_, i) => div('', `T${i + 1}`, cols[0].an, `position:absolute;top:120px;left:${i * 120 + 20}px;width:90px;height:56px;border-radius:12px;display:flex;align-items:center;justify-content:center;font:800 24px 'JetBrains Mono';background:#1e2a4a;border:2px solid ${B}`));
+  const pS = div('', '', cols[0].an, 'position:absolute;left:0;right:0;top:210px;text-align:center;font:800 24px "JetBrains Mono"');
+  // optimistic
+  const oRow = div('', '', cols[1].an, 'position:absolute;left:0;right:0;top:10px;text-align:center;font:800 28px Inter;padding:14px;border-radius:14px;background:rgba(139,108,246,.14)');
+  const oA = div('', '', cols[1].an, 'position:absolute;left:0;right:0;top:110px;font:700 22px "JetBrains Mono";line-height:1.9');
+  // redis
+  const rKey = div('', '', cols[2].an, 'position:absolute;left:0;right:0;top:10px;text-align:center;font:800 24px "JetBrains Mono";padding:16px;border-radius:14px;background:rgba(248,113,113,.12)');
+  const rA = div('', '', cols[2].an, 'position:absolute;left:0;right:0;top:110px;font:700 22px "JetBrains Mono";line-height:1.9');
+  FV.scene('layer1', (t, ctx) => {
+    head(ctx.el, t);
+    cols.forEach((c, i) => { enter(c.e, t, F(ctx, 0, 0.3) + i * 0.15, 0.45, 30); const on = pulse(t, ctx.line(i + 1) - 0.1, ctx.lineEnd(i + 1) + 0.3); glow(c.e, on, c.c); c.e.style.opacity = Math.min(+c.e.style.opacity, t > ctx.line(1) - 0.2 ? 0.45 + 0.55 * clamp(on * 3) : 1); });
+    // pessimistic sequence
+    const s1 = ctx.line(1), d1 = ctx.lineEnd(1) - s1;
+    const q = seg(t, s1 + d1 * 0.2, s1 + d1 * 0.85, ease.linear);
+    const lockOwner = q < 0.25 ? 0 : -1;
+    pQ.forEach((e, i) => { const won = i === 0 && t > s1 + d1 * 0.45; const lost = i > 0 && t > s1 + d1 * 0.7; e.style.borderColor = won ? G : lost ? R : B; e.style.background = won ? 'rgba(52,211,153,.25)' : lost ? 'rgba(248,113,113,.2)' : i === 0 && t > s1 + d1 * 0.15 ? 'rgba(96,165,250,.35)' : '#1e2a4a'; e.textContent = won ? 'T1 ✓' : lost ? '409' : i > 0 && t > s1 + d1 * 0.2 ? '⏳' : `T${i + 1}`; });
+    pS.innerHTML = t > s1 + d1 * 0.7 ? `<span style="color:${G}">T1 holds it</span> · others waited, then <span style="color:${R}">409</span>` : t > s1 + d1 * 0.2 ? '<span style="color:#60a5fa">T2–T4 waiting on the row lock…</span>' : '';
+    // optimistic
+    const s2 = ctx.line(2), d2 = ctx.lineEnd(2) - s2;
+    const v8 = t > s2 + d2 * 0.45;
+    oRow.innerHTML = `💺 seat 42 · <span class="mono" style="color:${v8 ? A : '#c4b5fd'}">version ${v8 ? 8 : 7}</span>`;
+    const oL = [];
+    if (t > s2 + d2 * 0.12) oL.push('A reads  v7');
+    if (t > s2 + d2 * 0.22) oL.push('B reads  v7');
+    if (t > s2 + d2 * 0.45) oL.push(`A writes WHERE v=7 → <b style="color:${G}">1 row ✓</b>`);
+    if (t > s2 + d2 * 0.7) oL.push(`B writes WHERE v=7 → <b style="color:${R}">0 rows ✗</b>`);
+    oA.innerHTML = oL.join('<br>');
+    // redis
+    const s3 = ctx.line(3), d3 = ctx.lineEnd(3) - s3;
+    const got = t > s3 + d3 * 0.3;
+    rKey.innerHTML = got ? `seat-lock:42 = <span style="color:${G}">tok-A</span> <span style="color:#a59cbf">(5s)</span>` : 'seat-lock:42 = <span style="color:#a59cbf">(empty)</span>';
+    const rL = [];
+    if (t > s3 + d3 * 0.3) rL.push(`A: SET NX → <b style="color:${G}">OK</b>`);
+    if (t > s3 + d3 * 0.45) rL.push(`B: SET NX → <b style="color:${R}">nil → 409</b>`);
+    if (t > s3 + d3 * 0.55) rL.push(`C: SET NX → <b style="color:${R}">nil → 409</b>`);
+    if (t > s3 + d3 * 0.7) rL.push(`<span style="color:#a59cbf">0 DB queries for losers</span>`);
+    rA.innerHTML = rL.join('<br>');
+  });
+}
+
+/* ---------------- DEADLOCK ---------------- */
+{
+  const draw = (svg, cyc) => {
+    const n = (x, y, s, c) => { const g = svgEl('g', {}, svg); svgEl('rect', { x: x - 80, y: y - 40, width: 160, height: 80, rx: 16, fill: '#160f2e', stroke: c, 'stroke-width': 4 }, g); const tx = svgEl('text', { x, y: y + 11, fill: '#f3eefc', 'font-size': 30, 'font-weight': 800, 'font-family': 'Inter', 'text-anchor': 'middle' }, g); tx.textContent = s; return g; };
+    const t1 = n(160, 110, 'T1', B), t2 = n(160, 330, 'T2', P), s3 = n(600, 110, 'seat 3', A), s5 = n(600, 330, 'seat 5', A);
+    const hold = (cyc ? [[240, 330, 520, 330, 'holds'], [240, 110, 520, 110, 'holds']] : [[240, 110, 520, 110, 'holds']]).map(([a, b, c, d, w]) => arrow(svg, a, b, c, d, G, 5));
+    const want = (cyc ? [[240, 135, 520, 305, 'wants'], [240, 305, 520, 135, 'wants']] : [[240, 315, 520, 125, 'waits']]).map(([a, b, c, d]) => arrow(svg, a, b, c, d, cyc ? R : A, 5, '12 9'));
+    const lab = svgEl('text', { x: 405, y: 425, fill: cyc ? R : G, 'font-size': 34, 'font-weight': 900, 'font-family': 'Inter', 'text-anchor': 'middle' }, svg); lab.textContent = cyc ? 'DEADLOCK ✗' : 'no cycle ✓';
+    return { hold, want, lab };
+  };
+  const a = draw($('#dl-sa'), true), b = draw($('#dl-sb'), false);
+  FV.scene('deadlock', (t, ctx) => {
+    head(ctx.el, t);
+    enter($('#dl-a'), t, 0.2, 0.45, 20);
+    a.hold.forEach((h, i) => h.setAttribute('opacity', seg(t, F(ctx, 0, 0.3) + i * 0.4, F(ctx, 0, 0.35) + i * 0.4)));
+    a.want.forEach((h, i) => h.setAttribute('opacity', seg(t, F(ctx, 0, 0.6) + i * 0.4, F(ctx, 0, 0.65) + i * 0.4)));
+    a.lab.setAttribute('opacity', seg(t, F(ctx, 0, 0.85), F(ctx, 0, 0.95)));
+    enter($('#dl-b'), t, ctx.line(1) - 0.2, 0.45, 20);
+    b.hold.forEach((h) => h.setAttribute('opacity', seg(t, F(ctx, 1, 0.3), F(ctx, 1, 0.38))));
+    b.want.forEach((h) => h.setAttribute('opacity', seg(t, F(ctx, 1, 0.45), F(ctx, 1, 0.52))));
+    b.lab.setAttribute('opacity', seg(t, F(ctx, 1, 0.7), F(ctx, 1, 0.8)));
+    enter($('#dl-code'), t, F(ctx, 1, 0.15), 0.45, 16);
+  });
+}
+
+/* ---------------- LAYERS 2+3 ---------------- */
+{
+  const tl = $('#l2-tl');
+  const bar = (y, w, x, c, s) => div('', s, tl, `position:absolute;left:${x}px;top:${y}px;width:${w}px;height:48px;border-radius:10px;background:${c};font:800 19px 'JetBrains Mono';color:#0c0818;display:flex;align-items:center;padding-left:12px;box-sizing:border-box;white-space:nowrap;overflow:hidden`);
+  const b1 = bar(10, 200, 0, '#60a5fa', 'A: Redis lock'), gc = bar(10, 220, 200, '#4a4366', 'A: GC pause 💤'), b2 = bar(74, 290, 230, '#f472b6', 'B: lock + write v8 ✓'), late = bar(138, 400, 350, '#f87171', 'A wakes: WHERE v=7 → 0 rows ✗');
+  gc.style.color = '#d6cdf2';
+  FV.scene('layers23', (t, ctx) => {
+    head(ctx.el, t);
+    enter($('#l2'), t, 0.3, 0.45, 20);
+    [b1, gc, b2, late].forEach((b, i) => { const a = F(ctx, 0, 0.42 + i * 0.13); b.style.clipPath = `inset(0 ${100 - 100 * seg(t, a, a + 0.6)}% 0 0)`; });
+    enter($('#l3'), t, ctx.line(1) - 0.2, 0.45, 20);
+    const i1 = F(ctx, 1, 0.45), i2 = F(ctx, 1, 0.62);
+    $('#l3-ins').innerHTML = (t > i1 ? `<span class="k">INSERT</span> booking_seats (seat_id=42, booking=17, active) <b style="color:${G}">✓</b><br>` : '') + (t > i2 ? `<span class="k">INSERT</span> booking_seats (seat_id=42, booking=18, active) <b style="color:${R}">✗</b>` : '');
+    $('#l3-err').textContent = t > i2 + 0.6 ? 'ERROR: duplicate key value violates unique constraint "uq_booking_seats_one_active"' : '';
+    glow($('#l3'), pulse(t, i2 + 0.5, ctx.dur), 'rgba(52,211,153,.6)');
+  });
+}
+
+/* ---------------- PROOF ---------------- */
+{
+  const sv = $('#pf-svg'), r = rand(9);
+  const gate = svgEl('line', { x1: 300, y1: 20, x2: 300, y2: 360, stroke: A, 'stroke-width': 6 }, sv);
+  const seatR = svgEl('rect', { x: 660, y: 150, width: 100, height: 80, rx: 14, fill: '#160f2e', stroke: G, 'stroke-width': 4 }, sv);
+  const st = svgEl('text', { x: 710, y: 202, fill: '#f3eefc', 'font-size': 28, 'font-weight': 800, 'text-anchor': 'middle', 'font-family': 'Inter' }, sv); st.textContent = '💺';
+  const dots = Array.from({ length: 200 }, (_, i) => ({ x: 40 + (i % 10) * 24, y: 40 + Math.floor(i / 10) * 15.5, j: r(), j2: r(), el: svgEl('circle', { r: 6, fill: B }, sv) }));
+  const K = [['Pessimistic', '72,828', '2,411', '448 ms'], ['Optimistic', '65,028', '2,148', '473 ms'], ['Redis lock', '75,330', '2,491', '418 ms']];
+  const tab = $('#pf-tab');
+  const hdr = div('', '<span style="width:230px">strategy</span><span style="width:150px">holds</span><span style="width:150px">req/s</span><span style="width:120px">p95</span><span>dbl</span>', tab, 'display:flex;font:700 19px "JetBrains Mono";color:#a59cbf;padding:0 10px');
+  const rowsK = K.map(([a, b, c, d]) => div('', `<span style="width:230px;font-family:Inter;font-weight:800">${a}</span><span style="width:150px">${b}</span><span style="width:150px">${c}</span><span style="width:120px">${d}</span><b style="color:${G}">0 ✓</b>`, tab, 'display:flex;font:700 24px "JetBrains Mono";padding:12px 10px;border-top:1px solid rgba(190,170,240,.15)'));
+  const bars = [['before', 897, '#6b6390'], ['with fast reject', 2171, G]].map(([l, v, c]) => { const w = div('', `<div style="display:flex;justify-content:space-between;font:700 22px Inter"><span>${l}</span><span class="mono v" style="color:${c}"></span></div><div style="height:30px;border-radius:10px;background:rgba(255,255,255,.06);margin-top:8px;overflow:hidden"><div class="b" style="height:100%;border-radius:10px;background:${c}"></div></div>`, $('#pf-bars'), 'margin-bottom:18px'); return { w, v, b: w.querySelector('.b'), t: w.querySelector('.v') }; });
+  const strat = ['PESSIMISTIC', 'OPTIMISTIC', 'REDIS'].map((s) => div('pill', `${s} ✓`, $('#pf-strat'), `--c:${G};font-size:20px;font-family:'JetBrains Mono'`));
+  FV.scene('proof', (t, ctx) => {
+    head(ctx.el, t);
+    enter($('#pf-race'), t, 0.2, 0.45, 20);
+    const open = F(ctx, 0, 0.75), run = seg(t, open, open + 1.4, ease.inOut);
+    gate.setAttribute('opacity', t < open ? 1 : 1 - seg(t, open, open + 0.3));
+    dots.forEach((d, i) => { const k = clamp((run - d.j * 0.3) / 0.7); const win = i === 117; d.el.setAttribute('cx', lerp(d.x, win ? 710 : 380 + 230 * d.j2, ease.out(k))); d.el.setAttribute('cy', lerp(d.y, win ? 190 : 40 + d.j * 310, ease.out(k))); d.el.setAttribute('fill', k >= 1 ? (win ? G : R) : B); d.el.setAttribute('r', win && k >= 1 ? 14 : 6); });
+    $('#pf-res').innerHTML = run >= 1 ? `<span style="color:${G}">1 winner</span> · <span style="color:${R}">199 × 409</span> · 0 double-booked` : t > F(ctx, 0, 0.2) ? '200 threads waiting at the gate…' : '';
+    strat.forEach((s, i) => pop(s, t, ctx.line(1) + i * 0.3, 0.35));
+    enter($('#pf-k6'), t, ctx.line(2) - 0.1, 0.45, 20);
+    rowsK.forEach((rw, i) => enter(rw, t, F(ctx, 2, 0.35) + i * 0.3, 0.35, 10));
+    hdr.style.opacity = seg(t, F(ctx, 2, 0.2), F(ctx, 2, 0.3));
+    enter($('#pf-fr'), t, ctx.line(3) - 0.1, 0.45, 20);
+    bars.forEach((b, i) => { const p = seg(t, F(ctx, 3, 0.45) + i * 0.6, F(ctx, 3, 0.45) + i * 0.6 + 1, ease.out); b.b.style.width = `${(b.v / 2400) * 100 * p}%`; b.t.textContent = `${Math.round(b.v * p).toLocaleString('en-US')} req/s`; });
+  });
+}
+
+/* ---------------- SAGA ---------------- */
+{
+  const sv = $('#sg-svg');
+  const ar = [arrow(sv, 592, 545, 655, 545, A), arrow(sv, 882, 545, 945, 545, V), arrow(sv, 1252, 545, 1315, 545, A), arrow(sv, 1542, 520, 1595, 480, G), arrow(sv, 1542, 580, 1595, 610, R, 5, '10 8')];
+  const chips = [['🔑 Idempotency-Key required', B], ['💳 same key sent to the gateway → never charged twice', V], ['📥 inbox table: duplicates skipped', G], ['↩️ compensation: cancel + release seats', R]].map(([s, c]) => div('pill', s, $('#sg-chips'), `--c:${c};font-size:23px`));
+  FV.scene('saga', (t, ctx) => {
+    head(ctx.el, t);
+    enter($('#sg-bad'), t, 0.3, 0.45, 20);
+    const cr = F(ctx, 0, 0.75);
+    $('#sg-crash').style.opacity = seg(t, cr, cr + 0.3); css($('#sg-crash'), { s: 1 + 0.3 * pulse(t, cr, cr + 0.6) });
+    $('#sg-lost').style.opacity = seg(t, cr + 0.3, cr + 0.7) * 0.9;
+    $('#sg-bad').style.opacity = Math.min(+$('#sg-bad').style.opacity, 1 - 0.55 * seg(t, ctx.line(1), ctx.line(1) + 0.5));
+    const s = ctx.line(1);
+    [['#sg-tx', 0.1], ['#sg-relay', 0.5], ['#sg-kafka', 0.65], ['#sg-pay', 0.8]].forEach(([id, f]) => enter($(id), t, F(ctx, 1, f) - 0.2, 0.4, 20));
+    ar.slice(0, 3).forEach((a, i) => a.setAttribute('opacity', seg(t, F(ctx, 1, 0.5 + i * 0.15), F(ctx, 1, 0.55 + i * 0.15))));
+    glow($('#sg-tx'), pulse(t, F(ctx, 1, 0.1), F(ctx, 1, 0.6)), 'rgba(242,177,52,.6)');
+    enter($('#sg-ok'), t, F(ctx, 1, 0.95), 0.4, 10); ar[3].setAttribute('opacity', seg(t, F(ctx, 1, 0.95), ctx.line(2)));
+    chips.forEach((c, i) => pop(c, t, i < 3 ? F(ctx, 2, 0.15 + i * 0.28) : F(ctx, 3, 0.2), 0.4));
+    enter($('#sg-fail'), t, F(ctx, 3, 0.25), 0.4, 10); ar[4].setAttribute('opacity', seg(t, F(ctx, 3, 0.25), F(ctx, 3, 0.4)));
+  });
+}
+
+/* ---------------- CROWD ---------------- */
+{
+  const P4 = [['🚪 Virtual waiting room', 'Redis sorted set · admits a batch every second · one atomic Lua script', A], ['🪣 Token bucket rate limit', 'per user + per IP · one Lua script · 429 + Retry-After', R], ['⚡ Seat-map cache', 'Redis · evicted AFTER COMMIT · 5 s TTL safety net', B], ['📡 Live seat map', 'Server-Sent Events · changes batched every 300 ms', G]];
+  const cards = P4.map(([h, d, c]) => { const e = div('card', `<div style="font:800 32px Inter">${h}</div><div style="font:600 22px Inter;color:#a59cbf;margin-top:8px">${d}</div><div class="viz" style="position:relative;height:120px;margin-top:16px"></div>`, $('#cr-grid'), `position:relative;height:280px;padding:24px 28px;border-color:${c}`); return { e, v: e.querySelector('.viz'), c }; });
+  const qd = Array.from({ length: 14 }, (_, i) => div('', '🧑', cards[0].v, `position:absolute;top:40px;font-size:40px`));
+  const tok = Array.from({ length: 8 }, (_, i) => div('', '', cards[1].v, `position:absolute;top:50px;left:${i * 46}px;width:34px;height:34px;border-radius:50%;background:${A}`));
+  const r429 = div('', '', cards[1].v, 'position:absolute;right:0;top:44px;font:800 30px "JetBrains Mono"');
+  const cache = div('', '', cards[2].v, 'position:absolute;left:0;top:30px;font:800 26px "JetBrains Mono";line-height:1.7');
+  const wins = Array.from({ length: 3 }, (_, i) => div('', '', cards[3].v, `position:absolute;top:10px;left:${i * 230}px;width:200px;height:100px;border-radius:12px;border:2px solid rgba(255,255,255,.2);background:#0f0a1f;display:grid;grid-template-columns:repeat(6,1fr);gap:5px;padding:10px;box-sizing:border-box`));
+  wins.forEach((w) => { for (let k = 0; k < 18; k++) div('', '', w, 'border-radius:4px;background:rgba(52,211,153,.5)'); });
+  FV.scene('crowd', (t, ctx) => {
+    head(ctx.el, t);
+    cards.forEach((c, i) => enter(c.e, t, 0.2 + i * 0.15, 0.4, 20));
+    const act = [ctx.line(0), ctx.line(1), ctx.line(2), F(ctx, 2, 0.45)];
+    cards.forEach((c, i) => glow(c.e, pulse(t, act[i] - 0.2, act[i] + (i === 2 ? 4 : 5)), c.c + '99'));
+    const adm = Math.floor(Math.max(0, t - act[0]) / 1.2) * 3;
+    qd.forEach((d, i) => { const pos = (((i - adm) % 14) + 14) % 14; d.style.left = `${pos * 52}px`; d.style.opacity = pos < 3 ? 0.35 : 1; d.style.filter = pos < 3 ? 'none' : 'grayscale(.6)'; });
+    const used = Math.min(10, Math.floor(Math.max(0, t - act[1]) * 3));
+    tok.forEach((k, i) => (k.style.opacity = i < 8 - used ? 1 : 0.12));
+    r429.innerHTML = used >= 8 ? `<span style="color:${R}">429</span>` : '';
+    cache.innerHTML = t > act[2] ? `GET seats → <b style="color:${G}">X-Cache: HIT</b><br><span style="color:#a59cbf">commit → evict → next GET re-caches</span>` : '';
+    const step = Math.floor(Math.max(0, t - act[3]) / 0.6);
+    wins.forEach((w) => [...w.children].forEach((c, k) => (c.style.background = k < step % 19 ? 'rgba(242,177,52,.85)' : 'rgba(52,211,153,.5)')));
+  });
+}
+
+/* ---------------- DEMO ---------------- */
+{
+  const img = $('#dm-img'), hl = $('#dm-hl');
+  const VW = 1150, VH = 719, VIEW = VW / 1440;
+  const show = (src, url, zoom = 1, cx = 720, cy = 450, box) => {
+    if (!img.src.endsWith(src)) img.src = 'shots/' + src;
+    $('#dm-url').textContent = url;
+    const s = VIEW * zoom, tx = VW / 2 - cx * s, ty = VH / 2 - cy * s;
+    img.style.transform = `translate(${Math.min(0, Math.max(VW - 1440 * s, tx))}px,${Math.min(0, Math.max(VH - 900 * s, ty))}px) scale(${s})`;
+    if (box) { const ox = Math.min(0, Math.max(VW - 1440 * s, tx)), oy = Math.min(0, Math.max(VH - 900 * s, ty)); hl.style.display = 'block'; hl.style.left = `${ox + box[0] * s}px`; hl.style.top = `${oy + box[1] * s}px`; hl.style.width = `${(box[2] - box[0]) * s}px`; hl.style.height = `${(box[3] - box[1]) * s}px`; } else hl.style.display = 'none';
+  };
+  const tag = (s, c) => `<span class="pill" style="--c:${c};font-size:26px">${s}</span>`;
+  FV.scene('demo', (t, ctx) => {
+    enter($('.kicker', ctx.el), t, 0, 0.4);
+    enter($('#dm-br'), t, 0.1, 0.5, 30);
+    const a = F(ctx, 0, 0.3), b = F(ctx, 0, 0.62), c = ctx.line(1), d = ctx.line(2);
+    if (t < a) { show('01-events.png', 'localhost:8080 · signed in'); $('#dm-tag').innerHTML = tag('1 · browse events', B); }
+    else if (t < b) { const z = 1 + 0.25 * seg(t, a, b); show('02-seatmap.png', 'localhost:8080/event.html?id=1', z, 600, 450); $('#dm-tag').innerHTML = tag('2 · live seat map (SSE)', G); }
+    else if (t < c) { show('03-picked.png', 'localhost:8080/event.html?id=1', 1.35, 1150, 330, [1140, 150, 1500, 400]); $('#dm-tag').innerHTML = tag('3 · two seats picked · ₹9,998', A); }
+    else if (t < d) { const z = 1 + 0.3 * seg(t, c, c + 1.5); show('04-demo-before.png', 'localhost:8080/demo.html', z, 1070, 330, [900, 200, 1243, 405]); $('#dm-tag').innerHTML = tag('4 · race: 50 buyers, 1 seat', R); }
+    else { const z = 1.5 + 0.4 * seg(t, d, d + 1.5); const late = t > F(ctx, 2, 0.6); show('05-demo-race.png', 'localhost:8080/demo.html', z, late ? 520 : 1070, late ? 320 : 430, late ? [470, 306, 632, 337] : [905, 405, 1240, 455]); $('#dm-tag').innerHTML = late ? tag('✓ 0 double-bookings (live audit)', G) : tag('1 winner · 49 × 409 Conflict · 510 ms', G); }
+  });
+}
+
+/* ---------------- OBS ---------------- */
+{
+  const L = [
+    ['<span style="color:#8a80a8"># GET /actuator/prometheus  (real output, local run)</span>', 0.0],
+    ['seatlock_holds_total{result="<b style="color:#34d399">success</b>",strategy="PESSIMISTIC"} <b>4.0</b>', 0.12],
+    ['seatlock_holds_total{result="<b style="color:#f87171">conflict</b>",strategy="PESSIMISTIC"} <b>129.0</b>', 0.25],
+    ['seatlock_hold_duration_seconds_count{strategy="PESSIMISTIC"} <b>133</b>', 0.42],
+    ['seatlock_hold_duration_seconds_max{strategy="PESSIMISTIC"} <b>0.422</b>', 0.55],
+    ['seatlock_outbox_backlog <b>0.0</b>', 0.72],
+  ];
+  const rows = L.map(([s]) => div('', s, $('#ob-term')));
+  const chips = [['p50 · p95 · p99 latency', B], ['holds by result × strategy', G], ['outbox backlog', A], ['traceId in every log line', V]].map(([s, c]) => div('pill', s, $('#ob-chips'), `--c:${c};font-size:24px`));
+  FV.scene('obs', (t, ctx) => {
+    head(ctx.el, t);
+    enter($('#ob-term'), t, 0.3, 0.45, 20);
+    rows.forEach((r, i) => (r.style.opacity = seg(t, F(ctx, 0, L[i][1]), F(ctx, 0, L[i][1]) + 0.3)));
+    chips.forEach((c, i) => pop(c, t, F(ctx, 0, 0.6) + i * 0.2, 0.35));
+  });
+}
+
+/* ---------------- TRADEOFFS ---------------- */
+{
+  const T = [['🔐 Auth has a cost', 'JWT check on every request:<br><b>2,411 → 1,506 req/s</b><br>still 0 double-bookings', A, 0, 0.1], ['📡 SSE is per instance', 'subscribers live in one JVM →<br>scale out with <b>Redis pub/sub</b>', B, 1, 0.1], ['💸 Refunds are manual', 'provider down 15+ min →<br>payment failed + <b>logged for refund</b>', R, 1, 0.55]];
+  const cards = T.map(([h, d, c]) => div('card', `<div style="font:800 32px Inter">${h}</div><div style="font:600 25px/1.5 Inter;color:#d6cdf2;margin-top:14px">${d}</div>`, $('#tr-cards'), `position:relative;flex:1;height:330px;padding:28px 30px;border-color:${c}`));
+  FV.scene('tradeoffs', (t, ctx) => {
+    head(ctx.el, t);
+    cards.forEach((c, i) => { const a = F(ctx, T[i][3], T[i][4]); enter(c, t, a, 0.45, 30); glow(c, pulse(t, a, a + 4), T[i][2] + '88'); });
+    pop($('#tr-final'), t, ctx.line(2) - 0.1, 0.5);
+    enter($('#tr-gh'), t, ctx.line(2) + 0.6, 0.45, 10);
+  });
+}
+})();
+</script>
+</body>
+</html>
