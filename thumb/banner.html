@@ -1,0 +1,77 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>
+  @font-face { font-family: IDK; src: url(file:///usr/share/fonts/opentype/inter/InterDisplay-Black.otf); }
+  @font-face { font-family: IDB; src: url(file:///usr/share/fonts/opentype/inter/InterDisplay-Bold.otf); }
+  @font-face { font-family: IM; src: url(file:///usr/share/fonts/opentype/inter/Inter-Medium.otf); }
+  html,body{margin:0;padding:0}
+  .b{width:2560px;height:1440px;position:relative;overflow:hidden;color:#fff;
+     background:
+       radial-gradient(900px 500px at 1280px 720px, rgba(124,77,255,.35), transparent 70%),
+       radial-gradient(700px 420px at 1900px 640px, rgba(0,229,255,.18), transparent 70%),
+       radial-gradient(700px 420px at 700px 820px, rgba(188,140,255,.20), transparent 70%),
+       #0a0816;}
+  .grid{position:absolute;inset:0;
+     background-image:linear-gradient(rgba(140,110,255,.10) 2px,transparent 2px),linear-gradient(90deg,rgba(140,110,255,.10) 2px,transparent 2px);
+     background-size:80px 80px; background-position:1280px 720px;
+     -webkit-mask-image: radial-gradient(1400px 700px at 50% 50%, #000 30%, transparent 85%);}
+  #stars{position:absolute;inset:0}
+  /* safe area: 1546 x 423, centered -> left 507, top 508.5 */
+  .safe{position:absolute;left:507px;top:508px;width:1546px;height:424px;display:flex;align-items:center;}
+  .left{flex:1;padding-left:20px}
+  .kicker{font-family:IDB;font-size:30px;letter-spacing:10px;color:#00e5ff;margin-bottom:6px}
+  .kicker .br{color:#bc8cff}
+  .title{font-family:IDK;font-size:170px;line-height:.92;letter-spacing:-5px;white-space:nowrap}
+  .title .d{background:linear-gradient(90deg,#bc8cff 0%,#7c4dff 45%,#00e5ff 100%);
+     -webkit-background-clip:text;background-clip:text;color:transparent;}
+  .sub{font-family:IM;font-size:40px;color:#d6d0f5;margin-top:18px;white-space:nowrap}
+  .chips{display:flex;gap:16px;margin-top:26px}
+  .chip{font-family:IDB;font-size:28px;padding:10px 22px;border-radius:999px;border:3px solid;background:rgba(10,8,22,.7)}
+  .right{width:330px;height:330px;position:relative;margin-right:20px}
+  .handle{position:absolute;right:507px;top:1460px}
+</style></head>
+<body><div class="b">
+  <div class="grid"></div>
+  <svg id="stars" width="2560" height="1440"></svg>
+  <!-- big orbits stretching to the edges (seen on TV, decorative elsewhere) -->
+  <svg style="position:absolute;inset:0" width="2560" height="1440" viewBox="0 0 2560 1440" fill="none">
+    <ellipse cx="1280" cy="720" rx="1250" ry="330" stroke="rgba(188,140,255,.35)" stroke-width="3" transform="rotate(-8 1280 720)"/>
+    <ellipse cx="1280" cy="720" rx="1150" ry="560" stroke="rgba(0,229,255,.18)" stroke-width="3" transform="rotate(10 1280 720)"/>
+    <circle cx="70" cy="920" r="14" fill="#00e5ff"/><circle cx="2470" cy="540" r="12" fill="#bc8cff"/>
+    <circle cx="2200" cy="1210" r="10" fill="#ffd166"/><circle cx="380" cy="230" r="9" fill="#bc8cff"/>
+  </svg>
+  <div class="safe">
+    <div class="left">
+      <div class="kicker"><span class="br">&lt;/&gt;</span>&nbsp; HEMASHREE VI</div>
+      <div class="title">Byte <span class="d">Decoded</span></div>
+      <div class="sub">I build things with code — and show you how they work.</div>
+      <div class="chips">
+        <div class="chip" style="border-color:#bc8cff;color:#d9c2ff">AI &amp; LLMs</div>
+        <div class="chip" style="border-color:#00e5ff;color:#9ef4ff">3D Web</div>
+        <div class="chip" style="border-color:#7c4dff;color:#c4b2ff">Dev Tools</div>
+        <div class="chip" style="border-color:#3fb950;color:#9ce8a8">Projects</div>
+      </div>
+    </div>
+    <div class="right">
+      <svg width="330" height="330" viewBox="0 0 330 330">
+        <defs>
+          <radialGradient id="p" cx="35%" cy="30%"><stop offset="0" stop-color="#c9a8ff"/><stop offset=".55" stop-color="#7c4dff"/><stop offset="1" stop-color="#2a1366"/></radialGradient>
+          <filter id="gl"><feGaussianBlur stdDeviation="14"/></filter>
+        </defs>
+        <circle cx="165" cy="165" r="105" fill="#7c4dff" filter="url(#gl)" opacity=".7"/>
+        <circle cx="165" cy="165" r="95" fill="url(#p)"/>
+        <text x="165" y="192" text-anchor="middle" font-family="DejaVu Sans Mono" font-weight="bold" font-size="78" fill="#fff">01</text>
+        <ellipse cx="165" cy="165" rx="160" ry="48" stroke="#00e5ff" stroke-width="7" fill="none" transform="rotate(-22 165 165)" stroke-dasharray="330 40"/>
+        <circle cx="300" cy="105" r="14" fill="#00e5ff"/>
+        <circle cx="38" cy="222" r="10" fill="#ffd166"/>
+      </svg>
+    </div>
+  </div>
+</div>
+<script>
+  const s=document.getElementById('stars');let x=7;const r=()=>(x=(x*16807)%2147483647)/2147483647;
+  for(let i=0;i<420;i++){const c=document.createElementNS('http://www.w3.org/2000/svg','circle');
+   c.setAttribute('cx',r()*2560);c.setAttribute('cy',r()*1440);c.setAttribute('r',r()*2.4+.6);
+   c.setAttribute('fill','#fff');c.setAttribute('opacity',(r()*.6+.2).toFixed(2));s.appendChild(c);}
+</script>
+</body></html>
