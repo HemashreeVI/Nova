@@ -10,9 +10,9 @@ use store::{Priority, Store};
 
 /// A small, fast todo manager for the terminal.
 #[derive(Parser)]
-#[command(name = "todo", version, about)]
+#[command(name = "ferrodo", version, about)]
 struct Cli {
-    /// Path to the todo file (default: $TODO_FILE or ~/.todo.json)
+    /// Path to the todo file (default: $FERRODO_FILE or ~/.ferrodo.json)
     #[arg(long, global = true)]
     file: Option<PathBuf>,
 
@@ -67,21 +67,21 @@ enum Command {
 }
 
 fn default_path() -> PathBuf {
-    if let Some(p) = std::env::var_os("TODO_FILE") {
+    if let Some(p) = std::env::var_os("FERRODO_FILE") {
         return PathBuf::from(p);
     }
     let home = std::env::var_os("HOME")
         .or_else(|| std::env::var_os("USERPROFILE"))
         .map(PathBuf::from)
         .unwrap_or_else(|| PathBuf::from("."));
-    home.join(".todo.json")
+    home.join(".ferrodo.json")
 }
 
 fn print_list(store: &Store, all: bool) {
     let today = due::today();
     let tasks = store.sorted_on(all, today);
     if tasks.is_empty() {
-        println!("Nothing to do. Add a task with: todo add <text>");
+        println!("Nothing to do. Add a task with: ferrodo add <text>");
         return;
     }
     let width = tasks

@@ -295,7 +295,7 @@ impl App {
         };
         frame.render_widget(
             Line::from(vec![
-                " todo ".bold().fg(Color::Black).bg(ACCENT),
+                " ferrodo ".bold().fg(Color::Black).bg(ACCENT),
                 format!("  {open} open · {done} done").dark_gray(),
                 if overdue > 0 {
                     format!(" · {overdue} overdue").red().bold()

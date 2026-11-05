@@ -1,6 +1,9 @@
 [package]
-name = "todo"
-version = "0.1.0"
+name = "ferrodo"
+version = "0.3.0"
+description = "A fast, friendly todo manager for the terminal, with due dates and a full-screen app"
+repository = "https://github.com/HemashreeVI/ferrodo"
+license = "MIT"
 edition = "2024"
 
 [dependencies]
