@@ -1,0 +1,38 @@
+{
+  "title": "How Monitoring Works: Prometheus + Grafana in 60 Seconds 📊 #shorts",
+  "slug": "short-monitoring",
+  "format": "vertical",
+  "description": "How do engineers know a server is struggling before users complain? Monitoring. Every service exposes numbers on a /metrics endpoint: requests, errors, latency, memory. Prometheus scrapes them every few seconds and stores them as time series. Grafana turns them into live dashboards using PromQL queries, and alert rules notify the on-call engineer the moment something crosses a threshold.\n\n📘 More to learn + my projects: https://github.com/HemashreeVI\n\n#Prometheus #Grafana #DevOps #Monitoring #Observability #SRE #TechExplained #shorts",
+  "tags": ["prometheus", "grafana", "prometheus grafana", "how monitoring works", "prometheus explained", "grafana dashboard", "observability", "metrics", "time series database", "promql", "alertmanager", "devops", "sre", "site reliability engineering", "kubernetes monitoring", "tech explained", "shorts"],
+  "voice": "am_michael",
+  "speed": 1.1,
+  "lineGap": 0.25,
+  "captions": true,
+  "endCard": "📘 more to learn → github.com/HemashreeVI",
+  "thumbnail": "grafana@7",
+  "endHold": 0.3,
+  "scenes": [
+    { "id": "hook", "pad": [0.3, 0.5], "lines": [
+      "It's 3 AM. Your app slows down. How do engineers know, before a single user complains?",
+      "Monitoring."
+    ]},
+    { "id": "metrics", "pad": [0.3, 0.6], "lines": [
+      "Every service exposes numbers on a metrics page: how many requests, how many errors, how long each one takes, how much memory it's using."
+    ]},
+    { "id": "scrape", "pad": [0.3, 0.6], "lines": [
+      "Prometheus visits every service every few seconds, and scrapes those numbers. That's called pulling."
+    ]},
+    { "id": "tsdb", "pad": [0.3, 0.5], "lines": [
+      "It stores each number with a timestamp, building a time series: the full history of every metric."
+    ]},
+    { "id": "grafana", "pad": [0.3, 0.6], "lines": [
+      "Grafana queries that history, and turns it into live dashboards: graphs, gauges, and heat maps, updating in real time."
+    ]},
+    { "id": "alert", "pad": [0.3, 0.6], "lines": [
+      "And alert rules watch the numbers. If errors cross five percent, the on-call engineer's phone buzzes, at 3 AM, before users notice."
+    ]},
+    { "id": "outro", "pad": [0.3, 2.4], "lines": [
+      "Expose. Scrape. Visualize. Alert. That's monitoring."
+    ]}
+  ]
+}
