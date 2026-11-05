@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Explained Cards</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{--ink:#eef0fb;--mut:#9aa0c3;--m:#e879f9;--c1:#38bdf8;--c2:#e879f9;--c3:#2dd4bf;--c4:#a3e635}
+  #fv-stage{background:radial-gradient(1400px 900px at 72% 20%,#2a1650 0%,#110d2a 50%,#08071a 80%);color:var(--ink);font-family:Inter,system-ui,sans-serif}
+  #bg-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(170,150,250,.13) 1px,transparent 1px),linear-gradient(90deg,rgba(170,150,250,.13) 1px,transparent 1px);background-size:80px 80px;opacity:.25}
+  .abs{position:absolute}
+  .badge{position:absolute;left:120px;top:70px;padding:10px 24px;border-radius:40px;background:rgba(232,121,249,.12);border:2px solid rgba(232,121,249,.5);font:700 26px Inter;color:var(--m)}
+  .tile{border-radius:22px;overflow:hidden;border:3px solid var(--cc);background:#0d0b22;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+  .tile img{display:block;width:100%;height:100%;object-fit:cover}
+  .tl{font:800 30px Inter;margin-top:14px}
+  .tl b{font:700 22px 'JetBrains Mono';color:var(--cc);display:block;margin-bottom:4px;letter-spacing:.12em}
+  .prow{display:flex;align-items:center;gap:24px;padding:18px 26px;border-radius:20px;border:3px solid transparent;margin-bottom:16px}
+  .prow .n{font:800 26px 'JetBrains Mono';width:110px}
+  .prow .t{font:800 36px Inter}
+  .fv-endcard{display:inline-block;padding:16px 32px;border-radius:40px;font:700 34px 'JetBrains Mono',monospace;border:3px solid #eef0fb;background:rgba(238,240,251,.08)}
+</style>
+</head>
+<body>
+<div id="fv-stage">
+  <div id="bg-grid"></div>
+  <div class="badge">Tech, decoded</div>
+
+  <section class="fv-scene" data-scene="intro">
+    <div id="in-h" class="abs" style="left:0;right:0;top:120px;text-align:center;font:900 150px/1 Inter;letter-spacing:-.05em">AI, <span style="color:var(--m)">explained.</span></div>
+    <div id="in-grid" class="abs" style="left:150px;right:150px;top:340px;display:grid;grid-template-columns:repeat(4,1fr);gap:40px"></div>
+  </section>
+
+  <section class="fv-scene" data-scene="ch1"><div class="chap"></div></section>
+  <section class="fv-scene" data-scene="ch2"><div class="chap"></div></section>
+  <section class="fv-scene" data-scene="ch3"><div class="chap"></div></section>
+  <section class="fv-scene" data-scene="ch4"><div class="chap"></div></section>
+
+  <section class="fv-scene" data-scene="outro">
+    <div id="oc-h" class="abs" style="left:0;right:0;top:160px;text-align:center;font:900 130px/1 Inter;letter-spacing:-.05em">That's AI, <span style="color:var(--m)">explained.</span></div>
+    <div id="oc-row" class="abs" style="left:200px;right:200px;top:380px;display:grid;grid-template-columns:repeat(4,1fr);gap:30px"></div>
+    <div id="oc-gh" class="abs" style="left:0;right:0;top:760px;text-align:center"><span class="fv-endcard"></span></div>
+  </section>
+</div>
+<script src="timing.js"></script>
+<script src="fv-runtime.js"></script>
+<script>
+(() => {
+const { seg, css, enter, clamp, ease, pulse, $, $$ } = FV;
+const div = (cls, html, parent, style) => { const e = document.createElement('div'); if (cls) e.className = cls; if (html !== undefined) e.innerHTML = html; if (style) e.style.cssText = style; if (parent) parent.appendChild(e); return e; };
+const pop = (el, t, a, d = 0.45) => { const p = seg(t, a, a + d, ease.back); css(el, { o: clamp(p * 1.5), s: Math.max(0, p) }); return p; };
+const frac = (ctx, i, f) => ctx.line(i) + (ctx.lineEnd(i) - ctx.line(i)) * f;
+const PARTS = [
+  ['PART 1', 'How AI answers your prompt', 'frames/p1.jpg', '#38bdf8'],
+  ['PART 2', 'How AI creates images', 'frames/p2.jpg', '#e879f9'],
+  ['PART 3', 'How AI reads your documents', 'frames/p3.jpg', '#2dd4bf'],
+  ['PART 4', 'How AI agents take action', 'frames/p4.jpg', '#a3e635'],
+];
+const tile = (p, parent, h) => { const w = div('', '', parent); const t = div('tile', `<img src="${p[2]}">`, w, `height:${h}px`); t.style.setProperty('--cc', p[3]); const l = div('tl', `<b>${p[0]}</b>${p[1]}`, w); l.style.setProperty('--cc', p[3]); return w; };
+
+/* INTRO */
+{
+  const tiles = PARTS.map((p) => tile(p, $('#in-grid'), 230));
+  const at = [0.12, 0.36, 0.6, 0.82];
+  FV.scene('intro', (t, ctx) => {
+    pop($('#in-h'), t, 0.1, 0.6);
+    tiles.forEach((e, i) => { const a = frac(ctx, 1, at[i]) - 0.2; const p = seg(t, a, a + 0.45, ease.back); css(e, { o: clamp(p * 1.5), y: (1 - p) * 60 }); e.firstChild.style.boxShadow = `0 0 ${50 * pulse(t, a, a + 1.6)}px ${PARTS[i][3]}`; });
+  });
+}
+
+/* CHAPTER CARDS */
+['ch1', 'ch2', 'ch3', 'ch4'].forEach((id, k) => {
+  const host = document.querySelector(`[data-scene="${id}"] .chap`);
+  const p = PARTS[k];
+  const left = div('', `<div class="mono" style="font:800 40px 'JetBrains Mono';letter-spacing:.2em;color:${p[3]}">${p[0]}</div><div style="font:900 96px/1.04 Inter;letter-spacing:-.04em;margin-top:18px;max-width:900px">${p[1]}</div>`, host, 'position:absolute;left:150px;top:200px');
+  const img = div('tile', `<img src="${p[2]}">`, host, 'position:absolute;left:150px;top:500px;width:700px;height:394px'); img.style.setProperty('--cc', p[3]);
+  const list = div('', '', host, 'position:absolute;left:1100px;top:330px;width:680px');
+  const rows = PARTS.map((q, j) => div('prow', `<span class="n" style="color:${q[3]}">${j + 1 < 10 ? '0' + (j + 1) : j + 1}</span><span class="t">${q[1].replace('How ', '')}</span>`, list));
+  FV.scene(id, (t, ctx) => {
+    enter(left, t, 0.05, 0.5, 30);
+    const ip = seg(t, 0.2, 0.7, ease.out); css(img, { o: ip, s: 0.92 + 0.08 * ip });
+    rows.forEach((r, j) => {
+      enter(r, t, 0.15 + j * 0.06, 0.35, 16);
+      const cur = j === k;
+      r.style.opacity = Math.min(+r.style.opacity, cur ? 1 : j < k ? 0.55 : 0.35);
+      r.style.borderColor = cur ? PARTS[j][3] : 'transparent';
+      r.style.background = cur ? `${PARTS[j][3]}22` : 'transparent';
+      r.querySelector('.n').textContent = j < k ? '✓' : `0${j + 1}`;
+    });
+  });
+});
+
+/* OUTRO */
+{
+  const tiles = PARTS.map((p) => tile(p, $('#oc-row'), 190));
+  FV.scene('outro', (t, ctx) => {
+    pop($('#oc-h'), t, 0.1, 0.5);
+    tiles.forEach((e, i) => { const p = seg(t, 0.4 + i * 0.12, 0.8 + i * 0.12, ease.out); css(e, { o: p, y: (1 - p) * 40 }); });
+    pop($('#oc-gh'), t, frac(ctx, 0, 0.55), 0.5);
+  });
+}
+})();
+</script>
+</body>
+</html>
