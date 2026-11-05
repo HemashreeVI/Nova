@@ -1,0 +1,38 @@
+{
+  "title": "How YOLO Detects Objects in One Look 👁️ #shorts",
+  "slug": "short-yolo",
+  "format": "vertical",
+  "description": "Self-driving cars, security cameras and sports apps spot objects in real time with YOLO: You Only Look Once. Instead of scanning an image thousands of times, YOLO splits it into a grid and, in a single pass through a neural network, every cell predicts bounding boxes, a confidence score and a class. Overlapping duplicates are removed with non-maximum suppression, so each object keeps one box, fast enough for live video.\n\n📘 More to learn + my projects: https://github.com/HemashreeVI\n\n#YOLO #ComputerVision #ObjectDetection #AI #DeepLearning #TechExplained #shorts",
+  "tags": ["yolo", "how yolo works", "yolo object detection", "object detection explained", "you only look once", "ultralytics yolo", "computer vision", "bounding box", "non maximum suppression", "deep learning", "neural network", "real time detection", "opencv", "pytorch", "ai explained", "tech explained", "shorts"],
+  "voice": "am_michael",
+  "speed": 1.1,
+  "lineGap": 0.25,
+  "captions": true,
+  "endCard": "📘 more to learn → github.com/HemashreeVI",
+  "thumbnail": "outro@1.5",
+  "endHold": 0.3,
+  "scenes": [
+    { "id": "hook", "pad": [0.3, 0.5], "lines": [
+      "Self-driving cars spot people, cars, and traffic lights, dozens of times every second.",
+      "Most of them use an idea called YOLO: You Only Look Once."
+    ]},
+    { "id": "old", "pad": [0.3, 0.5], "lines": [
+      "Older detectors slid a window over the image, checking thousands of patches one by one. Accurate, but slow."
+    ]},
+    { "id": "grid", "pad": [0.3, 0.6], "lines": [
+      "YOLO looks at the whole image at once. It splits it into a grid, and runs it through a neural network, just one time."
+    ]},
+    { "id": "predict", "pad": [0.3, 0.6], "lines": [
+      "Every grid cell predicts boxes around objects it sees: where the box is, how confident it is, and what the object is. Person, car, dog."
+    ]},
+    { "id": "nms", "pad": [0.3, 0.6], "lines": [
+      "That gives many overlapping guesses. So it keeps the most confident box, and removes the duplicates. That's called non-maximum suppression."
+    ]},
+    { "id": "speed", "pad": [0.3, 0.6], "lines": [
+      "One look per frame means it's fast enough for live video."
+    ]},
+    { "id": "outro", "pad": [0.3, 2.4], "lines": [
+      "Grid. Predict. Filter. You only look once."
+    ]}
+  ]
+}

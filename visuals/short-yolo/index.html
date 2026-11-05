@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>YOLO Short</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{--ink:#eef3f6;--mut:#94a3b8;--cy:#06b6d4;--c2:#22d3ee;--per:#f472b6;--car:#facc15;--dog:#4ade80;--tl:#60a5fa;--red:#f87171}
+  #fv-stage{background:radial-gradient(1000px 1300px at 70% 15%,#073345 0%,#071825 50%,#040a12 80%);color:var(--ink);font-family:Inter,system-ui,sans-serif}
+  #bg-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(34,211,238,.12) 1px,transparent 1px),linear-gradient(90deg,rgba(34,211,238,.12) 1px,transparent 1px);background-size:90px 90px;opacity:.22}
+  .abs{position:absolute}
+  .step{position:absolute;left:0;right:0;top:250px;text-align:center;font:700 34px/1 'JetBrains Mono',monospace;letter-spacing:.2em;color:var(--c2)}
+  .head{position:absolute;left:60px;right:60px;top:305px;text-align:center;font:800 84px/1.05 Inter;letter-spacing:-.03em}
+  .mono{font-family:'JetBrains Mono',monospace}
+  .label{font:600 28px Inter;color:var(--mut)}
+  .badge{position:absolute;left:50%;top:150px;transform:translateX(-50%);padding:12px 26px;border-radius:40px;background:rgba(34,211,238,.1);border:2px solid rgba(34,211,238,.5);font:700 30px Inter;color:var(--c2);white-space:nowrap}
+  .pill{display:inline-block;padding:12px 28px;border-radius:40px;font:800 36px Inter}
+  .cam{position:absolute;left:60px;width:960px;height:533px;border-radius:24px;overflow:hidden;border:4px solid rgba(34,211,238,.5);box-shadow:0 20px 60px rgba(0,0,0,.5)}
+  .cam svg{position:absolute;inset:0;width:100%;height:100%}
+  .fv-endcard{display:inline-block;padding:16px 30px;border-radius:40px;font:700 34px 'JetBrains Mono',monospace;border:3px solid #eef3f6;background:rgba(238,243,246,.08)}
+</style>
+</head>
+<body>
+<div id="fv-stage">
+  <div id="bg-grid"></div>
+  <div class="badge">👁️ Computer Vision · Tech, decoded</div>
+
+  <section class="fv-scene" data-scene="hook">
+    <div class="cam" id="hk-cam" style="top:330px"></div>
+    <div id="hk-fps" class="abs mono" style="left:80px;top:880px;font-size:32px;font-weight:800;color:var(--c2)"></div>
+    <div id="hk-y" class="abs" style="left:0;right:0;top:960px;text-align:center">
+      <div style="font:900 180px/1 Inter;letter-spacing:-.04em;color:#fff;text-shadow:0 0 60px rgba(34,211,238,.9)">YOLO</div>
+      <div class="mono" style="font-size:40px;font-weight:800;color:var(--c2);margin-top:12px">You Only Look Once</div>
+    </div>
+  </section>
+
+  <section class="fv-scene" data-scene="old">
+    <div class="step">THE OLD WAY</div><div class="head">Sliding windows</div>
+    <div class="cam" id="od-cam" style="top:470px"></div>
+    <div id="od-n" class="abs mono" style="left:0;right:0;top:1040px;text-align:center;font-size:40px;font-weight:800"></div>
+    <div id="od-slow" class="abs" style="left:0;right:0;top:1120px;text-align:center"><span class="pill" style="font-size:34px;border:3px solid var(--red);color:var(--red);background:rgba(248,113,113,.1)">🐢 accurate, but slow</span></div>
+  </section>
+
+  <section class="fv-scene" data-scene="grid">
+    <div class="step">STEP 1</div><div class="head">One look</div>
+    <div class="cam" id="gr-cam" style="top:450px"></div>
+    <svg id="gr-nn" class="abs" width="1080" height="1920" style="inset:0"></svg>
+    <div id="gr-1" class="abs" style="left:0;right:0;top:1160px;text-align:center"><span class="pill" style="font-size:36px;border:3px solid var(--c2);background:rgba(34,211,238,.12)">🧠 1 pass through the network</span></div>
+  </section>
+
+  <section class="fv-scene" data-scene="predict">
+    <div class="step">STEP 2</div><div class="head">Every cell predicts</div>
+    <div class="cam" id="pr-cam" style="top:450px"></div>
+    <div id="pr-out" class="abs" style="left:60px;right:60px;top:1020px;display:flex;gap:16px;justify-content:center"></div>
+  </section>
+
+  <section class="fv-scene" data-scene="nms">
+    <div class="step">STEP 3</div><div class="head">Remove duplicates</div>
+    <div class="cam" id="nm-cam" style="top:450px"></div>
+    <div id="nm-l" class="abs" style="left:0;right:0;top:1020px;text-align:center"></div>
+    <div id="nm-n" class="abs" style="left:0;right:0;top:1120px;text-align:center"><span class="pill mono" style="font-size:30px;border:3px solid var(--c2);background:rgba(34,211,238,.1)">non-maximum suppression</span></div>
+  </section>
+
+  <section class="fv-scene" data-scene="speed">
+    <div class="step">WHY IT WINS</div><div class="head">Real-time</div>
+    <div class="cam" id="sp-cam" style="top:450px"></div>
+    <div id="sp-fps" class="abs" style="left:0;right:0;top:1020px;text-align:center"></div>
+  </section>
+
+  <section class="fv-scene" data-scene="outro">
+    <div class="cam" id="oc-cam" style="top:240px"></div>
+    <div id="oc-w" class="abs" style="left:0;right:0;top:820px;display:flex;justify-content:center;gap:24px"></div>
+    <div id="oc-h" class="abs" style="left:0;right:0;top:960px;text-align:center;font:800 60px Inter">You only look <span style="color:var(--c2)">once.</span></div>
+    <div id="oc-gh" class="abs" style="left:0;right:0;top:1110px;text-align:center"><span class="fv-endcard"></span></div>
+  </section>
+</div>
+<script src="timing.js"></script>
+<script src="fv-runtime.js"></script>
+<script>
+(() => {
+const { seg, css, enter, lerp, clamp, ease, pulse, rand, $ } = FV;
+const NS = 'http://www.w3.org/2000/svg';
+const svgEl = (tag, attrs, parent) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; };
+const div = (cls, html, parent, style) => { const e = document.createElement('div'); if (cls) e.className = cls; if (html !== undefined) e.innerHTML = html; if (style) e.style.cssText = style; if (parent) parent.appendChild(e); return e; };
+const pop = (el, t, a, d = 0.45) => { const p = seg(t, a, a + d, ease.back); css(el, { o: clamp(p * 1.5), s: Math.max(0, p) }); return p; };
+const head = (el, t) => { enter($('.step', el), t, 0.0, 0.4); enter($('.head', el), t, 0.08, 0.45, 30); };
+const frac = (ctx, i, f) => ctx.line(i) + (ctx.lineEnd(i) - ctx.line(i)) * f;
+
+// street scene, viewBox 900x500
+const STREET = `
+<defs><linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7dd3fc"/><stop offset="1" stop-color="#e0f2fe"/></linearGradient></defs>
+<rect width="900" height="500" fill="url(#sky)"/>
+<rect x="0" y="120" width="140" height="230" fill="#94a3b8"/><rect x="140" y="80" width="110" height="270" fill="#a8b4c6"/><rect x="560" y="100" width="160" height="250" fill="#94a3b8"/><rect x="720" y="150" width="80" height="200" fill="#b4c0d0"/>
+<g fill="#cbd5e1" opacity=".8"><rect x="20" y="140" width="24" height="30"/><rect x="70" y="140" width="24" height="30"/><rect x="20" y="200" width="24" height="30"/><rect x="70" y="200" width="24" height="30"/><rect x="160" y="100" width="24" height="30"/><rect x="205" y="100" width="24" height="30"/><rect x="160" y="160" width="24" height="30"/><rect x="580" y="120" width="28" height="34"/><rect x="630" y="120" width="28" height="34"/><rect x="680" y="120" width="28" height="34"/><rect x="580" y="180" width="28" height="34"/><rect x="630" y="180" width="28" height="34"/></g>
+<rect x="0" y="350" width="900" height="150" fill="#475569"/><rect x="0" y="340" width="900" height="16" fill="#cbd5e1"/>
+<g fill="#f8fafc"><rect x="40" y="430" width="70" height="10"/><rect x="200" y="430" width="70" height="10"/><rect x="360" y="430" width="70" height="10"/><rect x="520" y="430" width="70" height="10"/><rect x="680" y="430" width="70" height="10"/></g>
+<rect x="836" y="160" width="8" height="190" fill="#334155"/><rect x="818" y="80" width="44" height="100" rx="10" fill="#1e293b"/><circle cx="840" cy="102" r="12" fill="#ef4444"/><circle cx="840" cy="130" r="12" fill="#475569"/><circle cx="840" cy="158" r="12" fill="#475569"/>
+<g><circle cx="190" cy="232" r="22" fill="#fcd34d"/><rect x="170" y="256" width="40" height="80" rx="14" fill="#ec4899"/><rect x="172" y="330" width="14" height="80" rx="6" fill="#1e3a8a"/><rect x="194" y="330" width="14" height="80" rx="6" fill="#1e3a8a"/><rect x="156" y="262" width="12" height="60" rx="6" fill="#ec4899"/><rect x="212" y="262" width="12" height="60" rx="6" fill="#ec4899"/></g>
+<g><path d="M390 380 L410 330 Q420 305 450 305 L560 305 Q590 305 605 330 L630 380 Z" fill="#eab308"/><rect x="380" y="370" width="260" height="50" rx="16" fill="#ca8a04"/><path d="M425 335 L440 315 L500 315 L500 345 L420 345 Z M512 315 L560 315 Q578 315 588 335 L592 345 L512 345 Z" fill="#bae6fd"/><circle cx="430" cy="420" r="24" fill="#111827"/><circle cx="590" cy="420" r="24" fill="#111827"/><circle cx="430" cy="420" r="9" fill="#9ca3af"/><circle cx="590" cy="420" r="9" fill="#9ca3af"/></g>
+<g><ellipse cx="730" cy="395" rx="40" ry="18" fill="#a16207"/><circle cx="772" cy="378" r="16" fill="#a16207"/><path d="M780 366 l10 -8 l2 14z" fill="#713f12"/><rect x="700" y="405" width="8" height="26" fill="#a16207"/><rect x="745" y="405" width="8" height="26" fill="#a16207"/><path d="M690 388 q-16 -12 -14 -24" stroke="#a16207" stroke-width="6" fill="none"/><circle cx="778" cy="376" r="2.5" fill="#111"/></g>`;
+const OBJ = [ // label, color, box x,y,w,h, conf
+  ['person', '#f472b6', 150, 205, 80, 210, 0.94],
+  ['car', '#facc15', 375, 298, 270, 150, 0.91],
+  ['dog', '#4ade80', 680, 355, 115, 80, 0.88],
+  ['traffic light', '#60a5fa', 812, 74, 56, 280, 0.83],
+];
+function cam(id) {
+  const s = svgEl('svg', { viewBox: '0 0 900 500', preserveAspectRatio: 'none' }, $(id));
+  s.innerHTML = STREET;
+  return s;
+}
+function box(s, [lab, c, x, y, w, h, cf], showConf = true) {
+  const g = svgEl('g', {}, s);
+  svgEl('rect', { x, y, width: w, height: h, fill: 'none', stroke: c, 'stroke-width': 5, rx: 4 }, g);
+  const tw = (lab.length + (showConf ? 5 : 0)) * 12.5 + 16;
+  const lx = x + tw > 896 ? x + w - tw : x;
+  svgEl('rect', { x: lx, y: y - 30, width: tw, height: 30, fill: c, rx: 4 }, g);
+  const tx = svgEl('text', { x: lx + 8, y: y - 9, fill: '#0b1220', 'font-size': 20, 'font-weight': 800, 'font-family': 'JetBrains Mono' }, g);
+  tx.textContent = showConf ? `${lab} ${cf.toFixed(2)}` : lab;
+  return g;
+}
+const grid = (s, n = 7) => { const g = svgEl('g', {}, s); for (let i = 1; i < n; i++) { svgEl('line', { x1: (900 / n) * i, y1: 0, x2: (900 / n) * i, y2: 500, stroke: '#22d3ee', 'stroke-width': 2.5 }, g); svgEl('line', { x1: 0, y1: (500 / n) * i, x2: 900, y2: (500 / n) * i, stroke: '#22d3ee', 'stroke-width': 2.5 }, g); } return g; };
+
+/* HOOK */
+{
+  const s = cam('#hk-cam');
+  const B = OBJ.map((o) => box(s, o));
+  FV.scene('hook', (t, ctx) => {
+    enter($('#hk-cam'), t, 0.05, 0.4, 20);
+    B.forEach((b, i) => b.setAttribute('opacity', seg(t, frac(ctx, 0, 0.3 + i * 0.12), frac(ctx, 0, 0.36 + i * 0.12))));
+    $('#hk-fps').textContent = t > frac(ctx, 0, 0.3) ? `● LIVE · ${Math.round(28 + 4 * Math.sin(t * 3))} FPS` : '';
+    pop($('#hk-y'), t, frac(ctx, 1, 0.42), 0.55);
+  });
+}
+
+/* OLD: sliding window */
+{
+  const s = cam('#od-cam');
+  const win = svgEl('rect', { width: 110, height: 110, fill: 'rgba(248,113,113,.15)', stroke: '#f87171', 'stroke-width': 5 }, s);
+  FV.scene('old', (t, ctx) => {
+    head(ctx.el, t);
+    enter($('#od-cam'), t, 0.1, 0.4, 20);
+    const p = seg(t, frac(ctx, 0, 0.05), ctx.dur - 0.3, ease.linear);
+    const cols = 8, rows = 4, k = Math.floor(p * cols * rows);
+    const cx = (k % cols) * 112, cy = Math.floor(k / cols) * 112 + ((t * 30) % 1);
+    win.setAttribute('x', cx); win.setAttribute('y', Math.min(390, cy));
+    win.setAttribute('opacity', seg(t, 0.3, 0.6));
+    $('#od-n').innerHTML = `checking patch <span style="color:#f87171">${Math.round(p * 5000).toLocaleString('en-US')}</span> / 5,000…`;
+    $('#od-n').style.opacity = seg(t, 0.4, 0.7);
+    pop($('#od-slow'), t, frac(ctx, 0, 0.78), 0.4);
+  });
+}
+
+/* GRID + 1 pass */
+{
+  const s = cam('#gr-cam');
+  const g = grid(s);
+  const nn = $('#gr-nn');
+  // a compact network strip under the image
+  const cols = [3, 5, 5, 3], xs = [220, 420, 660, 860], cy = 1068;
+  const nodes = cols.map((n, ci) => Array.from({ length: n }, (_, i) => ({ x: xs[ci], y: cy + (i - (n - 1) / 2) * 34 })));
+  const edges = [];
+  for (let c = 0; c < 3; c++) nodes[c].forEach((a) => nodes[c + 1].forEach((b) => edges.push(svgEl('line', { x1: a.x, y1: a.y, x2: b.x, y2: b.y, stroke: '#22d3ee', 'stroke-width': 1.5, opacity: 0.25 }, nn))));
+  const dots = nodes.flat().map((n) => svgEl('circle', { cx: n.x, cy: n.y, r: 10, fill: '#0e3a4a', stroke: '#22d3ee', 'stroke-width': 3 }, nn));
+  const pulseDot = svgEl('circle', { r: 16, fill: '#22d3ee' }, nn);
+  FV.scene('grid', (t, ctx) => {
+    head(ctx.el, t);
+    enter($('#gr-cam'), t, 0.1, 0.4, 20);
+    g.setAttribute('opacity', seg(t, frac(ctx, 0, 0.3), frac(ctx, 0, 0.45)));
+    const n0 = frac(ctx, 0, 0.55);
+    nn.style.opacity = seg(t, n0 - 0.3, n0);
+    const p = seg(t, n0, n0 + 1.4, ease.inOut);
+    pulseDot.setAttribute('cx', lerp(180, 900, p)); pulseDot.setAttribute('cy', cy);
+    pulseDot.setAttribute('opacity', p > 0 && p < 1 ? 1 : 0);
+    dots.forEach((d) => d.setAttribute('fill', Math.abs(+d.getAttribute('cx') - lerp(180, 900, p)) < 60 && p < 1 ? '#22d3ee' : '#0e3a4a'));
+    pop($('#gr-1'), t, frac(ctx, 0, 0.85), 0.4);
+  });
+}
+
+/* PREDICT */
+{
+  const s = cam('#pr-cam');
+  grid(s).setAttribute('opacity', 0.35);
+  const cells = OBJ.map(([, c, x, y, w, h]) => { const cx = Math.floor((x + w / 2) / (900 / 7)), cyy = Math.floor((y + h / 2) / (500 / 7)); return svgEl('rect', { x: cx * 900 / 7, y: cyy * 500 / 7, width: 900 / 7, height: 500 / 7, fill: c, opacity: 0 }, s); });
+  const B = OBJ.map((o) => box(s, o));
+  const out = $('#pr-out');
+  const tiles = [['📍', 'where', 'x, y, w, h', '#22d3ee'], ['🎯', 'how sure', '0.94', '#facc15'], ['🏷️', 'what', 'person · car · dog', '#f472b6']].map(([ic, a, b, c]) => div('', `<div style="font-size:46px">${ic}</div><div style="font:800 32px Inter;margin-top:6px">${a}</div><div class="mono" style="font-size:22px;color:${c};margin-top:4px">${b}</div>`, out,
+    `flex:1;text-align:center;padding:20px 10px;border-radius:22px;border:3px solid ${c}99;background:${c}1a`));
+  const objAt = [0.5, 0.63, 0.75, 0.88];
+  FV.scene('predict', (t, ctx) => {
+    head(ctx.el, t);
+    enter($('#pr-cam'), t, 0.1, 0.4, 20);
+    OBJ.forEach((o, i) => {
+      const a = i < 3 ? frac(ctx, 0, objAt[i + 1]) - 0.3 : frac(ctx, 0, 0.2);
+      cells[i].setAttribute('opacity', 0.45 * pulse(t, a - 0.3, a + 1.2));
+      B[i].setAttribute('opacity', seg(t, a, a + 0.3));
+    });
+    tiles.forEach((e, i) => pop(e, t, frac(ctx, 0, [0.22, 0.35, 0.48][i]), 0.4));
+  });
+}
+
+/* NMS */
+{
+  const s = cam('#nm-cam');
+  const r = rand(4);
+  const car = OBJ[1];
+  const C = [0.91, 0.84, 0.77, 0.69, 0.62, 0.55];
+  const dup = C.map((cf, i) => box(s, ['car', i ? '#fb923c' : '#facc15', car[2] + (r() - 0.5) * 50, car[3] + (r() - 0.5) * 36, car[4] + (r() - 0.5) * 50, car[5] + (r() - 0.5) * 30, cf]));
+  const others = [OBJ[0], OBJ[2], OBJ[3]].map((o) => box(s, o));
+  FV.scene('nms', (t, ctx) => {
+    head(ctx.el, t);
+    enter($('#nm-cam'), t, 0.1, 0.4, 20);
+    const a = frac(ctx, 0, 0.05), keep = frac(ctx, 0, 0.45);
+    dup.forEach((b, i) => {
+      const on = seg(t, a + i * 0.12, a + i * 0.12 + 0.2);
+      const gone = i === 0 ? 0 : seg(t, keep + 0.3 + i * 0.2, keep + 0.5 + i * 0.2);
+      b.setAttribute('opacity', on * (1 - gone));
+    });
+    others.forEach((b) => b.setAttribute('opacity', seg(t, keep + 1.8, keep + 2.2)));
+    const removed = Math.max(0, Math.min(5, Math.floor((t - keep - 0.3) / 0.2)));
+    $('#nm-l').innerHTML = t < keep ? `<span class="pill mono" style="font-size:32px;border:3px solid #fb923c;background:rgba(251,146,60,.1)">6 boxes for 1 car 🤔</span>`
+      : `<span class="pill mono" style="font-size:32px;border:3px solid #facc15;background:rgba(250,204,21,.1)">keep 0.91 ✓ · removed ${removed} duplicates</span>`;
+    $('#nm-l').style.opacity = seg(t, a + 0.3, a + 0.6);
+    pop($('#nm-n'), t, frac(ctx, 0, 0.82), 0.4);
+  });
+}
+
+/* SPEED */
+{
+  const s = cam('#sp-cam');
+  const B = OBJ.map((o) => box(s, o));
+  const carG = s.querySelector('path[fill="#eab308"]').parentNode;
+  FV.scene('speed', (t, ctx) => {
+    head(ctx.el, t);
+    enter($('#sp-cam'), t, 0.1, 0.4, 20);
+    const dx = ((t * 120) % 300) - 150;
+    const carB = B[1];
+    carG.setAttribute('transform', `translate(${dx} 0)`);
+    carB.setAttribute('transform', `translate(${dx} 0)`);
+    B.forEach((b) => b.setAttribute('opacity', 1));
+    const f = Math.round(60 * seg(t, 0.4, frac(ctx, 0, 0.8), ease.out));
+    $('#sp-fps').innerHTML = `<div class="mono" style="font:900 120px 'JetBrains Mono';color:#22d3ee">${f}<span style="font-size:50px"> FPS</span></div><div class="label" style="margin-top:6px">one look per frame · live video</div>`;
+    $('#sp-fps').style.opacity = seg(t, 0.3, 0.6);
+  });
+}
+
+/* OUTRO */
+{
+  const s = cam('#oc-cam');
+  const g = grid(s); g.setAttribute('opacity', 0.35);
+  const B = OBJ.map((o) => box(s, o));
+  const W = [['Grid.', '#22d3ee', 0.0], ['Predict.', '#facc15', 0.15], ['Filter.', '#f472b6', 0.32]];
+  const words = W.map(([w, c]) => div('', w, $('#oc-w'), `font:900 84px/1 Inter;letter-spacing:-.03em;color:${c}`));
+  FV.scene('outro', (t, ctx) => {
+    enter($('#oc-cam'), t, 0.05, 0.4, 20);
+    B.forEach((b, i) => b.setAttribute('opacity', seg(t, 0.2 + i * 0.1, 0.4 + i * 0.1)));
+    words.forEach((w, i) => pop(w, t, frac(ctx, 0, W[i][2]), 0.4));
+    enter($('#oc-h'), t, frac(ctx, 0, 0.55), 0.45, 30);
+    pop($('#oc-gh'), t, frac(ctx, 0, 0.95), 0.5);
+  });
+}
+})();
+</script>
+</body>
+</html>
