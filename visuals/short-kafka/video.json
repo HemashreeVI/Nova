@@ -1,0 +1,39 @@
+{
+  "title": "How Apache Kafka Works in 60 Seconds ⚡ #shorts",
+  "slug": "short-kafka",
+  "format": "vertical",
+  "description": "Every ride, click and payment at companies like Uber, Netflix and LinkedIn becomes an event, and Kafka moves millions of them per second. Producers write events to topics; a topic is an append-only log split into partitions across brokers, each event gets an offset, and consumers read at their own pace. Consumer groups split partitions to scale, and because events are stored on disk and replicated, nothing is lost and old events can be replayed.\n\n📘 More to learn + my projects: https://github.com/HemashreeVI\n\n#Kafka #ApacheKafka #Backend #SystemDesign #DistributedSystems #TechExplained #shorts",
+  "tags": ["kafka", "apache kafka", "how kafka works", "kafka explained", "kafka tutorial", "kafka for beginners", "event streaming", "message queue", "kafka topics partitions", "kafka consumer group", "producer consumer", "system design", "distributed systems", "backend", "microservices", "tech explained", "shorts"],
+  "voice": "am_michael",
+  "speed": 1.1,
+  "lineGap": 0.25,
+  "captions": true,
+  "endCard": "📘 more to learn → github.com/HemashreeVI",
+  "thumbnail": "partitions@6.5",
+  "endHold": 0.3,
+  "pronounce": { "LinkedIn": "Linked In" },
+  "scenes": [
+    { "id": "hook", "pad": [0.3, 0.5], "lines": [
+      "Every ride, click, and payment at Uber, Netflix, and LinkedIn becomes an event.",
+      "Kafka moves millions of them every second. Here's how."
+    ]},
+    { "id": "problem", "pad": [0.3, 0.5], "lines": [
+      "Without it, every service talks directly to every other service. Add one more, and the wiring becomes a mess."
+    ]},
+    { "id": "topic", "pad": [0.3, 0.6], "lines": [
+      "With Kafka, producers just write events to a topic: an append-only log. Each event gets a number, called an offset."
+    ]},
+    { "id": "partitions", "pad": [0.3, 0.6], "lines": [
+      "To scale, a topic is split into partitions, spread across servers called brokers, so writes happen in parallel."
+    ]},
+    { "id": "consumers", "pad": [0.3, 0.6], "lines": [
+      "Consumers read from the log at their own pace. In a consumer group, each one takes its own partitions, to share the work."
+    ]},
+    { "id": "durable", "pad": [0.3, 0.6], "lines": [
+      "And events aren't deleted when they're read. They're stored and copied to other brokers, so if a server dies, nothing is lost, and you can replay the past."
+    ]},
+    { "id": "outro", "pad": [0.3, 2.4], "lines": [
+      "Write once. Read by many. That's Kafka."
+    ]}
+  ]
+}
