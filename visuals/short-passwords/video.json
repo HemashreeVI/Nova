@@ -1,0 +1,38 @@
+{
+  "title": "How Hackers Crack Passwords (and How to Stop Them) 🔐 #shorts",
+  "slug": "short-passwords",
+  "format": "vertical",
+  "description": "Good websites never store your actual password, so how do hackers still crack it? They steal password hashes in a breach, then make billions of guesses per second, starting with leaked password lists and common words, hashing each guess and looking for a match. Length is your best protection, salts and slow hashes make guessing expensive, and a password manager plus two-factor authentication keeps you safe.\n\nTimes shown are illustrative (random characters, fast hash, powerful GPU rig).\n\n📘 More to learn + my projects: https://github.com/HemashreeVI\n\n#CyberSecurity #Passwords #InfoSec #Hacking #TechExplained #shorts",
+  "tags": ["how passwords are cracked", "password cracking explained", "password hashing", "cybersecurity", "password security", "brute force attack", "dictionary attack", "salt and hash", "password manager", "two factor authentication", "data breach", "infosec", "ethical hacking", "tech explained", "shorts"],
+  "voice": "am_michael",
+  "speed": 1.1,
+  "lineGap": 0.25,
+  "captions": true,
+  "endCard": "📘 more to learn → github.com/HemashreeVI",
+  "thumbnail": "leak@7.6",
+  "endHold": 0.3,
+  "pronounce": { "password123": "password one two three", "qwerty": "kwerty" },
+  "scenes": [
+    { "id": "hook", "pad": [0.3, 0.5], "lines": [
+      "Good websites never store your actual password. So how do hackers still crack it?"
+    ]},
+    { "id": "hash", "pad": [0.3, 0.5], "lines": [
+      "Sites store a hash: a one-way scramble. password123 always becomes the same jumble, but it can't be reversed."
+    ]},
+    { "id": "leak", "pad": [0.3, 0.6], "lines": [
+      "When a site is breached, attackers steal those hashes. Then they guess, billions of times per second, hashing each guess, looking for a match."
+    ]},
+    { "id": "dict", "pad": [0.3, 0.5], "lines": [
+      "They start with leaked password lists and common words, like sunshine, qwerty, or your pet's name with a 1 on the end."
+    ]},
+    { "id": "length", "pad": [0.3, 0.6], "lines": [
+      "Length is what saves you. A random 8 character password can fall in hours. At 16, it could outlast the universe."
+    ]},
+    { "id": "defend", "pad": [0.3, 0.6], "lines": [
+      "So use long, unique passwords from a password manager, and turn on two-factor authentication."
+    ]},
+    { "id": "outro", "pad": [0.3, 2.4], "lines": [
+      "Hash. Guess. Compare. Now you know what you're up against."
+    ]}
+  ]
+}
