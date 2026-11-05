@@ -1,0 +1,43 @@
+[Script Info]
+ScriptType: v4.00+
+PlayResX: 1920
+PlayResY: 1080
+WrapStyle: 0
+
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: Top,Inter SemiBold,50,&H00FFFFFF,&H00FFFFFF,&H3A1C19,&H3A1C19,0,0,0,0,100,100,0,0,3,18,0,8,160,160,118,1
+Style: Cap,Inter SemiBold,50,&H00FFFFFF,&H00FFFFFF,&H3A1C19,&H3A1C19,0,0,0,0,100,100,0,0,3,18,0,2,160,160,64,1
+
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:00:00.60,0:00:03.93,Top,,0,0,0,,What if your GitHub could build your portfolio website for you?
+Dialogue: 0,0:00:04.38,0:00:05.32,Top,,0,0,0,,This is GitLoom.
+Dialogue: 0,0:00:05.32,0:00:07.60,Top,,0,0,0,,Every letter you type weaves a new row.
+Dialogue: 0,0:00:08.50,0:00:09.81,Cap,,0,0,0,,Give it a username,
+Dialogue: 0,0:00:09.81,0:00:11.89,Cap,,0,0,0,,and it reads the public repos,
+Dialogue: 0,0:00:11.89,0:00:13.49,Cap,,0,0,0,,languages and activity,
+Dialogue: 0,0:00:13.49,0:00:15.02,Cap,,0,0,0,,right in your browser.
+Dialogue: 0,0:00:15.02,0:00:15.78,Cap,,0,0,0,,No sign-up,
+Dialogue: 0,0:00:15.78,0:00:16.47,Cap,,0,0,0,,no server.
+Dialogue: 0,0:00:16.92,0:00:19.26,Cap,,0,0,0,,Here it is with the built-in demo profile.
+Dialogue: 0,0:00:20.16,0:00:21.42,Cap,,0,0,0,,Then make it yours.
+Dialogue: 0,0:00:21.42,0:00:22.35,Cap,,0,0,0,,Ten templates.
+Dialogue: 0,0:00:22.35,0:00:23.02,Cap,,0,0,0,,Same data,
+Dialogue: 0,0:00:23.02,0:00:24.87,Cap,,0,0,0,,a completely different look.
+Dialogue: 0,0:00:25.77,0:00:27.00,Cap,,0,0,0,,Any accent colour,
+Dialogue: 0,0:00:27.00,0:00:28.37,Cap,,0,0,0,,nine headline fonts,
+Dialogue: 0,0:00:29.07,0:00:32.28,Cap,,0,0,0,,and drag the sections into exactly the order you want.
+Dialogue: 0,0:00:33.18,0:00:35.50,Cap,,0,0,0,,Every template already has a phone layout.
+Dialogue: 0,0:00:36.40,0:00:38.43,Cap,,0,0,0,,And the site comes finished:
+Dialogue: 0,0:00:38.43,0:00:39.88,Cap,,0,0,0,,a Ctrl+K quick menu,
+Dialogue: 0,0:00:39.88,0:00:40.97,Cap,,0,0,0,,project search,
+Dialogue: 0,0:00:40.97,0:00:44.01,Cap,,0,0,0,,and a clean PDF résumé from the same data.
+Dialogue: 0,0:00:44.91,0:00:46.34,Cap,,0,0,0,,When it looks right,
+Dialogue: 0,0:00:46.34,0:00:47.99,Cap,,0,0,0,,download one HTML file,
+Dialogue: 0,0:00:47.99,0:00:50.34,Cap,,0,0,0,,and host it free on GitHub Pages.
+Dialogue: 0,0:00:51.34,0:00:51.91,Cap,,0,0,0,,GitLoom.
+Dialogue: 0,0:00:51.91,0:00:54.59,Cap,,0,0,0,,Vanilla JavaScript and the GitHub API,
+Dialogue: 0,0:00:54.59,0:00:55.51,Cap,,0,0,0,,nothing else.
+Dialogue: 0,0:00:55.95,0:00:57.75,Cap,,0,0,0,,Try it with your own username.
+Dialogue: 0,0:00:57.75,0:00:59.19,Cap,,0,0,0,,The link is in the post.

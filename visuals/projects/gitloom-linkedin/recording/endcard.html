@@ -1,0 +1,33 @@
+<!doctype html><html><head><meta charset="utf-8">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Geist:wght@400;500;600&family=Geist+Mono:wght@500&display=swap">
+<style>
+html,body{margin:0;width:1920px;height:1080px;overflow:hidden;background:#f3f4f8;font-family:Geist,sans-serif;color:#191c3a}
+.weave{position:absolute;right:0;top:0;width:820px;height:1080px;display:grid;grid-template-columns:repeat(14,1fr);gap:10px;padding:40px;box-sizing:border-box;opacity:.95}
+.weave i{display:block;height:22px;border-radius:4px}
+.wrap{position:absolute;left:140px;top:150px;width:980px}
+.logo{display:flex;align-items:center;gap:20px;font:800 54px 'Bricolage Grotesque';letter-spacing:-1px}
+.logo svg{width:72px;height:72px}
+h1{font:800 104px/0.98 'Bricolage Grotesque';letter-spacing:-4px;margin:56px 0 30px}
+p.sub{font-size:31px;line-height:1.45;color:#4b4f6b;margin:0 0 56px;width:900px}
+.links{display:grid;gap:22px}
+.l{display:flex;align-items:center;gap:22px;background:#fff;border:2px solid #191c3a;border-radius:16px;padding:20px 28px;width:max-content;box-shadow:6px 6px 0 #191c3a}
+.l b{font:600 22px Geist;letter-spacing:2px;color:#8a8ea8;width:92px}
+.l span{font:500 36px 'Geist Mono';color:#191c3a}
+.by{margin-top:52px;font-size:26px;color:#6b6f8a}
+</style></head><body>
+<div class="weave" id="w"></div>
+<div class="wrap">
+  <div class="logo"><svg viewBox="0 0 32 32"><rect width="32" height="32" rx="8" fill="#191c3a"/><path d="M9 7v18M16 7v18M23 7v18" stroke="#f3f4f6" stroke-width="2.5"/><path d="M6 13h20M6 19h20" stroke="#e3a72f" stroke-width="2.5"/></svg>GitLoom</div>
+  <h1>Your GitHub,<br>woven into a website.</h1>
+  <p class="sub">Ten templates, a live studio, one HTML file you can host free. No sign-up, no server.</p>
+  <div class="links">
+    <div class="l"><b>TRY IT</b><span>hemashreevi.github.io/GitLoom</span></div>
+    <div class="l"><b>CODE</b><span>github.com/HemashreeVI/GitLoom</span></div>
+  </div>
+  <div class="by">Built by Hemashree V. I. · HTML, CSS, vanilla JavaScript and the GitHub API</div>
+</div>
+<script>
+const C=['#3b5bdb','#91a7ff','#c8323c','#ff8787','#e3a72f','#ffd8a8','#191c3a','#dbe4ff'];
+let h='';for(let r=0;r<30;r++)for(let c=0;c<14;c++){const k=(r*3+c*5+(r%4)*c)%C.length;h+=`<i style="background:${C[k]};opacity:${(0.25+((r*7+c*11)%10)/13).toFixed(2)}"></i>`}
+document.getElementById('w').innerHTML=h;
+</script></body></html>
