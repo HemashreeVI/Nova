@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DSA 1 Big-O</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{--ink:#eef1f6;--mut:#94a0b6;--jo:#f89820;--jb:#5b9bd5;--grn:#34d399;--red:#f87171;--yel:#fbbf24;--pur:#a78bfa}
+  #fv-stage{background:radial-gradient(1000px 1300px at 70% 15%,#14234a 0%,#0c1226 50%,#070a14 80%);color:var(--ink);font-family:Inter,system-ui,sans-serif}
+  #bg-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(248,152,32,.1) 1px,transparent 1px),linear-gradient(90deg,rgba(248,152,32,.1) 1px,transparent 1px);background-size:90px 90px;opacity:.22}
+  .abs{position:absolute}
+  .step{position:absolute;left:0;right:0;top:250px;text-align:center;font:700 34px/1 'JetBrains Mono',monospace;letter-spacing:.2em;color:var(--jo)}
+  .head{position:absolute;left:60px;right:60px;top:305px;text-align:center;font:800 84px/1.05 Inter;letter-spacing:-.03em}
+  .panel{position:absolute;border:3px solid rgba(170,190,230,.22);border-radius:22px;background:rgba(10,14,28,.95)}
+  .mono{font-family:'JetBrains Mono',monospace}
+  .label{font:600 26px Inter;color:var(--mut)}
+  .badge{position:absolute;left:50%;top:150px;transform:translateX(-50%);padding:12px 26px;border-radius:40px;background:rgba(248,152,32,.12);border:2px solid rgba(248,152,32,.55);font:800 30px Inter;color:var(--jo);white-space:nowrap}
+  .pill{display:inline-block;padding:12px 26px;border-radius:40px;font:800 32px Inter}
+  .code{font:600 31px/1.5 'JetBrains Mono',monospace;white-space:pre;font-variant-ligatures:none;font-feature-settings:'liga' 0,'calt' 0}
+  .mono{font-variant-ligatures:none;font-feature-settings:'liga' 0,'calt' 0}
+  .code .k{color:#f89820}.code .ty{color:#5b9bd5}.code .n{color:#a78bfa}.code .c{color:#94a0b6}
+  .code .ln{display:block;border-radius:8px;padding:0 10px;margin:0 -10px}
+  .cell{width:96px;height:96px;border-radius:16px;border:3px solid rgba(170,190,230,.4);background:rgba(91,155,213,.1);display:flex;align-items:center;justify-content:center;font:800 40px 'JetBrains Mono';box-sizing:border-box;position:relative}
+  .cell small{position:absolute;bottom:-34px;font:700 20px 'JetBrains Mono';color:var(--mut)}
+  .ptr{position:absolute;font:900 30px 'JetBrains Mono';transform:translateX(-50%);text-align:center}
+  .fv-endcard{display:inline-block;padding:16px 30px;border-radius:40px;font:700 34px 'JetBrains Mono',monospace;border:3px solid #eef1f6;background:rgba(238,241,246,.08)}
+</style>
+</head>
+<body>
+<div id="fv-stage">
+  <div id="bg-grid"></div>
+  <div class="badge">☕ DSA in 60 Seconds · #1</div>
+
+  <!-- RACE -->
+  <section class="fv-scene" data-scene="race">
+    <div id="rc-n" class="abs" style="left:0;right:0;top:270px;text-align:center"><span class="pill mono" style="font-size:34px;border:3px solid var(--jb);background:rgba(91,155,213,.12)">int[] a · n = 1,000,000</span></div>
+    <div id="rc-a" class="panel" style="left:70px;right:70px;top:380px;height:270px;padding:22px 28px;box-sizing:border-box">
+      <div style="display:flex;justify-content:space-between;align-items:baseline"><span style="font:800 36px Inter">🐢 nested loops</span><span id="rc-at" class="mono" style="font-size:30px;font-weight:800;color:var(--red)"></span></div>
+      <div class="mono" style="font-size:24px;color:var(--mut);margin-top:6px">for i … for j … compare</div>
+      <div style="height:30px;border-radius:15px;background:rgba(170,190,230,.12);margin-top:22px;overflow:hidden"><div id="rc-ab" style="height:100%;background:var(--red)"></div></div>
+      <div id="rc-ac" class="mono" style="font-size:24px;color:var(--mut);margin-top:12px"></div>
+    </div>
+    <div id="rc-b" class="panel" style="left:70px;right:70px;top:680px;height:270px;padding:22px 28px;box-sizing:border-box;border-color:rgba(52,211,153,.55)">
+      <div style="display:flex;justify-content:space-between;align-items:baseline"><span style="font:800 36px Inter">⚡ HashSet</span><span id="rc-bt" class="mono" style="font-size:30px;font-weight:800;color:var(--grn)"></span></div>
+      <div class="mono" style="font-size:24px;color:var(--mut);margin-top:6px">for x … seen.add(x)</div>
+      <div style="height:30px;border-radius:15px;background:rgba(170,190,230,.12);margin-top:22px;overflow:hidden"><div id="rc-bb" style="height:100%;background:var(--grn)"></div></div>
+      <div id="rc-bc" class="mono" style="font-size:24px;color:var(--mut);margin-top:12px"></div>
+    </div>
+    <div id="rc-big" class="abs" style="left:0;right:0;top:1010px;text-align:center">
+      <div style="font:900 170px/1 Inter;letter-spacing:-.05em;color:#fff;text-shadow:0 0 60px rgba(248,152,32,.9)">Big-O</div>
+    </div>
+  </section>
+
+  <!-- WHAT -->
+  <section class="fv-scene" data-scene="what">
+    <div class="step">THE IDEA</div><div class="head">How work grows</div>
+    <div id="wh-p" class="panel" style="left:70px;right:70px;top:450px;height:720px"><svg id="wh-svg" width="934" height="714" style="position:absolute;inset:0"></svg></div>
+  </section>
+
+  <!-- NESTED -->
+  <section class="fv-scene" data-scene="nested">
+    <div class="step">THE SLOW WAY</div><div class="head">Nested loops</div>
+    <div id="ns-code" class="panel code" style="left:50px;right:50px;top:430px;padding:20px 26px;box-sizing:border-box"></div>
+    <div id="ns-arr" class="abs" style="left:76px;top:815px;display:flex;gap:20px"></div>
+    <div id="ns-ptr"></div>
+    <div id="ns-cnt" class="abs" style="left:0;right:0;top:1000px;text-align:center"></div>
+    <div id="ns-o" class="abs" style="left:0;right:0;top:1110px;text-align:center"></div>
+  </section>
+
+  <!-- HASHSET -->
+  <section class="fv-scene" data-scene="hashset">
+    <div class="step">THE FAST WAY</div><div class="head">One pass + HashSet</div>
+    <div id="hs-code" class="panel code" style="left:50px;right:50px;top:430px;padding:20px 26px;box-sizing:border-box"></div>
+    <div id="hs-arr" class="abs" style="left:76px;top:815px;display:flex;gap:20px"></div>
+    <div id="hs-ptr"></div>
+    <div id="hs-set" class="panel" style="left:70px;right:70px;top:975px;height:110px;display:flex;align-items:center;gap:14px;padding:0 24px;box-sizing:border-box;border-color:rgba(52,211,153,.5)"><span class="mono" style="font:800 26px 'JetBrains Mono';color:var(--grn);margin-right:8px">seen</span><span id="hs-items" class="mono" style="font-size:34px;font-weight:800"></span></div>
+    <div id="hs-o" class="abs" style="left:0;right:0;top:1115px;text-align:center"></div>
+  </section>
+
+  <!-- CHART -->
+  <section class="fv-scene" data-scene="chart">
+    <div class="step">CHEAT SHEET</div><div class="head">Common complexities</div>
+    <div id="ch-p" class="panel" style="left:70px;right:70px;top:440px;height:620px"><svg id="ch-svg" width="934" height="614" style="position:absolute;inset:0"></svg></div>
+    <div id="ch-rule" class="abs mono" style="left:0;right:0;top:1100px;text-align:center;font-size:44px;font-weight:800"></div>
+  </section>
+
+  <!-- OUTRO -->
+  <section class="fv-scene" data-scene="outro">
+    <div id="oc-cmp" class="abs" style="left:70px;right:70px;top:330px;display:flex;gap:24px"></div>
+    <div id="oc-h" class="abs" style="left:60px;right:60px;top:660px;text-align:center;font:800 56px/1.2 Inter">Brute force is the start.<br>Interviewers want <span style="color:var(--grn)">O(n)</span>.</div>
+    <div id="oc-next" class="abs" style="left:0;right:0;top:880px;text-align:center"><span class="pill" style="font-size:32px;border:3px solid var(--jo);background:rgba(248,152,32,.1)">▶ next: DSA #2 · Two Pointers</span></div>
+    <div id="oc-gh" class="abs" style="left:0;right:0;top:990px;text-align:center"><span class="fv-endcard"></span></div>
+  </section>
+</div>
+<script src="timing.js"></script>
+<script src="fv-runtime.js"></script>
+<script>
+(() => {
+const { seg, css, enter, lerp, clamp, ease, pulse, $ } = FV;
+const NS = 'http://www.w3.org/2000/svg';
+const svgEl = (tag, attrs, parent) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; };
+const div = (cls, html, parent, style) => { const e = document.createElement('div'); if (cls) e.className = cls; if (html !== undefined) e.innerHTML = html; if (style) e.style.cssText = style; if (parent) parent.appendChild(e); return e; };
+const pop = (el, t, a, d = 0.45) => { const p = seg(t, a, a + d, ease.back); css(el, { o: clamp(p * 1.5), s: Math.max(0, p) }); return p; };
+const head = (el, t) => { enter($('.step', el), t, 0.0, 0.4); enter($('.head', el), t, 0.08, 0.45, 30); };
+const frac = (ctx, i, f) => ctx.line(i) + (ctx.lineEnd(i) - ctx.line(i)) * f;
+const pill = (txt, c, fs = 32) => `<span class="pill" style="font-size:${fs}px;border:3px solid ${c};background:${c}1a">${txt}</span>`;
+const JO = '#f89820', JB = '#5b9bd5', GRN = '#34d399', RED = '#f87171', YEL = '#fbbf24', PUR = '#a78bfa';
+
+// tiny Java highlighter
+const KW = /\b(boolean|int|for|if|return|new|true|false)\b/g, TY = /\b(Set|Integer|HashSet)\b/g;
+const hl = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(TY, '<span class="ty">$1</span>').replace(KW, '<span class="k">$1</span>').replace(/\b(\d+)\b/g, '<span class="n">$1</span>');
+const code = (host, lines) => lines.map((l) => div('ln', hl(l) || ' ', host));
+const A = [4, 9, 2, 7, 5, 1, 7, 3];
+const arr = (host) => A.map((v, i) => div('cell', `${v}<small>${i}</small>`, host));
+const cellX = (i) => 76 + 48 + i * 116;   // centre x of cell i
+
+/* RACE */
+FV.scene('race', (t, ctx) => {
+  pop($('#rc-n'), t, 0.1, 0.4);
+  enter($('#rc-a'), t, 0.3, 0.4, 20); enter($('#rc-b'), t, 0.45, 0.4, 20);
+  const s0 = frac(ctx, 0, 0.3);
+  const pa = seg(t, s0, ctx.dur + 30, ease.linear) * 0.9;          // crawls, never finishes
+  const pb = seg(t, s0, s0 + 0.25, ease.out);
+  $('#rc-ab').style.width = `${pa * 100}%`; $('#rc-bb').style.width = `${pb * 100}%`;
+  const el = Math.max(0, t - s0);
+  $('#rc-at').textContent = t > s0 ? `${el.toFixed(1)} s… still running` : '';
+  $('#rc-bt').textContent = t > s0 ? (pb >= 1 ? '0.02 s ✓' : '…') : '';
+  $('#rc-ac').textContent = t > s0 ? `${Math.round(pa * 5e11).toLocaleString('en-US')} comparisons` : '';
+  $('#rc-bc').textContent = t > s0 ? `${Math.round(pb * 1e6).toLocaleString('en-US')} checks` : '';
+  $('#rc-b').style.boxShadow = `0 0 ${40 * pulse(t, s0 + 0.2, s0 + 1.8)}px rgba(52,211,153,.7)`;
+  pop($('#rc-big'), t, ctx.line(1), 0.5);
+});
+
+/* WHAT: work vs input size */
+{
+  const sv = $('#wh-svg'), L = 90, B = 640, Wd = 800, Hd = 540;
+  svgEl('line', { x1: L, y1: B, x2: L + Wd, y2: B, stroke: '#94a0b6', 'stroke-width': 4 }, sv);
+  svgEl('line', { x1: L, y1: B, x2: L, y2: B - Hd, stroke: '#94a0b6', 'stroke-width': 4 }, sv);
+  const tx = (x, y, s, c, sz = 28, an = 'start') => { const e = svgEl('text', { x, y, fill: c, 'font-size': sz, 'font-weight': 800, 'font-family': 'Inter', 'text-anchor': an }, sv); e.textContent = s; return e; };
+  tx(L + Wd, B + 46, 'input size (n) →', '#94a0b6', 26, 'end');
+  const yl = tx(L - 16, B - Hd - 16, 'work ↑', '#94a0b6', 26, 'start');
+  const lin = svgEl('polyline', { fill: 'none', stroke: GRN, 'stroke-width': 7, 'stroke-linecap': 'round' }, sv);
+  const quad = svgEl('polyline', { fill: 'none', stroke: RED, 'stroke-width': 7, 'stroke-linecap': 'round' }, sv);
+  const l1 = tx(0, 0, 'n', GRN, 40), l2 = tx(0, 0, 'n²', RED, 40);
+  const pts = (f, p) => { const o = []; for (let i = 0; i <= 60 * p; i++) { const u = i / 60; o.push(`${L + u * Wd},${B - f(u) * Hd}`); } return o.join(' '); };
+  FV.scene('what', (t, ctx) => {
+    head(ctx.el, t);
+    enter($('#wh-p'), t, 0.1, 0.4, 20);
+    const p = seg(t, frac(ctx, 0, 0.2), frac(ctx, 0, 0.75), ease.inOut);
+    lin.setAttribute('points', pts((u) => u * 0.45, p)); quad.setAttribute('points', pts((u) => u * u, p));
+    l1.setAttribute('x', L + p * Wd - 30); l1.setAttribute('y', B - p * 0.45 * Hd - 18);
+    l2.setAttribute('x', L + p * Wd - 60); l2.setAttribute('y', B - p * p * Hd + 50);
+    [l1, l2].forEach((l) => l.setAttribute('opacity', p > 0.2 ? 1 : 0));
+  });
+}
+
+/* NESTED */
+{
+  const lines = code($('#ns-code'), ['boolean hasDuplicate(int[] a) {', '  for (int i = 0; i < a.length; i++)', '    for (int j = i + 1; j < a.length; j++)', '      if (a[i] == a[j]) return true;', '  return false;', '}']);
+  const cells = arr($('#ns-arr'));
+  const pi = div('ptr', 'i', $('#ns-ptr'), 'top:762px;color:#f89820'), pj = div('ptr', 'j', $('#ns-ptr'), 'top:762px;color:#5b9bd5');
+  const pairs = []; for (let i = 0; i < 8; i++) for (let j = i + 1; j < 8; j++) { pairs.push([i, j]); if (A[i] === A[j]) { i = 99; break; } }
+  FV.scene('nested', (t, ctx) => {
+    head(ctx.el, t);
+    enter($('#ns-code'), t, 0.1, 0.4, 20);
+    cells.forEach((c, i) => enter(c, t, 0.3 + i * 0.04, 0.3, 14));
+    const s0 = frac(ctx, 0, 0.12), s1 = frac(ctx, 0, 0.55);
+    const k = Math.min(pairs.length - 1, Math.floor(seg(t, s0, s1, ease.linear) * pairs.length));
+    const [i, j] = pairs[k], found = k === pairs.length - 1 && t > s1 - 0.05;
+    const on = t > s0;
+    pi.style.left = `${cellX(i)}px`; pj.style.left = `${cellX(j)}px`;
+    pi.style.opacity = pj.style.opacity = on ? 1 : 0;
+    cells.forEach((c, x) => { c.style.borderColor = on && (x === i || x === j) ? (found ? GRN : x === i ? JO : JB) : ''; c.style.background = on && found && (x === i || x === j) ? 'rgba(52,211,153,.25)' : ''; });
+    lines.forEach((l, x) => (l.style.background = on && x === (found ? 3 : 2) ? 'rgba(248,152,32,.16)' : 'transparent'));
+    $('#ns-cnt').innerHTML = on ? pill(`${k + 1} comparisons${found ? ' · found 7 ✓' : ''}`, found ? GRN : JO, 30) : '';
+    const d = frac(ctx, 0, 0.6);
+    $('#ns-o').innerHTML = t < d ? '' : `<div>${pill('n = 8 → 64 &nbsp;·&nbsp; n = 16 → 256', RED, 28)}</div><div style="margin-top:16px;font:800 44px Inter">2× input → <span style="color:${RED}">4× work</span> → <span class="mono" style="color:${RED}">O(n²)</span></div>`;
+    $('#ns-o').style.opacity = seg(t, d, d + 0.3);
+  });
+}
+
+/* HASHSET */
+{
+  const lines = code($('#hs-code'), ['boolean hasDuplicate(int[] a) {', '  Set<Integer> seen = new HashSet<>();', '  for (int x : a)', '    if (!seen.add(x)) return true;', '  return false;', '}']);
+  const cells = arr($('#hs-arr'));
+  const px = div('ptr', 'x', $('#hs-ptr'), 'top:762px;color:#34d399');
+  FV.scene('hashset', (t, ctx) => {
+    head(ctx.el, t);
+    enter($('#hs-code'), t, 0.1, 0.4, 20);
+    cells.forEach((c, i) => enter(c, t, 0.3 + i * 0.04, 0.3, 14));
+    enter($('#hs-set'), t, frac(ctx, 0, 0.1), 0.4, 20);
+    const s0 = frac(ctx, 0, 0.12), s1 = frac(ctx, 0, 0.5);
+    const k = Math.min(6, Math.floor(seg(t, s0, s1, ease.linear) * 7));
+    const on = t > s0, found = k === 6 && t > s1 - 0.05;
+    px.style.left = `${cellX(k)}px`; px.style.opacity = on ? 1 : 0;
+    cells.forEach((c, x) => { c.style.borderColor = on && x === k ? (found ? GRN : GRN) : ''; c.style.background = on && x < k ? 'rgba(52,211,153,.1)' : on && found && (x === 6 || x === 3) ? 'rgba(52,211,153,.3)' : ''; });
+    const seen = on ? A.slice(0, found ? 6 : k + 1) : [];
+    $('#hs-items').innerHTML = `{ ${seen.map((v) => (found && v === 7 ? `<span style="color:${GRN};text-decoration:underline">${v}</span>` : v)).join(', ')} }${found ? `&nbsp; <span style="color:${GRN}">7 already seen ✓</span>` : ''}`;
+    lines.forEach((l, x) => (l.style.background = on && x === (found ? 3 : 2) ? 'rgba(52,211,153,.16)' : 'transparent'));
+    const d = frac(ctx, 0, 0.58);
+    $('#hs-o').innerHTML = `<div>${pill('each lookup: O(1)', GRN, 28)}</div><div style="margin-top:16px;font:800 44px Inter">one pass → <span class="mono" style="color:${GRN}">O(n)</span></div>`;
+    $('#hs-o').style.opacity = seg(t, d, d + 0.3);
+  });
+}
+
+/* CHART */
+{
+  const sv = $('#ch-svg'), L = 70, B = 560, Wd = 640, Hd = 480;
+  svgEl('line', { x1: L, y1: B, x2: L + Wd, y2: B, stroke: '#94a0b6', 'stroke-width': 4 }, sv);
+  svgEl('line', { x1: L, y1: B, x2: L, y2: B - Hd, stroke: '#94a0b6', 'stroke-width': 4 }, sv);
+  const C = [['O(1)', GRN, () => 0.05, 0.1], ['O(log n)', '#86efac', (u) => 0.05 + 0.13 * Math.log2(1 + 7 * u) / 3, 0.22], ['O(n)', YEL, (u) => 0.05 + 0.4 * u, 0.37], ['O(n log n)', JO, (u) => 0.05 + 0.62 * u * Math.log2(1 + 7 * u) / 3, 0.52], ['O(n²)', RED, (u) => 0.05 + 0.95 * u * u, 0.66]];
+  const curves = C.map(([n, c, f]) => {
+    const pts = []; for (let i = 0; i <= 50; i++) { const u = i / 50; pts.push(`${L + u * Wd},${B - Math.min(1, f(u)) * Hd}`); }
+    const pl = svgEl('polyline', { points: pts.join(' '), fill: 'none', stroke: c, 'stroke-width': 7, 'stroke-linecap': 'round' }, sv);
+    const len = pl.getTotalLength(); pl.setAttribute('stroke-dasharray', len);
+    const lb = svgEl('text', { x: L + Wd + 18, y: B - Math.min(1, f(1)) * Hd + 10, fill: c, 'font-size': 30, 'font-weight': 800, 'font-family': 'JetBrains Mono' }, sv); lb.textContent = n;
+    return { pl, len, lb };
+  });
+  FV.scene('chart', (t, ctx) => {
+    head(ctx.el, t);
+    enter($('#ch-p'), t, 0.1, 0.4, 20);
+    curves.forEach((c, i) => { const a = frac(ctx, 0, C[i][3]) - 0.4; const p = seg(t, a, a + 0.7, ease.out); c.pl.setAttribute('stroke-dashoffset', c.len * (1 - p)); c.lb.setAttribute('opacity', seg(t, a + 0.4, a + 0.7)); });
+    const r = frac(ctx, 0, 0.74), s = seg(t, r + 0.6, r + 1.4);
+    $('#ch-rule').innerHTML = `<span style="color:${s > 0.5 ? '#94a0b6' : '#eef1f6'}">${s > 0.5 ? '<s>3n² + 5n + 2</s>' : '3n² + 5n + 2'}</span> → <span style="color:${RED};opacity:${s}">O(n²)</span>`;
+    $('#ch-rule').style.opacity = seg(t, r, r + 0.3);
+  });
+}
+
+/* OUTRO */
+{
+  const host = $('#oc-cmp');
+  const mk = (ic, n, o, c, st) => div('', `<div style="font-size:54px">${ic}</div><div style="font:800 34px Inter;margin-top:6px">${n}</div><div class="mono" style="font:900 56px 'JetBrains Mono';color:${c};margin-top:6px">${o}</div><div class="mono" style="font-size:22px;color:#94a0b6;margin-top:6px">${st}</div>`, host,
+    `flex:1;text-align:center;padding:26px 10px;border-radius:24px;border:3px solid ${c}99;background:${c}14`);
+  const a = mk('🐢', 'Nested loops', 'O(n²)', RED, '~5×10¹¹ steps'), b = mk('⚡', 'HashSet', 'O(n)', GRN, '~10⁶ steps');
+  FV.scene('outro', (t, ctx) => {
+    enter(a, t, 0.1, 0.4, 20); enter(b, t, 0.25, 0.4, 20);
+    b.style.boxShadow = `0 0 ${40 * pulse(t, frac(ctx, 0, 0.4), frac(ctx, 0, 0.8))}px rgba(52,211,153,.7)`;
+    enter($('#oc-h'), t, frac(ctx, 0, 0.05), 0.45, 30);
+    pop($('#oc-next'), t, frac(ctx, 0, 0.7), 0.45);
+    pop($('#oc-gh'), t, frac(ctx, 0, 0.9), 0.5);
+  });
+}
+})();
+</script>
+</body>
+</html>
