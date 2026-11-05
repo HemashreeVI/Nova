@@ -1,0 +1,104 @@
+{
+  "title": "How Encryption Works: the 🔒 Padlock Explained in 60 Seconds #shorts",
+  "slug": "short-encryption",
+  "format": "vertical",
+  "description": "Every message you send passes through dozens of computers you don't control, yet none of them can read it. Encryption scrambles data with a key so only someone with the right key can unscramble it. Symmetric encryption (like AES) uses one shared key; public-key encryption uses a public lock and a private key, which solves how to share that key with a stranger. HTTPS combines both: a quick public-key handshake agrees on a secret key, then everything is encrypted with it.\n\n📘 More to learn + my projects: https://github.com/HemashreeVI\n\n#CyberSecurity #Encryption #HTTPS #InfoSec #Cryptography #TechExplained #shorts",
+  "tags": [
+    "how encryption works",
+    "encryption explained",
+    "what is encryption",
+    "https explained",
+    "ssl tls",
+    "public key cryptography",
+    "private key",
+    "symmetric encryption",
+    "asymmetric encryption",
+    "aes",
+    "rsa",
+    "end to end encryption",
+    "cybersecurity",
+    "cryptography",
+    "tech explained",
+    "shorts"
+  ],
+  "voice": "am_michael",
+  "speed": 1.1,
+  "lineGap": 0.25,
+  "captions": true,
+  "endCard": "📘 more to learn → github.com/HemashreeVI",
+  "thumbnail": "scramble@5.5",
+  "endHold": 0.3,
+  "scenes": [
+    {
+      "id": "hook",
+      "pad": [
+        0.3,
+        0.5
+      ],
+      "lines": [
+        "Your messages pass through dozens of computers you don't control.",
+        "So why can't they read them? Encryption."
+      ]
+    },
+    {
+      "id": "scramble",
+      "pad": [
+        0.3,
+        0.6
+      ],
+      "lines": [
+        "Encryption scrambles data using a key. Without the key, the message is just noise. With the key, it unscrambles perfectly."
+      ]
+    },
+    {
+      "id": "symmetric",
+      "pad": [
+        0.3,
+        0.5
+      ],
+      "lines": [
+        "The simplest kind uses one shared key to lock and unlock. Fast, but how do you safely share that key with a stranger?"
+      ]
+    },
+    {
+      "id": "public",
+      "pad": [
+        0.3,
+        0.6
+      ],
+      "lines": [
+        "Public-key encryption solves that. You hand out an open padlock that anyone can snap shut, but only your private key can open it."
+      ]
+    },
+    {
+      "id": "https",
+      "pad": [
+        0.3,
+        0.6
+      ],
+      "lines": [
+        "HTTPS uses both. A quick handshake with public keys agrees on a secret key, then everything after is encrypted with it, fast."
+      ]
+    },
+    {
+      "id": "strength",
+      "pad": [
+        0.3,
+        0.6
+      ],
+      "lines": [
+        "And modern keys are huge. Guessing one by brute force would take longer than the age of the universe."
+      ]
+    },
+    {
+      "id": "outro",
+      "pad": [
+        0.3,
+        2.4
+      ],
+      "lines": [
+        "Scramble with a key. Share it safely. That's the padlock in your browser."
+      ]
+    }
+  ]
+}
