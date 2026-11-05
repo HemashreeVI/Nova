@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cookies Short</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{--ink:#f3ece4;--mut:#a89b8c;--ck:#f59e0b;--ck2:#d97706;--grn:#34d399;--red:#f87171;--blu:#60a5fa;--pur:#a78bfa;--pink:#f472b6}
+  #fv-stage{background:radial-gradient(1000px 1300px at 70% 15%,#3d2a12 0%,#1c140d 50%,#0c0a08 80%);color:var(--ink);font-family:Inter,system-ui,sans-serif}
+  #bg-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(245,158,11,.12) 1px,transparent 1px),linear-gradient(90deg,rgba(245,158,11,.12) 1px,transparent 1px);background-size:90px 90px;opacity:.22}
+  .abs{position:absolute}
+  .step{position:absolute;left:0;right:0;top:250px;text-align:center;font:700 34px/1 'JetBrains Mono',monospace;letter-spacing:.2em;color:var(--ck)}
+  .head{position:absolute;left:60px;right:60px;top:305px;text-align:center;font:800 84px/1.05 Inter;letter-spacing:-.03em}
+  .panel{position:absolute;border:3px solid rgba(230,200,160,.25);border-radius:28px;background:rgba(28,20,14,.92)}
+  .mono{font-family:'JetBrains Mono',monospace}
+  .label{font:600 30px Inter;color:var(--mut)}
+  .badge{position:absolute;left:50%;top:150px;transform:translateX(-50%);padding:12px 26px;border-radius:40px;background:rgba(245,158,11,.12);border:2px solid rgba(245,158,11,.5);font:700 30px Inter;color:var(--ck);white-space:nowrap}
+  .pill{display:inline-block;padding:12px 28px;border-radius:40px;font:800 40px Inter}
+  .box{position:absolute;border-radius:26px;border:3px solid var(--c);background:color-mix(in srgb,var(--c) 12%,#1a130c);box-sizing:border-box;display:flex;flex-direction:column;align-items:center;justify-content:center}
+  .box .ic{font-size:64px;line-height:1}.box .nm{font:800 38px Inter;margin-top:8px}
+  .tok{position:absolute;padding:12px 20px;border-radius:16px;font:800 30px 'JetBrains Mono';white-space:nowrap;border:3px solid var(--c);background:color-mix(in srgb,var(--c) 22%,#1a130c)}
+  .field{height:84px;border-radius:16px;border:2px solid rgba(230,200,160,.3);background:#120d09;display:flex;align-items:center;padding:0 24px;font:600 36px Inter;margin-top:18px}
+  .line{font:600 34px 'JetBrains Mono';margin-top:14px}
+  .fv-endcard{display:inline-block;padding:12px 28px;border-radius:40px;font:700 32px 'JetBrains Mono',monospace;border:3px solid #f3ece4;background:rgba(243,236,228,.08)}
+</style>
+</head>
+<body>
+<div id="fv-stage">
+  <div id="bg-grid"></div>
+  <div class="badge">Tech, decoded</div>
+
+  <!-- HOOK -->
+  <section class="fv-scene" data-scene="hook">
+    <div id="hk-br" class="panel" style="left:90px;right:90px;top:430px;height:500px;overflow:hidden">
+      <div style="height:70px;background:#2a1f16;display:flex;align-items:center;gap:12px;padding:0 26px">
+        <i style="width:16px;height:16px;border-radius:50%;background:#f87171"></i><i style="width:16px;height:16px;border-radius:50%;background:#fbbf24"></i><i style="width:16px;height:16px;border-radius:50%;background:#34d399"></i>
+        <span class="mono" style="margin-left:18px;font-size:28px;color:var(--mut)">🔒 shop.example.com</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:30px;padding:60px 50px 0">
+        <div style="width:130px;height:130px;border-radius:50%;background:linear-gradient(135deg,#f59e0b,#f472b6);display:flex;align-items:center;justify-content:center;font:800 60px Inter">H</div>
+        <div><div style="font:800 64px Inter">Welcome back! 👋</div><div id="hk-days" class="mono" style="font-size:34px;color:var(--grn);margin-top:12px"></div></div>
+      </div>
+      <div id="hk-how" style="position:absolute;right:50px;bottom:40px;font:900 80px Inter;color:var(--ck)">How?</div>
+    </div>
+    <div id="hk-ck" class="abs" style="left:0;right:0;top:990px;display:flex;justify-content:center;align-items:center;gap:30px">
+      <div id="hk-emoji" style="font-size:200px;line-height:1">🍪</div>
+      <div style="font:900 130px/1 Inter;letter-spacing:-.04em;color:var(--ck)">Cookies</div>
+    </div>
+  </section>
+
+  <!-- PROBLEM -->
+  <section class="fv-scene" data-scene="problem">
+    <div class="step">THE PROBLEM</div><div class="head">The web forgets</div>
+    <div id="pb-pill" class="abs" style="left:0;right:0;top:450px;text-align:center"><span class="pill mono" style="font-size:34px;border:3px solid var(--red);color:var(--red);background:rgba(248,113,113,.1)">HTTP is stateless</span></div>
+    <div id="pb-b" class="box" style="--c:var(--blu);left:70px;top:560px;width:330px;height:190px"><div class="ic">🌐</div><div class="nm">Browser</div></div>
+    <div id="pb-s" class="box" style="--c:var(--ck);left:680px;top:560px;width:330px;height:190px"><div class="ic">🖥️</div><div class="nm">Server</div></div>
+    <div id="pb-rows"></div>
+  </section>
+
+  <!-- LOGIN -->
+  <section class="fv-scene" data-scene="login">
+    <div class="step">STEP 1</div><div class="head">You log in</div>
+    <div id="lg-form" class="panel" style="left:110px;right:110px;top:440px;padding:26px 36px 30px;box-sizing:border-box">
+      <div class="field"><span class="mut" style="color:var(--mut);margin-right:16px">✉️</span><span id="lg-em"></span></div>
+      <div class="field"><span style="margin-right:16px">🔑</span><span id="lg-pw" class="mono" style="letter-spacing:6px"></span></div>
+      <div id="lg-btn" style="margin-top:22px;height:84px;border-radius:16px;background:var(--ck);color:#1a1000;display:flex;align-items:center;justify-content:center;font:800 38px Inter">Log in</div>
+    </div>
+    <div id="lg-srv" class="panel" style="left:70px;right:70px;top:860px;padding:26px 34px;box-sizing:border-box;border-color:var(--ck)">
+      <div class="label" style="color:var(--ck)">🖥️ server checks</div>
+      <div id="lg-l1" class="line">hash(password) = <span style="color:var(--pur)">5e88…a9f2</span></div>
+      <div id="lg-l2" class="line">stored hash&nbsp;&nbsp;&nbsp;&nbsp;= <span style="color:var(--pur)">5e88…a9f2</span> <span style="color:var(--grn)">✓</span></div>
+      <div id="lg-l3" class="line"><s style="color:var(--red)">plain-text password</s> <span style="color:var(--grn)">→ never stored 🔒</span></div>
+    </div>
+  </section>
+
+  <!-- SESSION -->
+  <section class="fv-scene" data-scene="session">
+    <div class="step">STEP 2</div><div class="head">A session starts</div>
+    <div id="ss-srv" class="panel" style="left:90px;right:90px;top:450px;height:300px;padding:26px 34px;box-sizing:border-box;border-color:var(--ck)">
+      <div class="label" style="color:var(--ck)">🖥️ server · active sessions</div>
+      <div id="ss-row" class="mono" style="margin-top:26px;font-size:38px;font-weight:700;padding:16px 20px;border-radius:14px;background:rgba(245,158,11,.14)">a9f3c2 → user 42 ✓</div>
+      <div class="mono" style="margin-top:12px;font-size:28px;color:var(--mut);padding:0 20px">7bd1e0 → user 17</div>
+    </div>
+    <div id="ss-ck" class="tok" style="--c:var(--ck);left:0;top:0">🍪 Set-Cookie: session=a9f3c2</div>
+    <div id="ss-br" class="box" style="--c:var(--blu);left:190px;top:1040px;width:700px;height:200px"><div class="nm" style="margin:0">🌐 Browser · cookie jar</div><div id="ss-jar" class="mono" style="font-size:32px;margin-top:14px;color:var(--ck)"></div></div>
+    <div id="ss-id" class="abs mono" style="left:0;right:0;top:960px;text-align:center;font-size:30px;font-weight:700;color:var(--pink)">random ID: impossible to guess</div>
+  </section>
+
+  <!-- COOKIE ON EVERY REQUEST -->
+  <section class="fv-scene" data-scene="cookie">
+    <div class="step">STEP 3</div><div class="head">Every request</div>
+    <div id="ck-br" class="box" style="--c:var(--blu);left:240px;top:450px;width:600px;height:170px;flex-direction:row;gap:20px"><div class="ic">🌐</div><div class="nm" style="margin:0">Browser 🍪</div></div>
+    <div id="ck-srv" class="box" style="--c:var(--ck);left:240px;top:1060px;width:600px;height:190px"><div class="nm" style="margin:0">🖥️ Server</div><div id="ck-ok" class="mono" style="font-size:32px;color:var(--grn);margin-top:12px;height:40px"></div></div>
+    <div id="ck-reqs"></div>
+  </section>
+
+  <!-- SECURITY -->
+  <section class="fv-scene" data-scene="security">
+    <div class="step">STAYING SAFE</div><div class="head">Protected cookies</div>
+    <div id="sc-ck" class="panel" style="left:90px;right:90px;top:450px;height:210px;padding:26px 34px;box-sizing:border-box;border-color:var(--ck)">
+      <div class="mono" style="font-size:40px;font-weight:700">🍪 session=a9f3c2</div>
+      <div style="display:flex;gap:16px;margin-top:22px">
+        <span id="sc-f1" class="pill mono" style="font-size:30px;border:3px solid var(--grn);color:var(--grn);background:rgba(52,211,153,.12)">HttpOnly</span>
+        <span id="sc-f2" class="pill mono" style="font-size:30px;border:3px solid var(--blu);color:var(--blu);background:rgba(96,165,250,.12)">Secure</span>
+      </div>
+    </div>
+    <div id="sc-a" class="panel" style="left:90px;right:90px;top:710px;height:230px;padding:24px 34px;box-sizing:border-box">
+      <div class="label">HttpOnly: scripts can't read it</div>
+      <div style="display:flex;align-items:center;gap:20px;margin-top:20px"><span style="font-size:60px">😈</span><span class="mono" style="font-size:32px">document.cookie</span><span id="sc-blk" style="margin-left:auto;font:800 36px Inter;color:var(--grn)">🛡️ blocked</span></div>
+    </div>
+    <div id="sc-b" class="panel" style="left:90px;right:90px;top:980px;height:250px;padding:24px 34px;box-sizing:border-box">
+      <div class="label">Secure: only over HTTPS</div>
+      <div class="mono" style="font-size:34px;margin-top:20px"><span style="color:var(--red)">http://</span> → not sent ✗</div>
+      <div class="mono" style="font-size:34px;margin-top:12px"><span style="color:var(--grn)">https://</span> → sent ✓</div>
+    </div>
+  </section>
+
+  <!-- OTHER USES -->
+  <section class="fv-scene" data-scene="other">
+    <div class="step">BEYOND LOGIN</div><div class="head">Other cookies</div>
+    <div id="ot-list" class="abs" style="left:90px;right:90px;top:450px;display:flex;flex-direction:column;gap:22px"></div>
+    <div id="ot-ban" class="panel" style="left:60px;right:60px;top:1010px;height:230px;padding:26px 34px;box-sizing:border-box;background:#f3ece4;color:#1c140d;border-color:#f3ece4">
+      <div style="font:800 40px Inter">🍪 We use cookies</div>
+      <div style="display:flex;gap:18px;margin-top:28px">
+        <span class="pill" style="font-size:32px;background:#1c140d;color:#f3ece4">Accept all</span>
+        <span class="pill" style="font-size:32px;border:3px solid #1c140d">Reject</span>
+        <span class="pill" style="font-size:32px;border:3px solid #1c140d">Settings</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- OUTRO -->
+  <section class="fv-scene" data-scene="outro">
+    <div id="oc-h" class="abs" style="left:60px;right:60px;top:290px;text-align:center;font:900 86px/1.08 Inter;letter-spacing:-.035em">Log in once.<br><span style="color:var(--ck)">Stay remembered.</span></div>
+    <div id="oc-list" class="abs" style="left:0;right:0;top:560px;display:flex;flex-direction:column;align-items:center;gap:8px"></div>
+    <div id="oc-gh" class="abs" style="left:0;right:0;top:1112px;text-align:center"><span class="fv-endcard"></span></div>
+    <div id="oc-cta" class="abs" style="left:0;right:0;top:1206px;text-align:center"><span class="pill" style="background:var(--ck);color:#1a1000;font-size:52px;padding:16px 38px">Follow · Tech, Decoded</span></div>
+  </section>
+</div>
+<script src="timing.js"></script>
+<script src="fv-runtime.js"></script>
+<script>
+(() => {
+const { seg, css, enter, lerp, clamp, ease, pulse, $ } = FV;
+const div = (cls, html, parent, style) => { const e = document.createElement('div'); if (cls) e.className = cls; if (html !== undefined) e.innerHTML = html; if (style) e.style.cssText = style; if (parent) parent.appendChild(e); return e; };
+const pop = (el, t, a, d = 0.45) => { const p = seg(t, a, a + d, ease.back); css(el, { o: clamp(p * 1.5), s: Math.max(0, p) }); return p; };
+const head = (el, t) => { enter($('.step', el), t, 0.0, 0.4); enter($('.head', el), t, 0.08, 0.45, 30); };
+const frac = (ctx, i, f) => ctx.line(i) + (ctx.lineEnd(i) - ctx.line(i)) * f;
+const at = (el, x, y, o = 1, s = 1) => css(el, { o, x: x - el.offsetWidth / 2, y: y - el.offsetHeight / 2, s });
+const CK = '#f59e0b', GRN = '#34d399', RED = '#f87171', BLU = '#60a5fa', PUR = '#a78bfa', PINK = '#f472b6';
+
+/* HOOK */
+FV.scene('hook', (t, ctx) => {
+  enter($('#hk-br'), t, 0.1, 0.45, 40);
+  const d = Math.max(1, Math.round(30 * seg(t, frac(ctx, 0, 0.35), frac(ctx, 0, 0.8), ease.inOut)));
+  $('#hk-days').textContent = `signed in · day ${d}`;
+  pop($('#hk-how'), t, frac(ctx, 0, 0.88), 0.4);
+  const k = ctx.line(1) - 0.1;
+  pop($('#hk-ck'), t, k, 0.55);
+  css($('#hk-emoji'), { r: Math.sin(t * 3) * 8 * seg(t, k, k + 0.5) });
+});
+
+/* PROBLEM */
+{
+  const host = $('#pb-rows');
+  const rows = [1, 2, 3].map((n, i) => {
+    const y = 820 + i * 150;
+    const arr = div('', `<span class="mono" style="font-size:30px;color:${BLU}">request ${n} →</span>`, host, `position:absolute;left:90px;top:${y}px`);
+    const q = div('', '❓ who are you?', host, `position:absolute;right:80px;top:${y - 8}px;padding:10px 20px;border-radius:20px;background:rgba(248,113,113,.14);border:3px solid ${RED};font:800 32px Inter`);
+    return { arr, q };
+  });
+  FV.scene('problem', (t, ctx) => {
+    head(ctx.el, t);
+    pop($('#pb-pill'), t, frac(ctx, 0, 0.1), 0.4);
+    enter($('#pb-b'), t, 0.2, 0.4); enter($('#pb-s'), t, 0.3, 0.4);
+    rows.forEach((r, i) => {
+      const a = frac(ctx, 0, 0.35 + i * 0.18);
+      const p = seg(t, a, a + 0.5, ease.out);
+      css(r.arr, { o: p, x: (1 - p) * -60 });
+      pop(r.q, t, a + 0.35, 0.35);
+    });
+  });
+}
+
+/* LOGIN */
+FV.scene('login', (t, ctx) => {
+  head(ctx.el, t);
+  enter($('#lg-form'), t, 0.1, 0.4);
+  $('#lg-em').textContent = FV.type('you@example.com', seg(t, 0.3, 1.0, ease.linear));
+  $('#lg-pw').textContent = '•'.repeat(Math.round(10 * seg(t, 1.0, 1.5, ease.linear)));
+  const pr = frac(ctx, 0, 0.2);
+  css($('#lg-btn'), { s: 1 - 0.05 * pulse(t, pr, pr + 0.3) });
+  enter($('#lg-srv'), t, frac(ctx, 0, 0.25), 0.4, 30);
+  enter($('#lg-l1'), t, frac(ctx, 0, 0.35), 0.35, 14);
+  enter($('#lg-l2'), t, frac(ctx, 0, 0.52), 0.35, 14);
+  $('#lg-srv').style.boxShadow = `0 0 ${40 * pulse(t, frac(ctx, 0, 0.6), frac(ctx, 0, 0.6) + 1.2)}px rgba(52,211,153,.8)`;
+  enter($('#lg-l3'), t, frac(ctx, 0, 0.84), 0.35, 14);
+});
+
+/* SESSION */
+FV.scene('session', (t, ctx) => {
+  head(ctx.el, t);
+  enter($('#ss-srv'), t, 0.1, 0.4);
+  const r = frac(ctx, 0, 0.2);
+  const rp = seg(t, r, r + 0.4, ease.back);
+  css($('#ss-row'), { o: clamp(rp * 1.5), x: (1 - rp) * 80 });
+  $('#ss-row').style.boxShadow = `0 0 ${40 * pulse(t, r, r + 1.2)}px rgba(245,158,11,.8)`;
+  enter($('#ss-br'), t, 0.4, 0.4);
+  const c0 = frac(ctx, 0, 0.45), c1 = frac(ctx, 0, 0.75);
+  const p = seg(t, c0, c1, ease.inOut);
+  at($('#ss-ck'), 540, lerp(760, 1080, p), seg(t, c0 - 0.15, c0) * (1 - seg(t, c1 - 0.1, c1)));
+  $('#ss-jar').textContent = t > c1 - 0.05 ? '🍪 session=a9f3c2' : '(empty)';
+  pop($('#ss-id'), t, frac(ctx, 0, 0.8), 0.4);
+});
+
+/* COOKIE ON EVERY REQUEST */
+{
+  const host = $('#ck-reqs');
+  const reqs = ['GET /cart', 'GET /orders', 'POST /checkout'].map((r) => div('tok', `🍪 ${r}`, host, `--c:${CK};left:0;top:0`));
+  FV.scene('cookie', (t, ctx) => {
+    head(ctx.el, t);
+    enter($('#ck-br'), t, 0.1, 0.4); enter($('#ck-srv'), t, 0.2, 0.4);
+    reqs.forEach((r, i) => {
+      const a = frac(ctx, 0, 0.05 + i * 0.17), b = a + 1.1;
+      const p = seg(t, a, b, ease.inOut);
+      at(r, 540 + [-200, 0, 200][i] * Math.sin(p * Math.PI) * 0.6, lerp(640, 1040, p), seg(t, a, a + 0.15) * (1 - seg(t, b - 0.15, b)));
+    });
+    const s = frac(ctx, 0, 0.6);
+    $('#ck-ok').textContent = t > s ? '✓ it\'s you: user 42' : '';
+    $('#ck-srv').style.boxShadow = `0 0 ${50 * pulse(t, frac(ctx, 0, 0.78), frac(ctx, 0, 0.78) + 1.3)}px rgba(52,211,153,.9)`;
+  });
+}
+
+/* SECURITY */
+FV.scene('security', (t, ctx) => {
+  head(ctx.el, t);
+  enter($('#sc-ck'), t, 0.1, 0.4);
+  pop($('#sc-f1'), t, frac(ctx, 0, 0.22), 0.4);
+  enter($('#sc-a'), t, frac(ctx, 0, 0.27), 0.4, 30);
+  pop($('#sc-blk'), t, frac(ctx, 0, 0.42), 0.4);
+  pop($('#sc-f2'), t, frac(ctx, 0, 0.56), 0.4);
+  enter($('#sc-b'), t, frac(ctx, 0, 0.62), 0.4, 30);
+});
+
+/* OTHER */
+{
+  const L = [['🛒', 'your cart', '3 items saved', CK], ['🌐', 'your language', 'English', BLU], ['👁️', 'tracking', 'ad networks follow you across sites', PINK]];
+  const items = L.map(([ic, a, b, c]) => div('', `<span style="font-size:56px">${ic}</span><div><div style="font:800 40px Inter">${a}</div><div style="font:600 28px Inter;color:#a89b8c;margin-top:4px">${b}</div></div>`, $('#ot-list'),
+    `display:flex;align-items:center;gap:26px;padding:18px 30px;border-radius:24px;border:3px solid ${c}99;background:${c}1a`));
+  const when = [0.16, 0.3, 0.45];
+  FV.scene('other', (t, ctx) => {
+    head(ctx.el, t);
+    items.forEach((e, i) => { const a = frac(ctx, 0, when[i]) - 0.2; const p = seg(t, a, a + 0.4, ease.back); css(e, { o: clamp(p * 1.5), x: (1 - p) * -100 }); });
+    const b = frac(ctx, 0, 0.72);
+    const p = seg(t, b, b + 0.5, ease.out);
+    css($('#ot-ban'), { o: p, y: (1 - p) * 200 });
+  });
+}
+
+/* OUTRO */
+{
+  const steps = [['🔑 Log in', 'password checked by hash', CK], ['🗂️ Session', 'server remembers you', PUR], ['🍪 Cookie', 'sent with every request', GRN]];
+  const items = [];
+  steps.forEach(([a, b, c], i) => {
+    items.push(div('', `<span style="font:800 46px Inter;width:340px">${a}</span><span style="font:600 30px Inter;color:#a89b8c">${b}</span>`, $('#oc-list'),
+      `display:flex;align-items:center;padding:16px 34px;border-radius:22px;border:3px solid ${c}99;background:${c}1f;width:880px;box-sizing:border-box`));
+    if (i < steps.length - 1) items.push(div('', '↓', $('#oc-list'), 'font:700 34px Inter;color:#a89b8c;height:40px;line-height:40px'));
+  });
+  FV.scene('outro', (t, ctx) => {
+    pop($('#oc-h'), t, 0.05, 0.5);
+    items.forEach((e, i) => enter(e, t, 0.3 + i * 0.1, 0.35, 24));
+    pop($('#oc-gh'), t, 1.1, 0.45);
+    pop($('#oc-cta'), t, ctx.line(1) - 0.1, 0.5);
+  });
+}
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,292 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Prompt Short</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{--ink:#e8edf7;--mut:#8b97b0;--c1:#38bdf8;--c2:#a78bfa;--c3:#fbbf24;--c4:#f472b6;--c5:#34d399;--c6:#fb923c}
+  #fv-stage{background:radial-gradient(1000px 1300px at 70% 15%,#1a2556 0%,#0a1024 50%,#070b16 80%);color:var(--ink);font-family:Inter,system-ui,sans-serif}
+  #bg-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(148,163,200,.18) 1px,transparent 1px),linear-gradient(90deg,rgba(148,163,200,.18) 1px,transparent 1px);background-size:90px 90px;opacity:.2}
+  .abs{position:absolute}
+  .step{position:absolute;left:0;right:0;top:250px;text-align:center;font:700 34px/1 'JetBrains Mono',monospace;letter-spacing:.2em;color:var(--c1)}
+  .head{position:absolute;left:60px;right:60px;top:305px;text-align:center;font:800 84px/1.05 Inter;letter-spacing:-.03em}
+  .chip{display:inline-flex;align-items:center;white-space:pre;font:700 64px/1 Inter;padding:20px 26px;border-radius:20px;border:3px solid var(--c);background:color-mix(in srgb,var(--c) 18%,transparent);color:#fff}
+  .chip.sm{font-size:46px;padding:14px 18px;border-radius:16px}
+  .panel{position:absolute;border:3px solid rgba(148,163,200,.28);border-radius:32px;background:rgba(13,20,42,.78)}
+  .label{font:600 34px Inter;color:var(--mut)}
+  .key{display:inline-block;padding:2px 30px 12px;border-radius:22px;background:linear-gradient(#26324f,#1a2340);border:3px solid #3b4a70;box-shadow:0 12px 0 #0e1428}
+  .badge{position:absolute;left:50%;top:150px;transform:translateX(-50%);padding:12px 26px;border-radius:40px;background:rgba(56,189,248,.14);border:2px solid rgba(56,189,248,.5);font:700 30px Inter;color:var(--c1);white-space:nowrap}
+</style>
+</head>
+<body>
+<div id="fv-stage">
+  <div id="bg-grid"></div>
+  <div id="badge" class="badge">AI, explained visually</div>
+
+  <section class="fv-scene" data-scene="hook">
+    <svg id="net" class="abs" width="1080" height="1920" style="inset:0"></svg>
+    <div id="hk-h" class="abs" style="left:50px;right:50px;top:560px;text-align:center;font:800 120px/1.05 Inter;letter-spacing:-.04em">What happens inside an AI when you hit<br><span id="hk-key" class="key" style="margin-top:30px">Enter</span></div>
+    <div id="hk-sub" class="abs" style="left:0;right:0;top:1180px;text-align:center"><span style="padding:16px 34px;border-radius:50px;background:var(--c3);color:#1a1300;font:800 52px Inter">under 60 seconds</span></div>
+  </section>
+
+  <section class="fv-scene" data-scene="tokens">
+    <div class="step">STEP 1</div><div class="head">Tokens</div>
+    <div id="tk-sent" class="abs" style="left:0;right:0;top:560px;text-align:center;font:600 72px Inter">Why is the sky blue?</div>
+    <div id="tk-grid" class="abs" style="left:90px;right:90px;top:700px;display:grid;grid-template-columns:repeat(3,1fr);row-gap:70px;justify-items:center"></div>
+  </section>
+
+  <section class="fv-scene" data-scene="embed">
+    <div class="step">STEP 2</div><div class="head">Vectors</div>
+    <div id="em-rows" class="abs" style="left:70px;right:70px;top:540px"></div>
+    <div id="em-panel" class="panel" style="left:90px;right:90px;top:960px;height:340px">
+      <div class="label" style="position:absolute;left:30px;top:22px;font-size:28px">meaning space</div>
+      <svg id="em-svg" width="900" height="340" style="position:absolute;inset:0"></svg>
+    </div>
+  </section>
+
+  <section class="fv-scene" data-scene="attention">
+    <div class="step">STEP 3</div><div class="head">Attention</div>
+    <svg id="at-svg" class="abs" width="1080" height="1920" style="inset:0"></svg>
+    <div id="at-row" class="abs" style="left:0;right:0;top:880px;display:flex;justify-content:center;gap:14px"></div>
+    <div id="at-layers" class="abs" style="left:150px;right:150px;top:1060px"></div>
+  </section>
+
+  <section class="fv-scene" data-scene="predict">
+    <div class="step">STEP 4</div><div class="head">Predict</div>
+    <div id="pd-q" class="abs label" style="left:0;right:0;top:470px;text-align:center;font-size:38px">Why is the sky blue? → <span style="color:var(--c3)">next token?</span></div>
+    <div id="pd-list" class="abs" style="left:80px;right:80px;top:570px"></div>
+  </section>
+
+  <section class="fv-scene" data-scene="loop">
+    <div class="step">STEP 5</div><div class="head">Repeat</div>
+    <div id="lp-ans" class="panel" style="left:70px;right:70px;top:450px;height:240px;padding:34px 40px;box-sizing:border-box;font:600 56px/1.3 Inter"></div>
+    <svg id="lp-svg" class="abs" width="1080" height="1920" style="inset:0"></svg>
+    <div class="panel" style="left:150px;width:600px;top:760px;height:140px">
+      <div class="label" style="position:absolute;left:24px;top:12px;font-size:24px">input</div>
+      <div id="lp-in" style="position:absolute;right:20px;top:52px;display:flex;gap:8px"></div>
+    </div>
+    <div class="panel" style="left:250px;width:400px;top:960px;height:170px;border-color:var(--c2);background:color-mix(in srgb,var(--c2) 14%,rgba(13,20,42,.85))">
+      <div style="position:absolute;left:0;right:0;top:30px;text-align:center;font:800 64px Inter">Model</div>
+      <div id="lp-pass" style="position:absolute;left:0;right:0;top:110px;text-align:center;font:700 30px 'JetBrains Mono';color:var(--c2)">pass 1</div>
+    </div>
+    <div id="lp-fly" class="abs chip sm" style="left:0;top:0;--c:var(--c3)">The</div>
+  </section>
+
+  <section class="fv-scene" data-scene="outro">
+    <div id="oc-list" class="abs" style="left:0;right:0;top:420px;display:flex;flex-direction:column;align-items:center;gap:22px"></div>
+    <div id="oc-cta" class="abs" style="left:60px;right:60px;top:1060px;text-align:center;font:800 76px/1.1 Inter;letter-spacing:-.03em">Follow for more<br><span style="color:var(--c1)">AI, explained visually</span></div>
+  </section>
+</div>
+<script src="timing.js"></script>
+<script src="fv-runtime.js"></script>
+<script>
+(() => {
+const { seg, css, enter, lerp, clamp, ease, pulse, rand, $, $$ } = FV;
+const NS = 'http://www.w3.org/2000/svg';
+const C = ['#38bdf8', '#a78bfa', '#fbbf24', '#f472b6', '#34d399', '#fb923c'];
+const rgb = (h) => [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16));
+const rgba = (h, a) => `rgba(${rgb(h).join(',')},${a})`;
+const svg = (tag, attrs, parent) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; };
+const div = (cls, html, parent, style) => { const e = document.createElement('div'); if (cls) e.className = cls; if (html !== undefined) e.innerHTML = html; if (style) e.style.cssText = style; if (parent) parent.appendChild(e); return e; };
+const chip = (text, color, size = '', parent) => { const e = div('chip ' + size, '', parent); e.textContent = text; e.style.setProperty('--c', color); return e; };
+const pop = (el, t, a, d = 0.45) => { const p = seg(t, a, a + d, ease.back); css(el, { o: clamp(p * 1.5), s: p }); return p; };
+const head = (el, t) => { enter($('.step', el), t, 0.0, 0.4); enter($('.head', el), t, 0.08, 0.45, 30); };
+const frac = (ctx, i, f) => ctx.line(i) + (ctx.lineEnd(i) - ctx.line(i)) * f;
+const TOK = ['Why', ' is', ' the', ' sky', ' blue', '?'];
+const sp = (s) => s.replace(/^ /, '␣');
+
+{
+  const net = $('#net'), r = rand(11), nodes = [];
+  for (let i = 0; i < 46; i++) nodes.push({ x: 40 + r() * 1000, y: 120 + r() * 1700 });
+  const edges = [];
+  nodes.forEach((a, i) => nodes.forEach((b, j) => { if (j > i && Math.hypot(a.x - b.x, a.y - b.y) < 250) edges.push([i, j, svg('line', { x1: a.x, y1: a.y, x2: b.x, y2: b.y, stroke: C[0], 'stroke-width': 2 }, net)]); }));
+  const nEls = nodes.map((n, i) => svg('circle', { cx: n.x, cy: n.y, r: 4 + (i % 4), fill: C[i % 3 ? 0 : 1] }, net));
+  FV.scene('hook', (t, ctx) => {
+    const w = (y) => 0.5 + 0.5 * Math.sin(t * 2 - y / 220);
+    nEls.forEach((e, i) => e.setAttribute('opacity', 0.15 + 0.5 * w(nodes[i].y)));
+    edges.forEach(([i, , e]) => e.setAttribute('opacity', 0.04 + 0.14 * w(nodes[i].y)));
+    enter($('#hk-h'), t, 0.05, 0.5, 50);
+    const k = pulse(t, frac(ctx, 0, 0.8), frac(ctx, 0, 0.8) + 0.4);
+    css($('#hk-key'), { y: k * 10, boxShadow: `0 ${12 - k * 10}px 0 #0e1428, 0 0 ${80 * k}px rgba(56,189,248,${k})` });
+    pop($('#hk-sub'), t, ctx.line(1) + 0.4);
+  });
+}
+
+{
+  const g = $('#tk-grid'), IDS = [10445, 382, 290, 17971, 9861, 30];
+  const cells = TOK.map((tk, i) => {
+    const cell = div('', '', g, 'display:flex;flex-direction:column;align-items:center');
+    const c = chip(sp(tk), C[i], '', cell);
+    const id = div('', '', cell, `font:700 44px 'JetBrains Mono';margin-top:22px;color:${C[i]}`);
+    return { cell, c, id };
+  });
+  FV.scene('tokens', (t, ctx) => {
+    head(ctx.el, t);
+    const s = seg(t, 0.4, 1.1);
+    css($('#tk-sent'), { o: seg(t, 0.1, 0.4) * (1 - s), y: -s * 40 });
+    cells.forEach((k, i) => {
+      pop(k.c, t, 0.8 + i * 0.12);
+      const a = frac(ctx, 0, 0.62) + i * 0.1;
+      k.id.style.opacity = seg(t, a, a + 0.3);
+      k.id.textContent = '#' + Math.round(IDS[i] * seg(t, a, a + 0.6, ease.out));
+    });
+  });
+}
+
+{
+  const rows = $('#em-rows'), r = rand(5);
+  const R = [[' sky', 3], [' blue', 4], ['?', 5]].map(([tk, ci]) => {
+    const rw = div('', '', rows, 'display:flex;align-items:center;height:130px');
+    const c = chip(sp(tk), C[ci], 'sm', rw); c.style.minWidth = '150px'; c.style.justifyContent = 'center';
+    const br = div('', '', rw, 'display:flex;align-items:center;gap:7px;margin-left:30px;height:110px');
+    const bars = Array.from({ length: 22 }, () => { const v = r() * 2 - 1; return { v, b: div('', '', br, `width:22px;border-radius:5px;background:${v > 0 ? C[0] : C[3]}`) }; });
+    return { rw, bars, c };
+  });
+  const sv = $('#em-svg');
+  const P = [['sky', 260, 150, 0], ['cloud', 340, 110, 0], ['ocean', 290, 220, 0], ['dog', 640, 240, 2], ['cat', 720, 190, 2], ['king', 560, 100, 1]];
+  const ring = svg('ellipse', { cx: 310, cy: 165, rx: 150, ry: 100, fill: 'none', stroke: C[0], 'stroke-width': 4, 'stroke-dasharray': '12 10' }, sv);
+  const pts = P.map(([w, x, y, c]) => { const gg = svg('g', {}, sv); svg('circle', { cx: x, cy: y, r: 13, fill: C[c] }, gg); const tx = svg('text', { x: x + 22, y: y + 11, fill: '#e8edf7', 'font-size': 36, 'font-weight': 700, 'font-family': 'Inter' }, gg); tx.textContent = w; return gg; });
+  FV.scene('embed', (t, ctx) => {
+    head(ctx.el, t);
+    R.forEach((k, i) => {
+      enter(k.rw, t, 0.25 + i * 0.12, 0.4);
+      const a = 0.6 + i * 0.2;
+      k.bars.forEach(({ b, v }, j) => (b.style.height = `${Math.max(4, Math.abs(v) * 100 * seg(t, a + j * 0.02, a + j * 0.02 + 0.5, ease.out))}px`));
+    });
+    const pa = frac(ctx, 0, 0.6);
+    enter($('#em-panel'), t, pa, 0.4, 30);
+    pts.forEach((p, i) => p.setAttribute('opacity', seg(t, pa + 0.2 + i * 0.08, pa + 0.45 + i * 0.08)));
+    ring.setAttribute('opacity', seg(t, pa + 0.9, pa + 1.3));
+    ring.setAttribute('stroke-dashoffset', -t * 40);
+  });
+}
+
+{
+  const row = $('#at-row');
+  const chips = TOK.map((tk, i) => { const c = chip(sp(tk), C[i], 'sm', row); c.style.padding = '14px 14px'; c.style.fontSize = '42px'; return c; });
+  const sv = $('#at-svg');
+  const L = $('#at-layers');
+  const layers = Array.from({ length: 5 }, (_, i) => div('', i === 2 ? '⋮' : `layer ${[1, 2, 0, 79, 80][i]}`, L, 'height:44px;margin-bottom:12px;border-radius:12px;border:2px solid rgba(167,139,250,.5);background:rgba(167,139,250,.12);display:flex;align-items:center;justify-content:center;font:700 26px Inter;color:#cbd5e1'));
+  layers[2].style.border = 'none'; layers[2].style.background = 'none';
+  let pos = null; const web = [], focus = [];
+  const W = [0.05, 0.07, 0.06, 0.64, 0.1, 0.08];
+  const Y0 = 870;
+  const arc = (i, j) => { const a = pos[i], b = pos[j], h = Math.min(260, 40 + Math.abs(a - b) * 0.42); return `M${a} ${Y0} Q${(a + b) / 2} ${Y0 - h * 2} ${b} ${Y0}`; };
+  const lbl = svg('text', { 'text-anchor': 'middle', fill: '#fff', 'font-size': 64, 'font-weight': 800, 'font-family': 'Inter' }, sv);
+  FV.scene('attention', (t, ctx) => {
+    head(ctx.el, t);
+    if (!pos) {
+      pos = chips.map((c) => row.offsetLeft + c.offsetLeft + c.offsetWidth / 2);
+      for (let i = 0; i < 6; i++) for (let j = i + 1; j < 6; j++) web.push(svg('path', { d: arc(i, j), fill: 'none', stroke: '#94a3c8', 'stroke-width': 3 }, sv));
+      for (let j = 0; j < 6; j++) if (j !== 4) focus.push({ j, p: svg('path', { d: arc(4, j), fill: 'none', stroke: C[j], 'stroke-linecap': 'round' }, sv) });
+      sv.appendChild(lbl);
+      lbl.setAttribute('x', (pos[3] + pos[4]) / 2); lbl.setAttribute('y', Y0 - Math.min(260, 40 + Math.abs(pos[3] - pos[4]) * 0.42) - 24);
+    }
+    enter(row, t, 0.2, 0.4);
+    layers.forEach((l, i) => {
+      enter(l, t, 0.4 + i * 0.08, 0.4);
+      const g = pulse(t, 1 + ((4 - i) * 0.25) % 2, 1.6 + ((4 - i) * 0.25) % 2) + pulse(t, 3 + (4 - i) * 0.25, 3.6 + (4 - i) * 0.25);
+      if (i !== 2) l.style.background = `rgba(167,139,250,${0.12 + 0.35 * clamp(g)})`;
+    });
+    web.forEach((p, k) => {
+      p.setAttribute('stroke-dasharray', 1200);
+      p.setAttribute('stroke-dashoffset', 1200 * (1 - seg(t, frac(ctx, 0, 0.45) + k * 0.06, frac(ctx, 0, 0.45) + k * 0.06 + 0.6)));
+      p.setAttribute('opacity', lerp(0.5, 0.08, seg(t, ctx.line(1) - 0.2, ctx.line(1) + 0.2)));
+    });
+    const fa = seg(t, ctx.line(1) - 0.2, ctx.line(1) + 0.3);
+    focus.forEach(({ j, p }) => {
+      p.setAttribute('stroke-width', 3 + W[j] * 40);
+      p.setAttribute('opacity', fa * (j === 3 ? 1 : 0.35));
+      p.style.filter = j === 3 ? `drop-shadow(0 0 ${16 * fa}px ${C[3]})` : '';
+    });
+    lbl.textContent = '64%'; lbl.setAttribute('opacity', seg(t, frac(ctx, 1, 0.5), frac(ctx, 1, 0.8)));
+    chips.forEach((c, i) => {
+      c.style.opacity = i === 3 || i === 4 ? 1 : lerp(1, 0.35, fa);
+      c.style.boxShadow = (i === 4 || i === 3) && fa ? `0 0 ${40 * fa}px ${rgba(C[i], fa)}` : '';
+    });
+  });
+}
+
+{
+  const LOG = [['The', 9.1], ['Because', 8.5], ['Sunlight', 8.0], ['It', 7.6], ['…others', 7.3]];
+  const e = LOG.map(([, l]) => Math.exp(l - 9.1)); const S = e.reduce((a, b) => a + b, 0); const P = e.map((x) => x / S);
+  const host = $('#pd-list');
+  const rows = LOG.map(([w], i) => {
+    const rw = div('', '', host, 'display:flex;flex-direction:column;padding:16px 22px;margin-bottom:14px;border-radius:20px');
+    const top = div('', '', rw, 'display:flex;justify-content:space-between;align-items:baseline');
+    div('', w, top, `font:${i === 4 ? 600 : 800} ${i === 4 ? 40 : 52}px Inter;color:${i === 4 ? '#8b97b0' : '#fff'}`);
+    const val = div('', '', top, "font:700 44px 'JetBrains Mono'");
+    const tr = div('', '', rw, 'position:relative;height:30px;margin-top:12px;border-radius:10px;background:rgba(148,163,200,.12)');
+    const bar = div('', '', tr, `position:absolute;left:0;top:0;bottom:0;border-radius:10px;background:${i === 4 ? '#475569' : C[i]}`);
+    return { rw, val, bar };
+  });
+  FV.scene('predict', (t, ctx) => {
+    head(ctx.el, t);
+    enter($('#pd-q'), t, 0.2, 0.4);
+    const q = seg(t, frac(ctx, 0, 0.62), frac(ctx, 0, 0.62) + 1.4, ease.out);
+    const pick = q >= 1 ? 0 : Math.floor(q * 8) % 4;   // lands on "The"
+    rows.forEach((r, i) => {
+      enter(r.rw, t, 0.35 + i * 0.1, 0.35);
+      const p = seg(t, 0.5 + i * 0.1, 1.3 + i * 0.1, ease.out);
+      r.bar.style.width = `${P[i] / 0.45 * 100 * p}%`;
+      r.val.textContent = `${Math.round(P[i] * 100 * p)}%`;
+      const on = q > 0 && i === pick ? (q >= 1 ? 1 : 0.7) : 0;
+      r.rw.style.background = on ? rgba(C[i], 0.2) : 'transparent';
+      r.rw.style.boxShadow = on ? `inset 0 0 0 4px ${rgba(C[i], on)}` : 'none';
+    });
+  });
+}
+
+{
+  const ANS = ['The', ' sky', ' looks', ' blue', ' because', ' air', ' scatters', ' blue', ' light', '…'];
+  const sv = $('#lp-svg');
+  const ah = (x, y, d) => svg('path', { d: d === 'd' ? `M${x - 16} ${y - 16} L${x} ${y} L${x + 16} ${y - 16}` : `M${x - 16} ${y + 16} L${x} ${y} L${x + 16} ${y + 16}`, stroke: '#8b97b0', 'stroke-width': 5, fill: 'none' }, sv);
+  svg('line', { x1: 450, y1: 905, x2: 450, y2: 952, stroke: '#8b97b0', 'stroke-width': 5 }, sv); ah(450, 954, 'd');
+  const ret = svg('path', { d: 'M650 1045 C900 1045, 900 1045, 900 900 C900 830, 880 830, 760 830', stroke: C[2], 'stroke-width': 5, fill: 'none', 'stroke-dasharray': '14 12' }, sv);
+  const rl = svg('text', { x: 940, y: 960, fill: C[2], 'font-size': 30, 'font-weight': 700, 'font-family': 'Inter', transform: 'rotate(90 940 960)', 'text-anchor': 'middle' }, sv); rl.textContent = 'add & repeat';
+  const RL = ret.getTotalLength();
+  const inRow = $('#lp-in'), fly = $('#lp-fly');
+  const inChips = ['…', ' blue', '?', ...ANS].map((tk, i) => { const c = chip(sp(tk), i < 3 ? '#64748b' : C[2], 'sm', inRow); c.style.fontSize = '30px'; c.style.padding = '10px 12px'; return c; });
+  FV.scene('loop', (t, ctx) => {
+    head(ctx.el, t);
+    enter($('#lp-ans'), t, 0.2, 0.4);
+    const start = 0.6, end = ctx.dur - 0.9;
+    const x = clamp((t - start) / (end - start));
+    const c = (ANS.length - 1) * (0.25 * x + 0.75 * x * x);
+    const k = Math.floor(c), f = c - k;
+    const landed = k + (f > 0.85 ? 1 : 0);
+    const n = t >= end ? ANS.length : landed;
+    $('#lp-ans').textContent = ANS.slice(0, n).join('');
+    $('#lp-pass').textContent = `pass ${Math.min(ANS.length, k + 1)}`;
+    inChips.forEach((ch, i) => { const vis = i < 3 + n; ch.style.display = vis && 3 + n - 1 - i < 4 ? '' : 'none'; });
+    if (t < start || t >= end) fly.style.opacity = 0;
+    else {
+      fly.textContent = ANS[k].trim();
+      let px, py, o = 1, s = 1;
+      if (f < 0.3) { const p = seg(f, 0, 0.3, ease.out); px = 650 + 0 * p; py = 1045; s = p; o = p; }
+      else { const pt = ret.getPointAtLength(seg(f, 0.3, 0.85) * RL); px = pt.x; py = pt.y; o = 1 - seg(f, 0.8, 0.9); }
+      css(fly, { o, x: px - fly.offsetWidth / 2, y: py - fly.offsetHeight / 2, s });
+    }
+    ret.setAttribute('stroke-dashoffset', -t * 50);
+  });
+}
+
+{
+  const L = $('#oc-list');
+  const items = [['Tokens', C[2]], ['Vectors', C[3]], ['Attention', C[1]], ['Predict', C[0]], ['Repeat ↻', C[4]]].map(([w, c], i) => {
+    const e = div('', `<span style="font:700 30px 'JetBrains Mono';color:${c};margin-right:22px">0${i + 1}</span>${w}`, L, `font:800 54px Inter;padding:14px 40px;border-radius:24px;border:3px solid ${rgba(c, 0.7)};background:${rgba(c, 0.12)};min-width:480px;text-align:left`);
+    return e;
+  });
+  FV.scene('outro', (t, ctx) => {
+    items.forEach((e, i) => enter(e, t, 0.05 + i * 0.12, 0.35, 30));
+    const p = seg(t, 0.6, 1.1, ease.back);
+    css($('#oc-cta'), { o: clamp(p), s: 0.8 + 0.2 * p });
+  });
+}
+
+})();
+</script>
+</body>
+</html>

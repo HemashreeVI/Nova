@@ -1,0 +1,41 @@
+{
+  "title": "How Kubernetes Works in 60 Seconds ☸️ #shorts",
+  "slug": "short-kubernetes",
+  "format": "vertical",
+  "description": "Docker runs a container. Kubernetes runs hundreds. A cluster of nodes is managed by a control plane; your containers run in pods; you declare the desired state in YAML; Kubernetes self-heals crashed pods and failed nodes, scales up and down with traffic, and a Service gives your pods one stable address.\n\n#Kubernetes #K8s #DevOps #Docker #CloudComputing #TechExplained #shorts",
+  "tags": ["kubernetes", "how kubernetes works", "kubernetes explained", "k8s", "kubernetes tutorial", "kubernetes for beginners", "pods", "kubernetes cluster", "container orchestration", "docker vs kubernetes", "devops", "cloud computing", "tech explained", "shorts"],
+  "voice": "am_michael",
+  "speed": 1.08,
+  "lineGap": 0.25,
+  "captions": true,
+  "thumbnail": "hook@5.6",
+  "endHold": 0.3,
+  "scenes": [
+    { "id": "hook", "pad": [0.3, 0.4], "lines": [
+      "Docker runs a container. But what happens when you need hundreds?",
+      "That's where Kubernetes comes in."
+    ]},
+    { "id": "cluster", "pad": [0.3, 0.5], "lines": [
+      "Kubernetes manages a cluster: a group of machines called nodes, all directed by the control plane, the brain."
+    ]},
+    { "id": "pods", "pad": [0.3, 0.5], "lines": [
+      "Your containers run inside pods, the smallest unit Kubernetes manages. Each pod is scheduled onto a node with room to spare."
+    ]},
+    { "id": "desired", "pad": [0.3, 0.5], "lines": [
+      "You tell Kubernetes what you want, like three copies of my app, in a simple YAML file."
+    ]},
+    { "id": "heal", "pad": [0.3, 0.6], "lines": [
+      "If a pod crashes, or a whole node dies, Kubernetes notices, and starts a replacement automatically."
+    ]},
+    { "id": "scale", "pad": [0.3, 0.5], "lines": [
+      "Traffic spike? It scales from three pods to ten, and back down when things calm down."
+    ]},
+    { "id": "service", "pad": [0.3, 0.5], "lines": [
+      "And a service gives your pods one stable address, spreading traffic across all of them."
+    ]},
+    { "id": "outro", "pad": [0.3, 1.6], "lines": [
+      "You declare it. Kubernetes keeps it that way.",
+      "Follow for more tech, decoded."
+    ]}
+  ]
+}

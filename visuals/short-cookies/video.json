@@ -1,0 +1,114 @@
+{
+  "title": "How Websites Remember You: Cookies & Login in 60 Seconds 🍪 #shorts",
+  "slug": "short-cookies",
+  "format": "vertical",
+  "description": "You log in once and a website remembers you for weeks. HTTP forgets you after every request, so when you log in the server checks your password against a stored hash, creates a session, and sends your browser a cookie with a random session ID. Your browser attaches it to every request, so the server knows it's you. Plus HttpOnly and Secure flags, and why cookie banners exist.\n\n📘 More to learn + my projects: https://github.com/HemashreeVI\n\n#Cookies #WebDevelopment #CyberSecurity #Programming #TechExplained #shorts",
+  "tags": [
+    "cookies",
+    "how cookies work",
+    "browser cookies",
+    "how login works",
+    "sessions",
+    "session cookie",
+    "authentication",
+    "password hashing",
+    "httponly",
+    "web security",
+    "cookie banner",
+    "web development",
+    "cybersecurity",
+    "tech explained",
+    "shorts"
+  ],
+  "voice": "am_michael",
+  "speed": 1.1,
+  "lineGap": 0.25,
+  "captions": true,
+  "endCard": "📘 more to learn → github.com/HemashreeVI",
+  "thumbnail": "hook@5",
+  "endHold": 0.3,
+  "scenes": [
+    {
+      "id": "hook",
+      "pad": [
+        0.3,
+        1.0
+      ],
+      "lines": [
+        "You log in once, and the website remembers you for weeks. How?",
+        "Cookies."
+      ]
+    },
+    {
+      "id": "problem",
+      "pad": [
+        0.3,
+        0.5
+      ],
+      "lines": [
+        "The web has no memory. To the server, every request is a stranger."
+      ]
+    },
+    {
+      "id": "login",
+      "pad": [
+        0.3,
+        0.5
+      ],
+      "lines": [
+        "So when you log in, the server checks your password against a stored hash: a scrambled version, never the real thing."
+      ]
+    },
+    {
+      "id": "session",
+      "pad": [
+        0.3,
+        0.5
+      ],
+      "lines": [
+        "If it matches, it starts a session, and sends your browser a cookie with a random session ID."
+      ]
+    },
+    {
+      "id": "cookie",
+      "pad": [
+        0.3,
+        0.5
+      ],
+      "lines": [
+        "Your browser attaches that cookie to every request after that. The server sees the ID, and knows it's you."
+      ]
+    },
+    {
+      "id": "security",
+      "pad": [
+        0.3,
+        0.5
+      ],
+      "lines": [
+        "That's why login cookies are protected: HttpOnly, so scripts can't steal them, and Secure, so they only travel over HTTPS."
+      ]
+    },
+    {
+      "id": "other",
+      "pad": [
+        0.3,
+        0.5
+      ],
+      "lines": [
+        "Cookies also remember your cart and language, and can track you across sites. That's why you see cookie banners."
+      ]
+    },
+    {
+      "id": "outro",
+      "pad": [
+        0.3,
+        1.6
+      ],
+      "lines": [
+        "Log in once. Stay remembered.",
+        "Follow for more tech, decoded."
+      ]
+    }
+  ]
+}

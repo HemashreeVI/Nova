@@ -1,0 +1,42 @@
+{
+  "title": "Git vs GitHub in 60 Seconds #shorts",
+  "slug": "short-git-github",
+  "format": "vertical",
+  "description": "Git and GitHub are not the same thing. Git tracks your code's history on your computer; GitHub hosts it online so your team can collaborate. Commits, branches, merges, push, pull and pull requests, explained visually.\n\n#Git #GitHub #Programming #CodingForBeginners #SoftwareDevelopment #shorts",
+  "tags": ["git", "github", "git vs github", "version control", "coding", "programming", "shorts"],
+  "voice": "am_michael",
+  "speed": 1.08,
+  "lineGap": 0.25,
+  "captions": true,
+  "thumbnail": "hook@2.4",
+  "endHold": 0.3,
+  "scenes": [
+    { "id": "hook", "pad": [0.3, 0.4], "lines": [
+      "Git and GitHub are not the same thing.",
+      "Here's the difference, in under a minute."
+    ]},
+    { "id": "git", "pad": [0.3, 0.5], "lines": [
+      "Git is a tool on your computer that tracks every change to your code."
+    ]},
+    { "id": "commit", "pad": [0.3, 0.6], "lines": [
+      "Every time you commit, Git saves a snapshot of your project, with a message and a unique ID."
+    ]},
+    { "id": "branch", "pad": [0.3, 0.6], "lines": [
+      "Branches let you try new ideas in parallel, without breaking the main version.",
+      "When it works, you merge it back."
+    ]},
+    { "id": "github", "pad": [0.3, 0.5], "lines": [
+      "GitHub is a website that hosts your Git repositories online."
+    ]},
+    { "id": "push", "pad": [0.3, 0.6], "lines": [
+      "You push your commits up to GitHub, and pull your teammates' changes down."
+    ]},
+    { "id": "pr", "pad": [0.3, 0.6], "lines": [
+      "And with pull requests, your team reviews the code before it gets merged."
+    ]},
+    { "id": "outro", "pad": [0.3, 1.6], "lines": [
+      "Git tracks your history. GitHub shares it.",
+      "Follow for more."
+    ]}
+  ]
+}

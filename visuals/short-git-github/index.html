@@ -1,0 +1,341 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Git vs GitHub Short</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{--ink:#e8edf7;--mut:#8b97b0;--git:#f05133;--gh:#e6edf3;--grn:#3fb950;--red:#f85149;--pur:#a371f7;--blu:#58a6ff;--yel:#fbbf24}
+  #fv-stage{background:radial-gradient(1000px 1300px at 30% 12%,#2a1a24 0%,#111018 50%,#0b0b12 80%);color:var(--ink);font-family:Inter,system-ui,sans-serif}
+  #bg-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(200,170,160,.14) 1px,transparent 1px),linear-gradient(90deg,rgba(200,170,160,.14) 1px,transparent 1px);background-size:90px 90px;opacity:.2}
+  .abs{position:absolute}
+  .step{position:absolute;left:0;right:0;top:250px;text-align:center;font:700 34px/1 'JetBrains Mono',monospace;letter-spacing:.2em;color:var(--git)}
+  .head{position:absolute;left:60px;right:60px;top:305px;text-align:center;font:800 84px/1.05 Inter;letter-spacing:-.03em}
+  .panel{position:absolute;border:3px solid rgba(200,200,220,.22);border-radius:32px;background:rgba(22,22,32,.85)}
+  .mono{font-family:'JetBrains Mono',monospace}
+  .label{font:600 34px Inter;color:var(--mut)}
+  .badge{position:absolute;left:50%;top:150px;transform:translateX(-50%);padding:12px 26px;border-radius:40px;background:rgba(240,81,51,.14);border:2px solid rgba(240,81,51,.5);font:700 30px Inter;color:#ff8a70;white-space:nowrap}
+  .pill{display:inline-block;padding:10px 24px;border-radius:40px;font:700 34px Inter}
+  .card{border-radius:24px;border:3px solid rgba(200,200,220,.2);background:rgba(28,28,40,.9)}
+</style>
+</head>
+<body>
+<div id="fv-stage">
+  <div id="bg-grid"></div>
+  <div class="badge">Dev basics, explained visually</div>
+
+  <!-- HOOK -->
+  <section class="fv-scene" data-scene="hook">
+    <div id="hk-git" class="abs" style="left:0;right:0;top:480px;text-align:center;font:900 210px/1 Inter;letter-spacing:-.05em;color:var(--git)">Git</div>
+    <div id="hk-ne" class="abs" style="left:0;right:0;top:700px;text-align:center;font:800 170px/1 Inter;color:var(--mut)">≠</div>
+    <div id="hk-gh" class="abs" style="left:0;right:0;top:900px;text-align:center;font:900 210px/1 Inter;letter-spacing:-.05em">GitHub</div>
+    <div id="hk-sub" class="abs" style="left:0;right:0;top:1190px;text-align:center"><span class="pill" style="background:var(--yel);color:#1a1300;font-size:50px;padding:16px 34px">in 60 seconds</span></div>
+  </section>
+
+  <!-- GIT -->
+  <section class="fv-scene" data-scene="git">
+    <div class="step">PART 1</div><div class="head">What is Git?</div>
+    <div id="gt-lap" class="abs" style="left:100px;right:100px;top:500px">
+      <div class="card" style="height:560px;border-radius:28px 28px 8px 8px;overflow:hidden;background:#0d1117">
+        <div style="height:66px;display:flex;align-items:center;gap:12px;padding:0 26px;border-bottom:2px solid #30363d">
+          <i style="width:16px;height:16px;border-radius:50%;background:#f85149"></i><i style="width:16px;height:16px;border-radius:50%;background:#fbbf24"></i><i style="width:16px;height:16px;border-radius:50%;background:#3fb950"></i>
+          <span class="mono" style="margin-left:18px;font-size:28px;color:#c9d1d9">app.js</span><span id="gt-count" class="mono" style="margin-left:auto;font-size:26px;color:#f05133"></span>
+        </div>
+        <div id="gt-code" class="mono" style="padding:22px 0;font-size:34px;line-height:1.6"></div>
+      </div>
+      <div style="height:34px;margin:0 -50px;border-radius:0 0 30px 30px;background:linear-gradient(#3a3a4a,#24242f)"></div>
+    </div>
+    <div id="gt-tag" class="abs" style="left:0;right:0;top:1180px;text-align:center">
+      <span class="pill" style="background:rgba(240,81,51,.18);border:3px solid var(--git);color:#fff;font-size:40px">Git · on <b>your</b> computer</span>
+    </div>
+  </section>
+
+  <!-- COMMIT -->
+  <section class="fv-scene" data-scene="commit">
+    <div class="step">PART 2</div><div class="head">Commits</div>
+    <div id="cm-cmd" class="abs mono" style="left:0;right:0;top:450px;text-align:center;font-size:36px;color:var(--grn)"></div>
+    <svg id="cm-svg" class="abs" width="1080" height="1920" style="inset:0"></svg>
+    <div id="cm-cards"></div>
+  </section>
+
+  <!-- BRANCH -->
+  <section class="fv-scene" data-scene="branch">
+    <div class="step">PART 3</div><div class="head">Branches</div>
+    <svg id="br-svg" class="abs" width="1080" height="1920" style="inset:0"></svg>
+  </section>
+
+  <!-- GITHUB -->
+  <section class="fv-scene" data-scene="github">
+    <div class="step">PART 4</div><div class="head">What is GitHub?</div>
+    <div id="gh-card" class="abs card" style="left:80px;right:80px;top:500px;height:640px;background:#0d1117;border-color:#30363d">
+      <div style="padding:30px 34px;border-bottom:2px solid #30363d;display:flex;align-items:center;gap:20px">
+        <div style="width:60px;height:60px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#58a6ff,#1f6feb)"></div>
+        <div class="mono" style="font-size:34px;color:#58a6ff">you / <b style="color:#e6edf3">my-project</b></div>
+      </div>
+      <div style="display:flex;gap:16px;padding:24px 34px">
+        <span id="gh-star" class="pill" style="font-size:28px;border:2px solid #30363d;background:#21262d">★ Star <span id="gh-stars">0</span></span>
+        <span class="pill" style="font-size:28px;border:2px solid #30363d;background:#21262d">⑂ Fork</span>
+        <span class="pill" style="font-size:28px;background:#238636">&lt;&gt; Code</span>
+      </div>
+      <div id="gh-files" style="margin:0 34px;border:2px solid #30363d;border-radius:16px;overflow:hidden"></div>
+    </div>
+    <div id="gh-tag" class="abs" style="left:0;right:0;top:1200px;text-align:center"><span class="pill" style="background:rgba(230,237,243,.12);border:3px solid #e6edf3;font-size:40px">GitHub · <b>online</b></span></div>
+  </section>
+
+  <!-- PUSH / PULL -->
+  <section class="fv-scene" data-scene="push">
+    <div class="step">PART 5</div><div class="head">Push &amp; pull</div>
+    <div id="pp-gh" class="abs card" style="left:290px;width:500px;top:490px;height:150px;display:flex;align-items:center;justify-content:center;gap:20px;border-color:#e6edf3;background:#0d1117">
+      <div style="width:56px;height:56px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#58a6ff,#1f6feb)"></div><b style="font:800 56px Inter">GitHub</b>
+    </div>
+    <div id="pp-you" class="abs card" style="left:70px;width:400px;top:1000px;height:200px;text-align:center"><div style="font:800 50px Inter;margin-top:38px">You</div><div class="mono" style="font-size:28px;color:var(--git);margin-top:12px">laptop + Git</div></div>
+    <div id="pp-mate" class="abs card" style="left:610px;width:400px;top:1000px;height:200px;text-align:center"><div style="font:800 50px Inter;margin-top:38px">Teammate</div><div class="mono" style="font-size:28px;color:var(--git);margin-top:12px">laptop + Git</div></div>
+    <svg id="pp-svg" class="abs" width="1080" height="1920" style="inset:0"></svg>
+  </section>
+
+  <!-- PULL REQUEST -->
+  <section class="fv-scene" data-scene="pr">
+    <div class="step">PART 6</div><div class="head">Pull requests</div>
+    <div id="pr-card" class="abs card" style="left:60px;right:60px;top:470px;height:780px;padding:36px;box-sizing:border-box;background:#0d1117;border-color:#30363d">
+      <div style="font:800 54px/1.15 Inter">Add dark mode <span style="color:var(--mut);font-weight:500">#42</span></div>
+      <div style="display:flex;align-items:center;gap:18px;margin-top:20px">
+        <span id="pr-state" class="pill" style="font-size:30px">Open</span>
+        <span class="mono" style="font-size:28px;color:var(--mut)">feature → main</span>
+        <span class="mono" style="font-size:28px;margin-left:auto"><span style="color:var(--grn)">+128</span> <span style="color:var(--red)">−14</span></span>
+      </div>
+      <div id="pr-c1" style="display:flex;gap:18px;margin-top:40px">
+        <div style="width:70px;height:70px;border-radius:50%;background:#7c3aed;flex:none;display:flex;align-items:center;justify-content:center;font:800 34px Inter">A</div>
+        <div class="card" style="padding:20px 24px;font:500 34px/1.35 Inter;border-radius:18px">Nice! Can you rename this variable?</div>
+      </div>
+      <div id="pr-c2" style="display:flex;gap:18px;margin-top:24px">
+        <div style="width:70px;height:70px;border-radius:50%;background:#0891b2;flex:none;display:flex;align-items:center;justify-content:center;font:800 34px Inter">S</div>
+        <div class="card" style="padding:20px 24px;font:700 36px Inter;border-radius:18px;border-color:var(--grn);color:var(--grn)">✓ Approved</div>
+      </div>
+      <div id="pr-btn" style="position:absolute;left:36px;right:36px;bottom:36px;height:110px;border-radius:20px;display:flex;align-items:center;justify-content:center;font:800 44px Inter"></div>
+    </div>
+  </section>
+
+  <!-- OUTRO -->
+  <section class="fv-scene" data-scene="outro">
+    <div id="oc-a" class="abs card" style="left:80px;right:80px;top:470px;height:250px;padding:34px 40px;box-sizing:border-box;border-color:var(--git);background:rgba(240,81,51,.12)">
+      <div style="font:900 90px/1 Inter;color:var(--git)">Git</div><div style="font:700 52px Inter;margin-top:18px">tracks your history</div>
+    </div>
+    <div id="oc-b" class="abs card" style="left:80px;right:80px;top:760px;height:250px;padding:34px 40px;box-sizing:border-box;border-color:#e6edf3;background:rgba(230,237,243,.08)">
+      <div style="font:900 90px/1 Inter">GitHub</div><div style="font:700 52px Inter;margin-top:18px">shares it</div>
+    </div>
+    <div id="oc-cta" class="abs" style="left:0;right:0;top:1090px;text-align:center"><span class="pill" style="background:var(--yel);color:#1a1300;font-size:56px;padding:18px 40px">Follow for more</span></div>
+  </section>
+</div>
+<script src="timing.js"></script>
+<script src="fv-runtime.js"></script>
+<script>
+(() => {
+const { seg, css, enter, lerp, clamp, ease, pulse, $, $$ } = FV;
+const NS = 'http://www.w3.org/2000/svg';
+const svg = (tag, attrs, parent) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; };
+const div = (cls, html, parent, style) => { const e = document.createElement('div'); if (cls) e.className = cls; if (html !== undefined) e.innerHTML = html; if (style) e.style.cssText = style; if (parent) parent.appendChild(e); return e; };
+const pop = (el, t, a, d = 0.45) => { const p = seg(t, a, a + d, ease.back); if (el instanceof SVGElement) { el.setAttribute('opacity', clamp(p * 1.5)); el.style.transformBox = 'fill-box'; el.style.transformOrigin = 'center'; el.style.transform = `scale(${p})`; } else css(el, { o: clamp(p * 1.5), s: p }); return p; };
+const head = (el, t) => { enter($('.step', el), t, 0.0, 0.4); enter($('.head', el), t, 0.08, 0.45, 30); };
+const frac = (ctx, i, f) => ctx.line(i) + (ctx.lineEnd(i) - ctx.line(i)) * f;
+const draw = (path, p) => { const L = path.getTotalLength(); path.setAttribute('stroke-dasharray', L); path.setAttribute('stroke-dashoffset', L * (1 - p)); };
+const GIT = '#f05133', GRN = '#3fb950', RED = '#f85149', PUR = '#a371f7', BLU = '#58a6ff';
+
+/* HOOK */
+FV.scene('hook', (t, ctx) => {
+  pop($('#hk-git'), t, 0.1, 0.5);
+  pop($('#hk-ne'), t, frac(ctx, 0, 0.55), 0.4);
+  pop($('#hk-gh'), t, 0.35, 0.5);
+  const s = pulse(t, frac(ctx, 0, 0.55), frac(ctx, 0, 0.55) + 0.6);
+  $('#hk-ne').style.color = s > 0.05 ? `rgb(${lerp(139, 248, s)},${lerp(151, 81, s)},${lerp(176, 73, s)})` : '';
+  pop($('#hk-sub'), t, ctx.line(1) + 0.2);
+});
+
+/* GIT */
+{
+  const code = $('#gt-code');
+  const L = [
+    ['function greet(name) {', 0],
+    ['  return "Hi " + name;', -1],
+    ['  return `Hello, ${name}!`;', 1],
+    ['}', 0],
+    ['', 0],
+    ['greet("world");', 1],
+  ];
+  const rows = L.map(([txt, k]) => {
+    const r = div('', '', code, 'display:flex;white-space:pre;padding:0 26px');
+    const g = div('', k === 1 ? '+' : k === -1 ? '−' : ' ', r, `width:40px;color:${k === 1 ? GRN : RED};font-weight:700`);
+    div('', txt.replace(/</g, '&lt;') || ' ', r, 'color:#c9d1d9');
+    return { r, g, k };
+  });
+  FV.scene('git', (t, ctx) => {
+    head(ctx.el, t);
+    enter($('#gt-lap'), t, 0.15, 0.45, 40);
+    const ch = [frac(ctx, 0, 0.45), frac(ctx, 0, 0.45) + 0.4, frac(ctx, 0, 0.75)];
+    let n = 0;
+    rows.forEach((r, i) => {
+      if (r.k === 0) { r.r.style.opacity = 1; r.g.style.opacity = 0; return; }
+      const a = r.k === -1 ? ch[0] : i === 2 ? ch[1] : ch[2];
+      const p = seg(t, a, a + 0.3);
+      if (p > 0) n++;
+      if (r.k === -1) { r.r.style.background = `rgba(248,81,73,${0.22 * p})`; r.r.style.textDecoration = p > 0.5 ? 'line-through' : 'none'; r.g.style.opacity = p; }
+      else { r.r.style.background = `rgba(63,185,80,${0.22 * p})`; r.r.style.opacity = p; r.g.style.opacity = p; }
+    });
+    enter($('#gt-tag'), t, frac(ctx, 0, 0.2), 0.4);
+    $('#gt-count').textContent = n ? `${n} changes tracked` : '';
+  });
+}
+
+/* COMMIT */
+{
+  const sv = $('#cm-svg'), host = $('#cm-cards');
+  const C = [['a1f3c9e', 'Add homepage'], ['7b20d4f', 'Fix login bug'], ['e94c112', 'Add dark mode'], ['3d8a5b0', 'Update README']];
+  const Y = [600, 780, 960, 1140];
+  const line = svg('path', { d: `M200 ${Y[0]} L200 ${Y[3]}`, stroke: GIT, 'stroke-width': 8, fill: 'none' }, sv);
+  const items = C.map(([h, m], i) => {
+    const node = svg('circle', { cx: 200, cy: Y[i], r: 26, fill: '#111018', stroke: GIT, 'stroke-width': 8 }, sv);
+    const card = div('card', `<div class="mono" style="font-size:30px;color:${GIT}">${h}</div><div style="font:700 44px Inter;margin-top:6px">${m}</div>`, host,
+      `position:absolute;left:270px;right:80px;top:${Y[i] - 70}px;height:140px;padding:20px 28px;box-sizing:border-box`);
+    return { node, card };
+  });
+  FV.scene('commit', (t, ctx) => {
+    head(ctx.el, t);
+    const at = [0.5, frac(ctx, 0, 0.35), frac(ctx, 0, 0.6), frac(ctx, 0, 0.85)];
+    const msg = 'git commit -m "' + C[0][1] + '"';
+    $('#cm-cmd').textContent = '$ ' + FV.type(msg, seg(t, 0.2, 0.9, ease.linear));
+    $('#cm-cmd').style.opacity = 1 - seg(t, at[1] - 0.2, at[1]);
+    draw(line, seg(t, at[0], at[3]));
+    items.forEach((it, i) => {
+      pop(it.node, t, at[i], 0.4);
+      const p = enter(it.card, t, at[i] + 0.05, 0.4, 0);
+      css(it.card, { o: p, x: (1 - p) * 60 });
+      const f = pulse(t, at[i] + 0.05, at[i] + 0.6);
+      it.card.style.boxShadow = f ? `0 0 ${60 * f}px rgba(255,255,255,${0.6 * f})` : 'none';
+      it.card.style.background = f ? `rgba(${lerp(28, 120, f)},${lerp(28, 120, f)},${lerp(40, 130, f)},.9)` : '';
+    });
+  });
+}
+
+/* BRANCH */
+{
+  const sv = $('#br-svg');
+  const X0 = 280, X1 = 760;
+  const main = svg('path', { d: `M${X0} 520 L${X0} 1300`, stroke: BLU, 'stroke-width': 10, fill: 'none', 'stroke-linecap': 'round' }, sv);
+  const out = svg('path', { d: `M${X0} 700 C${X0} 800, ${X1} 760, ${X1} 860`, stroke: GRN, 'stroke-width': 10, fill: 'none' }, sv);
+  const feat = svg('path', { d: `M${X1} 860 L${X1} 1020`, stroke: GRN, 'stroke-width': 10, fill: 'none' }, sv);
+  const back = svg('path', { d: `M${X1} 1020 C${X1} 1120, ${X0} 1080, ${X0} 1180`, stroke: GRN, 'stroke-width': 10, fill: 'none' }, sv);
+  const node = (x, y, c, r = 26) => svg('circle', { cx: x, cy: y, r, fill: '#111018', stroke: c, 'stroke-width': 9 }, sv);
+  const m1 = node(X0, 560, BLU), m2 = node(X0, 700, BLU), m3 = node(X0, 960, BLU);
+  const f1 = node(X1, 860, GRN), f2 = node(X1, 1020, GRN);
+  const mg = node(X0, 1180, PUR, 36);
+  const txt = (x, y, s, c, size = 44, anchor = 'start') => { const e = svg('text', { x, y, fill: c, 'font-size': size, 'font-weight': 800, 'font-family': 'Inter', 'text-anchor': anchor }, sv); e.textContent = s; return e; };
+  const lMain = txt(X0 - 50, 520, 'main', BLU, 46, 'end');
+  const lFeat = txt(X1 + 50, 870, 'feature', GRN, 46);
+  const lIdea = txt(X1 + 50, 925, 'new idea', '#8b97b0', 32);
+  const lSafe = txt(X0 - 50, 970, 'still safe', '#8b97b0', 32, 'end');
+  const lMerge = txt(X0 + 60, 1195, 'merged ✓', PUR, 52);
+  FV.scene('branch', (t, ctx) => {
+    head(ctx.el, t);
+    draw(main, seg(t, 0.2, 1.0));
+    lMain.setAttribute('opacity', seg(t, 0.3, 0.7));
+    pop(m1, t, 0.35); pop(m2, t, 0.6);
+    const b = frac(ctx, 0, 0.3);
+    draw(out, seg(t, b, b + 0.6));
+    lFeat.setAttribute('opacity', seg(t, b + 0.3, b + 0.6));
+    pop(f1, t, b + 0.55); pop(f2, t, b + 1.0);
+    draw(feat, seg(t, b + 0.6, b + 1.0));
+    lIdea.setAttribute('opacity', seg(t, b + 0.8, b + 1.1));
+    const s = frac(ctx, 0, 0.75);
+    pop(m3, t, s); lSafe.setAttribute('opacity', seg(t, s, s + 0.4));
+    const g = ctx.line(1);
+    draw(back, seg(t, g, g + 0.7));
+    pop(mg, t, g + 0.6, 0.5);
+    lMerge.setAttribute('opacity', seg(t, g + 0.8, g + 1.1));
+  });
+}
+
+/* GITHUB */
+{
+  const F = [['📁', 'src', 'Add dark mode'], ['📄', 'app.js', 'Fix login bug'], ['📄', 'README.md', 'Update README'], ['📄', 'package.json', 'Add homepage']];
+  const host = $('#gh-files');
+  const rows = F.map(([ic, n, m], i) => div('', `<span style="width:44px;color:${i ? '#8b949e' : BLU}">${i ? '▤' : '▰'}</span><span style="font:600 34px Inter;color:${BLU};width:290px">${n}</span><span style="font:500 28px Inter;color:#8b949e;white-space:nowrap;overflow:hidden">${m}</span>`, host,
+    `display:flex;align-items:center;height:84px;padding:0 24px;${i ? 'border-top:2px solid #30363d' : ''};background:#0d1117`));
+  FV.scene('github', (t, ctx) => {
+    head(ctx.el, t);
+    const p = seg(t, 0.15, 0.65, ease.back);
+    css($('#gh-card'), { o: clamp(p * 1.5), s: 0.85 + 0.15 * p });
+    rows.forEach((r, i) => enter(r, t, 0.6 + i * 0.15, 0.35, 16));
+    $('#gh-stars').textContent = Math.round(128 * seg(t, 1.2, 3.5, ease.out));
+    pop($('#gh-tag'), t, frac(ctx, 0, 0.45));
+  });
+}
+
+/* PUSH / PULL */
+{
+  const sv = $('#pp-svg');
+  const up = svg('path', { d: 'M270 990 C270 820, 400 760, 440 650', stroke: GRN, 'stroke-width': 7, fill: 'none', 'stroke-dasharray': '14 12' }, sv);
+  const dn = svg('path', { d: 'M640 650 C680 760, 810 820, 810 990', stroke: BLU, 'stroke-width': 7, fill: 'none', 'stroke-dasharray': '14 12' }, sv);
+  const tl = (x, y, s, c) => { const e = svg('text', { x, y, fill: c, 'font-size': 34, 'font-weight': 800, 'font-family': 'JetBrains Mono', 'text-anchor': 'middle' }, sv); e.textContent = s; return e; };
+  const lu = tl(235, 820, 'git push', GRN), ld = tl(845, 820, 'git pull', BLU);
+  lu.setAttribute('text-anchor', 'end'); ld.setAttribute('text-anchor', 'start');
+  const dots = [0, 1, 2].map(() => svg('circle', { r: 20, fill: GIT, stroke: '#fff', 'stroke-width': 4 }, sv));
+  const dots2 = [0, 1, 2].map(() => svg('circle', { r: 20, fill: GIT, stroke: '#fff', 'stroke-width': 4 }, sv));
+  const UL = up.getTotalLength(), DL = dn.getTotalLength();
+  FV.scene('push', (t, ctx) => {
+    head(ctx.el, t);
+    pop($('#pp-gh'), t, 0.1); enter($('#pp-you'), t, 0.2, 0.4); enter($('#pp-mate'), t, 0.3, 0.4);
+    const a = 0.5, b = frac(ctx, 0, 0.55);
+    up.setAttribute('opacity', seg(t, a - 0.2, a)); lu.setAttribute('opacity', seg(t, a - 0.2, a));
+    dn.setAttribute('opacity', seg(t, b - 0.2, b)); ld.setAttribute('opacity', seg(t, b - 0.2, b));
+    up.setAttribute('stroke-dashoffset', t * 40); dn.setAttribute('stroke-dashoffset', -t * 40);
+    dots.forEach((d, i) => {
+      const p = seg(t, a + i * 0.3, a + i * 0.3 + 1.0);
+      const pt = up.getPointAtLength((1 - p) * UL);
+      d.setAttribute('cx', pt.x); d.setAttribute('cy', pt.y);
+      d.setAttribute('opacity', p > 0 && p < 1 ? 1 : 0);
+    });
+    dots2.forEach((d, i) => {
+      const p = seg(t, b + i * 0.3, b + i * 0.3 + 1.0);
+      const pt = dn.getPointAtLength(p * DL);
+      d.setAttribute('cx', pt.x); d.setAttribute('cy', pt.y);
+      d.setAttribute('opacity', p > 0 && p < 1 ? 1 : 0);
+    });
+    const g1 = pulse(t, a + 1.0, a + 2.2), g2 = pulse(t, b + 1.0, b + 2.4);
+    $('#pp-gh').style.boxShadow = `0 0 ${60 * g1}px rgba(63,185,80,${g1})`;
+    $('#pp-mate').style.boxShadow = `0 0 ${60 * g2}px rgba(88,166,255,${g2})`;
+  });
+}
+
+/* PULL REQUEST */
+FV.scene('pr', (t, ctx) => {
+  head(ctx.el, t);
+  enter($('#pr-card'), t, 0.1, 0.45, 40);
+  enter($('#pr-c1'), t, frac(ctx, 0, 0.3), 0.4);
+  enter($('#pr-c2'), t, frac(ctx, 0, 0.55), 0.4);
+  const press = frac(ctx, 0, 0.85);
+  const merged = t >= press + 0.2;
+  const st = $('#pr-state');
+  st.textContent = merged ? '⑂ Merged' : '◉ Open';
+  st.style.background = merged ? PUR : '#238636';
+  const btn = $('#pr-btn');
+  btn.textContent = merged ? 'Merged ✓' : 'Merge pull request';
+  btn.style.background = merged ? 'rgba(163,113,247,.25)' : '#238636';
+  btn.style.border = merged ? `3px solid ${PUR}` : '3px solid transparent';
+  const k = pulse(t, press - 0.15, press + 0.25);
+  btn.style.transform = `scale(${1 - 0.05 * k})`;
+  const g = pulse(t, press + 0.2, press + 1.2);
+  btn.style.boxShadow = `0 0 ${60 * g}px rgba(163,113,247,${g})`;
+  enter(btn, t, 0.6, 0.4, 0);
+  btn.style.transform = `scale(${1 - 0.05 * k})`;
+});
+
+/* OUTRO */
+FV.scene('outro', (t, ctx) => {
+  const a = enter($('#oc-a'), t, 0.1, 0.4, 0); css($('#oc-a'), { o: a, x: (1 - a) * -80 });
+  const b = enter($('#oc-b'), t, frac(ctx, 0, 0.6), 0.4, 0); css($('#oc-b'), { o: b, x: (1 - b) * 80 });
+  pop($('#oc-cta'), t, ctx.line(1) - 0.1, 0.5);
+});
+})();
+</script>
+</body>
+</html>

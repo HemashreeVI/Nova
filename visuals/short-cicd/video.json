@@ -1,0 +1,109 @@
+{
+  "title": "How CI/CD Works in 60 Seconds 🚀 #shorts",
+  "slug": "short-cicd",
+  "format": "vertical",
+  "description": "You push code, and minutes later it's live, without anyone touching a server. That's CI/CD. Continuous integration builds and tests every push automatically and stops the pipeline when a test fails; continuous delivery/deployment packages the passing build and ships it to staging, then production. Tools like GitHub Actions, GitLab CI and Jenkins run it from a config file in your repo.\n\n📘 More to learn + my projects: https://github.com/HemashreeVI\n\n#CICD #DevOps #GitHubActions #Programming #SoftwareEngineering #TechExplained #shorts",
+  "tags": [
+    "ci/cd",
+    "cicd",
+    "ci cd pipeline",
+    "continuous integration",
+    "continuous delivery",
+    "continuous deployment",
+    "devops",
+    "github actions",
+    "gitlab ci",
+    "jenkins",
+    "automated testing",
+    "deployment pipeline",
+    "software engineering",
+    "programming",
+    "tech explained",
+    "shorts"
+  ],
+  "voice": "am_michael",
+  "speed": 1.1,
+  "lineGap": 0.25,
+  "captions": true,
+  "endCard": "📘 more to learn → github.com/HemashreeVI",
+  "thumbnail": "hook@6.2",
+  "endHold": 0.3,
+  "scenes": [
+    {
+      "id": "hook",
+      "pad": [
+        0.3,
+        0.6
+      ],
+      "lines": [
+        "You push code, and minutes later it's live for millions of users. Nobody touched a server.",
+        "That's CI/CD."
+      ]
+    },
+    {
+      "id": "old",
+      "pad": [
+        0.3,
+        0.5
+      ],
+      "lines": [
+        "Without it, teams merge by hand, test by hand, and deploy late at night, hoping nothing breaks."
+      ]
+    },
+    {
+      "id": "ci",
+      "pad": [
+        0.3,
+        0.5
+      ],
+      "lines": [
+        "CI, continuous integration, means every push triggers a pipeline: your code is built, and the tests run automatically."
+      ]
+    },
+    {
+      "id": "fail",
+      "pad": [
+        0.3,
+        0.6
+      ],
+      "lines": [
+        "If a test fails, the pipeline stops, and you see a red cross, before the bug reaches anyone."
+      ]
+    },
+    {
+      "id": "cd",
+      "pad": [
+        0.3,
+        0.6
+      ],
+      "lines": [
+        "CD, continuous delivery, takes the passing build, packages it, often as a Docker image, and ships it to staging, then production."
+      ]
+    },
+    {
+      "id": "tools",
+      "pad": [
+        0.3,
+        0.5
+      ],
+      "lines": [
+        "Tools like GitHub Actions, GitLab CI, and Jenkins run these pipelines from a simple config file in your repo."
+      ]
+    },
+    {
+      "id": "outro",
+      "pad": [
+        0.3,
+        2.6
+      ],
+      "lines": [
+        "Push. Test. Ship. Automatically."
+      ]
+    }
+  ],
+  "pronounce": {
+    "CI/CD": "C I C D",
+    "CI": "C I",
+    "CD": "C D"
+  }
+}

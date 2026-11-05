@@ -1,0 +1,115 @@
+{
+  "title": "How APIs Work in 60 Seconds 🔌 #shorts",
+  "slug": "short-apis",
+  "format": "vertical",
+  "description": "Every app talks to other apps through APIs. Think of an API like a waiter: your app sends a request (method, endpoint, API key), the server gets the data, and sends back a response as JSON with a status code like 200 OK or 404 Not Found. Plus the four main methods: GET, POST, PUT, DELETE.\n\n📘 More to learn + my projects: https://github.com/HemashreeVI\n\n#API #APIs #WebDevelopment #Programming #Backend #TechExplained #shorts",
+  "tags": [
+    "api",
+    "apis",
+    "how apis work",
+    "api explained",
+    "what is an api",
+    "rest api",
+    "api for beginners",
+    "http methods",
+    "get post put delete",
+    "json",
+    "status codes",
+    "backend",
+    "web development",
+    "programming",
+    "tech explained",
+    "shorts"
+  ],
+  "voice": "am_michael",
+  "speed": 1.1,
+  "lineGap": 0.25,
+  "captions": true,
+  "endCard": "📘 more to learn → github.com/HemashreeVI",
+  "thumbnail": "hook@3.4",
+  "endHold": 0.3,
+  "scenes": [
+    {
+      "id": "hook",
+      "pad": [
+        0.3,
+        0.4
+      ],
+      "lines": [
+        "Every app you use talks to other apps: weather, payments, logins.",
+        "They all use APIs. Here's how."
+      ]
+    },
+    {
+      "id": "waiter",
+      "pad": [
+        0.3,
+        0.5
+      ],
+      "lines": [
+        "Think of an API like a waiter. You don't walk into the kitchen. You give your order to the waiter, and they bring back your food."
+      ]
+    },
+    {
+      "id": "request",
+      "pad": [
+        0.3,
+        0.6
+      ],
+      "lines": [
+        "In code, your app sends a request: a method like GET, an address called an endpoint, and often a key that proves who you are."
+      ]
+    },
+    {
+      "id": "server",
+      "pad": [
+        0.3,
+        0.5
+      ],
+      "lines": [
+        "The server checks the request, fetches the data, often from a database, and sends back a response."
+      ]
+    },
+    {
+      "id": "response",
+      "pad": [
+        0.3,
+        0.5
+      ],
+      "lines": [
+        "The response usually comes as JSON: neat, labelled data, plus a status code, like 200 for OK, or 404 for not found."
+      ]
+    },
+    {
+      "id": "methods",
+      "pad": [
+        0.3,
+        0.6
+      ],
+      "lines": [
+        "GET reads data. POST creates it. PUT updates it. And DELETE removes it."
+      ]
+    },
+    {
+      "id": "real",
+      "pad": [
+        0.3,
+        0.6
+      ],
+      "lines": [
+        "So when your weather app shows twenty four degrees, it just made an API call."
+      ]
+    },
+    {
+      "id": "outro",
+      "pad": [
+        0.3,
+        1.6
+      ],
+      "lines": [
+        "Apps talking to apps. That's an API.",
+        "Follow for more tech, decoded."
+      ]
+    }
+  ]
+}

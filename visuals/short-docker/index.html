@@ -1,0 +1,319 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Docker Short</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{--ink:#e8edf7;--mut:#8b97b0;--dk:#2496ed;--dk2:#0db7ed;--grn:#34d399;--red:#f87171;--yel:#fbbf24;--pur:#a78bfa;--pink:#f472b6}
+  #fv-stage{background:radial-gradient(1000px 1300px at 70% 15%,#0c2c56 0%,#071a33 50%,#050b16 80%);color:var(--ink);font-family:Inter,system-ui,sans-serif}
+  #bg-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(36,150,237,.16) 1px,transparent 1px),linear-gradient(90deg,rgba(36,150,237,.16) 1px,transparent 1px);background-size:90px 90px;opacity:.22}
+  .abs{position:absolute}
+  .step{position:absolute;left:0;right:0;top:250px;text-align:center;font:700 34px/1 'JetBrains Mono',monospace;letter-spacing:.2em;color:var(--dk2)}
+  .head{position:absolute;left:60px;right:60px;top:305px;text-align:center;font:800 84px/1.05 Inter;letter-spacing:-.03em}
+  .panel{position:absolute;border:3px solid rgba(120,170,230,.28);border-radius:30px;background:rgba(8,22,44,.88)}
+  .mono{font-family:'JetBrains Mono',monospace}
+  .label{font:600 32px Inter;color:var(--mut)}
+  .badge{position:absolute;left:50%;top:150px;transform:translateX(-50%);padding:12px 26px;border-radius:40px;background:rgba(13,183,237,.12);border:2px solid rgba(13,183,237,.5);font:700 30px Inter;color:var(--dk2);white-space:nowrap}
+  .pill{display:inline-block;padding:12px 28px;border-radius:40px;font:800 40px Inter}
+  .chip{position:absolute;padding:16px 24px;border-radius:18px;border:3px solid var(--c);background:color-mix(in srgb,var(--c) 16%,#081628);font:700 38px Inter;white-space:nowrap}
+  .layer{height:76px;margin-top:10px;border-radius:16px;display:flex;align-items:center;padding:0 26px;font:700 34px Inter;border:3px solid var(--c);background:color-mix(in srgb,var(--c) 20%,#081628)}
+  .blk{border-radius:14px;display:flex;align-items:center;justify-content:center;font:700 28px Inter;border:3px solid var(--c);background:color-mix(in srgb,var(--c) 18%,#081628);box-sizing:border-box}
+  .box{width:120px;height:84px;border-radius:14px;border:3px solid var(--dk2);background:rgba(13,183,237,.16);display:flex;align-items:center;justify-content:center;font:700 22px 'JetBrains Mono';color:#bfe9ff}
+</style>
+</head>
+<body>
+<div id="fv-stage">
+  <div id="bg-grid"></div>
+  <div class="badge">Tech, decoded</div>
+
+  <!-- HOOK -->
+  <section class="fv-scene" data-scene="hook">
+    <div id="hk-a" class="panel" style="left:110px;right:110px;top:470px;height:230px;padding:34px 40px;box-sizing:border-box">
+      <div class="label">my machine</div><div style="font:800 76px Inter;color:var(--grn);margin-top:14px">✓ works</div>
+    </div>
+    <div id="hk-b" class="panel" style="left:110px;right:110px;top:740px;height:230px;padding:34px 40px;box-sizing:border-box;border-color:rgba(248,113,113,.6)">
+      <div class="label">your machine</div><div style="font:800 76px Inter;color:var(--red);margin-top:14px">✗ crashes</div>
+    </div>
+    <div id="hk-d" class="abs" style="left:0;right:0;top:1040px;display:flex;justify-content:center;align-items:center;gap:30px">
+      <div id="hk-cubes" style="display:grid;grid-template-columns:repeat(3,58px);gap:8px"></div>
+      <div style="font:900 120px/1 Inter;letter-spacing:-.04em;color:var(--dk2)">Docker</div>
+    </div>
+  </section>
+
+  <!-- PROBLEM -->
+  <section class="fv-scene" data-scene="problem">
+    <div class="step">THE PROBLEM</div><div class="head">Dependencies</div>
+    <svg id="pb-svg" class="abs" width="1080" height="1920" style="inset:0"></svg>
+    <div id="pb-app" class="panel" style="left:340px;width:400px;top:770px;height:190px;display:flex;flex-direction:column;align-items:center;justify-content:center;border-color:var(--dk2)">
+      <div style="font:800 54px Inter">my-app</div>
+      <div id="pb-err" class="mono" style="font-size:28px;color:var(--red);margin-top:8px;height:34px"></div>
+    </div>
+  </section>
+
+  <!-- IMAGE -->
+  <section class="fv-scene" data-scene="image">
+    <div class="step">STEP 1</div><div class="head">The image</div>
+    <div id="im-df" class="panel" style="left:70px;right:70px;top:460px;height:330px;padding:26px 30px;box-sizing:border-box;background:#06101f">
+      <div class="label" style="font-size:26px;color:var(--dk2)">Dockerfile</div>
+      <div id="im-lines" class="mono" style="font-size:33px;line-height:1.75;margin-top:6px"></div>
+    </div>
+    <div id="im-stack" class="abs" style="left:150px;right:150px;bottom:700px;display:flex;flex-direction:column-reverse"></div>
+    <div id="im-ro" class="abs" style="left:0;right:0;top:1238px;text-align:center"><span class="pill" style="background:rgba(36,150,237,.18);border:3px solid var(--dk);font-size:36px">🔒 image · read-only blueprint</span></div>
+  </section>
+
+  <!-- CONTAINER -->
+  <section class="fv-scene" data-scene="container">
+    <div class="step">STEP 2</div><div class="head">The container</div>
+    <div id="ct-img" class="abs" style="left:280px;width:520px;top:470px;height:190px;border:4px dashed rgba(120,170,230,.7);border-radius:26px;display:flex;flex-direction:column;align-items:center;justify-content:center">
+      <div class="label" style="font-size:28px">image (blueprint)</div><div class="mono" style="font:700 44px 'JetBrains Mono';margin-top:8px">my-app:1.0</div>
+    </div>
+    <div id="ct-run" class="abs mono" style="left:0;right:0;top:690px;text-align:center;font-size:40px;font-weight:700;color:var(--grn)">$ docker run my-app ↓</div>
+    <div id="ct-ring" class="abs" style="left:170px;width:740px;top:790px;height:470px;border:4px dashed var(--grn);border-radius:40px"></div>
+    <div id="ct-box" class="panel" style="left:220px;width:640px;top:840px;height:370px;border-color:var(--dk2);background:rgba(13,183,237,.1);padding:30px;box-sizing:border-box">
+      <div style="display:flex;justify-content:space-between;align-items:center"><span class="label" style="font-size:28px">container</span><span id="ct-live" class="mono" style="font-size:30px;color:var(--grn)">● running</span></div>
+      <div style="margin-top:30px;height:210px;border-radius:20px;background:#0d1d36;border:2px solid rgba(120,170,230,.3);display:flex;align-items:center;justify-content:center;font:800 60px Inter">my-app 🚀</div>
+    </div>
+    <div id="ct-iso" class="abs" style="left:0;right:0;top:1280px;text-align:center;font:700 34px Inter;color:var(--grn)">isolated from everything else</div>
+  </section>
+
+  <!-- VM vs CONTAINER -->
+  <section class="fv-scene" data-scene="vm">
+    <div class="step">WHY IT'S FAST</div><div class="head">VMs vs containers</div>
+    <div id="vm-a" class="abs" style="left:50px;width:470px;top:470px"></div>
+    <div id="vm-b" class="abs" style="left:560px;width:470px;top:470px"></div>
+  </section>
+
+  <!-- SCALE -->
+  <section class="fv-scene" data-scene="scale">
+    <div class="step">STEP 3</div><div class="head">Run many</div>
+    <div id="sc-img" class="abs" style="left:0;right:0;top:450px;text-align:center"><span class="pill mono" style="border:4px dashed rgba(120,170,230,.7);font-size:38px">image: my-app:1.0</span></div>
+    <div id="sc-grid" class="abs" style="left:100px;right:100px;top:560px;display:grid;grid-template-columns:repeat(5,1fr);gap:22px;justify-items:center"></div>
+    <div id="sc-targets" class="abs" style="left:60px;right:60px;top:880px;display:flex;justify-content:space-between"></div>
+  </section>
+
+  <!-- REGISTRY -->
+  <section class="fv-scene" data-scene="registry">
+    <div class="step">STEP 4</div><div class="head">Share it</div>
+    <div id="rg-hub" class="panel" style="left:90px;right:90px;top:460px;height:250px;padding:26px 32px;box-sizing:border-box;border-color:var(--dk)">
+      <div style="font:800 40px Inter">Registry <span style="color:var(--mut);font-weight:600;font-size:32px">· e.g. Docker Hub</span></div>
+      <div id="rg-tiles" style="display:flex;gap:16px;margin-top:26px"></div>
+    </div>
+    <svg id="rg-svg" class="abs" width="1080" height="1920" style="inset:0"></svg>
+    <div id="rg-term" class="panel" style="left:90px;right:90px;top:820px;height:400px;padding:28px 32px;box-sizing:border-box;background:#030812;border-color:#22344f">
+      <div style="display:flex;gap:10px;margin-bottom:22px"><i style="width:16px;height:16px;border-radius:50%;background:#f87171"></i><i style="width:16px;height:16px;border-radius:50%;background:#fbbf24"></i><i style="width:16px;height:16px;border-radius:50%;background:#34d399"></i></div>
+      <div id="rg-out" class="mono" style="font-size:36px;line-height:1.75;white-space:pre"></div>
+    </div>
+  </section>
+
+  <!-- OUTRO -->
+  <section class="fv-scene" data-scene="outro">
+    <div id="oc-h" class="abs" style="left:60px;right:60px;top:300px;text-align:center;font:900 96px/1.05 Inter;letter-spacing:-.04em">Same app,<br><span style="color:var(--dk2)">everywhere.</span></div>
+    <div id="oc-list" class="abs" style="left:0;right:0;top:560px;display:flex;flex-direction:column;align-items:center;gap:8px"></div>
+    <div id="oc-cta" class="abs" style="left:0;right:0;top:1180px;text-align:center"><span class="pill" style="background:var(--yel);color:#1a1300;font-size:52px;padding:16px 38px">Follow · Tech, Decoded</span></div>
+  </section>
+</div>
+<script src="timing.js"></script>
+<script src="fv-runtime.js"></script>
+<script>
+(() => {
+const { seg, css, enter, lerp, clamp, ease, pulse, $ } = FV;
+const NS = 'http://www.w3.org/2000/svg';
+const svg = (tag, attrs, parent) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; };
+const div = (cls, html, parent, style) => { const e = document.createElement('div'); if (cls) e.className = cls; if (html !== undefined) e.innerHTML = html; if (style) e.style.cssText = style; if (parent) parent.appendChild(e); return e; };
+const pop = (el, t, a, d = 0.45) => { const p = seg(t, a, a + d, ease.back); css(el, { o: clamp(p * 1.5), s: Math.max(0, p) }); return p; };
+const head = (el, t) => { enter($('.step', el), t, 0.0, 0.4); enter($('.head', el), t, 0.08, 0.45, 30); };
+const frac = (ctx, i, f) => ctx.line(i) + (ctx.lineEnd(i) - ctx.line(i)) * f;
+const shake = (t, a, b) => (t > a && t < b ? Math.sin(t * 60) * 14 * (1 - (t - a) / (b - a)) : 0);
+const DK = '#2496ed', DK2 = '#0db7ed', GRN = '#34d399', RED = '#f87171', YEL = '#fbbf24', PUR = '#a78bfa', PINK = '#f472b6';
+
+/* HOOK */
+{
+  const cubes = $('#hk-cubes');
+  const cs = Array.from({ length: 6 }, (_, i) => div('', '', cubes, `width:58px;height:44px;border-radius:8px;background:${i % 2 ? DK : DK2}`));
+  FV.scene('hook', (t, ctx) => {
+    enter($('#hk-a'), t, 0.1, 0.45, 40);
+    const b = frac(ctx, 0, 0.55);
+    enter($('#hk-b'), t, b, 0.4, 40);
+    css($('#hk-b'), { o: seg(t, b, b + 0.4), x: shake(t, b + 0.3, b + 1.0) });
+    const d = ctx.line(1);
+    const dim = seg(t, d, d + 0.4);
+    $('#hk-a').style.filter = $('#hk-b').style.filter = `opacity(${1 - 0.6 * dim})`;
+    enter($('#hk-d'), t, d + 0.1, 0.5, 40);
+    cs.forEach((c, i) => pop(c, t, d + 0.2 + i * 0.08, 0.35));
+  });
+}
+
+/* PROBLEM */
+{
+  const sv = $('#pb-svg'), host = $('#fv-stage').querySelector('[data-scene="problem"]');
+  const D = [['Python 3.11', 260, 560, YEL], ['numpy 1.26', 820, 560, PUR], ['Postgres 15', 260, 1140, DK2], ['ENV settings', 820, 1140, PINK]];
+  const chips = D.map(([txt, x, y, c]) => {
+    const l = svg('line', { x1: x, y1: y, x2: 540, y2: 865, stroke: c, 'stroke-width': 5, 'stroke-dasharray': '10 10' }, sv);
+    const ch = div('chip', txt, host); ch.style.setProperty('--c', c);
+    return { l, ch, x, y, c };
+  });
+  const at = [0.12, 0.3, 0.38, 0.47];
+  FV.scene('problem', (t, ctx) => {
+    head(ctx.el, t);
+    enter($('#pb-app'), t, 0.15, 0.4);
+    const brk = frac(ctx, 0, 0.66);
+    chips.forEach((k, i) => {
+      const a = frac(ctx, 0, at[i]);
+      const p = pop(k.ch, t, a, 0.4);
+      css(k.ch, { left: `${k.x - k.ch.offsetWidth / 2}px`, top: `${k.y - k.ch.offsetHeight / 2}px`, o: clamp(p * 1.5), s: Math.max(0, p) });
+      k.l.setAttribute('opacity', seg(t, a, a + 0.3));
+      k.l.setAttribute('stroke-dashoffset', -t * 30);
+      if (i === 0) {
+        const bad = t > brk;
+        k.ch.textContent = bad ? 'Python 3.8 ✗' : 'Python 3.11';
+        k.ch.style.setProperty('--c', bad ? RED : YEL);
+        k.l.setAttribute('stroke', bad ? RED : YEL);
+        if (bad) css(k.ch, { left: `${k.x - k.ch.offsetWidth / 2}px`, s: 1 + 0.15 * pulse(t, brk, brk + 0.4) });
+      }
+    });
+    const e = frac(ctx, 0, 0.88);
+    $('#pb-err').textContent = t > e ? '✗ ImportError' : '';
+    css($('#pb-app'), { x: shake(t, e, e + 0.8), borderColor: t > e ? RED : DK2 });
+  });
+}
+
+/* IMAGE */
+{
+  const L = [['FROM', ' python:3.11', 'base layer: python:3.11', YEL], ['COPY', ' . /app', 'your code', DK2], ['RUN', ' pip install -r req.txt', 'libraries', PUR], ['CMD', ' ["python","app.py"]', 'start command', GRN]];
+  const lines = L.map(([k, v]) => div('', `<span style="color:${DK2};font-weight:700">${k}</span><span style="color:#cbd5e1">${v}</span>`, $('#im-lines'), 'padding:0 12px;border-radius:10px'));
+  const layers = L.map(([, , name, c]) => { const e = div('layer', name, $('#im-stack')); e.style.setProperty('--c', c); return e; });
+  FV.scene('image', (t, ctx) => {
+    head(ctx.el, t);
+    enter($('#im-df'), t, 0.15, 0.4);
+    const at = [0.36, 0.5, 0.64, 0.78];
+    lines.forEach((ln, i) => {
+      const a = frac(ctx, 0, at[i]);
+      ln.style.opacity = 0.35 + 0.65 * seg(t, 0.3 + i * 0.12, 0.6 + i * 0.12);
+      const h = pulse(t, a - 0.1, a + 0.9);
+      ln.style.background = h ? `rgba(13,183,237,${0.22 * h})` : 'transparent';
+      const p = seg(t, a, a + 0.45, ease.back);
+      css(layers[i], { o: clamp(p * 1.6), y: (1 - p) * -60 });
+    });
+    pop($('#im-ro'), t, frac(ctx, 0, 0.55), 0.45);
+  });
+}
+
+/* CONTAINER */
+FV.scene('container', (t, ctx) => {
+  head(ctx.el, t);
+  enter($('#ct-img'), t, 0.15, 0.4);
+  const r = frac(ctx, 0, 0.12);
+  enter($('#ct-run'), t, r, 0.35);
+  const c = frac(ctx, 0, 0.4);
+  const p = seg(t, c, c + 0.55, ease.back);
+  css($('#ct-box'), { o: clamp(p * 1.5), s: Math.max(0, p), y: (1 - p) * -200 });
+  const live = 0.55 + 0.45 * Math.abs(Math.sin(t * 4));
+  $('#ct-live').style.opacity = t > c + 0.5 ? live : 0;
+  $('#ct-box').style.boxShadow = t > c + 0.5 ? `0 0 ${40 * live}px rgba(13,183,237,.6)` : 'none';
+  const iso = frac(ctx, 0, 0.62);
+  const ip = seg(t, iso, iso + 0.5);
+  css($('#ct-ring'), { o: ip, s: 1.1 - 0.1 * ip });
+  $('#ct-ring').style.strokeDashoffset = 0;
+  enter($('#ct-iso'), t, iso + 0.2, 0.4);
+});
+
+/* VM vs CONTAINER */
+{
+  const col = (host, title, color, rows, stat, statC) => {
+    div('', title, host, `font:800 44px Inter;text-align:center;color:${color}`);
+    const st = div('mono', stat, host, `text-align:center;font-size:30px;font-weight:700;color:${statC};margin-top:10px;height:40px`);
+    const stack = div('', '', host, 'margin-top:20px;display:flex;flex-direction:column-reverse;gap:10px;height:560px;justify-content:flex-start');
+    const R = rows.map(([cells, c, tag]) => {
+      const row = div('', '', stack, 'display:flex;gap:10px;height:96px');
+      cells.forEach((txt) => { const b = div('blk', txt, row, 'flex:1'); b.style.setProperty('--c', c); b.dataset.tag = tag || ''; });
+      return row;
+    });
+    return { st, R };
+  };
+  const A = col($('#vm-a'), 'Virtual machine', '#cbd5e1', [[['Hardware'], '#64748b'], [['Host OS'], '#64748b'], [['Hypervisor'], PUR], [['Guest OS', 'Guest OS'], RED, 'heavy'], [['App', 'App'], DK2]], 'minutes · GBs', RED);
+  const B = col($('#vm-b'), 'Containers', DK2, [[['Hardware'], '#64748b'], [['Host OS + kernel'], GRN, 'shared'], [['Docker Engine'], DK], [['App', 'App', 'App'], DK2]], 'seconds · MBs', GRN);
+  FV.scene('vm', (t, ctx) => {
+    head(ctx.el, t);
+    [A, B].forEach((S, s) => S.R.forEach((row, i) => { const p = seg(t, 0.25 + i * 0.12 + s * 0.06, 0.6 + i * 0.12 + s * 0.06, ease.out); css(row, { o: p, y: (1 - p) * 40 }); }));
+    const k = frac(ctx, 0, 0.32), h = pulse(t, k, k + 2.2);
+    B.R[1].firstChild.style.boxShadow = `0 0 ${50 * h}px rgba(52,211,153,${h})`;
+    A.R[3].querySelectorAll('.blk').forEach((b) => (b.style.boxShadow = `0 0 ${40 * h}px rgba(248,113,113,${0.8 * h})`));
+    const s = frac(ctx, 0, 0.6);
+    A.st.style.opacity = B.st.style.opacity = seg(t, s, s + 0.4);
+  });
+}
+
+/* SCALE */
+{
+  const grid = $('#sc-grid');
+  const boxes = Array.from({ length: 10 }, (_, i) => div('box', `#${i + 1}`, grid));
+  const T = [['💻', 'laptop'], ['🖥️', 'server'], ['☁️', 'cloud']];
+  const targets = T.map(([ic, name]) => {
+    const c = div('panel', `<div style="font-size:84px;line-height:1">${ic}</div><div style="font:800 40px Inter;margin-top:12px">${name}</div><div class="mini" style="display:flex;gap:8px;justify-content:center;margin-top:18px"></div>`, $('#sc-targets'),
+      'position:relative;width:300px;height:330px;display:flex;flex-direction:column;align-items:center;justify-content:center;box-sizing:border-box');
+    const minis = [0, 1, 2].map(() => div('', '', $('.mini', c), `width:52px;height:38px;border-radius:8px;background:${DK2}`));
+    return { c, minis };
+  });
+  FV.scene('scale', (t, ctx) => {
+    head(ctx.el, t);
+    enter($('#sc-img'), t, 0.15, 0.4);
+    boxes.forEach((b, i) => pop(b, t, frac(ctx, 0, 0.15) + i * 0.1, 0.35));
+    const at = [0.64, 0.77, 0.9];
+    targets.forEach((g, i) => {
+      enter(g.c, t, frac(ctx, 0, 0.5) + i * 0.08, 0.4, 30);
+      const a = frac(ctx, 0, at[i]);
+      const h = pulse(t, a, a + 1.2);
+      g.c.style.borderColor = h > 0.05 ? DK2 : '';
+      g.c.style.boxShadow = `0 0 ${40 * h}px rgba(13,183,237,${h})`;
+      g.minis.forEach((m, j) => pop(m, t, a + j * 0.08, 0.3));
+    });
+  });
+}
+
+/* REGISTRY */
+{
+  const tiles = ['my-app:1.0', 'postgres', 'nginx'].map((n, i) => div('', n, $('#rg-tiles'), `padding:14px 20px;border-radius:14px;font:700 30px 'JetBrains Mono';border:3px solid ${[GRN, DK2, PUR][i]};background:rgba(13,183,237,.08)`));
+  const sv = $('#rg-svg');
+  const arrowUp = svg('path', { d: 'M300 815 L300 720', stroke: GRN, 'stroke-width': 6, 'stroke-dasharray': '12 10', fill: 'none' }, sv);
+  const arrowDn = svg('path', { d: 'M780 720 L780 815', stroke: DK2, 'stroke-width': 6, 'stroke-dasharray': '12 10', fill: 'none' }, sv);
+  const lu = svg('text', { x: 330, y: 778, fill: GRN, 'font-size': 30, 'font-weight': 700, 'font-family': 'JetBrains Mono' }, sv); lu.textContent = 'push';
+  const ld = svg('text', { x: 750, y: 778, fill: DK2, 'font-size': 30, 'font-weight': 700, 'font-family': 'JetBrains Mono', 'text-anchor': 'end' }, sv); ld.textContent = 'pull';
+  const CMD = [['$ docker push my-app', 0.05, 0.3, '#e8edf7'], ['$ docker pull my-app', 0.62, 0.74, '#e8edf7'], ['$ docker run my-app', 0.76, 0.86, '#e8edf7'], ['✓ my-app is running', 0.92, 0.93, GRN]];
+  FV.scene('registry', (t, ctx) => {
+    head(ctx.el, t);
+    enter($('#rg-hub'), t, 0.1, 0.4);
+    enter($('#rg-term'), t, 0.2, 0.4);
+    const out = $('#rg-out');
+    out.innerHTML = CMD.map(([c, a, b, col]) => { const s = FV.type(c, seg(t, frac(ctx, 0, a), frac(ctx, 0, b) + 0.01, ease.linear)); return s ? `<span style="color:${col}">${s}</span>` : ''; }).filter(Boolean).join('\n');
+    const pu = frac(ctx, 0, 0.32);
+    pop(tiles[0], t, pu + 0.3, 0.4);
+    pop(tiles[1], t, 0.3, 0.4); pop(tiles[2], t, 0.4, 0.4);
+    arrowUp.setAttribute('opacity', pulse(t, pu - 0.2, pu + 1.2)); lu.setAttribute('opacity', pulse(t, pu - 0.2, pu + 1.2));
+    const pl = frac(ctx, 0, 0.66);
+    arrowDn.setAttribute('opacity', pulse(t, pl - 0.1, pl + 1.4)); ld.setAttribute('opacity', pulse(t, pl - 0.1, pl + 1.4));
+    arrowUp.setAttribute('stroke-dashoffset', t * 40); arrowDn.setAttribute('stroke-dashoffset', -t * 40);
+  });
+}
+
+/* OUTRO */
+{
+  const steps = [['Dockerfile', 'the recipe', YEL], ['Image', 'the blueprint', DK2], ['Container', 'the running app', GRN], ['Registry', 'share it anywhere', PUR]];
+  const L = $('#oc-list');
+  const items = [];
+  steps.forEach(([a, b, c], i) => {
+    items.push(div('', `<span style="font:800 50px Inter;width:330px">${a}</span><span style="font:600 32px Inter;color:#8b97b0">${b}</span>`, L,
+      `display:flex;align-items:center;padding:16px 36px;border-radius:24px;border:3px solid ${c}99;background:${c}1f;width:800px;box-sizing:border-box`));
+    if (i < steps.length - 1) items.push(div('', '↓', L, 'font:700 34px Inter;color:#8b97b0;height:34px;line-height:34px'));
+  });
+  FV.scene('outro', (t, ctx) => {
+    pop($('#oc-h'), t, 0.05, 0.5);
+    items.forEach((e, i) => enter(e, t, 0.3 + i * 0.1, 0.35, 24));
+    pop($('#oc-cta'), t, ctx.line(1) - 0.1, 0.5);
+  });
+}
+})();
+</script>
+</body>
+</html>

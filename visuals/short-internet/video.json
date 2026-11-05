@@ -1,0 +1,41 @@
+{
+  "title": "How the Internet Works in 60 Seconds 🌐 #shorts",
+  "slug": "short-internet",
+  "format": "vertical",
+  "description": "What actually happens when you open a website? Follow one click: DNS turns the name into an IP address, your request is split into packets, routers pass them across the world, a server sends the page back, your browser reassembles it, and HTTPS keeps it all encrypted.\n\n#Internet #HowTheInternetWorks #Networking #DNS #TechExplained #shorts",
+  "tags": ["how the internet works", "internet explained", "DNS", "IP address", "packets", "routers", "servers", "HTTPS", "networking", "web basics", "computer science", "tech explained", "shorts"],
+  "voice": "am_michael",
+  "speed": 1.08,
+  "lineGap": 0.25,
+  "captions": true,
+  "thumbnail": "hook@2.4",
+  "endHold": 0.3,
+  "scenes": [
+    { "id": "hook", "pad": [0.3, 0.4], "lines": [
+      "What actually happens when you open a website?",
+      "Let's follow one click, in under a minute."
+    ]},
+    { "id": "dns", "pad": [0.3, 0.6], "lines": [
+      "First, DNS, the internet's phone book, turns the website's name into an IP address: the number computers use to find each other."
+    ]},
+    { "id": "packets", "pad": [0.3, 0.5], "lines": [
+      "Your request is chopped into small packets, each one labelled with where it's going."
+    ]},
+    { "id": "routers", "pad": [0.3, 0.6], "lines": [
+      "The packets hop from router to router, across cables, even under the ocean, each taking the fastest path it can find."
+    ]},
+    { "id": "server", "pad": [0.3, 0.5], "lines": [
+      "At the other end, a server receives your request, and sends the web page back, also in packets."
+    ]},
+    { "id": "assemble", "pad": [0.3, 0.6], "lines": [
+      "Your browser puts the packets back in order, and draws the page on your screen."
+    ]},
+    { "id": "https", "pad": [0.3, 0.6], "lines": [
+      "And with HTTPS, it's all encrypted, so nobody in between can read it."
+    ]},
+    { "id": "outro", "pad": [0.3, 1.6], "lines": [
+      "All of that, in a fraction of a second.",
+      "Follow for more tech, decoded."
+    ]}
+  ]
+}

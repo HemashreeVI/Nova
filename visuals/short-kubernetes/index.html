@@ -1,0 +1,332 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kubernetes Short</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{--ink:#e8edf7;--mut:#8b97b0;--k:#326ce5;--k2:#60a5fa;--grn:#34d399;--red:#f87171;--yel:#fbbf24;--pur:#a78bfa}
+  #fv-stage{background:radial-gradient(1000px 1300px at 70% 15%,#14245e 0%,#0a1433 50%,#060a18 80%);color:var(--ink);font-family:Inter,system-ui,sans-serif}
+  #bg-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(96,165,250,.15) 1px,transparent 1px),linear-gradient(90deg,rgba(96,165,250,.15) 1px,transparent 1px);background-size:90px 90px;opacity:.22}
+  .abs{position:absolute}
+  .step{position:absolute;left:0;right:0;top:250px;text-align:center;font:700 34px/1 'JetBrains Mono',monospace;letter-spacing:.2em;color:var(--k2)}
+  .head{position:absolute;left:60px;right:60px;top:305px;text-align:center;font:800 84px/1.05 Inter;letter-spacing:-.03em}
+  .panel{position:absolute;border:3px solid rgba(120,150,230,.3);border-radius:28px;background:rgba(10,18,48,.88)}
+  .mono{font-family:'JetBrains Mono',monospace}
+  .label{font:600 32px Inter;color:var(--mut)}
+  .badge{position:absolute;left:50%;top:150px;transform:translateX(-50%);padding:12px 26px;border-radius:40px;background:rgba(96,165,250,.12);border:2px solid rgba(96,165,250,.5);font:700 30px Inter;color:var(--k2);white-space:nowrap}
+  .pill{display:inline-block;padding:12px 28px;border-radius:40px;font:800 40px Inter}
+  .node{position:absolute;width:300px;border-radius:24px;border:3px solid rgba(96,165,250,.55);background:rgba(50,108,229,.1);box-sizing:border-box}
+  .node .nt{font:800 32px Inter;text-align:center;margin-top:18px}
+  .slot{position:absolute;width:115px;height:90px;border-radius:16px;border:3px dashed rgba(148,163,200,.3);box-sizing:border-box}
+  .pod{position:absolute;width:115px;height:90px;border-radius:16px;border:4px solid var(--c,#a78bfa);background:color-mix(in srgb,var(--c,#a78bfa) 18%,#0a1230);box-sizing:border-box;display:flex;align-items:center;justify-content:center;gap:6px}
+  .pod i{width:30px;height:24px;border-radius:5px;background:var(--k2)}
+  .pod.other{--c:#64748b}.pod.other i{background:#64748b}
+  .pod.dead{--c:#f87171}.pod.dead i{background:#f87171}
+  .tiny{position:absolute;width:56px;height:38px;border-radius:7px;background:var(--k2)}
+</style>
+</head>
+<body>
+<div id="fv-stage">
+  <div id="bg-grid"></div>
+  <div class="badge">Tech, decoded</div>
+
+  <!-- HOOK -->
+  <section class="fv-scene" data-scene="hook">
+    <div id="hk-one" class="abs" style="left:390px;top:560px;width:300px;height:200px;border-radius:26px;border:4px solid var(--k2);background:rgba(96,165,250,.16);display:flex;flex-direction:column;align-items:center;justify-content:center">
+      <div style="font:800 44px Inter">1 container</div><div class="label" style="font-size:28px;margin-top:6px">easy</div>
+    </div>
+    <div id="hk-many" class="abs" style="left:0;top:0;width:1080px;height:1920px"></div>
+    <div id="hk-q" class="abs" style="left:0;right:0;top:1090px;text-align:center;font:800 64px Inter;color:var(--red)">hundreds?</div>
+    <div id="hk-k" class="abs" style="left:0;right:0;top:620px;text-align:center">
+      <div style="font:900 150px/1 Inter;letter-spacing:-.05em;color:#fff;text-shadow:0 0 60px rgba(50,108,229,.9)">Kubernetes</div>
+      <div style="margin-top:28px"><span class="pill mono" style="background:var(--k);font-size:44px">aka K8s</span></div>
+    </div>
+  </section>
+
+  <!-- CLUSTER -->
+  <section class="fv-scene" data-scene="cluster">
+    <div class="step">STEP 1</div><div class="head">The cluster</div>
+    <div id="cl-ring" class="abs" style="left:40px;right:40px;top:440px;height:860px;border:4px dashed rgba(96,165,250,.45);border-radius:40px"></div>
+    <div id="cl-tag" class="abs mono" style="left:80px;top:420px;padding:0 14px;background:#0b1536;font-size:30px;font-weight:700;color:var(--k2)">cluster</div>
+    <svg id="cl-svg" class="abs" width="1080" height="1920" style="inset:0"></svg>
+    <div id="cl-cp" class="panel" style="left:170px;width:740px;top:500px;height:200px;border-color:var(--yel);background:rgba(251,191,36,.1);display:flex;flex-direction:column;align-items:center;justify-content:center">
+      <div style="font:800 52px Inter">🧠 Control plane</div><div class="label" style="margin-top:10px;font-size:28px">decides what runs where</div>
+    </div>
+    <div id="cl-nodes"></div>
+  </section>
+
+  <!-- PODS -->
+  <section class="fv-scene" data-scene="pods">
+    <div class="step">STEP 2</div><div class="head">Pods</div>
+    <div id="pd-ana" class="abs" style="left:0;right:0;top:450px;display:flex;justify-content:center;align-items:center;gap:40px">
+      <div style="width:250px;height:160px;border-radius:26px;border:5px solid var(--pur);background:rgba(167,139,250,.15);display:flex;align-items:center;justify-content:center">
+        <div style="width:120px;height:80px;border-radius:12px;background:var(--k2);display:flex;align-items:center;justify-content:center;font:800 22px 'JetBrains Mono';color:#0a1230">container</div>
+      </div>
+      <div style="font:700 34px/1.4 Inter"><span style="color:var(--pur)">pod</span> = wrapper<br><span class="mut" style="color:var(--mut);font-weight:600">smallest unit K8s runs</span></div>
+    </div>
+    <div id="pd-host"></div>
+    <div id="pd-sched" class="abs mono" style="left:0;right:0;top:672px;text-align:center;font-size:30px;font-weight:700;color:var(--yel)">scheduler: finding a node with room…</div>
+  </section>
+
+  <!-- DESIRED STATE -->
+  <section class="fv-scene" data-scene="desired">
+    <div class="step">STEP 3</div><div class="head">Desired state</div>
+    <div id="ds-yaml" class="panel" style="left:110px;right:110px;top:450px;height:420px;padding:26px 34px;box-sizing:border-box;background:#050a1c">
+      <div class="label" style="font-size:26px;color:var(--k2)">deployment.yaml</div>
+      <div id="ds-lines" class="mono" style="font-size:36px;line-height:1.55;margin-top:8px;white-space:pre"></div>
+    </div>
+    <div id="ds-pods" class="abs" style="left:0;right:0;top:940px;display:flex;justify-content:center;gap:40px"></div>
+    <div id="ds-st" class="abs mono" style="left:0;right:0;top:1100px;text-align:center;font-size:36px;font-weight:700;color:var(--grn)">desired: 3 · running: 3 ✓</div>
+  </section>
+
+  <!-- SELF-HEALING -->
+  <section class="fv-scene" data-scene="heal">
+    <div class="step">STEP 4</div><div class="head">Self-healing</div>
+    <div id="hl-host"></div>
+    <div id="hl-st" class="abs" style="left:0;right:0;top:1010px;text-align:center"></div>
+  </section>
+
+  <!-- SCALING -->
+  <section class="fv-scene" data-scene="scale">
+    <div class="step">STEP 5</div><div class="head">Autoscaling</div>
+    <div id="sc-tr" class="abs" style="left:110px;right:110px;top:460px">
+      <div style="display:flex;justify-content:space-between" class="label"><span>traffic</span><span id="sc-trv" class="mono"></span></div>
+      <div style="height:40px;margin-top:14px;border-radius:20px;background:rgba(148,163,200,.15);overflow:hidden"><div id="sc-bar" style="height:100%;border-radius:20px;background:linear-gradient(90deg,#34d399,#fbbf24,#f87171)"></div></div>
+    </div>
+    <div id="sc-grid" class="abs" style="left:0;top:0"></div>
+    <div id="sc-n" class="abs" style="left:0;right:0;top:1000px;text-align:center;font:900 120px/1 Inter;letter-spacing:-.04em"></div>
+  </section>
+
+  <!-- SERVICE -->
+  <section class="fv-scene" data-scene="service">
+    <div class="step">STEP 6</div><div class="head">Services</div>
+    <div id="sv-users" class="abs" style="left:0;right:0;top:450px;text-align:center;font-size:64px;letter-spacing:30px">👤👤👤👤</div>
+    <svg id="sv-svg" class="abs" width="1080" height="1920" style="inset:0"></svg>
+    <div id="sv-box" class="panel" style="left:170px;width:740px;top:610px;height:170px;border-color:var(--grn);background:rgba(52,211,153,.1);display:flex;flex-direction:column;align-items:center;justify-content:center">
+      <div style="font:800 46px Inter">Service · my-app</div><div class="mono" style="font-size:28px;color:var(--grn);margin-top:8px">one stable address</div>
+    </div>
+    <div id="sv-pods"></div>
+  </section>
+
+  <!-- OUTRO -->
+  <section class="fv-scene" data-scene="outro">
+    <div id="oc-h" class="abs" style="left:60px;right:60px;top:300px;text-align:center;font:900 80px/1.08 Inter;letter-spacing:-.035em">You declare it.<br><span style="color:var(--k2)">K8s keeps it that way.</span></div>
+    <div id="oc-list" class="abs" style="left:0;right:0;top:540px;display:flex;flex-direction:column;align-items:center;gap:12px"></div>
+    <div id="oc-gh" class="abs" style="left:0;right:0;top:1112px;text-align:center"><span class="pill mono" style="font-size:32px;border:3px solid #e6edf3;background:rgba(230,237,243,.08)">📘 more to learn → github.com/HemashreeVI</span></div>
+    <div id="oc-cta" class="abs" style="left:0;right:0;top:1206px;text-align:center"><span class="pill" style="background:var(--yel);color:#1a1300;font-size:52px;padding:16px 38px">Follow · Tech, Decoded</span></div>
+  </section>
+</div>
+<script src="timing.js"></script>
+<script src="fv-runtime.js"></script>
+<script>
+(() => {
+const { seg, css, enter, lerp, clamp, ease, pulse, rand, $ } = FV;
+const NS = 'http://www.w3.org/2000/svg';
+const svg = (tag, attrs, parent) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; };
+const div = (cls, html, parent, style) => { const e = document.createElement('div'); if (cls) e.className = cls; if (html !== undefined) e.innerHTML = html; if (style) e.style.cssText = style; if (parent) parent.appendChild(e); return e; };
+const pop = (el, t, a, d = 0.45) => { const p = seg(t, a, a + d, ease.back); css(el, { o: clamp(p * 1.5), s: Math.max(0, p) }); return p; };
+const head = (el, t) => { enter($('.step', el), t, 0.0, 0.4); enter($('.head', el), t, 0.08, 0.45, 30); };
+const frac = (ctx, i, f) => ctx.line(i) + (ctx.lineEnd(i) - ctx.line(i)) * f;
+const GRN = '#34d399', RED = '#f87171', YEL = '#fbbf24', PUR = '#a78bfa', K2 = '#60a5fa';
+const NX = [60, 390, 720];
+// nodes with 2x2 slots; returns slot coordinate helper
+const makeNodes = (host, top, h = 330) => NX.map((x, i) => {
+  const n = div('node', `<div class="nt">Node ${i + 1}</div>`, host, `left:${x}px;top:${top}px;height:${h}px`);
+  for (let r = 0; r < 2; r++) for (let c = 0; c < 2; c++) div('slot', '', n, `left:${25 + c * 135}px;top:${80 + r * 115}px`);
+  return n;
+});
+const slotXY = (top, node, k) => [NX[node] + 25 + (k % 2) * 135, top + 80 + Math.floor(k / 2) * 115];
+const pod = (host, cls = '') => div('pod ' + cls, '<i></i>', host);
+
+/* HOOK */
+{
+  const host = $('#hk-many'), r = rand(4), boxes = [];
+  for (let i = 0; i < 120; i++) {
+    const c = i % 12, rw = Math.floor(i / 12);
+    boxes.push({ el: div('tiny', '', host, `left:${108 + c * 74}px;top:${500 + rw * 56}px`), d: r(), j: r() * 6.28 });
+  }
+  FV.scene('hook', (t, ctx) => {
+    pop($('#hk-one'), t, 0.1, 0.45);
+    const m = frac(ctx, 0, 0.45);
+    $('#hk-one').style.opacity = 1 - seg(t, m - 0.1, m + 0.2);
+    const k = ctx.line(1);
+    const dim = seg(t, k - 0.1, k + 0.4);
+    boxes.forEach((b) => {
+      const p = seg(t, m + b.d * 1.2, m + b.d * 1.2 + 0.25);
+      const jit = (1 - dim) * 4;
+      css(b.el, { o: p * lerp(1, 0.18, dim), x: Math.sin(t * 9 + b.j) * jit, y: Math.cos(t * 7 + b.j) * jit, background: b.d > 0.75 && p > 0 && dim < 0.5 ? RED : '' });
+    });
+    css($('#hk-q'), { o: seg(t, m + 0.8, m + 1.1) * (1 - dim) });
+    pop($('#hk-k'), t, k + 0.05, 0.55);
+  });
+}
+
+/* CLUSTER */
+{
+  const host = $('#cl-nodes'), sv = $('#cl-svg');
+  const nodes = makeNodes(host, 900, 300);
+  const lines = NX.map((x) => svg('path', { d: `M540 700 C540 800 ${x + 150} 800 ${x + 150} 900`, stroke: YEL, 'stroke-width': 5, fill: 'none', 'stroke-dasharray': '12 10' }, sv));
+  FV.scene('cluster', (t, ctx) => {
+    head(ctx.el, t);
+    const r = seg(t, frac(ctx, 0, 0.1), frac(ctx, 0, 0.1) + 0.5);
+    css($('#cl-ring'), { o: r, s: 1.04 - 0.04 * r }); $('#cl-tag').style.opacity = r;
+    nodes.forEach((n, i) => pop(n, t, frac(ctx, 0, 0.28 + i * 0.08), 0.4));
+    const c = frac(ctx, 0, 0.6);
+    pop($('#cl-cp'), t, c, 0.45);
+    lines.forEach((l, i) => { l.setAttribute('opacity', seg(t, c + 0.3 + i * 0.1, c + 0.6 + i * 0.1)); l.setAttribute('stroke-dashoffset', -t * 40); });
+    const b = pulse(t, frac(ctx, 0, 0.88), frac(ctx, 0, 0.88) + 1.0);
+    $('#cl-cp').style.boxShadow = `0 0 ${60 * b}px rgba(251,191,36,${b})`;
+  });
+}
+
+/* PODS */
+{
+  const host = $('#pd-host'), TOP = 760;
+  makeNodes(host, TOP);
+  const pre = [[0, 0], [0, 1], [0, 2], [1, 0], [2, 0], [2, 1]];
+  const others = pre.map(([n, k]) => { const p = pod(host, 'other'); const [x, y] = slotXY(TOP, n, k); css(p, { left: x + 'px', top: y + 'px' }); return p; });
+  const targets = [[1, 1], [2, 2], [1, 2]];
+  const news = targets.map(() => pod(host));
+  FV.scene('pods', (t, ctx) => {
+    head(ctx.el, t);
+    enter($('#pd-ana'), t, 0.25, 0.45);
+    $('#pd-ana').style.opacity = Math.min(seg(t, 0.25, 0.7), 1 - 0.65 * seg(t, frac(ctx, 0, 0.5), frac(ctx, 0, 0.56)));
+    enter(host, t, frac(ctx, 0, 0.3), 0.45, 30);
+    others.forEach((p, i) => (p.style.opacity = seg(t, frac(ctx, 0, 0.36) + i * 0.04, frac(ctx, 0, 0.4) + i * 0.04)));
+    enter($('#pd-sched'), t, frac(ctx, 0, 0.55), 0.3, 0);
+    $('#pd-sched').style.opacity = seg(t, frac(ctx, 0, 0.55), frac(ctx, 0, 0.6)) * (1 - seg(t, ctx.dur - 0.6, ctx.dur - 0.3));
+    news.forEach((p, i) => {
+      const a = frac(ctx, 0, 0.62 + i * 0.12);
+      const k = seg(t, a, a + 0.6, ease.inOut);
+      const [x, y] = slotXY(TOP, ...targets[i]);
+      css(p, { left: '0px', top: '0px', o: seg(t, a - 0.15, a), x: lerp(482, x, k), y: lerp(560, y, k) - Math.sin(k * Math.PI) * 80, s: 1 + 0.2 * pulse(t, a + 0.55, a + 0.85) });
+    });
+  });
+}
+
+/* DESIRED */
+{
+  const L = ['apiVersion: apps/v1', 'kind: Deployment', 'metadata:', '  name: my-app', 'spec:', '  replicas: 3'];
+  const lines = L.map((s) => { const [k, ...v] = s.split(':'); return div('', `<span style="color:${K2}">${k}:</span><span style="color:#e2e8f0">${v.join(':')}</span>`, $('#ds-lines'), 'padding:0 10px;border-radius:10px'); });
+  const pods = [0, 1, 2].map(() => { const p = pod($('#ds-pods')); p.style.position = 'relative'; p.style.width = '170px'; p.style.height = '120px'; p.innerHTML = '<i></i><span style="font:700 24px JetBrains Mono">my-app</span>'; p.style.flexDirection = 'column'; return p; });
+  FV.scene('desired', (t, ctx) => {
+    head(ctx.el, t);
+    enter($('#ds-yaml'), t, 0.15, 0.4);
+    lines.forEach((l, i) => (l.style.opacity = seg(t, 0.3 + i * 0.12, 0.5 + i * 0.12)));
+    const h = seg(t, frac(ctx, 0, 0.3), frac(ctx, 0, 0.3) + 0.3);
+    lines[5].style.background = `rgba(251,191,36,${0.25 * h})`;
+    lines[5].style.boxShadow = h ? `inset 0 0 0 3px rgba(251,191,36,${h})` : 'none';
+    pods.forEach((p, i) => pop(p, t, frac(ctx, 0, 0.5 + i * 0.08), 0.4));
+    enter($('#ds-st'), t, frac(ctx, 0, 0.85), 0.4);
+  });
+}
+
+/* SELF-HEALING */
+{
+  const host = $('#hl-host'), TOP = 560;
+  const nodes = makeNodes(host, TOP);
+  const P = { A: [0, 0], B: [0, 1], C: [1, 0], D: [2, 0], E: [2, 1] };
+  const pods = {};
+  for (const k in P) { pods[k] = pod(host); const [x, y] = slotXY(TOP, ...P[k]); css(pods[k], { left: x + 'px', top: y + 'px' }); }
+  const repl = { B: [0, 1], D: [1, 1], E: [0, 2] };
+  const news = {}; for (const k in repl) { news[k] = pod(host); news[k].style.setProperty('--c', GRN); }
+  const downTag = div('', '✗ node down', host, `position:absolute;left:${NX[2]}px;width:300px;top:${TOP + 345}px;text-align:center;font:800 34px Inter;color:${RED}`);
+  FV.scene('heal', (t, ctx) => {
+    head(ctx.el, t);
+    enter(host, t, 0.15, 0.4, 0);
+    const crash = frac(ctx, 0, 0.1), die = frac(ctx, 0, 0.3), fix = frac(ctx, 0, 0.62);
+    // pod B crashes
+    const bc = t > crash;
+    pods.B.className = 'pod' + (bc ? ' dead' : '');
+    pods.B.innerHTML = bc ? '<span style="font:900 44px Inter;color:#f87171">✗</span>' : '<i></i>';
+    pods.B.style.opacity = 1 - seg(t, crash + 0.6, crash + 1.0);
+    css(pods.B, { x: t > crash && t < crash + 0.5 ? Math.sin(t * 60) * 8 : 0 });
+    // node 3 dies
+    const nd = t > die;
+    nodes[2].style.borderColor = nd ? RED : '';
+    nodes[2].style.background = nd ? 'rgba(248,113,113,.12)' : '';
+    nodes[2].style.opacity = nd ? 0.55 + 0.45 * Math.abs(Math.sin(t * 6)) * (1 - seg(t, die, die + 2)) : 1;
+    downTag.style.opacity = seg(t, die, die + 0.3);
+    ['D', 'E'].forEach((k) => { pods[k].className = 'pod' + (nd ? ' dead' : ''); pods[k].style.opacity = 1 - seg(t, die + 0.8, die + 1.2); });
+    // replacements
+    let running = 5 - (bc && t > crash + 0.2 ? 1 : 0) - (nd ? 2 : 0);
+    Object.keys(repl).forEach((k, i) => {
+      const a = fix + i * 0.35;
+      const [x, y] = slotXY(TOP, ...repl[k]);
+      css(news[k], { left: x + 'px', top: y + 'px' });
+      const p = pop(news[k], t, a, 0.4);
+      news[k].style.boxShadow = `0 0 ${40 * pulse(t, a, a + 1)}px rgba(52,211,153,.9)`;
+      if (t > a + 0.2) running++;
+    });
+    const ok = running === 5;
+    $('#hl-st').innerHTML = `<span class="pill mono" style="font-size:40px;border:3px solid ${ok ? GRN : RED};color:${ok ? GRN : RED};background:${ok ? 'rgba(52,211,153,.12)' : 'rgba(248,113,113,.12)'}">running: ${running}/5 ${ok ? '✓' : '⚠'}</span>` +
+      (t > fix - 0.3 && !ok ? `<div style="margin-top:22px;font:700 34px Inter;color:${YEL}">Kubernetes noticed → replacing…</div>` : '');
+    $('#hl-st').style.opacity = seg(t, 0.4, 0.7);
+  });
+}
+
+/* SCALING */
+{
+  const grid = $('#sc-grid');
+  const pods = Array.from({ length: 10 }, (_, i) => { const p = pod(grid); p.style.width = '150px'; p.style.height = '110px'; css(p, { left: `${85 + (i % 5) * 185}px`, top: `${620 + Math.floor(i / 5) * 150}px` }); return p; });
+  FV.scene('scale', (t, ctx) => {
+    head(ctx.el, t);
+    enter($('#sc-tr'), t, 0.15, 0.4);
+    const up = seg(t, frac(ctx, 0, 0.1), frac(ctx, 0, 0.4)), dn = seg(t, frac(ctx, 0, 0.7), frac(ctx, 0, 0.95));
+    const tr = 0.18 + 0.8 * up - 0.8 * dn;
+    $('#sc-bar').style.width = `${tr * 100}%`;
+    $('#sc-trv').textContent = tr > 0.7 ? '🔥 spike' : 'normal';
+    const n = Math.round(3 + 7 * clamp((tr - 0.18) / 0.8));
+    pods.forEach((p, i) => { const on = i < n; css(p, { o: on ? 1 : 0, s: on ? 1 : 0.6 }); p.style.boxShadow = on && i >= 3 ? '0 0 24px rgba(167,139,250,.6)' : 'none'; });
+    $('#sc-n').innerHTML = `${n} <span style="font-size:60px;color:#8b97b0">pods</span>`;
+    $('#sc-n').style.opacity = seg(t, 0.3, 0.6);
+  });
+}
+
+/* SERVICE */
+{
+  const host = $('#sv-pods'), sv = $('#sv-svg');
+  const PX = [230, 540, 850], PY = 1060;
+  const pods = PX.map((x, i) => { const p = pod(host); p.style.width = '200px'; p.style.height = '130px'; p.style.flexDirection = 'column'; p.innerHTML = `<i></i><span style="font:700 22px JetBrains Mono">pod ${i + 1}</span>`; css(p, { left: `${x - 100}px`, top: `${PY - 65}px` }); return p; });
+  const outs = PX.map((x) => svg('path', { d: `M540 780 C540 880 ${x} 880 ${x} 995`, stroke: GRN, 'stroke-width': 5, fill: 'none', 'stroke-dasharray': '10 10' }, sv));
+  const inP = svg('path', { d: 'M540 540 L540 610', stroke: K2, 'stroke-width': 5, fill: 'none' }, sv);
+  const dots = Array.from({ length: 12 }, () => svg('circle', { r: 14, fill: YEL, stroke: '#fff', 'stroke-width': 3 }, sv));
+  FV.scene('service', (t, ctx) => {
+    head(ctx.el, t);
+    enter($('#sv-users'), t, 0.15, 0.4);
+    pop($('#sv-box'), t, 0.3, 0.45);
+    pods.forEach((p, i) => pop(p, t, 0.5 + i * 0.1, 0.4));
+    outs.forEach((o) => { o.setAttribute('opacity', seg(t, 0.8, 1.1)); o.setAttribute('stroke-dashoffset', -t * 40); });
+    const hits = [0, 0, 0];
+    dots.forEach((d, k) => {
+      const s = frac(ctx, 0, 0.45) + k * 0.28, p = seg(t, s, s + 0.9, ease.linear);
+      const i = k % 3;
+      let x, y;
+      if (p < 0.3) { x = 540; y = lerp(520, 700, p / 0.3); }
+      else { const L = outs[i].getTotalLength(), pt = outs[i].getPointAtLength(((p - 0.3) / 0.7) * L); x = pt.x; y = pt.y; }
+      d.setAttribute('cx', x); d.setAttribute('cy', y);
+      d.setAttribute('opacity', p > 0 && p < 1 ? 1 : 0);
+      hits[i] = Math.max(hits[i], pulse(t, s + 0.85, s + 1.2));
+    });
+    pods.forEach((p, i) => (p.style.boxShadow = `0 0 ${40 * hits[i]}px rgba(251,191,36,${hits[i]})`));
+  });
+}
+
+/* OUTRO */
+{
+  const steps = [['Cluster', 'nodes + a control plane', YEL], ['Pods', 'run your containers', PUR], ['YAML', 'your desired state', K2], ['Self-healing', 'crashes get replaced', GRN], ['Autoscaling', 'grows with traffic', '#fb923c'], ['Service', 'one stable address', '#f472b6']];
+  const items = steps.map(([a, b, c]) => div('', `<span style="font:800 44px Inter;width:330px">${a}</span><span style="font:600 30px Inter;color:#8b97b0">${b}</span>`, $('#oc-list'),
+    `display:flex;align-items:center;padding:9px 34px;border-radius:22px;border:3px solid ${c}99;background:${c}1f;width:860px;box-sizing:border-box`));
+  FV.scene('outro', (t, ctx) => {
+    pop($('#oc-h'), t, 0.05, 0.5);
+    items.forEach((e, i) => enter(e, t, 0.4 + i * 0.12, 0.35, 24));
+    pop($('#oc-gh'), t, 1.3, 0.45);
+    pop($('#oc-cta'), t, ctx.line(1) - 0.1, 0.5);
+  });
+}
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+{
+  "title": "How AI Image Generation Works in 60 Seconds 🎨 #shorts",
+  "slug": "short-ai-images",
+  "format": "vertical",
+  "description": "AI image generators don't search the internet; they create images from pure noise. Diffusion models are trained by adding noise to millions of images and learning to predict that noise. To generate, they start from random static and remove noise step by step, guided by your prompt through a text encoder. Most work in a compressed latent space, and a decoder turns the result into full-size pixels.\n\n📘 More to learn + my projects: https://github.com/HemashreeVI\n\n#AI #AIArt #StableDiffusion #GenerativeAI #MachineLearning #TechExplained #shorts",
+  "tags": ["ai image generation", "how ai art works", "diffusion model", "stable diffusion explained", "midjourney", "dall-e", "text to image", "generative ai", "latent diffusion", "ai art", "machine learning", "deep learning", "ai explained", "tech explained", "shorts"],
+  "voice": "am_michael",
+  "speed": 1.1,
+  "lineGap": 0.25,
+  "captions": true,
+  "endCard": "📘 more to learn → github.com/HemashreeVI",
+  "thumbnail": "hook@6.5",
+  "endHold": 0.3,
+  "scenes": [
+    { "id": "hook", "pad": [0.3, 0.6], "lines": [
+      "You type: a cat astronaut on the moon. Seconds later, AI paints it.",
+      "It doesn't search for it. It creates it, from pure noise."
+    ]},
+    { "id": "train", "pad": [0.3, 0.5], "lines": [
+      "During training, the model sees millions of images, with noise added step by step, until only static is left."
+    ]},
+    { "id": "learn", "pad": [0.3, 0.6], "lines": [
+      "Its one job: look at a noisy image, and predict the noise, so it can be removed."
+    ]},
+    { "id": "generate", "pad": [0.3, 0.6], "lines": [
+      "To create something new, it starts from random static, and removes a little noise, again and again, over dozens of steps."
+    ]},
+    { "id": "prompt", "pad": [0.3, 0.6], "lines": [
+      "Your prompt guides every step. A text encoder turns your words into vectors, nudging the image toward a cat, an astronaut, the moon."
+    ]},
+    { "id": "latent", "pad": [0.3, 0.6], "lines": [
+      "To stay fast, most models work on a tiny compressed version, and a decoder turns it into full-size pixels at the end."
+    ]},
+    { "id": "outro", "pad": [0.3, 2.6], "lines": [
+      "From noise to art, one step at a time."
+    ]}
+  ]
+}

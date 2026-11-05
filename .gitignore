@@ -8,3 +8,9 @@ venv/
 data/*
 !data/.gitkeep
 !data/contacts.example.json
+
+# full-visual build outputs (rendered videos, audio, caches)
+visuals/*/out/
+visuals/*/narration.mp3
+visuals/*/timing.js
+visuals/*/fv-runtime.js
