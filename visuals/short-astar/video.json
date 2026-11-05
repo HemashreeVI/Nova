@@ -1,0 +1,98 @@
+{
+ "title": "How Robots Find the Shortest Path: A* Search in 60 Seconds 🗺️ #shorts",
+ "slug": "short-astar",
+ "format": "vertical",
+ "description": "A* (A-star) is the path-finding algorithm behind robots, games and maps. Each square gets a score f = g + h: g is the real distance travelled so far, h is a straight-line guess of the distance left. A* always explores the square with the lowest score, so it heads toward the goal instead of searching everywhere, and still finds the shortest path around obstacles.\n\n📘 More to learn + my projects: https://github.com/HemashreeVI\n\n#Robotics #Algorithms #AStar #PathFinding #DSA #TechExplained #shorts",
+ "tags": [
+  "a star algorithm",
+  "a* search",
+  "how a star works",
+  "path finding",
+  "shortest path",
+  "dijkstra vs a star",
+  "heuristic",
+  "robot navigation",
+  "path planning",
+  "algorithms",
+  "dsa",
+  "game ai",
+  "tech explained",
+  "shorts"
+ ],
+ "voice": "am_michael",
+ "speed": 1.1,
+ "lineGap": 0.25,
+ "captions": true,
+ "endCard": "📘 more to learn → github.com/HemashreeVI",
+ "thumbnail": "search@6",
+ "endHold": 0.3,
+ "pronounce": {
+  "A*": "A star",
+  "g": "G",
+  "h": "H",
+  "f": "F"
+ },
+ "scenes": [
+  {
+   "id": "hook",
+   "pad": [
+    0.3,
+    0.5
+   ],
+   "lines": [
+    "A robot needs to cross a room full of obstacles. Which way is the shortest?",
+    "It uses A*."
+   ]
+  },
+  {
+   "id": "blind",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "A blind search spreads out in every direction, checking hundreds of squares it never needed."
+   ]
+  },
+  {
+   "id": "score",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "A* is smarter. Every square gets a score: F equals G plus H. G is the distance travelled so far, H is a straight-line guess of the distance left."
+   ]
+  },
+  {
+   "id": "search",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "It always explores the square with the lowest score next, so it pulls toward the goal, and bends around walls only when it has to."
+   ]
+  },
+  {
+   "id": "path",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "When it reaches the goal, it traces back the cheapest route: the shortest path, after checking far fewer squares."
+   ]
+  },
+  {
+   "id": "outro",
+   "pad": [
+    0.3,
+    2.4
+   ],
+   "lines": [
+    "Distance so far, plus a smart guess. That's A*."
+   ]
+  }
+ ]
+}

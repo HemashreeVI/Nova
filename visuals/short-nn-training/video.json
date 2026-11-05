@@ -1,0 +1,104 @@
+{
+ "title": "How AI Learns: Training a Neural Network in 60 Seconds 🧠 #shorts",
+ "slug": "short-nn-training",
+ "format": "vertical",
+ "description": "A neural network starts out knowing nothing. Training is a loop: make a guess (forward pass), measure how wrong it is (the loss), work out which weights caused the error (backpropagation) and nudge each one a tiny step downhill (gradient descent). Repeat millions of times and the loss falls until the guesses are right.\n\n📘 More to learn + my projects: https://github.com/HemashreeVI\n\n#AI #NeuralNetworks #DeepLearning #MachineLearning #TechExplained #shorts",
+ "tags": [
+  "how ai learns",
+  "neural network training",
+  "how neural networks learn",
+  "backpropagation",
+  "gradient descent",
+  "loss function",
+  "forward pass",
+  "weights and biases",
+  "deep learning explained",
+  "machine learning basics",
+  "ai explained",
+  "tech explained",
+  "shorts"
+ ],
+ "voice": "am_michael",
+ "speed": 1.1,
+ "lineGap": 0.25,
+ "captions": true,
+ "endCard": "📘 more to learn → github.com/HemashreeVI",
+ "thumbnail": "loss@5",
+ "endHold": 0.3,
+ "pronounce": {
+  "AI": "A I"
+ },
+ "scenes": [
+  {
+   "id": "hook",
+   "pad": [
+    0.3,
+    0.5
+   ],
+   "lines": [
+    "Every AI model starts out completely clueless. Its first guesses are pure noise.",
+    "So how does it learn?"
+   ]
+  },
+  {
+   "id": "guess",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "Step one: guess. The input flows through layers of neurons, each one multiplying by a weight, and out comes a prediction."
+   ]
+  },
+  {
+   "id": "loss",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "Step two: measure the mistake. The loss is a single number that says how wrong that guess was."
+   ]
+  },
+  {
+   "id": "backprop",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "Step three: blame. Backpropagation works backwards and finds how much each weight caused the error."
+   ]
+  },
+  {
+   "id": "descent",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "Step four: nudge. Every weight moves a tiny step downhill, so next time the loss is a little lower."
+   ]
+  },
+  {
+   "id": "repeat",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "Repeat that loop millions of times, and the guesses go from noise to right."
+   ]
+  },
+  {
+   "id": "outro",
+   "pad": [
+    0.3,
+    2.4
+   ],
+   "lines": [
+    "Guess. Measure. Blame. Nudge. That's how AI learns."
+   ]
+  }
+ ]
+}
