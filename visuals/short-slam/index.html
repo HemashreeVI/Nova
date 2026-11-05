@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LiDAR SLAM Short</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{--ink:#eef2f6;--mut:#94a3b8;--r:#ef4444;--cy:#22d3ee;--pk:#f472b6;--grn:#34d399;--yel:#fbbf24}
+  #fv-stage{background:radial-gradient(1000px 1300px at 70% 15%,#3a1414 0%,#170c12 50%,#09060a 80%);color:var(--ink);font-family:Inter,system-ui,sans-serif}
+  #bg-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(239,68,68,.11) 1px,transparent 1px),linear-gradient(90deg,rgba(239,68,68,.11) 1px,transparent 1px);background-size:90px 90px;opacity:.22}
+  .abs{position:absolute}
+  .step{position:absolute;left:0;right:0;top:250px;text-align:center;font:700 34px/1 'JetBrains Mono',monospace;letter-spacing:.2em;color:#f87171}
+  .head{position:absolute;left:60px;right:60px;top:305px;text-align:center;font:800 84px/1.05 Inter;letter-spacing:-.03em}
+  .mono{font-family:'JetBrains Mono',monospace}
+  .label{font:600 28px Inter;color:var(--mut)}
+  .badge{position:absolute;left:50%;top:150px;transform:translateX(-50%);padding:12px 26px;border-radius:40px;background:rgba(239,68,68,.1);border:2px solid rgba(239,68,68,.5);font:700 30px Inter;color:#f87171;white-space:nowrap}
+  .pill{display:inline-block;padding:12px 26px;border-radius:40px;font:800 32px Inter}
+  .pane{position:absolute;left:157px;width:765px;height:765px;border-radius:26px;overflow:hidden;border:3px solid rgba(248,113,113,.4);background:#0b0b12}
+  .pane canvas,.pane svg{position:absolute;inset:0;width:765px;height:765px}
+  .tag{position:absolute;left:50%;transform:translateX(-50%);white-space:nowrap}
+  .fv-endcard{display:inline-block;padding:16px 30px;border-radius:40px;font:700 34px 'JetBrains Mono',monospace;border:3px solid #eef2f6;background:rgba(238,242,246,.08)}
+</style>
+</head>
+<body>
+<div id="fv-stage">
+  <div id="bg-grid"></div>
+  <div class="badge">🤖 Robotics · Tech, decoded</div>
+
+  <section class="fv-scene" data-scene="hook">
+    <div class="pane" id="hk-p" style="top:300px"></div>
+    <div id="hk-s" class="abs" style="left:0;right:0;top:1085px;text-align:center">
+      <div style="font:900 130px/1 Inter;letter-spacing:-.04em;color:#fff;text-shadow:0 0 60px rgba(239,68,68,.9)">SLAM</div>
+      <div class="mono" style="font-size:28px;font-weight:800;color:#f87171;margin-top:10px">Simultaneous Localization And Mapping</div>
+    </div>
+  </section>
+
+  <section class="fv-scene" data-scene="lidar">
+    <div class="step">THE SENSOR</div><div class="head">LiDAR</div>
+    <div class="pane" id="ld-p" style="top:430px"></div>
+    <div id="ld-f" class="abs" style="left:0;right:0;top:1220px;text-align:center"><span class="pill mono" style="font-size:28px;border:3px solid var(--yel);color:var(--yel);background:rgba(251,191,36,.08)">distance = speed of light × time ÷ 2</span></div>
+  </section>
+
+  <section class="fv-scene" data-scene="scan">
+    <div class="step">ONE SPIN</div><div class="head">A 360° scan</div>
+    <div class="pane" id="sc-p" style="top:430px"></div>
+    <div id="sc-t" class="abs" style="left:0;right:0;top:1220px;text-align:center"></div>
+  </section>
+
+  <section class="fv-scene" data-scene="match">
+    <div class="step">WHERE AM I?</div><div class="head">Scan matching</div>
+    <div class="pane" id="mt-p" style="top:430px"></div>
+    <div id="mt-t" class="abs" style="left:0;right:0;top:1220px;text-align:center"></div>
+  </section>
+
+  <section class="fv-scene" data-scene="map">
+    <div class="step">THE MAP</div><div class="head">Occupancy grid</div>
+    <div class="pane" id="mp-p" style="top:430px"></div>
+    <div id="mp-t" class="abs" style="left:0;right:0;top:1220px;text-align:center"><span class="pill" style="font-size:28px;border:3px solid #e5e7eb;background:rgba(229,231,235,.08)">⬛ wall · ⬜ free · ▒ unknown</span></div>
+  </section>
+
+  <section class="fv-scene" data-scene="loop">
+    <div class="step">FIXING DRIFT</div><div class="head">Loop closure</div>
+    <div class="pane" id="lp-p" style="top:430px"></div>
+    <div id="lp-t" class="abs" style="left:0;right:0;top:1220px;text-align:center"></div>
+  </section>
+
+  <section class="fv-scene" data-scene="outro">
+    <div class="pane" id="oc-p" style="top:240px;transform:scale(.72);transform-origin:50% 0"></div>
+    <div id="oc-w" class="abs" style="left:0;right:0;top:920px;display:flex;justify-content:center;gap:26px"></div>
+    <div id="oc-h" class="abs" style="left:60px;right:60px;top:1040px;text-align:center;font:800 54px Inter">That's how robots <span style="color:#f87171">see the world.</span></div>
+    <div id="oc-gh" class="abs" style="left:0;right:0;top:1150px;text-align:center"><span class="fv-endcard"></span></div>
+  </section>
+</div>
+<script src="timing.js"></script>
+<script src="fv-runtime.js"></script>
+<script>
+(() => {
+const { seg, css, enter, lerp, clamp, ease, pulse, $ } = FV;
+const NS = 'http://www.w3.org/2000/svg';
+const svgEl = (tag, attrs, parent) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; };
+const div = (cls, html, parent, style) => { const e = document.createElement('div'); if (cls) e.className = cls; if (html !== undefined) e.innerHTML = html; if (style) e.style.cssText = style; if (parent) parent.appendChild(e); return e; };
+const pop = (el, t, a, d = 0.45) => { const p = seg(t, a, a + d, ease.back); css(el, { o: clamp(p * 1.5), s: Math.max(0, p) }); return p; };
+const head = (el, t) => { enter($('.step', el), t, 0.0, 0.4); enter($('.head', el), t, 0.08, 0.45, 30); };
+const frac = (ctx, i, f) => ctx.line(i) + (ctx.lineEnd(i) - ctx.line(i)) * f;
+const pill = (txt, c) => `<span class="pill" style="border:3px solid ${c};background:${c}1a">${txt}</span>`;
+
+/* ---------- world: L-shaped flat (100 px = 1 m) ---------- */
+const W = [[60,60,840,60],[840,60,840,560],[840,560,560,560],[560,560,560,840],[560,840,60,840],[60,840,60,60],
+  [250,250,380,250],[380,250,380,380],[380,380,250,380],[250,380,250,250],
+  [620,200,760,200],[760,200,760,280],[760,280,620,280],[620,280,620,200],
+  [60,520,260,520]];
+function cast(px, py, a, max = 1200) {
+  const dx = Math.cos(a), dy = Math.sin(a); let best = max;
+  for (const [x1, y1, x2, y2] of W) {
+    const ex = x2 - x1, ey = y2 - y1, den = dx * ey - dy * ex;
+    if (Math.abs(den) < 1e-9) continue;
+    const t = ((x1 - px) * ey - (y1 - py) * ex) / den, u = ((x1 - px) * dy - (y1 - py) * dx) / den;
+    if (t > 0 && u >= 0 && u <= 1 && t < best) best = t;
+  }
+  return best;
+}
+const PATH = [[160,160],[520,150],[560,400],[740,420],[470,470],[460,730],[200,740],[420,600],[430,440],[160,440],[160,160]];
+const N = 90;
+const POSES = (() => {
+  const segs = []; let L = 0;
+  for (let i = 0; i < PATH.length - 1; i++) { const [a, b] = [PATH[i], PATH[i + 1]]; const l = Math.hypot(b[0] - a[0], b[1] - a[1]); segs.push({ a, b, l, s: L }); L += l; }
+  return Array.from({ length: N + 1 }, (_, k) => {
+    const d = (L * k) / N; const sg = segs.find((s) => d <= s.s + s.l + 1e-6) || segs[segs.length - 1];
+    const u = (d - sg.s) / sg.l; return { x: lerp(sg.a[0], sg.b[0], u), y: lerp(sg.a[1], sg.b[1], u), h: Math.atan2(sg.b[1] - sg.a[1], sg.b[0] - sg.a[0]) };
+  });
+})();
+const poseAt = (f) => { const x = clamp(f) * N, i = Math.min(N - 1, Math.floor(x)), u = x - i, a = POSES[i], b = POSES[i + 1]; return { x: lerp(a.x, b.x, u), y: lerp(a.y, b.y, u), h: b.h }; };
+const scanAt = (p, n) => Array.from({ length: n }, (_, i) => { const a = (i / n) * Math.PI * 2; const r = cast(p.x, p.y, a); return { a, r, x: p.x + Math.cos(a) * r, y: p.y + Math.sin(a) * r }; });
+
+/* ---------- occupancy grid ---------- */
+const CELL = 15, G = 60;
+function makeGrid(host) {
+  const cv = document.createElement('canvas'); cv.width = cv.height = 900; host.appendChild(cv);
+  const g = { cv, ctx: cv.getContext('2d'), k: -1, occ: new Float32Array(G * G), free: new Float32Array(G * G) };
+  return g;
+}
+function addScan(g, p) {
+  for (let i = 0; i < 120; i++) {
+    const a = (i / 120) * Math.PI * 2, r = cast(p.x, p.y, a);
+    for (let s = 0; s < r - 8; s += 9) { const cx = Math.floor((p.x + Math.cos(a) * s) / CELL), cy = Math.floor((p.y + Math.sin(a) * s) / CELL); if (cx >= 0 && cy >= 0 && cx < G && cy < G) g.free[cy * G + cx] = 1; }
+    const hx = Math.floor((p.x + Math.cos(a) * (r + 2)) / CELL), hy = Math.floor((p.y + Math.sin(a) * (r + 2)) / CELL);
+    if (hx >= 0 && hy >= 0 && hx < G && hy < G) g.occ[hy * G + hx] = 1;
+  }
+}
+function drawGrid(g, k) {
+  if (k < g.k) { g.occ.fill(0); g.free.fill(0); g.k = -1; }
+  for (let i = g.k + 1; i <= k; i++) addScan(g, POSES[i]);
+  g.k = k;
+  const c = g.ctx; c.fillStyle = '#3f3f50'; c.fillRect(0, 0, 900, 900);
+  for (let y = 0; y < G; y++) for (let x = 0; x < G; x++) {
+    const i = y * G + x;
+    if (g.occ[i]) { c.fillStyle = '#0a0a0f'; c.fillRect(x * CELL, y * CELL, CELL, CELL); }
+    else if (g.free[i]) { c.fillStyle = '#f1f5f9'; c.fillRect(x * CELL, y * CELL, CELL, CELL); }
+  }
+}
+function overlay(host) { const s = svgEl('svg', { viewBox: '0 0 900 900' }, host); return s; }
+function robot(s) {
+  const g = svgEl('g', {}, s);
+  svgEl('circle', { r: 20, fill: '#ef4444', stroke: '#fff', 'stroke-width': 4 }, g);
+  svgEl('line', { x1: 0, y1: 0, x2: 30, y2: 0, stroke: '#fff', 'stroke-width': 5, 'stroke-linecap': 'round' }, g);
+  return g;
+}
+const placeR = (r, p) => r.setAttribute('transform', `translate(${p.x} ${p.y}) rotate(${(p.h * 180) / Math.PI})`);
+const walls = (s, op, c = '#94a3b8') => { const g = svgEl('g', { opacity: op }, s); W.forEach(([a, b, c2, d]) => svgEl('line', { x1: a, y1: b, x2: c2, y2: d, stroke: c, 'stroke-width': 8, 'stroke-linecap': 'round' }, g)); return g; };
+const trail = (s, c) => svgEl('polyline', { fill: 'none', stroke: c, 'stroke-width': 4, 'stroke-dasharray': '10 8', opacity: 0.8 }, s);
+const trailTo = (pl, f) => { const k = Math.floor(clamp(f) * N); pl.setAttribute('points', POSES.slice(0, k + 1).map((p) => `${p.x},${p.y}`).join(' ')); };
+
+/* HOOK: map draws itself, "you are here" */
+{
+  const host = $('#hk-p'), g = makeGrid(host), s = overlay(host), tr = trail(s, '#ef4444'), r = robot(s);
+  const yah = svgEl('g', {}, s); const yb = svgEl('rect', { width: 230, height: 44, rx: 22, fill: '#ef4444' }, yah); const yt = svgEl('text', { x: 115, y: 31, 'text-anchor': 'middle', fill: '#fff', 'font-size': 24, 'font-weight': 800, 'font-family': 'Inter' }, yah); yt.textContent = '📍 you are here';
+  FV.scene('hook', (t, ctx) => {
+    enter(host, t, 0.05, 0.4, 20);
+    const f = seg(t, 0.4, frac(ctx, 0, 0.92), ease.linear);
+    drawGrid(g, Math.floor(f * N));
+    const p = poseAt(f); placeR(r, p); trailTo(tr, f);
+    yah.setAttribute('transform', `translate(${clamp(p.x - 115, 10, 660)} ${p.y < 120 ? p.y + 34 : p.y - 70})`);
+    yah.setAttribute('opacity', seg(t, frac(ctx, 0, 0.75), frac(ctx, 0, 0.85)));
+    pop($('#hk-s'), t, ctx.line(1) - 0.15, 0.5);
+  });
+}
+
+/* LIDAR: one rotating beam, pulse out & back */
+{
+  const host = $('#ld-p'), s = overlay(host); walls(s, 0.9);
+  const P = { x: 470, y: 470, h: 0 };
+  const beam = svgEl('line', { stroke: '#ef4444', 'stroke-width': 4, opacity: 0.8 }, s);
+  const dot = svgEl('circle', { r: 12, fill: '#fbbf24' }, s);
+  const hit = svgEl('circle', { r: 14, fill: 'none', stroke: '#fbbf24', 'stroke-width': 4 }, s);
+  const lab = svgEl('text', { fill: '#fbbf24', 'font-size': 34, 'font-weight': 800, 'font-family': 'JetBrains Mono', 'text-anchor': 'middle' }, s);
+  const r = robot(s); placeR(r, P);
+  const spin = svgEl('circle', { cx: P.x, cy: P.y, r: 34, fill: 'none', stroke: '#fff', 'stroke-width': 3, 'stroke-dasharray': '8 8' }, s);
+  FV.scene('lidar', (t, ctx) => {
+    head(ctx.el, t);
+    enter(host, t, 0.1, 0.4, 20);
+    spin.setAttribute('transform', `rotate(${t * 360} ${P.x} ${P.y})`);
+    // 3 pulses at fixed angles, each out & back
+    const a0 = frac(ctx, 0, 0.2), per = (ctx.lineEnd(0) - a0) / 3;
+    const k = Math.max(0, Math.min(2, Math.floor((t - a0) / per))), u = clamp((t - a0 - k * per) / per);
+    const ang = [-0.6, 2.2, 0.9][k], R = cast(P.x, P.y, ang);
+    const hx = P.x + Math.cos(ang) * R, hy = P.y + Math.sin(ang) * R;
+    beam.setAttribute('x1', P.x); beam.setAttribute('y1', P.y); beam.setAttribute('x2', hx); beam.setAttribute('y2', hy);
+    beam.setAttribute('opacity', t > a0 ? 0.5 : 0);
+    const out = u < 0.5 ? u * 2 : 2 - u * 2;
+    dot.setAttribute('cx', P.x + Math.cos(ang) * R * out); dot.setAttribute('cy', P.y + Math.sin(ang) * R * out);
+    dot.setAttribute('opacity', t > a0 ? 1 : 0); dot.setAttribute('fill', u < 0.5 ? '#ef4444' : '#fbbf24');
+    hit.setAttribute('cx', hx); hit.setAttribute('cy', hy); hit.setAttribute('opacity', t > a0 && u > 0.45 ? 1 : 0);
+    lab.setAttribute('x', clamp(lerp(P.x, hx, 0.55), 120, 780)); lab.setAttribute('y', lerp(P.y, hy, 0.55) - 24);
+    lab.textContent = `${(R / 100).toFixed(2)} m`; lab.setAttribute('opacity', t > a0 && u > 0.9 ? 1 : 0);
+    pop($('#ld-f'), t, frac(ctx, 0, 0.7), 0.4);
+  });
+}
+
+/* SCAN: 360 rays, then only the points remain */
+{
+  const host = $('#sc-p'), s = overlay(host), wg = walls(s, 0.9);
+  const P = { x: 300, y: 650, h: -0.5 };
+  const pts = scanAt(P, 240);
+  const rays = svgEl('g', {}, s), dots = svgEl('g', {}, s);
+  const R = pts.map((p) => svgEl('line', { x1: P.x, y1: P.y, x2: p.x, y2: p.y, stroke: '#ef4444', 'stroke-width': 1.4, opacity: 0.45 }, rays));
+  const D = pts.map((p) => svgEl('circle', { cx: p.x, cy: p.y, r: 5, fill: '#22d3ee' }, dots));
+  const r = robot(s); placeR(r, P);
+  FV.scene('scan', (t, ctx) => {
+    head(ctx.el, t);
+    enter(host, t, 0.1, 0.4, 20);
+    const sw = seg(t, frac(ctx, 0, 0.05), frac(ctx, 0, 0.4), ease.linear);
+    const n = Math.floor(sw * pts.length);
+    R.forEach((l, i) => l.setAttribute('opacity', i < n ? 0.4 * (1 - seg(t, frac(ctx, 0, 0.55), frac(ctx, 0, 0.7))) : 0));
+    D.forEach((d, i) => d.setAttribute('opacity', i < n ? 1 : 0));
+    const hide = seg(t, frac(ctx, 0, 0.6), frac(ctx, 0, 0.75));
+    wg.setAttribute('opacity', 0.9 * (1 - hide));
+    $('#sc-t').innerHTML = hide > 0.5 ? pill('👀 this is all the robot sees', '#22d3ee') : pill(`${n} distance points`, '#ef4444');
+    $('#sc-t').style.opacity = seg(t, 0.4, 0.7);
+  });
+}
+
+/* MATCH: slide new scan onto old scan */
+{
+  const host = $('#mt-p'), s = overlay(host); walls(s, 0.15);
+  const A = { x: 300, y: 650, h: 0 }, B = { x: 390, y: 610, h: 0 };
+  const sa = scanAt(A, 160), sb = scanAt(B, 160);
+  const ga = svgEl('g', {}, s), gb = svgEl('g', {}, s);
+  sa.forEach((p) => svgEl('circle', { cx: p.x, cy: p.y, r: 5, fill: '#22d3ee' }, ga));
+  sb.forEach((p) => svgEl('circle', { cx: p.x - B.x, cy: p.y - B.y, r: 5, fill: '#f472b6' }, gb));
+  const ra = robot(s), rb = robot(s); placeR(ra, A); rb.querySelector('circle').setAttribute('fill', '#f472b6');
+  const arrow = svgEl('line', { x1: A.x, y1: A.y, stroke: '#fbbf24', 'stroke-width': 6, 'stroke-dasharray': '10 8' }, s);
+  FV.scene('match', (t, ctx) => {
+    head(ctx.el, t);
+    enter(host, t, 0.1, 0.4, 20);
+    const b0 = frac(ctx, 0, 0.12), s0 = frac(ctx, 0, 0.42), s1 = frac(ctx, 0, 0.72);
+    gb.setAttribute('opacity', seg(t, b0, b0 + 0.3)); rb.setAttribute('opacity', seg(t, b0, b0 + 0.3));
+    const m = seg(t, s0, s1, ease.inOut);
+    const ox = lerp(A.x, B.x, m), oy = lerp(A.y, B.y, m) + (m > 0 && m < 1 ? Math.sin(m * 9) * 12 * (1 - m) : 0);
+    gb.setAttribute('transform', `translate(${ox} ${oy})`);
+    placeR(rb, { x: ox, y: oy, h: 0 });
+    arrow.setAttribute('x2', ox); arrow.setAttribute('y2', oy); arrow.setAttribute('opacity', t > s0 ? 1 : 0);
+    const d = Math.hypot(B.x - A.x, B.y - A.y) / 100;
+    $('#mt-t').innerHTML = t < s0 ? pill('🔵 old scan · 🩷 new scan', '#f472b6') : t < s1 ? pill('sliding to line up…', '#fbbf24') : pill(`✓ aligned → robot moved ${d.toFixed(2)} m`, '#34d399');
+    $('#mt-t').style.opacity = seg(t, b0, b0 + 0.3);
+  });
+}
+
+/* MAP: grid builds along the full route */
+{
+  const host = $('#mp-p'), g = makeGrid(host), s = overlay(host), tr = trail(s, '#ef4444'), r = robot(s);
+  FV.scene('map', (t, ctx) => {
+    head(ctx.el, t);
+    enter(host, t, 0.1, 0.4, 20);
+    const f = seg(t, 0.3, ctx.dur - 0.4, ease.linear);
+    drawGrid(g, Math.floor(f * N)); const p = poseAt(f); placeR(r, p); trailTo(tr, f);
+    pop($('#mp-t'), t, frac(ctx, 0, 0.3), 0.4);
+  });
+}
+
+/* LOOP: drifting point cloud snaps back */
+{
+  const host = $('#lp-p'), s = overlay(host); walls(s, 0.25, '#e2e8f0');
+  const S0 = POSES[0];
+  const clouds = [];
+  for (let i = 0; i <= N; i += 3) clouds.push({ i, pts: scanAt(POSES[i], 48) });
+  const gpts = svgEl('g', {}, s);
+  const allDots = [];
+  clouds.forEach((c) => c.pts.forEach((p) => allDots.push({ i: c.i, p, el: svgEl('circle', { r: 4, fill: '#22d3ee' }, gpts) })));
+  const est = svgEl('polyline', { fill: 'none', stroke: '#f472b6', 'stroke-width': 5 }, s);
+  const ring = svgEl('circle', { cx: S0.x, cy: S0.y, r: 40, fill: 'none', stroke: '#34d399', 'stroke-width': 6 }, s);
+  const r = robot(s);
+  const drift = (x, y, u, f) => { const th = 0.16 * u * f, tx = 70 * u * f, ty = 50 * u * f; const dx = x - S0.x, dy = y - S0.y; return [S0.x + dx * Math.cos(th) - dy * Math.sin(th) + tx, S0.y + dx * Math.sin(th) + dy * Math.cos(th) + ty]; };
+  FV.scene('loop', (t, ctx) => {
+    head(ctx.el, t);
+    enter(host, t, 0.1, 0.4, 20);
+    const drive = seg(t, 0.3, frac(ctx, 0, 0.62), ease.linear), snap = seg(t, frac(ctx, 0, 0.7), frac(ctx, 0, 0.82), ease.inOut);
+    const f = 1 - snap, k = Math.floor(drive * N);
+    allDots.forEach((d) => { const [x, y] = drift(d.p.x, d.p.y, d.i / N, f); d.el.setAttribute('cx', x); d.el.setAttribute('cy', y); d.el.setAttribute('opacity', d.i <= k ? 1 : 0); d.el.setAttribute('fill', snap > 0.99 ? '#34d399' : '#22d3ee'); });
+    est.setAttribute('points', POSES.slice(0, k + 1).map((p, i) => drift(p.x, p.y, i / N, f).join(',')).join(' '));
+    const cur = drift(POSES[k].x, POSES[k].y, k / N, f); placeR(r, { x: cur[0], y: cur[1], h: POSES[k].h });
+    ring.setAttribute('opacity', pulse(t, frac(ctx, 0, 0.62), frac(ctx, 0, 0.9)));
+    $('#lp-t').innerHTML = snap >= 1 ? pill('✓ loop closed: map snaps into shape', '#34d399') : drive >= 1 ? pill('📍 seen this place before!', '#fbbf24') : pill('⚠️ small errors add up (drift)', '#f472b6');
+    $('#lp-t').style.opacity = seg(t, 0.5, 0.8);
+  });
+}
+
+/* OUTRO */
+{
+  const host = $('#oc-p'), g = makeGrid(host), s = overlay(host), tr = trail(s, '#ef4444'), r = robot(s);
+  const Wd = [['Scan.', '#22d3ee', 0.0], ['Match.', '#f472b6', 0.18], ['Map.', '#f1f5f9', 0.36]];
+  const words = Wd.map(([w, c]) => div('', w, $('#oc-w'), `font:900 92px/1 Inter;letter-spacing:-.03em;color:${c}`));
+  FV.scene('outro', (t, ctx) => {
+    host.style.opacity = seg(t, 0.05, 0.4);
+    drawGrid(g, N); trailTo(tr, 1); placeR(r, POSES[N]);
+    words.forEach((w, i) => pop(w, t, frac(ctx, 0, Wd[i][2]), 0.4));
+    enter($('#oc-h'), t, frac(ctx, 0, 0.6), 0.45, 30);
+    pop($('#oc-gh'), t, frac(ctx, 0, 0.95), 0.5);
+  });
+}
+})();
+</script>
+</body>
+</html>
