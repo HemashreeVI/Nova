@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Neural network training Short</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{--ink:#eef2f6;--mut:#94a3b8;--acc:#6366f1;--acc2:#a5b4fc;--grn:#34d399;--red:#f87171;--yel:#fbbf24;--pk:#f472b6;--cy:#22d3ee}
+  #fv-stage{background:radial-gradient(1000px 1300px at 70% 15%,#1e1b5e 0%,#0f0f2e 50%,#07071a 80%);color:var(--ink);font-family:Inter,system-ui,sans-serif}
+  #bg-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(99,102,241,.13) 1px,transparent 1px),linear-gradient(90deg,rgba(99,102,241,.13) 1px,transparent 1px);background-size:90px 90px;opacity:.22}
+  .abs{position:absolute}
+  .step{position:absolute;left:0;right:0;top:250px;text-align:center;font:700 34px/1 'JetBrains Mono',monospace;letter-spacing:.2em;color:var(--acc2)}
+  .head{position:absolute;left:60px;right:60px;top:305px;text-align:center;font:800 84px/1.05 Inter;letter-spacing:-.03em}
+  .mono{font-family:'JetBrains Mono',monospace}
+  .badge{position:absolute;left:50%;top:150px;transform:translateX(-50%);padding:12px 26px;border-radius:40px;background:color-mix(in srgb,var(--acc) 12%,transparent);border:2px solid color-mix(in srgb,var(--acc) 55%,transparent);font:700 30px Inter;color:var(--acc2);white-space:nowrap}
+  .pill{display:inline-block;padding:12px 26px;border-radius:40px;font:800 32px Inter}
+  .pane{position:absolute;left:120px;width:840px;height:765px;border-radius:26px;overflow:hidden;border:3px solid color-mix(in srgb,var(--acc) 45%,transparent);background:rgba(8,8,16,.75)}
+  .pane svg{position:absolute;inset:0;width:840px;height:765px}
+  .below{position:absolute;left:0;right:0;top:1225px;text-align:center}
+  .big{font:900 120px/1 Inter;letter-spacing:-.04em;color:#fff}
+  .card{border-radius:22px;padding:26px 30px;background:rgba(255,255,255,.05);border:2px solid rgba(255,255,255,.14)}
+  .fv-endcard{display:inline-block;padding:16px 30px;border-radius:40px;font:700 34px 'JetBrains Mono',monospace;border:3px solid #eef2f6;background:rgba(238,242,246,.08)}
+</style>
+</head>
+<body>
+<div id="fv-stage">
+  <div id="bg-grid"></div>
+  <div class="badge">🧠 AI · Tech, decoded</div>
+
+  <section class="fv-scene" data-scene="hook">
+    <div class="pane" id="hk-p" style="top:300px"></div>
+    <div id="hk-q" class="abs" style="left:0;right:0;top:1110px;text-align:center"><div class="big">How does it <span style="color:var(--acc2)">learn?</span></div></div>
+  </section>
+  <section class="fv-scene" data-scene="guess">
+    <div class="step">STEP 1</div><div class="head">Guess</div>
+    <div class="pane" id="gs-p" style="top:430px"></div>
+    <div class="below" id="gs-t"></div>
+  </section>
+  <section class="fv-scene" data-scene="loss">
+    <div class="step">STEP 2</div><div class="head">Measure the mistake</div>
+    <div class="pane" id="ls-p" style="top:430px"></div>
+    <div class="below" id="ls-t"></div>
+  </section>
+  <section class="fv-scene" data-scene="backprop">
+    <div class="step">STEP 3</div><div class="head">Backpropagation</div>
+    <div class="pane" id="bp-p" style="top:430px"></div>
+    <div class="below" id="bp-t"></div>
+  </section>
+  <section class="fv-scene" data-scene="descent">
+    <div class="step">STEP 4</div><div class="head">Gradient descent</div>
+    <div class="pane" id="gd-p" style="top:430px"></div>
+    <div class="below" id="gd-t"><span class="pill mono" style="font-size:28px;border:3px solid var(--yel);color:var(--yel);background:rgba(251,191,36,.08)">weight −= step × slope</span></div>
+  </section>
+  <section class="fv-scene" data-scene="repeat">
+    <div class="step">REPEAT</div><div class="head">Millions of times</div>
+    <div class="pane" id="rp-p" style="top:430px"></div>
+    <div class="below" id="rp-t"></div>
+  </section>
+  <section class="fv-scene" data-scene="outro">
+    <div id="oc-w" class="abs" style="left:40px;right:40px;top:560px;display:flex;flex-wrap:wrap;justify-content:center;gap:22px 30px"></div>
+    <div id="oc-h" class="abs" style="left:60px;right:60px;top:860px;text-align:center;font:800 64px Inter">That's how <span style="color:var(--acc2)">AI learns.</span></div>
+    <div id="oc-gh" class="abs" style="left:0;right:0;top:1010px;text-align:center"><span class="fv-endcard"></span></div>
+  </section>
+
+</div>
+<script src="timing.js"></script>
+<script src="fv-runtime.js"></script>
+<script>
+(() => {
+const { seg, css, enter, lerp, clamp, ease, pulse, $ } = FV;
+const NS = 'http://www.w3.org/2000/svg';
+const svgEl = (tag, attrs, parent) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; };
+const txt = (s, x, y, str, o = {}) => { const e = svgEl('text', Object.assign({ x, y, fill: '#eef2f6', 'font-size': 30, 'font-weight': 700, 'font-family': 'Inter', 'text-anchor': 'middle' }, o), s); e.textContent = str; return e; };
+const div = (cls, html, parent, style) => { const e = document.createElement('div'); if (cls) e.className = cls; if (html !== undefined) e.innerHTML = html; if (style) e.style.cssText = style; if (parent) parent.appendChild(e); return e; };
+const pop = (el, t, a, d = 0.45) => { const p = seg(t, a, a + d, ease.back); css(el, { o: clamp(p * 1.5), s: Math.max(0, p) }); return p; };
+const head = (el, t) => { const s = el.querySelector('.step'), h = el.querySelector('.head'); if (s) enter(s, t, 0.0, 0.4); if (h) enter(h, t, 0.08, 0.45, 30); };
+const frac = (ctx, i, f) => ctx.line(i) + (ctx.lineEnd(i) - ctx.line(i)) * f;
+const pill = (t, c) => `<span class="pill" style="border:3px solid ${c};background:${c}1a;color:${c}">${t}</span>`;
+const show = (el, html) => { if (el.__h !== html) { el.innerHTML = html; el.__h = html; } };
+
+/* a small network: 3 inputs, 4 hidden, 3 outputs */
+const LAY = [[3, 120], [4, 360], [3, 600]];
+const nodes = LAY.map(([n, x]) => Array.from({ length: n }, (_, i) => ({ x, y: 382 + (i - (n - 1) / 2) * 150 })));
+const OUT = ['🐱 cat', '🐶 dog', '🚗 car'];
+function net(host, opts = {}) {
+  const s = svgEl('svg', { viewBox: '0 0 840 765' }, host);
+  const edges = [];
+  for (let l = 0; l < 2; l++) nodes[l].forEach((a, i) => nodes[l + 1].forEach((b, j) => {
+    const w = Math.sin(i * 3.1 + j * 1.7 + l) ; edges.push({ l, a, b, w, el: svgEl('line', { x1: a.x, y1: a.y, x2: b.x, y2: b.y, stroke: w > 0 ? '#818cf8' : '#f472b6', 'stroke-width': 2 + Math.abs(w) * 5, opacity: 0.5 }, s) });
+  }));
+  const circ = nodes.flat().map((p) => svgEl('circle', { cx: p.x, cy: p.y, r: 34, fill: '#141432', stroke: '#c7d2fe', 'stroke-width': 4 }, s));
+  const labs = nodes[2].map((p, i) => txt(s, p.x + 50, p.y + 10, '', { 'text-anchor': 'start', 'font-size': 28 }));
+  const dots = edges.map(() => svgEl('circle', { r: 9, fill: '#fbbf24', opacity: 0 }, s));
+  return { s, edges, circ, labs, dots };
+}
+const flow = (N, u, dir = 1, color = '#fbbf24') => N.edges.forEach((e, k) => {
+  const ph = clamp(u * 2 - e.l), q = dir > 0 ? ph : 1 - clamp(u * 2 - (1 - e.l));
+  const d = N.dots[k], on = dir > 0 ? ph > 0 && ph < 1 : q > 0 && q < 1;
+  const f = dir > 0 ? ph : clamp(u * 2 - (1 - e.l));
+  const x = dir > 0 ? lerp(e.a.x, e.b.x, f) : lerp(e.b.x, e.a.x, f), y = dir > 0 ? lerp(e.a.y, e.b.y, f) : lerp(e.b.y, e.a.y, f);
+  d.setAttribute('cx', x); d.setAttribute('cy', y); d.setAttribute('opacity', on ? 1 : 0); d.setAttribute('fill', color);
+});
+/* HOOK: random flickering guesses */
+{
+  const N = net($('#hk-p'));
+  FV.scene('hook', (t, ctx) => {
+    enter($('#hk-p'), t, 0.05, 0.4, 20);
+    const k = Math.floor(t * 6);
+    N.labs.forEach((l, i) => { const v = Math.abs(Math.sin(k * 2.3 + i * 1.9)); l.textContent = `${OUT[i]} ${(v * 100).toFixed(0)}%`; l.setAttribute('fill', '#94a3b8'); });
+    N.circ.forEach((c, i) => c.setAttribute('fill', `rgba(244,114,182,${0.15 + 0.6 * Math.abs(Math.sin(k * 1.7 + i))})`));
+    pop($('#hk-q'), t, ctx.line(1) - 0.1, 0.5);
+  });
+}
+/* GUESS: signals flow forward */
+{
+  const N = net($('#gs-p'));
+  FV.scene('guess', (t, ctx) => {
+    head(ctx.el, t); enter($('#gs-p'), t, 0.1, 0.4, 20);
+    const u = seg(t, frac(ctx, 0, 0.15), frac(ctx, 0, 0.75), ease.linear);
+    flow(N, u, 1);
+    N.circ.forEach((c, i) => { const layer = i < 3 ? 0 : i < 7 ? 1 : 2; c.setAttribute('fill', u * 2 > layer - 0.1 ? '#3730a3' : '#141432'); });
+    const done = u >= 1, P = [0.31, 0.52, 0.17];
+    N.labs.forEach((l, i) => { l.textContent = done ? `${OUT[i]} ${(P[i] * 100).toFixed(0)}%` : ''; l.setAttribute('fill', i === 1 ? '#f472b6' : '#94a3b8'); });
+    show($('#gs-t'), done ? pill('guess: 🐶 dog (52%)', '#f472b6') : pill('input × weight → next layer', '#818cf8'));
+    $('#gs-t').style.opacity = seg(t, 0.3, 0.6);
+  });
+}
+/* LOSS: guess vs truth */
+{
+  const s = svgEl('svg', { viewBox: '0 0 840 765' }, $('#ls-p'));
+  const rows = [['🐱 cat', 0.31, 1], ['🐶 dog', 0.52, 0], ['🚗 car', 0.17, 0]];
+  const bars = rows.map(([n, g, tr], i) => {
+    const y = 120 + i * 150; txt(s, 60, y + 34, n, { 'text-anchor': 'start', 'font-size': 36 });
+    svgEl('rect', { x: 250, y, width: 520, height: 50, rx: 12, fill: 'rgba(255,255,255,.06)' }, s);
+    const gb = svgEl('rect', { x: 250, y, width: 0, height: 50, rx: 12, fill: '#f472b6' }, s);
+    const tb = svgEl('rect', { x: 250, y: y + 58, width: 0, height: 14, rx: 7, fill: '#34d399' }, s);
+    return { g, tr, gb, tb };
+  });
+  txt(s, 250, 560, 'guess', { 'text-anchor': 'start', fill: '#f472b6', 'font-size': 28 }); txt(s, 400, 560, 'right answer', { 'text-anchor': 'start', fill: '#34d399', 'font-size': 28 });
+  const L = txt(s, 420, 690, '', { 'font-size': 84, 'font-weight': 900, 'font-family': 'JetBrains Mono', fill: '#fbbf24' });
+  FV.scene('loss', (t, ctx) => {
+    head(ctx.el, t); enter($('#ls-p'), t, 0.1, 0.4, 20);
+    const a = seg(t, 0.3, 1.0), b = seg(t, frac(ctx, 0, 0.3), frac(ctx, 0, 0.5)), c = seg(t, frac(ctx, 0, 0.55), frac(ctx, 0, 0.85));
+    bars.forEach((r) => { r.gb.setAttribute('width', 520 * r.g * a); r.tb.setAttribute('width', 520 * r.tr * b); });
+    L.textContent = c > 0 ? `LOSS = ${(1.17 * c).toFixed(2)}` : ''; 
+    show($('#ls-t'), pill('one number: how wrong was it?', '#fbbf24')); $('#ls-t').style.opacity = c;
+  });
+}
+/* BACKPROP: error flows backward, edges glow by blame */
+{
+  const N = net($('#bp-p'));
+  FV.scene('backprop', (t, ctx) => {
+    head(ctx.el, t); enter($('#bp-p'), t, 0.1, 0.4, 20);
+    const u = seg(t, frac(ctx, 0, 0.1), frac(ctx, 0, 0.7), ease.linear);
+    flow(N, u, -1, '#f87171');
+    N.edges.forEach((e) => { const lit = u * 2 > 1 - e.l; e.el.setAttribute('stroke', lit ? '#f87171' : (e.w > 0 ? '#818cf8' : '#f472b6')); e.el.setAttribute('opacity', lit ? 0.25 + 0.75 * Math.abs(e.w) : 0.4); });
+    N.labs.forEach((l, i) => { l.textContent = i === 1 ? 'error ✗' : ''; l.setAttribute('fill', '#f87171'); });
+    show($('#bp-t'), u >= 1 ? pill('thicker red = more to blame', '#f87171') : pill('the error travels backwards', '#f87171'));
+    $('#bp-t').style.opacity = seg(t, 0.4, 0.7);
+  });
+}
+/* DESCENT: ball rolls down the loss valley in steps */
+{
+  const s = svgEl('svg', { viewBox: '0 0 840 765' }, $('#gd-p'));
+  const f = (x) => 560 - 400 * Math.exp(-((x - 420) ** 2) / 2 / 170 ** 2) * -1 * -1;
+  const curve = (x) => 680 - 0.0042 * (x - 470) ** 2;
+  let d = ''; for (let x = 60; x <= 800; x += 10) d += (x === 60 ? 'M' : 'L') + x + ' ' + Math.min(700, curve(x));
+  svgEl('path', { d, fill: 'none', stroke: '#818cf8', 'stroke-width': 6 }, s);
+  txt(s, 470, 730, 'lowest loss', { fill: '#34d399', 'font-size': 26 }); svgEl('line', { x1: 470, y1: 150, x2: 470, y2: 660, stroke: '#34d399', 'stroke-dasharray': '8 8', 'stroke-width': 3 }, s);
+  txt(s, 60, 50, 'loss ↑', { 'text-anchor': 'start', fill: '#94a3b8', 'font-size': 24 }); txt(s, 780, 750, 'weight →', { 'text-anchor': 'end', fill: '#94a3b8', 'font-size': 24 });
+  const xs = [110, 230, 320, 385, 428, 452, 464, 469];
+  const trail = svgEl('polyline', { fill: 'none', stroke: '#fbbf24', 'stroke-width': 3, 'stroke-dasharray': '6 8' }, s);
+  const ball = svgEl('circle', { r: 22, fill: '#fbbf24', stroke: '#fff', 'stroke-width': 4 }, s);
+  FV.scene('descent', (t, ctx) => {
+    head(ctx.el, t); enter($('#gd-p'), t, 0.1, 0.4, 20);
+    const u = seg(t, frac(ctx, 0, 0.1), frac(ctx, 0, 0.95), ease.linear) * (xs.length - 1);
+    const i = Math.min(xs.length - 2, Math.floor(u)), w = ease.inOut(u - i);
+    const x = lerp(xs[i], xs[i + 1], w), y = curve(x) - 22 - Math.sin(w * Math.PI) * 30;
+    ball.setAttribute('cx', x); ball.setAttribute('cy', y);
+    trail.setAttribute('points', xs.slice(0, i + 1).map((v) => `${v},${curve(v) - 22}`).join(' ') + ` ${x},${y}`);
+    pop($('#gd-t'), t, frac(ctx, 0, 0.35), 0.4);
+  });
+}
+/* REPEAT: loss curve falls, accuracy climbs */
+{
+  const s = svgEl('svg', { viewBox: '0 0 840 765' }, $('#rp-p'));
+  svgEl('line', { x1: 90, y1: 640, x2: 790, y2: 640, stroke: '#475569', 'stroke-width': 3 }, s); svgEl('line', { x1: 90, y1: 120, x2: 90, y2: 640, stroke: '#475569', 'stroke-width': 3 }, s);
+  txt(s, 90, 100, 'loss', { 'text-anchor': 'start', fill: '#94a3b8', 'font-size': 26 }); txt(s, 790, 690, 'training steps →', { 'text-anchor': 'end', fill: '#94a3b8', 'font-size': 26 });
+  const P = Array.from({ length: 141 }, (_, i) => { const x = i / 140; return [90 + x * 700, 640 - 480 * (Math.exp(-x * 4.2) * 0.95 + 0.04 + 0.03 * Math.sin(i * 1.7) * Math.exp(-x * 2))]; });
+  const line = svgEl('polyline', { fill: 'none', stroke: '#f472b6', 'stroke-width': 6 }, s);
+  const step = txt(s, 760, 200, '', { 'text-anchor': 'end', 'font-size': 40, 'font-family': 'JetBrains Mono', fill: '#fbbf24' });
+  FV.scene('repeat', (t, ctx) => {
+    head(ctx.el, t); enter($('#rp-p'), t, 0.1, 0.4, 20);
+    const u = seg(t, 0.3, ctx.dur - 0.6, ease.inOut), n = Math.max(1, Math.floor(u * 140));
+    line.setAttribute('points', P.slice(0, n + 1).map((p) => p.join(',')).join(' '));
+    step.textContent = `step ${Math.round(Math.pow(10, u * 6)).toLocaleString('en-US')}`;
+    const acc = Math.round(10 + 87 * (1 - Math.exp(-u * 4)));
+    show($('#rp-t'), pill(`accuracy ${acc}%`, acc > 90 ? '#34d399' : '#fbbf24'));
+    $('#rp-t').style.opacity = seg(t, 0.4, 0.7);
+  });
+}
+/* OUTRO */
+{
+  const Wd = [['Guess.', '#818cf8', 0], ['Measure.', '#fbbf24', 0.14], ['Blame.', '#f87171', 0.28], ['Nudge.', '#34d399', 0.42]];
+  const words = Wd.map(([w, c]) => div('', w, $('#oc-w'), `font:900 104px/1 Inter;letter-spacing:-.03em;color:${c}`));
+  FV.scene('outro', (t, ctx) => {
+    words.forEach((w, i) => pop(w, t, frac(ctx, 0, Wd[i][2]), 0.4));
+    enter($('#oc-h'), t, frac(ctx, 0, 0.62), 0.45, 30);
+    pop($('#oc-gh'), t, frac(ctx, 0, 0.95), 0.5);
+  });
+}
+
+})();
+</script>
+</body>
+</html>
