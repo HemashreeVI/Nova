@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI detectors Short</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{--ink:#eef2f6;--mut:#94a3b8;--acc:#6366f1;--acc2:#c7d2fe;--grn:#34d399;--red:#f87171;--yel:#fbbf24;--pk:#f472b6;--cy:#22d3ee}
+  #fv-stage{background:#000;color:var(--ink);font-family:Inter,system-ui,sans-serif}
+  #bg-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(0,0,0,0) 1px,transparent 1px),linear-gradient(90deg,rgba(0,0,0,0) 1px,transparent 1px);background-size:90px 90px;opacity:.22}
+  .abs{position:absolute}
+  .step{position:absolute;left:0;right:0;top:250px;text-align:center;font:700 34px/1 'JetBrains Mono',monospace;letter-spacing:.2em;color:var(--acc2)}
+  .head{position:absolute;left:60px;right:60px;top:305px;text-align:center;font:800 84px/1.05 Inter;letter-spacing:-.03em}
+  .mono{font-family:'JetBrains Mono',monospace}
+  .badge{position:absolute;left:50%;top:150px;transform:translateX(-50%);padding:12px 26px;border-radius:40px;background:color-mix(in srgb,var(--acc) 12%,transparent);border:2px solid color-mix(in srgb,var(--acc) 55%,transparent);font:700 30px Inter;color:var(--acc2);white-space:nowrap}
+  .pill{display:inline-block;padding:12px 26px;border-radius:40px;font:800 32px Inter}
+  .pane{position:absolute;left:120px;width:840px;height:765px;border-radius:26px;overflow:hidden;border:3px solid color-mix(in srgb,var(--acc) 45%,transparent);background:rgba(8,8,16,.75)}
+  .pane svg{position:absolute;inset:0;width:840px;height:765px}
+  .below{position:absolute;left:0;right:0;top:1225px;text-align:center}
+  .big{font:900 120px/1 Inter;letter-spacing:-.04em;color:#fff}
+  .card{border-radius:22px;padding:26px 30px;background:rgba(255,255,255,.05);border:2px solid rgba(255,255,255,.14)}
+  .fv-endcard{display:inline-block;padding:16px 30px;border-radius:40px;font:700 34px 'JetBrains Mono',monospace;border:3px solid #eef2f6;background:rgba(238,242,246,.08)}
+</style>
+</head>
+<body>
+<div id="fv-stage">
+  <div id="bg-grid"></div>
+  <div class="badge">🤖 AI · Tech, decoded</div>
+<style>
+.photo{position:absolute;inset:0;overflow:hidden}
+.photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform-origin:50% 40%}
+.photo::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(5,5,15,.15) 0%,rgba(5,5,15,0) 30%,rgba(5,5,15,.55) 62%,rgba(5,5,15,.92) 100%)}
+.glass{position:absolute;border-radius:28px;background:rgba(12,12,28,.74);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1.5px solid rgba(255,255,255,.18);box-shadow:0 20px 60px rgba(0,0,0,.45);color:#fff}
+.k{font:700 24px 'JetBrains Mono',monospace;letter-spacing:.14em;color:#a5b4fc}
+.ttl{position:absolute;left:60px;right:60px;text-align:center;font:900 92px/1.05 Inter;letter-spacing:-.03em;color:#fff;text-shadow:0 4px 30px rgba(0,0,0,.6)}
+.word{display:inline-block;padding:2px 6px;margin:3px 2px;border-radius:8px}
+#fv-stage .badge{z-index:5;background:rgba(10,10,25,.55);backdrop-filter:blur(8px)}
+</style><section class="fv-scene" data-scene="hook"><div class="photo"><img src="img/7a.jpg" alt=""></div><div class="glass" id="hk-c" style="left:110px;right:110px;top:560px;padding:40px 44px"></div><div class="ttl" id="hk-q" style="top:1150px;font-size:84px">Can they tell? 🤔</div></section>
+<section class="fv-scene" data-scene="how"><div class="photo"><img src="img/7c.jpg" alt=""></div><div class="glass" id="hw-c" style="left:70px;right:70px;top:640px;padding:40px 40px"></div></section>
+<section class="fv-scene" data-scene="perplexity"><div class="photo"><img src="img/7a.jpg" alt=""></div><div class="glass" id="pp-c" style="left:80px;right:80px;top:330px;padding:40px 44px"></div><div class="glass" id="pp-g" style="left:80px;right:80px;top:1010px;padding:30px 44px"></div></section>
+<section class="fv-scene" data-scene="burst"><div class="photo"><img src="img/7c.jpg" alt=""></div><div class="glass" id="bs-c" style="left:70px;right:70px;top:330px;padding:36px 40px"></div></section>
+<section class="fv-scene" data-scene="fail"><div class="photo"><img src="img/7b.jpg" alt=""></div><div id="fl-c" style="position:absolute;left:70px;right:70px;top:640px;display:grid;gap:22px"></div></section>
+<section class="fv-scene" data-scene="outro"><div class="photo"><img src="img/7b.jpg" alt=""></div><div class="ttl" id="oc-a" style="top:470px;font-size:84px">A detector score is<br>a <span style="color:#fbbf24">guess</span>, not <span style="color:#f87171">proof</span>.</div><div class="glass" id="oc-c" style="left:130px;right:130px;top:820px;padding:34px 40px"></div></section>
+</div>
+<script src="timing.js"></script>
+<script src="fv-runtime.js"></script>
+<script>
+(() => {
+const { seg, css, enter, lerp, clamp, ease, pulse, $ } = FV;
+const NS = 'http://www.w3.org/2000/svg';
+const svgEl = (tag, attrs, parent) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; };
+const txt = (s, x, y, str, o = {}) => { const e = svgEl('text', Object.assign({ x, y, fill: '#eef2f6', 'font-size': 30, 'font-weight': 700, 'font-family': 'Inter', 'text-anchor': 'middle' }, o), s); e.textContent = str; return e; };
+const div = (cls, html, parent, style) => { const e = document.createElement('div'); if (cls) e.className = cls; if (html !== undefined) e.innerHTML = html; if (style) e.style.cssText = style; if (parent) parent.appendChild(e); return e; };
+const pop = (el, t, a, d = 0.45) => { const p = seg(t, a, a + d, ease.back); css(el, { o: clamp(p * 1.5), s: Math.max(0, p) }); return p; };
+const head = (el, t) => { const s = el.querySelector('.step'), h = el.querySelector('.head'); if (s) enter(s, t, 0.0, 0.4); if (h) enter(h, t, 0.08, 0.45, 30); };
+const frac = (ctx, i, f) => ctx.line(i) + (ctx.lineEnd(i) - ctx.line(i)) * f;
+const pill = (t, c) => `<span class="pill" style="border:3px solid ${c};background:${c}1a;color:${c}">${t}</span>`;
+const show = (el, html) => { if (el.__h !== html) { el.innerHTML = html; el.__h = html; } };
+
+const kb = (sec, t, dur, from = 1.04, to = 1.16, dx = 0) => { const img = sec.querySelector('.photo img'); const u = clamp(t / dur); img.style.transform = `scale(${lerp(from, to, u)}) translate(${dx * u}px,0)`; };
+const dim = (sec, v) => { sec.querySelector('.photo img').style.filter = `brightness(${v}) saturate(${0.6 + 0.4 * v})`; };
+/* HOOK: detector report with a gauge to 92% */
+{
+  const c = $('#hk-c');
+  c.innerHTML = `<div class="k">AI DETECTOR REPORT</div><div style="display:flex;align-items:center;gap:36px;margin-top:22px">
+    <svg width="230" height="230" viewBox="0 0 230 230"><circle cx="115" cy="115" r="96" fill="none" stroke="rgba(255,255,255,.12)" stroke-width="22"/>
+    <circle class="arc" cx="115" cy="115" r="96" fill="none" stroke="#f87171" stroke-width="22" stroke-linecap="round" stroke-dasharray="603" stroke-dashoffset="603" transform="rotate(-90 115 115)"/>
+    <text class="pc" x="115" y="132" text-anchor="middle" font-family="Inter" font-weight="900" font-size="58" fill="#fff">0%</text></svg>
+    <div><div style="font:900 46px/1.1 Inter;color:#f87171">Likely<br>AI-generated</div><div style="font:600 26px Inter;color:#cbd5e1;margin-top:12px">essay_final_v3.docx</div></div></div>
+    <div class="me" style="margin-top:26px;font:800 34px Inter;color:#86efac;opacity:0">✍️ "…but I wrote every word!"</div>`;
+  FV.scene('hook', (t, ctx) => {
+    kb(ctx.el, t, ctx.dur, 1.06, 1.18); dim(ctx.el, 1 - 0.35 * seg(t, frac(ctx, 0, 0.2), frac(ctx, 0, 0.4)));
+    enter(c, t, frac(ctx, 0, 0.18), 0.5, 40);
+    const u = seg(t, frac(ctx, 0, 0.3), frac(ctx, 0, 0.6), ease.out); c.querySelector('.arc').setAttribute('stroke-dashoffset', 603 * (1 - 0.92 * u)); c.querySelector('.pc').textContent = Math.round(92 * u) + '%';
+    c.querySelector('.me').style.opacity = seg(t, frac(ctx, 0, 0.72), frac(ctx, 0, 0.85));
+    pop($('#hk-q'), t, ctx.line(1) - 0.1, 0.5);
+  });
+}
+/* HOW: words get coloured by how predictable they are */
+{
+  const c = $('#hw-c'); const W = [['In', 0.9], ['conclusion,', 0.95], ['the', 0.97], ['results', 0.8], ['clearly', 0.85], ['show', 0.9], ['that', 0.97], ['my', 0.3], ['grandma’s', 0.05], ['tamarind', 0.04], ['rice', 0.25], ['won.', 0.1]];
+  c.innerHTML = `<div class="k">HOW PREDICTABLE IS EACH WORD?</div><div class="ws" style="margin-top:22px;font:600 44px/1.5 Inter"></div>
+    <div style="margin-top:20px;display:flex;gap:26px;font:600 24px Inter;color:#cbd5e1"><span><span class="word" style="background:#22c55e66">easy to guess</span></span><span><span class="word" style="background:#f9731666">surprising</span></span></div>`;
+  const spans = W.map(([w]) => div('word', w, c.querySelector('.ws')));
+  FV.scene('how', (t, ctx) => {
+    kb(ctx.el, t, ctx.dur, 1.1, 1.22, -20); dim(ctx.el, 0.95); enter(c, t, 0.15, 0.5, 40);
+    spans.forEach((s, i) => { const on = t > frac(ctx, 0, 0.3) + i * 0.12; s.style.background = on ? (W[i][1] > 0.5 ? '#22c55e66' : '#f9731666') : 'transparent'; });
+  });
+}
+/* PERPLEXITY: next-word odds, then a predictable -> suspicious meter */
+{
+  const c = $('#pp-c'), g = $('#pp-g'); const O = [['mat', 71], ['floor', 12], ['sofa', 6], ['roof', 3]];
+  c.innerHTML = `<div class="k">AI WRITES THE LIKELIEST WORD</div><div style="margin-top:20px;font:700 46px Inter">The cat sat on the <span class="pick" style="color:#a5b4fc;border-bottom:4px solid #a5b4fc">___</span></div><div class="l" style="margin-top:26px;display:grid;gap:14px"></div>`;
+  const rows = O.map(([w, p]) => { const r = div('', `<div style="display:flex;align-items:center;gap:16px"><div style="width:120px;font:700 32px Inter">${w}</div><div style="flex:1;height:30px;border-radius:15px;background:rgba(255,255,255,.1);overflow:hidden"><div class="f" style="height:100%;width:0;background:#818cf8"></div></div><div style="width:80px;text-align:right;font:800 28px 'JetBrains Mono'">${p}%</div></div>`, c.querySelector('.l')); return { r, p }; });
+  g.innerHTML = `<div style="display:flex;justify-content:space-between;font:800 28px Inter"><span style="color:#86efac">🧑 surprising</span><span style="color:#f87171">🤖 predictable</span></div><div style="position:relative;margin-top:16px;height:26px;border-radius:13px;background:linear-gradient(90deg,#22c55e,#fbbf24,#ef4444)"><div class="nd" style="position:absolute;top:-12px;left:0;width:10px;height:50px;border-radius:5px;background:#fff;box-shadow:0 0 12px #fff"></div></div><div class="lb" style="margin-top:18px;text-align:center;font:800 30px Inter;color:#fca5a5"></div>`;
+  FV.scene('perplexity', (t, ctx) => {
+    kb(ctx.el, t, ctx.dur, 1.12, 1.2); dim(ctx.el, 0.45); enter(c, t, 0.15, 0.5, 40);
+    const u = seg(t, frac(ctx, 0, 0.1), frac(ctx, 0, 0.35)); rows.forEach(({ r, p }, i) => { r.querySelector('.f').style.width = p * u + '%'; r.querySelector('.f').style.background = i === 0 && u >= 1 ? '#22c55e' : '#818cf8'; });
+    c.querySelector('.pick').textContent = t > frac(ctx, 0, 0.38) ? 'mat' : '___';
+    enter(g, t, frac(ctx, 0, 0.55), 0.5, 30); const n = seg(t, frac(ctx, 0, 0.62), frac(ctx, 0, 0.9), ease.inOut); g.querySelector('.nd').style.left = `calc(${10 + 78 * n}% - 5px)`;
+    g.querySelector('.lb').textContent = n > 0.6 ? 'predictable writing = 🚩 suspicious' : '';
+  });
+}
+/* BURST: sentence length bars, human vs AI */
+{
+  const c = $('#bs-c'); const Hm = [6, 24, 9, 31, 4, 17], Ai = [15, 16, 14, 17, 15, 16];
+  const col = (title, color, vals) => `<div style="flex:1"><div style="font:800 34px Inter;color:${color};margin-bottom:14px">${title}</div><div style="display:grid;gap:10px">${vals.map((v) => `<div style="height:30px;border-radius:8px;background:rgba(255,255,255,.08);overflow:hidden"><div class="f" data-v="${v}" style="height:100%;width:0;background:${color}"></div></div>`).join('')}</div></div>`;
+  c.innerHTML = `<div class="k">BURSTINESS · SENTENCE LENGTHS</div><div style="display:flex;gap:40px;margin-top:24px">${col('🧑 Human', '#86efac', Hm)}${col('🤖 AI', '#a5b4fc', Ai)}</div>
+    <div style="display:flex;gap:40px;margin-top:20px;font:700 28px Inter;color:#e2e8f0"><div style="flex:1">long, short, long… 🎢</div><div style="flex:1">all about the same 📏</div></div>`;
+  FV.scene('burst', (t, ctx) => {
+    kb(ctx.el, t, ctx.dur, 1.18, 1.24); dim(ctx.el, 0.4); enter(c, t, 0.15, 0.5, 40);
+    c.querySelectorAll('.f').forEach((f, i) => { const u = seg(t, frac(ctx, 0, 0.25 + (i % 6) * 0.06), frac(ctx, 0, 0.4 + (i % 6) * 0.06), ease.out); f.style.width = (f.dataset.v / 32 * 100 * u) + '%'; });
+  });
+}
+/* FAIL: three reasons stack up over the worried student */
+{
+  const c = $('#fl-c'); const R = [['✍️', 'Clear, simple writing', 'can look "too predictable"', '#fbbf24', 0.08], ['🌍', 'Non-native English writers', 'flagged far more often in one study', '#f87171', 0.32], ['🛑', 'OpenAI shut down its own detector', 'in 2023, for low accuracy', '#a5b4fc', 0.68]];
+  const cards = R.map(([e, a, b, col]) => div('glass', `<div style="display:flex;gap:24px;align-items:center"><div style="font-size:64px">${e}</div><div><div style="font:800 38px/1.15 Inter;color:${col}">${a}</div><div style="font:500 28px Inter;color:#e2e8f0;margin-top:6px">${b}</div></div></div>`, c, 'position:relative;padding:28px 32px'));
+  FV.scene('fail', (t, ctx) => {
+    kb(ctx.el, t, ctx.dur, 1.04, 1.16); dim(ctx.el, 1 - 0.3 * seg(t, frac(ctx, 0, 0.05), frac(ctx, 0, 0.15)));
+    cards.forEach((x, i) => enter(x, t, frac(ctx, 0, R[i][4]), 0.5, 40));
+  });
+}
+/* OUTRO: guess not proof + version history */
+{
+  const c = $('#oc-c'); const V = [['v1 · outline', 'Mon 9:12 pm'], ['v2 · first draft', 'Tue 10:40 pm'], ['v3 · rewrite intro', 'Wed 8:05 pm'], ['v4 · final', 'Thu 11:58 pm']];
+  c.innerHTML = `<div class="k">💾 VERSION HISTORY = YOUR EVIDENCE</div><div class="l" style="margin-top:18px;display:grid;gap:12px"></div>`;
+  const rows = V.map(([a, b]) => div('', `<div style="display:flex;justify-content:space-between;padding:12px 16px;border-radius:12px;background:rgba(255,255,255,.07);font:700 30px Inter"><span>${a}</span><span style="color:#94a3b8;font-weight:500">${b}</span></div>`, c.querySelector('.l')));
+  FV.scene('outro', (t, ctx) => {
+    kb(ctx.el, t, ctx.dur, 1.16, 1.22); dim(ctx.el, 0.35);
+    pop($('#oc-a'), t, frac(ctx, 0, 0.05), 0.5);
+    enter(c, t, ctx.line(1) - 0.2, 0.5, 30); rows.forEach((r, i) => enter(r, t, ctx.line(1) + i * 0.2, 0.35, 15));
+  });
+}
+
+})();
+</script>
+</body>
+</html>
