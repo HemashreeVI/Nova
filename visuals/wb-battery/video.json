@@ -1,0 +1,94 @@
+{
+ "title": "Why Your Phone Battery Dies Faster Every Year 🔋 #shorts",
+ "slug": "wb-battery",
+ "format": "vertical",
+ "description": "Your phone runs on a lithium-ion battery. Charging pushes lithium ions from one side of the battery to the other, and using the phone lets them flow back. Every charge cycle, a few ions get trapped in a thin layer that slowly builds up inside, so fewer ions are left to carry charge. That's why capacity drops over time, often to around 80% after a few hundred full cycles. Heat and sitting at 100% speed it up, so avoid heat and use your phone's optimized or limited charging.\n\n📘 More to learn + my projects: https://github.com/HemashreeVI\n\n#Battery #Smartphone #Tech #LithiumIon #PhoneTips #TechExplained #shorts",
+ "tags": [
+  "phone battery",
+  "why phone battery dies faster",
+  "battery health",
+  "lithium ion battery",
+  "how batteries work",
+  "battery degradation",
+  "charging tips",
+  "80 percent charging",
+  "optimized charging",
+  "smartphone tips",
+  "tech explained",
+  "shorts"
+ ],
+ "voice": "af_heart",
+ "speed": 1.0,
+ "lineGap": 0.3,
+ "captions": true,
+ "endCard": "",
+ "thumbnail": "cycle@4",
+ "endHold": 0.3,
+ "pronounce": {
+  "80%": "eighty percent",
+  "SEI": "S E I"
+ },
+ "scenes": [
+  {
+   "id": "hook",
+   "pad": [
+    0.3,
+    0.5
+   ],
+   "lines": [
+    "Your phone lasted all day when it was new. Now it's dead by lunch.",
+    "Here's what's actually happening."
+   ]
+  },
+  {
+   "id": "ions",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "Inside is a lithium-ion battery. Charging pushes lithium ions to one side. Using your phone lets them flow back, and that flow is your power."
+   ]
+  },
+  {
+   "id": "trap",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "But every cycle, a few ions get stuck in a thin layer that slowly builds up inside. Stuck ions can't carry charge anymore."
+   ]
+  },
+  {
+   "id": "cycle",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "Fewer moving ions means less capacity. After a few hundred full charges, many batteries are down to around eighty percent."
+   ]
+  },
+  {
+   "id": "tips",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "Heat and sitting at a hundred percent make it worse. So keep it cool, and turn on optimized charging."
+   ]
+  },
+  {
+   "id": "outro",
+   "pad": [
+    0.3,
+    1.6
+   ],
+   "lines": [
+    "Every charge traps a few ions. That's why batteries age."
+   ]
+  }
+ ]
+}
