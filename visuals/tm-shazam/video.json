@@ -1,0 +1,91 @@
+{
+ "title": "How Shazam Knows a Song in 3 Seconds 🎵 #shorts",
+ "slug": "tm-shazam",
+ "format": "vertical",
+ "description": "Shazam turns a few seconds of sound into a spectrogram, a picture of which frequencies are loud at each moment. It keeps only the strongest peaks, which survive background noise, giving a constellation of points. Pairs of peaks become fingerprints: two frequencies and the time between them. Those fingerprints are looked up among millions of songs, and when many of them line up with the same time offset in one song, that's the match.\n\n📘 More to learn + my projects: https://github.com/HemashreeVI\n\n#Shazam #Music #Algorithms #AudioFingerprinting #Tech #TechExplained #shorts",
+ "tags": [
+  "how shazam works",
+  "shazam",
+  "audio fingerprinting",
+  "song recognition",
+  "spectrogram",
+  "music recognition",
+  "how apps recognize songs",
+  "algorithms",
+  "signal processing",
+  "music tech",
+  "tech explained",
+  "shorts"
+ ],
+ "voice": "af_heart",
+ "speed": 1.0,
+ "lineGap": 0.3,
+ "captions": true,
+ "endCard": "",
+ "thumbnail": "peaks@5",
+ "endHold": 0.3,
+ "pronounce": {},
+ "scenes": [
+  {
+   "id": "hook",
+   "pad": [
+    0.3,
+    0.5
+   ],
+   "lines": [
+    "Shazam names a song in a noisy café in about three seconds.",
+    "Here's how."
+   ]
+  },
+  {
+   "id": "spectro",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "First it turns the sound into a spectrogram: a picture of which frequencies are loud, moment by moment."
+   ]
+  },
+  {
+   "id": "peaks",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "It keeps only the brightest peaks. Chatter and noise mostly fall away, leaving a constellation of stars."
+   ]
+  },
+  {
+   "id": "hash",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "Pairs of stars become fingerprints: two notes, and the time between them."
+   ]
+  },
+  {
+   "id": "match",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "Those fingerprints are searched across millions of songs. When lots of them line up at the same moment in one song, that's your match."
+   ]
+  },
+  {
+   "id": "outro",
+   "pad": [
+    0.3,
+    1.6
+   ],
+   "lines": [
+    "Sound to picture. Picture to stars. Stars to song."
+   ]
+  }
+ ]
+}

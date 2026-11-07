@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Phone listening Short</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{--ink:#eef2f6;--mut:#94a3b8;--acc:#a855f7;--acc2:#e9d5ff;--grn:#34d399;--red:#f87171;--yel:#fbbf24;--pk:#f472b6;--cy:#22d3ee}
+  #fv-stage{background:radial-gradient(1000px 1300px at 70% 12%,#2b1458 0%,#140b2e 52%,#08061a 82%);color:var(--ink);font-family:Inter,system-ui,sans-serif}
+  #bg-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(192,132,252,.12) 1px,transparent 1px),linear-gradient(90deg,rgba(192,132,252,.12) 1px,transparent 1px);background-size:90px 90px;opacity:.22}
+  .abs{position:absolute}
+  .step{position:absolute;left:0;right:0;top:250px;text-align:center;font:700 34px/1 'JetBrains Mono',monospace;letter-spacing:.2em;color:var(--acc2)}
+  .head{position:absolute;left:60px;right:60px;top:305px;text-align:center;font:800 84px/1.05 Inter;letter-spacing:-.03em}
+  .mono{font-family:'JetBrains Mono',monospace}
+  .badge{position:absolute;left:50%;top:150px;transform:translateX(-50%);padding:12px 26px;border-radius:40px;background:color-mix(in srgb,var(--acc) 12%,transparent);border:2px solid color-mix(in srgb,var(--acc) 55%,transparent);font:700 30px Inter;color:var(--acc2);white-space:nowrap}
+  .pill{display:inline-block;padding:12px 26px;border-radius:40px;font:800 32px Inter}
+  .pane{position:absolute;left:120px;width:840px;height:765px;border-radius:26px;overflow:hidden;border:3px solid color-mix(in srgb,var(--acc) 45%,transparent);background:rgba(8,8,16,.75)}
+  .pane svg{position:absolute;inset:0;width:840px;height:765px}
+  .below{position:absolute;left:0;right:0;top:1225px;text-align:center}
+  .big{font:900 120px/1 Inter;letter-spacing:-.04em;color:#fff}
+  .card{border-radius:22px;padding:26px 30px;background:rgba(255,255,255,.05);border:2px solid rgba(255,255,255,.14)}
+  .fv-endcard{display:inline-block;padding:16px 30px;border-radius:40px;font:700 34px 'JetBrains Mono',monospace;border:3px solid #eef2f6;background:rgba(238,242,246,.08)}
+</style>
+</head>
+<body>
+<div id="fv-stage">
+  <div id="bg-grid"></div>
+  <div class="badge">🕵️ Tech Mysteries</div>
+<section class="fv-scene" data-scene="hook"><div class="pane" id="hk-p" style="top:300px"></div><div id="hk-q" class="abs" style="left:0;right:0;top:1110px;text-align:center"><div class="big" style="font-size:96px">Is it <span style="color:var(--acc2)">listening?</span> 👀</div></div></section>
+<section class="fv-scene" data-scene="study"><div class="step">THE RESEARCH</div><div class="head">Searching for spies</div><div class="pane" id="st-p" style="top:430px"></div><div class="below" id="st-t"></div></section>
+<section class="fv-scene" data-scene="signals"><div class="step">THE REAL ANSWER</div><div class="head">Your data trail</div><div class="pane" id="sg-p" style="top:430px"></div><div class="below" id="sg-t"></div></section>
+<section class="fv-scene" data-scene="graph"><div class="step">THE TWIST</div><div class="head">Same Wi-Fi, same ads</div><div class="pane" id="gr-p" style="top:430px"></div><div class="below" id="gr-t"></div></section>
+<section class="fv-scene" data-scene="fix"><div class="step">TAKE CONTROL</div><div class="head">Three switches</div><div class="pane" id="fx-p" style="top:430px"></div><div class="below" id="fx-t"></div></section>
+<section class="fv-scene" data-scene="outro"><div id="oc-w" class="abs" style="left:40px;right:40px;top:640px;display:grid;justify-items:center;gap:22px"></div></section>
+</div>
+<script src="timing.js"></script>
+<script src="fv-runtime.js"></script>
+<script>
+(() => {
+const { seg, css, enter, lerp, clamp, ease, pulse, $ } = FV;
+const NS = 'http://www.w3.org/2000/svg';
+const svgEl = (tag, attrs, parent) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; };
+const txt = (s, x, y, str, o = {}) => { const e = svgEl('text', Object.assign({ x, y, fill: '#eef2f6', 'font-size': 30, 'font-weight': 700, 'font-family': 'Inter', 'text-anchor': 'middle' }, o), s); e.textContent = str; return e; };
+const div = (cls, html, parent, style) => { const e = document.createElement('div'); if (cls) e.className = cls; if (html !== undefined) e.innerHTML = html; if (style) e.style.cssText = style; if (parent) parent.appendChild(e); return e; };
+const pop = (el, t, a, d = 0.45) => { const p = seg(t, a, a + d, ease.back); css(el, { o: clamp(p * 1.5), s: Math.max(0, p) }); return p; };
+const head = (el, t) => { const s = el.querySelector('.step'), h = el.querySelector('.head'); if (s) enter(s, t, 0.0, 0.4); if (h) enter(h, t, 0.08, 0.45, 30); };
+const frac = (ctx, i, f) => ctx.line(i) + (ctx.lineEnd(i) - ctx.line(i)) * f;
+const pill = (t, c) => `<span class="pill" style="border:3px solid ${c};background:${c}1a;color:${c}">${t}</span>`;
+const show = (el, html) => { if (el.__h !== html) { el.innerHTML = html; el.__h = html; } };
+
+function flowPane(host) { return svgEl('svg', { viewBox: '0 0 840 765' }, host); }
+function node(s, x, y, w, h, title, sub, c) {
+  const g = svgEl('g', { opacity: 0 }, s);
+  const r = svgEl('rect', { x: x - w / 2, y: y - h / 2, width: w, height: h, rx: 18, fill: '#0f172a', stroke: c, 'stroke-width': 4 }, g);
+  txt(g, x, y + (sub ? -4 : 10), title, { 'font-size': 30, 'font-weight': 800, fill: '#f1f5f9' });
+  if (sub) txt(g, x, y + 30, sub, { 'font-size': 22, fill: '#94a3b8', 'font-family': 'JetBrains Mono' });
+  return { g, r, x, y, w, h, c };
+}
+function link(s, a, b, c = '#64748b') { return svgEl('line', { x1: a.x, y1: a.y, x2: b.x, y2: b.y, stroke: c, 'stroke-width': 4, 'stroke-dasharray': '10 10', opacity: 0 }, s); }
+function packet(s, label, c) {
+  const g = svgEl('g', { opacity: 0 }, s);
+  const w = Math.max(90, label.length * 15 + 34);
+  svgEl('rect', { x: -w / 2, y: -24, width: w, height: 48, rx: 24, fill: c }, g);
+  txt(g, 0, 9, label, { 'font-size': 24, 'font-weight': 800, fill: '#0b1020', 'font-family': 'JetBrains Mono' });
+  return g;
+}
+function move(p, a, b, u) { if (u <= 0 || u >= 1) { p.setAttribute('opacity', 0); return; } p.setAttribute('opacity', 1); p.setAttribute('transform', `translate(${lerp(a.x, b.x, ease.inOut(u))} ${lerp(a.y, b.y, ease.inOut(u))})`); }
+
+/* phone(s, cx, cy, k): returns { g, screen } where screen is a group in local coords 0..200 x 0..380 */
+function phone(s, cx, cy, k = 1, o = {}) {
+  const g = svgEl('g', { transform: `translate(${cx - 110 * k} ${cy - 205 * k}) scale(${k})` }, s);
+  svgEl('rect', { x: 0, y: 0, width: 220, height: 410, rx: 34, fill: '#0b0b14', stroke: o.c || '#c4b5fd', 'stroke-width': 5 / k * k }, g);
+  svgEl('rect', { x: 12, y: 14, width: 196, height: 382, rx: 24, fill: o.screen || '#17142b' }, g);
+  svgEl('rect', { x: 80, y: 22, width: 60, height: 12, rx: 6, fill: '#0b0b14' }, g);
+  const screen = svgEl('g', { transform: 'translate(12 14)' }, g);
+  return { g, screen };
+}
+const ring = (s, cx, cy, c, t, speed = 1, n = 3, max = 160) => { const g = svgEl('g', {}, s); const R = Array.from({ length: n }, () => svgEl('circle', { cx, cy, r: 0, fill: 'none', stroke: c, 'stroke-width': 4 }, g));
+  return (t, on = 1) => R.forEach((r, i) => { const u = ((t * speed + i / n) % 1); r.setAttribute('r', 20 + u * max); r.setAttribute('opacity', on * (1 - u)); }); };
+
+const ad = (s, x, y, w, label, sub) => { const g = svgEl('g', { opacity: 0 }, s); svgEl('rect', { x, y, width: w, height: 86, rx: 14, fill: '#2a1f4d', stroke: '#f0abfc', 'stroke-width': 2 }, g); txt(g, x + 46, y + 56, '👟', { 'font-size': 42 }); txt(g, x + 86, y + 40, label, { 'text-anchor': 'start', 'font-size': 22, 'font-weight': 800 }); txt(g, x + 86, y + 68, sub, { 'text-anchor': 'start', 'font-size': 17, fill: '#c4b5fd' }); return g; };
+/* HOOK: chat, sound waves into the mic, feed fills with shoe ads */
+{
+  const s = flowPane($('#hk-p')); const P1 = phone(s, 600, 390, 1.55);
+  const b1 = svgEl('g', { opacity: 0 }, s); svgEl('rect', { x: 40, y: 120, width: 330, height: 84, rx: 22, fill: '#7c3aed' }, b1); txt(b1, 205, 172, 'these running shoes 🔥', { 'font-size': 24 });
+  const b2 = svgEl('g', { opacity: 0 }, s); svgEl('rect', { x: 40, y: 230, width: 290, height: 84, rx: 22, fill: '#334155' }, b2); txt(b2, 185, 282, 'omg I need them', { 'font-size': 24 });
+  const waves = ring(s, 470, 300, '#f0abfc', 0, 0.8, 3, 120);
+  const ads = [0, 1, 2, 3].map((i) => ad(P1.screen, 8, 40 + i * 92, 180, 'RUN FAST', '−40% today'));
+  FV.scene('hook', (t, ctx) => {
+    enter($('#hk-p'), t, 0.05, 0.4, 20);
+    b1.setAttribute('opacity', seg(t, 0.3, 0.7)); b2.setAttribute('opacity', seg(t, 1.0, 1.4));
+    waves(t, pulse(t, 0.6, frac(ctx, 0, 0.55)));
+    ads.forEach((a, i) => a.setAttribute('opacity', seg(t, frac(ctx, 0, 0.62 + i * 0.08), frac(ctx, 0, 0.7 + i * 0.08))));
+    pop($('#hk-q'), t, ctx.line(1) - 0.1, 0.5);
+  });
+}
+/* STUDY: app grid gets scanned, counter, zero recordings */
+{
+  const host = $('#st-p'); const E = ['📷', '🎵', '💬', '🛒', '🎮', '📍', '🧭', '📰', '🍔', '🎬', '💳', '📚'];
+  host.innerHTML = `<div class="g" style="position:absolute;left:40px;right:40px;top:40px;display:grid;grid-template-columns:repeat(6,1fr);gap:16px"></div>
+    <div style="position:absolute;left:0;right:0;top:440px;text-align:center"><div class="n mono" style="font:900 96px 'JetBrains Mono';color:#e9d5ff">0</div><div style="font:700 30px Inter;color:#c4b5fd">apps tested</div>
+    <div class="r" style="margin-top:28px;font:900 52px Inter;color:#34d399;opacity:0">🎙️ secret recordings: 0</div></div>`;
+  const tiles = Array.from({ length: 24 }, (_, i) => div('', E[i % 12], host.querySelector('.g'), 'height:74px;border-radius:18px;background:#221b3d;display:grid;place-items:center;font-size:40px;border:2px solid #3b2d6b;transition:none'));
+  const scan = div('', '', host, 'position:absolute;left:30px;right:30px;height:6px;background:#f0abfc;box-shadow:0 0 30px #f0abfc;border-radius:3px');
+  FV.scene('study', (t, ctx) => {
+    head(ctx.el, t); enter(host, t, 0.1, 0.4, 20);
+    const u = seg(t, frac(ctx, 0, 0.05), frac(ctx, 0, 0.6), ease.linear);
+    scan.style.top = 40 + ((u * 3) % 1) * 360 + 'px'; scan.style.opacity = u > 0 && u < 1 ? 1 : 0;
+    tiles.forEach((x, i) => x.style.borderColor = u * 24 > i ? '#34d399' : '#3b2d6b');
+    host.querySelector('.n').textContent = Math.round(u * 17000).toLocaleString('en-US') + (u >= 1 ? '+' : '');
+    host.querySelector('.r').style.opacity = seg(t, frac(ctx, 0, 0.75), frac(ctx, 0, 0.85));
+    show($('#st-t'), pill('no sign of secret listening', '#34d399')); $('#st-t').style.opacity = seg(t, frac(ctx, 0, 0.8), frac(ctx, 0, 0.9));
+  });
+}
+/* SIGNALS: four data chips light up and stream into an ad network */
+{
+  const s = flowPane($('#sg-p')); const P1 = phone(s, 130, 400, 0.8);
+  txt(P1.screen, 98, 200, 'you', { 'font-size': 40, 'font-weight': 800 });
+  const AN = node(s, 700, 400, 230, 150, '🧠 ad network', 'your profile', '#f0abfc');
+  const D = [['📍', 'places', 130], ['🔍', 'searches', 310], ['👆', 'clicks', 490], ['👥', 'who with', 670]];
+  const C = D.map(([e, l, y]) => { const g = svgEl('g', { opacity: 0 }, s);
+    const a1 = svgEl('line', { x1: 220, y1: 400, x2: 300, y2: y, stroke: '#c084fc', 'stroke-width': 3, 'stroke-dasharray': '8 8' }, g);
+    const a2 = svgEl('line', { x1: 520, y1: y, x2: 585, y2: 400, stroke: '#c084fc', 'stroke-width': 3, 'stroke-dasharray': '8 8' }, g);
+    svgEl('rect', { x: 300, y: y - 40, width: 220, height: 80, rx: 18, fill: '#221b3d', stroke: '#c084fc', 'stroke-width': 3 }, g);
+    txt(g, 336, y + 14, e, { 'font-size': 36 }); txt(g, 372, y + 11, l, { 'text-anchor': 'start', 'font-size': 30, 'font-weight': 800 });
+    const dot = svgEl('circle', { r: 9, fill: '#f0abfc' }, g); return { g, a1, a2, dot, y }; });
+  FV.scene('signals', (t, ctx) => {
+    head(ctx.el, t); enter($('#sg-p'), t, 0.1, 0.4, 20);
+    AN.g.setAttribute('opacity', seg(t, 0.4, 0.8));
+    C.forEach((c, i) => { const a = frac(ctx, 0, 0.18 + i * 0.16); c.g.setAttribute('opacity', seg(t, a, a + 0.3));
+      [c.a1, c.a2].forEach((l) => l.setAttribute('stroke-dashoffset', -t * 40));
+      const u = ((t - a) * 0.8) % 1, x = lerp(520, 585, u), y = lerp(c.y, 400, u); c.dot.setAttribute('cx', x); c.dot.setAttribute('cy', y); });
+    show($('#sg-t'), pill('no microphone needed', '#f0abfc')); $('#sg-t').style.opacity = seg(t, frac(ctx, 0, 0.85), frac(ctx, 0, 0.95));
+  });
+}
+/* GRAPH: friend searches on same Wi-Fi, link appears, your phone shows the ad */
+{
+  const s = flowPane($('#gr-p'));
+  const wifi = svgEl('g', {}, s); txt(wifi, 420, 120, '📶', { 'font-size': 80 }); txt(wifi, 420, 165, 'same Wi-Fi', { 'font-size': 26, fill: '#c4b5fd' });
+  const A = phone(s, 200, 470, 0.85), B = phone(s, 640, 470, 0.85, { c: '#f0abfc' });
+  txt(s, 200, 680, 'you', { 'font-size': 30, 'font-weight': 800 }); txt(s, 640, 680, 'your friend', { 'font-size': 30, 'font-weight': 800, fill: '#f0abfc' });
+  const q = svgEl('g', {}, B.screen); svgEl('rect', { x: 10, y: 40, width: 176, height: 46, rx: 23, fill: '#fff' }, q); const qt = txt(q, 20, 70, '', { 'text-anchor': 'start', 'font-size': 15, fill: '#111', 'font-family': 'JetBrains Mono' });
+  const lnk = svgEl('path', { d: 'M 290 470 Q 420 360 550 470', fill: 'none', stroke: '#f0abfc', 'stroke-width': 5, 'stroke-dasharray': '12 10', opacity: 0 }, s);
+  const lk = txt(s, 420, 395, '🔗 linked', { 'font-size': 28, fill: '#f0abfc', 'font-weight': 800, opacity: 0 });
+  const myAd = ad(A.screen, 8, 160, 180, 'RUN FAST', 'just for you');
+  FV.scene('graph', (t, ctx) => {
+    head(ctx.el, t); enter($('#gr-p'), t, 0.1, 0.4, 20);
+    qt.textContent = '🔍 ' + 'running shoes'.slice(0, Math.round(seg(t, frac(ctx, 0, 0.05), frac(ctx, 0, 0.3), ease.linear) * 13));
+    const l = seg(t, frac(ctx, 0, 0.4), frac(ctx, 0, 0.55)); lnk.setAttribute('opacity', l); lk.setAttribute('opacity', l); lnk.setAttribute('stroke-dashoffset', -t * 40);
+    myAd.setAttribute('opacity', seg(t, frac(ctx, 0, 0.75), frac(ctx, 0, 0.85)));
+    show($('#gr-t'), pill('a guess, not a recording', '#f0abfc')); $('#gr-t').style.opacity = seg(t, frac(ctx, 0, 0.8), frac(ctx, 0, 0.9));
+  });
+}
+/* FIX: settings toggles flip off */
+{
+  const host = $('#fx-p'); const R = [['🎙️', 'Microphone access', 'only apps that need it'], ['📍', 'Location', 'while using the app'], ['🎯', 'Ad personalisation', 'off']];
+  host.innerHTML = `<div style="position:absolute;inset:0;padding:40px 36px;background:#f8fafc;color:#0f172a"><div style="font:800 38px Inter;margin-bottom:26px">⚙️ Settings · Privacy</div><div class="l"></div></div>`;
+  const rows = R.map(([e, a, b]) => { const r = div('', `<div style="display:flex;align-items:center;gap:18px;padding:24px 10px;border-bottom:2px solid #e2e8f0"><div style="font-size:48px">${e}</div><div style="flex:1"><div style="font:800 32px Inter">${a}</div><div style="font:500 24px Inter;color:#64748b">${b}</div></div><div class="sw" style="width:96px;height:52px;border-radius:26px;background:#22c55e;position:relative"><div class="k" style="position:absolute;top:5px;left:49px;width:42px;height:42px;border-radius:50%;background:#fff;box-shadow:0 2px 6px rgba(0,0,0,.3)"></div></div></div>`, host.querySelector('.l')); return r; });
+  FV.scene('fix', (t, ctx) => {
+    head(ctx.el, t); enter(host, t, 0.1, 0.4, 20);
+    rows.forEach((r, i) => { const u = seg(t, frac(ctx, 0, 0.2 + i * 0.22), frac(ctx, 0, 0.3 + i * 0.22), ease.inOut); r.querySelector('.k').style.left = (49 - 44 * u) + 'px'; r.querySelector('.sw').style.background = u > 0.5 ? '#cbd5e1' : '#22c55e'; });
+    show($('#fx-t'), pill('fewer signals = fewer creepy ads', '#34d399')); $('#fx-t').style.opacity = seg(t, frac(ctx, 0, 0.85), frac(ctx, 0, 0.95));
+  });
+}
+/* OUTRO */
+{
+  const Wd = [["It's not listening.", '#e9d5ff', 0], ["It's predicting. 🔮", '#f0abfc', 0.45]];
+  const w = Wd.map(([s, c]) => div('', s, $('#oc-w'), `font:900 96px/1.06 Inter;letter-spacing:-.03em;color:${c};text-align:center`));
+  FV.scene('outro', (t, ctx) => w.forEach((e, i) => pop(e, t, frac(ctx, 0, Wd[i][2]), 0.45)));
+}
+
+})();
+</script>
+</body>
+</html>

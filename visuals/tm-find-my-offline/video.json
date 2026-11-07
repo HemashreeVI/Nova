@@ -1,0 +1,91 @@
+{
+ "title": "How \"Find My\" Finds a Phone That's Switched Off 📍 #shorts",
+ "slug": "tm-find-my-offline",
+ "format": "vertical",
+ "description": "On many newer phones, switching off isn't completely off: a little battery is kept in reserve so the phone can keep sending a Bluetooth signal for hours. Nearby phones from strangers pick up that signal, attach their own location and upload it, end-to-end encrypted, so only the owner can see where the lost phone is. The person walking past never knows, and the company can't read it either. Apple's Find My and Google's Find My Device networks both work this way.\n\n📘 More to learn + my projects: https://github.com/HemashreeVI\n\n#FindMy #Smartphone #Bluetooth #Privacy #Tech #TechExplained #shorts",
+ "tags": [
+  "find my iphone",
+  "find my device",
+  "how find my works",
+  "find phone when off",
+  "lost phone tracking",
+  "bluetooth tracking",
+  "find my network",
+  "airtag",
+  "encryption",
+  "smartphone tips",
+  "tech explained",
+  "shorts"
+ ],
+ "voice": "af_heart",
+ "speed": 1.0,
+ "lineGap": 0.3,
+ "captions": true,
+ "endCard": "",
+ "thumbnail": "crowd@6",
+ "endHold": 0.3,
+ "pronounce": {},
+ "scenes": [
+  {
+   "id": "hook",
+   "pad": [
+    0.3,
+    0.5
+   ],
+   "lines": [
+    "Your phone is lost and switched off. Yet the map still shows exactly where it is.",
+    "How?"
+   ]
+  },
+  {
+   "id": "reserve",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "On many newer phones, off isn't fully off. A little battery is kept in reserve to run a Bluetooth beacon for hours."
+   ]
+  },
+  {
+   "id": "beacon",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "That beacon keeps whispering a coded signal to anything nearby."
+   ]
+  },
+  {
+   "id": "crowd",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "Any stranger's phone that passes by hears it, adds its own location, and uploads it, encrypted. The stranger never knows."
+   ]
+  },
+  {
+   "id": "private",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "Only your account can unlock that location. Not the stranger, and not even the company."
+   ]
+  },
+  {
+   "id": "outro",
+   "pad": [
+    0.3,
+    1.6
+   ],
+   "lines": [
+    "Millions of phones, quietly finding yours."
+   ]
+  }
+ ]
+}

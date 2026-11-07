@@ -1,0 +1,83 @@
+{
+ "title": "Why Do Planes Still Ask for Airplane Mode? ✈️ #shorts",
+ "slug": "tm-airplane-mode",
+ "format": "vertical",
+ "description": "A phone won't bring down a plane. Up at cruising height, a phone can see many cell towers at once and transmits at full power trying to reach them. Those bursts can leak into pilots' headsets as a buzzing noise, at moments when they need to hear air traffic control clearly, and they make it harder for networks on the ground. So airplane mode is a precaution. Some airlines now offer onboard Wi-Fi and even mobile data through a small cell site inside the plane, which keeps phones at low power.\n\n📘 More to learn + my projects: https://github.com/HemashreeVI\n\n#AirplaneMode #Aviation #Travel #Smartphone #Tech #TechExplained #shorts",
+ "tags": [
+  "airplane mode",
+  "why airplane mode",
+  "is airplane mode necessary",
+  "phones on planes",
+  "flight mode",
+  "aviation",
+  "pilot headset interference",
+  "cell towers",
+  "in flight wifi",
+  "travel tips",
+  "tech explained",
+  "shorts"
+ ],
+ "voice": "af_heart",
+ "speed": 1.0,
+ "lineGap": 0.3,
+ "captions": true,
+ "endCard": "",
+ "thumbnail": "towers@5",
+ "endHold": 0.3,
+ "pronounce": {
+  "Wi-Fi": "Wi Fi"
+ },
+ "scenes": [
+  {
+   "id": "hook",
+   "pad": [
+    0.3,
+    0.5
+   ],
+   "lines": [
+    "Every flight: please switch to airplane mode. But could your phone really bring down a plane?",
+    "Short answer: no."
+   ]
+  },
+  {
+   "id": "towers",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "Up high, your phone can see dozens of cell towers at once, and it shouts at full power trying to reach them."
+   ]
+  },
+  {
+   "id": "buzz",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "Those radio bursts can leak into pilots' headsets as a buzzing sound, right when they need to hear air traffic control."
+   ]
+  },
+  {
+   "id": "rules",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "So it's a precaution. Some airlines now even allow mobile data, using a tiny cell tower inside the plane that keeps phones quiet."
+   ]
+  },
+  {
+   "id": "outro",
+   "pad": [
+    0.3,
+    1.6
+   ],
+   "lines": [
+    "Not dangerous. Just noisy. That's why."
+   ]
+  }
+ ]
+}

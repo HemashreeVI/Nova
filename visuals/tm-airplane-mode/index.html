@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Airplane mode Short</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{--ink:#eef2f6;--mut:#94a3b8;--acc:#a855f7;--acc2:#e9d5ff;--grn:#34d399;--red:#f87171;--yel:#fbbf24;--pk:#f472b6;--cy:#22d3ee}
+  #fv-stage{background:radial-gradient(1000px 1300px at 70% 12%,#2b1458 0%,#140b2e 52%,#08061a 82%);color:var(--ink);font-family:Inter,system-ui,sans-serif}
+  #bg-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(192,132,252,.12) 1px,transparent 1px),linear-gradient(90deg,rgba(192,132,252,.12) 1px,transparent 1px);background-size:90px 90px;opacity:.22}
+  .abs{position:absolute}
+  .step{position:absolute;left:0;right:0;top:250px;text-align:center;font:700 34px/1 'JetBrains Mono',monospace;letter-spacing:.2em;color:var(--acc2)}
+  .head{position:absolute;left:60px;right:60px;top:305px;text-align:center;font:800 84px/1.05 Inter;letter-spacing:-.03em}
+  .mono{font-family:'JetBrains Mono',monospace}
+  .badge{position:absolute;left:50%;top:150px;transform:translateX(-50%);padding:12px 26px;border-radius:40px;background:color-mix(in srgb,var(--acc) 12%,transparent);border:2px solid color-mix(in srgb,var(--acc) 55%,transparent);font:700 30px Inter;color:var(--acc2);white-space:nowrap}
+  .pill{display:inline-block;padding:12px 26px;border-radius:40px;font:800 32px Inter}
+  .pane{position:absolute;left:120px;width:840px;height:765px;border-radius:26px;overflow:hidden;border:3px solid color-mix(in srgb,var(--acc) 45%,transparent);background:rgba(8,8,16,.75)}
+  .pane svg{position:absolute;inset:0;width:840px;height:765px}
+  .below{position:absolute;left:0;right:0;top:1225px;text-align:center}
+  .big{font:900 120px/1 Inter;letter-spacing:-.04em;color:#fff}
+  .card{border-radius:22px;padding:26px 30px;background:rgba(255,255,255,.05);border:2px solid rgba(255,255,255,.14)}
+  .fv-endcard{display:inline-block;padding:16px 30px;border-radius:40px;font:700 34px 'JetBrains Mono',monospace;border:3px solid #eef2f6;background:rgba(238,242,246,.08)}
+</style>
+</head>
+<body>
+<div id="fv-stage">
+  <div id="bg-grid"></div>
+  <div class="badge">🕵️ Tech Mysteries</div>
+<section class="fv-scene" data-scene="hook"><div class="pane" id="hk-p" style="top:300px"></div><div id="hk-q" class="abs" style="left:0;right:0;top:1110px;text-align:center"><div class="big" style="font-size:100px">Short answer: <span style="color:#34d399">no.</span></div></div></section>
+<section class="fv-scene" data-scene="towers"><div class="step">THE PROBLEM</div><div class="head">Dozens of towers</div><div class="pane" id="tw-p" style="top:430px"></div><div class="below" id="tw-t"></div></section>
+<section class="fv-scene" data-scene="buzz"><div class="step">THE ANNOYANCE</div><div class="head">Buzz in the headset</div><div class="pane" id="bz-p" style="top:430px"></div><div class="below" id="bz-t"></div></section>
+<section class="fv-scene" data-scene="rules"><div class="step">THE FIX</div><div class="head">A tiny tower on board</div><div class="pane" id="ru-p" style="top:430px"></div><div class="below" id="ru-t"></div></section>
+<section class="fv-scene" data-scene="outro"><div id="oc-w" class="abs" style="left:40px;right:40px;top:620px;display:grid;justify-items:center;gap:22px"></div></section>
+</div>
+<script src="timing.js"></script>
+<script src="fv-runtime.js"></script>
+<script>
+(() => {
+const { seg, css, enter, lerp, clamp, ease, pulse, $ } = FV;
+const NS = 'http://www.w3.org/2000/svg';
+const svgEl = (tag, attrs, parent) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; };
+const txt = (s, x, y, str, o = {}) => { const e = svgEl('text', Object.assign({ x, y, fill: '#eef2f6', 'font-size': 30, 'font-weight': 700, 'font-family': 'Inter', 'text-anchor': 'middle' }, o), s); e.textContent = str; return e; };
+const div = (cls, html, parent, style) => { const e = document.createElement('div'); if (cls) e.className = cls; if (html !== undefined) e.innerHTML = html; if (style) e.style.cssText = style; if (parent) parent.appendChild(e); return e; };
+const pop = (el, t, a, d = 0.45) => { const p = seg(t, a, a + d, ease.back); css(el, { o: clamp(p * 1.5), s: Math.max(0, p) }); return p; };
+const head = (el, t) => { const s = el.querySelector('.step'), h = el.querySelector('.head'); if (s) enter(s, t, 0.0, 0.4); if (h) enter(h, t, 0.08, 0.45, 30); };
+const frac = (ctx, i, f) => ctx.line(i) + (ctx.lineEnd(i) - ctx.line(i)) * f;
+const pill = (t, c) => `<span class="pill" style="border:3px solid ${c};background:${c}1a;color:${c}">${t}</span>`;
+const show = (el, html) => { if (el.__h !== html) { el.innerHTML = html; el.__h = html; } };
+
+function flowPane(host) { return svgEl('svg', { viewBox: '0 0 840 765' }, host); }
+function node(s, x, y, w, h, title, sub, c) {
+  const g = svgEl('g', { opacity: 0 }, s);
+  const r = svgEl('rect', { x: x - w / 2, y: y - h / 2, width: w, height: h, rx: 18, fill: '#0f172a', stroke: c, 'stroke-width': 4 }, g);
+  txt(g, x, y + (sub ? -4 : 10), title, { 'font-size': 30, 'font-weight': 800, fill: '#f1f5f9' });
+  if (sub) txt(g, x, y + 30, sub, { 'font-size': 22, fill: '#94a3b8', 'font-family': 'JetBrains Mono' });
+  return { g, r, x, y, w, h, c };
+}
+function link(s, a, b, c = '#64748b') { return svgEl('line', { x1: a.x, y1: a.y, x2: b.x, y2: b.y, stroke: c, 'stroke-width': 4, 'stroke-dasharray': '10 10', opacity: 0 }, s); }
+function packet(s, label, c) {
+  const g = svgEl('g', { opacity: 0 }, s);
+  const w = Math.max(90, label.length * 15 + 34);
+  svgEl('rect', { x: -w / 2, y: -24, width: w, height: 48, rx: 24, fill: c }, g);
+  txt(g, 0, 9, label, { 'font-size': 24, 'font-weight': 800, fill: '#0b1020', 'font-family': 'JetBrains Mono' });
+  return g;
+}
+function move(p, a, b, u) { if (u <= 0 || u >= 1) { p.setAttribute('opacity', 0); return; } p.setAttribute('opacity', 1); p.setAttribute('transform', `translate(${lerp(a.x, b.x, ease.inOut(u))} ${lerp(a.y, b.y, ease.inOut(u))})`); }
+
+/* phone(s, cx, cy, k): returns { g, screen } where screen is a group in local coords 0..200 x 0..380 */
+function phone(s, cx, cy, k = 1, o = {}) {
+  const g = svgEl('g', { transform: `translate(${cx - 110 * k} ${cy - 205 * k}) scale(${k})` }, s);
+  svgEl('rect', { x: 0, y: 0, width: 220, height: 410, rx: 34, fill: '#0b0b14', stroke: o.c || '#c4b5fd', 'stroke-width': 5 / k * k }, g);
+  svgEl('rect', { x: 12, y: 14, width: 196, height: 382, rx: 24, fill: o.screen || '#17142b' }, g);
+  svgEl('rect', { x: 80, y: 22, width: 60, height: 12, rx: 6, fill: '#0b0b14' }, g);
+  const screen = svgEl('g', { transform: 'translate(12 14)' }, g);
+  return { g, screen };
+}
+const ring = (s, cx, cy, c, t, speed = 1, n = 3, max = 160) => { const g = svgEl('g', {}, s); const R = Array.from({ length: n }, () => svgEl('circle', { cx, cy, r: 0, fill: 'none', stroke: c, 'stroke-width': 4 }, g));
+  return (t, on = 1) => R.forEach((r, i) => { const u = ((t * speed + i / n) % 1); r.setAttribute('r', 20 + u * max); r.setAttribute('opacity', on * (1 - u)); }); };
+
+const plane = (s, x, y, k = 1) => { const g = svgEl('g', { transform: `translate(${x} ${y}) scale(${k})` }, s);
+  svgEl('path', { d: 'M -150 0 Q -150 -22 -110 -22 L 120 -22 Q 165 -22 175 0 Q 165 22 120 22 L -110 22 Q -150 22 -150 0 Z', fill: '#e2e8f0' }, g);
+  svgEl('path', { d: 'M -20 -18 L -70 -110 L -30 -110 L 50 -18 Z', fill: '#cbd5e1' }, g); svgEl('path', { d: 'M -20 18 L -70 110 L -30 110 L 50 18 Z', fill: '#94a3b8' }, g);
+  svgEl('path', { d: 'M -130 -18 L -160 -70 L -140 -70 L -100 -18 Z', fill: '#cbd5e1' }, g);
+  for (let i = 0; i < 7; i++) svgEl('circle', { cx: -80 + i * 28, cy: -6, r: 5, fill: '#38bdf8' }, g);
+  return g; };
+const tower = (s, x, y, c = '#94a3b8') => { const g = svgEl('g', {}, s); svgEl('path', { d: `M ${x} ${y - 70} L ${x - 22} ${y} M ${x} ${y - 70} L ${x + 22} ${y} M ${x - 14} ${y - 25} L ${x + 14} ${y - 25}`, stroke: c, 'stroke-width': 5, fill: 'none' }, g); svgEl('circle', { cx: x, cy: y - 74, r: 7, fill: c }, g); return g; };
+/* HOOK: cabin sign + phone toggling airplane mode */
+{
+  const host = $('#hk-p');
+  host.innerHTML = `<div style="position:absolute;left:60px;right:60px;top:40px;padding:18px;border-radius:18px;background:#1e293b;text-align:center;font:800 32px Inter;color:#fde68a">🔔 Please switch to airplane mode</div>`;
+  const s = flowPane(host); const P1 = phone(s, 420, 470, 0.9);
+  const row = svgEl('g', {}, P1.screen); svgEl('rect', { x: 10, y: 150, width: 176, height: 70, rx: 16, fill: '#2a2547' }, row); txt(row, 50, 195, '✈️', { 'font-size': 34 });
+  const sw = svgEl('rect', { x: 110, y: 168, width: 64, height: 34, rx: 17, fill: '#475569' }, row); const kn = svgEl('circle', { cx: 128, cy: 185, r: 13, fill: '#fff' }, row);
+  const boom = txt(s, 640, 330, '💥?', { 'font-size': 90, opacity: 0 });
+  FV.scene('hook', (t, ctx) => {
+    enter(host, t, 0.05, 0.4, 20);
+    const u = seg(t, frac(ctx, 0, 0.3), frac(ctx, 0, 0.42), ease.inOut); kn.setAttribute('cx', 128 + 28 * u); sw.setAttribute('fill', u > 0.5 ? '#f97316' : '#475569');
+    boom.setAttribute('opacity', seg(t, frac(ctx, 0, 0.65), frac(ctx, 0, 0.8)));
+    pop($('#hk-q'), t, ctx.line(1) - 0.1, 0.5);
+  });
+}
+/* TOWERS: plane high above many towers, phone shouts to all */
+{
+  const s = flowPane($('#tw-p'));
+  svgEl('rect', { x: 0, y: 600, width: 840, height: 165, fill: '#14532d', opacity: .5 }, s);
+  const T = Array.from({ length: 9 }, (_, i) => ({ x: 50 + i * 92, g: tower(s, 50 + i * 92, 700) }));
+  plane(s, 420, 170, 1.15); const ph = txt(s, 430, 185, '📱', { 'font-size': 34 });
+  const L = T.map((tw) => svgEl('line', { x1: 430, y1: 190, x2: tw.x, y2: 626, stroke: '#f0abfc', 'stroke-width': 3, 'stroke-dasharray': '10 10', opacity: 0 }, s));
+  const vol = txt(s, 640, 320, '', { 'font-size': 32, 'font-weight': 900, fill: '#f87171' });
+  txt(s, 130, 300, '30,000 ft', { 'font-size': 28, fill: '#c4b5fd', 'font-family': 'JetBrains Mono' });
+  FV.scene('towers', (t, ctx) => {
+    head(ctx.el, t); enter($('#tw-p'), t, 0.1, 0.4, 20);
+    L.forEach((l, i) => { const a = frac(ctx, 0, 0.1 + i * 0.04); l.setAttribute('opacity', seg(t, a, a + 0.2)); l.setAttribute('stroke-dashoffset', -t * 50); });
+    const v = seg(t, frac(ctx, 0, 0.55), frac(ctx, 0, 0.75)); vol.textContent = v > 0 ? `📶 power: ${Math.round(40 + 60 * v)}%` : '';
+    show($('#tw-t'), pill('full power, searching every tower', '#f87171')); $('#tw-t').style.opacity = seg(t, frac(ctx, 0, 0.6), frac(ctx, 0, 0.75));
+  });
+}
+/* BUZZ: waveform in pilot headset, with interference bursts */
+{
+  const s = flowPane($('#bz-p'));
+  txt(s, 420, 120, '🎧 pilot\'s headset', { 'font-size': 38, 'font-weight': 800 });
+  const ATC = txt(s, 420, 200, '"Flight 212, descend to 8,000…"', { 'font-size': 28, fill: '#93c5fd', 'font-style': 'italic' });
+  svgEl('line', { x1: 60, y1: 420, x2: 780, y2: 420, stroke: '#334155', 'stroke-width': 2 }, s);
+  const wave = svgEl('path', { fill: 'none', stroke: '#93c5fd', 'stroke-width': 4 }, s);
+  const lab = txt(s, 420, 620, '', { 'font-size': 40, 'font-weight': 900, fill: '#f87171', 'font-family': 'JetBrains Mono' });
+  FV.scene('buzz', (t, ctx) => {
+    head(ctx.el, t); enter($('#bz-p'), t, 0.1, 0.4, 20);
+    const z = seg(t, frac(ctx, 0, 0.25), frac(ctx, 0, 0.35));
+    let d = ''; for (let x = 60; x <= 780; x += 6) { const sp = Math.sin(x / 18 + t * 8) * 40 * (0.6 + 0.4 * Math.sin(x / 70 + t)); const burst = z * ((Math.floor(t * 4) % 2) ? 1 : 0.2) * (Math.floor((x + t * 300) / 60) % 2 ? 110 : -110) * (Math.abs(Math.sin(x * 1.7)) > 0.5 ? 1 : 0.3); d += (x === 60 ? 'M' : 'L') + x + ' ' + (420 + sp + burst * 0.8); }
+    wave.setAttribute('d', d); wave.setAttribute('stroke', z > 0.5 ? '#f87171' : '#93c5fd');
+    lab.textContent = z > 0.5 ? 'bzz-bzz-bzz 📳' : '';
+    ATC.setAttribute('opacity', 1 - 0.6 * z);
+    show($('#bz-t'), pill('annoying, not dangerous', '#fbbf24')); $('#bz-t').style.opacity = seg(t, frac(ctx, 0, 0.7), frac(ctx, 0, 0.85));
+  });
+}
+/* RULES: picocell inside the plane, phones talk to it quietly */
+{
+  const s = flowPane($('#ru-p'));
+  svgEl('rect', { x: 60, y: 200, width: 720, height: 330, rx: 160, fill: '#1e293b', stroke: '#cbd5e1', 'stroke-width': 5 }, s);
+  const cell = node(s, 420, 280, 260, 90, '📡 onboard cell', '', '#34d399');
+  const ph = [200, 330, 510, 640].map((x) => txt(s, x, 470, '📱', { 'font-size': 52 }));
+  const L = ph.map((p, i) => svgEl('line', { x1: [200, 330, 510, 640][i], y1: 430, x2: 420, y2: 325, stroke: '#34d399', 'stroke-width': 3, 'stroke-dasharray': '8 8', opacity: 0 }, s));
+  const sat = txt(s, 700, 100, '🛰️', { 'font-size': 70 }); const up = svgEl('line', { x1: 480, y1: 240, x2: 690, y2: 110, stroke: '#93c5fd', 'stroke-width': 3, 'stroke-dasharray': '8 8', opacity: 0 }, s);
+  const low = txt(s, 420, 640, '', { 'font-size': 34, 'font-weight': 800, fill: '#34d399' });
+  FV.scene('rules', (t, ctx) => {
+    head(ctx.el, t); enter($('#ru-p'), t, 0.1, 0.4, 20);
+    cell.g.setAttribute('opacity', seg(t, frac(ctx, 0, 0.35), frac(ctx, 0, 0.5)));
+    L.forEach((l, i) => { l.setAttribute('opacity', seg(t, frac(ctx, 0, 0.55 + i * 0.05), frac(ctx, 0, 0.65 + i * 0.05))); l.setAttribute('stroke-dashoffset', -t * 40); });
+    up.setAttribute('opacity', seg(t, frac(ctx, 0, 0.7), frac(ctx, 0, 0.8))); up.setAttribute('stroke-dashoffset', -t * 40);
+    low.textContent = t > frac(ctx, 0, 0.8) ? '📶 phones whisper at low power' : '';
+    show($('#ru-t'), pill('airplane mode = a precaution', '#34d399')); $('#ru-t').style.opacity = seg(t, frac(ctx, 0, 0.05), frac(ctx, 0, 0.2));
+  });
+}
+/* OUTRO */
+{
+  const Wd = [['Not dangerous.', '#34d399', 0], ['Just noisy. 📳', '#f87171', 0.3], ["That's why.", '#e9d5ff', 0.6]];
+  const w = Wd.map(([s, c]) => div('', s, $('#oc-w'), `font:900 100px/1.06 Inter;letter-spacing:-.03em;color:${c};text-align:center`));
+  FV.scene('outro', (t, ctx) => w.forEach((e, i) => pop(e, t, frac(ctx, 0, Wd[i][2]), 0.4)));
+}
+
+})();
+</script>
+</body>
+</html>

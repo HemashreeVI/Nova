@@ -1,0 +1,96 @@
+{
+ "title": "Why 4K Video Loads Faster Than a 2 MB Email Attachment 🤯 #shorts",
+ "slug": "tm-video-vs-email",
+ "format": "vertical",
+ "description": "Streaming video and email attachments travel very differently. YouTube splits a video into small chunks, serves them from a server close to you (often inside your internet provider), and starts playing after the first few seconds while the rest keeps downloading. An email attachment is re-encoded as text (Base64), which makes it about a third bigger, and it hops through several mail servers that each store and scan it. You can't open it until the whole message has arrived.\n\n📘 More to learn + my projects: https://github.com/HemashreeVI\n\n#YouTube #Email #Internet #Streaming #Tech #TechExplained #shorts",
+ "tags": [
+  "why youtube loads fast",
+  "email attachment slow",
+  "video streaming",
+  "cdn",
+  "base64",
+  "how email works",
+  "adaptive streaming",
+  "internet speed",
+  "youtube 4k",
+  "networking",
+  "tech explained",
+  "shorts"
+ ],
+ "voice": "af_heart",
+ "speed": 1.0,
+ "lineGap": 0.3,
+ "captions": true,
+ "endCard": "",
+ "thumbnail": "race@5",
+ "endHold": 0.3,
+ "pronounce": {
+  "4K": "four K",
+  "2 MB": "two megabyte",
+  "CDN": "C D N",
+  "Base64": "base sixty four"
+ },
+ "scenes": [
+  {
+   "id": "hook",
+   "pad": [
+    0.3,
+    0.5
+   ],
+   "lines": [
+    "A 4K video starts playing in a second. A 2 MB email attachment takes its time.",
+    "Why?"
+   ]
+  },
+  {
+   "id": "chunks",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "YouTube doesn't send you the whole video. It sends small chunks, and starts playing after the first few seconds."
+   ]
+  },
+  {
+   "id": "near",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "And those chunks come from a server near you, often right inside your internet provider."
+   ]
+  },
+  {
+   "id": "email",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "Your attachment takes a longer road. It's re-encoded as text, about a third bigger, and hops through mail servers that each store and scan it."
+   ]
+  },
+  {
+   "id": "whole",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "And you can't open any of it until the whole thing has arrived."
+   ]
+  },
+  {
+   "id": "outro",
+   "pad": [
+    0.3,
+    1.6
+   ],
+   "lines": [
+    "Video streams in pieces. Email arrives all at once."
+   ]
+  }
+ ]
+}

@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Video vs email Short</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{--ink:#eef2f6;--mut:#94a3b8;--acc:#a855f7;--acc2:#e9d5ff;--grn:#34d399;--red:#f87171;--yel:#fbbf24;--pk:#f472b6;--cy:#22d3ee}
+  #fv-stage{background:radial-gradient(1000px 1300px at 70% 12%,#2b1458 0%,#140b2e 52%,#08061a 82%);color:var(--ink);font-family:Inter,system-ui,sans-serif}
+  #bg-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(192,132,252,.12) 1px,transparent 1px),linear-gradient(90deg,rgba(192,132,252,.12) 1px,transparent 1px);background-size:90px 90px;opacity:.22}
+  .abs{position:absolute}
+  .step{position:absolute;left:0;right:0;top:250px;text-align:center;font:700 34px/1 'JetBrains Mono',monospace;letter-spacing:.2em;color:var(--acc2)}
+  .head{position:absolute;left:60px;right:60px;top:305px;text-align:center;font:800 84px/1.05 Inter;letter-spacing:-.03em}
+  .mono{font-family:'JetBrains Mono',monospace}
+  .badge{position:absolute;left:50%;top:150px;transform:translateX(-50%);padding:12px 26px;border-radius:40px;background:color-mix(in srgb,var(--acc) 12%,transparent);border:2px solid color-mix(in srgb,var(--acc) 55%,transparent);font:700 30px Inter;color:var(--acc2);white-space:nowrap}
+  .pill{display:inline-block;padding:12px 26px;border-radius:40px;font:800 32px Inter}
+  .pane{position:absolute;left:120px;width:840px;height:765px;border-radius:26px;overflow:hidden;border:3px solid color-mix(in srgb,var(--acc) 45%,transparent);background:rgba(8,8,16,.75)}
+  .pane svg{position:absolute;inset:0;width:840px;height:765px}
+  .below{position:absolute;left:0;right:0;top:1225px;text-align:center}
+  .big{font:900 120px/1 Inter;letter-spacing:-.04em;color:#fff}
+  .card{border-radius:22px;padding:26px 30px;background:rgba(255,255,255,.05);border:2px solid rgba(255,255,255,.14)}
+  .fv-endcard{display:inline-block;padding:16px 30px;border-radius:40px;font:700 34px 'JetBrains Mono',monospace;border:3px solid #eef2f6;background:rgba(238,242,246,.08)}
+</style>
+</head>
+<body>
+<div id="fv-stage">
+  <div id="bg-grid"></div>
+  <div class="badge">🕵️ Tech Mysteries</div>
+<section class="fv-scene" data-scene="hook"><div class="pane" id="hk-p" style="top:300px"></div><div id="hk-q" class="abs" style="left:0;right:0;top:1110px;text-align:center"><div class="big" style="font-size:110px">Why? 🤯</div></div></section>
+<section class="fv-scene" data-scene="chunks"><div class="step">VIDEO TRICK 1</div><div class="head">Small chunks</div><div class="pane" id="ch-p" style="top:430px"></div><div class="below" id="ch-t"></div></section>
+<section class="fv-scene" data-scene="near"><div class="step">VIDEO TRICK 2</div><div class="head">A server near you</div><div class="pane" id="nr-p" style="top:430px"></div><div class="below" id="nr-t"></div></section>
+<section class="fv-scene" data-scene="email"><div class="step">EMAIL</div><div class="head">The long road</div><div class="pane" id="em-p" style="top:430px"></div><div class="below" id="em-t"></div></section>
+<section class="fv-scene" data-scene="whole"><div class="step">EMAIL</div><div class="head">All or nothing</div><div class="pane" id="wh-p" style="top:430px"></div><div class="below" id="wh-t"></div></section>
+<section class="fv-scene" data-scene="outro"><div id="oc-w" class="abs" style="left:40px;right:40px;top:620px;display:grid;justify-items:center;gap:22px"></div></section>
+</div>
+<script src="timing.js"></script>
+<script src="fv-runtime.js"></script>
+<script>
+(() => {
+const { seg, css, enter, lerp, clamp, ease, pulse, $ } = FV;
+const NS = 'http://www.w3.org/2000/svg';
+const svgEl = (tag, attrs, parent) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; };
+const txt = (s, x, y, str, o = {}) => { const e = svgEl('text', Object.assign({ x, y, fill: '#eef2f6', 'font-size': 30, 'font-weight': 700, 'font-family': 'Inter', 'text-anchor': 'middle' }, o), s); e.textContent = str; return e; };
+const div = (cls, html, parent, style) => { const e = document.createElement('div'); if (cls) e.className = cls; if (html !== undefined) e.innerHTML = html; if (style) e.style.cssText = style; if (parent) parent.appendChild(e); return e; };
+const pop = (el, t, a, d = 0.45) => { const p = seg(t, a, a + d, ease.back); css(el, { o: clamp(p * 1.5), s: Math.max(0, p) }); return p; };
+const head = (el, t) => { const s = el.querySelector('.step'), h = el.querySelector('.head'); if (s) enter(s, t, 0.0, 0.4); if (h) enter(h, t, 0.08, 0.45, 30); };
+const frac = (ctx, i, f) => ctx.line(i) + (ctx.lineEnd(i) - ctx.line(i)) * f;
+const pill = (t, c) => `<span class="pill" style="border:3px solid ${c};background:${c}1a;color:${c}">${t}</span>`;
+const show = (el, html) => { if (el.__h !== html) { el.innerHTML = html; el.__h = html; } };
+
+function flowPane(host) { return svgEl('svg', { viewBox: '0 0 840 765' }, host); }
+function node(s, x, y, w, h, title, sub, c) {
+  const g = svgEl('g', { opacity: 0 }, s);
+  const r = svgEl('rect', { x: x - w / 2, y: y - h / 2, width: w, height: h, rx: 18, fill: '#0f172a', stroke: c, 'stroke-width': 4 }, g);
+  txt(g, x, y + (sub ? -4 : 10), title, { 'font-size': 30, 'font-weight': 800, fill: '#f1f5f9' });
+  if (sub) txt(g, x, y + 30, sub, { 'font-size': 22, fill: '#94a3b8', 'font-family': 'JetBrains Mono' });
+  return { g, r, x, y, w, h, c };
+}
+function link(s, a, b, c = '#64748b') { return svgEl('line', { x1: a.x, y1: a.y, x2: b.x, y2: b.y, stroke: c, 'stroke-width': 4, 'stroke-dasharray': '10 10', opacity: 0 }, s); }
+function packet(s, label, c) {
+  const g = svgEl('g', { opacity: 0 }, s);
+  const w = Math.max(90, label.length * 15 + 34);
+  svgEl('rect', { x: -w / 2, y: -24, width: w, height: 48, rx: 24, fill: c }, g);
+  txt(g, 0, 9, label, { 'font-size': 24, 'font-weight': 800, fill: '#0b1020', 'font-family': 'JetBrains Mono' });
+  return g;
+}
+function move(p, a, b, u) { if (u <= 0 || u >= 1) { p.setAttribute('opacity', 0); return; } p.setAttribute('opacity', 1); p.setAttribute('transform', `translate(${lerp(a.x, b.x, ease.inOut(u))} ${lerp(a.y, b.y, ease.inOut(u))})`); }
+
+const bar = (s, x, y, w, c) => { svgEl('rect', { x, y, width: w, height: 30, rx: 15, fill: 'rgba(255,255,255,.08)' }, s); const f = svgEl('rect', { x, y, width: 0, height: 30, rx: 15, fill: c }, s); return (u) => f.setAttribute('width', Math.max(0, w * Math.min(1, u))); };
+/* HOOK: a race between the two */
+{
+  const s = flowPane($('#hk-p'));
+  const lane = (y, icon, title, c) => { const g = svgEl('g', {}, s); svgEl('rect', { x: 40, y, width: 760, height: 300, rx: 24, fill: '#17122e', stroke: c, 'stroke-width': 3 }, g); txt(g, 80, y + 66, icon, { 'font-size': 52, 'text-anchor': 'start' }); txt(g, 160, y + 64, title, { 'font-size': 36, 'font-weight': 800, 'text-anchor': 'start' }); return g; };
+  lane(40, '▶️', '4K video', '#f87171'); lane(400, '📎', '2 MB attachment', '#93c5fd');
+  const v = bar(s, 80, 150, 680, '#f87171'), e = bar(s, 80, 510, 680, '#93c5fd');
+  const vs = txt(s, 760, 240, '', { 'font-size': 34, 'font-weight': 900, fill: '#34d399', 'text-anchor': 'end' });
+  const es = txt(s, 760, 600, '', { 'font-size': 34, 'font-weight': 900, fill: '#93c5fd', 'text-anchor': 'end' });
+  FV.scene('hook', (t, ctx) => {
+    enter($('#hk-p'), t, 0.05, 0.4, 20);
+    const vu = seg(t, 0.6, 1.6, ease.out), eu = seg(t, 0.6, ctx.dur, ease.linear) * 0.55;
+    v(vu * 0.15); e(eu);
+    vs.textContent = t > 1.6 ? '▶ playing in 1 s ✓' : 'loading…'; es.textContent = `${Math.round(eu * 100)}%  ⏳`;
+    pop($('#hk-q'), t, ctx.line(1) - 0.1, 0.5);
+  });
+}
+/* CHUNKS: the video as a row of chunks; play head starts after three */
+{
+  const s = flowPane($('#ch-p')); const N = 12, W = 56;
+  const C = Array.from({ length: N }, (_, i) => svgEl('rect', { x: 60 + i * W, y: 260, width: W - 6, height: 120, rx: 10, fill: '#2a2147' }, s));
+  txt(s, 420, 200, 'one video = many small chunks', { 'font-size': 32, 'font-weight': 800 });
+  const ph = svgEl('rect', { x: 60, y: 240, width: 6, height: 160, fill: '#fff' }, s); const play = txt(s, 60, 460, '', { 'font-size': 32, 'font-weight': 900, fill: '#34d399', 'text-anchor': 'start' });
+  txt(s, 60, 560, '🟪 downloaded   ⬛ still coming', { 'font-size': 26, fill: '#c4b5fd', 'text-anchor': 'start' });
+  FV.scene('chunks', (t, ctx) => {
+    head(ctx.el, t); enter($('#ch-p'), t, 0.1, 0.4, 20);
+    const dl = seg(t, frac(ctx, 0, 0.15), ctx.dur, ease.linear) * N * 1.1; C.forEach((c, i) => c.setAttribute('fill', i < dl ? '#a855f7' : '#2a2147'));
+    const ps = frac(ctx, 0, 0.6), pu = Math.max(0, t - ps) * 0.12 * N * W; ph.setAttribute('x', 60 + Math.min(pu, (dl - 0.5) * W)); ph.setAttribute('opacity', t > ps ? 1 : 0);
+    play.textContent = t > ps ? '▶ playing already, after 3 chunks' : '';
+    show($('#ch-t'), pill('no waiting for the whole file', '#a855f7')); $('#ch-t').style.opacity = seg(t, frac(ctx, 0, 0.7), frac(ctx, 0, 0.85));
+  });
+}
+/* NEAR: far data centre vs nearby cache */
+{
+  const s = flowPane($('#nr-p'));
+  const far = node(s, 640, 110, 280, 110, '🏢 data centre', 'far away', '#64748b'), cdn = node(s, 230, 420, 280, 110, '🗄️ copy nearby', 'inside your ISP', '#a855f7'), you = node(s, 640, 620, 200, 100, '📺 you', '', '#34d399');
+  [far, cdn, you].forEach((n) => n.g.setAttribute('opacity', 1));
+  const l1 = link(s, far, you, '#64748b'), l2 = link(s, cdn, you, '#34d399');
+  const p1 = packet(s, '…', '#64748b'), p2 = packet(s, '▶', '#34d399');
+  FV.scene('near', (t, ctx) => {
+    head(ctx.el, t); enter($('#nr-p'), t, 0.1, 0.4, 20); l1.setAttribute('opacity', 0.6); l2.setAttribute('opacity', seg(t, frac(ctx, 0, 0.3), frac(ctx, 0, 0.45)));
+    move(p1, { x: far.x, y: far.y + 80 }, { x: you.x, y: you.y - 70 }, ((t * 0.25) % 1)); const u2 = ((t - frac(ctx, 0, 0.45)) * 1.2) % 1; move(p2, { x: cdn.x + 100, y: cdn.y + 75 }, { x: you.x - 120, y: you.y - 20 }, t > frac(ctx, 0, 0.45) ? u2 : 0);
+    show($('#nr-t'), pill('short trip = instant start', '#34d399')); $('#nr-t').style.opacity = seg(t, frac(ctx, 0, 0.6), frac(ctx, 0, 0.75));
+  });
+}
+/* EMAIL: file grows into text, then hops through servers */
+{
+  const s = flowPane($('#em-p'));
+  const file = svgEl('g', {}, s); svgEl('rect', { x: 60, y: 70, width: 150, height: 180, rx: 14, fill: '#1e3a8a' }, file); txt(file, 135, 170, '📎', { 'font-size': 56 }); txt(file, 135, 290, '2 MB', { 'font-size': 32, 'font-weight': 900, fill: '#93c5fd' });
+  const blob = svgEl('g', { opacity: 0 }, s); const br = svgEl('rect', { x: 280, y: 70, width: 150, height: 180, rx: 14, fill: '#312e81' }, blob);
+  const txts = ['UEsDBBQAAAgI', 'AAiQ2VksW3Bv', 'Y3MvaW5kZXgu', 'aHRtbM1YW2/b'].map((l, i) => txt(blob, 296, 110 + i * 34, l, { 'font-size': 17, 'font-family': 'JetBrains Mono', fill: '#c7d2fe', 'text-anchor': 'start' }));
+  const sz = txt(s, 400, 300, '', { 'font-size': 32, 'font-weight': 900, fill: '#f0abfc' });
+  const arr = svgEl('path', { d: 'M 215 160 L 268 160', stroke: '#f0abfc', 'stroke-width': 5, opacity: 0 }, s);
+  const H = [['📤 your mail server', 'stores it', 120], ['🌐 their mail server', 'stores it', 320], ['🛡️ spam + virus scan', 'checks it', 520], ['📥 inbox', 'finally', 720]];
+  const hops = H.map(([a, b, x]) => { const g = svgEl('g', { opacity: 0 }, s); svgEl('rect', { x: x - 95, y: 450, width: 190, height: 110, rx: 16, fill: '#1b1535', stroke: '#93c5fd', 'stroke-width': 3 }, g); txt(g, x, 495, a.split(' ')[0], { 'font-size': 34 }); txt(g, x, 530, a.split(' ').slice(1).join(' '), { 'font-size': 18, 'font-weight': 700 }); txt(g, x, 600, b, { 'font-size': 20, fill: '#93c5fd' }); return g; });
+  const env = txt(s, 0, 0, '✉️', { 'font-size': 44 });
+  FV.scene('email', (t, ctx) => {
+    head(ctx.el, t); enter($('#em-p'), t, 0.1, 0.4, 20);
+    const g = seg(t, frac(ctx, 0, 0.1), frac(ctx, 0, 0.3)); blob.setAttribute('opacity', g); arr.setAttribute('opacity', g);
+    br.setAttribute('width', 150 + 50 * g); br.setAttribute('height', 180 + 60 * g * 0); sz.textContent = g > 0 ? `≈ ${(2 + 0.67 * g).toFixed(1)} MB as text (+33%)` : '';
+    hops.forEach((h, i) => h.setAttribute('opacity', seg(t, frac(ctx, 0, 0.4 + i * 0.12), frac(ctx, 0, 0.48 + i * 0.12))));
+    const u = seg(t, frac(ctx, 0, 0.42), frac(ctx, 0, 0.95), ease.linear) * 3, k = Math.min(2, Math.floor(u)), f = u - k;
+    env.setAttribute('x', lerp(H[k][2], H[k + 1][2], ease.inOut(f))); env.setAttribute('y', 430 - Math.sin(f * Math.PI) * 30); env.setAttribute('opacity', t > frac(ctx, 0, 0.42) ? 1 : 0);
+    show($('#em-t'), pill('each hop stores, then forwards', '#93c5fd')); $('#em-t').style.opacity = seg(t, frac(ctx, 0, 0.7), frac(ctx, 0, 0.85));
+  });
+}
+/* WHOLE: video plays at 5%, attachment locked until 100% */
+{
+  const s = flowPane($('#wh-p'));
+  txt(s, 80, 120, '▶️ video', { 'font-size': 36, 'font-weight': 800, 'text-anchor': 'start' }); const v = bar(s, 80, 150, 680, '#f87171'); const vs = txt(s, 760, 230, '', { 'font-size': 30, 'font-weight': 900, fill: '#34d399', 'text-anchor': 'end' });
+  txt(s, 80, 400, '📎 attachment', { 'font-size': 36, 'font-weight': 800, 'text-anchor': 'start' }); const e = bar(s, 80, 430, 680, '#93c5fd'); const es = txt(s, 760, 510, '', { 'font-size': 30, 'font-weight': 900, 'text-anchor': 'end' });
+  FV.scene('whole', (t, ctx) => {
+    head(ctx.el, t); enter($('#wh-p'), t, 0.1, 0.4, 20);
+    const u = seg(t, 0.3, ctx.dur - 0.3, ease.linear); v(u * 0.9); e(u);
+    vs.textContent = u > 0.05 ? 'plays at 5% ✓' : ''; es.textContent = u < 1 ? `🔒 can't open: ${Math.round(u * 100)}%` : '✓ opens at 100%'; es.setAttribute('fill', u < 1 ? '#f87171' : '#34d399');
+    show($('#wh-t'), pill('all or nothing', '#93c5fd')); $('#wh-t').style.opacity = seg(t, 0.4, 0.7);
+  });
+}
+/* OUTRO */
+{
+  const Wd = [['Video streams in pieces.', '#f87171', 0], ['Email arrives all at once.', '#93c5fd', 0.45]];
+  const w = Wd.map(([s, c]) => div('', s, $('#oc-w'), `font:900 84px/1.08 Inter;letter-spacing:-.03em;color:${c};text-align:center`));
+  FV.scene('outro', (t, ctx) => w.forEach((e, i) => pop(e, t, frac(ctx, 0, Wd[i][2]), 0.45)));
+}
+
+})();
+</script>
+</body>
+</html>
