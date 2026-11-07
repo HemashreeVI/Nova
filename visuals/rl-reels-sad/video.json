@@ -1,0 +1,95 @@
+{
+ "title": "How Reels \"Knows\" You're Sad Before You Do 📱 #shorts",
+ "slug": "rl-reels-sad",
+ "format": "vertical",
+ "description": "Instagram doesn't read your emotions. It reads your behaviour. How long you watch each Reel, what you rewatch, what you skip, when you're scrolling, and what you share are all signals. If you're up late, lingering on slow, sad videos and skipping the upbeat ones, the algorithm predicts you'll watch more of the same and serves it. It's not mind-reading, it's pattern-matching, and it can pull you into a loop. Breaking it is simple: tap \"Not interested\", search for something different, or reset your suggested content in settings.\n\n📘 More to learn + my projects: https://github.com/HemashreeVI\n\n#Instagram #Reels #Algorithm #MentalHealth #SocialMedia #TechExplained #shorts",
+ "tags": [
+  "instagram algorithm",
+  "reels algorithm",
+  "how instagram knows",
+  "sad reels",
+  "how reels knows you",
+  "social media algorithm",
+  "recommendation system",
+  "watch time",
+  "not interested",
+  "reset instagram feed",
+  "mental health",
+  "tech explained",
+  "shorts"
+ ],
+ "voice": "af_heart",
+ "speed": 1.0,
+ "lineGap": 0.3,
+ "captions": true,
+ "endCard": "",
+ "thumbnail": "hook@4",
+ "endHold": 0.3,
+ "pronounce": {
+  "2 AM": "two A M"
+ },
+ "scenes": [
+  {
+   "id": "hook",
+   "pad": [
+    0.3,
+    0.5
+   ],
+   "lines": [
+    "It's 2 AM. You open Reels, and somehow every video feels exactly like your mood.",
+    "Does it know you're sad?"
+   ]
+  },
+  {
+   "id": "signals",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "It can't read your feelings. But it watches everything you do: how long you watch, what you replay, what you skip in half a second."
+   ]
+  },
+  {
+   "id": "pattern",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "Up late, lingering on slow, sad videos, skipping the happy ones. To the algorithm, that's a pattern."
+   ]
+  },
+  {
+   "id": "loop",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "So it predicts you'll watch more of the same, and serves it. The more you watch, the stronger the loop."
+   ]
+  },
+  {
+   "id": "break",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "To break it, tap Not interested, search for something new, or reset your suggested content in settings."
+   ]
+  },
+  {
+   "id": "outro",
+   "pad": [
+    0.3,
+    1.6
+   ],
+   "lines": [
+    "It doesn't read your mind.",
+    "It reads your scroll."
+   ]
+  }
+ ]
+}

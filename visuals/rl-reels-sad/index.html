@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Reels sad Short</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{--ink:#eef2f6;--mut:#94a3b8;--acc:#ec4899;--acc2:#fbcfe8;--grn:#34d399;--red:#f87171;--yel:#fbbf24;--pk:#f472b6;--cy:#22d3ee}
+  #fv-stage{background:#000;color:var(--ink);font-family:Inter,system-ui,sans-serif}
+  #bg-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(0,0,0,0) 1px,transparent 1px),linear-gradient(90deg,rgba(0,0,0,0) 1px,transparent 1px);background-size:90px 90px;opacity:.22}
+  .abs{position:absolute}
+  .step{position:absolute;left:0;right:0;top:250px;text-align:center;font:700 34px/1 'JetBrains Mono',monospace;letter-spacing:.2em;color:var(--acc2)}
+  .head{position:absolute;left:60px;right:60px;top:305px;text-align:center;font:800 84px/1.05 Inter;letter-spacing:-.03em}
+  .mono{font-family:'JetBrains Mono',monospace}
+  .badge{position:absolute;left:50%;top:150px;transform:translateX(-50%);padding:12px 26px;border-radius:40px;background:color-mix(in srgb,var(--acc) 12%,transparent);border:2px solid color-mix(in srgb,var(--acc) 55%,transparent);font:700 30px Inter;color:var(--acc2);white-space:nowrap}
+  .pill{display:inline-block;padding:12px 26px;border-radius:40px;font:800 32px Inter}
+  .pane{position:absolute;left:120px;width:840px;height:765px;border-radius:26px;overflow:hidden;border:3px solid color-mix(in srgb,var(--acc) 45%,transparent);background:rgba(8,8,16,.75)}
+  .pane svg{position:absolute;inset:0;width:840px;height:765px}
+  .below{position:absolute;left:0;right:0;top:1225px;text-align:center}
+  .big{font:900 120px/1 Inter;letter-spacing:-.04em;color:#fff}
+  .card{border-radius:22px;padding:26px 30px;background:rgba(255,255,255,.05);border:2px solid rgba(255,255,255,.14)}
+  .fv-endcard{display:inline-block;padding:16px 30px;border-radius:40px;font:700 34px 'JetBrains Mono',monospace;border:3px solid #eef2f6;background:rgba(238,242,246,.08)}
+</style>
+</head>
+<body>
+<div id="fv-stage">
+  <div id="bg-grid"></div>
+  <div class="badge">📱 Tech, decoded</div>
+<style>
+.photo{position:absolute;inset:0;overflow:hidden}
+.kbw{position:absolute;inset:0;transform-origin:58% 60%}
+.kbw img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(5,5,15,.25) 0%,rgba(5,5,15,0) 28%,rgba(5,5,15,0) 60%,rgba(5,5,15,.85) 100%);pointer-events:none}
+.glass{position:absolute;border-radius:26px;background:rgba(12,12,28,.74);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1.5px solid rgba(255,255,255,.18);box-shadow:0 20px 60px rgba(0,0,0,.45);color:#fff}
+.k{font:700 22px 'JetBrains Mono',monospace;letter-spacing:.14em;color:#f9a8d4}
+.ttl{position:absolute;left:60px;right:60px;text-align:center;font:900 90px/1.05 Inter;letter-spacing:-.03em;color:#fff;text-shadow:0 4px 30px rgba(0,0,0,.7)}
+.feed{position:absolute;left:0;top:0;width:270px;height:600px;overflow:hidden;border-radius:26px;background:#000;transform-origin:0 0}
+.reel{position:absolute;left:0;width:270px;height:600px;display:grid;place-items:center}
+.reel .e{font-size:110px}.reel .cap{position:absolute;left:16px;right:60px;bottom:40px;font:700 17px Inter;color:#fff;text-shadow:0 2px 6px #000}
+.reel .ic{position:absolute;right:12px;bottom:40px;display:grid;gap:16px;font-size:26px;text-align:center}
+.reel .pb{position:absolute;left:0;bottom:0;height:4px;background:#fff}
+.tag{position:absolute;left:40px;padding:18px 24px;font:800 32px Inter}
+#fv-stage .badge{z-index:5;background:rgba(10,10,25,.55);backdrop-filter:blur(8px)}
+</style><section class="fv-scene" data-scene="hook"><div class="photo"><div class="kbw"><img src="img/10a.jpg" alt=""></div><div class="shade"></div></div><div class="glass" id="hk-clock" style="left:330px;right:330px;top:250px;padding:18px 0;text-align:center;font:900 76px Inter">2:04 <span style="font-size:40px">AM</span></div><div class="ttl" id="hk-q" style="top:1010px">Does it know<br>you're sad? 🥺</div></section>
+<section class="fv-scene" data-scene="signals"><div class="photo"><div class="kbw"><img src="img/10b.jpg" alt=""><div class=feed></div></div><div class="shade"></div></div><div id="sg-tags"></div></section>
+<section class="fv-scene" data-scene="pattern"><div class="photo"><div class="kbw"><img src="img/10b.jpg" alt=""><div class=feed></div></div><div class="shade"></div></div><div class="glass" id="pt-c" style="left:40px;width:330px;top:300px;padding:26px 26px"></div></section>
+<section class="fv-scene" data-scene="loop"><div class="photo"><div class="kbw"><img src="img/10a.jpg" alt=""></div><div class="shade"></div></div><div class="glass" id="lp-c" style="left:110px;right:110px;top:520px;padding:30px 30px"></div></section>
+<section class="fv-scene" data-scene="break"><div class="photo"><div class="kbw"><img src="img/10b.jpg" alt=""><div class=feed></div></div><div class="shade"></div></div><div id="bk-tags"></div></section>
+<section class="fv-scene" data-scene="outro"><div class="photo"><div class="kbw"><img src="img/10a.jpg" alt=""></div><div class="shade"></div></div><div class="ttl" id="oc-a" style="top:620px;font-size:80px">It doesn't read<br>your mind.</div><div class="ttl" id="oc-b" style="top:900px;font-size:96px;color:#f9a8d4">It reads your scroll.</div></section>
+</div>
+<script src="timing.js"></script>
+<script src="fv-runtime.js"></script>
+<script>
+(() => {
+const { seg, css, enter, lerp, clamp, ease, pulse, $ } = FV;
+const NS = 'http://www.w3.org/2000/svg';
+const svgEl = (tag, attrs, parent) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; };
+const txt = (s, x, y, str, o = {}) => { const e = svgEl('text', Object.assign({ x, y, fill: '#eef2f6', 'font-size': 30, 'font-weight': 700, 'font-family': 'Inter', 'text-anchor': 'middle' }, o), s); e.textContent = str; return e; };
+const div = (cls, html, parent, style) => { const e = document.createElement('div'); if (cls) e.className = cls; if (html !== undefined) e.innerHTML = html; if (style) e.style.cssText = style; if (parent) parent.appendChild(e); return e; };
+const pop = (el, t, a, d = 0.45) => { const p = seg(t, a, a + d, ease.back); css(el, { o: clamp(p * 1.5), s: Math.max(0, p) }); return p; };
+const head = (el, t) => { const s = el.querySelector('.step'), h = el.querySelector('.head'); if (s) enter(s, t, 0.0, 0.4); if (h) enter(h, t, 0.08, 0.45, 30); };
+const frac = (ctx, i, f) => ctx.line(i) + (ctx.lineEnd(i) - ctx.line(i)) * f;
+const pill = (t, c) => `<span class="pill" style="border:3px solid ${c};background:${c}1a;color:${c}">${t}</span>`;
+const show = (el, html) => { if (el.__h !== html) { el.innerHTML = html; el.__h = html; } };
+
+const Q = [[397.5, 740], [718.75, 727.5], [797.5, 1460], [462.5, 1495]];
+/* rect (w x h) -> quad homography as CSS matrix3d */
+function adj(m) { return [m[4]*m[8]-m[5]*m[7], m[2]*m[7]-m[1]*m[8], m[1]*m[5]-m[2]*m[4], m[5]*m[6]-m[3]*m[8], m[0]*m[8]-m[2]*m[6], m[2]*m[3]-m[0]*m[5], m[3]*m[7]-m[4]*m[6], m[1]*m[6]-m[0]*m[7], m[0]*m[4]-m[1]*m[3]]; }
+function mm(a, b) { const c = []; for (let i = 0; i < 3; i++) for (let j = 0; j < 3; j++) { let s = 0; for (let k = 0; k < 3; k++) s += a[3*i+k] * b[3*k+j]; c[3*i+j] = s; } return c; }
+function mv(m, v) { return [m[0]*v[0]+m[1]*v[1]+m[2]*v[2], m[3]*v[0]+m[4]*v[1]+m[5]*v[2], m[6]*v[0]+m[7]*v[1]+m[8]*v[2]]; }
+function basis(p) { const m = [p[0][0], p[1][0], p[2][0], p[0][1], p[1][1], p[2][1], 1, 1, 1]; const v = mv(adj(m), [p[3][0], p[3][1], 1]); return mm(m, [v[0], 0, 0, 0, v[1], 0, 0, 0, v[2]]); }
+function quad(el, w, h, dst) { const s = basis([[0, 0], [w, 0], [0, h], [w, h]]), d = basis([dst[0], dst[1], dst[3], dst[2]]); let t = mm(d, adj(s)); t = t.map((x) => x / t[8]);
+  el.style.transform = `matrix3d(${t[0]},${t[3]},0,${t[6]},${t[1]},${t[4]},0,${t[7]},0,0,1,0,${t[2]},${t[5]},0,${t[8]})`; }
+const R = { sad1: ['🌧️', 'linear-gradient(160deg,#1e3a5f,#0b1020)', 'songs for 2am overthinking'], sad2: ['🥀', 'linear-gradient(160deg,#3b1d3a,#0f0a14)', 'nobody talks about this feeling'], sad3: ['🌙', 'linear-gradient(160deg,#1f2a44,#05070d)', 'when you miss someone…'],
+  happy1: ['☀️', 'linear-gradient(160deg,#fbbf24,#f97316)', 'morning routine that slaps'], happy2: ['🐶', 'linear-gradient(160deg,#34d399,#0ea5e9)', 'puppy sees snow first time'], cook: ['🍜', 'linear-gradient(160deg,#fb7185,#f59e0b)', '5-min ramen hack'], travel: ['🏝️', 'linear-gradient(160deg,#22d3ee,#6366f1)', 'cheapest beach in India'] };
+function feed(sec, keys) {
+  const f = sec.querySelector('.feed'); quad(f, 270, 600, Q);
+  const els = keys.map((k, i) => { const [e, bg, cap] = R[k]; const d = div('reel', `<div class="e">${e}</div><div class="cap">${cap}</div><div class="ic"><div>🤍</div><div>💬</div><div>↗️</div></div><div class="pb"></div>`, f, `top:${i * 600}px;background:${bg}`); return d; });
+  return { f, els, at: (y) => els.forEach((e, i) => { e.style.top = (i * 600 - y) + 'px'; }) };
+}
+const kb = (sec, t, dur, from = 1.0, to = 1.06) => { sec.querySelector('.kbw').style.transform = `scale(${lerp(from, to, clamp(t / dur))})`; };
+const dim = (sec, v) => { sec.querySelector('.kbw img').style.filter = `brightness(${v})`; };
+const scrollTo = (F, t, stops) => { let y = 0; for (const [ts, idx] of stops) { const u = seg(t, ts, ts + 0.45, ease.inOut); y = lerp(y, idx * 600, u); } F.at(y); };
+/* HOOK */
+FV.scene('hook', (t, ctx) => {
+  kb(ctx.el, t, ctx.dur, 1.02, 1.1); dim(ctx.el, 1 - 0.3 * seg(t, ctx.line(1) - 0.4, ctx.line(1)));
+  pop($('#hk-clock'), t, 0.3, 0.5); pop($('#hk-q'), t, ctx.line(1) - 0.1, 0.5);
+});
+/* SIGNALS: scroll the feed; tags show what it measures */
+{
+  const sec = document.querySelector('[data-scene="signals"]'); const F = feed(sec, ['happy1', 'sad1', 'sad1', 'happy2', 'sad2']);
+  const T = [['⏱️ watched 14 s', '#93c5fd', 0.28, 800], ['🔁 replayed twice', '#f9a8d4', 0.5, 980], ['⏭️ skipped in 0.4 s', '#fbbf24', 0.72, 1160]];
+  const tags = T.map(([s, c, , y]) => div('glass tag', s, $('#sg-tags'), `top:${y}px;color:${c}`));
+  FV.scene('signals', (t, ctx) => {
+    kb(sec, t, ctx.dur); dim(sec, 1);
+    scrollTo(F, t, [[frac(ctx, 0, 0.12), 1], [frac(ctx, 0, 0.62), 2], [frac(ctx, 0, 0.78), 3], [frac(ctx, 0, 0.84), 4]]);
+    F.els.forEach((e) => (e.querySelector('.pb').style.width = ((t * 30) % 100) + '%'));
+    tags.forEach((g, i) => enter(g, t, frac(ctx, 0, T[i][2]), 0.4, 30));
+  });
+}
+/* PATTERN: a log builds up next to the phone */
+{
+  const sec = document.querySelector('[data-scene="pattern"]'); const F = feed(sec, ['sad1', 'happy1', 'sad2', 'happy2', 'sad3']);
+  const L = [['🌧️', 'watched 100%', '#93c5fd'], ['☀️', 'skipped 0.3 s', '#64748b'], ['🥀', 'watched 100% · replay', '#93c5fd'], ['🐶', 'skipped 0.5 s', '#64748b'], ['🌙', 'watched 100%', '#93c5fd']];
+  const c = $('#pt-c'); c.innerHTML = '<div class="k">WHAT IT SEES · 2 AM</div><div class="l" style="margin-top:14px;display:grid;gap:10px"></div><div class="v" style="margin-top:16px;font:800 26px/1.3 Inter;color:#f9a8d4;opacity:0">pattern: late night<br>+ sad = keeps watching</div>';
+  const rows = L.map(([e, s, col]) => div('', `<div style="display:flex;gap:12px;align-items:center;font:700 25px Inter;color:${col}"><span style="font-size:32px">${e}</span>${s}</div>`, c.querySelector('.l')));
+  FV.scene('pattern', (t, ctx) => {
+    kb(sec, t, ctx.dur, 1.03, 1.07); enter(c, t, 0.15, 0.4, 30);
+    const step = (ctx.lineEnd(0) - 0.6) / 5; scrollTo(F, t, [1, 2, 3, 4].map((i) => [0.5 + i * step, i]));
+    rows.forEach((r, i) => enter(r, t, 0.6 + i * step, 0.3, 12));
+    c.querySelector('.v').style.opacity = seg(t, frac(ctx, 0, 0.85), frac(ctx, 0, 0.95));
+  });
+}
+/* LOOP: sad share of the feed climbs */
+{
+  const sec = document.querySelector('[data-scene="loop"]'); const c = $('#lp-c');
+  c.innerHTML = `<div class="k">YOUR FEED, NIGHT AFTER NIGHT</div><div class="g" style="margin-top:18px;display:grid;grid-template-columns:repeat(10,1fr);gap:8px"></div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:18px"><div class="p" style="font:900 56px Inter;color:#93c5fd">20%</div><div style="font:700 28px Inter;color:#e2e8f0">of Reels are 🌧️ sad</div></div>
+    <div style="margin-top:12px;font:800 28px Inter;color:#f9a8d4">watch 🌧️ → get more 🌧️ → watch more 🔁</div>`;
+  const cells = Array.from({ length: 30 }, (_, i) => div('', '', c.querySelector('.g'), 'aspect-ratio:9/16;border-radius:6px;background:#fbbf24'));
+  const order = cells.map((_, i) => i).sort((a, b) => ((a * 37) % 30) - ((b * 37) % 30));
+  FV.scene('loop', (t, ctx) => {
+    kb(sec, t, ctx.dur, 1.08, 1.14); dim(sec, 0.45); enter(c, t, 0.15, 0.4, 30);
+    const p = lerp(0.2, 0.85, seg(t, frac(ctx, 0, 0.2), frac(ctx, 0, 0.95), ease.inOut));
+    order.forEach((ci, k) => (cells[ci].style.background = k < p * 30 ? '#3b5b8f' : '#fbbf24'));
+    c.querySelector('.p').textContent = Math.round(p * 100) + '%';
+  });
+}
+/* BREAK: long-press menu -> Not interested -> new kind of reel */
+{
+  const sec = document.querySelector('[data-scene="break"]'); const F = feed(sec, ['sad2', 'cook', 'travel']);
+  const menu = div('', '<div style="padding:14px 16px;font:700 18px Inter;border-bottom:1px solid #333">🔗 Copy link</div><div class="ni" style="padding:14px 16px;font:800 18px Inter;color:#f87171">🚫 Not interested</div><div style="padding:14px 16px;font:700 18px Inter">⭐ Add to favourites</div>', F.f, 'position:absolute;left:20px;right:20px;bottom:120px;border-radius:16px;background:#1f1f1f;color:#fff;opacity:0');
+  const T = [['🚫 tap "Not interested"', '#f87171', 0.1, 820], ['🔍 search something new', '#93c5fd', 0.42, 1000], ['♻️ reset suggested content', '#86efac', 0.7, 1180]];
+  const tags = T.map(([s, c, , y]) => div('glass tag', s, $('#bk-tags'), `top:${y}px;color:${c};font-size:28px`));
+  FV.scene('break', (t, ctx) => {
+    kb(sec, t, ctx.dur);
+    menu.style.opacity = seg(t, frac(ctx, 0, 0.12), frac(ctx, 0, 0.18)) * (1 - seg(t, frac(ctx, 0, 0.36), frac(ctx, 0, 0.4)));
+    menu.querySelector('.ni').style.background = t > frac(ctx, 0, 0.28) ? 'rgba(248,113,113,.25)' : 'transparent';
+    scrollTo(F, t, [[frac(ctx, 0, 0.4), 1], [frac(ctx, 0, 0.72), 2]]);
+    tags.forEach((g, i) => enter(g, t, frac(ctx, 0, T[i][2]), 0.4, 30));
+  });
+}
+/* OUTRO */
+FV.scene('outro', (t, ctx) => {
+  kb(ctx.el, t, ctx.dur, 1.1, 1.14); dim(ctx.el, 0.4);
+  pop($('#oc-a'), t, ctx.line(0) - 0.1, 0.45); pop($('#oc-b'), t, ctx.line(1) - 0.1, 0.45);
+});
+
+})();
+</script>
+</body>
+</html>
