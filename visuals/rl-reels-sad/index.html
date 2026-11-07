@@ -72,13 +72,40 @@ function mv(m, v) { return [m[0]*v[0]+m[1]*v[1]+m[2]*v[2], m[3]*v[0]+m[4]*v[1]+m
 function basis(p) { const m = [p[0][0], p[1][0], p[2][0], p[0][1], p[1][1], p[2][1], 1, 1, 1]; const v = mv(adj(m), [p[3][0], p[3][1], 1]); return mm(m, [v[0], 0, 0, 0, v[1], 0, 0, 0, v[2]]); }
 function quad(el, w, h, dst) { const s = basis([[0, 0], [w, 0], [0, h], [w, h]]), d = basis([dst[0], dst[1], dst[3], dst[2]]); let t = mm(d, adj(s)); t = t.map((x) => x / t[8]);
   el.style.transform = `matrix3d(${t[0]},${t[3]},0,${t[6]},${t[1]},${t[4]},0,${t[7]},0,0,1,0,${t[2]},${t[5]},0,${t[8]})`; }
-const R = { sad1: ['🌧️', 'linear-gradient(160deg,#1e3a5f,#0b1020)', 'songs for 2am overthinking'], sad2: ['🥀', 'linear-gradient(160deg,#3b1d3a,#0f0a14)', 'nobody talks about this feeling'], sad3: ['🌙', 'linear-gradient(160deg,#1f2a44,#05070d)', 'when you miss someone…'],
-  happy1: ['☀️', 'linear-gradient(160deg,#fbbf24,#f97316)', 'morning routine that slaps'], happy2: ['🐶', 'linear-gradient(160deg,#34d399,#0ea5e9)', 'puppy sees snow first time'], cook: ['🍜', 'linear-gradient(160deg,#fb7185,#f59e0b)', '5-min ramen hack'], travel: ['🏝️', 'linear-gradient(160deg,#22d3ee,#6366f1)', 'cheapest beach in India'] };
+const R = {
+  sad1: ['r1', 'midnight.thoughts', 'some nights the rain says it better 🌧️', 'original audio · lofi rain', '48.2K', '1,204'],
+  sad2: ['r2', 'quiet.skies', 'nobody talks about this kind of tired', 'sad piano · slowed', '112K', '3,891'],
+  sad3: ['r3', 'moonlit.diary', 'when you miss someone at 2am 🌙', 'night drive · reverb', '86.5K', '2,310'],
+  happy1: ['r4', 'slow.mornings', 'the morning routine that fixed my life ☀️', 'happy acoustic', '23.1K', '402'],
+  happy2: ['r5', 'goldie.the.pup', 'first time seeing snow!! 🐶❄️', 'upbeat pop', '1.2M', '18.4K'],
+  cook: ['r6', 'noodle.lab', '5-minute spicy ramen hack 🍜', 'kitchen beats', '310K', '5,120'],
+  travel: ['r7', 'wander.cheap', 'the cheapest beach you have never heard of 🏝️', 'summer vibes', '540K', '9,876'] };
+const IC = {
+  heart: '<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M12 21s-7.5-4.6-9.5-9.2C1 8 3.4 4.5 7 4.5c2 0 3.5 1.2 5 3 1.5-1.8 3-3 5-3 3.6 0 6 3.5 4.5 7.3C19.5 16.4 12 21 12 21z"/></svg>',
+  comment: '<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M21 11.5a8.5 8.5 0 0 1-12.6 7.4L3 20.5l1.6-5A8.5 8.5 0 1 1 21 11.5z"/></svg>',
+  send: '<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M22 3 11 14M22 3l-7 19-4-8-8-4z"/></svg>',
+  more: '<svg width="22" height="22" viewBox="0 0 24 24" fill="#fff"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg>',
+  cam: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="3" y="6" width="18" height="14" rx="3"/><circle cx="12" cy="13" r="3.5"/><path d="M8 6l1.5-2h5L16 6"/></svg>' };
+function reel(k) {
+  const [img, user, cap, audio, likes, comm] = R[k];
+  return `<div style="position:absolute;inset:0;background:url(img/${img}.jpg) center/cover"></div>
+  <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.35) 0%,rgba(0,0,0,0) 16%,rgba(0,0,0,0) 55%,rgba(0,0,0,.75) 100%)"></div>
+  <div style="position:absolute;left:14px;right:14px;top:30px;display:flex;justify-content:space-between;align-items:center;font:800 19px Inter;color:#fff">Reels ${IC.cam}</div>
+  <div style="position:absolute;right:8px;bottom:62px;display:grid;gap:13px;justify-items:center;font:700 10.5px Inter;color:#fff;text-shadow:0 1px 3px #000">
+    <div style="text-align:center">${IC.heart}<div>${likes}</div></div><div style="text-align:center">${IC.comment}<div>${comm}</div></div><div>${IC.send}</div><div>${IC.more}</div>
+    <div style="width:24px;height:24px;border-radius:6px;border:2px solid #fff;background:url(img/${img}.jpg) center/cover"></div></div>
+  <div style="position:absolute;left:18px;right:52px;bottom:34px;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.8)">
+    <div style="display:flex;align-items:center;gap:7px;font:700 12.5px Inter"><span style="width:26px;height:26px;border-radius:50%;padding:2px;background:linear-gradient(45deg,#f59e0b,#ec4899,#8b5cf6)"><span style="display:block;width:100%;height:100%;border-radius:50%;border:2px solid #000;background:url(img/${img}.jpg) center/cover"></span></span>${user}<span style="padding:2px 8px;border:1px solid rgba(255,255,255,.8);border-radius:6px;font-size:11px">Follow</span></div>
+    <div style="margin-top:7px;font:500 12px/1.3 Inter">${cap}</div>
+    <div style="margin-top:6px;font:500 11px Inter;white-space:nowrap;overflow:hidden">♫ <span class="mq" style="display:inline-block">${audio} · ${audio}</span></div></div>
+  <div class="pb" style="position:absolute;left:0;bottom:0;height:3px;background:rgba(255,255,255,.9)"></div>`;
+}
 function feed(sec, keys) {
   const f = sec.querySelector('.feed'); quad(f, 270, 600, Q);
-  const els = keys.map((k, i) => { const [e, bg, cap] = R[k]; const d = div('reel', `<div class="e">${e}</div><div class="cap">${cap}</div><div class="ic"><div>🤍</div><div>💬</div><div>↗️</div></div><div class="pb"></div>`, f, `top:${i * 600}px;background:${bg}`); return d; });
+  const els = keys.map((k, i) => div('reel', reel(k), f, `top:${i * 600}px`));
   return { f, els, at: (y) => els.forEach((e, i) => { e.style.top = (i * 600 - y) + 'px'; }) };
 }
+const tick = (F, t) => F.els.forEach((e) => { e.querySelector('.pb').style.width = ((t * 22) % 100) + '%'; e.querySelector('.mq').style.transform = `translateX(${-((t * 18) % 120)}px)`; });
 const kb = (sec, t, dur, from = 1.0, to = 1.06) => { const up = sec.querySelector('.feed') ? -190 : 0; sec.querySelector('.kbw').style.transform = `translateY(${up}px) scale(${lerp(from, to, clamp(t / dur))})`; };
 const dim = (sec, v) => { sec.querySelector('.kbw img').style.filter = `brightness(${v})`; };
 const scrollTo = (F, t, stops) => { let y = 0; for (const [ts, idx] of stops) { const u = seg(t, ts, ts + 0.45, ease.inOut); y = lerp(y, idx * 600, u); } F.at(y); };
@@ -89,25 +116,25 @@ FV.scene('hook', (t, ctx) => {
 });
 /* SIGNALS: scroll the feed; tags show what it measures */
 {
-  const sec = document.querySelector('[data-scene="signals"]'); const F = feed(sec, ['happy1', 'sad1', 'sad1', 'happy2', 'sad2']);
+  const sec = document.querySelector('[data-scene="signals"]'); const F = feed(sec, ['happy1', 'sad1', 'sad3', 'happy2', 'sad2']);
   const T = [['⏱️ watched 14 s', '#93c5fd', 0.28, 800], ['🔁 replayed twice', '#f9a8d4', 0.5, 980], ['⏭️ skipped in 0.4 s', '#fbbf24', 0.72, 1160]];
   const tags = T.map(([s, c, , y]) => div('glass tag', s, $('#sg-tags'), `top:${y}px;color:${c}`));
   FV.scene('signals', (t, ctx) => {
     kb(sec, t, ctx.dur); dim(sec, 1);
     scrollTo(F, t, [[frac(ctx, 0, 0.12), 1], [frac(ctx, 0, 0.62), 2], [frac(ctx, 0, 0.78), 3], [frac(ctx, 0, 0.84), 4]]);
-    F.els.forEach((e) => (e.querySelector('.pb').style.width = ((t * 30) % 100) + '%'));
+    tick(F, t);
     tags.forEach((g, i) => enter(g, t, frac(ctx, 0, T[i][2]), 0.4, 30));
   });
 }
 /* PATTERN: a log builds up next to the phone */
 {
   const sec = document.querySelector('[data-scene="pattern"]'); const F = feed(sec, ['sad1', 'happy1', 'sad2', 'happy2', 'sad3']);
-  const L = [['🌧️', 'watched 100%', '#93c5fd'], ['☀️', 'skipped 0.3 s', '#64748b'], ['🥀', 'watched 100% · replay', '#93c5fd'], ['🐶', 'skipped 0.5 s', '#64748b'], ['🌙', 'watched 100%', '#93c5fd']];
+  const L = [['🌧️', 'rain · watched 100%', '#93c5fd'], ['☀️', 'morning · skipped 0.3 s', '#64748b'], ['🌆', 'alone · watched + replay', '#93c5fd'], ['🐶', 'puppy · skipped 0.5 s', '#64748b'], ['🌙', 'moon · watched 100%', '#93c5fd']];
   const c = $('#pt-c'); c.innerHTML = '<div class="k">WHAT IT SEES · 2 AM</div><div class="l" style="margin-top:14px;display:grid;gap:10px"></div><div class="v" style="margin-top:16px;font:800 26px/1.3 Inter;color:#f9a8d4;opacity:0">pattern: late night<br>+ sad = keeps watching</div>';
   const rows = L.map(([e, s, col]) => div('', `<div style="display:flex;gap:12px;align-items:center;font:700 25px Inter;color:${col}"><span style="font-size:32px">${e}</span>${s}</div>`, c.querySelector('.l')));
   FV.scene('pattern', (t, ctx) => {
     kb(sec, t, ctx.dur, 1.03, 1.07); enter(c, t, 0.15, 0.4, 30);
-    const step = (ctx.lineEnd(0) - 0.6) / 5; scrollTo(F, t, [1, 2, 3, 4].map((i) => [0.5 + i * step, i]));
+    tick(F, t); const step = (ctx.lineEnd(0) - 0.6) / 5; scrollTo(F, t, [1, 2, 3, 4].map((i) => [0.5 + i * step, i]));
     rows.forEach((r, i) => enter(r, t, 0.6 + i * step, 0.3, 12));
     c.querySelector('.v').style.opacity = seg(t, frac(ctx, 0, 0.85), frac(ctx, 0, 0.95));
   });
@@ -130,12 +157,12 @@ FV.scene('hook', (t, ctx) => {
 /* BREAK: long-press menu -> Not interested -> new kind of reel */
 {
   const sec = document.querySelector('[data-scene="break"]'); const F = feed(sec, ['sad2', 'cook', 'travel']);
-  const menu = div('', '<div style="padding:14px 16px;font:700 18px Inter;border-bottom:1px solid #333">🔗 Copy link</div><div class="ni" style="padding:14px 16px;font:800 18px Inter;color:#f87171">🚫 Not interested</div><div style="padding:14px 16px;font:700 18px Inter">⭐ Add to favourites</div>', F.f, 'position:absolute;left:20px;right:20px;bottom:120px;border-radius:16px;background:#1f1f1f;color:#fff;opacity:0');
+  const menu = div('', '<div style="padding:14px 16px;font:700 18px Inter;border-bottom:1px solid #333">🔗 Copy link</div><div class="ni" style="padding:14px 16px;font:800 18px Inter;color:#f87171">🚫 Not interested</div><div style="padding:14px 16px;font:700 18px Inter">⭐ Add to favourites</div>', F.f, 'position:absolute;left:20px;right:20px;bottom:150px;border-radius:16px;background:#1f1f1f;color:#fff;opacity:0;z-index:3');
   const T = [['🚫 tap "Not interested"', '#f87171', 0.1, 820], ['🔍 search something new', '#93c5fd', 0.42, 1000], ['♻️ reset suggested content', '#86efac', 0.7, 1180]];
   const tags = T.map(([s, c, , y]) => div('glass tag', s, $('#bk-tags'), `top:${y}px;color:${c};font-size:28px`));
   FV.scene('break', (t, ctx) => {
     kb(sec, t, ctx.dur);
-    menu.style.opacity = seg(t, frac(ctx, 0, 0.12), frac(ctx, 0, 0.18)) * (1 - seg(t, frac(ctx, 0, 0.36), frac(ctx, 0, 0.4)));
+    tick(F, t); menu.style.opacity = seg(t, frac(ctx, 0, 0.12), frac(ctx, 0, 0.18)) * (1 - seg(t, frac(ctx, 0, 0.36), frac(ctx, 0, 0.4)));
     menu.querySelector('.ni').style.background = t > frac(ctx, 0, 0.28) ? 'rgba(248,113,113,.25)' : 'transparent';
     scrollTo(F, t, [[frac(ctx, 0, 0.4), 1], [frac(ctx, 0, 0.72), 2]]);
     tags.forEach((g, i) => enter(g, t, frac(ctx, 0, T[i][2]), 0.4, 30));
