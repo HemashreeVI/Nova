@@ -1,0 +1,95 @@
+{
+ "title": "Sensor Fusion: How Self-Driving Cars Combine Senses in 60 Seconds 🚗 #shorts",
+ "slug": "short-sensor-fusion",
+ "format": "vertical",
+ "description": "No single sensor is perfect. Cameras see colour and signs but struggle in the dark, LiDAR measures exact distance but costs more and dislikes heavy rain, and radar sees through fog and measures speed but in low detail. Sensor fusion combines them, trusting each sensor more when it's more certain, so the final estimate is better than any one sensor alone.\n\n📘 More to learn + my projects: https://github.com/HemashreeVI\n\n#SensorFusion #SelfDrivingCars #Robotics #LiDAR #Engineering #TechExplained #shorts",
+ "tags": [
+  "sensor fusion",
+  "what is sensor fusion",
+  "self driving cars",
+  "autonomous vehicles",
+  "lidar vs radar vs camera",
+  "kalman filter",
+  "how self driving cars see",
+  "robotics",
+  "sensors",
+  "imu",
+  "embedded systems",
+  "tech explained",
+  "shorts"
+ ],
+ "voice": "am_michael",
+ "speed": 1.1,
+ "lineGap": 0.25,
+ "captions": true,
+ "endCard": "📘 more to learn → github.com/HemashreeVI",
+ "thumbnail": "fuse@5",
+ "endHold": 0.3,
+ "pronounce": {
+  "LiDAR": "lie dar",
+  "IMU": "I M U"
+ },
+ "scenes": [
+  {
+   "id": "hook",
+   "pad": [
+    0.3,
+    0.5
+   ],
+   "lines": [
+    "A self-driving car is heading into fog at night. Which sensor should it trust?",
+    "All of them. That's sensor fusion."
+   ]
+  },
+  {
+   "id": "camera",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "The camera sees colour, lanes and signs, like we do. But in the dark or in glare, it struggles."
+   ]
+  },
+  {
+   "id": "lidar",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "LiDAR fires lasers and measures exact distance in 3D. But heavy rain and fog scatter the beams."
+   ]
+  },
+  {
+   "id": "radar",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "Radar sees through fog and measures speed directly. But its picture is blurry and low on detail."
+   ]
+  },
+  {
+   "id": "fuse",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "Fusion combines all three, trusting each sensor more when it's more certain. The result is sharper than any one of them alone."
+   ]
+  },
+  {
+   "id": "outro",
+   "pad": [
+    0.3,
+    2.4
+   ],
+   "lines": [
+    "Many imperfect senses. One confident picture."
+   ]
+  }
+ ]
+}

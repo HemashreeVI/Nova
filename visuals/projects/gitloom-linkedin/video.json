@@ -1,0 +1,49 @@
+{
+  "title": "GitLoom: your GitHub, woven into a portfolio website",
+  "slug": "gitloom-linkedin",
+  "voice": "af_heart",
+  "speed": 0.95,
+  "lineGap": 0.45,
+  "captions": true,
+  "endCard": "",
+  "endHold": 0.5,
+  "pronounce": {
+    "GitLoom": "Git Loom",
+    "HTML": "H T M L",
+    "PDF": "P D F",
+    "API": "A P I",
+    "Ctrl+K": "Control K"
+  },
+  "scenes": [
+    { "id": "hook", "title": "Hook", "pad": [0.6, 0.6], "lines": [
+      "What if your GitHub could build your portfolio website for you?",
+      "This is GitLoom. Every letter you type weaves a new row."
+    ]},
+    { "id": "load", "title": "Load a profile", "pad": [0.3, 0.6], "lines": [
+      "Give it a username, and it reads the public repos, languages and activity, right in your browser. No sign-up, no server.",
+      "Here it is with the built-in demo profile."
+    ]},
+    { "id": "templates", "title": "Templates", "pad": [0.3, 0.6], "lines": [
+      "Then make it yours. Ten templates. Same data, a completely different look."
+    ]},
+    { "id": "style", "title": "Colour and fonts", "pad": [0.3, 0.5], "lines": [
+      "Any accent colour, nine headline fonts,"
+    ]},
+    { "id": "sections", "title": "Sections", "pad": [0.2, 0.6], "lines": [
+      "and drag the sections into exactly the order you want."
+    ]},
+    { "id": "phone", "title": "Phone", "pad": [0.3, 0.6], "lines": [
+      "Every template already has a phone layout."
+    ]},
+    { "id": "finish", "title": "Finished site", "pad": [0.3, 0.6], "lines": [
+      "And the site comes finished: a Ctrl+K quick menu, project search, and a clean PDF résumé from the same data."
+    ]},
+    { "id": "publish", "title": "Publish", "pad": [0.3, 0.6], "lines": [
+      "When it looks right, download one HTML file, and host it free on GitHub Pages."
+    ]},
+    { "id": "outro", "title": "Outro", "pad": [0.4, 2.2], "lines": [
+      "GitLoom. Vanilla JavaScript and the GitHub API, nothing else.",
+      "Try it with your own username. The link is in the post."
+    ]}
+  ]
+}

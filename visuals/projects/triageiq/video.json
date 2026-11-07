@@ -1,0 +1,93 @@
+{
+  "title": "TriageIQ: an AI support inbox that sorts tickets and drafts grounded replies, fully on-device",
+  "slug": "triageiq",
+  "voice": "af_heart",
+  "speed": 0.92,
+  "lineGap": 0.55,
+  "captions": true,
+  "endCard": "",
+  "thumbnail": "pipeline@30",
+  "endHold": 0.5,
+  "pronounce": {
+    "TriageIQ": "Triage I Q",
+    "FastAPI": "Fast A P I",
+    "IMAP": "I map",
+    "SMTP": "S M T P",
+    "LLM": "L L M",
+    "RAG": "rag",
+    "JSON": "Jason",
+    "Qwen": "Kwen",
+    "Ollama": "Oh llama",
+    "Qdrant": "Q drant",
+    "Message-ID": "Message I D",
+    "In-Reply-To": "In Reply To",
+    "0.55": "zero point five five"
+  },
+  "scenes": [
+    { "id": "intro", "title": "TriageIQ: overview", "pad": [1.0, 1.4], "lines": [
+      "Project three: TriageIQ.",
+      "A support inbox that reads every email, sorts it by category, priority and mood, and drafts a reply from tickets you've already solved.",
+      "It all runs on one laptop, with a local language model, so customer text never leaves the machine. Built with Python, Kafka, Ollama, Qdrant, FastAPI and Docker."
+    ]},
+    { "id": "problem", "title": "The problem", "pad": [0.9, 1.4], "lines": [
+      "A support inbox fills up with everything: refunds, crashes, password resets, angry customers, and thank you notes, all mixed together.",
+      "Someone has to read each one, decide how urgent it is, and write a reply.",
+      "Meanwhile, the angry email about a double charge can sit behind fifty routine questions."
+    ]},
+    { "id": "pipeline", "title": "The pipeline", "pad": [0.9, 1.4], "lines": [
+      "TriageIQ is an event-driven pipeline. A gateway reads the inbox over IMAP, and turns each new email into a ticket on a Kafka topic.",
+      "A consumer classifies it with a local LLM, drafts a reply with RAG, and publishes the result to a second topic.",
+      "A FastAPI console streams those tickets live to the support agent.",
+      "And replies go back out over SMTP, but only after a human approves."
+    ]},
+    { "id": "kafka", "title": "Why Kafka", "pad": [0.9, 1.4], "lines": [
+      "Why Kafka in the middle? It decouples the steps. If the model is slow, emails pile up safely in the topic, instead of being lost.",
+      "And the consumer group remembers how far it has read, so after a restart, it carries on from exactly the same place."
+    ]},
+    { "id": "classify", "title": "Step 1: Classify with a local LLM", "pad": [0.9, 1.4], "lines": [
+      "Step one: classify. The model is Qwen 2.5, with three billion parameters, running locally in Ollama.",
+      "The prompt defines every category and priority precisely, and a JSON schema forces the answer into exactly three fields, each from a fixed list.",
+      "Temperature is zero, so the same email always gets the same answer."
+    ]},
+    { "id": "fallback", "title": "Never trust the model blindly", "pad": [0.9, 1.4], "lines": [
+      "And it never trusts the model blindly. If Ollama is down, times out, or returns anything that isn't valid, the ticket isn't dropped.",
+      "It falls back to needs human, with high priority, so a person looks at it first.",
+      "Here's that fallback, running for real, with the model switched off."
+    ]},
+    { "id": "rag", "title": "Step 2: RAG over past tickets", "pad": [0.9, 1.4], "lines": [
+      "Step two: draft a reply with RAG. Thirty past tickets, and how they were solved, are embedded with nomic embed text, and stored in Qdrant.",
+      "A new ticket is embedded the same way, and Qdrant returns the three most similar past tickets, by cosine similarity.",
+      "Anything below a similarity of 0.55 is ignored. If nothing is similar enough, there's no draft, and a human answers instead."
+    ]},
+    { "id": "grounded", "title": "Grounded replies", "pad": [0.9, 1.4], "lines": [
+      "The prompt says: use only the facts in those past answers. Never invent policies, amounts, or time frames.",
+      "If they don't fully answer the customer, say a team member will follow up.",
+      "That's what grounded means: the model writes the words, but the facts come from your own history."
+    ]},
+    { "id": "human", "title": "Step 3: Human in the loop", "pad": [0.9, 1.4], "lines": [
+      "Step three: a human stays in the loop. The console streams every ticket over Server-Sent Events.",
+      "The agent can approve the draft, edit it, write their own, or send it to a human.",
+      "Only when they approve does the email go out, over SMTP, in the same thread, using In-Reply-To and References headers."
+    ]},
+    { "id": "hardening", "title": "Hardened for a real inbox", "pad": [0.9, 1.4], "lines": [
+      "It's hardened for a real inbox. Every email's Message-ID is stored, so the same email never becomes two tickets.",
+      "Auto-replies, bulk mail, mailing lists, bounces and no-reply senders are skipped. That stops two auto-responders from replying to each other forever.",
+      "One sender can create at most five tickets an hour. And the console uses a signed session cookie, with a lockout after six wrong passwords in ten minutes."
+    ]},
+    { "id": "demo", "title": "Demo: the console", "pad": [0.9, 1.6], "lines": [
+      "Here's the console. The overview shows how many tickets are waiting, by priority.",
+      "In the approval queue, each ticket shows its category, priority and mood, the customer's message, and the AI's draft, ready to approve.",
+      "And the system page shows how tickets travel through the pipeline.",
+      "This is demo mode, so these tickets and AI results are simulated."
+    ]},
+    { "id": "honest", "title": "Honest limits", "pad": [0.9, 1.4], "lines": [
+      "The honest limits. The knowledge base is thirty hand-written, synthetic tickets, so draft quality on real company data is untested.",
+      "Accuracy hasn't been formally measured yet. And a small three billion parameter model is fast and private, but less accurate than a large hosted one.",
+      "Next steps: a labelled evaluation set, and monitoring of model latency and errors."
+    ]},
+    { "id": "outro", "title": "Recap", "pad": [0.9, 3.0], "lines": [
+      "Reads it. Ranks it. Drafts the reply.",
+      "And nothing is sent until a human approves."
+    ]}
+  ]
+}

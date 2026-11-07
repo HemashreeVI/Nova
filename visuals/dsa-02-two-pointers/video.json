@@ -1,0 +1,97 @@
+{
+ "title": "Two Pointers: Solve This Interview Question in O(n) (Java) | DSA #2 #shorts",
+ "slug": "dsa-02-two-pointers",
+ "format": "vertical",
+ "description": "Find two numbers in a sorted array that add up to a target. The brute-force way checks every pair: O(n²). The two-pointer trick puts one pointer at each end. If the sum is too small, move the left pointer right; if it's too big, move the right pointer left. Each step throws away a number that can't be part of the answer, so it finishes in a single pass: O(n) time, O(1) extra space.\n\n📘 More to learn + my projects: https://github.com/HemashreeVI\n\n#DSA #Java #TwoPointers #CodingInterview #LeetCode #Algorithms #shorts",
+ "tags": [
+  "two pointers",
+  "two pointer technique",
+  "two sum sorted array",
+  "dsa",
+  "java",
+  "coding interview",
+  "leetcode",
+  "algorithms",
+  "big o",
+  "o(n)",
+  "data structures and algorithms",
+  "dsa in java",
+  "shorts"
+ ],
+ "voice": "af_heart",
+ "speed": 1.0,
+ "lineGap": 0.3,
+ "captions": true,
+ "endCard": "",
+ "thumbnail": "move@4",
+ "endHold": 0.3,
+ "pronounce": {
+  "O(n)": "O of n",
+  "O(n²)": "O of n squared",
+  "O(1)": "O of one",
+  "DSA": "D S A"
+ },
+ "scenes": [
+  {
+   "id": "hook",
+   "pad": [
+    0.3,
+    0.5
+   ],
+   "lines": [
+    "Find two numbers in a sorted array that add up to a target. Most people check every pair.",
+    "There's a faster way."
+   ]
+  },
+  {
+   "id": "brute",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "Checking every pair is O(n²). A million numbers means half a trillion checks."
+   ]
+  },
+  {
+   "id": "setup",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "Instead, put one pointer at the start, and one at the end, and add them up."
+   ]
+  },
+  {
+   "id": "move",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "Too small? Move the left pointer right, to a bigger number. Too big? Move the right pointer left. Each step rules out a number for good."
+   ]
+  },
+  {
+   "id": "code",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "When the sum hits the target, you're done. One pass through the array: O(n) time, and no extra memory."
+   ]
+  },
+  {
+   "id": "outro",
+   "pad": [
+    0.3,
+    1.6
+   ],
+   "lines": [
+    "Sorted array? Try two pointers."
+   ]
+  }
+ ]
+}

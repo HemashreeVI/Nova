@@ -1,0 +1,94 @@
+{
+ "title": "How Phishing Works: Spot the Fake Email in 60 Seconds 🎣 #shorts",
+ "slug": "short-phishing",
+ "format": "vertical",
+ "description": "Phishing is the most common way accounts get hacked. A fake email creates urgency, the link points to a look-alike domain, and a cloned login page sends your password straight to the attacker. Learn the three red flags, and why passkeys and two-factor authentication stop it even if you click.\n\n📘 More to learn + my projects: https://github.com/HemashreeVI\n\n#CyberSecurity #Phishing #InfoSec #OnlineSafety #TechExplained #shorts",
+ "tags": [
+  "phishing",
+  "how phishing works",
+  "phishing email",
+  "spot a phishing email",
+  "fake login page",
+  "look alike domain",
+  "two factor authentication",
+  "passkeys",
+  "cyber security",
+  "online safety",
+  "social engineering",
+  "tech explained",
+  "shorts"
+ ],
+ "voice": "am_michael",
+ "speed": 1.1,
+ "lineGap": 0.25,
+ "captions": true,
+ "endCard": "📘 more to learn → github.com/HemashreeVI",
+ "thumbnail": "domain@4",
+ "endHold": 0.3,
+ "pronounce": {
+  "2FA": "two F A"
+ },
+ "scenes": [
+  {
+   "id": "hook",
+   "pad": [
+    0.3,
+    0.5
+   ],
+   "lines": [
+    "This email looks exactly like your bank. One click, and your account is gone.",
+    "This is phishing."
+   ]
+  },
+  {
+   "id": "urgency",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "Red flag one: panic. Your account will be locked in twenty four hours. Urgency stops you from thinking."
+   ]
+  },
+  {
+   "id": "domain",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "Red flag two: the link. Hover over it. It's not paypal dot com, it's paypa one dot com, a look-alike domain."
+   ]
+  },
+  {
+   "id": "page",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "Click it, and you land on a perfect copy of the login page. Whatever you type goes straight to the attacker."
+   ]
+  },
+  {
+   "id": "defend",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "The fix: never log in from an email link. Type the address yourself, and turn on passkeys or 2FA, so a stolen password alone is useless."
+   ]
+  },
+  {
+   "id": "outro",
+   "pad": [
+    0.3,
+    2.4
+   ],
+   "lines": [
+    "Pause. Check the link. Never trust urgency."
+   ]
+  }
+ ]
+}

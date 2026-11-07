@@ -1,0 +1,98 @@
+{
+ "title": "Why Your Wi-Fi Password Can Be Cracked in Minutes 📶 #shorts",
+ "slug": "short-wifi",
+ "format": "vertical",
+ "description": "On most home Wi-Fi (WPA2), when a device connects it exchanges a short handshake with the router. Someone nearby can capture it, take it away and guess passwords offline at huge speed with a graphics card. Short or common passwords fall fast. Protect yourself with a long random passphrase, WPA3 if your router supports it, and WPS turned off. Only ever test networks you own.\n\n📘 More to learn + my projects: https://github.com/HemashreeVI\n\n#CyberSecurity #WiFi #WiFiSecurity #InfoSec #OnlineSafety #TechExplained #shorts",
+ "tags": [
+  "wifi password",
+  "wifi security",
+  "how wifi gets hacked",
+  "wpa2",
+  "wpa3",
+  "wifi handshake",
+  "password cracking",
+  "strong password",
+  "router security",
+  "wps",
+  "cyber security",
+  "online safety",
+  "tech explained",
+  "shorts"
+ ],
+ "voice": "af_heart",
+ "speed": 1.0,
+ "lineGap": 0.3,
+ "captions": true,
+ "endCard": "",
+ "thumbnail": "guess@4",
+ "endHold": 0.3,
+ "pronounce": {
+  "WPA2": "W P A two",
+  "WPA3": "W P A three",
+  "WPS": "W P S",
+  "Wi-Fi": "Wi Fi"
+ },
+ "scenes": [
+  {
+   "id": "hook",
+   "pad": [
+    0.3,
+    0.5
+   ],
+   "lines": [
+    "Your Wi-Fi password might take minutes to crack. Without anyone ever logging in.",
+    "Here's how, and how to stop it."
+   ]
+  },
+  {
+   "id": "handshake",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "Every time a device joins your Wi-Fi, it swaps a short handshake with the router."
+   ]
+  },
+  {
+   "id": "capture",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "Anyone nearby can record that handshake out of the air, and take it home."
+   ]
+  },
+  {
+   "id": "guess",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "Then they guess passwords offline, billions of tries with a graphics card. No router to slow them down."
+   ]
+  },
+  {
+   "id": "fix",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "A short or common password falls in minutes. A long random passphrase could take centuries. Use one, switch to WPA3 if you can, and turn off WPS."
+   ]
+  },
+  {
+   "id": "outro",
+   "pad": [
+    0.3,
+    1.6
+   ],
+   "lines": [
+    "Long passphrase. WPA3. WPS off."
+   ]
+  }
+ ]
+}

@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pose estimation Short</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{--ink:#eef2f6;--mut:#94a3b8;--acc:#06b6d4;--acc2:#67e8f9;--grn:#34d399;--red:#f87171;--yel:#fbbf24;--pk:#f472b6;--cy:#22d3ee}
+  #fv-stage{background:radial-gradient(1000px 1300px at 70% 15%,#073345 0%,#071825 50%,#040a12 80%);color:var(--ink);font-family:Inter,system-ui,sans-serif}
+  #bg-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(6,182,212,.12) 1px,transparent 1px),linear-gradient(90deg,rgba(6,182,212,.12) 1px,transparent 1px);background-size:90px 90px;opacity:.22}
+  .abs{position:absolute}
+  .step{position:absolute;left:0;right:0;top:250px;text-align:center;font:700 34px/1 'JetBrains Mono',monospace;letter-spacing:.2em;color:var(--acc2)}
+  .head{position:absolute;left:60px;right:60px;top:305px;text-align:center;font:800 84px/1.05 Inter;letter-spacing:-.03em}
+  .mono{font-family:'JetBrains Mono',monospace}
+  .badge{position:absolute;left:50%;top:150px;transform:translateX(-50%);padding:12px 26px;border-radius:40px;background:color-mix(in srgb,var(--acc) 12%,transparent);border:2px solid color-mix(in srgb,var(--acc) 55%,transparent);font:700 30px Inter;color:var(--acc2);white-space:nowrap}
+  .pill{display:inline-block;padding:12px 26px;border-radius:40px;font:800 32px Inter}
+  .pane{position:absolute;left:120px;width:840px;height:765px;border-radius:26px;overflow:hidden;border:3px solid color-mix(in srgb,var(--acc) 45%,transparent);background:rgba(8,8,16,.75)}
+  .pane svg{position:absolute;inset:0;width:840px;height:765px}
+  .below{position:absolute;left:0;right:0;top:1225px;text-align:center}
+  .big{font:900 120px/1 Inter;letter-spacing:-.04em;color:#fff}
+  .card{border-radius:22px;padding:26px 30px;background:rgba(255,255,255,.05);border:2px solid rgba(255,255,255,.14)}
+  .fv-endcard{display:inline-block;padding:16px 30px;border-radius:40px;font:700 34px 'JetBrains Mono',monospace;border:3px solid #eef2f6;background:rgba(238,242,246,.08)}
+</style>
+</head>
+<body>
+<div id="fv-stage">
+  <div id="bg-grid"></div>
+  <div class="badge">👁️ Computer Vision · Tech, decoded</div>
+
+  <section class="fv-scene" data-scene="hook">
+    <div class="pane" id="hk-p" style="top:300px"></div>
+    <div id="hk-q" class="abs" style="left:0;right:0;top:1110px;text-align:center"><div class="big" style="font-size:100px">🕺 Pose <span style="color:var(--acc2)">estimation</span></div></div>
+  </section>
+  <section class="fv-scene" data-scene="points">
+    <div class="step">WHAT IT LOOKS FOR</div><div class="head">17 key points</div>
+    <div class="pane" id="pt-p" style="top:430px"></div>
+    <div class="below" id="pt-t"></div>
+  </section>
+  <section class="fv-scene" data-scene="heatmap">
+    <div class="step">HOW IT FINDS THEM</div><div class="head">Heatmaps</div>
+    <div class="pane" id="hm-p" style="top:430px"></div>
+    <div class="below" id="hm-t"></div>
+  </section>
+  <section class="fv-scene" data-scene="skeleton">
+    <div class="step">CONNECT THE DOTS</div><div class="head">A moving skeleton</div>
+    <div class="pane" id="sk-p" style="top:430px"></div>
+    <div class="below" id="sk-t"></div>
+  </section>
+  <section class="fv-scene" data-scene="uses">
+    <div class="step">WHERE IT'S USED</div><div class="head">Real life</div>
+    <div id="us-c" class="abs" style="left:100px;right:100px;top:450px;display:grid;gap:24px"></div>
+  </section>
+  <section class="fv-scene" data-scene="outro">
+    <div class="pane" id="oc-p" style="top:240px;transform:scale(.62);transform-origin:50% 0"></div>
+    <div id="oc-w" class="abs" style="left:40px;right:40px;top:740px;display:grid;justify-items:center;gap:14px"></div>
+    <div id="oc-gh" class="abs" style="left:0;right:0;top:1030px;text-align:center"><span class="fv-endcard"></span></div>
+  </section>
+
+</div>
+<script src="timing.js"></script>
+<script src="fv-runtime.js"></script>
+<script>
+(() => {
+const { seg, css, enter, lerp, clamp, ease, pulse, $ } = FV;
+const NS = 'http://www.w3.org/2000/svg';
+const svgEl = (tag, attrs, parent) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; };
+const txt = (s, x, y, str, o = {}) => { const e = svgEl('text', Object.assign({ x, y, fill: '#eef2f6', 'font-size': 30, 'font-weight': 700, 'font-family': 'Inter', 'text-anchor': 'middle' }, o), s); e.textContent = str; return e; };
+const div = (cls, html, parent, style) => { const e = document.createElement('div'); if (cls) e.className = cls; if (html !== undefined) e.innerHTML = html; if (style) e.style.cssText = style; if (parent) parent.appendChild(e); return e; };
+const pop = (el, t, a, d = 0.45) => { const p = seg(t, a, a + d, ease.back); css(el, { o: clamp(p * 1.5), s: Math.max(0, p) }); return p; };
+const head = (el, t) => { const s = el.querySelector('.step'), h = el.querySelector('.head'); if (s) enter(s, t, 0.0, 0.4); if (h) enter(h, t, 0.08, 0.45, 30); };
+const frac = (ctx, i, f) => ctx.line(i) + (ctx.lineEnd(i) - ctx.line(i)) * f;
+const pill = (t, c) => `<span class="pill" style="border:3px solid ${c};background:${c}1a;color:${c}">${t}</span>`;
+const show = (el, html) => { if (el.__h !== html) { el.innerHTML = html; el.__h = html; } };
+
+/* COCO 17 keypoints: two poses to blend between (standing, squat), 840x765 pane */
+const NAMES = ['nose','l eye','r eye','l ear','r ear','l shoulder','r shoulder','l elbow','r elbow','l wrist','r wrist','l hip','r hip','l knee','r knee','l ankle','r ankle'];
+const STAND = [[420,150],[438,135],[402,135],[458,145],[382,145],[490,235],[350,235],[545,320],[295,320],[600,385],[240,385],[470,420],[370,420],[480,545],[360,545],[485,670],[355,670]];
+const ARMS =  [[420,150],[438,135],[402,135],[458,145],[382,145],[490,235],[350,235],[590,180],[250,180],[640,110],[200,110],[470,420],[370,420],[480,545],[360,545],[485,670],[355,670]];
+const SQUAT = [[420,300],[438,285],[402,285],[458,295],[382,295],[495,380],[345,380],[590,380],[250,380],[680,380],[160,380],[480,540],[360,540],[575,560],[265,560],[500,670],[340,670]];
+const FALL =  [[690,560],[700,545],[680,548],[715,552],[668,556],[610,540],[600,600],[560,470],[560,640],[500,450],[500,690],[440,580],[430,640],[330,560],[320,640],[230,580],[220,660]];
+const EDGES = [[0,1],[0,2],[1,3],[2,4],[5,6],[5,7],[7,9],[6,8],[8,10],[5,11],[6,12],[11,12],[11,13],[13,15],[12,14],[14,16]];
+const mix = (A, B, u) => A.map((p, i) => [lerp(p[0], B[i][0], u), lerp(p[1], B[i][1], u)]);
+function figure(host, o = {}) {
+  const s = svgEl('svg', { viewBox: '0 0 840 765' }, host);
+  // a soft "person" made of thick limbs, like the camera sees
+  const body = svgEl('g', { opacity: o.body ?? 0.9 }, s);
+  const limbs = EDGES.map(() => svgEl('line', { stroke: '#64748b', 'stroke-width': 46, 'stroke-linecap': 'round' }, body));
+  const torso = svgEl('polygon', { fill: '#64748b' }, body);
+  const headC = svgEl('circle', { r: 52, fill: '#64748b' }, body);
+  const bones = svgEl('g', { opacity: 0 }, s);
+  const B = EDGES.map(([a]) => svgEl('line', { stroke: a <= 4 ? '#fbbf24' : a % 2 ? '#22d3ee' : '#f472b6', 'stroke-width': 9, 'stroke-linecap': 'round' }, bones));
+  const D = NAMES.map(() => svgEl('circle', { r: 13, fill: '#fff', stroke: '#06b6d4', 'stroke-width': 5, opacity: 0 }, s));
+  const set = (P) => {
+    EDGES.forEach(([a, b], k) => { for (const l of [limbs[k], B[k]]) { l.setAttribute('x1', P[a][0]); l.setAttribute('y1', P[a][1]); l.setAttribute('x2', P[b][0]); l.setAttribute('y2', P[b][1]); } });
+    torso.setAttribute('points', [P[5], P[6], P[12], P[11]].map((p) => p.join(',')).join(' '));
+    headC.setAttribute('cx', P[0][0]); headC.setAttribute('cy', P[0][1] + 10);
+    D.forEach((d, i) => { d.setAttribute('cx', P[i][0]); d.setAttribute('cy', P[i][1]); });
+  };
+  return { s, body, bones, D, set };
+}
+const dance = (t) => { const u = (Math.sin(t * 2.4) + 1) / 2; return t % 6 < 3 ? mix(STAND, ARMS, u) : mix(STAND, SQUAT, u); };
+/* HOOK */
+{
+  const F = figure($('#hk-p'), { body: 0.5 });
+  FV.scene('hook', (t, ctx) => {
+    enter($('#hk-p'), t, 0.05, 0.4, 20);
+    F.set(dance(t)); const on = seg(t, 0.6, 1.4);
+    F.bones.setAttribute('opacity', on); F.D.forEach((d) => d.setAttribute('opacity', on));
+    pop($('#hk-q'), t, ctx.line(1) - 0.1, 0.5);
+  });
+}
+/* POINTS: 17 dots appear one by one with labels */
+{
+  const F = figure($('#pt-p'), { body: 0.55 }); F.set(STAND);
+  const lab = NAMES.map((n, i) => txt(F.s, STAND[i][0] + (i % 2 ? 26 : -26), STAND[i][1] + 8, n, { 'text-anchor': i === 0 ? 'middle' : i % 2 ? 'start' : 'end', 'font-size': 22, fill: '#e2e8f0', opacity: 0 }));
+  lab[0].setAttribute('y', STAND[0][1] - 72);
+  FV.scene('points', (t, ctx) => {
+    head(ctx.el, t); enter($('#pt-p'), t, 0.1, 0.4, 20);
+    const n = seg(t, frac(ctx, 0, 0.15), frac(ctx, 0, 0.95), ease.linear) * 17;
+    F.D.forEach((d, i) => { d.setAttribute('opacity', i < n ? 1 : 0); lab[i].setAttribute('opacity', i < n && (i === 0 || i > 4) ? 1 : 0); });
+    show($('#pt-t'), pill(`${Math.min(17, Math.ceil(n))} / 17 key points`, '#22d3ee')); $('#pt-t').style.opacity = seg(t, 0.4, 0.7);
+  });
+}
+/* HEATMAP: glow for one joint, then the peak */
+{
+  const host = $('#hm-p'), F = figure(host, { body: 0.4 }); F.set(STAND);
+  const defs = svgEl('defs', {}, F.s), rg = svgEl('radialGradient', { id: 'heat' }, defs);
+  [['0', '#fff', 1], ['.2', '#fde047', .95], ['.5', '#f97316', .7], ['.8', '#dc2626', .35], ['1', '#7f1d1d', 0]].forEach(([o, c, a]) => svgEl('stop', { offset: o, 'stop-color': c, 'stop-opacity': a }, rg));
+  const blobs = [[9, 1], [10, 0.55], [7, 0.3]].map(([j, a]) => ({ j, a, el: svgEl('circle', { cx: STAND[j][0], cy: STAND[j][1], r: 0, fill: 'url(#heat)' }, F.s) }));
+  const pk = svgEl('circle', { cx: STAND[9][0], cy: STAND[9][1], r: 0, fill: 'none', stroke: '#22d3ee', 'stroke-width': 6 }, F.s);
+  const pl = txt(F.s, STAND[9][0] + 10, STAND[9][1] + 120, 'left wrist ✓', { fill: '#22d3ee', 'font-size': 30, 'font-weight': 800, opacity: 0 });
+  FV.scene('heatmap', (t, ctx) => {
+    head(ctx.el, t); enter(host, t, 0.1, 0.4, 20);
+    const g = seg(t, frac(ctx, 0, 0.1), frac(ctx, 0, 0.5)), p = seg(t, frac(ctx, 0, 0.72), frac(ctx, 0, 0.85), ease.back);
+    blobs.forEach((b, i) => { b.el.setAttribute('r', 120 * g * (i === 0 ? 1 : 0.8)); b.el.setAttribute('opacity', b.a * g * (i === 0 ? 1 : 1 - p * 0.7)); });
+    pk.setAttribute('r', 30 * p); pl.setAttribute('opacity', p);
+    show($('#hm-t'), p > 0.5 ? pill('brightest spot = the joint', '#22d3ee') : pill('🔥 "where is the left wrist?"', '#f97316'));
+    $('#hm-t').style.opacity = seg(t, 0.4, 0.7);
+  });
+}
+/* SKELETON: connect, then move */
+{
+  const F = figure($('#sk-p'), { body: 0.3 });
+  FV.scene('skeleton', (t, ctx) => {
+    head(ctx.el, t); enter($('#sk-p'), t, 0.1, 0.4, 20);
+    const c = seg(t, frac(ctx, 0, 0.05), frac(ctx, 0, 0.35)), m = seg(t, frac(ctx, 0, 0.4), frac(ctx, 0, 0.5));
+    F.set(m > 0 ? dance(t * 1.2) : STAND); F.bones.setAttribute('opacity', c); F.D.forEach((d) => d.setAttribute('opacity', 1));
+    F.body.setAttribute('opacity', 0.3 * (1 - c * 0.6));
+    show($('#sk-t'), pill(m > 0 ? 'tracked frame by frame' : 'joints → skeleton', '#f472b6')); $('#sk-t').style.opacity = seg(t, 0.4, 0.7);
+  });
+}
+/* USES */
+{
+  const U = [['🏋️', 'Fitness', 'is your squat deep enough? is your back straight?', '#22d3ee', 0.0], ['🎮', 'Games & motion capture', 'your body becomes the controller', '#f472b6', 0.32], ['🏥', 'Healthcare', 'spot a fall the moment it happens, and send an alert', '#f87171', 0.66]];
+  const cards = U.map(([i, a, b, c]) => div('card', `<div style="display:flex;gap:24px;align-items:center"><div style="font-size:70px">${i}</div><div><div style="font:800 42px Inter;color:${c}">${a}</div><div style="font:500 28px/1.35 Inter;color:#cbd5e1;margin-top:6px">${b}</div></div></div>`, $('#us-c'), `border-color:${c}66`));
+  const fall = div('pane', '', $('#us-c'), 'position:relative;left:0;width:auto;height:330px'); const F = figure(fall, { body: 0.35 }); F.s.setAttribute('viewBox', '0 0 840 765'); F.s.style.height = '330px';
+  F.bones.setAttribute('opacity', 1); F.D.forEach((d) => d.setAttribute('opacity', 1));
+  const alert = div('', '🚨 FALL DETECTED', fall, 'position:absolute;right:20px;top:16px;padding:10px 20px;border-radius:30px;background:#ef4444;color:#fff;font:900 30px Inter;opacity:0');
+  FV.scene('uses', (t, ctx) => {
+    head(ctx.el, t);
+    cards.forEach((c, i) => enter(c, t, frac(ctx, U[i][4] < 0.6 ? 0 : 0, U[i][4] * 0.9), 0.45, 30));
+    enter(fall, t, frac(ctx, 0, 0.62), 0.4, 20);
+    const f = seg(t, frac(ctx, 0, 0.72), frac(ctx, 0, 0.88), ease.inOut); F.set(mix(STAND, FALL, f));
+    alert.style.opacity = seg(t, frac(ctx, 0, 0.88), frac(ctx, 0, 0.93));
+  });
+}
+/* OUTRO */
+{
+  const F = figure($('#oc-p'), { body: 0.25 }); F.bones.setAttribute('opacity', 1); F.D.forEach((d) => d.setAttribute('opacity', 1));
+  const Wd = [['Find the joints.', '#22d3ee', 0], ['Connect them.', '#f472b6', 0.3], ['Track every move.', '#fbbf24', 0.6]];
+  const words = Wd.map(([w, c]) => div('', w, $('#oc-w'), `font:900 78px/1.05 Inter;letter-spacing:-.03em;color:${c}`));
+  FV.scene('outro', (t, ctx) => {
+    $('#oc-p').style.opacity = seg(t, 0.05, 0.4); F.set(dance(t));
+    words.forEach((w, i) => pop(w, t, frac(ctx, 0, Wd[i][2]), 0.4));
+    pop($('#oc-gh'), t, frac(ctx, 0, 0.95), 0.5);
+  });
+}
+
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,158 @@
+{
+ "title": "A Tour of My GitHub: 10 Projects With Full Code (Java, Python, AI, Backend)",
+ "slug": "github-tour",
+ "description": "A quick tour of my GitHub profile, and every project on it comes with the full source code and a detailed README.\n\nWhat you'll find:\n🎟️ SeatLock: a ticket-booking backend that never double-books a seat (Java, Spring Boot, PostgreSQL, Redis, Kafka)\n🔍 RootLens: finds why a microservice broke and rolls back the bad release (Python, FastAPI, Prometheus)\n📨 TriageIQ: an AI support inbox that runs fully on-device (Kafka, local LLM, RAG)\n🧵 GitLoom: turns any GitHub profile into a portfolio website (JavaScript)\n🦷 Dental X-ray AI: detects 31 dental conditions with YOLOv9\n🦯 Smart Walker (patent filing in progress), RL hazard rover, Smart Grocer and more\n♟️ Plus a chess game you can play right inside the README\n\n💻 Get the code: https://github.com/HemashreeVI\n🗂️ Portfolio: https://hemashreevi.github.io\n\nChapters\n0:00 POV: you're on my GitHub\n0:07 About me\n0:26 Philosophy & journey\n0:38 The projects\n1:08 Toolkit & chess in the README\n1:20 Get the code\n",
+ "tags": [
+  "github profile",
+  "github profile readme",
+  "github portfolio",
+  "developer portfolio",
+  "software engineer portfolio",
+  "java projects",
+  "python projects",
+  "spring boot project",
+  "ai projects",
+  "backend projects",
+  "open source",
+  "coding projects with source code",
+  "github tour",
+  "computer science student",
+  "Hemashree"
+ ],
+ "voice": "af_heart",
+ "speed": 1.0,
+ "lineGap": 0.35,
+ "captions": true,
+ "endCard": "",
+ "endHold": 0.5,
+ "pronounce": {
+  "HemashreeVI": "Hemashree V I",
+  "github.com/HemashreeVI": "github dot com slash Hemashree V I",
+  "VIT": "V I T",
+  "README": "read me",
+  "SuperAI": "Super A I",
+  "NUS": "N U S",
+  "GitHub": "GitHub",
+  "GitLoom": "Git Loom",
+  "RootLens": "Root Lens",
+  "TriageIQ": "Triage I Q",
+  "SeatLock": "Seat Lock",
+  "AI": "A I",
+  "DevOps": "Dev Ops",
+  "X-ray": "X ray"
+ },
+ "scenes": [
+  {
+   "id": "intro",
+   "title": "intro",
+   "pad": [
+    1.2,
+    0.8
+   ],
+   "lines": [
+    "POV: you're on my GitHub.",
+    "Let me show you around, because every project here comes with the full code."
+   ]
+  },
+  {
+   "id": "hero",
+   "title": "hero",
+   "pad": [
+    0.3,
+    0.6
+   ],
+   "lines": [
+    "I'm Hemashree, a computer science engineering student at VIT Chennai. I build systems that see, decide, and keep people safe."
+   ]
+  },
+  {
+   "id": "about",
+   "title": "about",
+   "pad": [
+    0.3,
+    0.6
+   ],
+   "lines": [
+    "There's a live terminal about me, and what I'm working on right now: deep dives on my backend projects, and LeetCode in Java, every day."
+   ]
+  },
+  {
+   "id": "journey",
+   "title": "journey",
+   "pad": [
+    0.3,
+    0.6
+   ],
+   "lines": [
+    "My approach is simple: sense, decide, protect. And the journey goes from VIT, to research, to Singapore for NUS and SuperAI, to co-inventing a patent."
+   ]
+  },
+  {
+   "id": "work1",
+   "title": "work1",
+   "pad": [
+    0.3,
+    0.6
+   ],
+   "lines": [
+    "Then the projects. Dental X-ray AI that spots thirty one conditions. And SeatLock, a booking system that never sells the same seat twice."
+   ]
+  },
+  {
+   "id": "work2",
+   "title": "work2",
+   "pad": [
+    0.3,
+    0.6
+   ],
+   "lines": [
+    "RootLens, which finds out why production broke and rolls back the bad release. TriageIQ, an AI support inbox that runs on a laptop. And GitLoom, which turns any GitHub into a website."
+   ]
+  },
+  {
+   "id": "work3",
+   "title": "work3",
+   "pad": [
+    0.3,
+    0.6
+   ],
+   "lines": [
+    "Plus a smart walker that predicts falls, a robot rover that learns to find hazards, and a lot more."
+   ]
+  },
+  {
+   "id": "toolkit",
+   "title": "toolkit",
+   "pad": [
+    0.3,
+    0.6
+   ],
+   "lines": [
+    "You'll also find what I'm building next, and every tool I use, from Java and Spring Boot to PyTorch and Docker."
+   ]
+  },
+  {
+   "id": "play",
+   "title": "play",
+   "pad": [
+    0.3,
+    0.6
+   ],
+   "lines": [
+    "And yes, there's a chess game you can play right inside the README."
+   ]
+  },
+  {
+   "id": "outro",
+   "title": "outro",
+   "pad": [
+    0.3,
+    2.0
+   ],
+   "lines": [
+    "Every repository has the full code and a detailed README. It's all free.",
+    "Grab what helps you, at github.com/HemashreeVI."
+   ]
+  }
+ ]
+}

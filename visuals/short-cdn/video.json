@@ -1,0 +1,95 @@
+{
+ "title": "How Netflix Never Buffers: CDNs Explained in 60 Seconds 🍿 #shorts",
+ "slug": "short-cdn",
+ "format": "vertical",
+ "description": "Netflix doesn't stream every show from one far-away data centre. It keeps copies on servers close to you, often inside your internet provider's network: a content delivery network. Each show is also split into small chunks at several qualities, and your player picks the best quality your connection can handle right now and downloads a few chunks ahead, so the video keeps playing smoothly.\n\n📘 More to learn + my projects: https://github.com/HemashreeVI\n\n#Netflix #CDN #SystemDesign #Streaming #Backend #TechExplained #shorts",
+ "tags": [
+  "netflix",
+  "how netflix works",
+  "cdn",
+  "content delivery network",
+  "why netflix doesnt buffer",
+  "adaptive bitrate streaming",
+  "video streaming",
+  "system design",
+  "netflix open connect",
+  "backend",
+  "tech explained",
+  "shorts"
+ ],
+ "voice": "af_heart",
+ "speed": 1.0,
+ "lineGap": 0.3,
+ "captions": true,
+ "endCard": "",
+ "thumbnail": "nearby@4",
+ "endHold": 0.3,
+ "pronounce": {
+  "CDN": "C D N",
+  "CDNs": "C D Ns",
+  "4K": "four K"
+ },
+ "scenes": [
+  {
+   "id": "hook",
+   "pad": [
+    0.3,
+    0.5
+   ],
+   "lines": [
+    "Millions of people press play at the same time, and the video starts almost instantly.",
+    "Why doesn't Netflix buffer?"
+   ]
+  },
+  {
+   "id": "far",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "If every stream came from one data centre far away, the video would travel thousands of kilometres, and it would stall."
+   ]
+  },
+  {
+   "id": "nearby",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "So Netflix keeps copies of shows on servers close to you, often inside your own internet provider. That's a CDN."
+   ]
+  },
+  {
+   "id": "chunks",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "Each show is cut into small chunks, stored at several qualities, from low to 4K."
+   ]
+  },
+  {
+   "id": "adapt",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "Your player measures your speed and picks the best quality you can handle right now, downloading a few chunks ahead. Slow Wi-Fi? It quietly steps down instead of freezing."
+   ]
+  },
+  {
+   "id": "outro",
+   "pad": [
+    0.3,
+    1.6
+   ],
+   "lines": [
+    "Copies nearby. Small chunks. Smart quality."
+   ]
+  }
+ ]
+}

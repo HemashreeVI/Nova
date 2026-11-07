@@ -1,0 +1,93 @@
+{
+ "title": "How Spotify Wrapped Knows You Better Than Your Friends 🎧 #shorts",
+ "slug": "wb-spotify-wrapped",
+ "format": "vertical",
+ "description": "Spotify Wrapped isn't magic. Every time you play a song, Spotify logs it: the song, the artist, the time, and whether you skipped. Wrapped mostly adds those logs up for the year, top songs, top artists, minutes listened, then maps artists to genres and finds patterns in when and how you listen. The same data, compared with millions of other listeners, powers your recommendations all year round.\n\n📘 More to learn + my projects: https://github.com/HemashreeVI\n\n#SpotifyWrapped #Spotify #Data #AI #Music #TechExplained #shorts",
+ "tags": [
+  "spotify wrapped",
+  "how spotify wrapped works",
+  "spotify",
+  "spotify algorithm",
+  "music recommendation",
+  "listening data",
+  "top songs",
+  "data science",
+  "recommendation system",
+  "ai explained",
+  "tech explained",
+  "shorts"
+ ],
+ "voice": "af_heart",
+ "speed": 1.0,
+ "lineGap": 0.3,
+ "captions": true,
+ "endCard": "",
+ "thumbnail": "count@4",
+ "endHold": 0.3,
+ "pronounce": {
+  "Wrapped": "Wrapped"
+ },
+ "scenes": [
+  {
+   "id": "hook",
+   "pad": [
+    0.3,
+    0.5
+   ],
+   "lines": [
+    "Spotify Wrapped says you listened for forty thousand minutes, and your number one artist is the one you swore you'd stopped playing.",
+    "How does it know?"
+   ]
+  },
+  {
+   "id": "log",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "Every single play gets logged: the song, the artist, the time of day, and whether you skipped it after five seconds."
+   ]
+  },
+  {
+   "id": "count",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "Wrapped is mostly counting. Add up the year's plays, sort them, and your top songs and artists fall right out."
+   ]
+  },
+  {
+   "id": "genre",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "Then every artist is tagged with genres, so it can tell you that you're secretly forty percent sad indie."
+   ]
+  },
+  {
+   "id": "recs",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "And the same logs, compared with millions of other listeners, decide what lands in your recommendations all year."
+   ]
+  },
+  {
+   "id": "outro",
+   "pad": [
+    0.3,
+    1.6
+   ],
+   "lines": [
+    "Every play is logged. Wrapped just adds it up."
+   ]
+  }
+ ]
+}

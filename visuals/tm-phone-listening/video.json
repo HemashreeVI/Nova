@@ -1,0 +1,93 @@
+{
+ "title": "Is Your Phone Secretly Listening to You? 👀 The Real Answer #shorts",
+ "slug": "tm-phone-listening",
+ "format": "vertical",
+ "description": "You mention a product out loud and then see ads for it. Feels like your phone is listening, but researchers who tested more than 17,000 popular Android apps found no sign of apps secretly recording audio. The real reason is data: your location, searches, clicks, and the people you spend time with. Ad networks can link devices that share a Wi-Fi network or a location, so a friend's search can shape your ads. To cut it down: review microphone and location permissions, and turn off ad personalisation.\n\n📘 More to learn + my projects: https://github.com/HemashreeVI\n\n#Privacy #Smartphone #Ads #Tech #CyberSecurity #TechExplained #shorts",
+ "tags": [
+  "is my phone listening to me",
+  "phone listening for ads",
+  "targeted ads",
+  "how ads track you",
+  "phone privacy",
+  "ad tracking",
+  "data privacy",
+  "smartphone privacy",
+  "microphone permission",
+  "online privacy",
+  "tech explained",
+  "shorts"
+ ],
+ "voice": "af_heart",
+ "speed": 1.0,
+ "lineGap": 0.3,
+ "captions": true,
+ "endCard": "",
+ "thumbnail": "graph@5",
+ "endHold": 0.3,
+ "pronounce": {
+  "Wi-Fi": "Wi Fi"
+ },
+ "scenes": [
+  {
+   "id": "hook",
+   "pad": [
+    0.3,
+    0.5
+   ],
+   "lines": [
+    "You talk about running shoes with a friend. An hour later, running shoe ads are everywhere.",
+    "Is your phone listening?"
+   ]
+  },
+  {
+   "id": "study",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "Researchers tested more than seventeen thousand popular apps, hunting for secret audio recording. They found no sign of it."
+   ]
+  },
+  {
+   "id": "signals",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "The real answer is data. Where you went, what you searched, what you clicked, and who you were with."
+   ]
+  },
+  {
+   "id": "graph",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "Your friend searched for those shoes on the same Wi-Fi. Ad networks can link the two of you, and guess you'll want them too."
+   ]
+  },
+  {
+   "id": "fix",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "So check which apps can use your microphone and location, and turn off ad personalisation."
+   ]
+  },
+  {
+   "id": "outro",
+   "pad": [
+    0.3,
+    1.6
+   ],
+   "lines": [
+    "It's not listening. It's predicting."
+   ]
+  }
+ ]
+}

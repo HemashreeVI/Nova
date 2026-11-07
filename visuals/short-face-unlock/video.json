@@ -1,0 +1,93 @@
+{
+ "title": "How Your Phone Unlocks With Your Face 🔓 Face Unlock in 60 Seconds #shorts",
+ "slug": "short-face-unlock",
+ "format": "vertical",
+ "description": "Secure face unlock doesn't just take a photo. A projector beams thousands of invisible infrared dots onto your face, an infrared camera reads how the dots bend, and that builds a 3D depth map. A neural network turns the map into a mathematical description and compares it with the one stored in a secure chip on your phone. It works in the dark, and a flat photo can't fool it because a photo has no depth.\n\n📘 More to learn + my projects: https://github.com/HemashreeVI\n\n#FaceID #ComputerVision #Smartphone #Security #AI #TechExplained #shorts",
+ "tags": [
+  "face unlock",
+  "how face id works",
+  "face id explained",
+  "infrared dot projector",
+  "3d face recognition",
+  "depth map",
+  "face recognition",
+  "phone security",
+  "biometrics",
+  "computer vision",
+  "tech explained",
+  "shorts"
+ ],
+ "voice": "af_heart",
+ "speed": 1.0,
+ "lineGap": 0.3,
+ "captions": true,
+ "endCard": "",
+ "thumbnail": "dots@4",
+ "endHold": 0.3,
+ "pronounce": {
+  "3D": "three D"
+ },
+ "scenes": [
+  {
+   "id": "hook",
+   "pad": [
+    0.3,
+    0.5
+   ],
+   "lines": [
+    "You glance at your phone, and it unlocks. Even in the dark. But a photo of you won't work.",
+    "Here's why."
+   ]
+  },
+  {
+   "id": "dots",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "A tiny projector beams thousands of invisible infrared dots onto your face."
+   ]
+  },
+  {
+   "id": "depth",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "An infrared camera reads how those dots bend around your nose, cheeks and eyes, and builds a 3D depth map."
+   ]
+  },
+  {
+   "id": "match",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "A neural network turns that map into numbers, and compares them with the ones stored in a secure chip on your phone. Match, and it unlocks."
+   ]
+  },
+  {
+   "id": "photo",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "A photo is flat. No depth, no match. That's why holding up a picture doesn't work."
+   ]
+  },
+  {
+   "id": "outro",
+   "pad": [
+    0.3,
+    1.6
+   ],
+   "lines": [
+    "Not a photo. A 3D map of your face."
+   ]
+  }
+ ]
+}

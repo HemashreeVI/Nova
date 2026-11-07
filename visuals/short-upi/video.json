@@ -1,0 +1,98 @@
+{
+ "title": "How UPI Sends Money in 2 Seconds 💸 #shorts",
+ "slug": "short-upi",
+ "format": "vertical",
+ "description": "When you pay with UPI, your app sends the request to NPCI, the switch at the centre of UPI. NPCI looks up who owns the UPI ID, asks your bank to verify your UPI PIN and debit your account, then tells the receiver's bank to credit theirs. Both of you get a confirmation, usually in about two seconds, any time of day.\n\n📘 More to learn + my projects: https://github.com/HemashreeVI\n\n#UPI #DigitalPayments #FinTech #India #SystemDesign #TechExplained #shorts",
+ "tags": [
+  "upi",
+  "how upi works",
+  "upi explained",
+  "upi payment",
+  "npci",
+  "digital payments india",
+  "upi pin",
+  "fintech",
+  "payment system design",
+  "gpay",
+  "phonepe",
+  "paytm",
+  "tech explained",
+  "shorts"
+ ],
+ "voice": "af_heart",
+ "speed": 1.0,
+ "lineGap": 0.3,
+ "captions": true,
+ "endCard": "",
+ "thumbnail": "route@4",
+ "endHold": 0.3,
+ "pronounce": {
+  "UPI": "U P I",
+  "NPCI": "N P C I",
+  "PIN": "pin",
+  "ID": "I D"
+ },
+ "scenes": [
+  {
+   "id": "hook",
+   "pad": [
+    0.3,
+    0.5
+   ],
+   "lines": [
+    "You scan a QR code, type your PIN, and the money arrives in about two seconds. Between two different banks.",
+    "How?"
+   ]
+  },
+  {
+   "id": "request",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "Your UPI app doesn't move the money itself. It sends a payment request to NPCI, the switch at the centre of UPI."
+   ]
+  },
+  {
+   "id": "route",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "NPCI looks up who owns that UPI ID, and which bank they're with."
+   ]
+  },
+  {
+   "id": "debit",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "It asks your bank to check your UPI PIN and take the money out of your account."
+   ]
+  },
+  {
+   "id": "credit",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "Then it tells their bank to add it to theirs, and both of you get a confirmation. All in about two seconds."
+   ]
+  },
+  {
+   "id": "outro",
+   "pad": [
+    0.3,
+    1.6
+   ],
+   "lines": [
+    "Your app, NPCI, two banks. Two seconds."
+   ]
+  }
+ ]
+}

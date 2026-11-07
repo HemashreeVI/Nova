@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SQL injection Short</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{--ink:#eef2f6;--mut:#94a3b8;--acc:#22c55e;--acc2:#4ade80;--grn:#34d399;--red:#f87171;--yel:#fbbf24;--pk:#f472b6;--cy:#22d3ee}
+  #fv-stage{background:radial-gradient(1000px 1300px at 70% 15%,#0d2b1a 0%,#07140d 50%,#040806 80%);color:var(--ink);font-family:Inter,system-ui,sans-serif}
+  #bg-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(34,197,94,.11) 1px,transparent 1px),linear-gradient(90deg,rgba(34,197,94,.11) 1px,transparent 1px);background-size:90px 90px;opacity:.22}
+  .abs{position:absolute}
+  .step{position:absolute;left:0;right:0;top:250px;text-align:center;font:700 34px/1 'JetBrains Mono',monospace;letter-spacing:.2em;color:var(--acc2)}
+  .head{position:absolute;left:60px;right:60px;top:305px;text-align:center;font:800 84px/1.05 Inter;letter-spacing:-.03em}
+  .mono{font-family:'JetBrains Mono',monospace}
+  .badge{position:absolute;left:50%;top:150px;transform:translateX(-50%);padding:12px 26px;border-radius:40px;background:color-mix(in srgb,var(--acc) 12%,transparent);border:2px solid color-mix(in srgb,var(--acc) 55%,transparent);font:700 30px Inter;color:var(--acc2);white-space:nowrap}
+  .pill{display:inline-block;padding:12px 26px;border-radius:40px;font:800 32px Inter}
+  .pane{position:absolute;left:120px;width:840px;height:765px;border-radius:26px;overflow:hidden;border:3px solid color-mix(in srgb,var(--acc) 45%,transparent);background:rgba(8,8,16,.75)}
+  .pane svg{position:absolute;inset:0;width:840px;height:765px}
+  .below{position:absolute;left:0;right:0;top:1225px;text-align:center}
+  .big{font:900 120px/1 Inter;letter-spacing:-.04em;color:#fff}
+  .card{border-radius:22px;padding:26px 30px;background:rgba(255,255,255,.05);border:2px solid rgba(255,255,255,.14)}
+  .fv-endcard{display:inline-block;padding:16px 30px;border-radius:40px;font:700 34px 'JetBrains Mono',monospace;border:3px solid #eef2f6;background:rgba(238,242,246,.08)}
+</style>
+</head>
+<body>
+<div id="fv-stage">
+  <div id="bg-grid"></div>
+  <div class="badge">🔐 Cybersecurity · Tech, decoded</div>
+
+  <section class="fv-scene" data-scene="hook">
+    <div class="pane" id="hk-p" style="top:300px"></div>
+    <div id="hk-q" class="abs" style="left:0;right:0;top:1110px;text-align:center"><div class="big" style="font-size:104px">💉 SQL <span style="color:var(--acc2)">injection</span></div></div>
+  </section>
+  <section class="fv-scene" data-scene="query">
+    <div class="step">BEHIND THE LOGIN BOX</div><div class="head">Glued-together SQL</div>
+    <div id="q-form" class="abs" style="left:120px;right:120px;top:450px"></div>
+    <div id="q-code" class="abs card mono" style="left:80px;right:80px;top:880px;font-size:30px;line-height:1.6;background:#06120b"></div>
+  </section>
+  <section class="fv-scene" data-scene="inject">
+    <div class="step">THE ATTACK</div><div class="head">Type a little SQL</div>
+    <div id="i-form" class="abs" style="left:120px;right:120px;top:450px"></div>
+    <div id="i-code" class="abs card mono" style="left:80px;right:80px;top:880px;font-size:30px;line-height:1.6;background:#06120b"></div>
+  </section>
+  <section class="fv-scene" data-scene="bypass">
+    <div class="step">ALWAYS TRUE</div><div class="head">No password needed</div>
+    <div id="b-code" class="abs card mono" style="left:80px;right:80px;top:460px;font-size:32px;line-height:1.6;background:#06120b"></div>
+    <div id="b-res" class="abs" style="left:120px;right:120px;top:800px"></div>
+  </section>
+  <section class="fv-scene" data-scene="fix">
+    <div class="step">THE FIX</div><div class="head">Parameterized queries</div>
+    <div id="f-code" class="abs card mono" style="left:80px;right:80px;top:460px;font-size:30px;line-height:1.6;background:#06120b"></div>
+    <div id="f-vals" class="abs" style="left:80px;right:80px;top:760px;display:grid;gap:18px"></div>
+    <div class="below" id="f-t" style="top:1120px"></div>
+  </section>
+  <section class="fv-scene" data-scene="outro">
+    <div id="oc-w" class="abs" style="left:40px;right:40px;top:540px;display:grid;justify-items:center;gap:22px"></div>
+    <div id="oc-gh" class="abs" style="left:0;right:0;top:1010px;text-align:center"><span class="fv-endcard"></span></div>
+  </section>
+
+</div>
+<script src="timing.js"></script>
+<script src="fv-runtime.js"></script>
+<script>
+(() => {
+const { seg, css, enter, lerp, clamp, ease, pulse, $ } = FV;
+const NS = 'http://www.w3.org/2000/svg';
+const svgEl = (tag, attrs, parent) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; };
+const txt = (s, x, y, str, o = {}) => { const e = svgEl('text', Object.assign({ x, y, fill: '#eef2f6', 'font-size': 30, 'font-weight': 700, 'font-family': 'Inter', 'text-anchor': 'middle' }, o), s); e.textContent = str; return e; };
+const div = (cls, html, parent, style) => { const e = document.createElement('div'); if (cls) e.className = cls; if (html !== undefined) e.innerHTML = html; if (style) e.style.cssText = style; if (parent) parent.appendChild(e); return e; };
+const pop = (el, t, a, d = 0.45) => { const p = seg(t, a, a + d, ease.back); css(el, { o: clamp(p * 1.5), s: Math.max(0, p) }); return p; };
+const head = (el, t) => { const s = el.querySelector('.step'), h = el.querySelector('.head'); if (s) enter(s, t, 0.0, 0.4); if (h) enter(h, t, 0.08, 0.45, 30); };
+const frac = (ctx, i, f) => ctx.line(i) + (ctx.lineEnd(i) - ctx.line(i)) * f;
+const pill = (t, c) => `<span class="pill" style="border:3px solid ${c};background:${c}1a;color:${c}">${t}</span>`;
+const show = (el, html) => { if (el.__h !== html) { el.innerHTML = html; el.__h = html; } };
+
+const K = (s) => `<span style="color:#c084fc;font-weight:800">${s}</span>`;
+const Sx = (s) => `<span style="color:#fbbf24">${s}</span>`;
+const R = (s) => `<span style="color:#f87171;font-weight:800;background:rgba(248,113,113,.15)">${s}</span>`;
+function form(host, pwVisible) {
+  host.innerHTML = `<div class="card" style="background:#f8fafc;color:#0f172a;border:none;padding:40px">
+    <div style="font:900 44px Inter;text-align:center">🔐 Sign in</div>
+    <div style="margin-top:26px;font:600 26px Inter;color:#64748b">Username</div><div class="u mono" style="margin-top:8px;border:2px solid #cbd5e1;border-radius:12px;padding:16px;font-size:30px;min-height:40px"></div>
+    <div style="margin-top:18px;font:600 26px Inter;color:#64748b">Password</div><div class="p mono" style="margin-top:8px;border:2px solid #cbd5e1;border-radius:12px;padding:16px;font-size:30px;min-height:40px"></div></div>`;
+  return { u: host.querySelector('.u'), p: host.querySelector('.p') };
+}
+const typed = (s, f) => s.slice(0, Math.round(clamp(f) * s.length));
+/* HOOK: login box, odd chars typed, door opens */
+{
+  const F = form($('#hk-p'));
+  $('#hk-p').insertAdjacentHTML('beforeend', `<div id="hk-ok" style="position:absolute;left:0;right:0;bottom:50px;text-align:center;font:900 64px Inter;color:#34d399;opacity:0">✓ Welcome, admin</div>`);
+  $('#hk-p').firstChild.style.cssText += ';margin:50px 60px 0';
+  FV.scene('hook', (t, ctx) => {
+    enter($('#hk-p'), t, 0.05, 0.4, 20);
+    F.u.textContent = typed('admin', seg(t, 0.4, 1.2, ease.linear));
+    F.p.innerHTML = R(typed("' OR '1'='1", seg(t, 1.4, frac(ctx, 0, 0.75), ease.linear)));
+    $('#hk-ok').style.opacity = seg(t, frac(ctx, 0, 0.85), frac(ctx, 0, 0.95));
+    pop($('#hk-q'), t, ctx.line(1) - 0.1, 0.5);
+  });
+}
+/* QUERY: input glued into SQL */
+{
+  const F = form($('#q-form'));
+  FV.scene('query', (t, ctx) => {
+    head(ctx.el, t); enter($('#q-form'), t, 0.1, 0.4, 20);
+    const a = seg(t, frac(ctx, 0, 0.1), frac(ctx, 0, 0.3), ease.linear), b = seg(t, frac(ctx, 0, 0.3), frac(ctx, 0, 0.5), ease.linear);
+    F.u.textContent = typed('alice', a); F.p.textContent = '•'.repeat(Math.round(b * 6));
+    const g = seg(t, frac(ctx, 0, 0.55), frac(ctx, 0, 0.75));
+    $('#q-code').innerHTML = `${K('SELECT')} * ${K('FROM')} users<br>${K('WHERE')} name = ${Sx("'" + (g > 0.3 ? 'alice' : '…') + "'")}<br>${K('AND')} password = ${Sx("'" + (g > 0.7 ? 'secret' : '…') + "'")}`;
+    enter($('#q-code'), t, frac(ctx, 0, 0.5), 0.4, 20);
+  });
+}
+/* INJECT: the payload closes the quote */
+{
+  const F = form($('#i-form'));
+  FV.scene('inject', (t, ctx) => {
+    head(ctx.el, t); enter($('#i-form'), t, 0.1, 0.4, 20);
+    F.u.textContent = 'admin';
+    const p = "' OR '1'='1", a = seg(t, frac(ctx, 0, 0.12), frac(ctx, 0, 0.42), ease.linear);
+    F.p.innerHTML = R(typed(p, a));
+    const g = seg(t, frac(ctx, 0, 0.5), frac(ctx, 0, 0.65));
+    $('#i-code').innerHTML = `${K('SELECT')} * ${K('FROM')} users<br>${K('WHERE')} name = ${Sx("'admin'")}<br>${K('AND')} password = ${Sx("'")}${g > 0.5 ? R("' OR '1'='1") : ''}${Sx("'")}`;
+    enter($('#i-code'), t, frac(ctx, 0, 0.45), 0.4, 20);
+  });
+}
+/* BYPASS: highlight the always-true clause, then the result */
+{
+  FV.scene('bypass', (t, ctx) => {
+    head(ctx.el, t); enter($('#b-code'), t, 0.1, 0.4, 20);
+    const h = seg(t, frac(ctx, 0, 0.15), frac(ctx, 0, 0.35));
+    $('#b-code').innerHTML = `${K('WHERE')} name = ${Sx("'admin'")}<br>${K('AND')} password = ${Sx("''")} ${R('OR')} <span style="color:#34d399;font-weight:800;${h > 0.5 ? 'background:rgba(52,211,153,.2);outline:3px solid #34d399' : ''}">'1'='1'</span>${h > 0.5 ? '<br><span style="color:#34d399">↳ always TRUE</span>' : ''}`;
+    show($('#b-res'), `<div class="card" style="border-color:#f8717188;text-align:center"><div style="font:900 74px Inter;color:#f87171">🚪 Logged in as admin</div><div style="font:600 32px Inter;color:#cbd5e1;margin-top:10px">password checked: <b>never</b></div></div>`);
+    pop($('#b-res'), t, frac(ctx, 0, 0.55), 0.5);
+  });
+}
+/* FIX: placeholders + values travel separately */
+{
+  const V = [['name', "'admin'", '#fbbf24'], ['password', "\"' OR '1'='1\"", '#34d399']];
+  const rows = V.map(([k, v, c]) => div('card mono', `<span style="color:#94a3b8">${k} =</span> <span style="color:${c};font-weight:800">${v}</span> <span style="color:#64748b">(just text)</span>`, $('#f-vals'), `font-size:30px;border-color:${c}66`));
+  FV.scene('fix', (t, ctx) => {
+    head(ctx.el, t); enter($('#f-code'), t, 0.1, 0.4, 20);
+    $('#f-code').innerHTML = `${K('SELECT')} * ${K('FROM')} users<br>${K('WHERE')} name = <span style="color:#22d3ee;font-weight:800">?</span><br>${K('AND')} password = <span style="color:#22d3ee;font-weight:800">?</span>`;
+    rows.forEach((r, i) => enter(r, t, frac(ctx, 0, 0.35 + i * 0.12), 0.4, 20));
+    show($('#f-t'), pill('✓ no match → login denied', '#34d399')); pop($('#f-t'), t, frac(ctx, 0, 0.75), 0.4);
+  });
+}
+/* OUTRO */
+{
+  const Wd = [['Never glue input into SQL.', '#f87171', 0], ['Keep data and code apart.', '#34d399', 0.45]];
+  const words = Wd.map(([w, c]) => div('', w, $('#oc-w'), `font:900 80px/1.08 Inter;letter-spacing:-.03em;color:${c};text-align:center`));
+  FV.scene('outro', (t, ctx) => {
+    words.forEach((w, i) => pop(w, t, frac(ctx, 0, Wd[i][2]), 0.45));
+    pop($('#oc-gh'), t, frac(ctx, 0, 0.95), 0.5);
+  });
+}
+
+})();
+</script>
+</body>
+</html>

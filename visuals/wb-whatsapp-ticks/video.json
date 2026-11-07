@@ -1,0 +1,91 @@
+{
+ "title": "What WhatsApp Ticks Really Mean ✔✔ Single, Double, Blue #shorts",
+ "slug": "wb-whatsapp-ticks",
+ "format": "vertical",
+ "description": "One grey tick means your message reached WhatsApp's server. Two grey ticks mean it was delivered to the other person's phone. Two blue ticks mean they opened the chat and read it, if read receipts are on. If their phone is offline, the server holds the message and delivers it as soon as they reconnect, and each phone sends a small receipt back so your ticks update.\n\n📘 More to learn + my projects: https://github.com/HemashreeVI\n\n#WhatsApp #Messaging #Tech #Backend #TechExplained #shorts",
+ "tags": [
+  "whatsapp ticks",
+  "whatsapp blue tick",
+  "whatsapp double tick meaning",
+  "single tick whatsapp",
+  "how whatsapp works",
+  "message delivery",
+  "read receipts",
+  "messaging app",
+  "backend",
+  "system design",
+  "tech explained",
+  "shorts"
+ ],
+ "voice": "af_heart",
+ "speed": 1.0,
+ "lineGap": 0.3,
+ "captions": true,
+ "endCard": "",
+ "thumbnail": "two@6",
+ "endHold": 0.3,
+ "pronounce": {},
+ "scenes": [
+  {
+   "id": "hook",
+   "pad": [
+    0.3,
+    0.5
+   ],
+   "lines": [
+    "One tick. Two ticks. Blue ticks. You've overthought all three.",
+    "Here's what each one really means."
+   ]
+  },
+  {
+   "id": "one",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "One grey tick: your message left your phone and reached WhatsApp's server. That's it."
+   ]
+  },
+  {
+   "id": "offline",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "If their phone is off, the server holds onto the message and waits."
+   ]
+  },
+  {
+   "id": "two",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "The moment their phone comes online, the message is delivered, and their phone sends a receipt back. Two grey ticks."
+   ]
+  },
+  {
+   "id": "blue",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "When they open the chat, another receipt goes back. Two blue ticks. Unless they've turned read receipts off."
+   ]
+  },
+  {
+   "id": "outro",
+   "pad": [
+    0.3,
+    1.6
+   ],
+   "lines": [
+    "Server. Delivered. Read. Now you know."
+   ]
+  }
+ ]
+}

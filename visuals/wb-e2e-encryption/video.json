@@ -1,0 +1,91 @@
+{
+ "title": "How Your Group Chat Is Encrypted (Even WhatsApp Can't Read It) 🔐 #shorts",
+ "slug": "wb-e2e-encryption",
+ "format": "vertical",
+ "description": "End-to-end encryption means only the people in the chat can read the messages. Each phone makes a pair of keys: a public key it shares, like an open padlock, and a private key that never leaves the phone. Your phone locks each message with keys only the recipients can open, so the server only ever passes along scrambled data. The keys keep changing as you chat, so even a stolen key can't unlock old messages.\n\n📘 More to learn + my projects: https://github.com/HemashreeVI\n\n#Encryption #WhatsApp #Privacy #CyberSecurity #InfoSec #TechExplained #shorts",
+ "tags": [
+  "end to end encryption",
+  "how encryption works",
+  "whatsapp encryption",
+  "public key private key",
+  "signal protocol",
+  "group chat privacy",
+  "privacy",
+  "cyber security",
+  "encryption explained",
+  "messaging security",
+  "tech explained",
+  "shorts"
+ ],
+ "voice": "af_heart",
+ "speed": 1.0,
+ "lineGap": 0.3,
+ "captions": true,
+ "endCard": "",
+ "thumbnail": "lock@4",
+ "endHold": 0.3,
+ "pronounce": {},
+ "scenes": [
+  {
+   "id": "hook",
+   "pad": [
+    0.3,
+    0.5
+   ],
+   "lines": [
+    "Your group chat passes through WhatsApp's servers. But WhatsApp still can't read a single message.",
+    "Here's how."
+   ]
+  },
+  {
+   "id": "keys",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "Every phone makes two keys. A public key it shares with everyone, like an open padlock. And a private key that never leaves the phone."
+   ]
+  },
+  {
+   "id": "lock",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "When you send a message, your phone locks it with your friend's padlock. Only their private key can open it."
+   ]
+  },
+  {
+   "id": "server",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "So the server only ever carries scrambled gibberish. It delivers it, but it can't read it."
+   ]
+  },
+  {
+   "id": "change",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "And the keys keep changing as you chat, so even if one key leaked, old messages would stay locked."
+   ]
+  },
+  {
+   "id": "outro",
+   "pad": [
+    0.3,
+    1.6
+   ],
+   "lines": [
+    "Locked on your phone. Opened on theirs. Nobody in between."
+   ]
+  }
+ ]
+}

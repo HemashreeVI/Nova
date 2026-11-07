@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Phishing Short</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{--ink:#eef2f6;--mut:#94a3b8;--acc:#22c55e;--acc2:#4ade80;--grn:#34d399;--red:#f87171;--yel:#fbbf24;--pk:#f472b6;--cy:#22d3ee}
+  #fv-stage{background:radial-gradient(1000px 1300px at 70% 15%,#0d2b1a 0%,#07140d 50%,#040806 80%);color:var(--ink);font-family:Inter,system-ui,sans-serif}
+  #bg-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(34,197,94,.11) 1px,transparent 1px),linear-gradient(90deg,rgba(34,197,94,.11) 1px,transparent 1px);background-size:90px 90px;opacity:.22}
+  .abs{position:absolute}
+  .step{position:absolute;left:0;right:0;top:250px;text-align:center;font:700 34px/1 'JetBrains Mono',monospace;letter-spacing:.2em;color:var(--acc2)}
+  .head{position:absolute;left:60px;right:60px;top:305px;text-align:center;font:800 84px/1.05 Inter;letter-spacing:-.03em}
+  .mono{font-family:'JetBrains Mono',monospace}
+  .badge{position:absolute;left:50%;top:150px;transform:translateX(-50%);padding:12px 26px;border-radius:40px;background:color-mix(in srgb,var(--acc) 12%,transparent);border:2px solid color-mix(in srgb,var(--acc) 55%,transparent);font:700 30px Inter;color:var(--acc2);white-space:nowrap}
+  .pill{display:inline-block;padding:12px 26px;border-radius:40px;font:800 32px Inter}
+  .pane{position:absolute;left:120px;width:840px;height:765px;border-radius:26px;overflow:hidden;border:3px solid color-mix(in srgb,var(--acc) 45%,transparent);background:rgba(8,8,16,.75)}
+  .pane svg{position:absolute;inset:0;width:840px;height:765px}
+  .below{position:absolute;left:0;right:0;top:1225px;text-align:center}
+  .big{font:900 120px/1 Inter;letter-spacing:-.04em;color:#fff}
+  .card{border-radius:22px;padding:26px 30px;background:rgba(255,255,255,.05);border:2px solid rgba(255,255,255,.14)}
+  .fv-endcard{display:inline-block;padding:16px 30px;border-radius:40px;font:700 34px 'JetBrains Mono',monospace;border:3px solid #eef2f6;background:rgba(238,242,246,.08)}
+</style>
+</head>
+<body>
+<div id="fv-stage">
+  <div id="bg-grid"></div>
+  <div class="badge">🔐 Cybersecurity · Tech, decoded</div>
+
+  <section class="fv-scene" data-scene="hook">
+    <div class="pane" id="hk-p" style="top:300px"></div>
+    <div id="hk-q" class="abs" style="left:0;right:0;top:1110px;text-align:center"><div class="big">🎣 <span style="color:var(--acc2)">Phishing</span></div></div>
+  </section>
+  <section class="fv-scene" data-scene="urgency">
+    <div class="step">RED FLAG 1</div><div class="head">Panic</div>
+    <div class="pane" id="ug-p" style="top:430px"></div>
+    <div class="below" id="ug-t"></div>
+  </section>
+  <section class="fv-scene" data-scene="domain">
+    <div class="step">RED FLAG 2</div><div class="head">The link</div>
+    <div class="pane" id="dm-p" style="top:430px"></div>
+    <div class="below" id="dm-t"></div>
+  </section>
+  <section class="fv-scene" data-scene="page">
+    <div class="step">THE TRAP</div><div class="head">A perfect copy</div>
+    <div class="pane" id="pg-p" style="top:430px"></div>
+    <div class="below" id="pg-t"></div>
+  </section>
+  <section class="fv-scene" data-scene="defend">
+    <div class="step">THE FIX</div><div class="head">Stay safe</div>
+    <div id="df-c" class="abs" style="left:120px;right:120px;top:450px;display:grid;gap:26px"></div>
+  </section>
+  <section class="fv-scene" data-scene="outro">
+    <div id="oc-w" class="abs" style="left:40px;right:40px;top:520px;display:grid;justify-items:center;gap:22px"></div>
+    <div id="oc-gh" class="abs" style="left:0;right:0;top:1010px;text-align:center"><span class="fv-endcard"></span></div>
+  </section>
+
+</div>
+<script src="timing.js"></script>
+<script src="fv-runtime.js"></script>
+<script>
+(() => {
+const { seg, css, enter, lerp, clamp, ease, pulse, $ } = FV;
+const NS = 'http://www.w3.org/2000/svg';
+const svgEl = (tag, attrs, parent) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; };
+const txt = (s, x, y, str, o = {}) => { const e = svgEl('text', Object.assign({ x, y, fill: '#eef2f6', 'font-size': 30, 'font-weight': 700, 'font-family': 'Inter', 'text-anchor': 'middle' }, o), s); e.textContent = str; return e; };
+const div = (cls, html, parent, style) => { const e = document.createElement('div'); if (cls) e.className = cls; if (html !== undefined) e.innerHTML = html; if (style) e.style.cssText = style; if (parent) parent.appendChild(e); return e; };
+const pop = (el, t, a, d = 0.45) => { const p = seg(t, a, a + d, ease.back); css(el, { o: clamp(p * 1.5), s: Math.max(0, p) }); return p; };
+const head = (el, t) => { const s = el.querySelector('.step'), h = el.querySelector('.head'); if (s) enter(s, t, 0.0, 0.4); if (h) enter(h, t, 0.08, 0.45, 30); };
+const frac = (ctx, i, f) => ctx.line(i) + (ctx.lineEnd(i) - ctx.line(i)) * f;
+const pill = (t, c) => `<span class="pill" style="border:3px solid ${c};background:${c}1a;color:${c}">${t}</span>`;
+const show = (el, html) => { if (el.__h !== html) { el.innerHTML = html; el.__h = html; } };
+
+/* an email card, drawn as HTML in a pane */
+function mail(host, o = {}) {
+  host.innerHTML = `<div style="position:absolute;inset:0;background:#f8fafc;color:#0f172a;font-family:Inter">
+    <div style="background:#e2e8f0;padding:22px 30px;font:600 26px Inter;color:#475569">📥 Inbox</div>
+    <div style="padding:30px 36px">
+      <div style="display:flex;align-items:center;gap:18px"><div style="width:70px;height:70px;border-radius:50%;background:#1d4ed8;color:#fff;display:grid;place-items:center;font:800 34px Inter">P</div>
+      <div><div style="font:800 30px Inter">PayPal Security</div><div class="from mono" style="font-size:22px;color:#64748b">service@paypal-alerts.co</div></div></div>
+      <div class="subj" style="margin-top:28px;font:800 38px/1.2 Inter">⚠️ Your account will be locked</div>
+      <div class="body" style="margin-top:18px;font:500 27px/1.45 Inter;color:#334155">We noticed unusual activity. Verify your details within <b class="urg">24 hours</b> or your account will be <b class="urg">permanently suspended</b>.</div>
+      <div class="btn" style="margin-top:34px;display:inline-block;padding:20px 40px;border-radius:14px;background:#1d4ed8;color:#fff;font:800 30px Inter">Verify now</div>
+      <div class="hov mono" style="margin-top:24px;padding:14px 20px;border-radius:10px;background:#0f172a;color:#e2e8f0;font-size:26px;opacity:0">https://paypa<span class="bad" style="color:#f87171;font-weight:800">1</span>-secure-login.co/verify</div>
+    </div></div>`;
+  return { urg: [...host.querySelectorAll('.urg')], btn: host.querySelector('.btn'), hov: host.querySelector('.hov'), bad: host.querySelector('.bad') };
+}
+/* HOOK */
+{
+  const M = mail($('#hk-p'));
+  FV.scene('hook', (t, ctx) => {
+    enter($('#hk-p'), t, 0.05, 0.4, 20);
+    const c = seg(t, frac(ctx, 0, 0.6), frac(ctx, 0, 0.75));
+    M.btn.style.transform = `scale(${1 - 0.08 * pulse(t, frac(ctx, 0, 0.6), frac(ctx, 0, 0.8))})`;
+    $('#hk-p').style.filter = c >= 1 ? 'grayscale(1) brightness(.5)' : '';
+    pop($('#hk-q'), t, ctx.line(1) - 0.1, 0.5);
+  });
+}
+/* URGENCY */
+{
+  const M = mail($('#ug-p'));
+  FV.scene('urgency', (t, ctx) => {
+    head(ctx.el, t); enter($('#ug-p'), t, 0.1, 0.4, 20);
+    const h = seg(t, frac(ctx, 0, 0.3), frac(ctx, 0, 0.45));
+    M.urg.forEach((u) => { u.style.background = `rgba(248,113,113,${0.35 * h})`; u.style.outline = h > 0.5 ? '3px solid #ef4444' : 'none'; });
+    show($('#ug-t'), pill('⏰ urgency = no time to think', '#f87171')); $('#ug-t').style.opacity = h;
+  });
+}
+/* DOMAIN */
+{
+  const M = mail($('#dm-p'));
+  FV.scene('domain', (t, ctx) => {
+    head(ctx.el, t); enter($('#dm-p'), t, 0.1, 0.4, 20);
+    const h = seg(t, frac(ctx, 0, 0.1), frac(ctx, 0, 0.25)), b = seg(t, frac(ctx, 0, 0.55), frac(ctx, 0, 0.7));
+    M.hov.style.opacity = h; M.btn.style.outline = h > 0.5 ? '4px dashed #f59e0b' : 'none';
+    M.bad.style.background = `rgba(248,113,113,${0.4 * b})`;
+    show($('#dm-t'), b > 0.5 ? pill('paypa<b>1</b> ≠ paypal: a look-alike', '#f87171') : pill('🖱️ hover before you click', '#fbbf24'));
+    $('#dm-t').style.opacity = h;
+  });
+}
+/* PAGE: cloned login, typed password flies to the attacker */
+{
+  const host = $('#pg-p');
+  host.innerHTML = `<div style="position:absolute;inset:0;background:#f1f5f9;font-family:Inter;color:#0f172a">
+    <div class="mono" style="background:#e2e8f0;padding:16px 26px;font-size:24px;color:#b91c1c">🔓 paypa1-secure-login.co</div>
+    <div style="margin:50px auto 0;width:560px;background:#fff;border-radius:20px;padding:40px;box-shadow:0 10px 30px rgba(0,0,0,.12)">
+      <div style="font:900 44px Inter;color:#1d4ed8;text-align:center">PayPal</div>
+      <div style="margin-top:28px;font:600 24px Inter;color:#64748b">Email</div><div class="in" style="margin-top:8px;border:2px solid #cbd5e1;border-radius:12px;padding:16px;font:500 28px Inter" id="pg-e"></div>
+      <div style="margin-top:20px;font:600 24px Inter;color:#64748b">Password</div><div class="in mono" style="margin-top:8px;border:2px solid #cbd5e1;border-radius:12px;padding:16px;font-size:28px" id="pg-w"></div>
+      <div style="margin-top:28px;padding:18px;border-radius:12px;background:#1d4ed8;color:#fff;text-align:center;font:800 30px Inter">Log in</div>
+    </div>
+    <div id="pg-fly" class="mono" style="position:absolute;left:150px;top:470px;padding:12px 18px;border-radius:12px;background:#ef4444;color:#fff;font-size:24px;opacity:0;white-space:nowrap">you@mail.com · MyP@ss123</div>
+    <div id="pg-h" style="position:absolute;right:40px;bottom:40px;font:900 70px Inter;opacity:0">🕵️</div></div>`;
+  FV.scene('page', (t, ctx) => {
+    head(ctx.el, t); enter(host, t, 0.1, 0.4, 20);
+    const e = 'you@mail.com', w = 'MyP@ss123';
+    const a = seg(t, frac(ctx, 0, 0.25), frac(ctx, 0, 0.45), ease.linear), b = seg(t, frac(ctx, 0, 0.45), frac(ctx, 0, 0.6), ease.linear);
+    $('#pg-e').textContent = e.slice(0, Math.round(a * e.length)); $('#pg-w').textContent = '•'.repeat(Math.round(b * w.length));
+    const f = seg(t, frac(ctx, 0, 0.7), frac(ctx, 0, 0.95), ease.inOut);
+    css($('#pg-fly'), { o: f > 0 ? 1 : 0, x: f * 200, y: f * 190 });
+    $('#pg-h').style.opacity = seg(t, frac(ctx, 0, 0.65), frac(ctx, 0, 0.75));
+    show($('#pg-t'), f > 0.5 ? pill('sent straight to the attacker', '#f87171') : pill('looks real, but it is not', '#fbbf24'));
+    $('#pg-t').style.opacity = seg(t, 0.4, 0.7);
+  });
+}
+/* DEFEND: three rules */
+{
+  const R = [['⌨️', 'Type the address yourself', 'never log in from an email link', '#22d3ee', 0.05], ['🔑', 'Turn on passkeys or 2FA', 'a stolen password alone is useless', '#34d399', 0.45], ['🚩', 'Report it', 'mark as phishing, then delete', '#fbbf24', 0.8]];
+  const cards = R.map(([i, a, b, c]) => div('card', `<div style="display:flex;gap:24px;align-items:center"><div style="font-size:64px">${i}</div><div><div style="font:800 40px Inter;color:${c}">${a}</div><div style="font:500 28px Inter;color:#cbd5e1;margin-top:6px">${b}</div></div></div>`, $('#df-c'), `border-color:${c}66`));
+  FV.scene('defend', (t, ctx) => {
+    head(ctx.el, t);
+    cards.forEach((c, i) => enter(c, t, frac(ctx, 0, R[i][4]), 0.45, 30));
+  });
+}
+/* OUTRO */
+{
+  const Wd = [['Pause.', '#22d3ee', 0], ['Check the link.', '#fbbf24', 0.25], ['Never trust urgency.', '#f87171', 0.55]];
+  const words = Wd.map(([w, c]) => div('', w, $('#oc-w'), `font:900 92px/1.05 Inter;letter-spacing:-.03em;color:${c};text-align:center`));
+  FV.scene('outro', (t, ctx) => {
+    words.forEach((w, i) => pop(w, t, frac(ctx, 0, Wd[i][2]), 0.4));
+    pop($('#oc-gh'), t, frac(ctx, 0, 0.95), 0.5);
+  });
+}
+
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,96 @@
+{
+ "title": "How AI Tracks Your Body: Pose Estimation in 60 Seconds 🕺 #shorts",
+ "slug": "short-pose",
+ "format": "vertical",
+ "description": "Pose estimation finds the key points of a human body in an image: nose, shoulders, elbows, wrists, hips, knees and ankles. The model predicts a heatmap for each joint, takes the brightest spot as the joint's position, and links the joints into a skeleton. It powers fitness apps, motion capture, sports analysis and fall detection.\n\n📘 More to learn + my projects: https://github.com/HemashreeVI\n\n#ComputerVision #PoseEstimation #AI #DeepLearning #MMPose #TechExplained #shorts",
+ "tags": [
+  "pose estimation",
+  "how pose estimation works",
+  "human pose estimation",
+  "keypoint detection",
+  "heatmaps",
+  "skeleton tracking",
+  "mmpose",
+  "openpose",
+  "computer vision",
+  "fall detection",
+  "fitness ai",
+  "deep learning",
+  "tech explained",
+  "shorts"
+ ],
+ "voice": "am_michael",
+ "speed": 1.1,
+ "lineGap": 0.25,
+ "captions": true,
+ "endCard": "📘 more to learn → github.com/HemashreeVI",
+ "thumbnail": "skeleton@5",
+ "endHold": 0.3,
+ "pronounce": {
+  "AI": "A I",
+  "MMPose": "M M pose"
+ },
+ "scenes": [
+  {
+   "id": "hook",
+   "pad": [
+    0.3,
+    0.5
+   ],
+   "lines": [
+    "Your phone can see your skeleton. Every elbow, knee and wrist, live, from a normal camera.",
+    "That's pose estimation."
+   ]
+  },
+  {
+   "id": "points",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "It looks for seventeen key points: nose, eyes, shoulders, elbows, wrists, hips, knees and ankles."
+   ]
+  },
+  {
+   "id": "heatmap",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "For each joint, the model paints a heatmap: a glow showing where that joint probably is. The brightest spot wins."
+   ]
+  },
+  {
+   "id": "skeleton",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "Connect the joints in the right order, and you get a skeleton that moves with the person, frame by frame."
+   ]
+  },
+  {
+   "id": "uses",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "Fitness apps check your squat form. Games capture motion. And in healthcare, it can spot a fall the moment it happens."
+   ]
+  },
+  {
+   "id": "outro",
+   "pad": [
+    0.3,
+    2.4
+   ],
+   "lines": [
+    "Find the joints. Connect them. Track every move."
+   ]
+  }
+ ]
+}

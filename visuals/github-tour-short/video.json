@@ -1,0 +1,100 @@
+{
+ "title": "POV: You're on My GitHub 👀 10 Projects, Full Code #shorts",
+ "slug": "github-tour-short",
+ "description": "Every project on my GitHub comes with the full source code: a booking system that never double-books, a system that fixes outages by itself, an on-device AI inbox, a GitHub-to-website tool, dental X-ray AI, a smart walker and more. There's even a chess game inside the README.\n\n💻 Get the code: https://github.com/HemashreeVI\n\n#GitHub #Coding #Programming #SoftwareEngineer #Projects #OpenSource #shorts",
+ "tags": [
+  "github profile",
+  "github readme",
+  "github portfolio",
+  "coding projects",
+  "projects with source code",
+  "software engineer",
+  "java projects",
+  "python projects",
+  "ai projects",
+  "open source",
+  "programming",
+  "shorts"
+ ],
+ "voice": "af_heart",
+ "speed": 1.0,
+ "lineGap": 0.35,
+ "captions": true,
+ "endCard": "",
+ "endHold": 0.5,
+ "pronounce": {
+  "HemashreeVI": "Hemashree V I",
+  "github.com/HemashreeVI": "github dot com slash Hemashree V I",
+  "VIT": "V I T",
+  "README": "read me",
+  "SuperAI": "Super A I",
+  "NUS": "N U S",
+  "GitHub": "GitHub",
+  "GitLoom": "Git Loom",
+  "RootLens": "Root Lens",
+  "TriageIQ": "Triage I Q",
+  "SeatLock": "Seat Lock",
+  "AI": "A I",
+  "DevOps": "Dev Ops",
+  "X-ray": "X ray"
+ },
+ "scenes": [
+  {
+   "id": "intro",
+   "title": "intro",
+   "pad": [
+    0.8,
+    0.8
+   ],
+   "lines": [
+    "POV: you just landed on my GitHub.",
+    "Every project here comes with the full code."
+   ]
+  },
+  {
+   "id": "work1",
+   "title": "work1",
+   "pad": [
+    0.3,
+    0.6
+   ],
+   "lines": [
+    "Dental X-ray AI. A booking system that never sells a seat twice. A system that fixes outages by itself."
+   ]
+  },
+  {
+   "id": "work2",
+   "title": "work2",
+   "pad": [
+    0.3,
+    0.6
+   ],
+   "lines": [
+    "An AI inbox that runs on a laptop. A tool that turns your GitHub into a website. A smart walker, and a robot rover."
+   ]
+  },
+  {
+   "id": "toolkit",
+   "title": "toolkit",
+   "pad": [
+    0.3,
+    0.6
+   ],
+   "lines": [
+    "Plus my full toolkit, and a chess game you can play inside the README."
+   ]
+  },
+  {
+   "id": "outro",
+   "title": "outro",
+   "pad": [
+    0.3,
+    2.0
+   ],
+   "lines": [
+    "It's all free. Grab the code at github.com/HemashreeVI."
+   ]
+  }
+ ],
+ "format": "vertical"
+}

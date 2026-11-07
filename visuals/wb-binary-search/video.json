@@ -1,0 +1,95 @@
+{
+ "title": "Binary Search: Find 1 Person in 8 Billion in 33 Guesses 🔍 (Java) | DSA #3 #shorts",
+ "slug": "wb-binary-search",
+ "format": "vertical",
+ "description": "Binary search finds an item in a sorted list by always checking the middle. If the target is bigger, throw away the left half; if it's smaller, throw away the right half. Every guess halves what's left, so even 8 billion sorted names need at most 33 guesses (2³³ is about 8.6 billion). That's O(log n) time, and it only works when the data is sorted.\n\n📘 More to learn + my projects: https://github.com/HemashreeVI\n\n#DSA #Java #BinarySearch #CodingInterview #LeetCode #Algorithms #shorts",
+ "tags": [
+  "binary search",
+  "binary search explained",
+  "binary search java",
+  "dsa",
+  "o(log n)",
+  "coding interview",
+  "leetcode",
+  "algorithms",
+  "data structures and algorithms",
+  "dsa in java",
+  "searching algorithm",
+  "shorts"
+ ],
+ "voice": "af_heart",
+ "speed": 1.0,
+ "lineGap": 0.3,
+ "captions": true,
+ "endCard": "",
+ "thumbnail": "halve@4",
+ "endHold": 0.3,
+ "pronounce": {
+  "O(log n)": "O of log n",
+  "DSA": "D S A",
+  "2³³": "two to the thirty three"
+ },
+ "scenes": [
+  {
+   "id": "hook",
+   "pad": [
+    0.3,
+    0.5
+   ],
+   "lines": [
+    "Imagine a sorted list of everyone on Earth. Eight billion names. You can find anyone in thirty three guesses.",
+    "That's binary search."
+   ]
+  },
+  {
+   "id": "middle",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "Don't start at the top. Open the list right in the middle, and compare."
+   ]
+  },
+  {
+   "id": "halve",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "Is your name after the middle? Throw away the whole first half. Before it? Throw away the second half."
+   ]
+  },
+  {
+   "id": "count",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "Every guess cuts the list in half. Eight billion, four billion, two billion. After thirty three halvings, one name is left."
+   ]
+  },
+  {
+   "id": "code",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "In Java, it's a loop with two indexes, low and high, moving toward each other. That's O(log n), but only on sorted data."
+   ]
+  },
+  {
+   "id": "outro",
+   "pad": [
+    0.3,
+    1.6
+   ],
+   "lines": [
+    "Check the middle. Halve it. Repeat."
+   ]
+  }
+ ]
+}

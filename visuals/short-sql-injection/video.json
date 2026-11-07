@@ -1,0 +1,95 @@
+{
+ "title": "How SQL Injection Works: Hacking a Login Box in 60 Seconds 💉 #shorts",
+ "slug": "short-sql-injection",
+ "format": "vertical",
+ "description": "SQL injection happens when an app glues user input straight into a database query. Type ' OR '1'='1 into a login box and the WHERE clause becomes always true, so the attacker logs in without a password. The fix is simple: parameterized queries keep data and code separate, so input is never run as SQL.\n\n📘 More to learn + my projects: https://github.com/HemashreeVI\n\n#CyberSecurity #SQLInjection #WebSecurity #InfoSec #Programming #TechExplained #shorts",
+ "tags": [
+  "sql injection",
+  "how sql injection works",
+  "sql injection explained",
+  "web security",
+  "owasp top 10",
+  "parameterized queries",
+  "prepared statements",
+  "login bypass",
+  "database security",
+  "ethical hacking",
+  "cyber security",
+  "tech explained",
+  "shorts"
+ ],
+ "voice": "am_michael",
+ "speed": 1.1,
+ "lineGap": 0.25,
+ "captions": true,
+ "endCard": "📘 more to learn → github.com/HemashreeVI",
+ "thumbnail": "inject@5",
+ "endHold": 0.3,
+ "pronounce": {
+  "SQL": "sequel",
+  "OR": "or"
+ },
+ "scenes": [
+  {
+   "id": "hook",
+   "pad": [
+    0.3,
+    0.5
+   ],
+   "lines": [
+    "You can log into some websites without a password. Just by typing a few strange characters.",
+    "This is SQL injection."
+   ]
+  },
+  {
+   "id": "query",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "Behind the login box, the app builds a database query by gluing your username and password straight into the text."
+   ]
+  },
+  {
+   "id": "inject",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "Now type this as the password: quote, OR, one equals one. The query becomes: password is blank, or one equals one."
+   ]
+  },
+  {
+   "id": "bypass",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "One equals one is always true. So the database returns a user, and the attacker is in, with no password at all."
+   ]
+  },
+  {
+   "id": "fix",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "The fix: parameterized queries. The query and your input travel separately, so input is only ever data, never code."
+   ]
+  },
+  {
+   "id": "outro",
+   "pad": [
+    0.3,
+    2.4
+   ],
+   "lines": [
+    "Never glue input into SQL. Keep data and code apart."
+   ]
+  }
+ ]
+}

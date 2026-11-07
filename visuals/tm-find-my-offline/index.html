@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Find My offline Short</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{--ink:#eef2f6;--mut:#94a3b8;--acc:#a855f7;--acc2:#e9d5ff;--grn:#34d399;--red:#f87171;--yel:#fbbf24;--pk:#f472b6;--cy:#22d3ee}
+  #fv-stage{background:radial-gradient(1000px 1300px at 70% 12%,#2b1458 0%,#140b2e 52%,#08061a 82%);color:var(--ink);font-family:Inter,system-ui,sans-serif}
+  #bg-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(192,132,252,.12) 1px,transparent 1px),linear-gradient(90deg,rgba(192,132,252,.12) 1px,transparent 1px);background-size:90px 90px;opacity:.22}
+  .abs{position:absolute}
+  .step{position:absolute;left:0;right:0;top:250px;text-align:center;font:700 34px/1 'JetBrains Mono',monospace;letter-spacing:.2em;color:var(--acc2)}
+  .head{position:absolute;left:60px;right:60px;top:305px;text-align:center;font:800 84px/1.05 Inter;letter-spacing:-.03em}
+  .mono{font-family:'JetBrains Mono',monospace}
+  .badge{position:absolute;left:50%;top:150px;transform:translateX(-50%);padding:12px 26px;border-radius:40px;background:color-mix(in srgb,var(--acc) 12%,transparent);border:2px solid color-mix(in srgb,var(--acc) 55%,transparent);font:700 30px Inter;color:var(--acc2);white-space:nowrap}
+  .pill{display:inline-block;padding:12px 26px;border-radius:40px;font:800 32px Inter}
+  .pane{position:absolute;left:120px;width:840px;height:765px;border-radius:26px;overflow:hidden;border:3px solid color-mix(in srgb,var(--acc) 45%,transparent);background:rgba(8,8,16,.75)}
+  .pane svg{position:absolute;inset:0;width:840px;height:765px}
+  .below{position:absolute;left:0;right:0;top:1225px;text-align:center}
+  .big{font:900 120px/1 Inter;letter-spacing:-.04em;color:#fff}
+  .card{border-radius:22px;padding:26px 30px;background:rgba(255,255,255,.05);border:2px solid rgba(255,255,255,.14)}
+  .fv-endcard{display:inline-block;padding:16px 30px;border-radius:40px;font:700 34px 'JetBrains Mono',monospace;border:3px solid #eef2f6;background:rgba(238,242,246,.08)}
+</style>
+</head>
+<body>
+<div id="fv-stage">
+  <div id="bg-grid"></div>
+  <div class="badge">🕵️ Tech Mysteries</div>
+<section class="fv-scene" data-scene="hook"><div class="pane" id="hk-p" style="top:300px"></div><div id="hk-q" class="abs" style="left:0;right:0;top:1110px;text-align:center"><div class="big" style="font-size:110px">How? 🤔</div></div></section>
+<section class="fv-scene" data-scene="reserve"><div class="step">STEP 1</div><div class="head">"Off" isn't fully off</div><div class="pane" id="rs-p" style="top:430px"></div><div class="below" id="rs-t"></div></section>
+<section class="fv-scene" data-scene="beacon"><div class="step">STEP 2</div><div class="head">A tiny Bluetooth beacon</div><div class="pane" id="bc-p" style="top:430px"></div><div class="below" id="bc-t"></div></section>
+<section class="fv-scene" data-scene="crowd"><div class="step">STEP 3</div><div class="head">Strangers relay it</div><div class="pane" id="cr-p" style="top:430px"></div><div class="below" id="cr-t"></div></section>
+<section class="fv-scene" data-scene="private"><div class="step">STEP 4</div><div class="head">Only you can see it</div><div class="pane" id="pv-p" style="top:430px"></div><div class="below" id="pv-t"></div></section>
+<section class="fv-scene" data-scene="outro"><div id="oc-w" class="abs" style="left:40px;right:40px;top:620px;display:grid;justify-items:center;gap:22px"></div></section>
+</div>
+<script src="timing.js"></script>
+<script src="fv-runtime.js"></script>
+<script>
+(() => {
+const { seg, css, enter, lerp, clamp, ease, pulse, $ } = FV;
+const NS = 'http://www.w3.org/2000/svg';
+const svgEl = (tag, attrs, parent) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; };
+const txt = (s, x, y, str, o = {}) => { const e = svgEl('text', Object.assign({ x, y, fill: '#eef2f6', 'font-size': 30, 'font-weight': 700, 'font-family': 'Inter', 'text-anchor': 'middle' }, o), s); e.textContent = str; return e; };
+const div = (cls, html, parent, style) => { const e = document.createElement('div'); if (cls) e.className = cls; if (html !== undefined) e.innerHTML = html; if (style) e.style.cssText = style; if (parent) parent.appendChild(e); return e; };
+const pop = (el, t, a, d = 0.45) => { const p = seg(t, a, a + d, ease.back); css(el, { o: clamp(p * 1.5), s: Math.max(0, p) }); return p; };
+const head = (el, t) => { const s = el.querySelector('.step'), h = el.querySelector('.head'); if (s) enter(s, t, 0.0, 0.4); if (h) enter(h, t, 0.08, 0.45, 30); };
+const frac = (ctx, i, f) => ctx.line(i) + (ctx.lineEnd(i) - ctx.line(i)) * f;
+const pill = (t, c) => `<span class="pill" style="border:3px solid ${c};background:${c}1a;color:${c}">${t}</span>`;
+const show = (el, html) => { if (el.__h !== html) { el.innerHTML = html; el.__h = html; } };
+
+function flowPane(host) { return svgEl('svg', { viewBox: '0 0 840 765' }, host); }
+function node(s, x, y, w, h, title, sub, c) {
+  const g = svgEl('g', { opacity: 0 }, s);
+  const r = svgEl('rect', { x: x - w / 2, y: y - h / 2, width: w, height: h, rx: 18, fill: '#0f172a', stroke: c, 'stroke-width': 4 }, g);
+  txt(g, x, y + (sub ? -4 : 10), title, { 'font-size': 30, 'font-weight': 800, fill: '#f1f5f9' });
+  if (sub) txt(g, x, y + 30, sub, { 'font-size': 22, fill: '#94a3b8', 'font-family': 'JetBrains Mono' });
+  return { g, r, x, y, w, h, c };
+}
+function link(s, a, b, c = '#64748b') { return svgEl('line', { x1: a.x, y1: a.y, x2: b.x, y2: b.y, stroke: c, 'stroke-width': 4, 'stroke-dasharray': '10 10', opacity: 0 }, s); }
+function packet(s, label, c) {
+  const g = svgEl('g', { opacity: 0 }, s);
+  const w = Math.max(90, label.length * 15 + 34);
+  svgEl('rect', { x: -w / 2, y: -24, width: w, height: 48, rx: 24, fill: c }, g);
+  txt(g, 0, 9, label, { 'font-size': 24, 'font-weight': 800, fill: '#0b1020', 'font-family': 'JetBrains Mono' });
+  return g;
+}
+function move(p, a, b, u) { if (u <= 0 || u >= 1) { p.setAttribute('opacity', 0); return; } p.setAttribute('opacity', 1); p.setAttribute('transform', `translate(${lerp(a.x, b.x, ease.inOut(u))} ${lerp(a.y, b.y, ease.inOut(u))})`); }
+
+/* phone(s, cx, cy, k): returns { g, screen } where screen is a group in local coords 0..200 x 0..380 */
+function phone(s, cx, cy, k = 1, o = {}) {
+  const g = svgEl('g', { transform: `translate(${cx - 110 * k} ${cy - 205 * k}) scale(${k})` }, s);
+  svgEl('rect', { x: 0, y: 0, width: 220, height: 410, rx: 34, fill: '#0b0b14', stroke: o.c || '#c4b5fd', 'stroke-width': 5 / k * k }, g);
+  svgEl('rect', { x: 12, y: 14, width: 196, height: 382, rx: 24, fill: o.screen || '#17142b' }, g);
+  svgEl('rect', { x: 80, y: 22, width: 60, height: 12, rx: 6, fill: '#0b0b14' }, g);
+  const screen = svgEl('g', { transform: 'translate(12 14)' }, g);
+  return { g, screen };
+}
+const ring = (s, cx, cy, c, t, speed = 1, n = 3, max = 160) => { const g = svgEl('g', {}, s); const R = Array.from({ length: n }, () => svgEl('circle', { cx, cy, r: 0, fill: 'none', stroke: c, 'stroke-width': 4 }, g));
+  return (t, on = 1) => R.forEach((r, i) => { const u = ((t * speed + i / n) % 1); r.setAttribute('r', 20 + u * max); r.setAttribute('opacity', on * (1 - u)); }); };
+
+/* a dark city map */
+function city(s) {
+  svgEl('rect', { x: 0, y: 0, width: 840, height: 765, fill: '#100c22' }, s);
+  for (let i = 0; i < 7; i++) svgEl('rect', { x: 0, y: 60 + i * 110, width: 840, height: 22, fill: '#231a45' }, s);
+  for (let i = 0; i < 6; i++) svgEl('rect', { x: 50 + i * 150, y: 0, width: 22, height: 765, fill: '#231a45' }, s);
+  svgEl('rect', { x: 330, y: 300, width: 200, height: 150, rx: 16, fill: '#16331f', opacity: .8 }, s);
+  txt(s, 430, 385, '🌳 park', { 'font-size': 26, fill: '#86efac' });
+}
+const offPhone = (s, x, y, k) => { const P1 = phone(s, x, y, k, { screen: '#000' }); txt(P1.screen, 98, 200, '⏻', { 'font-size': 60, fill: '#334155' }); return P1; };
+/* HOOK: map, pin pulses at the switched-off phone */
+{
+  const s = flowPane($('#hk-p')); city(s); const P1 = offPhone(s, 430, 380, 0.42);
+  const r = ring(s, 430, 380, '#f0abfc', 0, 0.7, 3, 150);
+  const pin = txt(s, 430, 250, '📍', { 'font-size': 80, opacity: 0 });
+  const lab = svgEl('g', { opacity: 0 }, s); svgEl('rect', { x: 270, y: 560, width: 320, height: 60, rx: 30, fill: '#000', stroke: '#f0abfc', 'stroke-width': 3 }, lab); txt(lab, 430, 600, '📱 phone · OFF', { 'font-size': 28, 'font-weight': 800 });
+  FV.scene('hook', (t, ctx) => {
+    enter($('#hk-p'), t, 0.05, 0.4, 20); lab.setAttribute('opacity', seg(t, 0.6, 1.0));
+    const p = seg(t, frac(ctx, 0, 0.45), frac(ctx, 0, 0.6), ease.back); pin.setAttribute('opacity', clamp(p * 1.5)); pin.setAttribute('transform', `translate(0 ${-(1 - p) * 60})`);
+    r(t, seg(t, frac(ctx, 0, 0.5), frac(ctx, 0, 0.6)));
+    pop($('#hk-q'), t, ctx.line(1) - 0.1, 0.5);
+  });
+}
+/* RESERVE: battery drains, a reserve slice stays lit */
+{
+  const s = flowPane($('#rs-p'));
+  svgEl('rect', { x: 150, y: 260, width: 500, height: 220, rx: 30, fill: 'none', stroke: '#e9d5ff', 'stroke-width': 10 }, s); svgEl('rect', { x: 655, y: 330, width: 34, height: 80, rx: 10, fill: '#e9d5ff' }, s);
+  const cells = Array.from({ length: 10 }, (_, i) => svgEl('rect', { x: 172 + i * 47, y: 282, width: 39, height: 176, rx: 8, fill: '#22c55e' }, s));
+  const lab = txt(s, 196, 560, '', { 'font-size': 32, 'font-weight': 800, fill: '#f0abfc', 'text-anchor': 'start' });
+  const pct = txt(s, 400, 200, '', { 'font-size': 64, 'font-weight': 900, 'font-family': 'JetBrains Mono' });
+  const arrow = svgEl('path', { d: 'M 196 540 L 196 490', stroke: '#f0abfc', 'stroke-width': 5, opacity: 0 }, s);
+  const bt = txt(s, 196, 650, '', { 'font-size': 32, fill: '#93c5fd', 'text-anchor': 'start' });
+  FV.scene('reserve', (t, ctx) => {
+    head(ctx.el, t); enter($('#rs-p'), t, 0.1, 0.4, 20);
+    const u = seg(t, frac(ctx, 0, 0.1), frac(ctx, 0, 0.45), ease.inOut), n = Math.round(10 - u * 9);
+    cells.forEach((c, i) => { c.setAttribute('opacity', i < n ? 1 : 0.08); c.setAttribute('fill', i === 0 && u > 0.9 ? '#f0abfc' : n <= 2 ? '#f59e0b' : '#22c55e'); });
+    pct.textContent = u < 1 ? `${Math.round(100 - u * 100)}%` : 'phone: OFF ⏻';
+    const r = seg(t, frac(ctx, 0, 0.5), frac(ctx, 0, 0.62)); arrow.setAttribute('opacity', r); lab.textContent = r > 0 ? 'kept in reserve' : '';
+    bt.textContent = t > frac(ctx, 0, 0.75) ? '→ powers Bluetooth for hours ᛒ' : '';
+    show($('#rs-t'), pill('on many newer phones', '#c4b5fd')); $('#rs-t').style.opacity = seg(t, 0.4, 0.7);
+  });
+}
+/* BEACON: rings + coded IDs floating out */
+{
+  const s = flowPane($('#bc-p')); const P1 = offPhone(s, 420, 400, 0.75);
+  const r = ring(s, 420, 400, '#93c5fd', 0, 0.9, 4, 330);
+  const codes = ['a7f3·9c', '1e0d·b2', 'f94a·07', '3c8e·5d', '0b72·e1', 'd5a9·4f'];
+  const C = codes.map((c, i) => txt(s, 0, 0, c, { 'font-size': 26, 'font-family': 'JetBrains Mono', fill: '#bfdbfe' }));
+  FV.scene('beacon', (t, ctx) => {
+    head(ctx.el, t); enter($('#bc-p'), t, 0.1, 0.4, 20); r(t, 1);
+    C.forEach((c, i) => { const a = i / C.length * 6.283 + 0.4, u = ((t * 0.35 + i / C.length) % 1); c.setAttribute('x', 420 + Math.cos(a) * (120 + u * 260)); c.setAttribute('y', 410 + Math.sin(a) * (110 + u * 240)); c.setAttribute('opacity', (1 - u) * seg(t, 0.4, 1)); });
+    show($('#bc-t'), pill('a coded ID that keeps changing', '#93c5fd')); $('#bc-t').style.opacity = seg(t, 0.4, 0.7);
+  });
+}
+/* CROWD: strangers walk the street, the one in range relays an encrypted location to the cloud */
+{
+  const s = flowPane($('#cr-p')); city(s); const LP = { x: 300, y: 413 }; offPhone(s, LP.x, LP.y - 30, 0.25);
+  const r = ring(s, LP.x, LP.y, '#93c5fd', 0, 0.9, 3, 110);
+  const cloud = txt(s, 700, 120, '☁️', { 'font-size': 100 }); txt(s, 700, 160, 'cloud', { 'font-size': 24, fill: '#c4b5fd' });
+  const W = [{ y: 413, s: 0.12, o: 0.0 }, { y: 633, s: 0.09, o: 0.5 }, { y: 193, s: 0.1, o: 0.3 }];
+  const ppl = W.map(() => { const g = svgEl('g', {}, s); txt(g, 0, 0, '🚶', { 'font-size': 46 }); const ph = svgEl('rect', { x: 18, y: -38, width: 16, height: 26, rx: 4, fill: '#a855f7' }, g); return { g, ph }; });
+  const pkt = packet(s, '🔒 location', '#f0abfc');
+  const pin = txt(s, LP.x, LP.y - 80, '📍', { 'font-size': 64, opacity: 0 });
+  FV.scene('crowd', (t, ctx) => {
+    head(ctx.el, t); enter($('#cr-p'), t, 0.1, 0.4, 20); r(t, 1);
+    const walk = seg(t, 0.2, ctx.dur, ease.linear);
+    ppl.forEach((p, i) => { const x = i === 0 ? lerp(-40, 880, walk) : -60 + ((t * W[i].s * 840 / 1 + W[i].o * 840) % 960); p.g.setAttribute('transform', `translate(${x} ${W[i].y + 18})`);
+      const near = Math.abs(x - LP.x) < 90 && i === 0; p.ph.setAttribute('fill', near ? '#22c55e' : '#a855f7'); });
+    const x0 = lerp(-40, 880, walk), hitT = 0.2 + ((LP.x + 40) / 920) * (ctx.dur - 0.2);
+    move(pkt, { x: LP.x + 20, y: LP.y - 20 }, { x: 700, y: 110 }, (t - hitT) / 1.6);
+    const p = seg(t, hitT + 1.6, hitT + 2.0, ease.back); pin.setAttribute('opacity', clamp(p * 1.5));
+    show($('#cr-t'), pill("the stranger never knows", '#f0abfc')); $('#cr-t').style.opacity = seg(t, frac(ctx, 0, 0.6), frac(ctx, 0, 0.75));
+  });
+}
+/* PRIVATE: three viewers, only your key opens it */
+{
+  const host = $('#pv-p');
+  const V = [['🚶', 'the stranger', '???', '#94a3b8'], ['🏢', 'the company', '🔒 x9#Fq2!kP@7', '#94a3b8'], ['🔑', 'you', '📍 park bench, 2 min ago', '#34d399']];
+  host.innerHTML = '<div class="l" style="position:absolute;inset:40px 34px;display:grid;gap:26px"></div>';
+  const rows = V.map(([e, who, sees, c]) => div('card', `<div style="display:flex;align-items:center;gap:22px"><div style="font-size:66px">${e}</div><div style="flex:1"><div style="font:700 28px Inter;color:#c4b5fd">${who} ${who === 'you' ? 'see' : 'sees'}</div><div class="mono" style="font:800 34px 'JetBrains Mono';color:${c};margin-top:6px">${sees}</div></div></div>`, host.querySelector('.l'), `border-color:${c}88`));
+  FV.scene('private', (t, ctx) => {
+    head(ctx.el, t); enter(host, t, 0.1, 0.4, 20);
+    rows.forEach((r, i) => enter(r, t, frac(ctx, 0, [0.5, 0.65, 0.05][i]), 0.45, 30));
+    show($('#pv-t'), pill('end-to-end encrypted', '#34d399')); $('#pv-t').style.opacity = seg(t, frac(ctx, 0, 0.8), frac(ctx, 0, 0.9));
+  });
+}
+/* OUTRO */
+{
+  const Wd = [['Millions of phones,', '#e9d5ff', 0], ['quietly finding yours. 📍', '#f0abfc', 0.4]];
+  const w = Wd.map(([s, c]) => div('', s, $('#oc-w'), `font:900 90px/1.06 Inter;letter-spacing:-.03em;color:${c};text-align:center`));
+  FV.scene('outro', (t, ctx) => w.forEach((e, i) => pop(e, t, frac(ctx, 0, Wd[i][2]), 0.45)));
+}
+
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,98 @@
+{
+ "title": "Can Teachers Really Detect ChatGPT? The Truth About AI Detectors 🤖 #shorts",
+ "slug": "rl-ai-detectors",
+ "format": "vertical",
+ "description": "AI detectors don't know who wrote your essay. They estimate how predictable your words are (perplexity) and how much your sentence lengths vary (burstiness), then guess. That's why they make mistakes: clear, simple writing can look like AI, and a Stanford study found detectors flagged essays by non-native English writers far more often. OpenAI even shut down its own AI text classifier in 2023 because of its low accuracy. A detector score is a guess, not proof, so keep your drafts and version history.\n\n📘 More to learn + my projects: https://github.com/HemashreeVI\n\n#ChatGPT #AIDetector #Students #AI #Education #TechExplained #shorts",
+ "tags": [
+  "ai detector",
+  "can teachers detect chatgpt",
+  "chatgpt detector",
+  "turnitin ai",
+  "gptzero",
+  "ai writing detection",
+  "perplexity",
+  "burstiness",
+  "false positive",
+  "students",
+  "chatgpt",
+  "tech explained",
+  "shorts"
+ ],
+ "voice": "af_heart",
+ "speed": 1.0,
+ "lineGap": 0.3,
+ "captions": true,
+ "endCard": "",
+ "thumbnail": "hook@4",
+ "endHold": 0.3,
+ "pronounce": {
+  "AI": "A I",
+  "ChatGPT": "Chat G P T",
+  "OpenAI": "Open A I",
+  "92%": "ninety two percent"
+ },
+ "scenes": [
+  {
+   "id": "hook",
+   "pad": [
+    0.3,
+    0.5
+   ],
+   "lines": [
+    "Your essay goes through an AI detector. It says ninety two percent AI. But you wrote every single word.",
+    "So can they really tell?"
+   ]
+  },
+  {
+   "id": "how",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "Detectors don't actually know who wrote it. They measure how predictable your words are."
+   ]
+  },
+  {
+   "id": "perplexity",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "AI picks the most likely next word, so its writing is smooth and predictable. If your sentences are predictable too, the detector gets suspicious."
+   ]
+  },
+  {
+   "id": "burst",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "They also check burstiness. Humans mix long and short sentences. AI tends to keep them even."
+   ]
+  },
+  {
+   "id": "fail",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "That's why they fail. Clear, simple writing can look like AI. One study found non-native English writers were flagged far more often. Even OpenAI shut down its own detector for low accuracy."
+   ]
+  },
+  {
+   "id": "outro",
+   "pad": [
+    0.3,
+    1.6
+   ],
+   "lines": [
+    "A detector score is a guess, not proof.",
+    "Save your drafts. They're your best evidence."
+   ]
+  }
+ ]
+}

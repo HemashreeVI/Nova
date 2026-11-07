@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DNS Short</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{--ink:#eef2f6;--mut:#94a3b8;--acc:#fb923c;--acc2:#fdba74;--grn:#34d399;--red:#f87171;--yel:#fbbf24;--pk:#f472b6;--cy:#22d3ee}
+  #fv-stage{background:radial-gradient(1000px 1300px at 70% 15%,#3a1f12 0%,#1a1220 50%,#0a0a12 80%);color:var(--ink);font-family:Inter,system-ui,sans-serif}
+  #bg-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(251,146,60,.11) 1px,transparent 1px),linear-gradient(90deg,rgba(251,146,60,.11) 1px,transparent 1px);background-size:90px 90px;opacity:.22}
+  .abs{position:absolute}
+  .step{position:absolute;left:0;right:0;top:250px;text-align:center;font:700 34px/1 'JetBrains Mono',monospace;letter-spacing:.2em;color:var(--acc2)}
+  .head{position:absolute;left:60px;right:60px;top:305px;text-align:center;font:800 84px/1.05 Inter;letter-spacing:-.03em}
+  .mono{font-family:'JetBrains Mono',monospace}
+  .badge{position:absolute;left:50%;top:150px;transform:translateX(-50%);padding:12px 26px;border-radius:40px;background:color-mix(in srgb,var(--acc) 12%,transparent);border:2px solid color-mix(in srgb,var(--acc) 55%,transparent);font:700 30px Inter;color:var(--acc2);white-space:nowrap}
+  .pill{display:inline-block;padding:12px 26px;border-radius:40px;font:800 32px Inter}
+  .pane{position:absolute;left:120px;width:840px;height:765px;border-radius:26px;overflow:hidden;border:3px solid color-mix(in srgb,var(--acc) 45%,transparent);background:rgba(8,8,16,.75)}
+  .pane svg{position:absolute;inset:0;width:840px;height:765px}
+  .below{position:absolute;left:0;right:0;top:1225px;text-align:center}
+  .big{font:900 120px/1 Inter;letter-spacing:-.04em;color:#fff}
+  .card{border-radius:22px;padding:26px 30px;background:rgba(255,255,255,.05);border:2px solid rgba(255,255,255,.14)}
+  .fv-endcard{display:inline-block;padding:16px 30px;border-radius:40px;font:700 34px 'JetBrains Mono',monospace;border:3px solid #eef2f6;background:rgba(238,242,246,.08)}
+</style>
+</head>
+<body>
+<div id="fv-stage">
+  <div id="bg-grid"></div>
+  <div class="badge">⚙️ Backend · Tech, decoded</div>
+<section class="fv-scene" data-scene="hook"><div class="pane" id="hk-p" style="top:300px"></div><div id="hk-q" class="abs" style="left:0;right:0;top:1110px;text-align:center"><div class="big" style="font-size:96px">Who <span style="color:var(--acc2)">translates?</span></div></div></section>
+<section class="fv-scene" data-scene="book"><div class="step">THE ANSWER</div><div class="head">🌐 DNS</div><div class="pane" id="bk-p" style="top:430px"></div><div class="below" id="bk-t"></div></section>
+<section class="fv-scene" data-scene="cache"><div class="step">STEP 1</div><div class="head">Check the cache</div><div class="pane" id="ca-p" style="top:430px"></div><div class="below" id="ca-t"></div></section>
+<section class="fv-scene" data-scene="ask"><div class="step">STEP 2</div><div class="head">Ask around</div><div class="pane" id="as-p" style="top:430px"></div><div class="below" id="as-t"></div></section>
+<section class="fv-scene" data-scene="connect"><div class="step">STEP 3</div><div class="head">Save it and connect</div><div class="pane" id="co-p" style="top:430px"></div><div class="below" id="co-t"></div></section>
+<section class="fv-scene" data-scene="outro"><div id="oc-w" class="abs" style="left:40px;right:40px;top:640px;display:grid;justify-items:center;gap:22px"></div></section>
+</div>
+<script src="timing.js"></script>
+<script src="fv-runtime.js"></script>
+<script>
+(() => {
+const { seg, css, enter, lerp, clamp, ease, pulse, $ } = FV;
+const NS = 'http://www.w3.org/2000/svg';
+const svgEl = (tag, attrs, parent) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; };
+const txt = (s, x, y, str, o = {}) => { const e = svgEl('text', Object.assign({ x, y, fill: '#eef2f6', 'font-size': 30, 'font-weight': 700, 'font-family': 'Inter', 'text-anchor': 'middle' }, o), s); e.textContent = str; return e; };
+const div = (cls, html, parent, style) => { const e = document.createElement('div'); if (cls) e.className = cls; if (html !== undefined) e.innerHTML = html; if (style) e.style.cssText = style; if (parent) parent.appendChild(e); return e; };
+const pop = (el, t, a, d = 0.45) => { const p = seg(t, a, a + d, ease.back); css(el, { o: clamp(p * 1.5), s: Math.max(0, p) }); return p; };
+const head = (el, t) => { const s = el.querySelector('.step'), h = el.querySelector('.head'); if (s) enter(s, t, 0.0, 0.4); if (h) enter(h, t, 0.08, 0.45, 30); };
+const frac = (ctx, i, f) => ctx.line(i) + (ctx.lineEnd(i) - ctx.line(i)) * f;
+const pill = (t, c) => `<span class="pill" style="border:3px solid ${c};background:${c}1a;color:${c}">${t}</span>`;
+const show = (el, html) => { if (el.__h !== html) { el.innerHTML = html; el.__h = html; } };
+
+function flowPane(host) { return svgEl('svg', { viewBox: '0 0 840 765' }, host); }
+function node(s, x, y, w, h, title, sub, c) {
+  const g = svgEl('g', { opacity: 0 }, s);
+  const r = svgEl('rect', { x: x - w / 2, y: y - h / 2, width: w, height: h, rx: 18, fill: '#0f172a', stroke: c, 'stroke-width': 4 }, g);
+  txt(g, x, y + (sub ? -4 : 10), title, { 'font-size': 30, 'font-weight': 800, fill: '#f1f5f9' });
+  if (sub) txt(g, x, y + 30, sub, { 'font-size': 22, fill: '#94a3b8', 'font-family': 'JetBrains Mono' });
+  return { g, r, x, y, w, h, c };
+}
+function link(s, a, b, c = '#64748b') { return svgEl('line', { x1: a.x, y1: a.y, x2: b.x, y2: b.y, stroke: c, 'stroke-width': 4, 'stroke-dasharray': '10 10', opacity: 0 }, s); }
+function packet(s, label, c) {
+  const g = svgEl('g', { opacity: 0 }, s);
+  const w = Math.max(90, label.length * 15 + 34);
+  svgEl('rect', { x: -w / 2, y: -24, width: w, height: 48, rx: 24, fill: c }, g);
+  txt(g, 0, 9, label, { 'font-size': 24, 'font-weight': 800, fill: '#0b1020', 'font-family': 'JetBrains Mono' });
+  return g;
+}
+function move(p, a, b, u) { if (u <= 0 || u >= 1) { p.setAttribute('opacity', 0); return; } p.setAttribute('opacity', 1); p.setAttribute('transform', `translate(${lerp(a.x, b.x, ease.inOut(u))} ${lerp(a.y, b.y, ease.inOut(u))})`); }
+
+const IP = '142.250.183.14';
+const bar = (host) => { host.innerHTML = `<div style="position:absolute;left:40px;right:40px;top:50px;padding:22px 28px;border-radius:40px;background:#f1f5f9;color:#0f172a;font:600 36px 'JetBrains Mono'"><span style="color:#64748b">🔍 </span><span class="u"></span><span style="color:#2563eb">▌</span></div>`; return host.querySelector('.u'); };
+/* HOOK */
+{
+  const host = $('#hk-p'), u = bar(host);
+  host.insertAdjacentHTML('beforeend', `<div style="position:absolute;left:0;right:0;top:250px;text-align:center"><div class="mono q1" style="font-size:58px;font-weight:800;color:#2dd4bf;opacity:0">google.com</div><div class="q2" style="font-size:70px;margin:20px 0;opacity:0">⬇️ ❓</div><div class="mono q3" style="font-size:58px;font-weight:800;color:#fb923c;opacity:0">${IP}</div><div class="q4" style="margin-top:14px;font:600 28px Inter;color:#94a3b8;opacity:0">what computers actually need</div></div>`);
+  FV.scene('hook', (t, ctx) => {
+    enter(host, t, 0.05, 0.4, 20);
+    u.textContent = 'google.com'.slice(0, Math.round(seg(t, 0.4, 1.6, ease.linear) * 10));
+    ['.q1', '.q2', '.q3', '.q4'].forEach((q, i) => host.querySelector(q).style.opacity = seg(t, frac(ctx, 0, 0.3 + i * 0.15), frac(ctx, 0, 0.4 + i * 0.15)));
+    pop($('#hk-q'), t, ctx.line(1) - 0.1, 0.5);
+  });
+}
+/* BOOK: phone book of names -> numbers */
+{
+  const host = $('#bk-p'); const R = [['google.com', IP], ['youtube.com', '142.250.67.206'], ['wikipedia.org', '103.102.166.224'], ['github.com', '20.207.73.82']];
+  host.innerHTML = `<div style="position:absolute;inset:0;padding:50px"><div style="font:800 34px Inter;color:#fb923c">📖 the internet's phone book</div><div class="rows" style="margin-top:34px;display:grid;gap:22px"></div></div>`;
+  const rows = R.map(([n, ip]) => div('', `<div style="display:flex;justify-content:space-between;padding:18px 24px;border-radius:14px;background:rgba(255,255,255,.05);font:600 30px 'JetBrains Mono'"><span style="color:#2dd4bf">${n}</span><span style="color:#fb923c">${ip}</span></div>`, host.querySelector('.rows')));
+  FV.scene('book', (t, ctx) => {
+    head(ctx.el, t); enter(host, t, 0.1, 0.4, 20); rows.forEach((r, i) => enter(r, t, frac(ctx, 0, 0.15 + i * 0.15), 0.4, 20));
+    show($('#bk-t'), pill('name → IP address', '#2dd4bf')); $('#bk-t').style.opacity = seg(t, 0.4, 0.7);
+  });
+}
+/* CACHE */
+{
+  const s = flowPane($('#ca-p'));
+  const B = node(s, 420, 200, 420, 120, '🖥️ your browser', 'cache: recent lookups', '#2dd4bf');
+  const mem = svgEl('g', { opacity: 0 }, s); svgEl('rect', { x: 170, y: 340, width: 500, height: 170, rx: 18, fill: '#0b1220', stroke: '#334155', 'stroke-width': 3 }, mem);
+  [['youtube.com', '142.250.67.206'], ['google.com', IP]].forEach(([n, ip], i) => txt(mem, 420, 400 + i * 60, `${n} → ${ip}`, { 'font-size': 26, 'font-family': 'JetBrains Mono', fill: i === 1 ? '#34d399' : '#94a3b8' }));
+  const hit = txt(s, 420, 610, '✓ found it · 1 ms', { 'font-size': 46, 'font-weight': 900, fill: '#34d399', opacity: 0 });
+  FV.scene('cache', (t, ctx) => {
+    head(ctx.el, t); enter($('#ca-p'), t, 0.1, 0.4, 20);
+    B.g.setAttribute('opacity', 1); mem.setAttribute('opacity', seg(t, frac(ctx, 0, 0.1), frac(ctx, 0, 0.3))); hit.setAttribute('opacity', seg(t, frac(ctx, 0, 0.55), frac(ctx, 0, 0.7)));
+    show($('#ca-t'), pill('visited recently? done.', '#34d399')); $('#ca-t').style.opacity = seg(t, 0.4, 0.7);
+  });
+}
+/* ASK: resolver -> root -> .com -> google NS */
+{
+  const s = flowPane($('#as-p'));
+  const R = node(s, 210, 380, 300, 120, '🧭 resolver', 'your ISP / 8.8.8.8', '#2dd4bf');
+  const N = [node(s, 640, 130, 300, 110, '🌍 root server', '"."', '#a78bfa'), node(s, 640, 380, 300, 110, '.com servers', 'top-level domain', '#fb923c'), node(s, 640, 630, 300, 110, "Google's server", 'ns1.google.com', '#34d399')];
+  const L = N.map((n) => link(s, R, n));
+  const msgs = [['go ask .com', '#a78bfa'], ['ask ns1.google', '#fb923c'], [IP, '#34d399']].map(([l, c]) => packet(s, l, c));
+  const q = packet(s, 'google.com?', '#e2e8f0');
+  FV.scene('ask', (t, ctx) => {
+    head(ctx.el, t); enter($('#as-p'), t, 0.1, 0.4, 20);
+    R.g.setAttribute('opacity', 1);
+    N.forEach((n, i) => { const a = frac(ctx, 0, 0.08 + i * 0.27); n.g.setAttribute('opacity', seg(t, a, a + 0.3)); L[i].setAttribute('opacity', seg(t, a, a + 0.3)); });
+    N.forEach((n, i) => { const a = frac(ctx, 0, 0.1 + i * 0.27), m = frac(ctx, 0, 0.21 + i * 0.27), e = frac(ctx, 0, 0.33 + i * 0.27);
+      move(q, R, n, t >= a && t < m ? (t - a) / (m - a) : (t < a ? 0 : (i === 2 ? 0 : 0)));
+      move(msgs[i], n, R, (t - m) / (e - m)); });
+    const done = t > frac(ctx, 0, 0.95);
+    show($('#as-t'), done ? pill(`✓ google.com = ${IP}`, '#34d399') : pill('each server points to the next', '#fb923c')); $('#as-t').style.opacity = seg(t, 0.4, 0.7);
+  });
+}
+/* CONNECT: cached, then the page loads */
+{
+  const host = $('#co-p');
+  host.innerHTML = `<div style="position:absolute;inset:0;padding:40px"><div style="display:flex;gap:16px;align-items:center;font:600 28px 'JetBrains Mono';color:#34d399" class="c1">💾 saved: google.com → ${IP}</div>
+    <div class="c2" style="margin-top:40px;border-radius:20px;overflow:hidden;background:#fff;color:#0f172a;opacity:0"><div style="background:#e2e8f0;padding:14px 20px;font:600 24px 'JetBrains Mono'">🔒 ${IP} · google.com</div>
+    <div style="padding:60px 0;text-align:center;font:800 78px Inter"><span style="color:#4285f4">G</span><span style="color:#ea4335">o</span><span style="color:#fbbc05">o</span><span style="color:#4285f4">g</span><span style="color:#34a853">l</span><span style="color:#ea4335">e</span></div>
+    <div style="margin:0 60px 60px;padding:18px;border-radius:30px;border:2px solid #cbd5e1;font:500 26px Inter;color:#64748b">Search</div></div></div>`;
+  FV.scene('connect', (t, ctx) => {
+    head(ctx.el, t); enter(host, t, 0.1, 0.4, 20);
+    host.querySelector('.c1').style.opacity = seg(t, frac(ctx, 0, 0.05), frac(ctx, 0, 0.25));
+    const c2 = host.querySelector('.c2'); c2.style.opacity = seg(t, frac(ctx, 0, 0.45), frac(ctx, 0, 0.65));
+    show($('#co-t'), pill('next time: instant', '#2dd4bf')); $('#co-t').style.opacity = seg(t, frac(ctx, 0, 0.7), frac(ctx, 0, 0.85));
+  });
+}
+/* OUTRO */
+{
+  const Wd = [['Name in,', '#2dd4bf', 0], ['number out.', '#fb923c', 0.25], ['Then the page loads.', '#f1f5f9', 0.55]];
+  const w = Wd.map(([s, c]) => div('', s, $('#oc-w'), `font:900 90px/1.05 Inter;letter-spacing:-.03em;color:${c};text-align:center`));
+  FV.scene('outro', (t, ctx) => w.forEach((e, i) => pop(e, t, frac(ctx, 0, Wd[i][2]), 0.4)));
+}
+
+})();
+</script>
+</body>
+</html>
