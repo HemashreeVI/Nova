@@ -35,7 +35,7 @@
 .glass{position:absolute;border-radius:26px;background:rgba(12,12,28,.74);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1.5px solid rgba(255,255,255,.18);box-shadow:0 20px 60px rgba(0,0,0,.45);color:#fff}
 .k{font:700 22px 'JetBrains Mono',monospace;letter-spacing:.14em;color:#f9a8d4}
 .ttl{position:absolute;left:60px;right:60px;text-align:center;font:900 90px/1.05 Inter;letter-spacing:-.03em;color:#fff;text-shadow:0 4px 30px rgba(0,0,0,.7)}
-.feed{position:absolute;left:0;top:0;width:270px;height:600px;overflow:hidden;border-radius:26px;background:#000;transform-origin:0 0}
+.feed{position:absolute;left:0;top:0;width:270px;height:600px;overflow:hidden;border-radius:30px;background:#000;transform-origin:0 0}
 .reel{position:absolute;left:0;width:270px;height:600px;display:grid;place-items:center}
 .reel .e{font-size:110px}.reel .cap{position:absolute;left:16px;right:60px;bottom:40px;font:700 17px Inter;color:#fff;text-shadow:0 2px 6px #000}
 .reel .ic{position:absolute;right:12px;bottom:40px;display:grid;gap:16px;font-size:26px;text-align:center}
@@ -64,7 +64,7 @@ const frac = (ctx, i, f) => ctx.line(i) + (ctx.lineEnd(i) - ctx.line(i)) * f;
 const pill = (t, c) => `<span class="pill" style="border:3px solid ${c};background:${c}1a;color:${c}">${t}</span>`;
 const show = (el, html) => { if (el.__h !== html) { el.innerHTML = html; el.__h = html; } };
 
-const Q = [[397.5, 740], [718.75, 727.5], [797.5, 1460], [462.5, 1495]];
+const Q = [[379, 767], [712, 729], [805, 1461], [460, 1495]];
 /* rect (w x h) -> quad homography as CSS matrix3d */
 function adj(m) { return [m[4]*m[8]-m[5]*m[7], m[2]*m[7]-m[1]*m[8], m[1]*m[5]-m[2]*m[4], m[5]*m[6]-m[3]*m[8], m[0]*m[8]-m[2]*m[6], m[2]*m[3]-m[0]*m[5], m[3]*m[7]-m[4]*m[6], m[1]*m[6]-m[0]*m[7], m[0]*m[4]-m[1]*m[3]]; }
 function mm(a, b) { const c = []; for (let i = 0; i < 3; i++) for (let j = 0; j < 3; j++) { let s = 0; for (let k = 0; k < 3; k++) s += a[3*i+k] * b[3*k+j]; c[3*i+j] = s; } return c; }
@@ -79,7 +79,7 @@ function feed(sec, keys) {
   const els = keys.map((k, i) => { const [e, bg, cap] = R[k]; const d = div('reel', `<div class="e">${e}</div><div class="cap">${cap}</div><div class="ic"><div>🤍</div><div>💬</div><div>↗️</div></div><div class="pb"></div>`, f, `top:${i * 600}px;background:${bg}`); return d; });
   return { f, els, at: (y) => els.forEach((e, i) => { e.style.top = (i * 600 - y) + 'px'; }) };
 }
-const kb = (sec, t, dur, from = 1.0, to = 1.06) => { sec.querySelector('.kbw').style.transform = `scale(${lerp(from, to, clamp(t / dur))})`; };
+const kb = (sec, t, dur, from = 1.0, to = 1.06) => { const up = sec.querySelector('.feed') ? -190 : 0; sec.querySelector('.kbw').style.transform = `translateY(${up}px) scale(${lerp(from, to, clamp(t / dur))})`; };
 const dim = (sec, v) => { sec.querySelector('.kbw img').style.filter = `brightness(${v})`; };
 const scrollTo = (F, t, stops) => { let y = 0; for (const [ts, idx] of stops) { const u = seg(t, ts, ts + 0.45, ease.inOut); y = lerp(y, idx * 600, u); } F.at(y); };
 /* HOOK */
