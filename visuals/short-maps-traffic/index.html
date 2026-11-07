@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Maps traffic Short</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{--ink:#eef2f6;--mut:#94a3b8;--acc:#06b6d4;--acc2:#67e8f9;--grn:#34d399;--red:#f87171;--yel:#fbbf24;--pk:#f472b6;--cy:#22d3ee}
+  #fv-stage{background:radial-gradient(1000px 1300px at 70% 15%,#073345 0%,#071825 50%,#040a12 80%);color:var(--ink);font-family:Inter,system-ui,sans-serif}
+  #bg-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(6,182,212,.12) 1px,transparent 1px),linear-gradient(90deg,rgba(6,182,212,.12) 1px,transparent 1px);background-size:90px 90px;opacity:.22}
+  .abs{position:absolute}
+  .step{position:absolute;left:0;right:0;top:250px;text-align:center;font:700 34px/1 'JetBrains Mono',monospace;letter-spacing:.2em;color:var(--acc2)}
+  .head{position:absolute;left:60px;right:60px;top:305px;text-align:center;font:800 84px/1.05 Inter;letter-spacing:-.03em}
+  .mono{font-family:'JetBrains Mono',monospace}
+  .badge{position:absolute;left:50%;top:150px;transform:translateX(-50%);padding:12px 26px;border-radius:40px;background:color-mix(in srgb,var(--acc) 12%,transparent);border:2px solid color-mix(in srgb,var(--acc) 55%,transparent);font:700 30px Inter;color:var(--acc2);white-space:nowrap}
+  .pill{display:inline-block;padding:12px 26px;border-radius:40px;font:800 32px Inter}
+  .pane{position:absolute;left:120px;width:840px;height:765px;border-radius:26px;overflow:hidden;border:3px solid color-mix(in srgb,var(--acc) 45%,transparent);background:rgba(8,8,16,.75)}
+  .pane svg{position:absolute;inset:0;width:840px;height:765px}
+  .below{position:absolute;left:0;right:0;top:1225px;text-align:center}
+  .big{font:900 120px/1 Inter;letter-spacing:-.04em;color:#fff}
+  .card{border-radius:22px;padding:26px 30px;background:rgba(255,255,255,.05);border:2px solid rgba(255,255,255,.14)}
+  .fv-endcard{display:inline-block;padding:16px 30px;border-radius:40px;font:700 34px 'JetBrains Mono',monospace;border:3px solid #eef2f6;background:rgba(238,242,246,.08)}
+</style>
+</head>
+<body>
+<div id="fv-stage">
+  <div id="bg-grid"></div>
+  <div class="badge">📍 Tech, decoded</div>
+<section class="fv-scene" data-scene="hook"><div class="pane" id="hk-p" style="top:300px"></div><div id="hk-q" class="abs" style="left:0;right:0;top:1110px;text-align:center"><div class="big" style="font-size:96px">🚦 How does it <span style="color:var(--acc2)">know?</span></div></div></section>
+<section class="fv-scene" data-scene="phones"><div class="step">THE SOURCE</div><div class="head">Phones on the road</div><div class="pane" id="ph-p" style="top:430px"></div><div class="below" id="ph-t"></div></section>
+<section class="fv-scene" data-scene="slow"><div class="step">LIVE</div><div class="head">Everyone slows down</div><div class="pane" id="sl-p" style="top:430px"></div><div class="below" id="sl-t"></div></section>
+<section class="fv-scene" data-scene="history"><div class="step">MEMORY</div><div class="head">Years of traffic</div><div class="pane" id="hi-p" style="top:430px"></div><div class="below" id="hi-t"></div></section>
+<section class="fv-scene" data-scene="route"><div class="step">PREDICT</div><div class="head">Arrival time + reroute</div><div class="pane" id="ro-p" style="top:430px"></div><div class="below" id="ro-t"></div></section>
+<section class="fv-scene" data-scene="outro"><div id="oc-w" class="abs" style="left:40px;right:40px;top:620px;display:grid;justify-items:center;gap:22px"></div></section>
+</div>
+<script src="timing.js"></script>
+<script src="fv-runtime.js"></script>
+<script>
+(() => {
+const { seg, css, enter, lerp, clamp, ease, pulse, $ } = FV;
+const NS = 'http://www.w3.org/2000/svg';
+const svgEl = (tag, attrs, parent) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; };
+const txt = (s, x, y, str, o = {}) => { const e = svgEl('text', Object.assign({ x, y, fill: '#eef2f6', 'font-size': 30, 'font-weight': 700, 'font-family': 'Inter', 'text-anchor': 'middle' }, o), s); e.textContent = str; return e; };
+const div = (cls, html, parent, style) => { const e = document.createElement('div'); if (cls) e.className = cls; if (html !== undefined) e.innerHTML = html; if (style) e.style.cssText = style; if (parent) parent.appendChild(e); return e; };
+const pop = (el, t, a, d = 0.45) => { const p = seg(t, a, a + d, ease.back); css(el, { o: clamp(p * 1.5), s: Math.max(0, p) }); return p; };
+const head = (el, t) => { const s = el.querySelector('.step'), h = el.querySelector('.head'); if (s) enter(s, t, 0.0, 0.4); if (h) enter(h, t, 0.08, 0.45, 30); };
+const frac = (ctx, i, f) => ctx.line(i) + (ctx.lineEnd(i) - ctx.line(i)) * f;
+const pill = (t, c) => `<span class="pill" style="border:3px solid ${c};background:${c}1a;color:${c}">${t}</span>`;
+const show = (el, html) => { if (el.__h !== html) { el.innerHTML = html; el.__h = html; } };
+
+/* a little city map: main road (A) and a side route (B) */
+const RA = [[80, 620], [300, 600], [460, 420], [600, 300], [770, 140]];
+const RB = [[80, 620], [140, 380], [330, 230], [560, 150], [770, 140]];
+const pathD = (R) => R.map((p, i) => (i ? 'L' : 'M') + p.join(' ')).join(' ');
+const along = (R, u) => { const L = []; let T = 0; for (let i = 0; i < R.length - 1; i++) { const l = Math.hypot(R[i + 1][0] - R[i][0], R[i + 1][1] - R[i][1]); L.push(l); T += l; } let d = u * T; for (let i = 0; i < L.length; i++) { if (d <= L[i]) { const f = d / L[i]; return [lerp(R[i][0], R[i + 1][0], f), lerp(R[i][1], R[i + 1][1], f)]; } d -= L[i]; } return R[R.length - 1]; };
+function map(host) {
+  const s = svgEl('svg', { viewBox: '0 0 840 765' }, host);
+  svgEl('rect', { x: 0, y: 0, width: 840, height: 765, fill: '#e8eef2' }, s);
+  for (let i = 0; i < 9; i++) { svgEl('line', { x1: 0, y1: 40 + i * 90, x2: 840, y2: 20 + i * 92, stroke: '#ffffff', 'stroke-width': 10 }, s); svgEl('line', { x1: 40 + i * 100, y1: 0, x2: 60 + i * 96, y2: 765, stroke: '#ffffff', 'stroke-width': 10 }, s); }
+  svgEl('rect', { x: 560, y: 470, width: 220, height: 200, rx: 20, fill: '#c7e9c0' }, s);
+  const b = svgEl('path', { d: pathD(RB), fill: 'none', stroke: '#9ca3af', 'stroke-width': 18, 'stroke-linecap': 'round', 'stroke-linejoin': 'round' }, s);
+  const a = svgEl('path', { d: pathD(RA), fill: 'none', stroke: '#22c55e', 'stroke-width': 22, 'stroke-linecap': 'round', 'stroke-linejoin': 'round' }, s);
+  const pin = svgEl('text', { x: 770, y: 130, 'font-size': 54, 'text-anchor': 'middle' }, s); pin.textContent = '📍';
+  return { s, a, b };
+}
+const roadCol = (k) => k < 0.33 ? '#22c55e' : k < 0.66 ? '#f59e0b' : '#dc2626';
+/* HOOK: the road turns red */
+{
+  const M = map($('#hk-p'));
+  FV.scene('hook', (t, ctx) => {
+    enter($('#hk-p'), t, 0.05, 0.4, 20);
+    M.a.setAttribute('stroke', roadCol(seg(t, 0.6, frac(ctx, 0, 0.9))));
+    pop($('#hk-q'), t, ctx.line(1) - 0.1, 0.5);
+  });
+}
+/* phones driving with speed tags */
+function phones(s, n) { return Array.from({ length: n }, (_, i) => { const g = svgEl('g', {}, s); svgEl('circle', { r: 13, fill: '#2563eb', stroke: '#fff', 'stroke-width': 4 }, g); const l = svgEl('text', { x: 18, y: -14, 'font-size': 22, 'font-weight': 800, fill: '#0f172a', 'font-family': 'JetBrains Mono' }, g); return { g, l, o: i / n }; }); }
+{
+  const M = map($('#ph-p')), D = phones(M.s, 6);
+  FV.scene('phones', (t, ctx) => {
+    head(ctx.el, t); enter($('#ph-p'), t, 0.1, 0.4, 20);
+    D.forEach((d, i) => { const u = (d.o + t * 0.06) % 1, [x, y] = along(RA, u); d.g.setAttribute('transform', `translate(${x} ${y})`); d.l.textContent = t > frac(ctx, 0, 0.4) ? `${40 + (i * 7) % 15} km/h` : ''; d.g.setAttribute('opacity', seg(t, 0.3 + i * 0.1, 0.6 + i * 0.1)); });
+    show($('#ph-t'), pill('🔒 anonymous: speed, not who you are', '#22d3ee')); $('#ph-t').style.opacity = seg(t, frac(ctx, 0, 0.6), frac(ctx, 0, 0.75));
+  });
+}
+{
+  const M = map($('#sl-p')), D = phones(M.s, 9);
+  FV.scene('slow', (t, ctx) => {
+    head(ctx.el, t); enter($('#sl-p'), t, 0.1, 0.4, 20);
+    const k = seg(t, frac(ctx, 0, 0.1), frac(ctx, 0, 0.8));
+    D.forEach((d, i) => { const u = 0.35 + (i / D.length) * 0.35 + t * 0.06 * (1 - k * 0.92) * 0.3; const [x, y] = along(RA, u % 1); d.g.setAttribute('transform', `translate(${x} ${y})`); d.l.textContent = i % 3 ? '' : `${Math.round(45 - 40 * k)} km/h`; });
+    M.a.setAttribute('stroke', roadCol(k));
+    show($('#sl-t'), pill(k > 0.66 ? '🔴 lots of slow phones = jam' : 'everyone is slowing down…', k > 0.66 ? '#f87171' : '#fbbf24')); $('#sl-t').style.opacity = seg(t, 0.4, 0.7);
+  });
+}
+/* HISTORY: busy hours bar chart */
+{
+  const host = $('#hi-p'), s = svgEl('svg', { viewBox: '0 0 840 765' }, host);
+  txt(s, 60, 70, 'this road, every Monday', { 'text-anchor': 'start', 'font-size': 30, fill: '#cbd5e1', 'font-weight': 800 });
+  const H = [6, 7, 8, 9, 10, 12, 14, 16, 17, 18, 19, 21], V = [0.15, 0.4, 0.8, 0.95, 0.6, 0.45, 0.4, 0.55, 0.85, 0.9, 0.6, 0.25];
+  const bars = H.map((h, i) => { svgEl('text', { x: 95 + i * 58, y: 690, 'font-size': 20, 'text-anchor': 'middle', fill: '#94a3b8', 'font-family': 'JetBrains Mono' }, s).textContent = h; return svgEl('rect', { x: 72 + i * 58, y: 650, width: 46, height: 0, rx: 8, fill: roadCol(V[i]) }, s); });
+  const tag = txt(s, 270, 140, '', { 'font-size': 30, fill: '#f87171', 'font-weight': 900 });
+  FV.scene('history', (t, ctx) => {
+    head(ctx.el, t); enter(host, t, 0.1, 0.4, 20);
+    const g = seg(t, frac(ctx, 0, 0.1), frac(ctx, 0, 0.6));
+    bars.forEach((b, i) => { const h = 480 * V[i] * g; b.setAttribute('height', h); b.setAttribute('y', 650 - h); });
+    tag.textContent = t > frac(ctx, 0, 0.7) ? 'Monday 9 am: always busy' : '';
+    show($('#hi-t'), pill('history for every road, every hour', '#22d3ee')); $('#hi-t').style.opacity = seg(t, 0.4, 0.7);
+  });
+}
+/* ROUTE: ETA and a faster road */
+{
+  const M = map($('#ro-p')); M.a.setAttribute('stroke', '#dc2626');
+  const eta = (x, y, s1, c) => { const g = svgEl('g', { opacity: 0 }, M.s); svgEl('rect', { x: x - 80, y: y - 34, width: 160, height: 56, rx: 14, fill: c }, g); txt(g, x, y + 4, s1, { 'font-size': 28, 'font-weight': 900, fill: '#fff' }); return g; };
+  const ea = eta(520, 400, '32 min', '#dc2626'), eb = eta(300, 210, '25 min', '#2563eb');
+  const car = svgEl('text', { 'font-size': 44, 'text-anchor': 'middle' }, M.s); car.textContent = '🚗';
+  FV.scene('route', (t, ctx) => {
+    head(ctx.el, t); enter($('#ro-p'), t, 0.1, 0.4, 20);
+    ea.setAttribute('opacity', seg(t, frac(ctx, 0, 0.1), frac(ctx, 0, 0.25)));
+    const r = seg(t, frac(ctx, 0, 0.5), frac(ctx, 0, 0.62)); eb.setAttribute('opacity', r);
+    M.b.setAttribute('stroke', r > 0.5 ? '#2563eb' : '#9ca3af'); M.b.setAttribute('stroke-width', 18 + 6 * r);
+    const [x, y] = along(r > 0.5 ? RB : RA, seg(t, frac(ctx, 0, 0.65), ctx.dur, ease.linear) * 0.9); car.setAttribute('x', x); car.setAttribute('y', y + 14);
+    show($('#ro-t'), pill(r > 0.5 ? '↪ faster route found: 7 min saved' : 'live speeds + history = your ETA', r > 0.5 ? '#60a5fa' : '#22d3ee')); $('#ro-t').style.opacity = seg(t, 0.4, 0.7);
+  });
+}
+/* OUTRO */
+{
+  const Wd = [['Millions of moving phones.', '#60a5fa', 0], ['One live traffic map.', '#f87171', 0.45]];
+  const w = Wd.map(([s, c]) => div('', s, $('#oc-w'), `font:900 88px/1.08 Inter;letter-spacing:-.03em;color:${c};text-align:center`));
+  FV.scene('outro', (t, ctx) => w.forEach((e, i) => pop(e, t, frac(ctx, 0, Wd[i][2]), 0.45)));
+}
+
+})();
+</script>
+</body>
+</html>

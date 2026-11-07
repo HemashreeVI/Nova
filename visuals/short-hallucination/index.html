@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI hallucination Short</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{--ink:#eef2f6;--mut:#94a3b8;--acc:#6366f1;--acc2:#a5b4fc;--grn:#34d399;--red:#f87171;--yel:#fbbf24;--pk:#f472b6;--cy:#22d3ee}
+  #fv-stage{background:radial-gradient(1000px 1300px at 70% 15%,#1e1b5e 0%,#0f0f2e 50%,#07071a 80%);color:var(--ink);font-family:Inter,system-ui,sans-serif}
+  #bg-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(99,102,241,.13) 1px,transparent 1px),linear-gradient(90deg,rgba(99,102,241,.13) 1px,transparent 1px);background-size:90px 90px;opacity:.22}
+  .abs{position:absolute}
+  .step{position:absolute;left:0;right:0;top:250px;text-align:center;font:700 34px/1 'JetBrains Mono',monospace;letter-spacing:.2em;color:var(--acc2)}
+  .head{position:absolute;left:60px;right:60px;top:305px;text-align:center;font:800 84px/1.05 Inter;letter-spacing:-.03em}
+  .mono{font-family:'JetBrains Mono',monospace}
+  .badge{position:absolute;left:50%;top:150px;transform:translateX(-50%);padding:12px 26px;border-radius:40px;background:color-mix(in srgb,var(--acc) 12%,transparent);border:2px solid color-mix(in srgb,var(--acc) 55%,transparent);font:700 30px Inter;color:var(--acc2);white-space:nowrap}
+  .pill{display:inline-block;padding:12px 26px;border-radius:40px;font:800 32px Inter}
+  .pane{position:absolute;left:120px;width:840px;height:765px;border-radius:26px;overflow:hidden;border:3px solid color-mix(in srgb,var(--acc) 45%,transparent);background:rgba(8,8,16,.75)}
+  .pane svg{position:absolute;inset:0;width:840px;height:765px}
+  .below{position:absolute;left:0;right:0;top:1225px;text-align:center}
+  .big{font:900 120px/1 Inter;letter-spacing:-.04em;color:#fff}
+  .card{border-radius:22px;padding:26px 30px;background:rgba(255,255,255,.05);border:2px solid rgba(255,255,255,.14)}
+  .fv-endcard{display:inline-block;padding:16px 30px;border-radius:40px;font:700 34px 'JetBrains Mono',monospace;border:3px solid #eef2f6;background:rgba(238,242,246,.08)}
+</style>
+</head>
+<body>
+<div id="fv-stage">
+  <div id="bg-grid"></div>
+  <div class="badge">🧠 AI · Tech, decoded</div>
+<section class="fv-scene" data-scene="hook"><div class="pane" id="hk-p" style="top:300px"></div><div id="hk-q" class="abs" style="left:0;right:0;top:1110px;text-align:center"><div class="big" style="font-size:100px">🤥 <span style="color:var(--acc2)">Hallucination</span></div></div></section>
+<section class="fv-scene" data-scene="predict"><div class="step">HOW IT WRITES</div><div class="head">Next-word prediction</div><div class="pane" id="pr-p" style="top:430px"></div><div class="below" id="pr-t"></div></section>
+<section class="fv-scene" data-scene="gap"><div class="step">NO REAL ANSWER?</div><div class="head">It guesses anyway</div><div class="pane" id="gp-p" style="top:430px"></div><div class="below" id="gp-t"></div></section>
+<section class="fv-scene" data-scene="confident"><div class="step">SAME TONE</div><div class="head">True vs made up</div><div id="cf-c" class="abs" style="left:90px;right:90px;top:450px;display:grid;gap:26px"></div></section>
+<section class="fv-scene" data-scene="fix"><div class="step">HOW TO STAY SAFE</div><div class="head">Trust, but verify</div><div id="fx-c" class="abs" style="left:110px;right:110px;top:450px;display:grid;gap:26px"></div></section>
+<section class="fv-scene" data-scene="outro"><div id="oc-w" class="abs" style="left:40px;right:40px;top:640px;display:grid;justify-items:center;gap:22px"></div></section>
+</div>
+<script src="timing.js"></script>
+<script src="fv-runtime.js"></script>
+<script>
+(() => {
+const { seg, css, enter, lerp, clamp, ease, pulse, $ } = FV;
+const NS = 'http://www.w3.org/2000/svg';
+const svgEl = (tag, attrs, parent) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; };
+const txt = (s, x, y, str, o = {}) => { const e = svgEl('text', Object.assign({ x, y, fill: '#eef2f6', 'font-size': 30, 'font-weight': 700, 'font-family': 'Inter', 'text-anchor': 'middle' }, o), s); e.textContent = str; return e; };
+const div = (cls, html, parent, style) => { const e = document.createElement('div'); if (cls) e.className = cls; if (html !== undefined) e.innerHTML = html; if (style) e.style.cssText = style; if (parent) parent.appendChild(e); return e; };
+const pop = (el, t, a, d = 0.45) => { const p = seg(t, a, a + d, ease.back); css(el, { o: clamp(p * 1.5), s: Math.max(0, p) }); return p; };
+const head = (el, t) => { const s = el.querySelector('.step'), h = el.querySelector('.head'); if (s) enter(s, t, 0.0, 0.4); if (h) enter(h, t, 0.08, 0.45, 30); };
+const frac = (ctx, i, f) => ctx.line(i) + (ctx.lineEnd(i) - ctx.line(i)) * f;
+const pill = (t, c) => `<span class="pill" style="border:3px solid ${c};background:${c}1a;color:${c}">${t}</span>`;
+const show = (el, html) => { if (el.__h !== html) { el.innerHTML = html; el.__h = html; } };
+
+const bubble = (who, html) => `<div style="display:flex;justify-content:${who === 'u' ? 'flex-end' : 'flex-start'};margin:18px 26px"><div style="max-width:620px;padding:22px 26px;border-radius:24px;font:500 30px/1.35 Inter;${who === 'u' ? 'background:#4f46e5;color:#fff' : 'background:#1e1e3a;color:#e5e7eb;border:2px solid #3730a3'}">${html}</div></div>`;
+/* HOOK: a confident, invented book */
+{
+  const host = $('#hk-p');
+  host.innerHTML = `<div style="position:absolute;inset:0;padding-top:24px">${bubble('u', 'Recommend a book about farming on Mars 🚀')}<div id="hk-a"></div></div><div id="hk-x" style="position:absolute;right:40px;bottom:46px;padding:12px 24px;border-radius:14px;border:5px solid #ef4444;color:#ef4444;font:900 44px Inter;transform:rotate(-8deg);opacity:0">BOOK DOESN'T EXIST</div>`;
+  const ans = "Try “Red Harvest” by Dr. Lena Ortiz (2017). It's a classic on growing food on Mars, with a great chapter on soil chemistry.";
+  FV.scene('hook', (t, ctx) => {
+    enter(host, t, 0.05, 0.4, 20);
+    const n = Math.round(seg(t, 0.6, frac(ctx, 0, 0.75), ease.linear) * ans.length);
+    show($('#hk-a'), n ? bubble('a', '🤖 ' + ans.slice(0, n)) : '');
+    pop($('#hk-x'), t, frac(ctx, 0, 0.85), 0.45);
+    pop($('#hk-q'), t, ctx.line(1) - 0.1, 0.5);
+  });
+}
+/* next-word bars */
+function bars(host, prompt, words) {
+  host.innerHTML = `<div style="position:absolute;inset:0;padding:40px"><div class="mono" style="font-size:34px;color:#e5e7eb;line-height:1.4">${prompt} <span class="pick" style="color:#a5b4fc;font-weight:800"></span><span style="color:#a5b4fc">▌</span></div><div class="rows" style="margin-top:40px;display:grid;gap:22px"></div></div>`;
+  const rows = words.map(([w, p]) => { const r = div('', `<div style="display:flex;align-items:center;gap:18px"><div class="mono" style="width:180px;font-size:30px;color:#e5e7eb">${w}</div><div style="flex:1;height:38px;border-radius:10px;background:rgba(255,255,255,.06);overflow:hidden"><div class="b" style="height:100%;width:0;background:#6366f1"></div></div><div class="mono" style="width:90px;text-align:right;font-size:28px;color:#94a3b8">${p}%</div></div>`, host.querySelector('.rows')); return { r, p, b: r.querySelector('.b') }; });
+  return { rows, pick: host.querySelector('.pick') };
+}
+{
+  const B = bars($('#pr-p'), 'The capital of France is', [['Paris', 92], ['Lyon', 3], ['a', 2], ['the', 2], ['Nice', 1]]);
+  FV.scene('predict', (t, ctx) => {
+    head(ctx.el, t); enter($('#pr-p'), t, 0.1, 0.4, 20);
+    const g = seg(t, frac(ctx, 0, 0.2), frac(ctx, 0, 0.6)), p = t > frac(ctx, 0, 0.75);
+    B.rows.forEach((r, i) => { r.b.style.width = r.p * g + '%'; r.b.style.background = p && i === 0 ? '#34d399' : '#6366f1'; });
+    B.pick.textContent = p ? 'Paris' : '';
+    show($('#pr-t'), pill(p ? '✓ picks the most likely word' : 'which word comes next?', p ? '#34d399' : '#a5b4fc')); $('#pr-t').style.opacity = seg(t, 0.4, 0.7);
+  });
+}
+{
+  const B = bars($('#gp-p'), 'The author of “Red Harvest” is', [['Dr.', 9], ['James', 8], ['Lena', 8], ['Maria', 7], ['Prof.', 7]]);
+  FV.scene('gap', (t, ctx) => {
+    head(ctx.el, t); enter($('#gp-p'), t, 0.1, 0.4, 20);
+    const g = seg(t, frac(ctx, 0, 0.1), frac(ctx, 0, 0.35)), p = seg(t, frac(ctx, 0, 0.55), frac(ctx, 0, 0.95), ease.linear);
+    B.rows.forEach((r) => { r.b.style.width = r.p * 5 * g + '%'; r.b.style.background = '#f59e0b'; });
+    const s = 'Dr. Lena Ortiz'; B.pick.textContent = s.slice(0, Math.round(p * s.length));
+    show($('#gp-t'), pill(p > 0.3 ? 'sounds right ≠ is right' : 'no clear winner… it picks one anyway', '#f59e0b')); $('#gp-t').style.opacity = seg(t, 0.4, 0.7);
+  });
+}
+/* same confidence */
+{
+  const C = [['✓ TRUE', '#34d399', 'Water boils at 100 °C at sea level.'], ['✗ MADE UP', '#f87171', '“Red Harvest” by Dr. Lena Ortiz (2017) is a classic on Mars farming.']];
+  const cards = C.map(([k, c, s]) => div('card', `<div class="mono" style="font:800 30px 'JetBrains Mono';color:${c}">${k}</div><div style="font:600 36px/1.35 Inter;margin-top:12px">🤖 ${s}</div><div style="margin-top:18px;display:flex;align-items:center;gap:14px"><span class="mono" style="font-size:24px;color:#94a3b8">sounds confident</span><div style="flex:1;height:16px;border-radius:8px;background:rgba(255,255,255,.08)"><div class="m" style="height:100%;width:0;border-radius:8px;background:#a5b4fc"></div></div></div>`, $('#cf-c'), `border-color:${c}77`));
+  FV.scene('confident', (t, ctx) => {
+    head(ctx.el, t);
+    cards.forEach((c, i) => { enter(c, t, frac(ctx, 0, 0.05 + i * 0.25), 0.45, 30); c.querySelector('.m').style.width = 96 * seg(t, frac(ctx, 0, 0.55), frac(ctx, 0, 0.85)) + '%'; });
+  });
+}
+/* fixes */
+{
+  const F = [['📄', 'Give it real documents', 'answers grounded in your sources (RAG)', '#22d3ee'], ['🔗', 'Ask for sources', 'then open them and check', '#a5b4fc'], ['✅', 'Verify what matters', 'facts, numbers, names, quotes', '#34d399']];
+  const cards = F.map(([i, a, b, c]) => div('card', `<div style="display:flex;gap:24px;align-items:center"><div style="font-size:64px">${i}</div><div><div style="font:800 40px Inter;color:${c}">${a}</div><div style="font:500 28px Inter;color:#cbd5e1;margin-top:6px">${b}</div></div></div>`, $('#fx-c'), `border-color:${c}66`));
+  FV.scene('fix', (t, ctx) => { head(ctx.el, t); cards.forEach((c, i) => enter(c, t, frac(ctx, 0, 0.12 + i * 0.28), 0.45, 30)); });
+}
+/* OUTRO */
+{
+  const Wd = [['It predicts words,', '#a5b4fc', 0], ['not facts.', '#f87171', 0.3], ['Always verify.', '#34d399', 0.6]];
+  const w = Wd.map(([s, c]) => div('', s, $('#oc-w'), `font:900 92px/1.05 Inter;letter-spacing:-.03em;color:${c};text-align:center`));
+  FV.scene('outro', (t, ctx) => w.forEach((e, i) => pop(e, t, frac(ctx, 0, Wd[i][2]), 0.4)));
+}
+
+})();
+</script>
+</body>
+</html>

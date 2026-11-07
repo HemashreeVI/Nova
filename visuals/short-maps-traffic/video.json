@@ -1,0 +1,93 @@
+{
+ "title": "How Google Maps Knows There's Traffic 🚦 #shorts",
+ "slug": "short-maps-traffic",
+ "format": "vertical",
+ "description": "Google Maps learns about traffic from phones. People who share their location anonymously send back how fast they're moving. When lots of phones on the same road slow to a crawl, the road turns red. Maps combines that live data with years of traffic history for each road and time of day to predict how long your trip will take, and to suggest a faster route.\n\n📘 More to learn + my projects: https://github.com/HemashreeVI\n\n#GoogleMaps #Traffic #Data #AI #MachineLearning #TechExplained #shorts",
+ "tags": [
+  "google maps",
+  "how google maps knows traffic",
+  "google maps traffic",
+  "live traffic",
+  "eta prediction",
+  "location data",
+  "crowdsourcing",
+  "machine learning",
+  "navigation",
+  "maps",
+  "tech explained",
+  "shorts"
+ ],
+ "voice": "af_heart",
+ "speed": 1.0,
+ "lineGap": 0.3,
+ "captions": true,
+ "endCard": "",
+ "thumbnail": "phones@4",
+ "endHold": 0.3,
+ "pronounce": {
+  "ETA": "E T A"
+ },
+ "scenes": [
+  {
+   "id": "hook",
+   "pad": [
+    0.3,
+    0.5
+   ],
+   "lines": [
+    "The road turns red on Google Maps before you even see the jam.",
+    "How does it know?"
+   ]
+  },
+  {
+   "id": "phones",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "From phones. When people share their location, their phones anonymously send back how fast they're moving."
+   ]
+  },
+  {
+   "id": "slow",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "Lots of phones on the same road, all crawling along? That road turns orange, then red."
+   ]
+  },
+  {
+   "id": "history",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "It also remembers years of traffic for every road, at every hour, so it knows Monday at nine is always busy."
+   ]
+  },
+  {
+   "id": "route",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "Live speeds plus history predict your arrival time, and if another road is clearing up faster, it reroutes you."
+   ]
+  },
+  {
+   "id": "outro",
+   "pad": [
+    0.3,
+    1.6
+   ],
+   "lines": [
+    "Millions of moving phones. One live traffic map."
+   ]
+  }
+ ]
+}

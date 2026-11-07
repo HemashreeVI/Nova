@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Two pointers Short</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{--ink:#eef2f6;--mut:#94a3b8;--acc:#5b9bd5;--acc2:#93c5fd;--grn:#34d399;--red:#f87171;--yel:#fbbf24;--pk:#f472b6;--cy:#22d3ee}
+  #fv-stage{background:radial-gradient(1000px 1300px at 70% 15%,#14234a 0%,#0c1226 50%,#070a14 80%);color:var(--ink);font-family:Inter,system-ui,sans-serif}
+  #bg-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(91,155,213,.12) 1px,transparent 1px),linear-gradient(90deg,rgba(91,155,213,.12) 1px,transparent 1px);background-size:90px 90px;opacity:.22}
+  .abs{position:absolute}
+  .step{position:absolute;left:0;right:0;top:250px;text-align:center;font:700 34px/1 'JetBrains Mono',monospace;letter-spacing:.2em;color:var(--acc2)}
+  .head{position:absolute;left:60px;right:60px;top:305px;text-align:center;font:800 84px/1.05 Inter;letter-spacing:-.03em}
+  .mono{font-family:'JetBrains Mono',monospace}
+  .badge{position:absolute;left:50%;top:150px;transform:translateX(-50%);padding:12px 26px;border-radius:40px;background:color-mix(in srgb,var(--acc) 12%,transparent);border:2px solid color-mix(in srgb,var(--acc) 55%,transparent);font:700 30px Inter;color:var(--acc2);white-space:nowrap}
+  .pill{display:inline-block;padding:12px 26px;border-radius:40px;font:800 32px Inter}
+  .pane{position:absolute;left:120px;width:840px;height:765px;border-radius:26px;overflow:hidden;border:3px solid color-mix(in srgb,var(--acc) 45%,transparent);background:rgba(8,8,16,.75)}
+  .pane svg{position:absolute;inset:0;width:840px;height:765px}
+  .below{position:absolute;left:0;right:0;top:1225px;text-align:center}
+  .big{font:900 120px/1 Inter;letter-spacing:-.04em;color:#fff}
+  .card{border-radius:22px;padding:26px 30px;background:rgba(255,255,255,.05);border:2px solid rgba(255,255,255,.14)}
+  .fv-endcard{display:inline-block;padding:16px 30px;border-radius:40px;font:700 34px 'JetBrains Mono',monospace;border:3px solid #eef2f6;background:rgba(238,242,246,.08)}
+</style>
+</head>
+<body>
+<div id="fv-stage">
+  <div id="bg-grid"></div>
+  <div class="badge">☕ DSA in 60 Seconds · #2</div>
+<section class="fv-scene" data-scene="hook"><div class="pane" id="hk-p" style="top:300px"></div><div id="hk-q" class="abs" style="left:0;right:0;top:1110px;text-align:center"><div class="big" style="font-size:100px">⚡ Two <span style="color:var(--acc2)">pointers</span></div></div></section>
+<section class="fv-scene" data-scene="brute"><div class="step">THE SLOW WAY</div><div class="head">Check every pair</div><div class="pane" id="br-p" style="top:430px"></div><div class="below" id="br-t"></div></section>
+<section class="fv-scene" data-scene="setup"><div class="step">THE TRICK</div><div class="head">One at each end</div><div class="pane" id="se-p" style="top:430px"></div><div class="below" id="se-t"></div></section>
+<section class="fv-scene" data-scene="move"><div class="step">THE RULE</div><div class="head">Move one pointer</div><div class="pane" id="mv-p" style="top:430px"></div><div class="below" id="mv-t"></div></section>
+<section class="fv-scene" data-scene="code"><div class="step">IN JAVA</div><div class="head">One pass</div><div id="cd-c" class="abs card mono" style="left:70px;right:70px;top:450px;font-size:31px;line-height:1.6;font-variant-ligatures:none;background:#0b1224;white-space:pre"></div><div class="below" id="cd-t" style="top:1170px"></div></section>
+<section class="fv-scene" data-scene="outro"><div id="oc-w" class="abs" style="left:40px;right:40px;top:660px;display:grid;justify-items:center;gap:22px"></div></section>
+</div>
+<script src="timing.js"></script>
+<script src="fv-runtime.js"></script>
+<script>
+(() => {
+const { seg, css, enter, lerp, clamp, ease, pulse, $ } = FV;
+const NS = 'http://www.w3.org/2000/svg';
+const svgEl = (tag, attrs, parent) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; };
+const txt = (s, x, y, str, o = {}) => { const e = svgEl('text', Object.assign({ x, y, fill: '#eef2f6', 'font-size': 30, 'font-weight': 700, 'font-family': 'Inter', 'text-anchor': 'middle' }, o), s); e.textContent = str; return e; };
+const div = (cls, html, parent, style) => { const e = document.createElement('div'); if (cls) e.className = cls; if (html !== undefined) e.innerHTML = html; if (style) e.style.cssText = style; if (parent) parent.appendChild(e); return e; };
+const pop = (el, t, a, d = 0.45) => { const p = seg(t, a, a + d, ease.back); css(el, { o: clamp(p * 1.5), s: Math.max(0, p) }); return p; };
+const head = (el, t) => { const s = el.querySelector('.step'), h = el.querySelector('.head'); if (s) enter(s, t, 0.0, 0.4); if (h) enter(h, t, 0.08, 0.45, 30); };
+const frac = (ctx, i, f) => ctx.line(i) + (ctx.lineEnd(i) - ctx.line(i)) * f;
+const pill = (t, c) => `<span class="pill" style="border:3px solid ${c};background:${c}1a;color:${c}">${t}</span>`;
+const show = (el, html) => { if (el.__h !== html) { el.innerHTML = html; el.__h = html; } };
+
+const A = [1, 3, 4, 6, 8, 11, 14, 18], TG = 17;
+function arr(host) {
+  host.innerHTML = `<div style="position:absolute;left:0;right:0;top:60px;text-align:center;font:800 34px Inter;color:#94a3b8">target = <span style="color:#f89820">${TG}</span></div>
+    <div class="row" style="position:absolute;left:40px;right:40px;top:260px;display:grid;grid-template-columns:repeat(8,1fr);gap:10px"></div>
+    <div class="ptr" style="position:absolute;left:40px;right:40px;top:380px;display:grid;grid-template-columns:repeat(8,1fr);gap:10px"></div>
+    <div class="sum mono" style="position:absolute;left:0;right:0;top:540px;text-align:center;font-size:46px;font-weight:800"></div>`;
+  const cells = A.map((v) => div('', v, host.querySelector('.row'), "height:96px;border-radius:14px;display:grid;place-items:center;font:800 40px 'JetBrains Mono';background:#13213f;border:3px solid #5b9bd5;color:#eef1f6"));
+  const ptrs = A.map(() => div('', '', host.querySelector('.ptr'), 'text-align:center;font:900 30px Inter'));
+  return { cells, ptrs, sum: host.querySelector('.sum') };
+}
+const mark = (G, l, r, c = '#f89820') => { G.cells.forEach((e, i) => { e.style.borderColor = i === l || i === r ? c : '#5b9bd5'; e.style.background = i === l || i === r ? c + '33' : '#13213f'; }); G.ptrs.forEach((p, i) => { p.innerHTML = i === l ? '<span style="color:#5b9bd5">▲<br>L</span>' : i === r ? '<span style="color:#f89820">▲<br>R</span>' : ''; }); };
+/* HOOK */
+{
+  const G = arr($('#hk-p'));
+  FV.scene('hook', (t, ctx) => {
+    enter($('#hk-p'), t, 0.05, 0.4, 20);
+    const k = Math.floor(seg(t, frac(ctx, 0, 0.55), frac(ctx, 0, 1), ease.linear) * 28); let n = 0, L = -1, R = -1;
+    for (let i = 0; i < 8; i++) for (let j = i + 1; j < 8; j++) { if (n === k) { L = i; R = j; } n++; }
+    if (L >= 0) mark(G, L, R, '#94a3b8'); G.sum.textContent = L >= 0 ? `${A[L]} + ${A[R]} = ${A[L] + A[R]}?` : '';
+    G.sum.style.color = '#94a3b8';
+    pop($('#hk-q'), t, ctx.line(1) - 0.1, 0.5);
+  });
+}
+/* BRUTE: pair count explodes */
+{
+  const host = $('#br-p');
+  host.innerHTML = `<div style="position:absolute;inset:0;display:grid;place-items:center;text-align:center"><div><div class="mono" style="font-size:34px;color:#94a3b8">for i … for j …</div>
+    <div class="a mono" style="margin-top:30px;font-size:44px;font-weight:800;color:#eef1f6"></div><div class="b mono" style="margin-top:24px;font-size:44px;font-weight:800;color:#f87171;opacity:0">10⁶ numbers → 5 × 10¹¹ checks</div>
+    <div class="c" style="margin-top:30px;font:900 70px Inter;color:#f87171;opacity:0">O(n²) 🐢</div></div></div>`;
+  FV.scene('brute', (t, ctx) => {
+    head(ctx.el, t); enter(host, t, 0.1, 0.4, 20);
+    host.querySelector('.a').textContent = '8 numbers → 28 pairs';
+    host.querySelector('.c').style.opacity = seg(t, frac(ctx, 0, 0.1), frac(ctx, 0, 0.25)); host.querySelector('.b').style.opacity = seg(t, frac(ctx, 0, 0.45), frac(ctx, 0, 0.6));
+    show($('#br-t'), pill('half a trillion checks', '#f87171')); $('#br-t').style.opacity = seg(t, frac(ctx, 0, 0.6), frac(ctx, 0, 0.75));
+  });
+}
+/* SETUP */
+{
+  const G = arr($('#se-p'));
+  FV.scene('setup', (t, ctx) => {
+    head(ctx.el, t); enter($('#se-p'), t, 0.1, 0.4, 20);
+    mark(G, t > frac(ctx, 0, 0.2) ? 0 : -1, t > frac(ctx, 0, 0.45) ? 7 : -1);
+    G.sum.textContent = t > frac(ctx, 0, 0.7) ? `${A[0]} + ${A[7]} = ${A[0] + A[7]}` : ''; G.sum.style.color = '#eef1f6';
+    show($('#se-t'), pill('works because the array is sorted', '#5b9bd5')); $('#se-t').style.opacity = seg(t, 0.4, 0.7);
+  });
+}
+/* MOVE: 19 too big -> R left; 15 too small -> L right; 17 found */
+{
+  const G = arr($('#mv-p')); const ST = [[0, 7, '19 > 17 → too big: move R ◀', '#f87171'], [0, 6, '15 < 17 → too small: move L ▶', '#fbbf24'], [1, 6, '3 + 14 = 17 ✓ found it', '#34d399']];
+  FV.scene('move', (t, ctx) => {
+    head(ctx.el, t); enter($('#mv-p'), t, 0.1, 0.4, 20);
+    const k = Math.min(2, Math.floor(seg(t, frac(ctx, 0, 0.05), frac(ctx, 0, 0.95), ease.linear) * 3)); const [l, r, msg, c] = ST[k];
+    mark(G, l, r, k === 2 ? '#34d399' : '#f89820'); G.sum.textContent = msg; G.sum.style.color = c; G.sum.style.fontSize = '38px';
+    show($('#mv-t'), pill('each step rules a number out for good', '#5b9bd5')); $('#mv-t').style.opacity = seg(t, 0.4, 0.7);
+  });
+}
+/* CODE */
+{
+  const K = (s) => `<span style="color:#f89820">${s}</span>`, C = (s) => `<span style="color:#64748b">${s}</span>`;
+  const code = `${K('int')}[] twoSum(${K('int')}[] a, ${K('int')} target) {
+  ${K('int')} l = 0, r = a.length - 1;
+  ${K('while')} (l < r) {
+    ${K('int')} sum = a[l] + a[r];
+    ${K('if')} (sum == target) ${K('return new int')}[]{l, r};
+    ${K('if')} (sum < target) l++;  ${C('// need bigger')}
+    ${K('else')} r--;               ${C('// need smaller')}
+  }
+  ${K('return null')};
+}`;
+  FV.scene('code', (t, ctx) => {
+    head(ctx.el, t); const el = $('#cd-c'); show(el, code); enter(el, t, 0.15, 0.45, 20);
+    show($('#cd-t'), pill('O(n) time · O(1) extra space', '#34d399')); pop($('#cd-t'), t, frac(ctx, 0, 0.6), 0.45);
+  });
+}
+/* OUTRO */
+{
+  const Wd = [['Sorted array?', '#5b9bd5', 0], ['Try two pointers.', '#f89820', 0.4]];
+  const w = Wd.map(([s, c]) => div('', s, $('#oc-w'), `font:900 96px/1.05 Inter;letter-spacing:-.03em;color:${c};text-align:center`));
+  FV.scene('outro', (t, ctx) => w.forEach((e, i) => pop(e, t, frac(ctx, 0, Wd[i][2]), 0.4)));
+}
+
+})();
+</script>
+</body>
+</html>

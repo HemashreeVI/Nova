@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Netflix CDN Short</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{--ink:#eef2f6;--mut:#94a3b8;--acc:#fb923c;--acc2:#fdba74;--grn:#34d399;--red:#f87171;--yel:#fbbf24;--pk:#f472b6;--cy:#22d3ee}
+  #fv-stage{background:radial-gradient(1000px 1300px at 70% 15%,#3a1f12 0%,#1a1220 50%,#0a0a12 80%);color:var(--ink);font-family:Inter,system-ui,sans-serif}
+  #bg-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(251,146,60,.11) 1px,transparent 1px),linear-gradient(90deg,rgba(251,146,60,.11) 1px,transparent 1px);background-size:90px 90px;opacity:.22}
+  .abs{position:absolute}
+  .step{position:absolute;left:0;right:0;top:250px;text-align:center;font:700 34px/1 'JetBrains Mono',monospace;letter-spacing:.2em;color:var(--acc2)}
+  .head{position:absolute;left:60px;right:60px;top:305px;text-align:center;font:800 84px/1.05 Inter;letter-spacing:-.03em}
+  .mono{font-family:'JetBrains Mono',monospace}
+  .badge{position:absolute;left:50%;top:150px;transform:translateX(-50%);padding:12px 26px;border-radius:40px;background:color-mix(in srgb,var(--acc) 12%,transparent);border:2px solid color-mix(in srgb,var(--acc) 55%,transparent);font:700 30px Inter;color:var(--acc2);white-space:nowrap}
+  .pill{display:inline-block;padding:12px 26px;border-radius:40px;font:800 32px Inter}
+  .pane{position:absolute;left:120px;width:840px;height:765px;border-radius:26px;overflow:hidden;border:3px solid color-mix(in srgb,var(--acc) 45%,transparent);background:rgba(8,8,16,.75)}
+  .pane svg{position:absolute;inset:0;width:840px;height:765px}
+  .below{position:absolute;left:0;right:0;top:1225px;text-align:center}
+  .big{font:900 120px/1 Inter;letter-spacing:-.04em;color:#fff}
+  .card{border-radius:22px;padding:26px 30px;background:rgba(255,255,255,.05);border:2px solid rgba(255,255,255,.14)}
+  .fv-endcard{display:inline-block;padding:16px 30px;border-radius:40px;font:700 34px 'JetBrains Mono',monospace;border:3px solid #eef2f6;background:rgba(238,242,246,.08)}
+</style>
+</head>
+<body>
+<div id="fv-stage">
+  <div id="bg-grid"></div>
+  <div class="badge">⚙️ Backend · Tech, decoded</div>
+<section class="fv-scene" data-scene="hook"><div class="pane" id="hk-p" style="top:300px"></div><div id="hk-q" class="abs" style="left:0;right:0;top:1110px;text-align:center"><div class="big" style="font-size:100px">🍿 No <span style="color:var(--acc2)">buffering?</span></div></div></section>
+<section class="fv-scene" data-scene="far"><div class="step">THE PROBLEM</div><div class="head">One server, far away</div><div class="pane" id="fa-p" style="top:430px"></div><div class="below" id="fa-t"></div></section>
+<section class="fv-scene" data-scene="nearby"><div class="step">TRICK 1</div><div class="head">Copies close to you</div><div class="pane" id="nb-p" style="top:430px"></div><div class="below" id="nb-t"></div></section>
+<section class="fv-scene" data-scene="chunks"><div class="step">TRICK 2</div><div class="head">Small chunks</div><div class="pane" id="ch-p" style="top:430px"></div><div class="below" id="ch-t"></div></section>
+<section class="fv-scene" data-scene="adapt"><div class="step">TRICK 3</div><div class="head">Smart quality</div><div class="pane" id="ad-p" style="top:430px"></div><div class="below" id="ad-t"></div></section>
+<section class="fv-scene" data-scene="outro"><div id="oc-w" class="abs" style="left:40px;right:40px;top:620px;display:grid;justify-items:center;gap:22px"></div></section>
+</div>
+<script src="timing.js"></script>
+<script src="fv-runtime.js"></script>
+<script>
+(() => {
+const { seg, css, enter, lerp, clamp, ease, pulse, $ } = FV;
+const NS = 'http://www.w3.org/2000/svg';
+const svgEl = (tag, attrs, parent) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; };
+const txt = (s, x, y, str, o = {}) => { const e = svgEl('text', Object.assign({ x, y, fill: '#eef2f6', 'font-size': 30, 'font-weight': 700, 'font-family': 'Inter', 'text-anchor': 'middle' }, o), s); e.textContent = str; return e; };
+const div = (cls, html, parent, style) => { const e = document.createElement('div'); if (cls) e.className = cls; if (html !== undefined) e.innerHTML = html; if (style) e.style.cssText = style; if (parent) parent.appendChild(e); return e; };
+const pop = (el, t, a, d = 0.45) => { const p = seg(t, a, a + d, ease.back); css(el, { o: clamp(p * 1.5), s: Math.max(0, p) }); return p; };
+const head = (el, t) => { const s = el.querySelector('.step'), h = el.querySelector('.head'); if (s) enter(s, t, 0.0, 0.4); if (h) enter(h, t, 0.08, 0.45, 30); };
+const frac = (ctx, i, f) => ctx.line(i) + (ctx.lineEnd(i) - ctx.line(i)) * f;
+const pill = (t, c) => `<span class="pill" style="border:3px solid ${c};background:${c}1a;color:${c}">${t}</span>`;
+const show = (el, html) => { if (el.__h !== html) { el.innerHTML = html; el.__h = html; } };
+
+function flowPane(host) { return svgEl('svg', { viewBox: '0 0 840 765' }, host); }
+function node(s, x, y, w, h, title, sub, c) {
+  const g = svgEl('g', { opacity: 0 }, s);
+  const r = svgEl('rect', { x: x - w / 2, y: y - h / 2, width: w, height: h, rx: 18, fill: '#0f172a', stroke: c, 'stroke-width': 4 }, g);
+  txt(g, x, y + (sub ? -4 : 10), title, { 'font-size': 30, 'font-weight': 800, fill: '#f1f5f9' });
+  if (sub) txt(g, x, y + 30, sub, { 'font-size': 22, fill: '#94a3b8', 'font-family': 'JetBrains Mono' });
+  return { g, r, x, y, w, h, c };
+}
+function link(s, a, b, c = '#64748b') { return svgEl('line', { x1: a.x, y1: a.y, x2: b.x, y2: b.y, stroke: c, 'stroke-width': 4, 'stroke-dasharray': '10 10', opacity: 0 }, s); }
+function packet(s, label, c) {
+  const g = svgEl('g', { opacity: 0 }, s);
+  const w = Math.max(90, label.length * 15 + 34);
+  svgEl('rect', { x: -w / 2, y: -24, width: w, height: 48, rx: 24, fill: c }, g);
+  txt(g, 0, 9, label, { 'font-size': 24, 'font-weight': 800, fill: '#0b1020', 'font-family': 'JetBrains Mono' });
+  return g;
+}
+function move(p, a, b, u) { if (u <= 0 || u >= 1) { p.setAttribute('opacity', 0); return; } p.setAttribute('opacity', 1); p.setAttribute('transform', `translate(${lerp(a.x, b.x, ease.inOut(u))} ${lerp(a.y, b.y, ease.inOut(u))})`); }
+
+/* HOOK: a wall of screens all start playing */
+{
+  const host = $('#hk-p'); host.innerHTML = '<div class="g" style="position:absolute;inset:30px;display:grid;grid-template-columns:repeat(5,1fr);gap:14px"></div><div class="c mono" style="position:absolute;left:0;right:0;bottom:24px;text-align:center;font-size:34px;font-weight:800;color:#fdba74"></div>';
+  const cells = Array.from({ length: 30 }, (_, i) => div('', '▶', host.querySelector('.g'), `border-radius:10px;display:grid;place-items:center;font-size:34px;color:#fff;background:#1f2937`));
+  FV.scene('hook', (t, ctx) => {
+    enter(host, t, 0.05, 0.4, 20);
+    cells.forEach((c, i) => { const on = t > 0.5 + ((i * 7) % 30) * 0.06; c.style.background = on ? `hsl(${(i * 37) % 360},55%,${30 + (i % 3) * 8}%)` : '#1f2937'; c.textContent = on ? '' : '▶'; });
+    host.querySelector('.c').textContent = `${Math.round(seg(t, 0.5, 3, ease.linear) * 3000000).toLocaleString('en-US')} people pressing play`;
+    pop($('#hk-q'), t, ctx.line(1) - 0.1, 0.5);
+  });
+}
+/* FAR: long trip, buffering spinner */
+{
+  const s = flowPane($('#fa-p'));
+  const dc = node(s, 640, 140, 280, 110, '🏢 data centre', '8,000 km away', '#fb923c'), you = node(s, 200, 620, 240, 110, '📺 you', '', '#2dd4bf');
+  const ln = link(s, dc, you, '#f87171'); const p = packet(s, 'video', '#fb923c');
+  const sp = txt(s, 200, 520, '', { 'font-size': 40, fill: '#f87171', 'font-weight': 800 });
+  FV.scene('far', (t, ctx) => {
+    head(ctx.el, t); enter($('#fa-p'), t, 0.1, 0.4, 20);
+    dc.g.setAttribute('opacity', 1); you.g.setAttribute('opacity', 1); ln.setAttribute('opacity', 1);
+    move(p, dc, you, seg(t, frac(ctx, 0, 0.1), frac(ctx, 0, 0.95), ease.linear));
+    sp.textContent = t > frac(ctx, 0, 0.55) ? `⏳ buffering ${'.'.repeat(1 + Math.floor(t * 3) % 3)}` : '';
+    show($('#fa-t'), pill('long trip = stalls', '#f87171')); $('#fa-t').style.opacity = seg(t, 0.4, 0.7);
+  });
+}
+/* NEARBY: CDN boxes, nearest lights up */
+{
+  const s = flowPane($('#nb-p'));
+  const dc = node(s, 640, 110, 260, 90, '🏢 origin', '', '#64748b');
+  const P = [[160, 330], [420, 300], [690, 360], [300, 520], [560, 560], [130, 640]];
+  const boxes = P.map(([x, y]) => node(s, x, y, 150, 70, '🗄️ copy', '', '#fb923c'));
+  const you = node(s, 560, 700, 180, 70, '📺 you', '', '#2dd4bf');
+  const ln = link(s, boxes[4], you, '#34d399'); const p = packet(s, '▶', '#34d399');
+  FV.scene('nearby', (t, ctx) => {
+    head(ctx.el, t); enter($('#nb-p'), t, 0.1, 0.4, 20);
+    dc.g.setAttribute('opacity', 1); you.g.setAttribute('opacity', 1);
+    boxes.forEach((b, i) => { b.g.setAttribute('opacity', seg(t, frac(ctx, 0, 0.1 + i * 0.06), frac(ctx, 0, 0.18 + i * 0.06))); b.r.setAttribute('stroke', i === 4 && t > frac(ctx, 0, 0.6) ? '#34d399' : '#fb923c'); });
+    ln.setAttribute('opacity', seg(t, frac(ctx, 0, 0.6), frac(ctx, 0, 0.7)));
+    const u = (t - frac(ctx, 0, 0.7)) / 0.6; move(p, boxes[4], you, u - Math.floor(Math.max(0, u)));
+    show($('#nb-t'), pill('often inside your own internet provider', '#fb923c')); $('#nb-t').style.opacity = seg(t, 0.4, 0.7);
+  });
+}
+/* CHUNKS: one show, many qualities */
+{
+  const host = $('#ch-p'); const Q = [['4K', '#a78bfa'], ['1080p', '#2dd4bf'], ['480p', '#fbbf24'], ['240p', '#f87171']];
+  host.innerHTML = '<div class="q" style="position:absolute;inset:50px 40px;display:grid;gap:30px"></div>';
+  const rows = Q.map(([q, c], i) => { const r = div('', `<div style="display:flex;align-items:center;gap:16px"><div class="mono" style="width:120px;font-size:30px;font-weight:800;color:${c}">${q}</div><div class="cs" style="flex:1;display:grid;grid-template-columns:repeat(8,1fr);gap:8px"></div></div>`, host.querySelector('.q')); const cs = Array.from({ length: 8 }, () => div('', '', r.querySelector('.cs'), `height:${110 - i * 18}px;border-radius:8px;background:${c};opacity:0`)); return cs; });
+  FV.scene('chunks', (t, ctx) => {
+    head(ctx.el, t); enter(host, t, 0.1, 0.4, 20);
+    rows.forEach((cs, i) => cs.forEach((c, j) => c.style.opacity = t > frac(ctx, 0, 0.1 + j * 0.05 + i * 0.1) ? 0.85 : 0));
+    show($('#ch-t'), pill('a few seconds of video per chunk', '#fdba74')); $('#ch-t').style.opacity = seg(t, 0.4, 0.7);
+  });
+}
+/* ADAPT: speed graph drives chosen quality */
+{
+  const s = flowPane($('#ad-p'));
+  const sp = (x) => 0.75 + 0.2 * Math.sin(x * 9) - (x > 0.45 && x < 0.7 ? 0.55 : 0);
+  let d = ''; for (let i = 0; i <= 100; i++) { const x = i / 100; d += (i ? 'L' : 'M') + (60 + x * 720) + ' ' + (330 - sp(x) * 250); }
+  txt(s, 60, 60, 'your internet speed', { 'text-anchor': 'start', 'font-size': 26, fill: '#94a3b8' });
+  const curve = svgEl('path', { d, fill: 'none', stroke: '#2dd4bf', 'stroke-width': 5, 'stroke-dasharray': 2000, 'stroke-dashoffset': 2000 }, s);
+  const q = (v) => v > 0.7 ? ['4K', '#a78bfa'] : v > 0.45 ? ['1080p', '#2dd4bf'] : v > 0.25 ? ['480p', '#fbbf24'] : ['240p', '#f87171'];
+  const cs = Array.from({ length: 12 }, (_, j) => { const v = sp((j + 0.5) / 12), [l, c] = q(v); const g = svgEl('g', { opacity: 0 }, s); svgEl('rect', { x: 60 + j * 60, y: 420, width: 54, height: 120, rx: 8, fill: c }, g); txt(g, 87 + j * 60, 580, l, { 'font-size': 18, fill: c, 'font-family': 'JetBrains Mono' }); return g; });
+  txt(s, 60, 400, 'chunks your player picks', { 'text-anchor': 'start', 'font-size': 26, fill: '#94a3b8' });
+  const buf = svgEl('rect', { x: 60, y: 650, width: 0, height: 26, rx: 13, fill: '#34d399' }, s); txt(s, 60, 720, 'buffered ahead ✓', { 'text-anchor': 'start', 'font-size': 26, fill: '#34d399' });
+  FV.scene('adapt', (t, ctx) => {
+    head(ctx.el, t); enter($('#ad-p'), t, 0.1, 0.4, 20);
+    const u = seg(t, frac(ctx, 0, 0.05), frac(ctx, 0, 0.8), ease.linear);
+    curve.setAttribute('stroke-dashoffset', 2000 * (1 - u)); cs.forEach((g, j) => g.setAttribute('opacity', (j + 1) / 12 <= u + 0.02 ? 1 : 0));
+    buf.setAttribute('width', 200 + 120 * Math.sin(t * 2) ** 2);
+    show($('#ad-t'), pill(u > 0.6 ? 'slow Wi-Fi? quality steps down, no freeze' : 'best quality your speed allows', u > 0.6 ? '#fbbf24' : '#2dd4bf')); $('#ad-t').style.opacity = seg(t, 0.4, 0.7);
+  });
+}
+/* OUTRO */
+{
+  const Wd = [['Copies nearby.', '#fb923c', 0], ['Small chunks.', '#a78bfa', 0.3], ['Smart quality.', '#2dd4bf', 0.6]];
+  const w = Wd.map(([s, c]) => div('', s, $('#oc-w'), `font:900 96px/1.05 Inter;letter-spacing:-.03em;color:${c};text-align:center`));
+  FV.scene('outro', (t, ctx) => w.forEach((e, i) => pop(e, t, frac(ctx, 0, Wd[i][2]), 0.4)));
+}
+
+})();
+</script>
+</body>
+</html>

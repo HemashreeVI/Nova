@@ -1,0 +1,95 @@
+{
+ "title": "Why ChatGPT Makes Things Up: AI Hallucinations Explained 🤥 #shorts",
+ "slug": "short-hallucination",
+ "format": "vertical",
+ "description": "AI chatbots sometimes state things that are completely false, with total confidence. That's a hallucination. A language model doesn't look facts up: it predicts the most likely next word, one word at a time. When it hasn't seen the answer, it still produces something that sounds right. Grounding it in real documents (RAG), asking for sources and checking important facts all reduce the risk.\n\n📘 More to learn + my projects: https://github.com/HemashreeVI\n\n#AI #ChatGPT #LLM #AIHallucination #GenerativeAI #TechExplained #shorts",
+ "tags": [
+  "ai hallucination",
+  "why chatgpt makes things up",
+  "chatgpt wrong answers",
+  "llm hallucination",
+  "how chatgpt works",
+  "next word prediction",
+  "large language model",
+  "rag",
+  "ai explained",
+  "generative ai",
+  "tech explained",
+  "shorts"
+ ],
+ "voice": "af_heart",
+ "speed": 1.0,
+ "lineGap": 0.3,
+ "captions": true,
+ "endCard": "",
+ "thumbnail": "predict@4",
+ "endHold": 0.3,
+ "pronounce": {
+  "AI": "A I",
+  "RAG": "rag",
+  "LLM": "L L M"
+ },
+ "scenes": [
+  {
+   "id": "hook",
+   "pad": [
+    0.3,
+    0.5
+   ],
+   "lines": [
+    "Ask an AI for a book, and it might give you a perfect title, author and year. For a book that doesn't exist.",
+    "That's a hallucination."
+   ]
+  },
+  {
+   "id": "predict",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "A language model doesn't look anything up. It predicts the most likely next word, one word at a time."
+   ]
+  },
+  {
+   "id": "gap",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "When it has never seen the real answer, it doesn't stop. It keeps predicting words that sound right, and sounding right isn't the same as being right."
+   ]
+  },
+  {
+   "id": "confident",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "And it says the made-up answer in exactly the same confident tone as a true one."
+   ]
+  },
+  {
+   "id": "fix",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "The fixes: give it real documents to answer from, ask it for sources, and double check anything important."
+   ]
+  },
+  {
+   "id": "outro",
+   "pad": [
+    0.3,
+    1.6
+   ],
+   "lines": [
+    "It predicts words, not facts. Always verify."
+   ]
+  }
+ ]
+}

@@ -1,0 +1,91 @@
+{
+ "title": "How Instagram Picks Your Reels: The Algorithm Explained 📱 #shorts",
+ "slug": "short-reels-algorithm",
+ "format": "vertical",
+ "description": "Instagram doesn't show Reels in order. For each Reel it could show you, it predicts how likely you are to watch it to the end, like it, share it with a friend or save it, based on your past activity, information about the Reel and how you've interacted with the creator. Reels with the highest predicted scores go to the top of your feed, and every swipe teaches it more.\n\n📘 More to learn + my projects: https://github.com/HemashreeVI\n\n#Instagram #InstagramReels #Algorithm #SocialMedia #AI #TechExplained #shorts",
+ "tags": [
+  "instagram algorithm",
+  "how instagram picks reels",
+  "reels algorithm",
+  "instagram reels",
+  "recommendation system",
+  "how the algorithm works",
+  "social media algorithm",
+  "watch time",
+  "machine learning",
+  "ai explained",
+  "tech explained",
+  "shorts"
+ ],
+ "voice": "af_heart",
+ "speed": 1.0,
+ "lineGap": 0.3,
+ "captions": true,
+ "endCard": "",
+ "thumbnail": "signals@4",
+ "endHold": 0.3,
+ "pronounce": {},
+ "scenes": [
+  {
+   "id": "hook",
+   "pad": [
+    0.3,
+    0.5
+   ],
+   "lines": [
+    "You open Instagram, and the first Reel is exactly your kind of thing. That's not luck.",
+    "Here's how it picks."
+   ]
+  },
+  {
+   "id": "pool",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "Out of thousands of Reels it could show you, it first gathers a few hundred candidates, from people you follow and people like you."
+   ]
+  },
+  {
+   "id": "signals",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "For each one, it predicts what you'll do: watch to the end? Like it? Send it to a friend? Save it?"
+   ]
+  },
+  {
+   "id": "score",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "It uses everything you've done before, details about the Reel, and how you've interacted with the creator. Highest score goes first."
+   ]
+  },
+  {
+   "id": "learn",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "And every swipe teaches it more. Skip in one second, and you'll see less of that."
+   ]
+  },
+  {
+   "id": "outro",
+   "pad": [
+    0.3,
+    1.6
+   ],
+   "lines": [
+    "Predict what you'll watch. Show that first."
+   ]
+  }
+ ]
+}

@@ -1,0 +1,93 @@
+{
+ "title": "How Deepfakes Are Made, and How to Spot One 🎭 #shorts",
+ "slug": "short-deepfake",
+ "format": "vertical",
+ "description": "A deepfake is a video where an AI has replaced someone's face or voice. The model learns a face from thousands of images, then redraws it frame by frame onto another person, copying their expressions. Clues can include blurry edges around the face and hair, lighting that doesn't match, odd teeth or jewellery, and lips slightly out of sync, but the best fakes hide these. The strongest defence: verify unusual requests through another channel before you act.\n\n📘 More to learn + my projects: https://github.com/HemashreeVI\n\n#Deepfake #AI #CyberSecurity #OnlineSafety #GenerativeAI #TechExplained #shorts",
+ "tags": [
+  "deepfake",
+  "how deepfakes are made",
+  "how to spot a deepfake",
+  "deepfake detection",
+  "ai face swap",
+  "ai video",
+  "deepfake scam",
+  "generative ai",
+  "online safety",
+  "cyber security",
+  "tech explained",
+  "shorts"
+ ],
+ "voice": "af_heart",
+ "speed": 1.0,
+ "lineGap": 0.3,
+ "captions": true,
+ "endCard": "",
+ "thumbnail": "swap@4",
+ "endHold": 0.3,
+ "pronounce": {
+  "AI": "A I"
+ },
+ "scenes": [
+  {
+   "id": "hook",
+   "pad": [
+    0.3,
+    0.5
+   ],
+   "lines": [
+    "This video call looks like your boss. Same face, same voice. It isn't them.",
+    "That's a deepfake."
+   ]
+  },
+  {
+   "id": "learn",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "First, an AI studies thousands of pictures of one face: every angle, every expression."
+   ]
+  },
+  {
+   "id": "swap",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "Then, frame by frame, it redraws that face onto someone else, copying their every movement and expression."
+   ]
+  },
+  {
+   "id": "spot",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "Look for clues: blurry edges around the hair and jaw, lighting that doesn't match, odd teeth, and lips slightly out of sync."
+   ]
+  },
+  {
+   "id": "defend",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "But the best fakes hide all of that. So if a call asks for money or passwords, hang up and verify through another channel."
+   ]
+  },
+  {
+   "id": "outro",
+   "pad": [
+    0.3,
+    1.6
+   ],
+   "lines": [
+    "Seeing is no longer believing. Verify first."
+   ]
+  }
+ ]
+}

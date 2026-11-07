@@ -1,0 +1,95 @@
+{
+ "title": "What Happens When You Type google.com? DNS in 60 Seconds 🌐 #shorts",
+ "slug": "short-dns",
+ "format": "vertical",
+ "description": "Computers don't understand names like google.com, they need an IP address. DNS is the internet's phone book. Your browser first checks its cache, then asks a resolver, which asks a root server, then the .com server, then Google's own name server, and gets back the IP address. The answer is cached so the next lookup is instant, and only then does your browser connect and load the page.\n\n📘 More to learn + my projects: https://github.com/HemashreeVI\n\n#DNS #Networking #WebDevelopment #SystemDesign #TechExplained #shorts",
+ "tags": [
+  "dns",
+  "what happens when you type google.com",
+  "how dns works",
+  "dns explained",
+  "domain name system",
+  "ip address",
+  "dns resolver",
+  "root server",
+  "networking basics",
+  "system design interview",
+  "web development",
+  "tech explained",
+  "shorts"
+ ],
+ "voice": "af_heart",
+ "speed": 1.0,
+ "lineGap": 0.3,
+ "captions": true,
+ "endCard": "",
+ "thumbnail": "ask@4",
+ "endHold": 0.3,
+ "pronounce": {
+  "DNS": "D N S",
+  "IP": "I P"
+ },
+ "scenes": [
+  {
+   "id": "hook",
+   "pad": [
+    0.3,
+    0.5
+   ],
+   "lines": [
+    "You type google dot com. But computers don't understand names. They need numbers.",
+    "So who translates?"
+   ]
+  },
+  {
+   "id": "book",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "DNS, the internet's phone book. It turns a name into an IP address."
+   ]
+  },
+  {
+   "id": "cache",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "First, your browser checks its own memory. Visited recently? Done in a millisecond."
+   ]
+  },
+  {
+   "id": "ask",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "If not, a resolver asks around: a root server points to the dot com servers, and they point to Google's own name server, which has the address."
+   ]
+  },
+  {
+   "id": "connect",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "The answer is saved for next time, and only now does your browser connect and load the page."
+   ]
+  },
+  {
+   "id": "outro",
+   "pad": [
+    0.3,
+    1.6
+   ],
+   "lines": [
+    "Name in, number out. Then the page loads."
+   ]
+  }
+ ]
+}
