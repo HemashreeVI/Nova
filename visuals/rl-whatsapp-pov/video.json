@@ -1,0 +1,116 @@
+{
+ "title": "POV: You're a WhatsApp Message Travelling From New York to Mumbai 🌊 #shorts",
+ "slug": "rl-whatsapp-pov",
+ "format": "vertical",
+ "description": "What really happens when you hit send? Your message is end-to-end encrypted on your phone, then sent to a WhatsApp server that can't read it but knows where it's going. From there it travels as pulses of light through fibre-optic cables laid on the ocean floor, comes ashore at a cable landing station, crosses Indian networks to a mobile tower, and reaches your friend's phone, which is the only device that can unlock it. More than 12,000 km, in well under a second. Undersea cables carry the vast majority of international internet traffic.\n\n📘 More to learn + my projects: https://github.com/HemashreeVI\n\n#WhatsApp #Internet #UnderseaCables #Networking #Tech #TechExplained #shorts",
+ "tags": [
+  "how whatsapp works",
+  "how messages travel",
+  "undersea cables",
+  "submarine cables",
+  "how the internet works",
+  "end to end encryption",
+  "fibre optic",
+  "data centre",
+  "cable landing station",
+  "networking",
+  "pov",
+  "tech explained",
+  "shorts"
+ ],
+ "voice": "af_heart",
+ "speed": 1.0,
+ "lineGap": 0.3,
+ "captions": true,
+ "endCard": "",
+ "thumbnail": "cable@4",
+ "endHold": 0.3,
+ "pronounce": {
+  "12,000": "twelve thousand",
+  "11:30 PM": "eleven thirty P M"
+ },
+ "scenes": [
+  {
+   "id": "hook",
+   "pad": [
+    0.3,
+    0.5
+   ],
+   "lines": [
+    "POV: you're a WhatsApp message. It's 11:30 PM in New York, and Aarav just typed happy birthday.",
+    "Your destination: Mumbai."
+   ]
+  },
+  {
+   "id": "lock",
+   "pad": [
+    0.3,
+    0.5
+   ],
+   "lines": [
+    "First, you get locked. End-to-end encrypted into gibberish only one phone on Earth can open."
+   ]
+  },
+  {
+   "id": "server",
+   "pad": [
+    0.3,
+    0.5
+   ],
+   "lines": [
+    "You race to a WhatsApp data centre. The server can't read you. It only knows where you're going."
+   ]
+  },
+  {
+   "id": "cable",
+   "pad": [
+    0.3,
+    0.5
+   ],
+   "lines": [
+    "Then you dive. Into a fibre-optic cable lying on the ocean floor, travelling as pulses of light."
+   ]
+  },
+  {
+   "id": "land",
+   "pad": [
+    0.3,
+    0.5
+   ],
+   "lines": [
+    "Thousands of kilometres later, you come ashore at a cable landing station."
+   ]
+  },
+  {
+   "id": "city",
+   "pad": [
+    0.3,
+    0.5
+   ],
+   "lines": [
+    "Through Indian networks, to a mobile tower near her home."
+   ]
+  },
+  {
+   "id": "arrive",
+   "pad": [
+    0.3,
+    0.5
+   ],
+   "lines": [
+    "Her phone unlocks you. Happy birthday. Two blue ticks."
+   ]
+  },
+  {
+   "id": "outro",
+   "pad": [
+    0.3,
+    1.6
+   ],
+   "lines": [
+    "More than twelve thousand kilometres. Under an ocean.",
+    "In under a second."
+   ]
+  }
+ ]
+}
