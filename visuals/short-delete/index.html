@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Delete Short</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{--ink:#eef2f6;--mut:#94a3b8;--acc:#22c55e;--acc2:#4ade80;--grn:#34d399;--red:#f87171;--yel:#fbbf24;--pk:#f472b6;--cy:#22d3ee}
+  #fv-stage{background:radial-gradient(1000px 1300px at 70% 15%,#0d2b1a 0%,#07140d 50%,#040806 80%);color:var(--ink);font-family:Inter,system-ui,sans-serif}
+  #bg-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(34,197,94,.11) 1px,transparent 1px),linear-gradient(90deg,rgba(34,197,94,.11) 1px,transparent 1px);background-size:90px 90px;opacity:.22}
+  .abs{position:absolute}
+  .step{position:absolute;left:0;right:0;top:250px;text-align:center;font:700 34px/1 'JetBrains Mono',monospace;letter-spacing:.2em;color:var(--acc2)}
+  .head{position:absolute;left:60px;right:60px;top:305px;text-align:center;font:800 84px/1.05 Inter;letter-spacing:-.03em}
+  .mono{font-family:'JetBrains Mono',monospace}
+  .badge{position:absolute;left:50%;top:150px;transform:translateX(-50%);padding:12px 26px;border-radius:40px;background:color-mix(in srgb,var(--acc) 12%,transparent);border:2px solid color-mix(in srgb,var(--acc) 55%,transparent);font:700 30px Inter;color:var(--acc2);white-space:nowrap}
+  .pill{display:inline-block;padding:12px 26px;border-radius:40px;font:800 32px Inter}
+  .pane{position:absolute;left:120px;width:840px;height:765px;border-radius:26px;overflow:hidden;border:3px solid color-mix(in srgb,var(--acc) 45%,transparent);background:rgba(8,8,16,.75)}
+  .pane svg{position:absolute;inset:0;width:840px;height:765px}
+  .below{position:absolute;left:0;right:0;top:1225px;text-align:center}
+  .big{font:900 120px/1 Inter;letter-spacing:-.04em;color:#fff}
+  .card{border-radius:22px;padding:26px 30px;background:rgba(255,255,255,.05);border:2px solid rgba(255,255,255,.14)}
+  .fv-endcard{display:inline-block;padding:16px 30px;border-radius:40px;font:700 34px 'JetBrains Mono',monospace;border:3px solid #eef2f6;background:rgba(238,242,246,.08)}
+</style>
+</head>
+<body>
+<div id="fv-stage">
+  <div id="bg-grid"></div>
+  <div class="badge">🔐 Cybersecurity · Tech, decoded</div>
+<section class="fv-scene" data-scene="hook"><div class="pane" id="hk-p" style="top:300px"></div><div id="hk-q" class="abs" style="left:0;right:0;top:1110px;text-align:center"><div class="big" style="font-size:96px">Still there. 👀</div></div></section>
+<section class="fv-scene" data-scene="index"><div class="step">HOW DRIVES WORK</div><div class="head">An index + blocks</div><div class="pane" id="ix-p" style="top:430px"></div><div class="below" id="ix-t"></div></section>
+<section class="fv-scene" data-scene="pointer"><div class="step">WHAT DELETE DOES</div><div class="head">Crosses out the index</div><div class="pane" id="pt-p" style="top:430px"></div><div class="below" id="pt-t"></div></section>
+<section class="fv-scene" data-scene="recover"><div class="step">WHY IT COMES BACK</div><div class="head">Until it's overwritten</div><div class="pane" id="rc-p" style="top:430px"></div><div class="below" id="rc-t"></div></section>
+<section class="fv-scene" data-scene="wipe"><div class="step">BEFORE YOU SELL</div><div class="head">Encrypt + reset</div><div class="pane" id="wp-p" style="top:430px"></div><div class="below" id="wp-t"></div></section>
+<section class="fv-scene" data-scene="outro"><div id="oc-w" class="abs" style="left:40px;right:40px;top:640px;display:grid;justify-items:center;gap:22px"></div></section>
+</div>
+<script src="timing.js"></script>
+<script src="fv-runtime.js"></script>
+<script>
+(() => {
+const { seg, css, enter, lerp, clamp, ease, pulse, $ } = FV;
+const NS = 'http://www.w3.org/2000/svg';
+const svgEl = (tag, attrs, parent) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; };
+const txt = (s, x, y, str, o = {}) => { const e = svgEl('text', Object.assign({ x, y, fill: '#eef2f6', 'font-size': 30, 'font-weight': 700, 'font-family': 'Inter', 'text-anchor': 'middle' }, o), s); e.textContent = str; return e; };
+const div = (cls, html, parent, style) => { const e = document.createElement('div'); if (cls) e.className = cls; if (html !== undefined) e.innerHTML = html; if (style) e.style.cssText = style; if (parent) parent.appendChild(e); return e; };
+const pop = (el, t, a, d = 0.45) => { const p = seg(t, a, a + d, ease.back); css(el, { o: clamp(p * 1.5), s: Math.max(0, p) }); return p; };
+const head = (el, t) => { const s = el.querySelector('.step'), h = el.querySelector('.head'); if (s) enter(s, t, 0.0, 0.4); if (h) enter(h, t, 0.08, 0.45, 30); };
+const frac = (ctx, i, f) => ctx.line(i) + (ctx.lineEnd(i) - ctx.line(i)) * f;
+const pill = (t, c) => `<span class="pill" style="border:3px solid ${c};background:${c}1a;color:${c}">${t}</span>`;
+const show = (el, html) => { if (el.__h !== html) { el.innerHTML = html; el.__h = html; } };
+
+/* shared drive drawing: index table on top, block grid below */
+const COLS = 10, ROWS = 6, BW = 68, BH = 48, GX = 80, GY = 330;
+const FILES = { photo: { name: '📸 beach.jpg', c: '#f472b6', b: [12, 13, 14, 22, 23] }, doc: { name: '📄 notes.txt', c: '#60a5fa', b: [3, 4] }, song: { name: '🎵 song.mp3', c: '#fbbf24', b: [36, 37, 38, 46] } };
+function drive(host, opts = {}) {
+  host.innerHTML = `<div class="ix" style="position:absolute;left:40px;right:40px;top:30px;padding:14px 22px;border-radius:18px;background:#0b1020;border:2px solid #334155">
+    <div style="font:700 22px 'JetBrains Mono';color:#94a3b8;letter-spacing:.12em">INDEX</div><div class="rows" style="margin-top:6px"></div></div>
+    <div class="grid" style="position:absolute;left:${GX}px;top:${GY}px;display:grid;grid-template-columns:repeat(${COLS},${BW - 6}px);gap:6px"></div>`;
+  const rows = {}; for (const [k, f] of Object.entries(FILES)) rows[k] = div('', `<div style="position:relative;display:flex;justify-content:space-between;padding:7px 4px;font:700 26px Inter"><span>${f.name}</span><span class="mono" style="color:${f.c}">${f.b.length} blocks</span><span class="x" style="position:absolute;left:0;top:50%;height:4px;width:0;background:#f87171"></span></div>`, host.querySelector('.rows'));
+  const cells = Array.from({ length: COLS * ROWS }, () => div('', '', host.querySelector('.grid'), `height:${BH - 6}px;border-radius:7px;background:#1e293b`));
+  const owner = (i) => Object.entries(FILES).find(([, f]) => f.b.includes(i));
+  const paint = (state) => cells.forEach((c, i) => { const o = owner(i); c.style.background = o ? (state[o[0]] || o[1].c) : '#1e293b'; c.style.outline = 'none'; });
+  return { rows, cells, paint, owner };
+}
+/* HOOK: file -> bin -> emptied, yet blocks still glow */
+{
+  const host = $('#hk-p');
+  host.innerHTML = `<div style="position:absolute;inset:0;display:grid;place-items:center"><div class="f" style="position:absolute;left:120px;top:220px;font-size:130px">📸</div>
+    <div class="b" style="position:absolute;right:120px;top:230px;font-size:140px">🗑️</div><div class="e" style="position:absolute;right:90px;top:410px;font:800 30px Inter;color:#94a3b8;opacity:0">Bin emptied ✓</div>
+    <div class="d" style="position:absolute;left:60px;right:60px;bottom:50px;padding:18px;border-radius:18px;background:#0b1020;border:2px solid #334155;opacity:0"><div style="font:700 22px 'JetBrains Mono';color:#94a3b8">INSIDE THE DRIVE</div><div class="g" style="margin-top:10px;display:grid;grid-template-columns:repeat(12,1fr);gap:6px"></div></div></div>`;
+  const g = Array.from({ length: 24 }, (_, i) => div('', '', host.querySelector('.g'), `height:34px;border-radius:6px;background:${[4, 5, 6, 15, 16].includes(i) ? '#f472b6' : '#1e293b'}`));
+  FV.scene('hook', (t, ctx) => {
+    enter(host, t, 0.05, 0.4, 20);
+    const m = seg(t, 0.6, 1.6, ease.inOut), f = host.querySelector('.f'); f.style.transform = `translate(${m * 420}px,${-Math.sin(m * Math.PI) * 80}px) scale(${1 - m * 0.7})`; f.style.opacity = 1 - seg(t, 1.5, 1.7);
+    host.querySelector('.e').style.opacity = seg(t, frac(ctx, 0, 0.45), frac(ctx, 0, 0.55));
+    host.querySelector('.d').style.opacity = seg(t, frac(ctx, 0, 0.7), frac(ctx, 0, 0.8));
+    g.forEach((c, i) => { if ([4, 5, 6, 15, 16].includes(i)) c.style.boxShadow = `0 0 ${10 + 10 * Math.sin(t * 5)}px #f472b6`; });
+    pop($('#hk-q'), t, ctx.line(1) - 0.1, 0.5);
+  });
+}
+/* INDEX: rows appear, their blocks light up */
+{
+  const D = drive($('#ix-p'));
+  FV.scene('index', (t, ctx) => {
+    head(ctx.el, t); enter($('#ix-p'), t, 0.1, 0.4, 20);
+    const ks = Object.keys(FILES), st = {};
+    ks.forEach((k, i) => { const on = t > frac(ctx, 0, 0.3 + i * 0.18); D.rows[k].style.opacity = on ? 1 : 0.15; if (!on) st[k] = '#1e293b'; });
+    D.paint(st);
+    show($('#ix-t'), pill('like a book\'s contents page 📖', '#a5b4fc')); $('#ix-t').style.opacity = seg(t, 0.4, 0.7);
+  });
+}
+/* POINTER: strike the photo row; blocks turn "free" (outlined) but keep data */
+{
+  const D = drive($('#pt-p'));
+  FV.scene('pointer', (t, ctx) => {
+    head(ctx.el, t); enter($('#pt-p'), t, 0.1, 0.4, 20);
+    const x = seg(t, frac(ctx, 0, 0.12), frac(ctx, 0, 0.3), ease.inOut); D.rows.photo.querySelector('.x').style.width = x * 100 + '%'; D.rows.photo.style.opacity = 1 - 0.5 * x;
+    D.paint({});
+    const fr = t > frac(ctx, 0, 0.45); FILES.photo.b.forEach((i) => { D.cells[i].style.outline = fr ? '3px dashed #34d399' : 'none'; D.cells[i].style.outlineOffset = '-3px'; });
+    show($('#pt-t'), pill(fr ? '🟩 "free space"… but the photo is still there' : '✂️ only the index entry goes', fr ? '#34d399' : '#f87171')); $('#pt-t').style.opacity = seg(t, 0.4, 0.7);
+  });
+}
+/* RECOVER: recovery tool scans and pulls the photo back */
+{
+  const host = $('#rc-p'); const D = drive(host); D.rows.photo.querySelector('.x').style.width = '100%'; D.rows.photo.style.opacity = 0.5;
+  const scan = div('', '', host, `position:absolute;left:${GX - 10}px;width:${COLS * BW + 10}px;height:6px;background:#a5b4fc;box-shadow:0 0 24px #a5b4fc;opacity:0`);
+  const res = div('card', '<div style="font:800 34px Inter;color:#34d399">🛟 Recovery tool</div><div style="margin-top:10px;font:700 30px Inter">📸 beach.jpg · recovered ✓</div>', host, 'position:absolute;left:100px;right:100px;bottom:20px;background:#052e16;border-color:#34d39988;opacity:0');
+  FV.scene('recover', (t, ctx) => {
+    head(ctx.el, t); enter(host, t, 0.1, 0.4, 20); D.paint({});
+    const u = seg(t, frac(ctx, 0, 0.3), frac(ctx, 0, 0.75), ease.linear); scan.style.opacity = u > 0 && u < 1 ? 1 : 0; scan.style.top = GY + u * ROWS * BH + 'px';
+    FILES.photo.b.forEach((i) => { const hit = u * ROWS > Math.floor(i / COLS); D.cells[i].style.boxShadow = hit ? '0 0 18px #34d399' : 'none'; });
+    res.style.opacity = seg(t, frac(ctx, 0, 0.78), frac(ctx, 0, 0.88));
+    show($('#rc-t'), pill('until new data overwrites it', '#fbbf24')); $('#rc-t').style.opacity = seg(t, 0.4, 0.7);
+  });
+}
+/* WIPE: encryption scrambles blocks, then reset */
+{
+  const host = $('#wp-p'); const D = drive(host);
+  const lock = div('', '🔒', host, 'position:absolute;right:60px;top:200px;font-size:80px;opacity:0');
+  const glyph = '#@%&*$!?';
+  FV.scene('wipe', (t, ctx) => {
+    head(ctx.el, t); enter(host, t, 0.1, 0.4, 20);
+    const e = seg(t, frac(ctx, 0, 0.15), frac(ctx, 0, 0.45)); lock.style.opacity = e;
+    D.cells.forEach((c, i) => { const o = D.owner(i); const on = e * D.cells.length > i; c.style.background = on ? '#312e81' : (o ? o[1].c : '#1e293b'); c.textContent = on ? glyph[(i * 7 + Math.floor(t * 8)) % 8] : ''; c.style.cssText += ';display:grid;place-items:center;font:700 20px JetBrains Mono;color:#a5b4fc'; });
+    const r = seg(t, frac(ctx, 0, 0.6), frac(ctx, 0, 0.75)); Object.values(D.rows).forEach((row) => (row.style.opacity = 1 - r));
+    show($('#wp-t'), pill(r > 0.5 ? '♻️ factory reset: leftovers unreadable' : '🔐 encryption first', r > 0.5 ? '#34d399' : '#a5b4fc')); $('#wp-t').style.opacity = seg(t, 0.4, 0.7);
+  });
+}
+/* OUTRO */
+{
+  const Wd = [['Delete hides it.', '#f87171', 0], ['Overwriting erases it.', '#34d399', 1]];
+  const w = Wd.map(([s, c]) => div('', s, $('#oc-w'), `font:900 92px/1.06 Inter;letter-spacing:-.03em;color:${c};text-align:center`));
+  FV.scene('outro', (t, ctx) => w.forEach((e, i) => pop(e, t, ctx.line(i) - 0.1, 0.45)));
+}
+
+})();
+</script>
+</body>
+</html>

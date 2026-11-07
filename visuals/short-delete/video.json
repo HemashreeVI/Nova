@@ -1,0 +1,97 @@
+{
+ "title": "Why \"Delete\" Doesn't Actually Delete Your Files 🗑️ #shorts",
+ "slug": "short-delete",
+ "format": "vertical",
+ "description": "When you delete a file and empty the bin, the data usually isn't wiped. Your computer just removes the file's entry from the index and marks that space as free. The actual bytes stay on the drive until something new is written over them, which is why recovery tools can bring \"deleted\" files back. SSDs often clean up freed space later using TRIM, and a full-disk encryption plus a factory reset is the safest way to wipe a device before selling it.\n\n📘 More to learn + my projects: https://github.com/HemashreeVI\n\n#DataRecovery #CyberSecurity #Privacy #Computers #Tech #TechExplained #shorts",
+ "tags": [
+  "delete doesnt delete",
+  "how file deletion works",
+  "recover deleted files",
+  "data recovery",
+  "secure delete",
+  "ssd trim",
+  "wipe hard drive",
+  "sell phone safely",
+  "file system",
+  "privacy",
+  "cyber security",
+  "tech explained",
+  "shorts"
+ ],
+ "voice": "af_heart",
+ "speed": 1.0,
+ "lineGap": 0.3,
+ "captions": true,
+ "endCard": "",
+ "thumbnail": "pointer@4",
+ "endHold": 0.3,
+ "pronounce": {
+  "SSD": "S S D",
+  "SSDs": "S S Ds",
+  "TRIM": "trim"
+ },
+ "scenes": [
+  {
+   "id": "hook",
+   "pad": [
+    0.3,
+    0.5
+   ],
+   "lines": [
+    "You deleted that file. You even emptied the bin. It's still on your drive.",
+    "Here's why."
+   ]
+  },
+  {
+   "id": "index",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "Your drive keeps an index, like a book's contents page: this file lives here, at these blocks."
+   ]
+  },
+  {
+   "id": "pointer",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "When you hit delete, the computer only crosses out the index entry, and marks that space as free. The data itself isn't touched."
+   ]
+  },
+  {
+   "id": "recover",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "The bytes sit there until something new is written on top. That's how recovery tools bring deleted photos back."
+   ]
+  },
+  {
+   "id": "wipe",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "So before selling a phone or laptop, turn on encryption and do a full factory reset. Then the leftovers are unreadable."
+   ]
+  },
+  {
+   "id": "outro",
+   "pad": [
+    0.3,
+    1.6
+   ],
+   "lines": [
+    "Delete hides it.",
+    "Overwriting erases it."
+   ]
+  }
+ ]
+}

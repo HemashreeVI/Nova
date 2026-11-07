@@ -1,0 +1,99 @@
+{
+ "title": "Why ChatGPT Can't Count the R's in \"Strawberry\" 🍓 #shorts",
+ "slug": "short-strawberry",
+ "format": "vertical",
+ "description": "Ask some AI chatbots how many R's are in \"strawberry\" and they used to say two. That's because language models never see letters. Before reading anything, text is split into tokens, chunks like \"str\", \"aw\" and \"berry\", and each token becomes a number. The model sees those numbers, not the letters inside them, so spelling and counting characters is surprisingly hard. Newer models handle it better by reasoning step by step or writing code to count.\n\n📘 More to learn + my projects: https://github.com/HemashreeVI\n\n#ChatGPT #AI #LLM #Tokens #GenerativeAI #TechExplained #shorts",
+ "tags": [
+  "chatgpt strawberry",
+  "how many r in strawberry",
+  "chatgpt cant count",
+  "tokens explained",
+  "tokenization",
+  "how chatgpt works",
+  "llm",
+  "large language model",
+  "ai mistakes",
+  "ai explained",
+  "generative ai",
+  "tech explained",
+  "shorts"
+ ],
+ "voice": "af_heart",
+ "speed": 1.0,
+ "lineGap": 0.3,
+ "captions": true,
+ "endCard": "",
+ "thumbnail": "tokens@4",
+ "endHold": 0.3,
+ "pronounce": {
+  "ChatGPT": "Chat G P T",
+  "AI": "A I",
+  "R's": "Rs",
+  "str": "S T R",
+  "aw": "A W"
+ },
+ "scenes": [
+  {
+   "id": "hook",
+   "pad": [
+    0.3,
+    0.5
+   ],
+   "lines": [
+    "Ask an AI how many R's are in strawberry. For a long time, it confidently said two.",
+    "There are three. So why does it fail?"
+   ]
+  },
+  {
+   "id": "tokens",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "Because it never sees letters. Before reading anything, your text is chopped into tokens: chunks like str, aw, and berry."
+   ]
+  },
+  {
+   "id": "numbers",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "Then every token becomes a number. The model only ever sees the numbers, not the letters hidden inside them."
+   ]
+  },
+  {
+   "id": "why",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "Counting R's means looking inside the chunks. That's like counting the letters in a word, when all you were given is its page number in a dictionary."
+   ]
+  },
+  {
+   "id": "fix",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "Newer models get it right by spelling it out letter by letter, or by writing a tiny program to count."
+   ]
+  },
+  {
+   "id": "outro",
+   "pad": [
+    0.3,
+    1.6
+   ],
+   "lines": [
+    "It reads tokens, not letters.",
+    "Strawberry has three R's."
+   ]
+  }
+ ]
+}
