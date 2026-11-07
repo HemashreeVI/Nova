@@ -29,7 +29,7 @@
   <div class="badge">📱 Tech, decoded</div>
 <style>
 .photo{position:absolute;inset:0;overflow:hidden}
-.kbw{position:absolute;inset:0;transform-origin:58% 60%}
+.kbw{position:absolute;inset:0;transform-origin:50% 50%}
 .kbw img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(5,5,15,.25) 0%,rgba(5,5,15,0) 28%,rgba(5,5,15,0) 60%,rgba(5,5,15,.85) 100%);pointer-events:none}
 .glass{position:absolute;border-radius:26px;background:rgba(12,12,28,.74);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1.5px solid rgba(255,255,255,.18);box-shadow:0 20px 60px rgba(0,0,0,.45);color:#fff}
@@ -40,11 +40,12 @@
 .reel .e{font-size:110px}.reel .cap{position:absolute;left:16px;right:60px;bottom:40px;font:700 17px Inter;color:#fff;text-shadow:0 2px 6px #000}
 .reel .ic{position:absolute;right:12px;bottom:40px;display:grid;gap:16px;font-size:26px;text-align:center}
 .reel .pb{position:absolute;left:0;bottom:0;height:4px;background:#fff}
-.tag{position:absolute;left:40px;padding:18px 24px;font:800 32px Inter}
+.tag{position:absolute;left:30px;max-width:300px;padding:16px 20px;font:800 28px/1.2 Inter}
+#fv-stage #fv-caption{bottom:320px!important}
 #fv-stage .badge{z-index:5;background:rgba(10,10,25,.55);backdrop-filter:blur(8px)}
 </style><section class="fv-scene" data-scene="hook"><div class="photo"><div class="kbw"><img src="img/10a.jpg" alt=""></div><div class="shade"></div></div><div class="glass" id="hk-clock" style="left:330px;right:330px;top:250px;padding:18px 0;text-align:center;font:900 76px Inter">2:04 <span style="font-size:40px">AM</span></div><div class="ttl" id="hk-q" style="top:1010px">Does it know<br>you're sad? 🥺</div></section>
 <section class="fv-scene" data-scene="signals"><div class="photo"><div class="kbw"><img src="img/10b.jpg" alt=""><div class=feed></div></div><div class="shade"></div></div><div id="sg-tags"></div></section>
-<section class="fv-scene" data-scene="pattern"><div class="photo"><div class="kbw"><img src="img/10b.jpg" alt=""><div class=feed></div></div><div class="shade"></div></div><div class="glass" id="pt-c" style="left:40px;width:330px;top:300px;padding:26px 26px"></div></section>
+<section class="fv-scene" data-scene="pattern"><div class="photo"><div class="kbw"><img src="img/10b.jpg" alt=""><div class=feed></div></div><div class="shade"></div></div><div class="glass" id="pt-c" style="left:30px;width:340px;top:235px;padding:26px 26px"></div></section>
 <section class="fv-scene" data-scene="loop"><div class="photo"><div class="kbw"><img src="img/10a.jpg" alt=""></div><div class="shade"></div></div><div class="glass" id="lp-c" style="left:110px;right:110px;top:520px;padding:30px 30px"></div></section>
 <section class="fv-scene" data-scene="break"><div class="photo"><div class="kbw"><img src="img/10b.jpg" alt=""><div class=feed></div></div><div class="shade"></div></div><div id="bk-tags"></div></section>
 <section class="fv-scene" data-scene="outro"><div class="photo"><div class="kbw"><img src="img/10a.jpg" alt=""></div><div class="shade"></div></div><div class="ttl" id="oc-a" style="top:620px;font-size:80px">It doesn't read<br>your mind.</div><div class="ttl" id="oc-b" style="top:900px;font-size:96px;color:#f9a8d4">It reads your scroll.</div></section>
@@ -106,7 +107,7 @@ function feed(sec, keys) {
   return { f, els, at: (y) => els.forEach((e, i) => { e.style.top = (i * 600 - y) + 'px'; }) };
 }
 const tick = (F, t) => F.els.forEach((e) => { e.querySelector('.pb').style.width = ((t * 22) % 100) + '%'; e.querySelector('.mq').style.transform = `translateX(${-((t * 18) % 120)}px)`; });
-const kb = (sec, t, dur, from = 1.0, to = 1.06) => { const up = sec.querySelector('.feed') ? -190 : 0; sec.querySelector('.kbw').style.transform = `translateY(${up}px) scale(${lerp(from, to, clamp(t / dur))})`; };
+const kb = (sec, t, dur, from = 1.0, to = 1.06) => { const f = !!sec.querySelector('.feed'), up = f ? -115 : 0, base = f ? 1.12 : 1; sec.querySelector('.kbw').style.transform = `translateY(${up}px) scale(${base * lerp(from, to, clamp(t / dur))})`; };
 const dim = (sec, v) => { sec.querySelector('.kbw img').style.filter = `brightness(${v})`; };
 const scrollTo = (F, t, stops) => { let y = 0; for (const [ts, idx] of stops) { const u = seg(t, ts, ts + 0.45, ease.inOut); y = lerp(y, idx * 600, u); } F.at(y); };
 /* HOOK */
@@ -159,7 +160,7 @@ FV.scene('hook', (t, ctx) => {
   const sec = document.querySelector('[data-scene="break"]'); const F = feed(sec, ['sad2', 'cook', 'travel']);
   const menu = div('', '<div style="padding:14px 16px;font:700 18px Inter;border-bottom:1px solid #333">🔗 Copy link</div><div class="ni" style="padding:14px 16px;font:800 18px Inter;color:#f87171">🚫 Not interested</div><div style="padding:14px 16px;font:700 18px Inter">⭐ Add to favourites</div>', F.f, 'position:absolute;left:20px;right:20px;bottom:150px;border-radius:16px;background:#1f1f1f;color:#fff;opacity:0;z-index:3');
   const T = [['🚫 tap "Not interested"', '#f87171', 0.1, 820], ['🔍 search something new', '#93c5fd', 0.42, 1000], ['♻️ reset suggested content', '#86efac', 0.7, 1180]];
-  const tags = T.map(([s, c, , y]) => div('glass tag', s, $('#bk-tags'), `top:${y}px;color:${c};font-size:28px`));
+  const tags = T.map(([s, c, , y]) => div('glass tag', s, $('#bk-tags'), `top:${y}px;color:${c}`));
   FV.scene('break', (t, ctx) => {
     kb(sec, t, ctx.dur);
     tick(F, t); menu.style.opacity = seg(t, frac(ctx, 0, 0.12), frac(ctx, 0, 0.18)) * (1 - seg(t, frac(ctx, 0, 0.36), frac(ctx, 0, 0.4)));
