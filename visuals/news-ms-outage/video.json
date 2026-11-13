@@ -1,0 +1,94 @@
+{
+ "title": "Why Did Outlook and Teams Go Down for Millions at Once? 🌐💥 #shorts",
+ "slug": "news-ms-outage",
+ "format": "vertical",
+ "description": "This week a global Microsoft outage knocked out Outlook, Teams and other services for hours, and Microsoft said it wasn't aware of any malicious activity behind it. So how does one company's problem hit millions of people at once? Big cloud services share core systems like sign-in, configuration and storage. A single bad change or an overloaded component can spread across all of them, and when millions of apps keep retrying at the same time, the load gets even worse. Engineers fix it by finding what changed and rolling it back, which is why big companies roll out changes slowly, region by region.\n\n📘 More to learn + my projects: https://github.com/HemashreeVI\n\n#Microsoft #Outage #Outlook #Teams #Cloud #TechExplained #shorts",
+ "tags": [
+  "microsoft outage",
+  "outlook down",
+  "teams down",
+  "microsoft 365 outage",
+  "why do apps go down",
+  "cloud outage",
+  "site reliability",
+  "rollback",
+  "incident response",
+  "tech news",
+  "tech explained",
+  "shorts"
+ ],
+ "voice": "af_heart",
+ "speed": 1.0,
+ "lineGap": 0.3,
+ "captions": true,
+ "endCard": "",
+ "thumbnail": "spread@4",
+ "endHold": 0.3,
+ "pronounce": {
+  "SRE": "S R E"
+ },
+ "scenes": [
+  {
+   "id": "hook",
+   "pad": [
+    0.3,
+    0.5
+   ],
+   "lines": [
+    "This week, Outlook and Teams went down for millions of people, for hours. Microsoft said there was no sign of an attack.",
+    "So how does that even happen?"
+   ]
+  },
+  {
+   "id": "shared",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "Huge services don't run alone. Email, chat and files all lean on the same shared systems: sign-in, settings and storage."
+   ]
+  },
+  {
+   "id": "spread",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "So one bad change, or one overloaded piece, doesn't stay small. It spreads to everything that depends on it."
+   ]
+  },
+  {
+   "id": "retry",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "Then it gets worse. Millions of apps keep retrying at the same moment, piling even more load on the broken part."
+   ]
+  },
+  {
+   "id": "fix",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "Engineers race to find what changed, and roll it back. That's why big companies release changes slowly, one region at a time."
+   ]
+  },
+  {
+   "id": "outro",
+   "pad": [
+    0.3,
+    1.6
+   ],
+   "lines": [
+    "One small change.",
+    "Millions of people offline."
+   ]
+  }
+ ]
+}

@@ -1,0 +1,97 @@
+{
+ "title": "Apple Refused Touchscreen Macs for 15 Years. Why Now? 💻👆 #shorts",
+ "slug": "news-touch-mac",
+ "format": "vertical",
+ "description": "Apple's first touchscreen MacBook Pro went on sale on 6 November 2026. For years Apple said no: in 2010 Steve Jobs argued that touching a vertical screen gets tiring fast, and the Mac was built around a precise mouse pointer with small buttons. What changed? Macs now run on the same kind of chips as iPads and can run iPad apps, macOS has become more touch-friendly, and Apple says apps like Microsoft 365, Notion and Canva are getting touch updates. Whether people will actually reach for the screen is the big question.\n\n📘 More to learn + my projects: https://github.com/HemashreeVI\n\n#Apple #MacBook #MacBookPro #Touchscreen #Tech #TechExplained #shorts",
+ "tags": [
+  "touchscreen macbook",
+  "macbook pro touchscreen",
+  "apple touchscreen mac",
+  "why no touchscreen mac",
+  "gorilla arm",
+  "steve jobs touchscreen",
+  "macbook pro 2026",
+  "oled macbook",
+  "apple news",
+  "tech news",
+  "tech explained",
+  "shorts"
+ ],
+ "voice": "af_heart",
+ "speed": 1.0,
+ "lineGap": 0.3,
+ "captions": true,
+ "endCard": "",
+ "thumbnail": "arm@4",
+ "endHold": 0.3,
+ "pronounce": {
+  "macOS": "mac O S",
+  "OLED": "O LED",
+  "iPad": "iPad",
+  "iPads": "iPads"
+ },
+ "scenes": [
+  {
+   "id": "hook",
+   "pad": [
+    0.3,
+    0.5
+   ],
+   "lines": [
+    "For fifteen years, Apple refused to make a touchscreen Mac. This month, it finally did.",
+    "So why now?"
+   ]
+  },
+  {
+   "id": "arm",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "Back in 2010, Steve Jobs said touching a vertical screen gets tiring fast. Your arm just isn't made to hover in the air."
+   ]
+  },
+  {
+   "id": "pointer",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "And the Mac was built for a precise mouse pointer, with tiny buttons. Fingers are a lot bigger than a cursor."
+   ]
+  },
+  {
+   "id": "changed",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "What changed? Macs now use the same kind of chips as iPads, and can run iPad apps. And apps like Notion and Canva are getting touch updates."
+   ]
+  },
+  {
+   "id": "question",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "Now the big question: will you actually reach up and touch it, or keep using the trackpad?"
+   ]
+  },
+  {
+   "id": "outro",
+   "pad": [
+    0.3,
+    1.6
+   ],
+   "lines": [
+    "Fifteen years of no.",
+    "Now, a yes."
+   ]
+  }
+ ]
+}

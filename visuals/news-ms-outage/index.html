@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Microsoft outage Short</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{--ink:#eef2f6;--mut:#94a3b8;--acc:#ef4444;--acc2:#fca5a5;--grn:#34d399;--red:#f87171;--yel:#fbbf24;--pk:#f472b6;--cy:#22d3ee}
+  #fv-stage{background:radial-gradient(1000px 1300px at 70% 12%,#3a0d16 0%,#170a12 52%,#08060c 82%);color:var(--ink);font-family:Inter,system-ui,sans-serif}
+  #bg-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(248,113,113,.10) 1px,transparent 1px),linear-gradient(90deg,rgba(248,113,113,.10) 1px,transparent 1px);background-size:90px 90px;opacity:.22}
+  .abs{position:absolute}
+  .step{position:absolute;left:0;right:0;top:250px;text-align:center;font:700 34px/1 'JetBrains Mono',monospace;letter-spacing:.2em;color:var(--acc2)}
+  .head{position:absolute;left:60px;right:60px;top:305px;text-align:center;font:800 84px/1.05 Inter;letter-spacing:-.03em}
+  .mono{font-family:'JetBrains Mono',monospace}
+  .badge{position:absolute;left:50%;top:150px;transform:translateX(-50%);padding:12px 26px;border-radius:40px;background:color-mix(in srgb,var(--acc) 12%,transparent);border:2px solid color-mix(in srgb,var(--acc) 55%,transparent);font:700 30px Inter;color:var(--acc2);white-space:nowrap}
+  .pill{display:inline-block;padding:12px 26px;border-radius:40px;font:800 32px Inter}
+  .pane{position:absolute;left:120px;width:840px;height:765px;border-radius:26px;overflow:hidden;border:3px solid color-mix(in srgb,var(--acc) 45%,transparent);background:rgba(8,8,16,.75)}
+  .pane svg{position:absolute;inset:0;width:840px;height:765px}
+  .below{position:absolute;left:0;right:0;top:1225px;text-align:center}
+  .big{font:900 120px/1 Inter;letter-spacing:-.04em;color:#fff}
+  .card{border-radius:22px;padding:26px 30px;background:rgba(255,255,255,.05);border:2px solid rgba(255,255,255,.14)}
+  .fv-endcard{display:inline-block;padding:16px 30px;border-radius:40px;font:700 34px 'JetBrains Mono',monospace;border:3px solid #eef2f6;background:rgba(238,242,246,.08)}
+</style>
+</head>
+<body>
+<div id="fv-stage">
+  <div id="bg-grid"></div>
+  <div class="badge">📰 Tech News</div>
+<div id="brk" class="abs" style="left:0;right:0;top:56px;height:62px;background:#dc2626;display:flex;align-items:center;overflow:hidden;z-index:8"><div style="flex:none;position:relative;z-index:2;padding:0 22px;height:100%;display:grid;place-items:center;background:#7f1d1d;font:900 26px Inter;letter-spacing:.1em">BREAKING</div><div style="flex:1;overflow:hidden;height:100%;display:flex;align-items:center"><div class="tk" style="white-space:nowrap;font:800 28px Inter;padding-left:20px"></div></div></div><section class="fv-scene" data-scene="hook"><div class="pane" id="hk-p" style="top:330px"></div><div id="hk-q" class="abs" style="left:0;right:0;top:1150px;text-align:center"><div class="big" style="font-size:120px">How? 🤔</div></div></section>
+<section class="fv-scene" data-scene="shared"><div class="step">UNDER THE HOOD</div><div class="head">Shared foundations</div><div class="pane" id="sh-p" style="top:430px"></div><div class="below" id="sh-t"></div></section>
+<section class="fv-scene" data-scene="spread"><div class="step">ONE BAD CHANGE</div><div class="head">It spreads</div><div class="pane" id="sp-p" style="top:430px"></div><div class="below" id="sp-t"></div></section>
+<section class="fv-scene" data-scene="retry"><div class="step">THEN</div><div class="head">The retry storm</div><div class="pane" id="rt-p" style="top:430px"></div><div class="below" id="rt-t"></div></section>
+<section class="fv-scene" data-scene="fix"><div class="step">THE FIX</div><div class="head">Find it. Roll it back.</div><div class="pane" id="fx-p" style="top:430px"></div><div class="below" id="fx-t"></div></section>
+<section class="fv-scene" data-scene="outro"><div id="oc-w" class="abs" style="left:40px;right:40px;top:640px;display:grid;justify-items:center;gap:30px"></div></section>
+</div>
+<script src="timing.js"></script>
+<script src="fv-runtime.js"></script>
+<script>
+(() => {
+const { seg, css, enter, lerp, clamp, ease, pulse, $ } = FV;
+const NS = 'http://www.w3.org/2000/svg';
+const svgEl = (tag, attrs, parent) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; };
+const txt = (s, x, y, str, o = {}) => { const e = svgEl('text', Object.assign({ x, y, fill: '#eef2f6', 'font-size': 30, 'font-weight': 700, 'font-family': 'Inter', 'text-anchor': 'middle' }, o), s); e.textContent = str; return e; };
+const div = (cls, html, parent, style) => { const e = document.createElement('div'); if (cls) e.className = cls; if (html !== undefined) e.innerHTML = html; if (style) e.style.cssText = style; if (parent) parent.appendChild(e); return e; };
+const pop = (el, t, a, d = 0.45) => { const p = seg(t, a, a + d, ease.back); css(el, { o: clamp(p * 1.5), s: Math.max(0, p) }); return p; };
+const head = (el, t) => { const s = el.querySelector('.step'), h = el.querySelector('.head'); if (s) enter(s, t, 0.0, 0.4); if (h) enter(h, t, 0.08, 0.45, 30); };
+const frac = (ctx, i, f) => ctx.line(i) + (ctx.lineEnd(i) - ctx.line(i)) * f;
+const pill = (t, c) => `<span class="pill" style="border:3px solid ${c};background:${c}1a;color:${c}">${t}</span>`;
+const show = (el, html) => { if (el.__h !== html) { el.innerHTML = html; el.__h = html; } };
+
+function flowPane(host) { return svgEl('svg', { viewBox: '0 0 840 765' }, host); }
+function node(s, x, y, w, h, title, sub, c) {
+  const g = svgEl('g', { opacity: 0 }, s);
+  const r = svgEl('rect', { x: x - w / 2, y: y - h / 2, width: w, height: h, rx: 18, fill: '#0f172a', stroke: c, 'stroke-width': 4 }, g);
+  txt(g, x, y + (sub ? -4 : 10), title, { 'font-size': 30, 'font-weight': 800, fill: '#f1f5f9' });
+  if (sub) txt(g, x, y + 30, sub, { 'font-size': 22, fill: '#94a3b8', 'font-family': 'JetBrains Mono' });
+  return { g, r, x, y, w, h, c };
+}
+function link(s, a, b, c = '#64748b') { return svgEl('line', { x1: a.x, y1: a.y, x2: b.x, y2: b.y, stroke: c, 'stroke-width': 4, 'stroke-dasharray': '10 10', opacity: 0 }, s); }
+function packet(s, label, c) {
+  const g = svgEl('g', { opacity: 0 }, s);
+  const w = Math.max(90, label.length * 15 + 34);
+  svgEl('rect', { x: -w / 2, y: -24, width: w, height: 48, rx: 24, fill: c }, g);
+  txt(g, 0, 9, label, { 'font-size': 24, 'font-weight': 800, fill: '#0b1020', 'font-family': 'JetBrains Mono' });
+  return g;
+}
+function move(p, a, b, u) { if (u <= 0 || u >= 1) { p.setAttribute('opacity', 0); return; } p.setAttribute('opacity', 1); p.setAttribute('transform', `translate(${lerp(a.x, b.x, ease.inOut(u))} ${lerp(a.y, b.y, ease.inOut(u))})`); }
+
+const ticker = (sec, text, t) => { const tk = $('#brk .tk'); tk.textContent = (text + '   •   ').repeat(4); tk.style.transform = `translateX(${-((t * 90) % 900)}px)`; };
+
+/* HOOK: service status board turning red */
+{
+  const s = flowPane($('#hk-p')); svgEl('rect', { x: 0, y: 0, width: 840, height: 765, fill: '#0c0a12' }, s);
+  txt(s, 420, 70, 'SERVICE STATUS', { 'font-size': 30, 'font-weight': 900, fill: '#94a3b8', 'font-family': 'JetBrains Mono', 'letter-spacing': 4 });
+  const S = [['📧', 'Outlook'], ['💬', 'Teams'], ['📁', 'OneDrive'], ['📝', 'Word'], ['📊', 'Excel'], ['📅', 'Calendar'], ['🗂️', 'SharePoint'], ['🔐', 'Sign-in'], ['🛠️', 'Admin']];
+  const rows = S.map(([e, n], i) => { const x = 40 + (i % 3) * 260, y = 110 + Math.floor(i / 3) * 170; const g = svgEl('g', {}, s);
+    const r = svgEl('rect', { x, y, width: 240, height: 150, rx: 18, fill: '#0f172a', stroke: '#22c55e', 'stroke-width': 4 }, g);
+    txt(g, x + 120, y + 62, e, { 'font-size': 50 }); txt(g, x + 120, y + 110, n, { 'font-size': 28, 'font-weight': 800 });
+    const d = svgEl('circle', { cx: x + 214, cy: y + 26, r: 11, fill: '#22c55e' }, g); return { r, d }; });
+  const lab = txt(s, 420, 730, '', { 'font-size': 34, 'font-weight': 900, fill: '#86efac' });
+  FV.scene('hook', (t, ctx) => { ticker(ctx.el, 'Global Microsoft outage hits Outlook and Teams', t); enter($('#hk-p'), t, 0.05, 0.4, 20);
+    rows.forEach((o, i) => { const bad = t > 0.7 + [0, 1, 2, 4, 5, 3, 6, 7, 8][i] * 0.32; o.r.setAttribute('stroke', bad ? '#ef4444' : '#22c55e'); o.r.setAttribute('fill', bad ? '#2a0d12' : '#0f172a'); o.d.setAttribute('fill', bad ? (Math.floor(t * 4) % 2 ? '#ef4444' : '#7f1d1d') : '#22c55e'); });
+    lab.textContent = t > frac(ctx, 0, 0.62) ? '🛡️ "no sign of an attack"' : ''; pop($('#hk-q'), t, ctx.line(1) - 0.1, 0.5); });
+}
+/* shared diagram builder */
+function sharedDiagram(s) {
+  const A = [node(s, 150, 150, 220, 120, '📧 Mail', '', '#60a5fa'), node(s, 420, 150, 220, 120, '💬 Chat', '', '#a78bfa'), node(s, 690, 150, 220, 120, '📁 Files', '', '#34d399')];
+  const F = [node(s, 150, 560, 220, 130, '🔑 Sign-in', '', '#fbbf24'), node(s, 420, 560, 220, 130, '⚙️ Settings', '', '#fbbf24'), node(s, 690, 560, 220, 130, '🗄️ Storage', '', '#fbbf24')];
+  const L = []; A.forEach((a) => F.forEach((f) => L.push(svgEl('line', { x1: a.x, y1: a.y + 60, x2: f.x, y2: f.y - 65, stroke: '#64748b', 'stroke-width': 4, 'stroke-dasharray': '10 10', opacity: 0 }, s))));
+  L.forEach((l) => s.insertBefore(l, s.firstChild));
+  return { A, F, L };
+}
+{
+  const s = flowPane($('#sh-p')); const D = sharedDiagram(s);
+  FV.scene('shared', (t, ctx) => { ticker(ctx.el, 'Global Microsoft outage hits Outlook and Teams', t); head(ctx.el, t); enter($('#sh-p'), t, 0.1, 0.4, 20);
+    D.A.forEach((n, i) => n.g.setAttribute('opacity', seg(t, 0.4 + i * 0.25, 0.7 + i * 0.25)));
+    D.F.forEach((n, i) => n.g.setAttribute('opacity', seg(t, frac(ctx, 0, 0.5) + i * 0.3, frac(ctx, 0, 0.5) + i * 0.3 + 0.3)));
+    const u = seg(t, frac(ctx, 0, 0.55), frac(ctx, 0, 0.95)); D.L.forEach((l, i) => { l.setAttribute('opacity', u * 9 > i ? 0.9 : 0); l.setAttribute('stroke-dashoffset', -t * 40); });
+    show($('#sh-t'), pill('3 apps · 1 shared core', '#fbbf24')); $('#sh-t').style.opacity = seg(t, frac(ctx, 0, 0.75), frac(ctx, 0, 0.9)); });
+}
+{
+  const s = flowPane($('#sp-p')); const D = sharedDiagram(s); const warn = txt(s, 420, 680, '', { 'font-size': 32, 'font-weight': 900, fill: '#fca5a5' });
+  FV.scene('spread', (t, ctx) => { ticker(ctx.el, 'Global Microsoft outage hits Outlook and Teams', t); head(ctx.el, t); enter($('#sp-p'), t, 0.05, 0.3, 10);
+    [...D.A, ...D.F].forEach((n) => n.g.setAttribute('opacity', 1)); D.L.forEach((l) => { l.setAttribute('opacity', 0.9); l.setAttribute('stroke-dashoffset', -t * 40); });
+    const b = frac(ctx, 0, 0.18), bad = t > b; const sx = D.F[1];
+    sx.r.setAttribute('stroke', bad ? '#ef4444' : '#fbbf24'); sx.r.setAttribute('fill', bad ? '#3a0d14' : '#0f172a'); warn.textContent = bad ? '⚠️ bad change / overload' : '';
+    D.L.forEach((l, i) => { const f = i % 3; const lt = b + 0.3 + Math.floor(i / 3) * 0.25 + f * 0.6; l.setAttribute('stroke', t > lt ? '#ef4444' : '#64748b'); });
+    D.F.forEach((n, i) => { if (i !== 1) { const on = t > frac(ctx, 0, 0.5) + (i ? 0.4 : 0); n.r.setAttribute('stroke', on ? '#ef4444' : '#fbbf24'); } });
+    D.A.forEach((n, i) => { const on = t > frac(ctx, 0, 0.62) + i * 0.3; n.r.setAttribute('stroke', on ? '#ef4444' : n.c); n.r.setAttribute('fill', on ? '#3a0d14' : '#0f172a'); });
+    show($('#sp-t'), pill('one weak link → everything breaks', '#f87171')); $('#sp-t').style.opacity = seg(t, frac(ctx, 0, 0.7), frac(ctx, 0, 0.85)); });
+}
+/* RETRY: packets hammering the broken box + load meter */
+{
+  const s = flowPane($('#rt-p')); const core = node(s, 420, 520, 300, 140, '⚙️ broken part', '', '#ef4444'); core.g.setAttribute('opacity', 1); core.r.setAttribute('fill', '#3a0d14');
+  const P = Array.from({ length: 22 }, (_, i) => { const g = packet(s, 'retry', i % 3 ? '#fca5a5' : '#fde68a'); return { g, x: 60 + (i * 137) % 720, d: (i * 0.37) % 1 }; });
+  txt(s, 80, 80, 'load', { 'text-anchor': 'start', 'font-size': 28, fill: '#cbd5e1', 'font-family': 'JetBrains Mono' });
+  svgEl('rect', { x: 170, y: 56, width: 600, height: 34, rx: 17, fill: 'rgba(255,255,255,.08)' }, s); const m = svgEl('rect', { x: 170, y: 56, width: 0, height: 34, rx: 17, fill: '#ef4444' }, s);
+  const pct = txt(s, 420, 150, '', { 'font-size': 40, 'font-weight': 900, fill: '#fca5a5', 'font-family': 'JetBrains Mono' });
+  FV.scene('retry', (t, ctx) => { ticker(ctx.el, 'Global Microsoft outage hits Outlook and Teams', t); head(ctx.el, t); enter($('#rt-p'), t, 0.1, 0.4, 20);
+    const rate = seg(t, 0.4, frac(ctx, 0, 0.8)); const n = Math.round(rate * P.length);
+    P.forEach((p, i) => { if (i >= n) { p.g.setAttribute('opacity', 0); return; } move(p.g, { x: p.x, y: 200 }, { x: 420 + (p.x - 420) * 0.2, y: 460 }, ((t * (0.9 + rate) + p.d) % 1)); });
+    m.setAttribute('width', 600 * Math.min(1, 0.35 + rate * 0.65)); pct.textContent = '⬆'.repeat(1 + Math.round(rate * 4));
+    const sh = rate > 0.5 ? Math.sin(t * 60) * 4 * rate : 0; core.g.setAttribute('transform', `translate(${sh} 0)`);
+    show($('#rt-t'), pill('🌪️ everyone retries at once', '#fca5a5')); $('#rt-t').style.opacity = seg(t, frac(ctx, 0, 0.55), frac(ctx, 0, 0.7)); });
+}
+/* FIX: timeline + rollback + staged region rollout */
+{
+  const s = flowPane($('#fx-p'));
+  svgEl('line', { x1: 70, y1: 150, x2: 770, y2: 150, stroke: '#475569', 'stroke-width': 6, 'stroke-linecap': 'round' }, s);
+  const E = [[110, '🔧', 'change'], [300, '💥', 'errors'], [490, '🔍', 'found it'], [690, '⏪', 'roll back']];
+  const ev = E.map(([x, e, l]) => { const g = svgEl('g', { opacity: 0 }, s); svgEl('circle', { cx: x, cy: 150, r: 16, fill: '#f87171' }, g); txt(g, x, 100, e, { 'font-size': 44 }); txt(g, x, 210, l, { 'font-size': 26, 'font-weight': 800 }); return g; });
+  const fill = svgEl('line', { x1: 70, y1: 150, x2: 70, y2: 150, stroke: '#f87171', 'stroke-width': 6, 'stroke-linecap': 'round' }, s);
+  txt(s, 420, 320, 'next time: release slowly', { 'font-size': 32, 'font-weight': 900, fill: '#86efac' });
+  const R = ['🌎 Region 1', '🌍 Region 2', '🌏 Region 3', '🌐 Everyone'].map((l, i) => { const x = 40 + i * 195; const g = svgEl('g', {}, s);
+    const r = svgEl('rect', { x, y: 370, width: 175, height: 280, rx: 18, fill: '#0f172a', stroke: '#334155', 'stroke-width': 4 }, g);
+    txt(g, x + 88, 470, l.split(' ')[0], { 'font-size': 56 }); txt(g, x + 88, 540, l.split(' ').slice(1).join(' '), { 'font-size': 24, 'font-weight': 800 });
+    const c = txt(g, x + 88, 610, '', { 'font-size': 36 }); return { r, c }; });
+  FV.scene('fix', (t, ctx) => { ticker(ctx.el, 'Global Microsoft outage hits Outlook and Teams', t); head(ctx.el, t); enter($('#fx-p'), t, 0.1, 0.4, 20);
+    const u = seg(t, 0.4, frac(ctx, 0, 0.42), ease.linear); fill.setAttribute('x2', 70 + 700 * u); ev.forEach((g, i) => g.setAttribute('opacity', u * 4 > i + 0.1 ? 1 : 0));
+    const r0 = frac(ctx, 0, 0.55); R.forEach((o, i) => { const on = t > r0 + i * 0.7; o.r.setAttribute('stroke', on ? '#22c55e' : '#334155'); o.c.textContent = on ? '✅' : (t > r0 + i * 0.7 - 0.7 && t > r0 ? '⏳' : ''); });
+    show($('#fx-t'), pill('one region at a time', '#86efac')); $('#fx-t').style.opacity = seg(t, frac(ctx, 0, 0.75), frac(ctx, 0, 0.9)); });
+}
+{ const w = [div('', 'One small change.', $('#oc-w'), 'font:900 92px/1.06 Inter;letter-spacing:-.03em;color:#fde68a;text-align:center'), div('', 'Millions of people offline. 🌐', $('#oc-w'), 'font:900 70px/1.1 Inter;color:#fca5a5;text-align:center')];
+  FV.scene('outro', (t, ctx) => w.forEach((e, i) => pop(e, t, ctx.line(i) - 0.1, 0.45))); }
+})();
+</script>
+</body>
+</html>

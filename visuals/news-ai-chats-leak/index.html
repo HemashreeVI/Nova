@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI chats leak Short</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{--ink:#eef2f6;--mut:#94a3b8;--acc:#ef4444;--acc2:#fca5a5;--grn:#34d399;--red:#f87171;--yel:#fbbf24;--pk:#f472b6;--cy:#22d3ee}
+  #fv-stage{background:radial-gradient(1000px 1300px at 70% 12%,#3a0d16 0%,#170a12 52%,#08060c 82%);color:var(--ink);font-family:Inter,system-ui,sans-serif}
+  #bg-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(248,113,113,.10) 1px,transparent 1px),linear-gradient(90deg,rgba(248,113,113,.10) 1px,transparent 1px);background-size:90px 90px;opacity:.22}
+  .abs{position:absolute}
+  .step{position:absolute;left:0;right:0;top:250px;text-align:center;font:700 34px/1 'JetBrains Mono',monospace;letter-spacing:.2em;color:var(--acc2)}
+  .head{position:absolute;left:60px;right:60px;top:305px;text-align:center;font:800 84px/1.05 Inter;letter-spacing:-.03em}
+  .mono{font-family:'JetBrains Mono',monospace}
+  .badge{position:absolute;left:50%;top:150px;transform:translateX(-50%);padding:12px 26px;border-radius:40px;background:color-mix(in srgb,var(--acc) 12%,transparent);border:2px solid color-mix(in srgb,var(--acc) 55%,transparent);font:700 30px Inter;color:var(--acc2);white-space:nowrap}
+  .pill{display:inline-block;padding:12px 26px;border-radius:40px;font:800 32px Inter}
+  .pane{position:absolute;left:120px;width:840px;height:765px;border-radius:26px;overflow:hidden;border:3px solid color-mix(in srgb,var(--acc) 45%,transparent);background:rgba(8,8,16,.75)}
+  .pane svg{position:absolute;inset:0;width:840px;height:765px}
+  .below{position:absolute;left:0;right:0;top:1225px;text-align:center}
+  .big{font:900 120px/1 Inter;letter-spacing:-.04em;color:#fff}
+  .card{border-radius:22px;padding:26px 30px;background:rgba(255,255,255,.05);border:2px solid rgba(255,255,255,.14)}
+  .fv-endcard{display:inline-block;padding:16px 30px;border-radius:40px;font:700 34px 'JetBrains Mono',monospace;border:3px solid #eef2f6;background:rgba(238,242,246,.08)}
+</style>
+</head>
+<body>
+<div id="fv-stage">
+  <div id="bg-grid"></div>
+  <div class="badge">📰 Tech News</div>
+<div id="brk" class="abs" style="left:0;right:0;top:56px;height:62px;background:#dc2626;display:flex;align-items:center;overflow:hidden;z-index:8"><div style="flex:none;position:relative;z-index:2;padding:0 22px;height:100%;display:grid;place-items:center;background:#7f1d1d;font:900 26px Inter;letter-spacing:.1em">BREAKING</div><div style="flex:1;overflow:hidden;height:100%;display:flex;align-items:center"><div class="tk" style="white-space:nowrap;font:800 28px Inter;padding-left:20px"></div></div></div><section class="fv-scene" data-scene="hook"><div class="pane" id="hk-p" style="top:330px"></div><div id="hk-q" class="abs" style="left:0;right:0;top:1150px;text-align:center"><div class="big" style="font-size:96px">Not from the app. 👀</div></div></section>
+<section class="fv-scene" data-scene="chain"><div class="step">THE CHAIN</div><div class="head">Who saw your chat?</div><div class="pane" id="ch-p" style="top:430px"></div><div class="below" id="ch-t"></div></section>
+<section class="fv-scene" data-scene="scope"><div class="step">HOW BIG?</div><div class="head">Small… but personal</div><div class="pane" id="sc-p" style="top:430px"></div><div class="below" id="sc-t"></div></section>
+<section class="fv-scene" data-scene="vendors"><div class="step">THE HIDDEN RISK</div><div class="head">Hidden companies</div><div class="pane" id="vd-p" style="top:430px"></div><div class="below" id="vd-t"></div></section>
+<section class="fv-scene" data-scene="rules"><div class="step">DO THIS</div><div class="head">Never paste these</div><div class="pane" id="ru-p" style="top:430px"></div><div class="below" id="ru-t"></div></section>
+<section class="fv-scene" data-scene="outro"><div id="oc-w" class="abs" style="left:40px;right:40px;top:640px;display:grid;justify-items:center;gap:30px"></div></section>
+</div>
+<script src="timing.js"></script>
+<script src="fv-runtime.js"></script>
+<script>
+(() => {
+const { seg, css, enter, lerp, clamp, ease, pulse, $ } = FV;
+const NS = 'http://www.w3.org/2000/svg';
+const svgEl = (tag, attrs, parent) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; };
+const txt = (s, x, y, str, o = {}) => { const e = svgEl('text', Object.assign({ x, y, fill: '#eef2f6', 'font-size': 30, 'font-weight': 700, 'font-family': 'Inter', 'text-anchor': 'middle' }, o), s); e.textContent = str; return e; };
+const div = (cls, html, parent, style) => { const e = document.createElement('div'); if (cls) e.className = cls; if (html !== undefined) e.innerHTML = html; if (style) e.style.cssText = style; if (parent) parent.appendChild(e); return e; };
+const pop = (el, t, a, d = 0.45) => { const p = seg(t, a, a + d, ease.back); css(el, { o: clamp(p * 1.5), s: Math.max(0, p) }); return p; };
+const head = (el, t) => { const s = el.querySelector('.step'), h = el.querySelector('.head'); if (s) enter(s, t, 0.0, 0.4); if (h) enter(h, t, 0.08, 0.45, 30); };
+const frac = (ctx, i, f) => ctx.line(i) + (ctx.lineEnd(i) - ctx.line(i)) * f;
+const pill = (t, c) => `<span class="pill" style="border:3px solid ${c};background:${c}1a;color:${c}">${t}</span>`;
+const show = (el, html) => { if (el.__h !== html) { el.innerHTML = html; el.__h = html; } };
+
+function flowPane(host) { return svgEl('svg', { viewBox: '0 0 840 765' }, host); }
+function node(s, x, y, w, h, title, sub, c) {
+  const g = svgEl('g', { opacity: 0 }, s);
+  const r = svgEl('rect', { x: x - w / 2, y: y - h / 2, width: w, height: h, rx: 18, fill: '#0f172a', stroke: c, 'stroke-width': 4 }, g);
+  txt(g, x, y + (sub ? -4 : 10), title, { 'font-size': 30, 'font-weight': 800, fill: '#f1f5f9' });
+  if (sub) txt(g, x, y + 30, sub, { 'font-size': 22, fill: '#94a3b8', 'font-family': 'JetBrains Mono' });
+  return { g, r, x, y, w, h, c };
+}
+function link(s, a, b, c = '#64748b') { return svgEl('line', { x1: a.x, y1: a.y, x2: b.x, y2: b.y, stroke: c, 'stroke-width': 4, 'stroke-dasharray': '10 10', opacity: 0 }, s); }
+function packet(s, label, c) {
+  const g = svgEl('g', { opacity: 0 }, s);
+  const w = Math.max(90, label.length * 15 + 34);
+  svgEl('rect', { x: -w / 2, y: -24, width: w, height: 48, rx: 24, fill: c }, g);
+  txt(g, 0, 9, label, { 'font-size': 24, 'font-weight': 800, fill: '#0b1020', 'font-family': 'JetBrains Mono' });
+  return g;
+}
+function move(p, a, b, u) { if (u <= 0 || u >= 1) { p.setAttribute('opacity', 0); return; } p.setAttribute('opacity', 1); p.setAttribute('transform', `translate(${lerp(a.x, b.x, ease.inOut(u))} ${lerp(a.y, b.y, ease.inOut(u))})`); }
+
+const ticker = (sec, text, t) => { const tk = $('#brk .tk'); tk.textContent = (text + '   •   ').repeat(4); tk.style.transform = `translateX(${-((t * 90) % 900)}px)`; };
+
+/* HOOK: a private chat, then a crack */
+{
+  const host = $('#hk-p'); host.innerHTML = '<div class="w" style="position:absolute;inset:36px;display:flex;flex-direction:column;gap:22px"></div><div class="lk" style="position:absolute;right:40px;top:30px;font-size:90px"></div>';
+  const M = [[1, 'Help me write a message to my landlord 🏠'], [0, 'Sure! What happened?'], [1, 'My address is 14 ••••• St and my rent is late…'], [1, 'Also here\'s my work login: ••••••••']];
+  const b = M.map(([me, x]) => div('', x, host.querySelector('.w'), `max-width:600px;align-self:${me ? 'flex-end' : 'flex-start'};padding:22px 28px;border-radius:28px;font:600 32px/1.3 Inter;background:${me ? '#2563eb' : 'rgba(255,255,255,.1)'}`));
+  FV.scene('hook', (t, ctx) => { ticker(ctx.el, 'Notion AI chats exposed in Fireworks AI breach', t); enter(host, t, 0.05, 0.4, 20);
+    b.forEach((e, i) => pop(e, t, 0.3 + i * 0.5, 0.4)); const leak = t > frac(ctx, 0, 0.6);
+    host.querySelector('.lk').textContent = leak ? '🔓' : '🔒'; b.forEach((e, i) => { e.style.boxShadow = leak && i % 2 === 0 ? '0 0 0 4px #ef4444' : 'none'; });
+    pop($('#hk-q'), t, ctx.line(1) - 0.1, 0.5); });
+}
+/* CHAIN: You → Notion → Fireworks AI → cloud provider ← attacker */
+{
+  const s = flowPane($('#ch-p'));
+  const N = [node(s, 230, 100, 300, 110, '🙋 You', '', '#60a5fa'), node(s, 230, 300, 300, 110, '📝 Notion AI', 'the app you use', '#a78bfa'), node(s, 230, 500, 300, 110, '🔥 Fireworks AI', 'behind the scenes', '#fb923c'), node(s, 230, 690, 300, 100, '☁️ Cloud provider', '', '#94a3b8')];
+  const L = [0, 1, 2].map((i) => link(s, { x: 230, y: N[i].y + 55 }, { x: 230, y: N[i + 1].y - 55 }));
+  const H = node(s, 640, 690, 230, 100, '🦹 Attackers', '', '#ef4444'); const hl = link(s, { x: 525, y: 690 }, { x: 382, y: 690 }, '#ef4444');
+  const pk = packet(s, '💬 your chat', '#93c5fd'); const tag = txt(s, 640, 560, '', { 'font-size': 30, 'font-weight': 900, fill: '#fca5a5' });
+  FV.scene('chain', (t, ctx) => { ticker(ctx.el, 'Notion AI chats exposed in Fireworks AI breach', t); head(ctx.el, t); enter($('#ch-p'), t, 0.1, 0.4, 20);
+    N.forEach((n, i) => n.g.setAttribute('opacity', seg(t, 0.3 + i * frac(ctx, 0, 0.14), 0.6 + i * frac(ctx, 0, 0.14))));
+    L.forEach((l, i) => l.setAttribute('opacity', seg(t, 0.5 + i * frac(ctx, 0, 0.14), 0.8 + i * frac(ctx, 0, 0.14))));
+    const pu = ((t - 0.6) / 2.4); if (pu > 0 && pu < 3) { const k = Math.floor(pu), f = pu - k; move(pk, { x: 230, y: N[k].y }, { x: 230, y: N[k + 1].y }, f); } else pk.setAttribute('opacity', 0);
+    const a = frac(ctx, 0, 0.62); H.g.setAttribute('opacity', seg(t, a, a + 0.4)); hl.setAttribute('opacity', seg(t, a + 0.3, a + 0.6)); hl.setAttribute('stroke-dashoffset', t * 40);
+    N[3].r.setAttribute('stroke', t > a + 0.6 ? '#ef4444' : '#94a3b8'); tag.textContent = t > a + 0.6 ? '💥 broke in here' : '';
+    show($('#ch-t'), pill('you never chose Fireworks AI', '#fb923c')); $('#ch-t').style.opacity = seg(t, frac(ctx, 0, 0.35), frac(ctx, 0, 0.5)); });
+}
+/* SCOPE: 100 workspaces, <1 % hit; no names, but details give you away */
+{
+  const s = flowPane($('#sc-p')); const sq = [];
+  for (let i = 0; i < 100; i++) sq.push(svgEl('rect', { x: 120 + (i % 20) * 30, y: 60 + Math.floor(i / 20) * 30, width: 24, height: 24, rx: 5, fill: '#334155' }, s));
+  const lab = txt(s, 420, 250, '', { 'font-size': 40, 'font-weight': 900, fill: '#fca5a5' });
+  const g = svgEl('g', { opacity: 0 }, s); svgEl('rect', { x: 70, y: 320, width: 700, height: 100, rx: 20, fill: '#0f172a', stroke: '#64748b', 'stroke-width': 3 }, g); txt(g, 420, 382, '👤 name: —   (not attached)', { 'font-size': 32, 'font-weight': 800 });
+  const c = svgEl('g', { opacity: 0 }, s); svgEl('rect', { x: 70, y: 460, width: 700, height: 220, rx: 20, fill: '#1e293b' }, c);
+  txt(c, 420, 525, '"I work at ▇▇▇ in ▇▇▇,', { 'font-size': 32, 'font-weight': 700 }); txt(c, 420, 575, 'my manager ▇▇▇ said…"', { 'font-size': 32, 'font-weight': 700 });
+  const id = txt(c, 420, 645, '', { 'font-size': 32, 'font-weight': 900, fill: '#fca5a5' });
+  FV.scene('scope', (t, ctx) => { ticker(ctx.el, 'Notion AI chats exposed in Fireworks AI breach', t); head(ctx.el, t); enter($('#sc-p'), t, 0.1, 0.4, 20);
+    const u = seg(t, 0.4, 1.6); sq.forEach((r, i) => r.setAttribute('fill', i < u * 100 ? (i === 37 && t > frac(ctx, 0, 0.3) ? '#ef4444' : '#475569') : '#1e293b'));
+    lab.textContent = t > frac(ctx, 0, 0.3) ? 'under 1% of workspaces' : '';
+    g.setAttribute('opacity', seg(t, frac(ctx, 0, 0.42), frac(ctx, 0, 0.5))); c.setAttribute('opacity', seg(t, frac(ctx, 0, 0.6), frac(ctx, 0, 0.68)));
+    id.textContent = t > frac(ctx, 0, 0.8) ? '→ still points to you 🎯' : '';
+    show($('#sc-t'), pill('content can identify you', '#fca5a5')); $('#sc-t').style.opacity = seg(t, frac(ctx, 0, 0.82), frac(ctx, 0, 0.92)); });
+}
+/* VENDORS: one app fans out to many unknown companies, each a door */
+{
+  const s = flowPane($('#vd-p')); const C = { x: 420, y: 380 }; const app = node(s, 420, 380, 220, 110, '📱 the app', '', '#a78bfa');
+  const V = Array.from({ length: 8 }, (_, i) => { const a = i / 8 * Math.PI * 2 - Math.PI / 2; const p = { x: 420 + Math.cos(a) * 300, y: 380 + Math.sin(a) * 290 };
+    const l = link(s, C, p); const n = node(s, p.x, p.y, 150, 90, '🏢 ?', '', '#64748b'); const d = txt(s, p.x + 62, p.y - 36, '', { 'font-size': 36 }); return { l, n, d }; });
+  s.appendChild(app.g); app.g.setAttribute('opacity', 1);
+  FV.scene('vendors', (t, ctx) => { ticker(ctx.el, 'Notion AI chats exposed in Fireworks AI breach', t); head(ctx.el, t); enter($('#vd-p'), t, 0.1, 0.4, 20);
+    V.forEach((v, i) => { const a = frac(ctx, 0, 0.12) + i * 0.22; v.l.setAttribute('opacity', seg(t, a, a + 0.3)); v.l.setAttribute('stroke-dashoffset', -t * 40); v.n.g.setAttribute('opacity', seg(t, a + 0.1, a + 0.4));
+      const dr = t > frac(ctx, 0, 0.6) + i * 0.12; const hk = [1, 4, 6].includes(i) && t > frac(ctx, 0, 0.85); v.d.textContent = dr ? (hk ? '🦹' : '🚪') : ''; v.n.r.setAttribute('stroke', hk ? '#ef4444' : '#64748b'); });
+    show($('#vd-t'), pill('every company = another door', '#fca5a5')); $('#vd-t').style.opacity = seg(t, frac(ctx, 0, 0.7), frac(ctx, 0, 0.8)); });
+}
+/* RULES: three never-paste cards + change-them-now */
+{
+  const host = $('#ru-p'); host.innerHTML = '<div class="g" style="position:absolute;left:40px;right:40px;top:40px;display:grid;gap:22px"></div>';
+  const R = [['🔑', 'Passwords'], ['🧩', 'API keys'], ['📄', 'Private documents']];
+  const cs = R.map(([e, l]) => div('card', `<div style="display:flex;align-items:center;gap:26px"><span style="font-size:70px">${e}</span><span style="flex:1;font:800 44px Inter">${l}</span><span class="x" style="font-size:64px;opacity:0">🚫</span></div>`, host.querySelector('.g'), 'border-color:#f8717166'));
+  const ch = div('card', '<div style="text-align:center;font:900 44px Inter;color:#86efac">Already did? 🔄 Change them now</div>', host.querySelector('.g'), 'border-color:#22c55e88;background:rgba(34,197,94,.1)');
+  FV.scene('rules', (t, ctx) => { ticker(ctx.el, 'Notion AI chats exposed in Fireworks AI breach', t); head(ctx.el, t); enter(host, t, 0.1, 0.4, 20);
+    cs.forEach((c, i) => { const a = frac(ctx, 0, 0.12 + i * 0.13); pop(c, t, a, 0.4); c.querySelector('.x').style.opacity = seg(t, a + 0.3, a + 0.5); });
+    pop(ch, t, frac(ctx, 0, 0.72), 0.45);
+    show($('#ru-t'), pill('AI chats aren\'t a vault', '#fca5a5')); $('#ru-t').style.opacity = seg(t, frac(ctx, 0, 0.88), frac(ctx, 0, 0.98)); });
+}
+{ const w = [div('', 'Treat every AI chat like a postcard. 📮', $('#oc-w'), 'font:900 92px/1.06 Inter;letter-spacing:-.03em;color:#fde68a;text-align:center'), div('', 'Anyone along the way might read it.', $('#oc-w'), 'font:900 70px/1.1 Inter;color:#fca5a5;text-align:center')];
+  FV.scene('outro', (t, ctx) => w.forEach((e, i) => pop(e, t, ctx.line(i) - 0.1, 0.45))); }
+})();
+</script>
+</body>
+</html>

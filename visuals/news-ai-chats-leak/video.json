@@ -1,0 +1,96 @@
+{
+ "title": "Your AI Chats Aren't as Private as You Think 🔓💬 #shorts",
+ "slug": "news-ai-chats-leak",
+ "format": "vertical",
+ "description": "Notion confirmed that some Notion AI chats were exposed through a breach at Fireworks AI, a company Notion used behind the scenes for its Insights feature. Attackers broke into a cloud provider that hosted Fireworks' machines. Notion says fewer than 1% of workspaces may be affected and the chats weren't labelled with names, but conversations can still contain personal details, so it advised users to change any passwords they had pasted into Notion AI. The lesson: the app you use often shares your data with other companies you've never heard of. Never paste passwords, API keys or private data into AI chats.\n\n📘 More to learn + my projects: https://github.com/HemashreeVI\n\n#CyberSecurity #AI #Privacy #DataBreach #Notion #TechExplained #shorts",
+ "tags": [
+  "ai chat privacy",
+  "notion ai breach",
+  "fireworks ai breach",
+  "data breach",
+  "third party risk",
+  "ai privacy",
+  "is chatgpt private",
+  "api keys",
+  "password safety",
+  "cyber security",
+  "tech news",
+  "tech explained",
+  "shorts"
+ ],
+ "voice": "af_heart",
+ "speed": 1.0,
+ "lineGap": 0.3,
+ "captions": true,
+ "endCard": "",
+ "thumbnail": "chain@4",
+ "endHold": 0.3,
+ "pronounce": {
+  "AI": "A I",
+  "API": "A P I"
+ },
+ "scenes": [
+  {
+   "id": "hook",
+   "pad": [
+    0.3,
+    0.5
+   ],
+   "lines": [
+    "You told an AI app something private. This week, some of those chats leaked.",
+    "And not from the app you used."
+   ]
+  },
+  {
+   "id": "chain",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "Notion used another company, Fireworks AI, behind the scenes. Attackers broke into a cloud provider hosting Fireworks' machines."
+   ]
+  },
+  {
+   "id": "scope",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "Notion says under one percent of workspaces may be affected, and the chats had no names attached. But a chat can still give you away."
+   ]
+  },
+  {
+   "id": "vendors",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "That's the hidden risk. One app can quietly share your data with many companies you've never heard of. Each one is another door for attackers."
+   ]
+  },
+  {
+   "id": "rules",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "So never paste passwords, API keys or private documents into an AI chat. And if you already did, change them now."
+   ]
+  },
+  {
+   "id": "outro",
+   "pad": [
+    0.3,
+    1.6
+   ],
+   "lines": [
+    "Treat every AI chat like a postcard.",
+    "Anyone along the way might read it."
+   ]
+  }
+ ]
+}
