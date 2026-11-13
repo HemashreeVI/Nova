@@ -1,0 +1,97 @@
+{
+ "title": "OpenAI's New AI Finds Security Bugs Humans Missed 🔐🤖 #shorts",
+ "slug": "news-gpt6cyber",
+ "format": "vertical",
+ "description": "On 5 November 2026 OpenAI released GPT-6 Cyber, a model built to find software vulnerabilities. According to OpenAI, researchers used it to find 81 previously unknown high-severity bugs in Firefox, and it built working exploits for 948 Linux kernel vulnerabilities, 588 of them previously unknown. OpenAI rates it \"Critical\" for cybersecurity under its own framework, so access is limited to approved security teams. The same skills that help defenders patch bugs could help attackers, which is why who gets access matters.\n\n📘 More to learn + my projects: https://github.com/HemashreeVI\n\n#CyberSecurity #AI #OpenAI #GPT6 #InfoSec #TechExplained #shorts",
+ "tags": [
+  "gpt-6 cyber",
+  "openai gpt 6 cyber",
+  "ai finds vulnerabilities",
+  "ai hacking",
+  "zero day",
+  "firefox vulnerabilities",
+  "linux kernel bugs",
+  "ai cybersecurity",
+  "exploit",
+  "ai news",
+  "tech explained",
+  "shorts"
+ ],
+ "voice": "af_heart",
+ "speed": 1.0,
+ "lineGap": 0.3,
+ "captions": true,
+ "endCard": "",
+ "thumbnail": "found@4",
+ "endHold": 0.3,
+ "pronounce": {
+  "GPT-6": "G P T six",
+  "OpenAI": "Open A I",
+  "AI": "A I",
+  "Linux": "Linux"
+ },
+ "scenes": [
+  {
+   "id": "hook",
+   "pad": [
+    0.3,
+    0.5
+   ],
+   "lines": [
+    "OpenAI just released an AI whose job is to break into software.",
+    "On purpose."
+   ]
+  },
+  {
+   "id": "what",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "It's called GPT-6 Cyber. It reads code like a security researcher, hunting for mistakes an attacker could use."
+   ]
+  },
+  {
+   "id": "found",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "OpenAI says it found eighty one serious, previously unknown bugs in Firefox, and built working attacks for nine hundred forty eight Linux kernel bugs."
+   ]
+  },
+  {
+   "id": "defend",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "The point is defence: find the holes first, so they get patched before criminals find them."
+   ]
+  },
+  {
+   "id": "risk",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "But the same skill could help attackers. So OpenAI rates it critical, and only approved security teams can use it."
+   ]
+  },
+  {
+   "id": "outro",
+   "pad": [
+    0.3,
+    1.6
+   ],
+   "lines": [
+    "Same AI. Shield or weapon.",
+    "It depends on who holds it."
+   ]
+  }
+ ]
+}

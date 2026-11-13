@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GPT-6 Cyber Short</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{--ink:#eef2f6;--mut:#94a3b8;--acc:#ef4444;--acc2:#fca5a5;--grn:#34d399;--red:#f87171;--yel:#fbbf24;--pk:#f472b6;--cy:#22d3ee}
+  #fv-stage{background:radial-gradient(1000px 1300px at 70% 12%,#3a0d16 0%,#170a12 52%,#08060c 82%);color:var(--ink);font-family:Inter,system-ui,sans-serif}
+  #bg-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(248,113,113,.10) 1px,transparent 1px),linear-gradient(90deg,rgba(248,113,113,.10) 1px,transparent 1px);background-size:90px 90px;opacity:.22}
+  .abs{position:absolute}
+  .step{position:absolute;left:0;right:0;top:250px;text-align:center;font:700 34px/1 'JetBrains Mono',monospace;letter-spacing:.2em;color:var(--acc2)}
+  .head{position:absolute;left:60px;right:60px;top:305px;text-align:center;font:800 84px/1.05 Inter;letter-spacing:-.03em}
+  .mono{font-family:'JetBrains Mono',monospace}
+  .badge{position:absolute;left:50%;top:150px;transform:translateX(-50%);padding:12px 26px;border-radius:40px;background:color-mix(in srgb,var(--acc) 12%,transparent);border:2px solid color-mix(in srgb,var(--acc) 55%,transparent);font:700 30px Inter;color:var(--acc2);white-space:nowrap}
+  .pill{display:inline-block;padding:12px 26px;border-radius:40px;font:800 32px Inter}
+  .pane{position:absolute;left:120px;width:840px;height:765px;border-radius:26px;overflow:hidden;border:3px solid color-mix(in srgb,var(--acc) 45%,transparent);background:rgba(8,8,16,.75)}
+  .pane svg{position:absolute;inset:0;width:840px;height:765px}
+  .below{position:absolute;left:0;right:0;top:1225px;text-align:center}
+  .big{font:900 120px/1 Inter;letter-spacing:-.04em;color:#fff}
+  .card{border-radius:22px;padding:26px 30px;background:rgba(255,255,255,.05);border:2px solid rgba(255,255,255,.14)}
+  .fv-endcard{display:inline-block;padding:16px 30px;border-radius:40px;font:700 34px 'JetBrains Mono',monospace;border:3px solid #eef2f6;background:rgba(238,242,246,.08)}
+</style>
+</head>
+<body>
+<div id="fv-stage">
+  <div id="bg-grid"></div>
+  <div class="badge">📰 Tech News</div>
+<div id="brk" class="abs" style="left:0;right:0;top:56px;height:62px;background:#dc2626;display:flex;align-items:center;overflow:hidden;z-index:8"><div style="flex:none;position:relative;z-index:2;padding:0 22px;height:100%;display:grid;place-items:center;background:#7f1d1d;font:900 26px Inter;letter-spacing:.1em">BREAKING</div><div style="flex:1;overflow:hidden;height:100%;display:flex;align-items:center"><div class="tk" style="white-space:nowrap;font:800 28px Inter;padding-left:20px"></div></div></div><section class="fv-scene" data-scene="hook"><div class="pane" id="hk-p" style="top:330px"></div><div id="hk-q" class="abs" style="left:0;right:0;top:1150px;text-align:center"><div class="big" style="font-size:120px">On purpose. 😳</div></div></section>
+<section class="fv-scene" data-scene="what"><div class="step">MEET</div><div class="head">GPT-6 Cyber</div><div class="pane" id="wh-p" style="top:430px"></div><div class="below" id="wh-t"></div></section>
+<section class="fv-scene" data-scene="found"><div class="step">WHAT IT FOUND</div><div class="head">Bugs humans missed</div><div class="pane" id="fd-p" style="top:430px"></div><div class="below" id="fd-t"></div></section>
+<section class="fv-scene" data-scene="defend"><div class="step">WHY</div><div class="head">Find it first</div><div class="pane" id="df-p" style="top:430px"></div><div class="below" id="df-t"></div></section>
+<section class="fv-scene" data-scene="risk"><div class="step">THE CATCH</div><div class="head">Shield or weapon?</div><div class="pane" id="rk-p" style="top:430px"></div><div class="below" id="rk-t"></div></section>
+<section class="fv-scene" data-scene="outro"><div id="oc-w" class="abs" style="left:40px;right:40px;top:640px;display:grid;justify-items:center;gap:30px"></div></section>
+</div>
+<script src="timing.js"></script>
+<script src="fv-runtime.js"></script>
+<script>
+(() => {
+const { seg, css, enter, lerp, clamp, ease, pulse, $ } = FV;
+const NS = 'http://www.w3.org/2000/svg';
+const svgEl = (tag, attrs, parent) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; };
+const txt = (s, x, y, str, o = {}) => { const e = svgEl('text', Object.assign({ x, y, fill: '#eef2f6', 'font-size': 30, 'font-weight': 700, 'font-family': 'Inter', 'text-anchor': 'middle' }, o), s); e.textContent = str; return e; };
+const div = (cls, html, parent, style) => { const e = document.createElement('div'); if (cls) e.className = cls; if (html !== undefined) e.innerHTML = html; if (style) e.style.cssText = style; if (parent) parent.appendChild(e); return e; };
+const pop = (el, t, a, d = 0.45) => { const p = seg(t, a, a + d, ease.back); css(el, { o: clamp(p * 1.5), s: Math.max(0, p) }); return p; };
+const head = (el, t) => { const s = el.querySelector('.step'), h = el.querySelector('.head'); if (s) enter(s, t, 0.0, 0.4); if (h) enter(h, t, 0.08, 0.45, 30); };
+const frac = (ctx, i, f) => ctx.line(i) + (ctx.lineEnd(i) - ctx.line(i)) * f;
+const pill = (t, c) => `<span class="pill" style="border:3px solid ${c};background:${c}1a;color:${c}">${t}</span>`;
+const show = (el, html) => { if (el.__h !== html) { el.innerHTML = html; el.__h = html; } };
+
+function flowPane(host) { return svgEl('svg', { viewBox: '0 0 840 765' }, host); }
+function node(s, x, y, w, h, title, sub, c) {
+  const g = svgEl('g', { opacity: 0 }, s);
+  const r = svgEl('rect', { x: x - w / 2, y: y - h / 2, width: w, height: h, rx: 18, fill: '#0f172a', stroke: c, 'stroke-width': 4 }, g);
+  txt(g, x, y + (sub ? -4 : 10), title, { 'font-size': 30, 'font-weight': 800, fill: '#f1f5f9' });
+  if (sub) txt(g, x, y + 30, sub, { 'font-size': 22, fill: '#94a3b8', 'font-family': 'JetBrains Mono' });
+  return { g, r, x, y, w, h, c };
+}
+function link(s, a, b, c = '#64748b') { return svgEl('line', { x1: a.x, y1: a.y, x2: b.x, y2: b.y, stroke: c, 'stroke-width': 4, 'stroke-dasharray': '10 10', opacity: 0 }, s); }
+function packet(s, label, c) {
+  const g = svgEl('g', { opacity: 0 }, s);
+  const w = Math.max(90, label.length * 15 + 34);
+  svgEl('rect', { x: -w / 2, y: -24, width: w, height: 48, rx: 24, fill: c }, g);
+  txt(g, 0, 9, label, { 'font-size': 24, 'font-weight': 800, fill: '#0b1020', 'font-family': 'JetBrains Mono' });
+  return g;
+}
+function move(p, a, b, u) { if (u <= 0 || u >= 1) { p.setAttribute('opacity', 0); return; } p.setAttribute('opacity', 1); p.setAttribute('transform', `translate(${lerp(a.x, b.x, ease.inOut(u))} ${lerp(a.y, b.y, ease.inOut(u))})`); }
+
+const ticker = (sec, text, t) => { const tk = $('#brk .tk'); tk.textContent = (text + '   •   ').repeat(4); tk.style.transform = `translateX(${-((t * 90) % 900)}px)`; };
+
+const CODE = ['int read_packet(char *buf, int len) {', '  char tmp[64];', '  memcpy(tmp, buf, len);', '  return parse(tmp);', '}'];
+const code = (host, hl) => { host.innerHTML = `<div style="position:absolute;inset:30px;padding:30px;border-radius:20px;background:#05080f;border:2px solid #1f2937;font:600 30px/1.7 'JetBrains Mono';color:#cbd5e1;white-space:pre">${CODE.map((l, i) => `<div class="ln" data-i="${i}" style="border-radius:8px;padding:0 8px">${l.replace(/</g, '&lt;')}</div>`).join('')}</div><div class="nt" style="position:absolute;left:60px;right:60px;bottom:50px;padding:20px 26px;border-radius:18px;background:#450a0a;border:2px solid #f87171;font:800 30px Inter;color:#fca5a5;opacity:0">⚠️ no length check → buffer overflow</div>`; };
+/* HOOK: lock cracking */
+{
+  const s = flowPane($('#hk-p')); const lk = txt(s, 420, 420, '🔒', { 'font-size': 260 }); const cr = txt(s, 420, 420, '', { 'font-size': 260 });
+  const lab = txt(s, 420, 620, '', { 'font-size': 40, 'font-weight': 900, fill: '#fca5a5' });
+  FV.scene('hook', (t, ctx) => { ticker(ctx.el, 'OpenAI releases GPT-6 Cyber, an AI built to find security bugs', t); enter($('#hk-p'), t, 0.05, 0.4, 20);
+    const u = seg(t, 0.8, frac(ctx, 0, 0.95)); lk.setAttribute('transform', `translate(${Math.sin(t * 40) * 6 * u} 0)`); if (u >= 1) lk.textContent = '🔓';
+    lab.textContent = u >= 1 ? 'AI found a way in' : ''; pop($('#hk-q'), t, ctx.line(1) - 0.1, 0.5); });
+}
+/* WHAT: AI scanning code */
+{
+  const host = $('#wh-p'); code(host); const scan = div('', '', host, 'position:absolute;left:30px;right:30px;height:8px;background:#ef4444;box-shadow:0 0 30px #ef4444');
+  FV.scene('what', (t, ctx) => { ticker(ctx.el, 'OpenAI releases GPT-6 Cyber, an AI built to find security bugs', t); head(ctx.el, t); enter(host, t, 0.1, 0.4, 20);
+    const u = seg(t, 0.4, frac(ctx, 0, 0.7), ease.linear); scan.style.top = (60 + ((u * 2) % 1) * 300) + 'px'; scan.style.opacity = u < 1 ? 1 : 0;
+    host.querySelectorAll('.ln').forEach((l) => l.style.background = u >= 1 && l.dataset.i === '2' ? 'rgba(239,68,68,.35)' : 'transparent'); host.querySelector('.nt').style.opacity = seg(t, frac(ctx, 0, 0.75), frac(ctx, 0, 0.85));
+    show($('#wh-t'), pill('reads code like a security researcher', '#fca5a5')); $('#wh-t').style.opacity = seg(t, 0.4, 0.7); });
+}
+/* FOUND: two counters */
+{
+  const host = $('#fd-p'); host.innerHTML = `<div style="position:absolute;inset:30px;display:grid;gap:26px"><div class="card c1" style="text-align:center;border-color:#fb923c88"><div style="font:800 34px Inter">🦊 Firefox</div><div class="n" style="font:900 120px Inter;color:#fb923c">0</div><div style="font:700 28px Inter;color:#e5e7eb">serious bugs nobody knew about</div></div>
+    <div class="card c2" style="text-align:center;border-color:#fde68a88"><div style="font:800 34px Inter">🐧 Linux kernel</div><div class="n" style="font:900 120px Inter;color:#fde68a">0</div><div style="font:700 28px Inter;color:#e5e7eb">bugs it built working attacks for</div></div></div>`;
+  FV.scene('found', (t, ctx) => { ticker(ctx.el, 'OpenAI releases GPT-6 Cyber, an AI built to find security bugs', t); head(ctx.el, t); enter(host, t, 0.1, 0.4, 20);
+    host.querySelector('.c1 .n').textContent = Math.round(81 * seg(t, frac(ctx, 0, 0.1), frac(ctx, 0, 0.4), ease.out));
+    host.querySelector('.c2 .n').textContent = Math.round(948 * seg(t, frac(ctx, 0, 0.5), frac(ctx, 0, 0.9), ease.out));
+    show($('#fd-t'), pill("source: OpenAI's own report", '#94a3b8')); $('#fd-t').style.opacity = seg(t, frac(ctx, 0, 0.9), 1 + frac(ctx, 0, 0.9)); });
+}
+/* DEFEND: race AI vs criminal to the bug */
+{
+  const s = flowPane($('#df-p')); const bug = txt(s, 420, 160, '🐛', { 'font-size': 90 });
+  const ai = txt(s, 140, 600, '🤖', { 'font-size': 80 }), bad = txt(s, 700, 600, '🦹', { 'font-size': 80 });
+  const patch = txt(s, 420, 360, '', { 'font-size': 44, 'font-weight': 900, fill: '#86efac' });
+  FV.scene('defend', (t, ctx) => { ticker(ctx.el, 'OpenAI releases GPT-6 Cyber, an AI built to find security bugs', t); head(ctx.el, t); enter($('#df-p'), t, 0.1, 0.4, 20);
+    const a = seg(t, 0.4, frac(ctx, 0, 0.6), ease.inOut), b = seg(t, 0.4, ctx.dur, ease.linear) * 0.6;
+    ai.setAttribute('x', lerp(140, 380, a)); ai.setAttribute('y', lerp(600, 230, a)); bad.setAttribute('x', lerp(700, 560, b)); bad.setAttribute('y', lerp(600, 380, b));
+    if (a >= 1) bug.textContent = '🩹'; patch.textContent = a >= 1 ? '✅ patched first' : '';
+    show($('#df-t'), pill('find the hole before criminals do', '#86efac')); $('#df-t').style.opacity = seg(t, 0.4, 0.7); });
+}
+/* RISK: shield vs sword + locked access */
+{
+  const host = $('#rk-p'); host.innerHTML = `<div style="position:absolute;left:40px;right:40px;top:40px;display:flex;gap:24px"><div class="card a" style="flex:1;text-align:center;border-color:#86efac88"><div style="font-size:110px">🛡️</div><div style="font:800 32px Inter;color:#86efac">defenders</div></div><div class="card b" style="flex:1;text-align:center;border-color:#f8717188"><div style="font-size:110px">🗡️</div><div style="font:800 32px Inter;color:#f87171">attackers</div></div></div>
+    <div class="card c" style="position:absolute;left:40px;right:40px;bottom:40px;text-align:center;border-color:#fde68a88"><div style="font:900 44px Inter;color:#fde68a">⚠️ rated "Critical"</div><div style="font:700 30px Inter;margin-top:8px">🔐 approved security teams only</div></div>`;
+  FV.scene('risk', (t, ctx) => { ticker(ctx.el, 'OpenAI releases GPT-6 Cyber, an AI built to find security bugs', t); head(ctx.el, t); enter(host, t, 0.1, 0.4, 20);
+    pop(host.querySelector('.a'), t, 0.3, 0.4); pop(host.querySelector('.b'), t, frac(ctx, 0, 0.15), 0.4); enter(host.querySelector('.c'), t, frac(ctx, 0, 0.5), 0.45, 30); });
+}
+{ const w = [div('', 'Same AI. Shield or weapon.', $('#oc-w'), 'font:900 92px/1.06 Inter;letter-spacing:-.03em;color:#fca5a5;text-align:center'), div('', 'It depends on who holds it. 🔐', $('#oc-w'), 'font:900 70px/1.1 Inter;color:#fde68a;text-align:center')];
+  FV.scene('outro', (t, ctx) => w.forEach((e, i) => pop(e, t, ctx.line(i) - 0.1, 0.45))); }
+})();
+</script>
+</body>
+</html>

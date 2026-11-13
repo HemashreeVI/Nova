@@ -1,0 +1,96 @@
+{
+ "title": "Is AI a Bubble? Why the Nasdaq Fell 5.5% in One Day 📉 #shorts",
+ "slug": "news-ai-bubble",
+ "format": "vertical",
+ "description": "On 5 November 2026 the Nasdaq fell about 5.5%, its worst day in more than a year, as AI and chip stocks slid and Nvidia lost around 9%. A stock's price reflects what investors expect a company to earn in the future, not what it earns today. AI companies are spending hundreds of billions on chips and data centres, and investors started asking how fast that spending will pay off. That's the bubble question. It echoes the dot-com era, when the internet was real but many stocks crashed anyway. Nobody knows yet how this one ends. This is an explainer, not financial advice.\n\n📘 More to learn + my projects: https://github.com/HemashreeVI\n\n#AI #StockMarket #Nasdaq #Nvidia #Investing #TechExplained #shorts",
+ "tags": [
+  "is ai a bubble",
+  "ai bubble",
+  "nasdaq crash",
+  "nasdaq falls",
+  "nvidia stock",
+  "ai stocks",
+  "stock market crash",
+  "dot com bubble",
+  "valuation explained",
+  "ai news",
+  "tech explained",
+  "shorts"
+ ],
+ "voice": "af_heart",
+ "speed": 1.0,
+ "lineGap": 0.3,
+ "captions": true,
+ "endCard": "",
+ "thumbnail": "crash@4",
+ "endHold": 0.3,
+ "pronounce": {
+  "AI": "A I",
+  "5.5%": "five point five percent",
+  "9%": "nine percent"
+ },
+ "scenes": [
+  {
+   "id": "hook",
+   "pad": [
+    0.3,
+    0.5
+   ],
+   "lines": [
+    "Last week, the Nasdaq dropped five and a half percent in a single day. AI stocks led the fall.",
+    "Is AI a bubble?"
+   ]
+  },
+  {
+   "id": "price",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "A stock price isn't what a company earns today. It's a bet on what it'll earn in the future."
+   ]
+  },
+  {
+   "id": "spend",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "AI companies are spending hundreds of billions on chips and data centres. The bet is that it all pays off, fast."
+   ]
+  },
+  {
+   "id": "doubt",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "When investors start doubting how fast, prices fall hard. Nvidia alone lost around nine percent that day."
+   ]
+  },
+  {
+   "id": "dotcom",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "It echoes the dot-com bubble. The internet was real, but many stocks still crashed, before the winners took over."
+   ]
+  },
+  {
+   "id": "outro",
+   "pad": [
+    0.3,
+    1.6
+   ],
+   "lines": [
+    "The tech is real. The prices are a bet.",
+    "Not financial advice."
+   ]
+  }
+ ]
+}

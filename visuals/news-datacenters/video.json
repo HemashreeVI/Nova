@@ -1,0 +1,95 @@
+{
+ "title": "Why Towns Are Voting NO to AI Data Centres ⚡💧 #shorts",
+ "slug": "news-datacenters",
+ "format": "vertical",
+ "description": "In the November 2026 US elections, voters in 10 states decided on 41 local ballot measures about data centres, and the results almost all went against new development. Why? AI data centres are packed with thousands of GPUs that run day and night. A large one can use as much electricity as a small city, and many need huge amounts of water for cooling. Neighbours worry about power bills, water supply, noise and land. The next question for AI: where, and how, to build.\n\n📘 More to learn + my projects: https://github.com/HemashreeVI\n\n#AI #DataCenters #Energy #News #Tech #TechExplained #shorts",
+ "tags": [
+  "ai data centers",
+  "data center ballot",
+  "voters reject data centers",
+  "ai energy use",
+  "data center water",
+  "how much power does ai use",
+  "gpus",
+  "midterms 2026",
+  "ai news",
+  "tech news",
+  "tech explained",
+  "shorts"
+ ],
+ "voice": "af_heart",
+ "speed": 1.0,
+ "lineGap": 0.3,
+ "captions": true,
+ "endCard": "",
+ "thumbnail": "power@4",
+ "endHold": 0.3,
+ "pronounce": {
+  "GPUs": "G P Us",
+  "AI": "A I"
+ },
+ "scenes": [
+  {
+   "id": "hook",
+   "pad": [
+    0.3,
+    0.5
+   ],
+   "lines": [
+    "This week, towns across America voted on AI data centres. Almost every result said: not here.",
+    "Why?"
+   ]
+  },
+  {
+   "id": "inside",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "Inside an AI data centre are thousands of GPUs, running flat out day and night to train and run AI."
+   ]
+  },
+  {
+   "id": "power",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "All that computing turns into heat. A large data centre can use as much electricity as a small city."
+   ]
+  },
+  {
+   "id": "water",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "And many are cooled with water. Millions of litres a day, in some places."
+   ]
+  },
+  {
+   "id": "worry",
+   "pad": [
+    0.3,
+    0.55
+   ],
+   "lines": [
+    "So neighbours worry: higher power bills, less water, noise, and land. In ten states, forty one local votes went almost entirely against new projects."
+   ]
+  },
+  {
+   "id": "outro",
+   "pad": [
+    0.3,
+    1.6
+   ],
+   "lines": [
+    "AI needs power and water.",
+    "Now towns want a say."
+   ]
+  }
+ ]
+}

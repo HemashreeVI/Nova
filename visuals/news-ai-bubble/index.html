@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI bubble Short</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{--ink:#eef2f6;--mut:#94a3b8;--acc:#ef4444;--acc2:#fca5a5;--grn:#34d399;--red:#f87171;--yel:#fbbf24;--pk:#f472b6;--cy:#22d3ee}
+  #fv-stage{background:radial-gradient(1000px 1300px at 70% 12%,#3a0d16 0%,#170a12 52%,#08060c 82%);color:var(--ink);font-family:Inter,system-ui,sans-serif}
+  #bg-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(248,113,113,.10) 1px,transparent 1px),linear-gradient(90deg,rgba(248,113,113,.10) 1px,transparent 1px);background-size:90px 90px;opacity:.22}
+  .abs{position:absolute}
+  .step{position:absolute;left:0;right:0;top:250px;text-align:center;font:700 34px/1 'JetBrains Mono',monospace;letter-spacing:.2em;color:var(--acc2)}
+  .head{position:absolute;left:60px;right:60px;top:305px;text-align:center;font:800 84px/1.05 Inter;letter-spacing:-.03em}
+  .mono{font-family:'JetBrains Mono',monospace}
+  .badge{position:absolute;left:50%;top:150px;transform:translateX(-50%);padding:12px 26px;border-radius:40px;background:color-mix(in srgb,var(--acc) 12%,transparent);border:2px solid color-mix(in srgb,var(--acc) 55%,transparent);font:700 30px Inter;color:var(--acc2);white-space:nowrap}
+  .pill{display:inline-block;padding:12px 26px;border-radius:40px;font:800 32px Inter}
+  .pane{position:absolute;left:120px;width:840px;height:765px;border-radius:26px;overflow:hidden;border:3px solid color-mix(in srgb,var(--acc) 45%,transparent);background:rgba(8,8,16,.75)}
+  .pane svg{position:absolute;inset:0;width:840px;height:765px}
+  .below{position:absolute;left:0;right:0;top:1225px;text-align:center}
+  .big{font:900 120px/1 Inter;letter-spacing:-.04em;color:#fff}
+  .card{border-radius:22px;padding:26px 30px;background:rgba(255,255,255,.05);border:2px solid rgba(255,255,255,.14)}
+  .fv-endcard{display:inline-block;padding:16px 30px;border-radius:40px;font:700 34px 'JetBrains Mono',monospace;border:3px solid #eef2f6;background:rgba(238,242,246,.08)}
+</style>
+</head>
+<body>
+<div id="fv-stage">
+  <div id="bg-grid"></div>
+  <div class="badge">📰 Tech News</div>
+<div id="brk" class="abs" style="left:0;right:0;top:56px;height:62px;background:#dc2626;display:flex;align-items:center;overflow:hidden;z-index:8"><div style="flex:none;position:relative;z-index:2;padding:0 22px;height:100%;display:grid;place-items:center;background:#7f1d1d;font:900 26px Inter;letter-spacing:.1em">BREAKING</div><div style="flex:1;overflow:hidden;height:100%;display:flex;align-items:center"><div class="tk" style="white-space:nowrap;font:800 28px Inter;padding-left:20px"></div></div></div><section class="fv-scene" data-scene="hook"><div class="pane" id="hk-p" style="top:330px"></div><div id="hk-q" class="abs" style="left:0;right:0;top:1150px;text-align:center"><div class="big" style="font-size:100px">Is AI a <span style="color:#f87171">bubble?</span> 🫧</div></div></section>
+<section class="fv-scene" data-scene="price"><div class="step">STEP 1</div><div class="head">A price is a bet</div><div class="pane" id="pr-p" style="top:430px"></div><div class="below" id="pr-t"></div></section>
+<section class="fv-scene" data-scene="spend"><div class="step">STEP 2</div><div class="head">Spending billions</div><div class="pane" id="sp-p" style="top:430px"></div><div class="below" id="sp-t"></div></section>
+<section class="fv-scene" data-scene="doubt"><div class="step">STEP 3</div><div class="head">Then, doubt</div><div class="pane" id="db-p" style="top:430px"></div><div class="below" id="db-t"></div></section>
+<section class="fv-scene" data-scene="dotcom"><div class="step">BEEN HERE BEFORE</div><div class="head">The dot-com bubble</div><div class="pane" id="dc-p" style="top:430px"></div><div class="below" id="dc-t"></div></section>
+<section class="fv-scene" data-scene="outro"><div id="oc-w" class="abs" style="left:40px;right:40px;top:640px;display:grid;justify-items:center;gap:30px"></div></section>
+</div>
+<script src="timing.js"></script>
+<script src="fv-runtime.js"></script>
+<script>
+(() => {
+const { seg, css, enter, lerp, clamp, ease, pulse, $ } = FV;
+const NS = 'http://www.w3.org/2000/svg';
+const svgEl = (tag, attrs, parent) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; };
+const txt = (s, x, y, str, o = {}) => { const e = svgEl('text', Object.assign({ x, y, fill: '#eef2f6', 'font-size': 30, 'font-weight': 700, 'font-family': 'Inter', 'text-anchor': 'middle' }, o), s); e.textContent = str; return e; };
+const div = (cls, html, parent, style) => { const e = document.createElement('div'); if (cls) e.className = cls; if (html !== undefined) e.innerHTML = html; if (style) e.style.cssText = style; if (parent) parent.appendChild(e); return e; };
+const pop = (el, t, a, d = 0.45) => { const p = seg(t, a, a + d, ease.back); css(el, { o: clamp(p * 1.5), s: Math.max(0, p) }); return p; };
+const head = (el, t) => { const s = el.querySelector('.step'), h = el.querySelector('.head'); if (s) enter(s, t, 0.0, 0.4); if (h) enter(h, t, 0.08, 0.45, 30); };
+const frac = (ctx, i, f) => ctx.line(i) + (ctx.lineEnd(i) - ctx.line(i)) * f;
+const pill = (t, c) => `<span class="pill" style="border:3px solid ${c};background:${c}1a;color:${c}">${t}</span>`;
+const show = (el, html) => { if (el.__h !== html) { el.innerHTML = html; el.__h = html; } };
+
+function flowPane(host) { return svgEl('svg', { viewBox: '0 0 840 765' }, host); }
+function node(s, x, y, w, h, title, sub, c) {
+  const g = svgEl('g', { opacity: 0 }, s);
+  const r = svgEl('rect', { x: x - w / 2, y: y - h / 2, width: w, height: h, rx: 18, fill: '#0f172a', stroke: c, 'stroke-width': 4 }, g);
+  txt(g, x, y + (sub ? -4 : 10), title, { 'font-size': 30, 'font-weight': 800, fill: '#f1f5f9' });
+  if (sub) txt(g, x, y + 30, sub, { 'font-size': 22, fill: '#94a3b8', 'font-family': 'JetBrains Mono' });
+  return { g, r, x, y, w, h, c };
+}
+function link(s, a, b, c = '#64748b') { return svgEl('line', { x1: a.x, y1: a.y, x2: b.x, y2: b.y, stroke: c, 'stroke-width': 4, 'stroke-dasharray': '10 10', opacity: 0 }, s); }
+function packet(s, label, c) {
+  const g = svgEl('g', { opacity: 0 }, s);
+  const w = Math.max(90, label.length * 15 + 34);
+  svgEl('rect', { x: -w / 2, y: -24, width: w, height: 48, rx: 24, fill: c }, g);
+  txt(g, 0, 9, label, { 'font-size': 24, 'font-weight': 800, fill: '#0b1020', 'font-family': 'JetBrains Mono' });
+  return g;
+}
+function move(p, a, b, u) { if (u <= 0 || u >= 1) { p.setAttribute('opacity', 0); return; } p.setAttribute('opacity', 1); p.setAttribute('transform', `translate(${lerp(a.x, b.x, ease.inOut(u))} ${lerp(a.y, b.y, ease.inOut(u))})`); }
+
+const ticker = (sec, text, t) => { const tk = $('#brk .tk'); tk.textContent = (text + '   •   ').repeat(4); tk.style.transform = `translateX(${-((t * 90) % 900)}px)`; };
+
+/* chart helper */
+const chart = (s, pts, col, x0 = 60, y0 = 80, w = 720, h = 520) => { const mx = Math.max(...pts), mn = Math.min(...pts); const P = pts.map((v, i) => [x0 + i / (pts.length - 1) * w, y0 + h - (v - mn) / (mx - mn || 1) * h]);
+  svgEl('line', { x1: x0, y1: y0 + h, x2: x0 + w, y2: y0 + h, stroke: '#334155', 'stroke-width': 3 }, s); const pl = svgEl('polyline', { fill: 'none', stroke: col, 'stroke-width': 6, 'stroke-linejoin': 'round' }, s);
+  return (u) => { const n = Math.max(2, Math.round(u * P.length)); pl.setAttribute('points', P.slice(0, n).map((p) => p.join(',')).join(' ')); return P[n - 1]; }; };
+/* HOOK: Nasdaq line climbs then plunges */
+{
+  const s = flowPane($('#hk-p')); const V = [100, 103, 101, 106, 109, 108, 112, 115, 113, 117, 116, 109.6];
+  const draw = chart(s, V, '#22c55e'); const lab = txt(s, 640, 120, '', { 'font-size': 52, 'font-weight': 900, fill: '#f87171' }); txt(s, 70, 60, 'NASDAQ', { 'text-anchor': 'start', 'font-size': 30, fill: '#94a3b8', 'font-family': 'JetBrains Mono' });
+  FV.scene('hook', (t, ctx) => { ticker(ctx.el, 'Nasdaq falls 5.5% as AI stocks slide', t); enter($('#hk-p'), t, 0.05, 0.4, 20);
+    const u = seg(t, 0.5, frac(ctx, 0, 0.85), ease.linear); draw(u); lab.textContent = u > 0.97 ? '−5.5% 📉' : '';
+    s.querySelector('polyline').setAttribute('stroke', u > 0.95 ? '#f87171' : '#22c55e'); pop($('#hk-q'), t, ctx.line(1) - 0.1, 0.5); });
+}
+/* PRICE: today vs future earnings scale */
+{
+  const host = $('#pr-p'); host.innerHTML = `<div style="position:absolute;inset:40px;display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:end">
+    <div style="text-align:center"><div class="b1" style="height:0;border-radius:16px 16px 0 0;background:#64748b"></div><div style="font:800 30px Inter;margin-top:12px">💰 earns today</div></div>
+    <div style="text-align:center"><div class="b2" style="height:0;border-radius:16px 16px 0 0;background:repeating-linear-gradient(45deg,#22c55e,#22c55e 14px,#16a34a 14px,#16a34a 28px)"></div><div style="font:800 30px Inter;margin-top:12px">🔮 expected future</div></div></div>`;
+  FV.scene('price', (t, ctx) => { ticker(ctx.el, 'Nasdaq falls 5.5% as AI stocks slide', t); head(ctx.el, t); enter(host, t, 0.1, 0.4, 20);
+    host.querySelector('.b1').style.height = 120 * seg(t, 0.3, 0.8) + 'px'; host.querySelector('.b2').style.height = 520 * seg(t, frac(ctx, 0, 0.5), frac(ctx, 0, 0.85), ease.out) + 'px';
+    show($('#pr-t'), pill('stock price ≈ a bet on the future', '#86efac')); $('#pr-t').style.opacity = seg(t, 0.4, 0.7); });
+}
+/* SPEND: money flows into chips and data centres */
+{
+  const s = flowPane($('#sp-p')); const T = [['🖥️', 'chips', 250], ['🏢', 'data centres', 590]];
+  T.forEach(([e, l, x]) => { txt(s, x, 560, e, { 'font-size': 110 }); txt(s, x, 640, l, { 'font-size': 32, 'font-weight': 800 }); });
+  const notes = Array.from({ length: 12 }, () => txt(s, 0, 0, '💵', { 'font-size': 46 }));
+  const tot = txt(s, 420, 120, '', { 'font-size': 50, 'font-weight': 900, fill: '#fde68a' });
+  FV.scene('spend', (t, ctx) => { ticker(ctx.el, 'Nasdaq falls 5.5% as AI stocks slide', t); head(ctx.el, t); enter($('#sp-p'), t, 0.1, 0.4, 20);
+    notes.forEach((n, i) => { const k = ((t * 0.7 + i / 12) % 1), tx = i % 2 ? 590 : 250; n.setAttribute('x', lerp(420, tx, k)); n.setAttribute('y', lerp(160, 480, k)); n.setAttribute('opacity', 1 - k * 0.6); });
+    tot.textContent = 'hundreds of billions $'; show($('#sp-t'), pill('the bet: it all pays off, fast', '#fde68a')); $('#sp-t').style.opacity = seg(t, frac(ctx, 0, 0.55), frac(ctx, 0, 0.7)); });
+}
+/* DOUBT: question marks, then the bars drop */
+{
+  const host = $('#db-p'); const S = [['Nasdaq', 5.5], ['Nvidia', 9.3]];
+  host.innerHTML = `<div class="q" style="position:absolute;left:0;right:0;top:40px;text-align:center;font-size:90px">🤔 💭 ❓</div><div class="l" style="position:absolute;left:50px;right:50px;top:230px;display:grid;gap:40px"></div>`;
+  const rows = S.map(([n, v]) => div('', `<div style="display:flex;justify-content:space-between;font:800 40px Inter"><span>${n}</span><span class="v" style="color:#f87171">0%</span></div><div style="margin-top:12px;height:46px;border-radius:23px;background:rgba(255,255,255,.08);overflow:hidden"><div class="f" style="height:100%;width:0;background:#ef4444"></div></div>`, host.querySelector('.l')));
+  FV.scene('doubt', (t, ctx) => { ticker(ctx.el, 'Nasdaq falls 5.5% as AI stocks slide', t); head(ctx.el, t); enter(host, t, 0.1, 0.4, 20);
+    rows.forEach((r, i) => { const u = seg(t, frac(ctx, 0, 0.35 + i * 0.25), frac(ctx, 0, 0.55 + i * 0.25), ease.out); r.querySelector('.f').style.width = S[i][1] * 9 * u + '%'; r.querySelector('.v').textContent = '−' + (S[i][1] * u).toFixed(1) + '%'; });
+    show($('#db-t'), pill('one day: 5 Nov 2026', '#fca5a5')); $('#db-t').style.opacity = seg(t, 0.4, 0.7); });
+}
+/* DOTCOM: 1995-2005 curve, peak, crash, recovery label */
+{
+  const s = flowPane($('#dc-p')); const V = [10, 14, 22, 35, 60, 100, 55, 30, 22, 28, 34];
+  const draw = chart(s, V, '#a78bfa', 60, 100, 720, 460); ['1995', '2000', '2005'].forEach((y, i) => txt(s, 60 + i * 360, 620, y, { 'font-size': 28, fill: '#94a3b8', 'font-family': 'JetBrains Mono' }));
+  const pk = txt(s, 420, 80, '', { 'font-size': 32, 'font-weight': 900, fill: '#fde68a' }), cr = txt(s, 560, 520, '', { 'font-size': 32, 'font-weight': 900, fill: '#f87171' });
+  FV.scene('dotcom', (t, ctx) => { ticker(ctx.el, 'Nasdaq falls 5.5% as AI stocks slide', t); head(ctx.el, t); enter($('#dc-p'), t, 0.1, 0.4, 20);
+    const u = seg(t, 0.4, frac(ctx, 0, 0.8), ease.linear); draw(u); pk.textContent = u > 0.5 ? '🫧 2000 peak' : ''; cr.textContent = u > 0.8 ? '💥 crash' : '';
+    show($('#dc-t'), pill('the internet was real. many stocks still crashed.', '#a78bfa')); $('#dc-t').style.opacity = seg(t, frac(ctx, 0, 0.75), frac(ctx, 0, 0.9)); });
+}
+{ const w = [div('', 'The tech is real. The prices are a bet.', $('#oc-w'), 'font:900 92px/1.06 Inter;letter-spacing:-.03em;color:#e5e7eb;text-align:center'), div('', 'Not financial advice. 📉', $('#oc-w'), 'font:900 70px/1.1 Inter;color:#fca5a5;text-align:center')];
+  FV.scene('outro', (t, ctx) => w.forEach((e, i) => pop(e, t, ctx.line(i) - 0.1, 0.45))); }
+})();
+</script>
+</body>
+</html>

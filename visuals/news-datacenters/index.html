@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Data centres vote Short</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{--ink:#eef2f6;--mut:#94a3b8;--acc:#ef4444;--acc2:#fca5a5;--grn:#34d399;--red:#f87171;--yel:#fbbf24;--pk:#f472b6;--cy:#22d3ee}
+  #fv-stage{background:radial-gradient(1000px 1300px at 70% 12%,#3a0d16 0%,#170a12 52%,#08060c 82%);color:var(--ink);font-family:Inter,system-ui,sans-serif}
+  #bg-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(248,113,113,.10) 1px,transparent 1px),linear-gradient(90deg,rgba(248,113,113,.10) 1px,transparent 1px);background-size:90px 90px;opacity:.22}
+  .abs{position:absolute}
+  .step{position:absolute;left:0;right:0;top:250px;text-align:center;font:700 34px/1 'JetBrains Mono',monospace;letter-spacing:.2em;color:var(--acc2)}
+  .head{position:absolute;left:60px;right:60px;top:305px;text-align:center;font:800 84px/1.05 Inter;letter-spacing:-.03em}
+  .mono{font-family:'JetBrains Mono',monospace}
+  .badge{position:absolute;left:50%;top:150px;transform:translateX(-50%);padding:12px 26px;border-radius:40px;background:color-mix(in srgb,var(--acc) 12%,transparent);border:2px solid color-mix(in srgb,var(--acc) 55%,transparent);font:700 30px Inter;color:var(--acc2);white-space:nowrap}
+  .pill{display:inline-block;padding:12px 26px;border-radius:40px;font:800 32px Inter}
+  .pane{position:absolute;left:120px;width:840px;height:765px;border-radius:26px;overflow:hidden;border:3px solid color-mix(in srgb,var(--acc) 45%,transparent);background:rgba(8,8,16,.75)}
+  .pane svg{position:absolute;inset:0;width:840px;height:765px}
+  .below{position:absolute;left:0;right:0;top:1225px;text-align:center}
+  .big{font:900 120px/1 Inter;letter-spacing:-.04em;color:#fff}
+  .card{border-radius:22px;padding:26px 30px;background:rgba(255,255,255,.05);border:2px solid rgba(255,255,255,.14)}
+  .fv-endcard{display:inline-block;padding:16px 30px;border-radius:40px;font:700 34px 'JetBrains Mono',monospace;border:3px solid #eef2f6;background:rgba(238,242,246,.08)}
+</style>
+</head>
+<body>
+<div id="fv-stage">
+  <div id="bg-grid"></div>
+  <div class="badge">📰 Tech News</div>
+<div id="brk" class="abs" style="left:0;right:0;top:56px;height:62px;background:#dc2626;display:flex;align-items:center;overflow:hidden;z-index:8"><div style="flex:none;position:relative;z-index:2;padding:0 22px;height:100%;display:grid;place-items:center;background:#7f1d1d;font:900 26px Inter;letter-spacing:.1em">BREAKING</div><div style="flex:1;overflow:hidden;height:100%;display:flex;align-items:center"><div class="tk" style="white-space:nowrap;font:800 28px Inter;padding-left:20px"></div></div></div><section class="fv-scene" data-scene="hook"><div class="pane" id="hk-p" style="top:330px"></div><div id="hk-q" class="abs" style="left:0;right:0;top:1150px;text-align:center"><div class="big" style="font-size:120px">Why? 🤔</div></div></section>
+<section class="fv-scene" data-scene="inside"><div class="step">INSIDE</div><div class="head">Thousands of GPUs</div><div class="pane" id="in-p" style="top:430px"></div><div class="below" id="in-t"></div></section>
+<section class="fv-scene" data-scene="power"><div class="step">POWER</div><div class="head">A small city's worth</div><div class="pane" id="pw-p" style="top:430px"></div><div class="below" id="pw-t"></div></section>
+<section class="fv-scene" data-scene="water"><div class="step">COOLING</div><div class="head">Millions of litres</div><div class="pane" id="wt-p" style="top:430px"></div><div class="below" id="wt-t"></div></section>
+<section class="fv-scene" data-scene="worry"><div class="step">THE VOTE</div><div class="head">Neighbours said no</div><div class="pane" id="wr-p" style="top:430px"></div><div class="below" id="wr-t"></div></section>
+<section class="fv-scene" data-scene="outro"><div id="oc-w" class="abs" style="left:40px;right:40px;top:640px;display:grid;justify-items:center;gap:30px"></div></section>
+</div>
+<script src="timing.js"></script>
+<script src="fv-runtime.js"></script>
+<script>
+(() => {
+const { seg, css, enter, lerp, clamp, ease, pulse, $ } = FV;
+const NS = 'http://www.w3.org/2000/svg';
+const svgEl = (tag, attrs, parent) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; };
+const txt = (s, x, y, str, o = {}) => { const e = svgEl('text', Object.assign({ x, y, fill: '#eef2f6', 'font-size': 30, 'font-weight': 700, 'font-family': 'Inter', 'text-anchor': 'middle' }, o), s); e.textContent = str; return e; };
+const div = (cls, html, parent, style) => { const e = document.createElement('div'); if (cls) e.className = cls; if (html !== undefined) e.innerHTML = html; if (style) e.style.cssText = style; if (parent) parent.appendChild(e); return e; };
+const pop = (el, t, a, d = 0.45) => { const p = seg(t, a, a + d, ease.back); css(el, { o: clamp(p * 1.5), s: Math.max(0, p) }); return p; };
+const head = (el, t) => { const s = el.querySelector('.step'), h = el.querySelector('.head'); if (s) enter(s, t, 0.0, 0.4); if (h) enter(h, t, 0.08, 0.45, 30); };
+const frac = (ctx, i, f) => ctx.line(i) + (ctx.lineEnd(i) - ctx.line(i)) * f;
+const pill = (t, c) => `<span class="pill" style="border:3px solid ${c};background:${c}1a;color:${c}">${t}</span>`;
+const show = (el, html) => { if (el.__h !== html) { el.innerHTML = html; el.__h = html; } };
+
+function flowPane(host) { return svgEl('svg', { viewBox: '0 0 840 765' }, host); }
+function node(s, x, y, w, h, title, sub, c) {
+  const g = svgEl('g', { opacity: 0 }, s);
+  const r = svgEl('rect', { x: x - w / 2, y: y - h / 2, width: w, height: h, rx: 18, fill: '#0f172a', stroke: c, 'stroke-width': 4 }, g);
+  txt(g, x, y + (sub ? -4 : 10), title, { 'font-size': 30, 'font-weight': 800, fill: '#f1f5f9' });
+  if (sub) txt(g, x, y + 30, sub, { 'font-size': 22, fill: '#94a3b8', 'font-family': 'JetBrains Mono' });
+  return { g, r, x, y, w, h, c };
+}
+function link(s, a, b, c = '#64748b') { return svgEl('line', { x1: a.x, y1: a.y, x2: b.x, y2: b.y, stroke: c, 'stroke-width': 4, 'stroke-dasharray': '10 10', opacity: 0 }, s); }
+function packet(s, label, c) {
+  const g = svgEl('g', { opacity: 0 }, s);
+  const w = Math.max(90, label.length * 15 + 34);
+  svgEl('rect', { x: -w / 2, y: -24, width: w, height: 48, rx: 24, fill: c }, g);
+  txt(g, 0, 9, label, { 'font-size': 24, 'font-weight': 800, fill: '#0b1020', 'font-family': 'JetBrains Mono' });
+  return g;
+}
+function move(p, a, b, u) { if (u <= 0 || u >= 1) { p.setAttribute('opacity', 0); return; } p.setAttribute('opacity', 1); p.setAttribute('transform', `translate(${lerp(a.x, b.x, ease.inOut(u))} ${lerp(a.y, b.y, ease.inOut(u))})`); }
+
+const ticker = (sec, text, t) => { const tk = $('#brk .tk'); tk.textContent = (text + '   •   ').repeat(4); tk.style.transform = `translateX(${-((t * 90) % 900)}px)`; };
+
+/* HOOK: a map of ballots turning red */
+{
+  const s = flowPane($('#hk-p')); svgEl('rect', { x: 0, y: 0, width: 840, height: 765, fill: '#120a10' }, s);
+  const box = [], N = 41; for (let i = 0; i < N; i++) { const x = 60 + (i % 8) * 92, y = 70 + Math.floor(i / 8) * 108; const g = svgEl('g', {}, s); const r = svgEl('rect', { x, y, width: 76, height: 86, rx: 12, fill: '#1f2937', stroke: '#374151', 'stroke-width': 3 }, g); const tx = txt(g, x + 38, y + 58, '🗳️', { 'font-size': 38 }); box.push({ r, tx }); }
+  const lab = txt(s, 420, 730, '', { 'font-size': 34, 'font-weight': 900, fill: '#fca5a5' });
+  FV.scene('hook', (t, ctx) => { ticker(ctx.el, 'Voters reject AI data centres across the US', t); enter($('#hk-p'), t, 0.05, 0.4, 20);
+    const u = seg(t, 0.8, frac(ctx, 0, 0.95), ease.linear) * N; box.forEach((b, i) => { const on = i < u; const ok = [9, 17, 26, 38].includes(i); b.r.setAttribute('fill', on ? (ok ? '#14532d' : '#7f1d1d') : '#1f2937'); b.tx.textContent = on ? (ok ? '✅' : '❌') : '🗳️'; });
+    lab.textContent = u > 1 ? `${Math.min(41, Math.ceil(u))} local votes · 10 states` : ''; pop($('#hk-q'), t, ctx.line(1) - 0.1, 0.5); });
+}
+/* INSIDE: rack rows with blinking GPUs */
+{
+  const s = flowPane($('#in-p')); const L = [];
+  for (let r = 0; r < 4; r++) { svgEl('rect', { x: 60, y: 60 + r * 170, width: 720, height: 130, rx: 14, fill: '#0f172a', stroke: '#334155', 'stroke-width': 3 }, s); for (let c = 0; c < 12; c++) L.push(svgEl('rect', { x: 84 + c * 58, y: 84 + r * 170, width: 44, height: 82, rx: 6, fill: '#1e293b' }, s)); }
+  FV.scene('inside', (t, ctx) => { ticker(ctx.el, 'Voters reject AI data centres across the US', t); head(ctx.el, t); enter($('#in-p'), t, 0.1, 0.4, 20);
+    L.forEach((l, i) => l.setAttribute('fill', t > 0.4 + i * 0.03 ? ((Math.floor(t * 6) + i * 7) % 5 ? '#22c55e' : '#86efac') : '#1e293b'));
+    show($('#in-t'), pill('🔥 running 24/7', '#f87171')); $('#in-t').style.opacity = seg(t, frac(ctx, 0, 0.6), frac(ctx, 0, 0.75)); });
+}
+/* POWER: data centre vs city houses */
+{
+  const s = flowPane($('#pw-p'));
+  node(s, 220, 240, 300, 150, '🏢 data centre', '', '#f87171').g.setAttribute('opacity', 1);
+  const H = []; for (let i = 0; i < 40; i++) H.push(txt(s, 470 + (i % 8) * 42, 160 + Math.floor(i / 8) * 60, '🏠', { 'font-size': 34, opacity: 0 }));
+  txt(s, 640, 480, '= a small city', { 'font-size': 38, 'font-weight': 900, fill: '#fde68a' });
+  const bar = svgEl('rect', { x: 80, y: 600, width: 0, height: 50, rx: 25, fill: '#fbbf24' }, s); txt(s, 80, 580, '⚡ electricity used', { 'text-anchor': 'start', 'font-size': 28, fill: '#cbd5e1' });
+  FV.scene('power', (t, ctx) => { ticker(ctx.el, 'Voters reject AI data centres across the US', t); head(ctx.el, t); enter($('#pw-p'), t, 0.1, 0.4, 20);
+    const u = seg(t, frac(ctx, 0, 0.3), frac(ctx, 0, 0.9)); H.forEach((h, i) => h.setAttribute('opacity', i < u * 40 ? 1 : 0)); bar.setAttribute('width', 680 * u);
+    show($('#pw-t'), pill('heat in, cooling out', '#fbbf24')); $('#pw-t').style.opacity = seg(t, 0.4, 0.7); });
+}
+/* WATER: a tank draining with drops */
+{
+  const s = flowPane($('#wt-p'));
+  svgEl('rect', { x: 260, y: 80, width: 320, height: 520, rx: 30, fill: 'none', stroke: '#93c5fd', 'stroke-width': 6 }, s);
+  const w = svgEl('rect', { x: 266, y: 86, width: 308, height: 508, rx: 26, fill: '#3b82f6', opacity: .7 }, s);
+  const drops = Array.from({ length: 8 }, (_, i) => txt(s, 0, 0, '💧', { 'font-size': 40 }));
+  const lab = txt(s, 420, 690, '', { 'font-size': 40, 'font-weight': 900, fill: '#93c5fd' });
+  FV.scene('water', (t, ctx) => { ticker(ctx.el, 'Voters reject AI data centres across the US', t); head(ctx.el, t); enter($('#wt-p'), t, 0.1, 0.4, 20);
+    const u = seg(t, 0.4, ctx.dur, ease.linear); w.setAttribute('y', 86 + 508 * u * 0.85); w.setAttribute('height', 508 * (1 - u * 0.85));
+    drops.forEach((d, i) => { const k = ((t * 0.8 + i / 8) % 1); d.setAttribute('x', 300 + i * 34); d.setAttribute('y', 620 + k * 80); d.setAttribute('opacity', 1 - k); });
+    lab.textContent = u > 0.05 ? 'millions of litres / day' : ''; show($('#wt-t'), pill('in some places', '#93c5fd')); $('#wt-t').style.opacity = seg(t, 0.6, 1); });
+}
+/* WORRY: four concern chips + tally */
+{
+  const host = $('#wr-p'); host.innerHTML = '<div class="g" style="position:absolute;left:40px;right:40px;top:40px;display:grid;grid-template-columns:1fr 1fr;gap:20px"></div><div class="tl" style="position:absolute;left:0;right:0;bottom:50px;text-align:center"></div>';
+  const C = [['💸', 'power bills'], ['💧', 'water supply'], ['🔊', 'noise'], ['🌳', 'land']];
+  const cs = C.map(([e, l]) => div('card', `<div style="font-size:70px">${e}</div><div style="font:800 34px Inter;margin-top:8px">${l}</div>`, host.querySelector('.g'), 'text-align:center;border-color:#f8717166'));
+  host.querySelector('.tl').innerHTML = '<div style="font:900 64px Inter;color:#fca5a5">41 votes · 10 states</div><div style="font:800 34px Inter;color:#e5e7eb;margin-top:8px">almost all ❌ against</div>';
+  FV.scene('worry', (t, ctx) => { ticker(ctx.el, 'Voters reject AI data centres across the US', t); head(ctx.el, t); enter(host, t, 0.1, 0.4, 20);
+    cs.forEach((c, i) => pop(c, t, frac(ctx, 0, 0.12 + i * 0.1), 0.4)); enter(host.querySelector('.tl'), t, frac(ctx, 0, 0.62), 0.45, 30); });
+}
+{ const w = [div('', 'AI needs power and water.', $('#oc-w'), 'font:900 92px/1.06 Inter;letter-spacing:-.03em;color:#fde68a;text-align:center'), div('', 'Now towns want a say. 🗳️', $('#oc-w'), 'font:900 70px/1.1 Inter;color:#fca5a5;text-align:center')];
+  FV.scene('outro', (t, ctx) => w.forEach((e, i) => pop(e, t, ctx.line(i) - 0.1, 0.45))); }
+})();
+</script>
+</body>
+</html>
