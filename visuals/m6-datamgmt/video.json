@@ -1,0 +1,154 @@
+{
+  "title": "Data Management in WSN-CPS (Module 6) — Full Exam Revision",
+  "slug": "m6-datamgmt",
+  "description": "Exam revision of Module 6 data management in cyber-physical systems with wireless sensor networks: WSN-CPS definition and components, WSN vs WSN-CPS data management, constraints, the comparison table, data collection with mobile elements, controlled and uncontrolled mobility, processing, storage, querying, compression and analysis.",
+  "tags": ["WSN-CPS", "cyber physical systems", "wireless sensor networks", "data management", "Module 6", "exam revision"],
+  "voice": "af_heart",
+  "speed": 1.0,
+  "fps": 30,
+  "captions": true,
+  "endCard": "📘 more to learn → github.com/HemashreeVI",
+  "thumbnail": "activities@10",
+  "pronounce": {
+    "WSN-CPS": "W S N C P S", "CPS-WSNs": "C P S W S Ns", "WSNs": "W S Ns", "WSN": "W S N", "CPS": "C P S",
+    "MCPS": "M C P S", "MEs": "M Es", "ME": "M E", "IFP": "I F P", "ML": "M L", "KNN": "K N N", "SVM": "S V M"
+  },
+  "scenes": [
+    { "id": "intro", "title": "Module 6 overview", "pad": [0.8, 0.8], "lines": [
+      "Module six covers data management activities, resource allocation, game theory, and cooperative relaying.",
+      "This video is the data management part: data management in cyber physical systems with wireless sensor networks.",
+      "We will cover every slide, from the definition of WSN-CPS to data analysis."
+    ]},
+    { "id": "def", "title": "What is a WSN-CPS?", "lines": [
+      "First, a cyber physical system, or CPS, is a system that integrates the cyber and physical worlds to interact with the real world.",
+      "A WSN-CPS is a cyber physical system that integrates physical and cyber components through wireless sensor networks.",
+      "The role of the WSN in a CPS: it ensures communication between the physical and cyber components, for efficient data collection and actuation.",
+      "Applications are systems that need monitoring and control, in areas like environmental management."
+    ]},
+    { "id": "components", "title": "Four components of WSN-CPS", "lines": [
+      "A WSN-CPS has four components.",
+      "The sensing component collects and transmits data from the physical environment.",
+      "The cyber component analyzes the data and determines the necessary actions.",
+      "The actuation component executes actions in the physical environment, based on the cyber system's instructions.",
+      "And the communication component manages data transfer between all the components.",
+      "Notice the loop: sense, analyze, act, and communicate in between."
+    ]},
+    { "id": "goal", "title": "WSN vs WSN-CPS: goal", "lines": [
+      "How does data management differ between a plain WSN and a WSN-CPS?",
+      "The goal of a WSN is passive monitoring of the physical environment.",
+      "The goal of a WSN-CPS is active control and intervention in the physical environment.",
+      "They share three similarities: high data volume, stored data, and low latency processing.",
+      "And they differ because CPS places more emphasis on privacy and energy constraints, plus processing complexity."
+    ]},
+    { "id": "similar", "title": "Data management similarities", "lines": [
+      "The similarities in detail.",
+      "High data volume: both deal with large amounts of sensor data. Frequent sampling gives continuous, high volume streams that need efficient storage and processing.",
+      "Low latency processing: both must process data with minimal delay.",
+      "For example, a WSN monitoring tsunami activity must detect early warning signs quickly, while a WSN-CPS often has even stricter latency needs, for controlling actuators in real time.",
+      "Stored data: in both, collected data is stored for historical analysis, reporting, and decision making, revealing long term patterns and trends for decision support and prediction."
+    ]},
+    { "id": "differ", "title": "Data management differences", "lines": [
+      "The differences in detail.",
+      "Privacy: privacy is a higher priority in WSN-CPS, because it runs in sensitive areas like healthcare, autonomous vehicles and personal devices.",
+      "So privacy may dictate stricter data handling, storage, and transmission protocols.",
+      "Energy: both have energy limits, but they are more severe in WSN-CPS, because real time decision making and actuation need high intensity processing.",
+      "Energy efficient methods like data compression, aggregation, and intelligent routing are essential to prolong battery life.",
+      "Processing complexity: a WSN-CPS must transform raw data into actionable insights, extracting high level knowledge to make decisions.",
+      "A traditional WSN usually does only simple aggregation or statistical analysis, while WSN-CPS uses sophisticated algorithms, machine learning, and reasoning."
+    ]},
+    { "id": "wsncons", "title": "Constraints in WSN data management", "lines": [
+      "Constraints in WSN data management. There are four.",
+      "Energy consumption: sensors are battery powered and operate in remote locations, so designs must be energy efficient.",
+      "Memory and processing power: limited, due to small storage and computational capacity.",
+      "Data volume and real time processing: handling large, continuous data streams from sensors.",
+      "Data uncertainty: sensor data may be imprecise, due to environmental factors and technical limitations."
+    ]},
+    { "id": "table", "title": "Comparing WSNs and CPS-WSNs", "lines": [
+      "Now the comparison table, on three criteria.",
+      "Mobility. In WSNs: limited controlled and uncontrolled mobility, mainly for network coverage.",
+      "In CPS-WSNs: controlled and uncontrolled mobility, typically mission oriented. Both sensing and actuating devices can be mobile.",
+      "Intelligence. In WSNs: data mining and knowledge discovery techniques detect high level events of interest, often using complex event processing.",
+      "In CPS-WSNs: there is a need to extract high level knowledge from heterogeneous sensing networks, and reasoning capabilities decide which actions to assign to the actuation component.",
+      "Real time constraint. In WSNs: important only for critical applications, such as tsunami monitoring.",
+      "In CPS-WSNs: more important, because the CPS must react in time and control the physical system. Delays are not commonly tolerated."
+    ]},
+    { "id": "keycons", "title": "Key constraints in WSN-CPS", "lines": [
+      "So the key constraints in WSN-CPS data management are three.",
+      "Mobility: mobile devices improve network coverage, but increase network uncertainty.",
+      "Intelligence requirements: transforming raw data into actionable knowledge.",
+      "Real time constraints: ensuring timely response for applications that need immediate intervention."
+    ]},
+    { "id": "activities", "title": "Data management activities", "lines": [
+      "The data management activities.",
+      "Four key tasks for WSNs: data collection, data processing, data storage, and data querying.",
+      "CPS-WSNs add two more: data compression, and data analysis.",
+      "So six activities in total. We will go through each one."
+    ]},
+    { "id": "mobility", "title": "Static and mobile WSN-CPS", "lines": [
+      "First, the types of WSN-CPS based on mobility.",
+      "A static WSN-CPS is built on stationary WSNs.",
+      "A mobile WSN-CPS incorporates mobile sensor nodes and systems.",
+      "Mobile WSN-CPS evolved from advances in robotics and embedded systems.",
+      "Mobile CPS, or MCPS, includes systems that can move and communicate across networks, like drones and mobile robots."
+    ]},
+    { "id": "collect", "title": "Data collection with mobile elements", "lines": [
+      "Activity one: data collection in mobile WSN-CPS.",
+      "Its purpose is to gather, acquire, or sample data efficiently, while conserving energy.",
+      "There are three types of mobile elements, or MEs.",
+      "Relocatable nodes move to improve network coverage and connectivity.",
+      "Mobile data collectors are mobile sinks or relays that gather data directly from sensor nodes.",
+      "Mobile peers are nodes that sense data and relay messages, forming a peer network.",
+      "Mobile data collection aims to balance sensing, communication, and processing, to minimize energy consumption."
+    ]},
+    { "id": "ctrl", "title": "Controlled vs uncontrolled mobility", "lines": [
+      "Controlled versus uncontrolled mobility.",
+      "With controlled mobility, mobile elements autonomously decide their paths based on goals, like maximizing data collection while minimizing energy use.",
+      "With uncontrolled mobility, paths are fixed or predictable, like public transportation, and movement is not managed by the system.",
+      "Controlled mobility can enhance data gathering in targeted areas.",
+      "Uncontrolled mobility applies when nodes cannot control their movements."
+    ]},
+    { "id": "process", "title": "Data processing", "lines": [
+      "Activity two: data processing, which means applying transformations to raw sensor data.",
+      "Data cleaning removes errors and fills gaps in the data.",
+      "Data fusion combines data from multiple sources to enhance accuracy.",
+      "Different fusion types, sensor fusion, information fusion and data fusion, combine information for comprehensive analysis."
+    ]},
+    { "id": "storage", "title": "Data storage", "lines": [
+      "Activity three: data storage. The purpose is to store large data volumes efficiently, given limited memory, bandwidth, and energy.",
+      "Question one: what data to store? Real time applications may only keep recent data.",
+      "Question two: where to store it? There are three options.",
+      "Centralized storage: all data is sent to a base station. Good for centralized control, but it can create bottlenecks.",
+      "Distributed storage: data is stored closer to the sensors, reducing transmission costs and bottlenecks.",
+      "Hybrid approaches combine centralized and distributed storage, to balance efficiency."
+    ]},
+    { "id": "query", "title": "Data querying", "lines": [
+      "Activity four: data querying, to retrieve relevant data based on specific requirements.",
+      "There are three querying models.",
+      "Abstract layer models provide a simplified view over the sensor data.",
+      "Statistical and model based techniques use probabilistic models for spatio temporal data.",
+      "Information Flow Processing, IFP, retrieves data from multiple sources in real time, and processes it for new insights."
+    ]},
+    { "id": "compress", "title": "Data compression", "lines": [
+      "Activity five, added in CPS: data compression.",
+      "The challenge: large data volumes need efficient storage and processing.",
+      "Compression techniques minimize storage size and conserve bandwidth.",
+      "Examples: stream compression, data aggregation, and reducing redundancy among data sources."
+    ]},
+    { "id": "analysis", "title": "Data analysis", "lines": [
+      "Activity six: data analysis.",
+      "It analyzes sensor data to monitor and understand the real world environment.",
+      "A key task is atypical data detection: identifying unusual data patterns that may indicate significant events.",
+      "Examples of use: traffic congestion detection, and environmental monitoring.",
+      "The last slide lists the machine learning models used for such analysis: Naive Bayes, Decision Tree, Random Forest, K Nearest Neighbours, and Support Vector Machine."
+    ]},
+    { "id": "recap", "title": "Exam recap", "pad": [0.6, 2.4], "lines": [
+      "Quick recap.",
+      "WSN-CPS integrates physical and cyber parts through wireless sensor networks, with four components: sensing, cyber, actuation, communication.",
+      "WSN goal is passive monitoring. WSN-CPS goal is active control. Same: volume, latency, storage. Different: privacy, energy, processing complexity.",
+      "Comparison criteria: mobility, intelligence, real time constraint.",
+      "Activities: collection, processing, storage, querying, plus compression and analysis in CPS.",
+      "Mobile elements: relocatable nodes, mobile data collectors, mobile peers. Storage: centralized, distributed, hybrid.",
+      "Good luck in your exam!"
+    ]}
+  ]
+}

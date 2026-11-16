@@ -1,0 +1,159 @@
+{
+  "title": "Game Theory & Cooperative Relaying in CPS (Module 6) — Exam Revision",
+  "slug": "m6-game-relay",
+  "description": "Exam revision of Module 6: data management activities, resource allocation, game theory (Nash equilibrium, non-cooperative power control, cooperative games, auctions) and cooperative relaying in CPS, with the smart traffic, forest, agriculture and drone scenarios, energy-saving techniques and metrics, and the cooperative relaying theory: direct link SNR, amplify-and-forward, decode-and-forward, selection relaying, outage probability and capacity.",
+  "tags": ["game theory", "cooperative relaying", "Nash equilibrium", "amplify and forward", "decode and forward", "CPS", "energy efficiency", "Module 6", "exam revision"],
+  "voice": "af_heart",
+  "speed": 1.0,
+  "fps": 30,
+  "captions": true,
+  "endCard": "📘 more to learn → github.com/HemashreeVI",
+  "thumbnail": "af@20",
+  "pronounce": {
+    "CPS": "C P S", "IoT": "I O T", "VANETs": "van ets", "AF": "A F", "DF": "D F", "SNR": "S N R", "AWGN": "A W G N",
+    "N0": "N zero", "J/bit": "joules per bit", "MIMO": "my mo", "WiMAX": "why max", "802.16j": "eight oh two dot sixteen J",
+    "h_sd": "H S D", "h_sr": "H S R", "h_rd": "H R D", "Ps": "P S", "Pr": "P R"
+  },
+  "scenes": [
+    { "id": "intro", "title": "Four building blocks", "pad": [0.8, 0.8], "lines": [
+      "How do hundreds of battery powered devices share one channel, save energy, and still reach the cloud?",
+      "Module six answers with four ideas: data management activities, resource allocation, game theory, and cooperative relaying.",
+      "We will define each one, see them in real CPS scenarios, then learn the theory of cooperative relaying."
+    ]},
+    { "id": "dm", "title": "1. Data management activities", "lines": [
+      "One: data management activities. These are how a CPS handles the collection, storage, processing, and dissemination of data.",
+      "Collection: gathering sensor data, like temperature, traffic, or health metrics.",
+      "Processing: filtering, aggregating, or analyzing the data.",
+      "Storage: saving it in local memory, fog nodes, or the cloud.",
+      "Dissemination: sending the data to decision makers or actuators."
+    ]},
+    { "id": "ra", "title": "2. Resource allocation", "lines": [
+      "Two: resource allocation.",
+      "In CPS, resources like bandwidth, power, time slots, computation capacity, and storage must be distributed among devices.",
+      "For example, in a wireless sensor network, many nodes share a common channel, so resource allocation ensures fair access and energy efficiency.",
+      "Common methods: scheduling, priority based allocation, and auction based models."
+    ]},
+    { "id": "gt", "title": "3. Game theory", "lines": [
+      "Three: game theory. It models competitive or cooperative behaviour among agents, meaning devices or nodes.",
+      "Each device is a player, trying to maximize its utility, for example minimizing delay or maximizing throughput.",
+      "Equilibrium occurs when no player can improve without hurting others. This is the Nash Equilibrium.",
+      "Game theory is used for energy sharing, spectrum sharing, task scheduling, and offloading."
+    ]},
+    { "id": "cr", "title": "4. Cooperative relaying", "lines": [
+      "Four: cooperative relaying.",
+      "Instead of transmitting directly to a base station, devices help relay data for others, to improve signal quality and coverage.",
+      "It is used in IoT, VANETs, and wireless sensor networks.",
+      "It reduces transmission energy, and improves reliability.",
+      "Example: a distant sensor uses a nearby sensor as a relay to reach the cloud."
+    ]},
+    { "id": "traffic", "title": "Scenario: smart traffic monitoring CPS", "lines": [
+      "Now one scenario that uses all four: a smart traffic monitoring CPS.",
+      "It has roadside IoT sensors for speed, density and pollution, cameras with edge processing, autonomous vehicles exchanging real time data, and cloud and edge controllers for decisions.",
+      "Data management: each sensor gathers vehicle count, air quality and congestion. Data is aggregated at edge nodes, preprocessed, and uploaded to the cloud periodically. Redundant or outdated data is filtered locally to save bandwidth.",
+      "Resource allocation: at peak hours, many sensors send at once. The edge node allocates bandwidth and time slots by priority, so accident alerts beat normal flow updates. Low battery sensors get energy efficient schedules.",
+      "Game theory: sensors compete for channel access. Each node is a player deciding its transmission power. With non cooperative game theory, nodes adjust power to minimize interference while staying reliable, until they reach a Nash Equilibrium.",
+      "Cooperative relaying: a sensor in a tunnel has a weak signal, so it uses a nearby roadside sensor as a relay. Both share bandwidth with relay cooperation protocols, improving connectivity, reducing retransmissions, and saving energy."
+    ]},
+    { "id": "edm", "title": "Energy efficiency in data management", "lines": [
+      "Next, how each block saves energy. First, data management, which directly affects energy used for sensing, transmitting and processing.",
+      "Data aggregation and compression: combine many readings into one packet. For example, an edge node summarizes one hundred readings into one average before uploading.",
+      "Duty cycling: sensors switch between active and sleep modes. For example, a temperature node wakes every ten minutes, senses, and sleeps again.",
+      "Adaptive sampling: adjust the collection rate to environmental change. If temperature is stable, sense less often.",
+      "Edge or fog processing: process data locally instead of sending everything to the cloud, reducing long range communication, which consumes the most energy.",
+      "Data prioritization: send only critical or anomalous data immediately. Regular data can be delayed or batched."
+    ]},
+    { "id": "era", "title": "Energy saving through resource allocation", "lines": [
+      "Energy saving through resource allocation. When devices share resources, proper allocation ensures no device wastes energy.",
+      "Energy aware scheduling: assign transmission slots by energy level and urgency. Nodes with low battery get longer intervals between transmissions.",
+      "Load balancing: distribute computational tasks so no single node overheats or drains too fast.",
+      "Dynamic power control: adjust transmission power to signal quality, not always maximum. Near nodes reduce power when the base station is close.",
+      "Energy harvesting integration: use solar, vibration, or thermal sources to recharge small nodes, for self sustaining systems."
+    ]},
+    { "id": "egt", "title": "Game theory for energy optimization", "lines": [
+      "Game theory for energy optimization. Each device is a player that minimizes its own energy while keeping communication quality.",
+      "Non cooperative power control game: each node adjusts its power to minimize its own energy while avoiding interference. It stabilizes at Nash Equilibrium.",
+      "Cooperative game model: nodes share energy or relay data together. High energy nodes voluntarily help weaker ones, an energy aware coalition.",
+      "Auction based spectrum sharing: nodes bid for bandwidth or power. This encourages efficient use, instead of everyone transmitting at full power."
+    ]},
+    { "id": "ecr", "title": "Cooperative relaying for energy efficiency", "lines": [
+      "Cooperative relaying for energy efficiency. A node far from the base station uses a lot of energy transmitting directly. The solution is nearby relays.",
+      "It reduces transmission distance, and since power grows with distance squared, or even distance to the fourth, a shorter hop saves a lot of energy.",
+      "It distributes the energy load among multiple nodes.",
+      "And it avoids retransmissions, by improving link reliability.",
+      "Example: a forest fire sensor deep inside a forest uses a nearby edge node to forward its readings, saving its own battery and ensuring stable delivery."
+    ]},
+    { "id": "agri", "title": "Integrated example: smart agriculture", "lines": [
+      "An integrated example: a smart agriculture CPS, with sensors monitoring soil moisture, temperature and humidity across large fields.",
+      "Adaptive sampling: sensors reduce frequency in stable conditions, lowering sensing power.",
+      "Data aggregation: the edge node sends one summarized message instead of many, cutting transmission cost.",
+      "Cooperative relaying: far sensors send via nearer nodes, saving long distance power.",
+      "Resource allocation: prioritize critical nodes and schedule low power modes, balancing network energy.",
+      "Game theory: nodes adjust power levels to minimize total energy, preventing overuse and interference.",
+      "To measure success, use four metrics: energy consumption per bit, in J/bit. Network lifetime, the time until the first node dies.",
+      "Residual energy distribution, meaning energy balance among nodes. And throughput versus power ratio, in bits per joule."
+    ]},
+    { "id": "drones", "title": "Scenario: delivery drones", "lines": [
+      "One more scenario: a group of delivery drones, each with limited battery and range, sending live video to a control center.",
+      "Game theory helps them decide who transmits first, and how much bandwidth to use.",
+      "Cooperative relaying ensures that even far away drones get their data delivered, through neighbour drones acting as relays.",
+      "Together they give smooth, efficient and fair system performance."
+    ]},
+    { "id": "coop", "title": "Cooperative transmission", "lines": [
+      "Now the theory of cooperative relaying. Relay nodes assist source to destination communication, improving reliability, coverage, SNR and energy efficiency.",
+      "Cooperative transmission is a new communication paradigm that exploits the broadcast nature of the wireless channel.",
+      "In phase one, the sender transmits. Both the destination and the relay hear it.",
+      "In phase two, the relay retransmits to the destination.",
+      "So relays serve as a virtual antenna of the source, like a MIMO system, giving multi user and multi route diversity.",
+      "It is a popular research area, and an industrial standard exists: IEEE WiMAX 802.16j."
+    ]},
+    { "id": "model", "title": "System model", "lines": [
+      "The system model.",
+      "Nodes: a source S, a destination D, and relays R1 to RN.",
+      "Flat fading channels: h_sd from source to destination, h_sr from source to relay, and h_rd from relay to destination.",
+      "Noise is AWGN, additive white Gaussian noise, with variance N0.",
+      "Relays are half duplex, using two time slots. In time slot one, S transmits to R and D. In time slot two, R transmits to D.",
+      "E_S and E_R are the transmit energies at the source and relay."
+    ]},
+    { "id": "direct", "title": "Direct link SNR", "lines": [
+      "First, the direct link.",
+      "The received signal is y_sd equals root Ps, times h_sd, times x, plus noise n.",
+      "So the SNR is gamma_sd equals Ps times the magnitude of h_sd squared, divided by N0.",
+      "Signal power over noise power. That is the baseline that relaying must beat."
+    ]},
+    { "id": "af", "title": "Amplify-and-Forward", "lines": [
+      "Relay scheme one: Amplify and Forward, AF.",
+      "The relay simply amplifies the signal it received, and forwards it.",
+      "The gain is G equals the square root of Pr, divided by Ps h_sr squared plus N0. This scales the received power up to the relay's power Pr.",
+      "The end to end SNR is gamma_AF equals Ps h_sr squared times Pr h_rd squared, divided by Pr h_rd squared N0, plus Ps h_sr squared plus N0, times N0.",
+      "The weakness: noise received at the relay is amplified too. So AF is simple, but noise amplifying."
+    ]},
+    { "id": "dfscheme", "title": "Decode-and-Forward", "lines": [
+      "Relay scheme two: Decode and Forward, DF.",
+      "The relay fully decodes the message, and re encodes it before forwarding. No noise is passed on.",
+      "The hop SNRs are gamma_SR equals Ps h_sr squared over N0, and gamma_RD equals Pr h_rd squared over N0.",
+      "If the relay decodes correctly, the destination combines both copies: gamma_DF equals gamma_SD plus gamma_RD.",
+      "Remember, the relay must decode first, so the source to relay hop can limit DF. DF gives better performance, but higher complexity."
+    ]},
+    { "id": "multi", "title": "Multiple relays", "lines": [
+      "With multiple relays, there are two approaches.",
+      "Selection relaying: choose the relay that maximizes the minimum of gamma_sr and gamma_rd. The weaker hop is the bottleneck, so pick the relay whose worst hop is best.",
+      "Distributed space time coding: all relays transmit coded signals together, to get full diversity."
+    ]},
+    { "id": "outage", "title": "Outage probability and capacity", "lines": [
+      "Outage probability.",
+      "The capacity is C equals one half log base two of one plus gamma. The one half is because half duplex relaying uses two time slots.",
+      "An outage happens when C is less than the target rate R.",
+      "Solving, that means gamma is less than two to the power two R, minus one.",
+      "The ergodic capacity is the average over fading: the expectation of one half log two of one plus gamma total."
+    ]},
+    { "id": "recap", "title": "Exam recap", "pad": [0.6, 2.4], "lines": [
+      "Quick recap.",
+      "Four blocks: data management, resource allocation, game theory, cooperative relaying.",
+      "Nash Equilibrium: no player can improve without hurting others. Games: non cooperative power control, cooperative coalition, auction based spectrum.",
+      "Energy metrics: joules per bit, network lifetime, residual energy distribution, bits per joule.",
+      "Direct SNR is Ps h_sd squared over N0. AF amplifies noise too. DF decodes first, better but complex.",
+      "Selection relaying maximizes the minimum hop SNR. Outage when gamma is below two to the two R, minus one.",
+      "Good luck in your exam!"
+    ]}
+  ]
+}

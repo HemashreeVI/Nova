@@ -1,0 +1,148 @@
+{
+  "title": "The Lagrangian Method for Cooperative Relays & Game Theory in CPS — Derivation, KKT and Worked Example",
+  "slug": "m6-lagrangian",
+  "description": "Exam revision of how the Lagrangian method is derived and applied to cooperative relays in CPS: objective, constraints in standard form, building the Lagrangian, why the constraint term is subtracted, the four KKT conditions, the worked example maximize 10p - p^2 subject to 0 <= p <= 3, the shadow price meaning of lambda, the CPS relay utility, the full relay-power Lagrangian with multipliers, stationarity, the log2 quality model, and how the Lagrangian links to cooperative and non-cooperative games.",
+  "tags": ["Lagrangian", "KKT conditions", "Lagrange multiplier", "shadow price", "cooperative relaying", "game theory", "Nash equilibrium", "CPS", "exam revision"],
+  "voice": "af_heart",
+  "speed": 0.97,
+  "fps": 30,
+  "captions": true,
+  "endCard": "📘 more to learn → github.com/HemashreeVI",
+  "thumbnail": "solve@20",
+  "pronounce": {
+    "CPS": "C P S", "KKT": "K K T", "Pmax": "P max", "Qmin": "Q min", "Pimax": "P i max", "Dmax": "D max", "Emax": "E max",
+    "p1": "P one", "p2": "P two", "R1": "R one", "R2": "R two", "log2": "log base two", "ln": "natural log", "f(p)": "F of P", "g(p)": "G of P",
+    "U(A,P)": "U of A comma P", "10p": "ten P", "p²": "P squared", "λ": "lambda", "μ": "mu", "η": "eta", "ρ": "rho", "α": "alpha", "β": "beta", "δ": "delta", "γ0": "gamma zero", "ε": "epsilon"
+  },
+  "scenes": [
+    { "id": "intro", "title": "Why the Lagrangian?", "pad": [0.8, 0.8], "lines": [
+      "A relay wants more power for better quality, but its battery and the shared budget say no. How do we find the best choice inside the limits?",
+      "The Lagrangian method. It combines three things: the objective, which is what the system maximizes; the constraints, which are the limits; and the Lagrangian, which combines both.",
+      "We will derive it step by step on a small example, then apply it to cooperative relays in CPS, and link it to game theory."
+    ]},
+    { "id": "problem", "title": "1. Start with a constrained problem", "lines": [
+      "Step one: start with a constrained optimization problem. The Lagrangian is built from the objective and the constraints.",
+      "The CPS objective: choose relay power p to improve useful transmission performance while accounting for costs.",
+      "The constraint: power must stay feasible, between zero and three. The upper limit may represent a battery, hardware, or interference cap.",
+      "The example problem: maximize f(p) equals 10p minus p², subject to p minus three at most zero, and p at least zero.",
+      "Here p is a simplified, normalized relay power, not a calibrated radio model."
+    ]},
+    { "id": "form", "title": "2. Write inequalities in standard form", "lines": [
+      "Step two: write every inequality in a consistent form. For maximization, these slides write each one as g_i of x at most zero.",
+      "General problem: maximize f of x, subject to g_i of x at most zero.",
+      "For the example: f(p) equals 10p minus p², and g(p) equals p minus three, at most zero.",
+      "Why this form? It lets us attach one non negative multiplier lambda to each constraint, and identify which limits are active at the optimum.",
+      "The lower bound p at least zero is also a constraint, but here the optimum will not be at zero."
+    ]},
+    { "id": "build", "title": "3. Build the Lagrangian", "lines": [
+      "Step three: build the Lagrangian. Add the objective, and a multiplier weighted term for each constraint.",
+      "General form for maximization: L of x and lambda equals f of x, minus the sum of lambda_i times g_i of x, with every lambda_i at least zero.",
+      "Each lambda_i is a Lagrange multiplier.",
+      "For our example: L equals 10p minus p², minus lambda times p minus three.",
+      "Expanded: L equals 10p minus p², minus lambda p, plus three lambda.",
+      "Intuition: the multiplier term makes the constraint part of the calculation. Lambda measures the marginal value of relaxing a binding limit."
+    ]},
+    { "id": "sign", "title": "4. Why is the term subtracted?", "lines": [
+      "Step four: why subtract the constraint term? The sign depends on the convention, so stay consistent.",
+      "The constraint is g(p) equals p minus three, at most zero. If p exceeds three, it is violated, and p minus three becomes positive.",
+      "The term minus lambda times p minus three, with lambda at least zero, then reduces L, like a penalty. A positive lambda makes the upper bound affect the optimum.",
+      "So for maximization with g_i at most zero, use L equals f minus the sum of lambda_i g_i. Other textbooks may use different signs, by writing the constraints differently."
+    ]},
+    { "id": "kkt", "title": "5. The KKT conditions", "lines": [
+      "Step five: derive the KKT conditions. They describe candidate optimal points, under suitable regularity assumptions. There are four.",
+      "One, stationarity: the derivative of L with respect to p is 10 minus 2p minus lambda, set equal to zero.",
+      "Two, primal feasibility: p minus three at most zero, and p at least zero.",
+      "Three, dual feasibility: lambda at least zero.",
+      "Four, complementary slackness: lambda times p minus three equals zero.",
+      "In words: the solution obeys the limits, multipliers are non negative, and a constraint can have a positive multiplier only when it is active."
+    ]},
+    { "id": "solve", "title": "6. Solve the example step by step", "lines": [
+      "Step six: solve the example.",
+      "Step A: ignore the constraint for now. Set f prime of p equals 10 minus 2p equal to zero, so p equals 5.",
+      "Step B: check feasibility. p equals 5 violates p at most 3. So the maximum feasible point is at the boundary: p star equals 3.",
+      "Step C: find the multiplier from stationarity. 10 minus 2 times 3, minus lambda, equals zero. 10 minus 6 is 4, so lambda star equals 4.",
+      "Check complementary slackness: lambda is 4, and p minus 3 is zero, so their product is zero. Good.",
+      "Step D: compute the objective. f(3) equals 10 times 3, minus 3 squared, which is 30 minus 9, equals 21."
+    ]},
+    { "id": "shadow", "title": "7. What λ tells us: the shadow price", "lines": [
+      "Step seven: what does the multiplier tell us?",
+      "The optimal decision is p star equals 3, the maximum utility is 21, and lambda star equals 4. The upper bound is active.",
+      "Lambda is often called a shadow price.",
+      "Locally, raising the power cap from 3 to 3 plus epsilon increases the optimal utility by about 4 epsilon, as long as the same active constraint regime holds.",
+      "Check it: f of 3.1 is 31 minus 9.61, which is 21.39. That is about 0.4 more, which is 4 times 0.1.",
+      "That is the economic meaning of a Lagrange multiplier: the marginal value of relaxing a constraint."
+    ]},
+    { "id": "scenario", "title": "Cooperative relays in CPS: the scenario", "lines": [
+      "Now apply it to real cooperative relaying in CPS.",
+      "The goal: choose relay transmit powers to balance communication quality, energy use, and delay, while satisfying system constraints.",
+      "The application: industrial sensors send data to a CPS controller through cooperative relays, when the direct wireless link is weak.",
+      "A source sensor S forwards data through relay R1 with power p1, and relay R2 with power p2, to the CPS controller that processes the data."
+    ]},
+    { "id": "objective", "title": "Define the objective", "lines": [
+      "Define the objective: a weighted utility that trades off performance measures.",
+      "Maximize U of p1 and p2 equals alpha Q, minus beta E, minus delta D.",
+      "Q is communication quality, or reliability. E is energy consumed. D is end to end delay.",
+      "Alpha, beta and delta are non negative weights. Increase alpha to prioritize reliability. Increase beta to prioritize energy saving."
+    ]},
+    { "id": "cons", "title": "Constraints and standard form", "lines": [
+      "Add the system constraints.",
+      "Total relay power: p1 plus p2 at most Pmax, the shared power budget.",
+      "Individual limits: each p_i between zero and Pimax.",
+      "Minimum quality: Q at least Qmin, the minimum acceptable quality.",
+      "Now write them in standard form. This deck uses non negative slack expressions:",
+      "g1 equals Pmax minus p1 minus p2, at least zero. g2 equals Q minus Qmin, at least zero. g3 equals Pimax minus p_i, at least zero. g4 equals p_i, at least zero.",
+      "Each constraint gets a Lagrange multiplier, representing its influence on the optimum."
+    ]},
+    { "id": "lag2", "title": "Construct the relay Lagrangian", "lines": [
+      "Construct the Lagrangian.",
+      "L equals alpha Q minus beta E minus delta D,",
+      "plus lambda times Pmax minus p1 minus p2,",
+      "plus mu times Q minus Qmin,",
+      "plus the sum of eta_i times Pimax minus p_i, plus the sum of rho_i times p_i.",
+      "Lambda is for the shared power budget, mu for the quality threshold, eta_i for each relay's upper power limit, and rho_i for non negativity. All are at least zero.",
+      "Notice the plus signs here: the constraints are written as slack terms that are at least zero. Same idea, different convention, exactly as warned before."
+    ]},
+    { "id": "stat", "title": "Stationarity and KKT for the relays", "lines": [
+      "Differentiate with respect to each relay power. Set the derivative of L with respect to p_i to zero, for i equals one and two.",
+      "Zero equals alpha dQ by dp_i, minus beta dE by dp_i, minus delta dD by dp_i, minus lambda, plus mu dQ by dp_i, minus eta_i, plus rho_i.",
+      "Meaning: the marginal quality benefit is balanced against the marginal energy and delay cost, and the active constraints.",
+      "Then apply KKT. Stationarity. Primal feasibility, all original constraints hold. Dual feasibility, all multipliers at least zero.",
+      "And complementary slackness: lambda times Pmax minus p1 minus p2 equals zero, and mu times Q minus Qmin equals zero.",
+      "An inactive constraint has a zero multiplier. An active constraint may have a positive one."
+    ]},
+    { "id": "quality", "title": "An illustrative quality model", "lines": [
+      "An illustrative quality model, to show how derivatives are calculated.",
+      "Q equals log2 of one plus gamma0 plus a1 p1 plus a2 p2.",
+      "Assume energy E equals e1 p1 plus e2 p2, and ignore delay.",
+      "Then dQ by dp_i equals a_i, divided by ln 2 times one plus gamma0 plus a1 p1 plus a2 p2.",
+      "And dE by dp_i equals e_i.",
+      "Substitute these into stationarity, and solve jointly with the KKT conditions."
+    ]},
+    { "id": "workflow", "title": "How to solve the model", "lines": [
+      "The practical workflow has five steps.",
+      "One, specify Q, E and D using the wireless system model. Two, define the power limits and the quality threshold.",
+      "Three, construct L and calculate derivatives. Four, solve stationarity, feasibility, and complementary slackness equations.",
+      "Five, check the solution against every constraint.",
+      "Real decode and forward systems may also need source to relay and relay to destination constraints, interference, and half duplex factors."
+    ]},
+    { "id": "game", "title": "Link to game theory", "lines": [
+      "Finally, the link to game theory. The Lagrangian is an optimization tool, not a type of game.",
+      "In a cooperative game, relays coordinate or form a coalition, and optimize a shared system utility, U of A comma P, over the relay set A and power vector P.",
+      "The Lagrangian solves this joint constrained resource allocation. The game solution is a coalition choice, with a possible payoff allocation.",
+      "In a non cooperative game, each relay chooses its own power to maximize its individual utility, U_i of P_i given the others' powers.",
+      "The Lagrangian can solve each player's constrained problem, and best response analysis finds a Nash equilibrium, a best response fixed point.",
+      "The general CPS utility adds constraints: P_i between its min and max, D at most Dmax, E at most Emax, and Q at least Qmin.",
+      "A caution: KKT conditions are sufficient for a global optimum when the problem is convex. For non convex radio models, KKT may only find local candidates.",
+      "Key idea: game theory models strategic interaction, and the Lagrangian handles constrained optimization."
+    ]},
+    { "id": "recap", "title": "Summary: derivation in five steps", "pad": [0.6, 2.4], "lines": [
+      "Summary: the derivation in five steps.",
+      "One, define the objective: maximize reliability benefit minus energy and delay costs.",
+      "Two, write the constraints, converting inequalities to g_i at most zero.",
+      "Three, build L equals f minus the sum of lambda_i g_i, with lambda_i at least zero.",
+      "Four, apply KKT: stationarity, primal feasibility, dual feasibility, complementary slackness.",
+      "Five, solve and interpret. Use lambda as the value of relaxing a constraint. In the example, p star 3, f 21, lambda 4.",
+      "Good luck in your exam!"
+    ]}
+  ]
+}

@@ -1,0 +1,104 @@
+{
+  "title": "Multi-Relay Cooperative Relaying: Lagrangian Power Allocation (DF Relays) — Exam Revision with Worked Example",
+  "slug": "m6-multirelay",
+  "description": "Exam revision of the Lagrangian model for multi-relay decode-and-forward cooperative relaying: system model, two-hop bottleneck SNR, rate expression, Lagrangian formulation, SNR balancing, relay selection metric g_i, closed-form optimal powers, and the two-relay worked example solved step by step.",
+  "tags": ["cooperative relaying", "decode and forward", "Lagrangian", "power allocation", "relay selection", "Module 6", "exam revision"],
+  "voice": "af_heart",
+  "speed": 0.97,
+  "fps": 30,
+  "captions": true,
+  "endCard": "📘 more to learn → github.com/HemashreeVI",
+  "thumbnail": "example@30",
+  "pronounce": {
+    "DF": "D F", "SNR": "S N R", "SNR_i": "S N R i", "N0": "N zero", "Ps": "P S", "Pri": "P R i", "P1": "P one",
+    "h_sri": "H S R i", "h_rid": "H R i D", "h_s1": "H S one", "h_1d": "H one D", "h_s2": "H S two", "h_2d": "H two D",
+    "R1": "R one", "R2": "R two", "RM": "R M", "g_i": "G i", "g_1": "G one", "g_2": "G two", "t_i": "T i", "P_total": "P total", "log2": "log base two"
+  },
+  "scenes": [
+    { "id": "intro", "title": "The power allocation problem", "pad": [0.8, 0.8], "lines": [
+      "A source has a fixed power budget, and several relays it could use. How much power should go to the source, and how much to each relay?",
+      "This is the Lagrangian model for multi relay cooperative relaying: an extended power allocation optimization, for decode and forward relays.",
+      "By the end, you will solve the exam style two relay example yourself."
+    ]},
+    { "id": "model", "title": "System model", "lines": [
+      "The system model.",
+      "Source S communicates with destination D through M relays, R1 to RM.",
+      "The relays are decode and forward, and half duplex.",
+      "Each relay i has two channel gains: h_sri from source to relay, and h_rid from relay to destination.",
+      "Powers: Ps at the source, and Pri at relay i.",
+      "And the total power constraint: Ps plus the sum of all Pri must be at most P_total."
+    ]},
+    { "id": "rate", "title": "Rate expression: the two-hop bottleneck", "lines": [
+      "The rate expression.",
+      "Each relay creates a two hop path, and the path is only as good as its weaker hop.",
+      "So SNR_i equals the minimum of Ps h_sri over N0, and Pri h_rid over N0.",
+      "The destination combines the relayed signals by max min, or selection: R equals one half log2 of one plus the maximum over i of SNR_i.",
+      "The one half is because of the two half duplex time slots.",
+      "The objective: allocate Ps and every Pri to maximize R."
+    ]},
+    { "id": "lagr", "title": "Lagrangian formulation", "lines": [
+      "The Lagrangian formulation.",
+      "Let t_i be the target SNR across the hops of relay i.",
+      "The constraints are: Ps h_sri over N0 is at least t_i, so the first hop reaches the target.",
+      "Pri h_rid over N0 is at least t_i, so the second hop reaches it too.",
+      "And Ps plus the sum of Pri is at most P_total.",
+      "The Lagrangian is L equals one half log2 of one plus the max of t_i, minus the multiplier weighted constraints."
+    ]},
+    { "id": "balance", "title": "Optimality: balanced SNR per active relay", "lines": [
+      "What does the optimum look like?",
+      "Think about it: if one hop had more SNR than the other, that extra power is wasted, because the minimum decides the rate.",
+      "So for every selected relay, in the active set A, the two hops are balanced: Ps h_sri equals Pri h_rid.",
+      "Rearranging: Pri equals Ps times h_sri over h_rid.",
+      "Put that into the total power: Ps plus the sum over active relays of Ps times h_sri over h_rid equals P_total.",
+      "Solve this for Ps, then get each Pri."
+    ]},
+    { "id": "select", "title": "Relay selection rule", "lines": [
+      "But which relays should be active? The relay selection rule.",
+      "For each relay, compute the bottleneck metric g_i equals h_sri times h_rid, divided by h_sri plus h_rid.",
+      "This is like two resistors in parallel. It is small if either hop is weak.",
+      "A larger g_i means a better balanced two hop path.",
+      "Select the top k relays, typically k equals one or two, for power allocation."
+    ]},
+    { "id": "closed", "title": "Closed-form optimal powers", "lines": [
+      "Now the closed form optimal powers for the active relays.",
+      "Factor Ps out of the power equation: Ps times one plus the sum of h_sri over h_rid equals P_total.",
+      "So Ps equals P_total divided by one plus the sum over active relays of h_sri over h_rid.",
+      "And each Pri equals Ps times h_sri over h_rid.",
+      "These two formulas are all you need in the exam."
+    ]},
+    { "id": "example", "title": "Worked example: two relays", "lines": [
+      "The worked example. P_total equals one, and N0 equals one.",
+      "Relay one: h_s1 equals 0.5, and h_1d equals 2.",
+      "Relay two: h_s2 equals 0.3, and h_2d equals 0.7.",
+      "Step one: compute g for each relay. g_1 equals 0.5 times 2, which is 1, divided by 0.5 plus 2, which is 2.5. So g_1 equals 0.4.",
+      "g_2 equals 0.3 times 0.7, which is 0.21, divided by 0.3 plus 0.7, which is 1. So g_2 equals 0.21.",
+      "Since 0.4 is greater than 0.21, choose relay one.",
+      "Step two: the ratio h_s1 over h_1d is 0.5 over 2, which is 0.25.",
+      "So Ps equals 1 divided by 1 plus 0.25, which is 1 over 1.25, equals 0.8.",
+      "Step three: P1 equals Ps times 0.25, which is 0.8 times 0.25, equals 0.2.",
+      "Check the total: 0.8 plus 0.2 equals 1. The budget is used exactly."
+    ]},
+    { "id": "verify", "title": "Check: are the hops balanced?", "lines": [
+      "Let us verify the balance.",
+      "Hop one SNR: Ps times h_s1 over N0 is 0.8 times 0.5, which is 0.4.",
+      "Hop two SNR: P1 times h_1d over N0 is 0.2 times 2, which is also 0.4. Balanced!",
+      "So the end to end SNR is 0.4, and the rate is one half log2 of 1.4, about 0.24 bits per second per hertz.",
+      "Notice the intuition: relay one has a very strong second hop, so it needs only a little power. Most of the budget goes to the source, whose hop is weaker."
+    ]},
+    { "id": "diagrams", "title": "Cooperative transmission diagrams", "lines": [
+      "The deck also shows cooperative transmission diagrams.",
+      "Cooperative transmission exploits the broadcast nature of wireless. Relays act as a virtual antenna of the source, like MIMO, giving multi user and multi route diversity.",
+      "In phase one, the sender transmits to the destination and the relay. In phase two, the relay forwards to the destination.",
+      "In the relay triangle, S sends to R over h_SR and to D over h_SD in time slot one. R sends to D over h_RD in time slot two.",
+      "In cooperative communication, the source's transmitted signal reaches both the relay and the destination, and the relay sends a retransmitted signal to the destination."
+    ]},
+    { "id": "recap", "title": "Summary and exam recipe", "pad": [0.6, 2.4], "lines": [
+      "Summary.",
+      "Multi relay DF optimization reduces to balancing the SNR on each hop.",
+      "Use the relay quality metric g_i for selection.",
+      "Closed form power allocation is available for the active relays.",
+      "Exam recipe: compute g_i for each relay. Pick the largest. Compute the ratio h_sr over h_rd. Ps equals P_total over one plus the ratio sum. Each relay power is Ps times its ratio. Then check the total.",
+      "Good luck in your exam!"
+    ]}
+  ]
+}

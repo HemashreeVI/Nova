@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Multi-Relay Power Allocation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="fvlib.css">
+<style>
+  .eq{font:600 40px/1.4 'JetBrains Mono',monospace;color:#fff}
+  .eq.md{font-size:32px}.eq.sm{font-size:27px}
+  .eq .s{color:var(--a)} .eq .r{color:var(--b)} .eq .t{color:var(--c)} .eq .k{color:var(--f)}
+  .box{position:absolute;border:2px solid rgba(148,163,200,.3);border-radius:20px;background:rgba(13,20,42,.85);padding:22px 30px;box-sizing:border-box}
+  .step{display:flex;gap:18px;align-items:baseline;margin:12px 0}
+  .step .num{flex:none}
+</style>
+</head>
+<body>
+<div id="fv-stage">
+  <div id="bg-grid"></div>
+
+  <section class="fv-scene" data-scene="intro">
+    <svg id="in-svg" class="abs" width="1920" height="1080" style="inset:0"></svg>
+    <div class="abs" style="left:0;right:0;top:120px;text-align:center">
+      <div data-l="1" class="mono" style="font-size:28px;letter-spacing:.3em;color:var(--a)">MODULE 6 · COOPERATIVE RELAYING</div>
+      <div data-l="1" data-f="0.3" class="big" style="margin-top:22px;font-size:92px">Multi-Relay <span style="color:var(--a)">Power Allocation</span></div>
+      <div data-l="1" data-f="0.6" class="note" style="margin-top:20px;font-size:32px">Lagrangian model · Decode-and-Forward (DF) relays</div>
+    </div>
+    <div class="abs chip" data-l="2" style="--k:var(--c);left:50%;transform:translateX(-50%);top:860px">Goal: solve the two-relay exam example</div>
+  </section>
+
+  <section class="fv-scene" data-scene="model">
+    <div class="kicker">Slide 2</div><div class="title">System model</div>
+    <svg id="md-svg" class="abs" width="1000" height="640" style="left:80px;top:230px"></svg>
+    <div class="box" data-l="2" style="left:1120px;top:250px;width:680px;height:600px">
+      <div class="item sm"><span class="dot"></span><b>DF</b> relays — <b>half-duplex</b></div>
+      <div class="item sm" data-l="3"><span class="dot" style="--k:var(--a)"></span>Channel gains <b class="mono" style="color:var(--a)">h_sri</b> (S→Ri), <b class="mono" style="color:var(--b)">h_rid</b> (Ri→D)</div>
+      <div class="item sm" data-l="4"><span class="dot" style="--k:var(--c)"></span>Powers: <b class="mono">Ps</b> at source, <b class="mono">Pri</b> at relay i</div>
+      <div class="panel rel" data-l="5" style="margin-top:22px;border-color:var(--d)"><div class="eq md">Ps + Σ Pri ≤ P_total</div><div class="mut" style="font:500 22px Inter;margin-top:6px">total power constraint</div></div>
+    </div>
+  </section>
+
+  <section class="fv-scene" data-scene="rate">
+    <div class="kicker">Slide 3</div><div class="title">Rate: each relay is a two-hop bottleneck</div>
+    <svg id="rt-svg" class="abs" width="1680" height="300" style="left:120px;top:220px"></svg>
+    <div class="box" data-l="2" style="left:120px;top:540px;width:1680px;height:140px"><div class="eq md">SNR_i = min( <span class="s">Ps·h_sri/N0</span> , <span class="r">Pri·h_rid/N0</span> )</div><div class="mut" style="font:500 22px Inter">the weaker hop decides</div></div>
+    <div class="box" data-l="3" style="left:120px;top:700px;width:1680px;height:120px"><div class="eq md">R = <span class="t">½</span> · log2( 1 + max_i SNR_i )</div></div>
+    <div class="abs note" data-l="4" style="left:1260px;top:732px;color:var(--c)">½ → two half-duplex slots</div>
+    <div class="abs chip" data-l="5" style="--k:var(--b);left:120px;top:850px">Objective: choose Ps, Pri to maximize R</div>
+  </section>
+
+  <section class="fv-scene" data-scene="lagr">
+    <div class="kicker">Slide 4</div><div class="title">Lagrangian formulation</div>
+    <div class="box" data-l="1" style="left:120px;top:250px;width:1680px;height:100px"><div class="eq md">Let <span class="t">t_i</span> = target SNR across the hops of relay i</div></div>
+    <div class="box" data-l="2" style="left:120px;top:380px;width:1680px;height:290px">
+      <div class="ph" style="font-size:28px">Constraints</div>
+      <div class="eq md" data-l="2"><span class="s">Ps·h_sri/N0</span> ≥ <span class="t">t_i</span>   <span class="mut" style="font:500 22px Inter">hop 1 reaches target</span></div>
+      <div class="eq md" data-l="3"><span class="r">Pri·h_rid/N0</span> ≥ <span class="t">t_i</span>   <span class="mut" style="font:500 22px Inter">hop 2 reaches target</span></div>
+      <div class="eq md" data-l="4">Ps + Σ Pri ≤ P_total</div>
+    </div>
+    <div class="box" data-l="5" style="left:120px;top:700px;width:1680px;height:130px;border-color:var(--c)"><div class="eq">L = ½·log2(1 + max_i <span class="t">t_i</span>) − <span class="k">(multiplier × constraints)</span></div></div>
+  </section>
+
+  <section class="fv-scene" data-scene="balance">
+    <div class="kicker">Slide 5</div><div class="title">Optimality: balance the SNR of both hops</div>
+    <svg id="bl-svg" class="abs" width="760" height="560" style="left:100px;top:260px"></svg>
+    <div class="box" data-l="2" style="left:920px;top:260px;width:880px;height:150px;border-color:var(--c)"><div class="eq md"><span class="s">Ps·h_sri</span> = <span class="r">Pri·h_rid</span></div><div class="mut" style="font:500 22px Inter;margin-top:6px">for every active relay i ∈ A</div></div>
+    <div class="box" data-l="3" style="left:920px;top:440px;width:880px;height:110px"><div class="eq md">⇒ Pri = Ps · (h_sri / h_rid)</div></div>
+    <div class="box" data-l="4" style="left:920px;top:580px;width:880px;height:150px"><div class="eq sm">Ps + Σ_{i∈A} Ps·(h_sri/h_rid) = P_total</div><div class="note" data-l="5" style="margin-top:10px;color:var(--b)">solve for Ps, then each Pri</div></div>
+  </section>
+
+  <section class="fv-scene" data-scene="select">
+    <div class="kicker">Slide 6</div><div class="title">Relay selection rule</div>
+    <div class="box" data-l="1" style="left:120px;top:260px;width:1100px;height:180px;border-color:var(--f)"><div class="eq">g_i = <span class="s">h_sri</span>·<span class="r">h_rid</span> / ( <span class="s">h_sri</span> + <span class="r">h_rid</span> )</div><div class="mut" style="font:500 22px Inter;margin-top:8px">bottleneck metric for each relay</div></div>
+    <div class="box" data-l="2" style="left:1260px;top:260px;width:540px;height:180px"><div class="note">like two <b>resistors in parallel</b> — small if <b>either</b> hop is weak</div></div>
+    <div class="abs" style="left:120px;top:480px;width:1680px">
+      <div class="item" data-l="3"><span class="dot" style="--k:var(--b)"></span>Larger g_i → better balanced two-hop path</div>
+      <div class="item" data-l="4"><span class="dot" style="--k:var(--c)"></span>Select the <b>top-k</b> relays (typical <b>k = 1 or 2</b>) for power allocation</div>
+    </div>
+  </section>
+
+  <section class="fv-scene" data-scene="closed">
+    <div class="kicker">Slide 7</div><div class="title">Closed-form optimal powers</div>
+    <div class="box" data-l="1" style="left:120px;top:260px;width:1680px;height:120px"><div class="eq md">Ps · ( 1 + Σ_{i∈A} h_sri/h_rid ) = P_total</div></div>
+    <div class="box" data-l="2" style="left:120px;top:420px;width:1680px;height:180px;border-color:var(--a)"><div class="eq" style="font-size:52px"><span class="s">Ps</span> = P_total / ( 1 + Σ h_sri/h_rid )</div></div>
+    <div class="box" data-l="3" style="left:120px;top:630px;width:1680px;height:180px;border-color:var(--b)"><div class="eq" style="font-size:52px"><span class="r">Pri</span> = Ps · ( h_sri / h_rid )</div></div>
+  </section>
+
+  <section class="fv-scene" data-scene="example">
+    <div class="kicker">Slide 8 · worked example</div><div class="title">Two relays, P_total = 1, N0 = 1</div>
+    <div class="box" style="left:120px;top:235px;width:600px;height:230px">
+      <div class="eq sm" data-l="1">Relay 1: h_s1 = <b class="s">0.5</b>, h_1d = <b class="r">2</b></div>
+      <div class="eq sm" data-l="2" style="margin-top:12px">Relay 2: h_s2 = <b class="s">0.3</b>, h_2d = <b class="r">0.7</b></div>
+    </div>
+    <div class="box" style="left:760px;top:235px;width:1040px;height:230px">
+      <div class="ph" data-l="3" style="font-size:26px;--k:var(--f)">Step 1 · relay metric g_i</div>
+      <div class="eq sm" data-l="3" data-f="0.3">g_1 = (0.5×2)/(0.5+2) = 1/2.5 = <b class="k">0.4</b></div>
+      <div class="eq sm" data-l="4" data-f="0.3">g_2 = (0.3×0.7)/(0.3+0.7) = 0.21/1 = <b class="k">0.21</b></div>
+      <div class="eq sm" data-l="5" style="color:var(--b)">0.4 &gt; 0.21 ⇒ choose Relay 1 ✓</div>
+    </div>
+    <div class="box" style="left:120px;top:495px;width:1680px;height:330px">
+      <div class="ph" data-l="6" style="font-size:26px;--k:var(--a)">Step 2 · source power</div>
+      <div class="eq sm" data-l="6" data-f="0.3">ratio = h_s1/h_1d = 0.5/2 = 0.25</div>
+      <div class="eq md" data-l="7">Ps = 1 / (1 + 0.25) = 1/1.25 = <b class="s">0.8</b></div>
+      <div class="ph" data-l="8" style="font-size:26px;--k:var(--b);margin-top:14px">Step 3 · relay power</div>
+      <div class="eq md" data-l="8" data-f="0.3">P1 = 0.8 × 0.25 = <b class="r">0.2</b>     <span data-l="9" style="color:var(--c)">check: 0.8 + 0.2 = 1 ✓</span></div>
+    </div>
+  </section>
+
+  <section class="fv-scene" data-scene="verify">
+    <div class="kicker">Check</div><div class="title">Are the hops balanced?</div>
+    <svg id="vf-svg" class="abs" width="1680" height="330" style="left:120px;top:230px"></svg>
+    <div class="box" data-l="3" style="left:120px;top:600px;width:1680px;height:120px"><div class="eq md">R = ½·log2(1 + 0.4) = ½·log2(1.4) ≈ <b class="t">0.24 bit/s/Hz</b> <span class="mut" style="font:500 20px Inter">(computed here, not on the slide)</span></div></div>
+    <div class="abs note" data-l="4" style="left:120px;top:750px;width:1680px">Relay 1's second hop is strong (h_1d = 2) → it needs little power; most budget goes to the weaker source hop.</div>
+  </section>
+
+  <section class="fv-scene" data-scene="diagrams">
+    <div class="kicker">Slides 9–11</div><div class="title">Cooperative transmission</div>
+    <div class="box" data-l="1" style="left:120px;top:240px;width:760px;height:330px">
+      <div class="item sm"><span class="dot"></span>Exploits the <b>broadcast nature</b> of wireless</div>
+      <div class="item sm"><span class="dot"></span>Relays = <b>virtual antenna</b> of the source</div>
+      <div class="item sm"><span class="dot"></span><b>MIMO</b>-like system</div>
+      <div class="item sm"><span class="dot"></span><b>Multi-user and multi-route diversity</b></div>
+      <div class="item sm"><span class="dot" style="--k:var(--c)"></span>Industrial standard: <b>IEEE WiMAX 802.16j</b></div>
+    </div>
+    <svg id="dg-svg" class="abs" width="900" height="640" style="left:920px;top:230px"></svg>
+    <div class="box" data-l="2" style="left:120px;top:600px;width:760px;height:250px">
+      <div class="ph" style="font-size:26px">Two phases</div>
+      <div class="note" style="font-size:25px"><b style="color:var(--a)">Phase 1</b>: sender → destination <b>and</b> relay (both hear it)</div>
+      <div class="note" style="font-size:25px;margin-top:8px"><b style="color:var(--b)">Phase 2</b>: relay → destination (retransmitted signal)</div>
+    </div>
+  </section>
+
+  <section class="fv-scene" data-scene="recap">
+    <div class="kicker">Slide 12 · summary</div><div class="title">Exam recipe</div>
+    <div class="abs" style="left:120px;top:240px;width:1680px">
+      <div class="item" data-l="1"><span class="dot"></span>Multi-relay DF optimization reduces to <b>balancing SNR per hop</b></div>
+      <div class="item" data-l="2"><span class="dot"></span>Use the relay quality metric <b>g_i</b> for selection</div>
+      <div class="item" data-l="3"><span class="dot"></span><b>Closed-form</b> power allocation for active relays</div>
+    </div>
+    <div class="box" data-l="4" style="left:120px;top:470px;width:1680px;height:230px;border-color:var(--c)">
+      <div class="eq sm">① g_i = h_sr·h_rd/(h_sr+h_rd) → pick largest</div>
+      <div class="eq sm">② ratio = h_sr/h_rd   ③ Ps = P_total/(1+Σ ratio)</div>
+      <div class="eq sm">④ Pri = Ps·ratio   ⑤ check Ps + ΣPri = P_total</div>
+    </div>
+    <div class="abs" style="left:0;right:0;top:760px;text-align:center"><span class="fv-endcard" data-l="5"></span></div>
+  </section>
+</div>
+<script src="timing.js"></script>
+<script src="fv-runtime.js"></script>
+<script src="fvlib.js"></script>
+<script>
+const { seg, enter, css, ease, clamp, lerp } = FV;
+const { COL, at, mk, reveal, arrow, traveller } = L;
+const node = (svg, x, y, r, txt, c, fs = 30) => { const g = mk('g', {}, svg); mk('circle', { cx: x, cy: y, r, fill: 'rgba(13,20,42,.95)', stroke: c, 'stroke-width': 4 }, g); mk('text', { x, y: y + fs * 0.35, 'text-anchor': 'middle', fill: '#fff', 'font-size': fs, 'font-weight': 800 }, g, txt); return g; };
+
+['lagr', 'select', 'closed', 'example', 'recap'].forEach((id) => FV.scene(id, reveal));
+
+FV.scene('intro', (() => {
+  const svg = document.getElementById('in-svg');
+  const S = [360, 640], D = [1560, 640], R = [[960, 470], [960, 640], [960, 810]];
+  const tv = [];
+  R.forEach(([x, y], k) => { mk('line', { x1: S[0], y1: S[1], x2: x, y2: y, stroke: 'rgba(56,189,248,.4)', 'stroke-width': 3 }, svg); mk('line', { x1: x, y1: y, x2: D[0], y2: D[1], stroke: 'rgba(52,211,153,.4)', 'stroke-width': 3 }, svg); tv.push(traveller(svg, `M ${S[0]} ${S[1]} L ${x} ${y} L ${D[0]} ${D[1]}`, COL.c, 9)); });
+  node(svg, S[0], S[1], 52, 'S', COL.a); node(svg, D[0], D[1], 52, 'D', COL.b);
+  R.forEach(([x, y], k) => node(svg, x, y, 40, 'R' + (k + 1), COL.e, 24));
+  return (t, ctx) => { reveal(t, ctx); svg.style.opacity = seg(t, 0.3, 1.2); tv.forEach((f, k) => f(t, 0.8 + k * 0.5, 2.4)); };
+})());
+
+FV.scene('model', (() => {
+  const svg = document.getElementById('md-svg');
+  const S = [90, 320], D = [910, 320], R = [[500, 110], [500, 320], [500, 530]];
+  const lines = R.map(([x, y], k) => {
+    const g = mk('g', {}, svg);
+    mk('line', { x1: S[0], y1: S[1], x2: x, y2: y, stroke: COL.a, 'stroke-width': 4 }, g);
+    mk('line', { x1: x, y1: y, x2: D[0], y2: D[1], stroke: COL.b, 'stroke-width': 4, 'stroke-dasharray': '12 8' }, g);
+    mk('text', { x: (S[0] + x) / 2 - 10, y: (S[1] + y) / 2 - 12, 'text-anchor': 'middle', fill: COL.a, 'font-size': 22, 'font-weight': 700 }, g, 'h_sr' + (k + 1));
+    mk('text', { x: (D[0] + x) / 2 + 10, y: (D[1] + y) / 2 - 12, 'text-anchor': 'middle', fill: COL.b, 'font-size': 22, 'font-weight': 700 }, g, 'h_r' + (k + 1) + 'd');
+    return g;
+  });
+  node(svg, S[0], S[1], 50, 'S', COL.a); node(svg, D[0], D[1], 50, 'D', COL.b);
+  R.forEach(([x, y], k) => node(svg, x, y, 40, k === 2 ? 'RM' : 'R' + (k + 1), COL.e, 24));
+  mk('text', { x: 500, y: 445, 'text-anchor': 'middle', fill: COL.mut, 'font-size': 30 }, svg, '⋮');
+  mk('text', { x: 500, y: 630, 'text-anchor': 'middle', fill: COL.mut, 'font-size': 20 }, svg, 'solid: slot 1 · dashed: slot 2');
+  return (t, ctx) => { reveal(t, ctx); svg.style.opacity = seg(t, at(ctx, 1, 0), at(ctx, 1, 0.4)); lines.forEach((g, k) => g.style.opacity = seg(t, at(ctx, 3, k * 0.2), at(ctx, 3, k * 0.2 + 0.3))); };
+})());
+
+FV.scene('rate', (() => {
+  const svg = document.getElementById('rt-svg');
+  node(svg, 100, 150, 50, 'S', COL.a); node(svg, 840, 150, 44, 'Ri', COL.e, 26); node(svg, 1580, 150, 50, 'D', COL.b);
+  const pipe = (x1, x2, h, c, lab) => { const g = mk('g', {}, svg); mk('rect', { x: x1, y: 150 - h / 2, width: x2 - x1, height: h, rx: h / 2, fill: c, 'fill-opacity': 0.3, stroke: c, 'stroke-width': 3 }, g); mk('text', { x: (x1 + x2) / 2, y: 150 - h / 2 - 14, 'text-anchor': 'middle', fill: c, 'font-size': 24, 'font-weight': 700 }, g, lab); return g; };
+  const p1 = pipe(160, 790, 90, COL.a, 'hop 1: Ps·h_sri/N0');
+  const p2 = pipe(890, 1520, 34, COL.b, 'hop 2: Pri·h_rid/N0');
+  const bn = mk('text', { x: 1205, y: 240, 'text-anchor': 'middle', fill: COL.d, 'font-size': 26, 'font-weight': 800 }, svg, '▲ bottleneck (min)');
+  return (t, ctx) => { reveal(t, ctx); p1.style.opacity = seg(t, at(ctx, 1, 0.2), at(ctx, 1, 0.5)); p2.style.opacity = seg(t, at(ctx, 1, 0.4), at(ctx, 1, 0.7)); bn.style.opacity = seg(t, at(ctx, 1, 0.7), at(ctx, 1, 1)); };
+})());
+
+FV.scene('balance', (() => {
+  const svg = document.getElementById('bl-svg');
+  const bars = (x, lab, c) => { const r = mk('rect', { x, width: 140, rx: 10, fill: c }, svg); mk('text', { x: x + 70, y: 520, 'text-anchor': 'middle', fill: c, 'font-size': 24, 'font-weight': 700 }, svg, lab); return r; };
+  mk('line', { x1: 20, y1: 480, x2: 740, y2: 480, stroke: COL.mut, 'stroke-width': 2 }, svg);
+  const a1 = bars(120, 'hop 1', COL.a), b1 = bars(320, 'hop 2', COL.b);
+  const waste = mk('text', { x: 190, y: 40, 'text-anchor': 'middle', fill: COL.d, 'font-size': 24, 'font-weight': 700 }, svg, 'wasted');
+  const eqT = mk('text', { x: 560, y: 220, 'text-anchor': 'middle', fill: COL.c, 'font-size': 30, 'font-weight': 800 }, svg, 'equal ⇒ no waste');
+  const lim = mk('line', { x1: 100, x2: 480, stroke: COL.d, 'stroke-width': 3, 'stroke-dasharray': '8 6' }, svg);
+  return (t, ctx) => {
+    reveal(t, ctx);
+    const p = seg(t, at(ctx, 2, 0), at(ctx, 2, 0.8));
+    const h1 = lerp(400, 260, p), h2 = 260 * (0.6 + 0.4 * p) / 1;
+    const hh2 = lerp(160, 260, p);
+    a1.setAttribute('y', 480 - h1); a1.setAttribute('height', h1);
+    b1.setAttribute('y', 480 - hh2); b1.setAttribute('height', hh2);
+    lim.setAttribute('y1', 480 - hh2); lim.setAttribute('y2', 480 - hh2);
+    waste.setAttribute('y', 480 - h1 - 12);
+    waste.style.opacity = seg(t, at(ctx, 1, 0.3), at(ctx, 1, 0.6)) * (1 - p);
+    lim.style.opacity = seg(t, at(ctx, 1, 0.2), at(ctx, 1, 0.5));
+    eqT.style.opacity = seg(t, at(ctx, 2, 0.8), at(ctx, 2, 1));
+  };
+})());
+
+FV.scene('verify', (() => {
+  const svg = document.getElementById('vf-svg');
+  node(svg, 100, 120, 50, 'S', COL.a); node(svg, 840, 120, 44, 'R1', COL.e, 26); node(svg, 1580, 120, 50, 'D', COL.b);
+  const a = arrow(svg, 155, 120, 790, 120, COL.a, { label: 'Ps·h_s1 = 0.8 × 0.5 = 0.4', fs: 28 });
+  const b = arrow(svg, 890, 120, 1525, 120, COL.b, { label: 'P1·h_1d = 0.2 × 2 = 0.4', fs: 28 });
+  const ok = mk('text', { x: 840, y: 270, 'text-anchor': 'middle', fill: COL.c, 'font-size': 40, 'font-weight': 800 }, svg, '0.4 = 0.4 → balanced ✓');
+  return (t, ctx) => { reveal(t, ctx); a(t, at(ctx, 1, 0.1)); b(t, at(ctx, 2, 0.1)); ok.style.opacity = seg(t, at(ctx, 2, 0.7), at(ctx, 2, 1)); };
+})());
+
+FV.scene('diagrams', (() => {
+  const svg = document.getElementById('dg-svg');
+  const S = [130, 470], R = [450, 150], D = [780, 470];
+  mk('text', { x: 450, y: 40, 'text-anchor': 'middle', fill: COL.ink, 'font-size': 30, 'font-weight': 800 }, svg, 'Relays');
+  const sr = arrow(svg, S[0] + 40, S[1] - 40, R[0] - 36, R[1] + 36, COL.a, { label: 'h_SR', lx: 250, ly: 290, fs: 28 });
+  const sd = arrow(svg, S[0] + 50, S[1], D[0] - 50, D[1], COL.a, { label: 'h_SD', ly: 450, fs: 28 });
+  const rd = arrow(svg, R[0] + 36, R[1] + 36, D[0] - 40, D[1] - 40, COL.b, { label: 'h_RD', lx: 660, ly: 290, fs: 28, dash: '12 8' });
+  node(svg, S[0], S[1], 46, 'S', '#22c55e'); node(svg, R[0], R[1], 46, 'R', '#22c55e'); node(svg, D[0], D[1], 46, 'D', COL.ink);
+  mk('text', { x: 90, y: 400, fill: COL.ink, 'font-size': 24 }, svg, 'E_S'); mk('text', { x: 400, y: 80, fill: COL.ink, 'font-size': 24 }, svg, 'E_R');
+  mk('text', { x: 130, y: 590, fill: COL.a, 'font-size': 24, 'font-weight': 700 }, svg, '── time-slot 1');
+  mk('text', { x: 480, y: 590, fill: COL.b, 'font-size': 24, 'font-weight': 700 }, svg, '- - time-slot 2');
+  return (t, ctx) => { reveal(t, ctx); svg.style.opacity = seg(t, 0.3, 1); sr(t, at(ctx, 3, 0.2)); sd(t, at(ctx, 3, 0.35)); rd(t, at(ctx, 3, 0.7)); };
+})());
+</script>
+</body>
+</html>

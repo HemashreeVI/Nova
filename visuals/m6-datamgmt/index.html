@@ -1,0 +1,318 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WSN-CPS Data Management</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="fvlib.css">
+<style>
+  .card{position:relative;border:2px solid var(--k);border-radius:20px;background:color-mix(in srgb,var(--k) 9%,rgba(13,20,42,.85));padding:22px 26px;box-sizing:border-box}
+  .card h3{margin:0 0 10px;font:800 32px Inter;color:var(--k)}
+  .card p{margin:0;font:500 26px/1.4 Inter}
+</style>
+</head>
+<body>
+<div id="fv-stage">
+  <div id="bg-grid"></div>
+
+  <section class="fv-scene" data-scene="intro">
+    <div class="abs" style="left:0;right:0;top:250px;text-align:center">
+      <div data-l="0" class="mono" style="font-size:28px;letter-spacing:.3em;color:var(--a)">MODULE 6</div>
+      <div data-l="0" data-f="0.3" class="big" style="margin-top:22px;font-size:96px">Data Management in <span style="color:var(--a)">WSN-CPS</span></div>
+      <div data-l="1" class="note" style="margin-top:24px;font-size:32px">Cyber-Physical Systems with Wireless Sensor Networks</div>
+    </div>
+    <div class="abs" style="left:0;right:0;top:680px;display:flex;justify-content:center;gap:16px">
+      <span class="chip sm" data-l="0" data-f="0.6" style="--k:var(--b)">Data management</span><span class="chip sm" data-l="0" data-f="0.7" style="--k:var(--mut)">Resource allocation</span><span class="chip sm" data-l="0" data-f="0.8" style="--k:var(--mut)">Game theory</span><span class="chip sm" data-l="0" data-f="0.9" style="--k:var(--mut)">Cooperative relaying</span>
+    </div>
+  </section>
+
+  <section class="fv-scene" data-scene="def">
+    <div class="kicker">Slides 3–4</div><div class="title">What is a WSN-CPS?</div>
+    <div class="abs" style="left:120px;top:250px;width:1680px;display:grid;grid-template-columns:1fr 1fr;gap:24px">
+      <div class="card" data-l="0" style="--k:var(--a);height:250px"><h3>CPS</h3><p>A system that integrates the <b>cyber</b> and <b>physical</b> worlds to interact with the real world.</p></div>
+      <div class="card" data-l="1" style="--k:var(--b);height:250px"><h3>WSN-CPS</h3><p>A CPS integrating physical and cyber components <b>through wireless sensor networks (WSNs)</b>.</p></div>
+      <div class="card" data-l="2" style="--k:var(--c);height:250px"><h3>Role of WSN in CPS</h3><p>Ensures communication between physical and cyber components for efficient <b>data collection and actuation</b>.</p></div>
+      <div class="card" data-l="3" style="--k:var(--e);height:250px"><h3>Applications</h3><p>Systems that need <b>monitoring and control</b>, e.g. environmental management.</p></div>
+    </div>
+  </section>
+
+  <section class="fv-scene" data-scene="components">
+    <div class="kicker">Slide 5</div><div class="title">Four components of WSN-CPS</div>
+    <svg id="cp-svg" class="abs" width="1680" height="640" style="left:120px;top:230px"></svg>
+  </section>
+
+  <section class="fv-scene" data-scene="goal">
+    <div class="kicker">Slide 6</div><div class="title">WSN vs WSN-CPS</div>
+    <div class="abs" style="left:120px;top:250px;width:1680px;display:grid;grid-template-columns:1fr 1fr;gap:24px">
+      <div class="card" data-l="1" style="--k:var(--a);height:200px"><h3>WSN goal</h3><p><b>Passive monitoring</b> of the physical environment 👁</p></div>
+      <div class="card" data-l="2" style="--k:var(--g);height:200px"><h3>WSN-CPS goal</h3><p><b>Active control and intervention</b> in the physical environment ⚙</p></div>
+      <div class="card" data-l="3" style="--k:var(--b);height:290px"><h3>Similarities</h3><p>• High data volume<br>• Stored data<br>• Low-latency processing</p></div>
+      <div class="card" data-l="4" style="--k:var(--d);height:290px"><h3>Differences (CPS)</h3><p>• More emphasis on <b>privacy</b><br>• More severe <b>energy</b> constraints<br>• Higher <b>processing complexity</b></p></div>
+    </div>
+  </section>
+
+  <section class="fv-scene" data-scene="similar">
+    <div class="kicker">Slide 7</div><div class="title">Data management similarities</div>
+    <div class="abs" style="left:120px;top:240px;width:1680px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:22px">
+      <div class="card" data-l="1" style="--k:var(--a);height:600px"><h3>High data volume</h3><p>Large amounts of sensor data; frequent sampling → <b>continuous, high-volume streams</b> needing efficient storage &amp; processing.</p></div>
+      <div class="card" data-l="2" style="--k:var(--c);height:600px"><h3>Low-latency processing</h3><p>Process with minimal delay.</p><p data-l="3" style="margin-top:14px">WSN: <b>tsunami monitoring</b> must detect early warnings fast.</p><p data-l="3" data-f="0.5" style="margin-top:10px">WSN-CPS: even <b>stricter</b> — controlling actuators in real time.</p></div>
+      <div class="card" data-l="4" style="--k:var(--b);height:600px"><h3>Stored data</h3><p>For <b>historical analysis, reporting and decision-making</b>; reveals long-term patterns &amp; trends for decision support and prediction.</p></div>
+    </div>
+  </section>
+
+  <section class="fv-scene" data-scene="differ">
+    <div class="kicker">Slide 8</div><div class="title">Data management differences</div>
+    <div class="abs" style="left:120px;top:240px;width:1680px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:22px">
+      <div class="card" data-l="1" style="--k:var(--f);height:620px"><h3>🔒 Privacy</h3><p>Higher priority in WSN-CPS: <b>healthcare, autonomous vehicles, personal devices</b>.</p><p data-l="2" style="margin-top:14px">→ stricter data <b>handling, storage, transmission</b> protocols</p></div>
+      <div class="card" data-l="3" style="--k:var(--c);height:620px"><h3>🔋 Energy</h3><p>More severe in WSN-CPS — real-time decisions &amp; actuation need <b>high-intensity processing</b>.</p><p data-l="4" style="margin-top:14px">Essential: <b>compression, aggregation, intelligent routing</b> to prolong battery life</p></div>
+      <div class="card" data-l="5" style="--k:var(--e);height:620px"><h3>🧠 Processing complexity</h3><p>WSN-CPS turns raw data into <b>actionable insights</b> (high-level knowledge).</p><p data-l="6" style="margin-top:14px">WSN: simple aggregation / statistics.<br>WSN-CPS: <b>algorithms, ML, reasoning</b>.</p></div>
+    </div>
+  </section>
+
+  <section class="fv-scene" data-scene="wsncons">
+    <div class="kicker">Slide 9</div><div class="title">Constraints in WSN data management</div>
+    <div class="abs" style="left:120px;top:250px;width:1680px;display:grid;grid-template-columns:1fr 1fr;gap:24px">
+      <div class="card" data-l="1" style="--k:var(--c);height:240px"><h3>1 · Energy consumption</h3><p>Battery-powered, remote locations → energy-efficient designs</p></div>
+      <div class="card" data-l="2" style="--k:var(--a);height:240px"><h3>2 · Memory &amp; processing</h3><p>Limited storage and computational capacity</p></div>
+      <div class="card" data-l="3" style="--k:var(--b);height:240px"><h3>3 · Volume &amp; real-time</h3><p>Large, continuous data streams from sensors</p></div>
+      <div class="card" data-l="4" style="--k:var(--d);height:240px"><h3>4 · Data uncertainty</h3><p>Imprecise data due to environmental factors &amp; technical limits</p></div>
+    </div>
+  </section>
+
+  <section class="fv-scene" data-scene="table">
+    <div class="kicker">Slides 10 &amp; 12</div><div class="title">Comparing WSNs and CPS-WSNs</div>
+    <div class="panel" data-l="0" style="left:120px;top:230px;width:1680px;height:640px;padding:14px 22px">
+      <table class="tbl" style="width:100%;font-size:23px;font-weight:500">
+        <tr><th style="width:15%">Criterion</th><th style="width:42%;color:var(--a)">WSNs</th><th style="color:var(--g)">CPS-WSNs</th></tr>
+        <tr><td><b>Mobility</b></td><td data-l="1">Limited controlled &amp; uncontrolled mobility, mainly for network coverage</td><td data-l="2">Controlled &amp; uncontrolled, typically <b>mission-oriented</b>; both sensing and actuating devices can be mobile</td></tr>
+        <tr><td><b>Intelligence</b></td><td data-l="3">Data-mining &amp; knowledge discovery detect high-level events of interest (often <b>complex event processing</b>)</td><td data-l="4">Extract high-level knowledge from <b>heterogeneous</b> networks; <b>reasoning</b> decides actions for the actuation component</td></tr>
+        <tr><td><b>Real-time</b></td><td data-l="5">Important only for critical apps, e.g. <b>tsunami monitoring</b></td><td data-l="6">More important: CPS must react timely and control the physical system; <b>delays not commonly tolerated</b></td></tr>
+      </table>
+    </div>
+  </section>
+
+  <section class="fv-scene" data-scene="keycons">
+    <div class="kicker">Slide 11</div><div class="title">Key constraints in WSN-CPS</div>
+    <div class="abs" style="left:120px;top:260px;width:1680px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px">
+      <div class="card" data-l="1" style="--k:var(--a);height:420px"><h3>Mobility</h3><p>Mobile devices improve <b>coverage</b> — but increase <b>network uncertainty</b></p></div>
+      <div class="card" data-l="2" style="--k:var(--e);height:420px"><h3>Intelligence</h3><p>Transform <b>raw data</b> into <b>actionable knowledge</b></p></div>
+      <div class="card" data-l="3" style="--k:var(--d);height:420px"><h3>Real-time</h3><p><b>Timely response</b> for applications needing immediate intervention</p></div>
+    </div>
+  </section>
+
+  <section class="fv-scene" data-scene="activities">
+    <div class="kicker">Slide 13</div><div class="title">Data management activities</div>
+    <svg id="ac-svg" class="abs" width="1680" height="620" style="left:120px;top:240px"></svg>
+  </section>
+
+  <section class="fv-scene" data-scene="mobility">
+    <div class="kicker">Slide 14</div><div class="title">Types of WSN-CPS by mobility</div>
+    <div class="abs" style="left:120px;top:250px;width:1680px;display:grid;grid-template-columns:1fr 1fr;gap:24px">
+      <div class="card" data-l="1" style="--k:var(--mut);height:250px"><h3 style="color:#cbd5e1">Static WSN-CPS</h3><p>Built on <b>stationary</b> WSNs</p></div>
+      <div class="card" data-l="2" style="--k:var(--a);height:250px"><h3>Mobile WSN-CPS</h3><p>Incorporates <b>mobile sensor nodes and systems</b></p></div>
+    </div>
+    <div class="card" data-l="3" style="--k:var(--c);position:absolute;left:120px;top:540px;width:1680px;height:300px"><h3>Evolution → Mobile CPS (MCPS)</h3><p>Result of advances in <b>robotics and embedded systems</b>.</p><p data-l="4" style="margin-top:12px">MCPS = systems that <b>move and communicate across networks</b> — e.g. <b>drones, mobile robots</b> 🚁🤖</p></div>
+  </section>
+
+  <section class="fv-scene" data-scene="collect">
+    <div class="kicker">Slide 15 · activity 1</div><div class="title">Data collection with mobile elements</div>
+    <div class="abs note" data-l="1" style="left:120px;top:230px">Purpose: gather, acquire, or sample data <b>efficiently while conserving energy</b></div>
+    <svg id="cl-svg" class="abs" width="1680" height="420" style="left:120px;top:300px"></svg>
+    <div class="abs" style="left:120px;top:300px;width:1680px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:22px">
+      <div class="card" data-l="3" style="--k:var(--a);height:200px"><h3>Relocatable nodes</h3><p>Move to improve <b>coverage &amp; connectivity</b></p></div>
+      <div class="card" data-l="4" style="--k:var(--b);height:200px"><h3>Mobile data collectors</h3><p>Mobile <b>sinks or relays</b> gather data directly from nodes</p></div>
+      <div class="card" data-l="5" style="--k:var(--e);height:200px"><h3>Mobile peers</h3><p>Sense data <b>and</b> relay messages → peer network</p></div>
+    </div>
+    <div class="abs chip" data-l="6" style="--k:var(--c);left:120px;top:780px">Balance sensing, communication &amp; processing → minimize energy</div>
+  </section>
+
+  <section class="fv-scene" data-scene="ctrl">
+    <div class="kicker">Slide 16</div><div class="title">Controlled vs uncontrolled mobility</div>
+    <svg id="ct-svg" class="abs" width="1680" height="300" style="left:120px;top:240px"></svg>
+    <div class="abs" style="left:120px;top:560px;width:1680px;display:grid;grid-template-columns:1fr 1fr;gap:24px">
+      <div class="card" data-l="1" style="--k:var(--b);height:280px"><h3>Controlled</h3><p>MEs <b>autonomously decide paths</b> based on goals (max data, min energy).</p><p data-l="3" style="margin-top:10px">→ enhances data gathering in <b>targeted areas</b></p></div>
+      <div class="card" data-l="2" style="--k:var(--g);height:280px"><h3>Uncontrolled</h3><p><b>Fixed / predictable</b> paths (e.g. public transportation) — not managed by the system.</p><p data-l="4" style="margin-top:10px">→ when nodes <b>cannot control</b> their movement</p></div>
+    </div>
+  </section>
+
+  <section class="fv-scene" data-scene="process">
+    <div class="kicker">Slide 17 · activity 2</div><div class="title">Data processing</div>
+    <div class="abs note" data-l="0" style="left:120px;top:240px">Applying <b>transformations</b> to raw sensor data</div>
+    <svg id="pr-svg" class="abs" width="1680" height="560" style="left:120px;top:300px"></svg>
+  </section>
+
+  <section class="fv-scene" data-scene="storage">
+    <div class="kicker">Slide 18 · activity 3</div><div class="title">Data storage</div>
+    <div class="abs note" data-l="0" style="left:120px;top:235px">Store large volumes with limited <b>memory, bandwidth and energy</b></div>
+    <div class="card" data-l="1" style="--k:var(--c);position:absolute;left:120px;top:300px;width:1680px;height:110px;padding:16px 24px"><p><b style="color:var(--c)">What to store?</b> Real-time applications may keep only <b>recent data</b>.   <b style="color:var(--c)" data-l="2">Where to store?</b> ↓</p></div>
+    <svg id="st-svg" class="abs" width="1680" height="440" style="left:120px;top:430px"></svg>
+  </section>
+
+  <section class="fv-scene" data-scene="query">
+    <div class="kicker">Slide 19 · activity 4</div><div class="title">Data querying</div>
+    <div class="abs note" data-l="0" style="left:120px;top:240px">Retrieve relevant data based on specific requirements — 3 models:</div>
+    <div class="abs" style="left:120px;top:310px;width:1680px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:22px">
+      <div class="card" data-l="2" style="--k:var(--a);height:450px"><h3>Abstract layer models</h3><p>A <b>simplified view</b> over sensor data</p></div>
+      <div class="card" data-l="3" style="--k:var(--e);height:450px"><h3>Statistical &amp; model-based</h3><p><b>Probabilistic models</b> for <b>spatio-temporal</b> data</p></div>
+      <div class="card" data-l="4" style="--k:var(--b);height:450px"><h3>Information Flow Processing (IFP)</h3><p>Retrieves data from <b>multiple sources in real time</b> and processes it for new insights</p></div>
+    </div>
+  </section>
+
+  <section class="fv-scene" data-scene="compress">
+    <div class="kicker">Slide 20 · activity 5 (CPS)</div><div class="title">Data compression</div>
+    <div class="card" data-l="1" style="--k:var(--d);position:absolute;left:120px;top:250px;width:820px;height:200px"><h3>Challenge</h3><p>Large volumes need efficient storage &amp; processing</p></div>
+    <div class="card" data-l="2" style="--k:var(--b);position:absolute;left:980px;top:250px;width:820px;height:200px"><h3>Goal</h3><p>Minimize <b>storage size</b> and conserve <b>bandwidth</b></p></div>
+    <div class="abs" data-l="3" style="left:120px;top:500px;display:flex;gap:18px"><span class="chip" style="--k:var(--a)">stream compression</span><span class="chip" style="--k:var(--a)">data aggregation</span><span class="chip" style="--k:var(--a)">reduce redundancy among sources</span></div>
+    <svg id="cm-svg" class="abs" width="1680" height="200" style="left:120px;top:620px"></svg>
+  </section>
+
+  <section class="fv-scene" data-scene="analysis">
+    <div class="kicker">Slides 21–22 · activity 6 (CPS)</div><div class="title">Data analysis</div>
+    <div class="card" data-l="1" style="--k:var(--a);position:absolute;left:120px;top:240px;width:820px;height:180px"><h3>Role</h3><p>Analyze sensor data to monitor &amp; understand the real-world environment</p></div>
+    <div class="card" data-l="2" style="--k:var(--d);position:absolute;left:980px;top:240px;width:820px;height:180px"><h3>Atypical data detection</h3><p>Find <b>unusual patterns</b> that may indicate significant events</p></div>
+    <svg id="an-svg" class="abs" width="820" height="260" style="left:120px;top:450px"></svg>
+    <div class="abs note" data-l="3" style="left:980px;top:470px;width:820px">Examples: <b>traffic congestion detection</b>, <b>environmental monitoring</b></div>
+    <div class="card" data-l="4" style="--k:var(--c);position:absolute;left:980px;top:560px;width:820px;height:290px"><h3>ML models (slide 22)</h3><p>NB – Naïve Bayes<br>DT – Decision Tree<br>RF – Random Forest<br>KNN – K-Nearest Neighbours<br>SVM – Support Vector Machine</p></div>
+  </section>
+
+  <section class="fv-scene" data-scene="recap">
+    <div class="kicker">Exam recap</div><div class="title">Remember these</div>
+    <div class="abs" style="left:120px;top:230px;width:1680px;display:grid;grid-template-columns:1fr 1fr;gap:14px 26px">
+      <div class="panel rel" data-l="1" style="padding:16px 22px"><div class="note" style="font-size:24px"><b style="color:var(--a)">4 components</b>: sensing · cyber · actuation · communication</div></div>
+      <div class="panel rel" data-l="2" style="padding:16px 22px"><div class="note" style="font-size:24px"><b>WSN</b> passive monitoring · <b>WSN-CPS</b> active control · diff: privacy, energy, complexity</div></div>
+      <div class="panel rel" data-l="3" style="padding:16px 22px"><div class="note" style="font-size:24px"><b style="color:var(--c)">Comparison</b>: mobility · intelligence · real-time constraint</div></div>
+      <div class="panel rel" data-l="4" style="padding:16px 22px"><div class="note" style="font-size:24px"><b style="color:var(--b)">Activities</b>: collection, processing, storage, querying + compression, analysis</div></div>
+      <div class="panel rel" data-l="5" style="padding:16px 22px"><div class="note" style="font-size:24px"><b style="color:var(--e)">MEs</b>: relocatable nodes · mobile data collectors · mobile peers</div></div>
+      <div class="panel rel" data-l="5" data-f="0.5" style="padding:16px 22px"><div class="note" style="font-size:24px"><b style="color:var(--g)">Storage</b>: centralized · distributed · hybrid</div></div>
+    </div>
+    <div class="abs" style="left:0;right:0;top:640px;text-align:center"><span class="fv-endcard" data-l="6"></span></div>
+  </section>
+</div>
+<script src="timing.js"></script>
+<script src="fv-runtime.js"></script>
+<script src="fvlib.js"></script>
+<script>
+const { seg, enter, css, ease, clamp, lerp } = FV;
+const { COL, at, mk, reveal, arrow, traveller } = L;
+const boxS = (svg, x, y, w, h, a, b, c, fs = 28) => { const g = mk('g', {}, svg); mk('rect', { x, y, width: w, height: h, rx: 18, fill: 'rgba(13,20,42,.92)', stroke: c, 'stroke-width': 3 }, g); mk('text', { x: x + w / 2, y: y + h / 2 + (b ? -6 : fs * 0.35), 'text-anchor': 'middle', fill: '#fff', 'font-size': fs, 'font-weight': 800 }, g, a); if (b) mk('text', { x: x + w / 2, y: y + h / 2 + 28, 'text-anchor': 'middle', fill: COL.mut, 'font-size': 21 }, g, b); return g; };
+['intro', 'def', 'goal', 'similar', 'differ', 'wsncons', 'table', 'keycons', 'mobility', 'query', 'recap'].forEach((id) => FV.scene(id, reveal));
+
+FV.scene('components', (() => {
+  const svg = document.getElementById('cp-svg');
+  const P = [['Sensing', 'collects & transmits physical data', COL.a, 120, 60], ['Cyber', 'analyzes data, decides actions', COL.e, 1100, 60], ['Actuation', 'executes actions physically', COL.g, 1100, 420], ['Physical world', 'environment', COL.b, 120, 420]];
+  const g = P.map(([a, b, c, x, y]) => boxS(svg, x, y, 460, 150, a, b, c, 32));
+  const comm = boxS(svg, 620, 260, 440, 120, 'Communication', 'manages data transfer', COL.c, 30);
+  const tv = [traveller(svg, 'M 580 135 L 1100 135', COL.a, 10), traveller(svg, 'M 1330 210 L 1330 420', COL.e, 10), traveller(svg, 'M 1100 495 L 580 495', COL.g, 10), traveller(svg, 'M 350 420 L 350 210', COL.b, 10)];
+  [['M 580 135 L 1100 135'], ['M 1330 210 L 1330 420'], ['M 1100 495 L 580 495'], ['M 350 420 L 350 210']].forEach(([d]) => mk('path', { d, stroke: 'rgba(148,163,200,.35)', 'stroke-width': 3, fill: 'none', 'stroke-dasharray': '8 8' }, svg));
+  const order = [3, 0, 1, 2];
+  return (t, ctx) => {
+    reveal(t, ctx);
+    g[3].style.opacity = seg(t, 0.3, 1);
+    g[0].style.opacity = seg(t, at(ctx, 1, 0), at(ctx, 1, 0.3));
+    g[1].style.opacity = seg(t, at(ctx, 2, 0), at(ctx, 2, 0.3));
+    g[2].style.opacity = seg(t, at(ctx, 3, 0), at(ctx, 3, 0.3));
+    comm.style.opacity = seg(t, at(ctx, 4, 0), at(ctx, 4, 0.3));
+    tv.forEach((f, k) => f(t, at(ctx, 5, 0) + k * 0.6, 2.4));
+  };
+})());
+
+FV.scene('activities', (() => {
+  const svg = document.getElementById('ac-svg');
+  const items = [['Collection', COL.a], ['Processing', COL.b], ['Storage', COL.c], ['Querying', COL.e]];
+  const g = items.map(([n, c], k) => boxS(svg, 30 + k * 410, 90, 370, 130, n, '', c, 32));
+  const extra = [['Compression', COL.f], ['Analysis', COL.g]].map(([n, c], k) => boxS(svg, 440 + k * 410, 400, 370, 130, n, '', c, 32));
+  mk('text', { x: 840, y: 60, 'text-anchor': 'middle', fill: COL.ink, 'font-size': 28, 'font-weight': 700 }, svg, 'Key tasks (WSNs)');
+  const ex = mk('text', { x: 840, y: 370, 'text-anchor': 'middle', fill: COL.f, 'font-size': 28, 'font-weight': 700 }, svg, '+ additional in CPS-WSNs');
+  return (t, ctx) => {
+    reveal(t, ctx);
+    g.forEach((e, k) => e.style.opacity = seg(t, at(ctx, 1, k * 0.2), at(ctx, 1, k * 0.2 + 0.2)));
+    ex.style.opacity = seg(t, at(ctx, 2, 0), at(ctx, 2, 0.2));
+    extra.forEach((e, k) => e.style.opacity = seg(t, at(ctx, 2, 0.3 + k * 0.3), at(ctx, 2, 0.5 + k * 0.3)));
+  };
+})());
+
+FV.scene('collect', (() => {
+  const svg = document.getElementById('cl-svg');
+  const r = FV.rand(3); const pts = [...Array(14)].map(() => [100 + r() * 1480, 270 + r() * 120]);
+  pts.forEach(([x, y]) => mk('circle', { cx: x, cy: y, r: 9, fill: COL.mut }, svg));
+  const mule = mk('circle', { r: 16, fill: COL.b }, svg);
+  return (t, ctx) => { reveal(t, ctx); const p = ((t * 0.08) % 1); mule.setAttribute('cx', 80 + p * 1520); mule.setAttribute('cy', 330 + Math.sin(p * 12) * 40); svg.style.opacity = 0.0; };
+})());
+
+FV.scene('ctrl', (() => {
+  const svg = document.getElementById('ct-svg');
+  mk('text', { x: 400, y: 30, 'text-anchor': 'middle', fill: COL.b, 'font-size': 26, 'font-weight': 800 }, svg, 'controlled: own path to targets');
+  mk('text', { x: 1280, y: 30, 'text-anchor': 'middle', fill: COL.g, 'font-size': 26, 'font-weight': 800 }, svg, 'uncontrolled: fixed route (bus)');
+  const tg = [[150, 200], [330, 90], [520, 240], [700, 120]];
+  tg.forEach(([x, y]) => mk('circle', { cx: x, cy: y, r: 14, fill: 'none', stroke: COL.c, 'stroke-width': 3 }, svg));
+  const d1 = `M 60 150 L 150 200 L 330 90 L 520 240 L 700 120 L 780 160`;
+  mk('path', { d: d1, stroke: 'rgba(52,211,153,.4)', 'stroke-width': 3, fill: 'none', 'stroke-dasharray': '8 8' }, svg);
+  const d2 = `M 900 160 L 1660 160`;
+  mk('path', { d: d2, stroke: 'rgba(251,146,60,.5)', 'stroke-width': 8, fill: 'none' }, svg);
+  [1000, 1200, 1400, 1600].forEach((x) => mk('rect', { x: x - 10, y: 130, width: 20, height: 60, fill: COL.mut }, svg));
+  const a = traveller(svg, d1, COL.b, 14), b = traveller(svg, d2, COL.g, 14);
+  return (t, ctx) => { reveal(t, ctx); a(t, 0.5, 5); b(t, 0.5, 5); };
+})());
+
+FV.scene('process', (() => {
+  const svg = document.getElementById('pr-svg');
+  const raw = boxS(svg, 0, 200, 300, 140, 'Raw data', 'errors · gaps', COL.d, 30);
+  const clean = boxS(svg, 460, 60, 420, 150, 'Data cleaning', 'remove errors, fill gaps', COL.a, 30);
+  const fuse = boxS(svg, 460, 330, 420, 150, 'Data fusion', 'combine sources → accuracy', COL.b, 30);
+  const out = boxS(svg, 1100, 160, 560, 220, 'Fusion types', '', COL.c, 30);
+  const ft = mk('text', { x: 1380, y: 330, 'text-anchor': 'middle', fill: COL.ink, 'font-size': 24 }, svg, 'sensor · information · data fusion');
+  const a = [arrow(svg, 305, 250, 455, 140, COL.d), arrow(svg, 305, 290, 455, 400, COL.d), arrow(svg, 885, 140, 1095, 230, COL.a), arrow(svg, 885, 400, 1095, 310, COL.b)];
+  return (t, ctx) => {
+    reveal(t, ctx); raw.style.opacity = seg(t, 0.3, 1);
+    clean.style.opacity = seg(t, at(ctx, 1, 0), at(ctx, 1, 0.3)); a[0](t, at(ctx, 1, 0));
+    fuse.style.opacity = seg(t, at(ctx, 2, 0), at(ctx, 2, 0.3)); a[1](t, at(ctx, 2, 0));
+    const o = seg(t, at(ctx, 3, 0), at(ctx, 3, 0.3)); out.style.opacity = o; ft.style.opacity = o; a[2](t, at(ctx, 3, 0.1)); a[3](t, at(ctx, 3, 0.2));
+  };
+})());
+
+FV.scene('storage', (() => {
+  const svg = document.getElementById('st-svg');
+  const panel = (x, title, c, l) => { const g = mk('g', {}, svg); mk('rect', { x, y: 0, width: 540, height: 430, rx: 20, fill: 'rgba(13,20,42,.85)', stroke: c, 'stroke-width': 3 }, g); mk('text', { x: x + 270, y: 44, 'text-anchor': 'middle', fill: c, 'font-size': 30, 'font-weight': 800 }, g, title); return g; };
+  const g1 = panel(0, 'Centralized', COL.a), g2 = panel(570, 'Distributed', COL.b), g3 = panel(1140, 'Hybrid', COL.c);
+  // centralized: all to base station
+  mk('rect', { x: 230, y: 90, width: 80, height: 60, rx: 8, fill: COL.a }, g1); mk('text', { x: 270, y: 175, 'text-anchor': 'middle', fill: COL.ink, 'font-size': 20 }, g1, 'base station');
+  const cs = [[60, 280], [160, 320], [270, 300], [380, 320], [480, 280]];
+  const ctv = cs.map(([x, y]) => { mk('circle', { cx: x, cy: y, r: 10, fill: COL.mut }, g1); return traveller(g1, `M ${x} ${y} L 270 150`, COL.a, 7); });
+  mk('text', { x: 270, y: 390, 'text-anchor': 'middle', fill: COL.d, 'font-size': 21, 'font-weight': 700 }, g1, '+ central control · − bottleneck');
+  // distributed: local stores
+  [[650, 130], [800, 230], [950, 130], [1040, 280], [700, 300]].forEach(([x, y]) => { mk('circle', { cx: x, cy: y, r: 10, fill: COL.mut }, g2); mk('rect', { x: x + 14, y: y - 14, width: 26, height: 22, rx: 4, fill: COL.b }, g2); });
+  mk('text', { x: 840, y: 390, 'text-anchor': 'middle', fill: COL.b, 'font-size': 21, 'font-weight': 700 }, g2, 'near sensors · less transmission');
+  mk('rect', { x: 1370, y: 90, width: 80, height: 60, rx: 8, fill: COL.a }, g3);
+  [[1220, 280], [1320, 230], [1500, 230], [1600, 280]].forEach(([x, y]) => { mk('circle', { cx: x, cy: y, r: 10, fill: COL.mut }, g3); mk('rect', { x: x + 14, y: y - 14, width: 26, height: 22, rx: 4, fill: COL.b }, g3); });
+  const htv = [traveller(g3, 'M 1320 230 L 1410 150', COL.c, 7), traveller(g3, 'M 1500 230 L 1410 150', COL.c, 7)];
+  mk('text', { x: 1410, y: 390, 'text-anchor': 'middle', fill: COL.c, 'font-size': 21, 'font-weight': 700 }, g3, 'combine both → balance');
+  return (t, ctx) => {
+    reveal(t, ctx);
+    g1.style.opacity = seg(t, at(ctx, 3, 0), at(ctx, 3, 0.2)); g2.style.opacity = seg(t, at(ctx, 4, 0), at(ctx, 4, 0.2)); g3.style.opacity = seg(t, at(ctx, 5, 0), at(ctx, 5, 0.2));
+    ctv.forEach((f, k) => f(t, at(ctx, 3, 0.2) + k * 0.3, 1.6)); htv.forEach((f, k) => f(t, at(ctx, 5, 0.2) + k * 0.5, 1.6));
+  };
+})());
+
+FV.scene('compress', (() => {
+  const svg = document.getElementById('cm-svg');
+  const ins = [...Array(12)].map((_, k) => mk('rect', { x: 20 + k * 52, y: 70, width: 40, height: 60, rx: 6, fill: COL.a }, svg));
+  const out = mk('rect', { x: 1300, y: 60, width: 140, height: 80, rx: 10, fill: COL.b }, svg);
+  mk('text', { x: 1370, y: 175, 'text-anchor': 'middle', fill: COL.b, 'font-size': 22, 'font-weight': 700 }, svg, '1 summary packet');
+  mk('text', { x: 330, y: 175, 'text-anchor': 'middle', fill: COL.mut, 'font-size': 22 }, svg, '12 raw readings');
+  const arr = arrow(svg, 680, 100, 1290, 100, COL.c, { label: 'compress / aggregate', fs: 24 });
+  return (t, ctx) => { reveal(t, ctx); const s = at(ctx, 3, 0.2); arr(t, s); const p = seg(t, s, s + 1.2); ins.forEach((r, k) => { r.setAttribute('x', lerp(20 + k * 52, 1330, p)); r.style.opacity = 1 - p * 0.9; }); out.style.opacity = seg(t, s + 1, s + 1.4); };
+})());
+
+FV.scene('analysis', (() => {
+  const svg = document.getElementById('an-svg');
+  let d = ''; const r = FV.rand(9); const ys = [];
+  for (let i = 0; i <= 60; i++) { const y = 140 + Math.sin(i / 5) * 30 + (r() - 0.5) * 20 + (i === 42 ? -110 : 0); ys.push(y); d += (i ? 'L' : 'M') + (20 + i * 13) + ' ' + y; }
+  const path = mk('path', { d, stroke: COL.a, 'stroke-width': 3, fill: 'none' }, svg);
+  const an = mk('g', {}, svg); mk('circle', { cx: 20 + 42 * 13, cy: ys[42], r: 16, fill: 'none', stroke: COL.d, 'stroke-width': 4 }, an); mk('text', { x: 20 + 42 * 13 + 24, y: ys[42] + 6, fill: COL.d, 'font-size': 22, 'font-weight': 800 }, an, 'atypical!');
+  return (t, ctx) => { reveal(t, ctx); path.style.opacity = seg(t, at(ctx, 1, 0), at(ctx, 1, 0.4)); an.style.opacity = seg(t, at(ctx, 2, 0.3), at(ctx, 2, 0.6)); };
+})());
+</script>
+</body>
+</html>

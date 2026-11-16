@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Lagrangian Method</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="fvlib.css">
+<style>
+  .eq{font:600 38px/1.45 'JetBrains Mono',monospace;color:#fff}
+  .eq.md{font-size:31px}.eq.sm{font-size:26px}
+  .eq .o{color:var(--a)} .eq .g{color:var(--d)} .eq .l{color:var(--c)} .eq .q{color:var(--b)} .eq .e{color:var(--f)}
+  .box{position:absolute;border:2px solid rgba(148,163,200,.3);border-radius:20px;background:rgba(13,20,42,.85);padding:22px 30px;box-sizing:border-box}
+  .tag{font:700 22px 'JetBrains Mono';color:var(--mut);margin-bottom:6px;letter-spacing:.05em}
+</style>
+</head>
+<body>
+<div id="fv-stage">
+  <div id="bg-grid"></div>
+
+  <section class="fv-scene" data-scene="intro">
+    <div class="abs" style="left:0;right:0;top:170px;text-align:center">
+      <div data-l="0" class="mono" style="font-size:28px;letter-spacing:.3em;color:var(--a)">MODULE 6 · OPTIMIZATION</div>
+      <div data-l="0" data-f="0.3" class="big" style="margin-top:22px;font-size:100px">The <span style="color:var(--c)">Lagrangian</span> Method</div>
+    </div>
+    <div class="abs" style="left:240px;top:470px;width:1440px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:30px">
+      <div class="panel rel" data-l="1" style="border-color:var(--a)"><div class="ph" style="--k:var(--a)">1 · Objective</div><div class="note">What should the system maximize?</div></div>
+      <div class="panel rel" data-l="1" data-f="0.35" style="border-color:var(--d)"><div class="ph" style="--k:var(--d)">2 · Constraints</div><div class="note">What limits must be respected?</div></div>
+      <div class="panel rel" data-l="1" data-f="0.7" style="border-color:var(--c)"><div class="ph" style="--k:var(--c)">3 · Lagrangian</div><div class="note">Combine objective and limits</div></div>
+    </div>
+    <div class="abs chip" data-l="2" style="--k:var(--mut);left:50%;transform:translateX(-50%);top:780px">Worked example: maximize f(p) = 10p − p² subject to 0 ≤ p ≤ 3</div>
+  </section>
+
+  <section class="fv-scene" data-scene="problem">
+    <div class="kicker">Step 1</div><div class="title">Start with a constrained problem</div>
+    <div class="box" data-l="1" style="left:120px;top:250px;width:820px;height:210px;border-color:var(--a)"><div class="ph" style="font-size:28px;--k:var(--a)">CPS objective</div><div class="note">Choose relay power <b>p</b> to improve transmission performance while accounting for costs.</div></div>
+    <div class="box" data-l="2" style="left:980px;top:250px;width:820px;height:210px;border-color:var(--d)"><div class="ph" style="font-size:28px;--k:var(--d)">Constraint</div><div class="note"><b>0 ≤ p ≤ 3</b> — battery, hardware, or interference cap.</div></div>
+    <div class="box" data-l="3" style="left:120px;top:500px;width:1680px;height:150px"><div class="eq">Maximize <span class="o">f(p) = 10p − p²</span>   s.t.  <span class="g">p − 3 ≤ 0</span>,  p ≥ 0</div></div>
+    <div class="abs note mut" data-l="4" style="left:120px;top:690px">p is a simplified normalized relay-power decision — not a calibrated radio model.</div>
+  </section>
+
+  <section class="fv-scene" data-scene="form">
+    <div class="kicker">Step 2</div><div class="title">Standard form: gᵢ(x) ≤ 0</div>
+    <div class="box" data-l="1" style="left:120px;top:250px;width:820px;height:220px"><div class="tag">GENERAL</div><div class="eq md">Maximize <span class="o">f(x)</span><br>s.t. <span class="g">gᵢ(x) ≤ 0</span></div></div>
+    <div class="box" data-l="2" style="left:980px;top:250px;width:820px;height:220px"><div class="tag">EXAMPLE</div><div class="eq md"><span class="o">f(p) = 10p − p²</span><br><span class="g">g(p) = p − 3 ≤ 0</span></div></div>
+    <div class="box" data-l="3" style="left:120px;top:510px;width:1680px;height:170px;border-color:var(--c)"><div class="ph" style="font-size:28px;--k:var(--c)">Why this form?</div><div class="note">Attach one non-negative multiplier <b style="color:var(--c)">λᵢ</b> to each constraint, and see which limits are <b>active</b> at the optimum.</div></div>
+    <div class="abs note mut" data-l="4" style="left:120px;top:720px">p ≥ 0 is also a constraint — but here the optimum is not at p = 0.</div>
+  </section>
+
+  <section class="fv-scene" data-scene="build">
+    <div class="kicker">Step 3</div><div class="title">Build the Lagrangian</div>
+    <div class="box" data-l="1" style="left:120px;top:250px;width:1680px;height:150px;border-color:var(--c)"><div class="eq">ℒ(x, λ) = <span class="o">f(x)</span> − Σᵢ <span class="l">λᵢ</span>·<span class="g">gᵢ(x)</span>,   <span class="l">λᵢ ≥ 0</span></div></div>
+    <div class="abs note" data-l="2" style="left:130px;top:410px;color:var(--c)">each λᵢ = a Lagrange multiplier</div>
+    <div class="box" data-l="3" style="left:120px;top:470px;width:1680px;height:200px">
+      <div class="eq md">ℒ(p, λ) = <span class="o">10p − p²</span> − <span class="l">λ</span>(<span class="g">p − 3</span>)</div>
+      <div class="eq md" data-l="4">ℒ = 10p − p² − λp + 3λ</div>
+    </div>
+    <div class="abs note" data-l="5" style="left:120px;top:710px;width:1680px"><b style="color:var(--c)">Intuition:</b> λ measures the <b>marginal value of relaxing</b> a binding limit.</div>
+  </section>
+
+  <section class="fv-scene" data-scene="sign">
+    <div class="kicker">Step 4</div><div class="title">Why is the constraint term subtracted?</div>
+    <svg id="sg-svg" class="abs" width="900" height="560" style="left:100px;top:250px"></svg>
+    <div class="box" data-l="1" style="left:1040px;top:250px;width:760px;height:200px"><div class="eq sm"><span class="g">g(p) = p − 3 ≤ 0</span></div><div class="note" style="margin-top:8px">If p &gt; 3 → violated, and p − 3 becomes <b>positive</b></div></div>
+    <div class="box" data-l="2" style="left:1040px;top:480px;width:760px;height:170px"><div class="eq sm">−<span class="l">λ</span>(p − 3), λ ≥ 0</div><div class="note" style="margin-top:8px">acts like a <b style="color:var(--d)">penalty</b> on ℒ</div></div>
+    <div class="box" data-l="3" style="left:1040px;top:680px;width:760px;height:160px;border-color:var(--c)"><div class="note" style="font-size:25px">Max with gᵢ ≤ 0 → <b>ℒ = f − Σλᵢgᵢ</b>. Other books may flip signs — <b>stay consistent</b>.</div></div>
+  </section>
+
+  <section class="fv-scene" data-scene="kkt">
+    <div class="kicker">Step 5</div><div class="title">The four KKT conditions</div>
+    <div class="abs" style="left:120px;top:240px;width:1680px;display:grid;grid-template-columns:1fr 1fr;gap:22px">
+      <div class="panel rel" data-l="1" style="border-color:var(--a);height:180px"><div class="ph" style="font-size:28px;--k:var(--a)">1 · Stationarity</div><div class="eq sm">∂ℒ/∂p = 10 − 2p − λ = 0</div></div>
+      <div class="panel rel" data-l="2" style="border-color:var(--b);height:180px"><div class="ph" style="font-size:28px;--k:var(--b)">2 · Primal feasibility</div><div class="eq sm">p − 3 ≤ 0  and  p ≥ 0</div></div>
+      <div class="panel rel" data-l="3" style="border-color:var(--c);height:180px"><div class="ph" style="font-size:28px;--k:var(--c)">3 · Dual feasibility</div><div class="eq sm">λ ≥ 0</div></div>
+      <div class="panel rel" data-l="4" style="border-color:var(--f);height:180px"><div class="ph" style="font-size:28px;--k:var(--f)">4 · Complementary slackness</div><div class="eq sm">λ(p − 3) = 0</div></div>
+    </div>
+    <div class="abs note" data-l="5" style="left:120px;top:660px;width:1680px">Obey the limits · multipliers ≥ 0 · a constraint gets <b>λ &gt; 0 only if it is active</b></div>
+  </section>
+
+  <section class="fv-scene" data-scene="solve">
+    <div class="kicker">Step 6</div><div class="title">Solve the example</div>
+    <svg id="sv-svg" class="abs" width="760" height="600" style="left:1060px;top:240px"></svg>
+    <div class="box" style="left:120px;top:240px;width:900px;height:620px">
+      <div class="row" data-l="1"><span class="num">A</span><div><div class="note" style="font-size:24px">Ignore the constraint</div><div class="eq sm">f′(p) = 10 − 2p = 0 → <b class="o">p = 5</b></div></div></div>
+      <div class="row" data-l="2"><span class="num" style="--k:var(--d)">B</span><div><div class="note" style="font-size:24px">Check feasibility: 5 &gt; 3 ✗</div><div class="eq sm">boundary → <b class="g">p* = 3</b></div></div></div>
+      <div class="row" data-l="3"><span class="num" style="--k:var(--c)">C</span><div><div class="note" style="font-size:24px">Multiplier from stationarity</div><div class="eq sm">10 − 6 − λ* = 0 → <b class="l">λ* = 4</b></div></div></div>
+      <div class="row" data-l="4"><span class="num" style="--k:var(--f)">✓</span><div><div class="eq sm">λ(p−3) = 4 × 0 = 0 ✓</div></div></div>
+      <div class="row" data-l="5"><span class="num" style="--k:var(--b)">D</span><div><div class="eq sm">f(3) = 30 − 9 = <b class="q">21</b></div></div></div>
+    </div>
+  </section>
+
+  <section class="fv-scene" data-scene="shadow">
+    <div class="kicker">Step 7</div><div class="title">λ is a shadow price</div>
+    <div class="abs" style="left:120px;top:250px;display:flex;gap:26px">
+      <div class="panel rel" data-l="1" style="width:400px;border-color:var(--d)"><div class="tag">DECISION</div><div class="big" style="font-size:70px">p* = 3</div></div>
+      <div class="panel rel" data-l="1" data-f="0.3" style="width:400px;border-color:var(--b)"><div class="tag">MAX UTILITY</div><div class="big" style="font-size:70px">21</div></div>
+      <div class="panel rel" data-l="1" data-f="0.6" style="width:400px;border-color:var(--c)"><div class="tag">MULTIPLIER</div><div class="big" style="font-size:70px">λ* = 4</div></div>
+    </div>
+    <div class="box" data-l="3" style="left:120px;top:500px;width:1680px;height:120px"><div class="eq md">cap 3 → 3 + ε   ⇒   utility ≈ 21 + <b class="l">4ε</b></div></div>
+    <div class="box" data-l="4" style="left:120px;top:640px;width:1680px;height:110px"><div class="eq sm">check: f(3.1) = 31 − 9.61 = 21.39 ≈ 21 + 4×0.1 ✓ <span class="mut" style="font:500 20px Inter">(our check)</span></div></div>
+    <div class="abs note" data-l="5" style="left:120px;top:790px;width:1680px"><b style="color:var(--c)">Meaning:</b> λ = the marginal value of relaxing a constraint.</div>
+  </section>
+
+  <section class="fv-scene" data-scene="scenario">
+    <div class="kicker">Application</div><div class="title">Cooperative relays in CPS</div>
+    <div class="box" data-l="1" style="left:120px;top:240px;width:1680px;height:130px"><div class="note"><b>Goal:</b> choose relay transmit powers to balance <b style="color:var(--b)">quality</b>, <b style="color:var(--f)">energy</b> and <b style="color:var(--g)">delay</b>, while satisfying constraints.</div></div>
+    <div class="abs note" data-l="2" style="left:120px;top:400px;width:1680px">Industrial sensors → CPS controller, via cooperative relays when the direct link is weak.</div>
+    <svg id="sc-svg" class="abs" width="1680" height="360" style="left:120px;top:480px"></svg>
+  </section>
+
+  <section class="fv-scene" data-scene="objective">
+    <div class="kicker">Define the objective</div><div class="title">Weighted utility</div>
+    <div class="box" data-l="1" style="left:120px;top:260px;width:1680px;height:150px;border-color:var(--a)"><div class="eq" style="font-size:44px">max U(p₁,p₂) = <span style="color:var(--c)">α</span><span class="q">Q</span> − <span style="color:var(--c)">β</span><span class="e">E</span> − <span style="color:var(--c)">δ</span><span style="color:var(--g)">D</span></div></div>
+    <div class="abs" style="left:120px;top:450px;width:1680px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:22px">
+      <div class="panel rel" data-l="2" style="border-color:var(--b)"><div class="ph" style="--k:var(--b)">Q</div><div class="note">communication quality / reliability</div></div>
+      <div class="panel rel" data-l="2" data-f="0.4" style="border-color:var(--f)"><div class="ph" style="--k:var(--f)">E</div><div class="note">energy consumed</div></div>
+      <div class="panel rel" data-l="2" data-f="0.7" style="border-color:var(--g)"><div class="ph" style="--k:var(--g)">D</div><div class="note">end-to-end delay</div></div>
+    </div>
+    <div class="abs note" data-l="3" style="left:120px;top:720px;width:1680px">α, β, δ ≥ 0 are weights — ↑α prioritizes reliability; ↑β prioritizes energy saving.</div>
+  </section>
+
+  <section class="fv-scene" data-scene="cons">
+    <div class="kicker">Add system constraints</div><div class="title">Constraints → standard form</div>
+    <div class="box" style="left:120px;top:240px;width:820px;height:560px">
+      <div class="tag">CONSTRAINTS</div>
+      <div class="eq sm" data-l="1">p₁ + p₂ ≤ Pmax</div><div class="mut" data-l="1" style="font:500 20px Inter">shared power budget</div>
+      <div class="eq sm" data-l="2" style="margin-top:14px">0 ≤ pᵢ ≤ Pᵢmax, i = 1,2</div><div class="mut" data-l="2" style="font:500 20px Inter">individual limits</div>
+      <div class="eq sm" data-l="3" style="margin-top:14px">Q(p₁,p₂) ≥ Qmin</div><div class="mut" data-l="3" style="font:500 20px Inter">minimum quality</div>
+    </div>
+    <div class="box" style="left:980px;top:240px;width:820px;height:560px;border-color:var(--c)">
+      <div class="tag" data-l="4">STANDARD FORM (slack ≥ 0)</div>
+      <div class="eq sm" data-l="5">g₁ = Pmax − p₁ − p₂ ≥ 0</div>
+      <div class="eq sm" data-l="5" data-f="0.3">g₂ = Q − Qmin ≥ 0</div>
+      <div class="eq sm" data-l="5" data-f="0.6">g₃ᵢ = Pᵢmax − pᵢ ≥ 0</div>
+      <div class="eq sm" data-l="5" data-f="0.8">g₄ᵢ = pᵢ ≥ 0</div>
+      <div class="note" data-l="6" style="margin-top:20px;font-size:24px">each gets a multiplier = its influence on the optimum</div>
+    </div>
+  </section>
+
+  <section class="fv-scene" data-scene="lag2">
+    <div class="kicker">Construct ℒ</div><div class="title">The relay Lagrangian</div>
+    <div class="box" style="left:120px;top:240px;width:1680px;height:380px;border-color:var(--c)">
+      <div class="eq md" data-l="1">ℒ = αQ − βE − δD</div>
+      <div class="eq md" data-l="2">  + <span class="l">λ</span>(Pmax − p₁ − p₂)</div>
+      <div class="eq md" data-l="3">  + <span class="q">μ</span>(Q − Qmin)</div>
+      <div class="eq md" data-l="4">  + Σᵢ <span class="e">ηᵢ</span>(Pᵢmax − pᵢ) + Σᵢ <span class="o">ρᵢ</span>pᵢ</div>
+    </div>
+    <div class="abs" data-l="5" style="left:120px;top:650px;display:flex;gap:16px;flex-wrap:wrap;width:1680px">
+      <span class="chip sm" style="--k:var(--c)">λ ≥ 0 · power budget</span><span class="chip sm" style="--k:var(--b)">μ ≥ 0 · quality threshold</span><span class="chip sm" style="--k:var(--f)">ηᵢ ≥ 0 · upper power limit</span><span class="chip sm" style="--k:var(--a)">ρᵢ ≥ 0 · non-negativity</span>
+    </div>
+    <div class="abs note" data-l="6" style="left:120px;top:760px;width:1680px;color:var(--c)">+ signs here because constraints are written as slack ≥ 0 — same idea, different convention.</div>
+  </section>
+
+  <section class="fv-scene" data-scene="stat">
+    <div class="kicker">Stationarity + KKT</div><div class="title">∂ℒ/∂pᵢ = 0 for each relay</div>
+    <div class="box" data-l="1" style="left:120px;top:240px;width:1680px;height:170px">
+      <div class="eq sm">0 = α(∂Q/∂pᵢ) − β(∂E/∂pᵢ) − δ(∂D/∂pᵢ)</div>
+      <div class="eq sm">    − λ + μ(∂Q/∂pᵢ) − ηᵢ + ρᵢ</div>
+    </div>
+    <div class="abs note" data-l="2" style="left:120px;top:430px;width:1680px">marginal <b style="color:var(--b)">quality benefit</b> = marginal <b style="color:var(--f)">energy</b>/<b style="color:var(--g)">delay</b> cost + active constraints</div>
+    <div class="abs" style="left:120px;top:510px;width:1680px;display:grid;grid-template-columns:1fr 1fr;gap:16px">
+      <div class="panel rel" data-l="3" style="padding:16px 22px"><div class="note" style="font-size:24px"><b>1 · Stationarity</b> ∂ℒ/∂pᵢ = 0</div></div>
+      <div class="panel rel" data-l="3" data-f="0.4" style="padding:16px 22px"><div class="note" style="font-size:24px"><b>2 · Primal</b> all original constraints hold</div></div>
+      <div class="panel rel" data-l="3" data-f="0.8" style="padding:16px 22px"><div class="note" style="font-size:24px"><b>3 · Dual</b> λ, μ, ηᵢ, ρᵢ ≥ 0</div></div>
+      <div class="panel rel" data-l="4" style="padding:16px 22px"><div class="note" style="font-size:23px"><b>4 · Comp. slackness</b> λ(Pmax−p₁−p₂)=0; μ(Q−Qmin)=0</div></div>
+    </div>
+    <div class="abs note" data-l="5" style="left:120px;top:760px;width:1680px">inactive constraint → multiplier 0 · active → may be positive</div>
+  </section>
+
+  <section class="fv-scene" data-scene="quality">
+    <div class="kicker">Illustrative model</div><div class="title">Computing the derivatives</div>
+    <div class="box" data-l="1" style="left:120px;top:250px;width:1680px;height:120px"><div class="eq md"><span class="q">Q</span> = log₂(1 + γ₀ + a₁p₁ + a₂p₂)</div></div>
+    <div class="box" data-l="2" style="left:120px;top:395px;width:1680px;height:110px"><div class="eq md"><span class="e">E</span> = e₁p₁ + e₂p₂   <span class="mut" style="font:500 22px Inter">(delay ignored)</span></div></div>
+    <div class="box" data-l="3" style="left:120px;top:530px;width:1680px;height:120px;border-color:var(--b)"><div class="eq md">∂Q/∂pᵢ = aᵢ / [ ln(2)·(1 + γ₀ + a₁p₁ + a₂p₂) ]</div></div>
+    <div class="box" data-l="4" style="left:120px;top:675px;width:1680px;height:100px;border-color:var(--f)"><div class="eq md">∂E/∂pᵢ = eᵢ</div></div>
+    <div class="abs note" data-l="5" style="left:120px;top:810px">→ substitute into stationarity, solve jointly with KKT</div>
+  </section>
+
+  <section class="fv-scene" data-scene="workflow">
+    <div class="kicker">How to solve</div><div class="title">Practical workflow</div>
+    <div class="abs" style="left:120px;top:250px;width:1680px">
+      <div class="row" data-l="1"><span class="num">1</span><span class="note">Specify Q, E and D using the wireless-system model</span></div>
+      <div class="row" data-l="1" data-f="0.5"><span class="num">2</span><span class="note">Define power limits and the quality threshold</span></div>
+      <div class="row" data-l="2"><span class="num">3</span><span class="note">Construct ℒ and calculate derivatives</span></div>
+      <div class="row" data-l="2" data-f="0.5"><span class="num">4</span><span class="note">Solve stationarity, feasibility, complementary slackness</span></div>
+      <div class="row" data-l="3"><span class="num">5</span><span class="note">Check the solution against every constraint</span></div>
+    </div>
+    <div class="box" data-l="4" style="left:120px;top:640px;width:1680px;height:140px;border-color:var(--d)"><div class="note" style="font-size:25px">Real DF systems may also need <b>source–relay</b> and <b>relay–destination</b> constraints, <b>interference</b>, and <b>half-duplex</b> factors.</div></div>
+  </section>
+
+  <section class="fv-scene" data-scene="game">
+    <div class="kicker">Link to game theory</div><div class="title">Cooperative vs non-cooperative</div>
+    <div class="panel" data-l="0" style="left:120px;top:235px;width:1680px;height:500px;padding:16px 24px">
+      <table class="tbl" style="width:100%;font-size:24px">
+        <tr><th>Question</th><th style="color:var(--b)">Cooperative model</th><th style="color:var(--g)">Non-cooperative model</th></tr>
+        <tr data-l="1"><td>Who optimizes?</td><td>Coalition / system jointly</td><td>Each player separately</td></tr>
+        <tr data-l="1" data-f="0.5"><td>Objective</td><td>Shared utility U(A, P)</td><td>Individual Uᵢ(Pᵢ, P₋ᵢ)</td></tr>
+        <tr data-l="2"><td>Role of ℒ</td><td>Solve joint constrained allocation</td><td>Solve each player's constrained problem</td></tr>
+        <tr data-l="4"><td>Game solution</td><td>Coalition choice; payoff allocation</td><td>Nash equilibrium / best-response fixed point</td></tr>
+      </table>
+      <div class="eq sm" data-l="5" style="margin-top:14px;font-size:22px">U(A,P) = αQ − βE − δD · Pᵢ,min ≤ Pᵢ ≤ Pᵢ,max · D ≤ Dmax · E ≤ Emax · Q ≥ Qmin</div>
+    </div>
+    <div class="abs note" data-l="6" style="left:120px;top:755px;width:1680px;font-size:24px;color:var(--d)">Caution: KKT ⇒ global optimum only if the problem is <b>convex</b>; non-convex radio models → local candidates.</div>
+    <div class="abs chip" data-l="7" style="--k:var(--c);left:120px;top:810px">Game theory = strategic interaction · Lagrangian = constrained optimization</div>
+  </section>
+
+  <section class="fv-scene" data-scene="recap">
+    <div class="kicker">Summary</div><div class="title">Derivation in five steps</div>
+    <div class="abs" style="left:120px;top:235px;width:1680px">
+      <div class="row" data-l="1"><span class="num">1</span><span class="note">Define objective: reliability benefit − energy − delay</span></div>
+      <div class="row" data-l="2"><span class="num">2</span><span class="note">Write constraints as gᵢ(x) ≤ 0</span></div>
+      <div class="row" data-l="3"><span class="num">3</span><span class="note">Build ℒ = f(x) − Σ λᵢgᵢ(x), λᵢ ≥ 0</span></div>
+      <div class="row" data-l="4"><span class="num">4</span><span class="note">Apply KKT: stationarity, primal, dual, complementary slackness</span></div>
+      <div class="row" data-l="5"><span class="num">5</span><span class="note">Solve &amp; interpret λ — example: p* = 3, f = 21, λ = 4</span></div>
+    </div>
+    <div class="abs" style="left:0;right:0;top:760px;text-align:center"><span class="fv-endcard" data-l="6"></span></div>
+  </section>
+</div>
+<script src="timing.js"></script>
+<script src="fv-runtime.js"></script>
+<script src="fvlib.js"></script>
+<script>
+const { seg, enter, css, ease, clamp, lerp } = FV;
+const { COL, at, mk, reveal, arrow, traveller } = L;
+['intro', 'problem', 'form', 'build', 'kkt', 'shadow', 'objective', 'cons', 'lag2', 'stat', 'quality', 'workflow', 'game', 'recap'].forEach((id) => FV.scene(id, reveal));
+
+/* plot of f(p) = 10p - p^2 on [0,6] */
+function plot(svg, W, H) {
+  const X = (p) => 70 + p / 6 * (W - 110), Y = (v) => H - 60 - v / 26 * (H - 110);
+  mk('line', { x1: 70, y1: H - 60, x2: W - 30, y2: H - 60, stroke: COL.mut, 'stroke-width': 2 }, svg);
+  mk('line', { x1: 70, y1: 30, x2: 70, y2: H - 60, stroke: COL.mut, 'stroke-width': 2 }, svg);
+  for (let p = 0; p <= 6; p++) mk('text', { x: X(p), y: H - 30, 'text-anchor': 'middle', fill: COL.mut, 'font-size': 20 }, svg, p);
+  mk('text', { x: W - 30, y: H - 70, 'text-anchor': 'end', fill: COL.mut, 'font-size': 22 }, svg, 'p');
+  let d = ''; for (let i = 0; i <= 60; i++) { const p = i / 10; d += (i ? 'L' : 'M') + X(p) + ' ' + Y(10 * p - p * p); }
+  const curve = mk('path', { d, stroke: COL.a, 'stroke-width': 5, fill: 'none' }, svg);
+  mk('text', { x: X(0.15), y: Y(17), fill: COL.a, 'font-size': 24, 'font-weight': 700 }, svg, 'f(p) = 10p − p²');
+  const feas = mk('rect', { x: X(0), y: 30, width: X(3) - X(0), height: H - 90, fill: 'rgba(52,211,153,.1)' }, svg);
+  const cap = mk('line', { x1: X(3), y1: 30, x2: X(3), y2: H - 60, stroke: COL.d, 'stroke-width': 4, 'stroke-dasharray': '10 8' }, svg);
+  const capT = mk('text', { x: X(3) + 8, y: H - 75, fill: COL.d, 'font-size': 22, 'font-weight': 700 }, svg, 'cap p = 3');
+  const pk = mk('g', {}, svg); mk('circle', { cx: X(5), cy: Y(25), r: 10, fill: COL.mut }, pk); mk('text', { x: X(5), y: Y(25) - 18, 'text-anchor': 'middle', fill: COL.mut, 'font-size': 20 }, pk, 'p=5 (infeasible)');
+  const opt = mk('g', {}, svg); mk('circle', { cx: X(3), cy: Y(21), r: 13, fill: COL.c }, opt); mk('text', { x: X(3) + 16, y: Y(21) + 46, fill: COL.c, 'font-size': 24, 'font-weight': 800 }, opt, 'p* = 3, f = 21');
+  const tan = mk('line', { x1: X(2.3), y1: Y(21 - 4 * 0.7), x2: X(3.7), y2: Y(21 + 4 * 0.7), stroke: COL.c, 'stroke-width': 3 }, svg);
+  const tanT = mk('text', { x: X(3.9), y: Y(16.5), fill: COL.c, 'font-size': 22, 'font-weight': 700 }, svg, 'slope 4 = λ');
+  return { curve, feas, cap, capT, pk, opt, tan, tanT };
+}
+
+FV.scene('sign', (() => {
+  const svg = document.getElementById('sg-svg');
+  const P = plot(svg, 900, 560); P.pk.style.opacity = 0; P.opt.style.opacity = 0; P.tan.style.opacity = 0; P.tanT.style.opacity = 0;
+  const viol = mk('rect', { x: 70 + 3 / 6 * 790, y: 30, width: 3 / 6 * 790, height: 470, fill: 'rgba(248,113,113,.12)' }, svg);
+  const vt = mk('text', { x: 70 + 4.5 / 6 * 790, y: 470, 'text-anchor': 'middle', fill: COL.d, 'font-size': 22, 'font-weight': 700 }, svg, 'violated: penalty');
+  return (t, ctx) => { reveal(t, ctx); svg.style.opacity = seg(t, 0.3, 1); const v = seg(t, at(ctx, 1, 0.5), at(ctx, 1, 0.9)); viol.style.opacity = v; vt.style.opacity = v; };
+})());
+
+FV.scene('solve', (() => {
+  const svg = document.getElementById('sv-svg');
+  const P = plot(svg, 760, 600);
+  return (t, ctx) => {
+    reveal(t, ctx);
+    P.curve.style.opacity = seg(t, 0.3, 1);
+    P.pk.style.opacity = seg(t, at(ctx, 1, 0.5), at(ctx, 1, 0.9));
+    const b = seg(t, at(ctx, 2, 0.3), at(ctx, 2, 0.6)); P.cap.style.opacity = b; P.capT.style.opacity = b; P.feas.style.opacity = b;
+    P.opt.style.opacity = seg(t, at(ctx, 2, 0.6), at(ctx, 2, 0.9));
+    const c = seg(t, at(ctx, 3, 0.5), at(ctx, 3, 0.9)); P.tan.style.opacity = c; P.tanT.style.opacity = c;
+  };
+})());
+
+FV.scene('scenario', (() => {
+  const svg = document.getElementById('sc-svg');
+  const box = (x, y, w, h, a, b, c) => { const g = mk('g', {}, svg); mk('rect', { x, y, width: w, height: h, rx: 18, fill: 'rgba(13,20,42,.9)', stroke: c, 'stroke-width': 3 }, g); mk('text', { x: x + w / 2, y: y + h / 2 - 4, 'text-anchor': 'middle', fill: '#fff', 'font-size': 28, 'font-weight': 800 }, g, a); mk('text', { x: x + w / 2, y: y + h / 2 + 30, 'text-anchor': 'middle', fill: COL.mut, 'font-size': 22 }, g, b); return g; };
+  const g = [box(20, 120, 300, 120, 'Sensor S', 'data source', COL.a), box(560, 10, 300, 120, 'Relay R1', 'power p₁', COL.e), box(560, 230, 300, 120, 'Relay R2', 'power p₂', COL.e), box(1320, 120, 340, 120, 'CPS Controller', 'data processing', COL.b)];
+  const a = [arrow(svg, 325, 160, 555, 70, COL.a), arrow(svg, 325, 200, 555, 290, COL.a), arrow(svg, 865, 70, 1315, 160, COL.b), arrow(svg, 865, 290, 1315, 200, COL.b)];
+  const weak = mk('line', { x1: 325, y1: 180, x2: 1315, y2: 180, stroke: COL.d, 'stroke-width': 3, 'stroke-dasharray': '6 12' }, svg);
+  const wt = mk('text', { x: 1090, y: 172, 'text-anchor': 'middle', fill: COL.d, 'font-size': 20 }, svg, 'weak direct link');
+  return (t, ctx) => { reveal(t, ctx); g.forEach((e, k) => e.style.opacity = seg(t, at(ctx, 3, k * 0.15), at(ctx, 3, k * 0.15 + 0.2))); a.forEach((f, k) => f(t, at(ctx, 3, 0.4 + k * 0.1))); const w = seg(t, at(ctx, 2, 0.3), at(ctx, 2, 0.6)); weak.style.opacity = w; wt.style.opacity = w; };
+})());
+</script>
+</body>
+</html>

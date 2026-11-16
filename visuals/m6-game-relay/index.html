@@ -1,0 +1,365 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Game Theory and Relaying</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="fvlib.css">
+<style>
+  .card{position:relative;border:2px solid var(--k);border-radius:20px;background:color-mix(in srgb,var(--k) 9%,rgba(13,20,42,.85));padding:20px 24px;box-sizing:border-box}
+  .card h3{margin:0 0 8px;font:800 30px Inter;color:var(--k)}
+  .card p{margin:0;font:500 24px/1.4 Inter}
+  .eq{font:600 34px/1.45 'JetBrains Mono',monospace;color:#fff}
+  .eq.sm{font-size:27px}
+  .box{position:absolute;border:2px solid rgba(148,163,200,.3);border-radius:20px;background:rgba(13,20,42,.85);padding:20px 28px;box-sizing:border-box}
+</style>
+</head>
+<body>
+<div id="fv-stage">
+  <div id="bg-grid"></div>
+
+  <section class="fv-scene" data-scene="intro">
+    <div class="abs" style="left:0;right:0;top:220px;text-align:center">
+      <div data-l="1" class="mono" style="font-size:28px;letter-spacing:.3em;color:var(--a)">MODULE 6</div>
+      <div data-l="1" data-f="0.3" class="big" style="margin-top:22px;font-size:96px">Game Theory &amp; <span style="color:var(--a)">Cooperative Relaying</span></div>
+    </div>
+    <div class="abs" style="left:200px;top:520px;width:1520px;display:grid;grid-template-columns:repeat(4,1fr);gap:20px">
+      <div class="card" data-l="1" data-f="0.5" style="--k:var(--b);height:150px"><h3>1</h3><p>Data management activities</p></div>
+      <div class="card" data-l="1" data-f="0.6" style="--k:var(--c);height:150px"><h3>2</h3><p>Resource allocation</p></div>
+      <div class="card" data-l="1" data-f="0.7" style="--k:var(--e);height:150px"><h3>3</h3><p>Game theory</p></div>
+      <div class="card" data-l="1" data-f="0.8" style="--k:var(--a);height:150px"><h3>4</h3><p>Cooperative relaying</p></div>
+    </div>
+  </section>
+
+  <section class="fv-scene" data-scene="dm">
+    <div class="kicker">Slide 2 · block 1</div><div class="title">Data management activities</div>
+    <div class="abs note" data-l="0" style="left:120px;top:235px;width:1680px">How CPS handles the <b>collection, storage, processing and dissemination</b> of data</div>
+    <svg id="dm-svg" class="abs" width="1680" height="520" style="left:120px;top:330px"></svg>
+  </section>
+
+  <section class="fv-scene" data-scene="ra">
+    <div class="kicker">Slide 3 · block 2</div><div class="title">Resource allocation</div>
+    <div class="abs note" data-l="1" style="left:120px;top:240px;width:1680px">Distribute among devices:</div>
+    <div class="abs" data-l="1" data-f="0.3" style="left:120px;top:300px;display:flex;gap:16px;flex-wrap:wrap;width:1680px"><span class="chip" style="--k:var(--c)">bandwidth</span><span class="chip" style="--k:var(--c)">power</span><span class="chip" style="--k:var(--c)">time slots</span><span class="chip" style="--k:var(--c)">computation capacity</span><span class="chip" style="--k:var(--c)">storage</span></div>
+    <div class="card" data-l="2" style="--k:var(--a);position:absolute;left:120px;top:420px;width:1680px;height:170px"><h3>Example: WSN</h3><p>Many nodes share a <b>common channel</b> → resource allocation ensures <b>fair access</b> and <b>energy efficiency</b></p></div>
+    <div class="abs" data-l="3" style="left:120px;top:640px;display:flex;gap:16px"><span class="chip" style="--k:var(--b)">scheduling</span><span class="chip" style="--k:var(--b)">priority-based allocation</span><span class="chip" style="--k:var(--b)">auction-based models</span></div>
+  </section>
+
+  <section class="fv-scene" data-scene="gt">
+    <div class="kicker">Slide 4 · block 3</div><div class="title">Game theory</div>
+    <div class="box" data-l="0" style="left:120px;top:240px;width:880px;height:620px">
+      <div class="item sm"><span class="dot" style="--k:var(--e)"></span>Models <b>competitive or cooperative</b> behaviour among agents (devices / nodes)</div>
+      <div class="item sm" data-l="1"><span class="dot" style="--k:var(--e)"></span>Each device = <b>player</b> maximizing its <b>utility</b> (min delay, max throughput)</div>
+      <div class="item sm" data-l="2"><span class="dot" style="--k:var(--c)"></span><b style="color:var(--c)">Nash Equilibrium</b>: no player can improve without hurting others</div>
+      <div class="item sm" data-l="3"><span class="dot" style="--k:var(--e)"></span>Used for <b>energy sharing, spectrum sharing, task scheduling, offloading</b></div>
+    </div>
+    <svg id="gt-svg" class="abs" width="760" height="620" style="left:1040px;top:240px"></svg>
+  </section>
+
+  <section class="fv-scene" data-scene="cr">
+    <div class="kicker">Slide 5 · block 4</div><div class="title">Cooperative relaying</div>
+    <svg id="cr-svg" class="abs" width="1680" height="330" style="left:120px;top:230px"></svg>
+    <div class="abs" style="left:120px;top:590px;width:1680px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px">
+      <div class="card" data-l="1" style="--k:var(--a);height:230px"><h3>Idea</h3><p>Devices <b>relay data for others</b> instead of direct transmission → better signal &amp; coverage</p></div>
+      <div class="card" data-l="2" style="--k:var(--e);height:230px"><h3>Used in</h3><p>IoT · VANETs · wireless sensor networks</p></div>
+      <div class="card" data-l="3" style="--k:var(--b);height:230px"><h3>Benefits</h3><p>Reduces <b>transmission energy</b>, improves <b>reliability</b></p></div>
+    </div>
+  </section>
+
+  <section class="fv-scene" data-scene="traffic">
+    <div class="kicker">Slides 6–10 · scenario</div><div class="title">Smart traffic monitoring CPS</div>
+    <div class="abs" data-l="1" style="left:120px;top:225px;display:flex;gap:12px;flex-wrap:wrap;width:1680px"><span class="chip xs" style="--k:var(--mut)">roadside IoT sensors (speed, density, pollution)</span><span class="chip xs" style="--k:var(--mut)">cameras with edge processing</span><span class="chip xs" style="--k:var(--mut)">autonomous vehicles (real-time data)</span><span class="chip xs" style="--k:var(--mut)">cloud &amp; edge controllers</span></div>
+    <div class="abs" style="left:120px;top:300px;width:1680px;display:grid;grid-template-columns:1fr 1fr;gap:18px">
+      <div class="card" data-l="2" style="--k:var(--b);height:265px"><h3>Data management</h3><p style="font-size:22px">Gathers vehicle count, air quality, congestion → <b>aggregated at edge</b>, preprocessed, uploaded periodically. <b>Redundant/outdated data filtered locally</b> to save bandwidth.</p></div>
+      <div class="card" data-l="3" style="--k:var(--c);height:265px"><h3>Resource allocation</h3><p style="font-size:22px">Peak hours: edge node allocates <b>bandwidth &amp; time slots by priority</b> (accident alerts &gt; normal updates). <b>Low-battery</b> sensors get energy-efficient schedules.</p></div>
+      <div class="card" data-l="4" style="--k:var(--e);height:265px"><h3>Game theory</h3><p style="font-size:22px">Sensors compete for the channel; each player chooses <b>transmission power</b>. <b>Non-cooperative</b> game: min interference, keep reliability → <b>Nash Equilibrium</b>.</p></div>
+      <div class="card" data-l="5" style="--k:var(--a);height:265px"><h3>Cooperative relaying</h3><p style="font-size:22px">Sensor in a <b>tunnel</b> (weak signal) uses a nearby <b>roadside sensor as relay</b>; shared bandwidth → better connectivity, fewer retransmissions.</p></div>
+    </div>
+  </section>
+
+  <section class="fv-scene" data-scene="edm">
+    <div class="kicker">Slide 11</div><div class="title">Energy efficiency in data management</div>
+    <div class="abs" style="left:120px;top:240px;width:1680px;display:grid;grid-template-columns:1fr 1fr;gap:18px">
+      <div class="card" data-l="1" style="--k:var(--b);height:180px"><h3>Aggregation &amp; compression</h3><p>Many readings → 1 packet. e.g. <b>100 readings → 1 average</b></p></div>
+      <div class="card" data-l="2" style="--k:var(--a);height:180px"><h3>Duty cycling</h3><p>Active ⇄ sleep. e.g. wake <b>every 10 min</b>, sense, sleep</p></div>
+      <div class="card" data-l="3" style="--k:var(--c);height:180px"><h3>Adaptive sampling</h3><p>Rate follows change: <b>stable temp → sense less</b></p></div>
+      <div class="card" data-l="4" style="--k:var(--e);height:180px"><h3>Edge / fog processing</h3><p>Process locally → less <b>long-range</b> comm (most energy)</p></div>
+      <div class="card" data-l="5" style="--k:var(--d);height:180px"><h3>Data prioritization</h3><p><b>Critical / anomalous</b> now; regular data delayed or batched</p></div>
+    </div>
+  </section>
+
+  <section class="fv-scene" data-scene="era">
+    <div class="kicker">Slide 12</div><div class="title">Energy saving via resource allocation</div>
+    <div class="abs" style="left:120px;top:250px;width:1680px;display:grid;grid-template-columns:1fr 1fr;gap:22px">
+      <div class="card" data-l="1" style="--k:var(--c);height:250px"><h3>Energy-aware scheduling</h3><p>Slots by <b>energy level &amp; urgency</b>; low battery → longer intervals</p></div>
+      <div class="card" data-l="2" style="--k:var(--a);height:250px"><h3>Load balancing</h3><p>Spread tasks so no node <b>overheats or drains</b> too fast</p></div>
+      <div class="card" data-l="3" style="--k:var(--e);height:250px"><h3>Dynamic power control</h3><p>Power matches signal quality — <b>not always max</b>; near nodes reduce power</p></div>
+      <div class="card" data-l="4" style="--k:var(--b);height:250px"><h3>Energy harvesting</h3><p><b>Solar, vibration, thermal</b> recharge → self-sustaining systems</p></div>
+    </div>
+  </section>
+
+  <section class="fv-scene" data-scene="egt">
+    <div class="kicker">Slide 13</div><div class="title">Game theory for energy optimization</div>
+    <div class="abs note" data-l="0" style="left:120px;top:235px;width:1680px">Each device = player minimizing <b>its own energy</b> while keeping communication quality</div>
+    <div class="abs" style="left:120px;top:310px;width:1680px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px">
+      <div class="card" data-l="1" style="--k:var(--g);height:500px"><h3>Non-cooperative power control game</h3><p>Each node adjusts power to <b>minimize its own energy</b> while avoiding interference.</p><p style="margin-top:12px">Stabilizes at <b style="color:var(--c)">Nash Equilibrium</b>.</p></div>
+      <div class="card" data-l="2" style="--k:var(--b);height:500px"><h3>Cooperative game model</h3><p>Nodes <b>share energy</b> or <b>relay data</b> together.</p><p style="margin-top:12px">High-energy nodes help weaker ones → <b>energy-aware coalition</b>.</p></div>
+      <div class="card" data-l="3" style="--k:var(--c);height:500px"><h3>Auction-based spectrum sharing</h3><p>Nodes <b>bid</b> for bandwidth or power.</p><p style="margin-top:12px">Efficient use instead of everyone at <b>full power</b>.</p></div>
+    </div>
+  </section>
+
+  <section class="fv-scene" data-scene="ecr">
+    <div class="kicker">Slides 14–15</div><div class="title">Cooperative relaying for energy efficiency</div>
+    <svg id="ec-svg" class="abs" width="1680" height="320" style="left:120px;top:230px"></svg>
+    <div class="abs" style="left:120px;top:570px;width:1680px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px">
+      <div class="card" data-l="1" style="--k:var(--a);height:180px"><h3>Shorter distance</h3><p>Power ∝ <b>d² or d⁴</b> → big saving</p></div>
+      <div class="card" data-l="2" style="--k:var(--b);height:180px"><h3>Load sharing</h3><p>Energy load spread among nodes</p></div>
+      <div class="card" data-l="3" style="--k:var(--c);height:180px"><h3>Fewer retransmissions</h3><p>More reliable links</p></div>
+    </div>
+    <div class="abs note" data-l="4" style="left:120px;top:780px;width:1680px">🌲 Forest-fire sensor deep in a forest → nearby <b>edge node</b> forwards readings → saves battery, stable delivery</div>
+  </section>
+
+  <section class="fv-scene" data-scene="agri">
+    <div class="kicker">Slides 16–17</div><div class="title">Integrated example: smart agriculture</div>
+    <div class="panel" data-l="0" style="left:120px;top:230px;width:1680px;height:420px;padding:14px 22px">
+      <table class="tbl" style="width:100%;font-size:23px;font-weight:500">
+        <tr><th>Technique</th><th>Description</th><th>Energy benefit</th></tr>
+        <tr data-l="1"><td><b style="color:var(--c)">Adaptive sampling</b></td><td>Reduce frequency in stable conditions</td><td>Lowers sensing power</td></tr>
+        <tr data-l="2"><td><b style="color:var(--b)">Data aggregation</b></td><td>Edge sends 1 summarized message</td><td>Cuts transmission cost</td></tr>
+        <tr data-l="3"><td><b style="color:var(--a)">Cooperative relaying</b></td><td>Far sensors send via nearer nodes</td><td>Saves long-distance power</td></tr>
+        <tr data-l="4"><td><b style="color:var(--g)">Resource allocation</b></td><td>Prioritize critical nodes, low-power modes</td><td>Balances network energy</td></tr>
+        <tr data-l="5"><td><b style="color:var(--e)">Game theory</b></td><td>Nodes adjust power to min total energy</td><td>Prevents overuse &amp; interference</td></tr>
+      </table>
+    </div>
+    <div class="abs" style="left:120px;top:675px;width:1680px;display:grid;grid-template-columns:repeat(4,1fr);gap:16px">
+      <div class="card" data-l="6" style="--k:var(--c);height:180px"><h3 style="font-size:24px">Energy / bit</h3><p>J/bit</p></div>
+      <div class="card" data-l="6" data-f="0.5" style="--k:var(--d);height:180px"><h3 style="font-size:24px">Network lifetime</h3><p>until <b>first node dies</b></p></div>
+      <div class="card" data-l="7" style="--k:var(--b);height:180px"><h3 style="font-size:24px">Residual energy distribution</h3><p>energy balance</p></div>
+      <div class="card" data-l="7" data-f="0.5" style="--k:var(--a);height:180px"><h3 style="font-size:24px">Throughput / power</h3><p>bits / Joule</p></div>
+    </div>
+  </section>
+
+  <section class="fv-scene" data-scene="drones">
+    <div class="kicker">Slide 18 · scenario</div><div class="title">Delivery drones</div>
+    <svg id="dr-svg" class="abs" width="1680" height="420" style="left:120px;top:230px"></svg>
+    <div class="abs" style="left:120px;top:670px;width:1680px;display:grid;grid-template-columns:1fr 1fr;gap:20px">
+      <div class="card" data-l="1" style="--k:var(--e);height:170px"><h3>Game theory</h3><p>Who transmits <b>first</b>, how much <b>bandwidth</b></p></div>
+      <div class="card" data-l="2" style="--k:var(--a);height:170px"><h3>Cooperative relaying</h3><p>Far drones' video via <b>neighbour drones</b></p></div>
+    </div>
+  </section>
+
+  <section class="fv-scene" data-scene="coop">
+    <div class="kicker">Slides 19–20 · theory</div><div class="title">Cooperative transmission</div>
+    <svg id="co-svg" class="abs" width="980" height="560" style="left:100px;top:260px"></svg>
+    <div class="box" data-l="1" style="left:1120px;top:250px;width:680px;height:600px">
+      <div class="item sm"><span class="dot"></span>Improves <b>reliability, coverage, SNR, energy efficiency</b></div>
+      <div class="item sm"><span class="dot"></span>Exploits the <b>broadcast nature</b> of wireless</div>
+      <div class="item sm" data-l="4"><span class="dot"></span>Relays = <b>virtual antenna</b> of the source (<b>MIMO</b>)</div>
+      <div class="item sm" data-l="4" data-f="0.5"><span class="dot"></span><b>Multi-user &amp; multi-route diversity</b></div>
+      <div class="item sm" data-l="5"><span class="dot" style="--k:var(--c)"></span>Standard: <b>IEEE WiMAX 802.16j</b></div>
+    </div>
+  </section>
+
+  <section class="fv-scene" data-scene="model">
+    <div class="kicker">Slide 21</div><div class="title">System model</div>
+    <svg id="sm-svg" class="abs" width="980" height="600" style="left:100px;top:240px"></svg>
+    <div class="box" style="left:1120px;top:250px;width:680px;height:600px">
+      <div class="item sm" data-l="1"><span class="dot"></span>Nodes: <b>S</b>, <b>D</b>, relays <b>R1…RN</b></div>
+      <div class="item sm" data-l="2"><span class="dot"></span>Flat fading: <b class="mono">h_sd, h_sr, h_rd</b></div>
+      <div class="item sm" data-l="3"><span class="dot" style="--k:var(--d)"></span><b>AWGN</b>, variance <b>N0</b></div>
+      <div class="item sm" data-l="4"><span class="dot" style="--k:var(--c)"></span><b>Half-duplex</b>, <b>2 time slots</b></div>
+      <div class="item sm" data-l="5"><span class="dot" style="--k:var(--b)"></span>E_S, E_R = transmit energies</div>
+    </div>
+  </section>
+
+  <section class="fv-scene" data-scene="direct">
+    <div class="kicker">Slide 22</div><div class="title">Direct link SNR</div>
+    <div class="box" data-l="1" style="left:120px;top:280px;width:1680px;height:150px"><div class="eq">y_sd = √Ps · <span style="color:var(--a)">h_sd</span> · x + <span style="color:var(--d)">n</span></div></div>
+    <div class="box" data-l="2" style="left:120px;top:470px;width:1680px;height:170px;border-color:var(--c)"><div class="eq" style="font-size:46px">γ_sd = Ps·|<span style="color:var(--a)">h_sd</span>|² / <span style="color:var(--d)">N0</span></div></div>
+    <div class="abs note" data-l="3" style="left:120px;top:690px">= signal power / noise power → the baseline relaying must beat</div>
+  </section>
+
+  <section class="fv-scene" data-scene="af">
+    <div class="kicker">Slides 23 &amp; 33</div><div class="title">Amplify-and-Forward (AF)</div>
+    <svg id="af-svg" class="abs" width="1680" height="220" style="left:120px;top:230px"></svg>
+    <div class="box" data-l="2" style="left:120px;top:470px;width:1680px;height:130px"><div class="eq sm">Gain  G = √( Pr / (Ps|h_sr|² + N0) )</div></div>
+    <div class="box" data-l="3" style="left:120px;top:620px;width:1680px;height:150px;border-color:var(--c)"><div class="eq sm" style="font-size:25px">γ_AF = (Ps|h_sr|² · Pr|h_rd|²) / ( Pr|h_rd|²·N0 + (Ps|h_sr|² + N0)·N0 )</div></div>
+    <div class="abs chip" data-l="4" style="--k:var(--d);left:120px;top:800px">AF: simple, but noise-amplifying</div>
+  </section>
+
+  <section class="fv-scene" data-scene="dfscheme">
+    <div class="kicker">Slide 34</div><div class="title">Decode-and-Forward (DF)</div>
+    <svg id="df-svg" class="abs" width="1680" height="220" style="left:120px;top:230px"></svg>
+    <div class="box" data-l="2" style="left:120px;top:470px;width:1680px;height:120px"><div class="eq sm">γ_SR = Ps|h_sr|²/N0      γ_RD = Pr|h_rd|²/N0</div></div>
+    <div class="box" data-l="3" style="left:120px;top:610px;width:1680px;height:120px;border-color:var(--c)"><div class="eq sm">γ_DF = γ_SD + γ_RD   <span class="mut" style="font:500 22px Inter">(if relay decodes)</span></div></div>
+    <div class="abs chip" data-l="4" style="--k:var(--b);left:120px;top:770px">DF: better performance, higher complexity</div>
+  </section>
+
+  <section class="fv-scene" data-scene="multi">
+    <div class="kicker">Slide 35</div><div class="title">Multiple relays</div>
+    <svg id="mr-svg" class="abs" width="1000" height="560" style="left:100px;top:260px"></svg>
+    <div class="card" data-l="1" style="--k:var(--c);position:absolute;left:1140px;top:260px;width:660px;height:300px"><h3>Selection relaying</h3><p>Choose relay maximizing</p><div class="eq sm" style="margin-top:10px">min(γ_sr, γ_rd)</div><p style="margin-top:10px">weaker hop = bottleneck</p></div>
+    <div class="card" data-l="2" style="--k:var(--e);position:absolute;left:1140px;top:590px;width:660px;height:220px"><h3>Distributed space-time coding</h3><p>All relays transmit together → <b>full diversity</b></p></div>
+  </section>
+
+  <section class="fv-scene" data-scene="outage">
+    <div class="kicker">Slides 36–37</div><div class="title">Outage probability &amp; capacity</div>
+    <div class="box" data-l="1" style="left:120px;top:250px;width:820px;height:150px"><div class="eq">C = ½·log2(1 + γ)</div><div class="mut" style="font:500 22px Inter">½ → 2 half-duplex slots</div></div>
+    <div class="box" data-l="2" style="left:120px;top:430px;width:820px;height:120px"><div class="eq sm">Outage if C &lt; R</div></div>
+    <div class="box" data-l="3" style="left:120px;top:580px;width:820px;height:130px;border-color:var(--d)"><div class="eq">⇔ γ &lt; 2^(2R) − 1</div></div>
+    <div class="box" data-l="4" style="left:120px;top:740px;width:820px;height:120px;border-color:var(--b)"><div class="eq sm">Ergodic: E[ ½·log2(1+γ_total) ]</div></div>
+    <svg id="ot-svg" class="abs" width="820" height="610" style="left:980px;top:250px"></svg>
+  </section>
+
+  <section class="fv-scene" data-scene="recap">
+    <div class="kicker">Slide 38 · exam recap</div><div class="title">Remember these</div>
+    <div class="abs" style="left:120px;top:230px;width:1680px;display:grid;grid-template-columns:1fr 1fr;gap:14px 26px">
+      <div class="panel rel" data-l="1" style="padding:16px 22px"><div class="note" style="font-size:24px"><b>4 blocks</b>: data mgmt · resource allocation · game theory · cooperative relaying</div></div>
+      <div class="panel rel" data-l="2" style="padding:16px 22px"><div class="note" style="font-size:24px"><b style="color:var(--c)">Nash</b>: no one improves alone · games: power control, coalition, auction</div></div>
+      <div class="panel rel" data-l="3" style="padding:16px 22px"><div class="note" style="font-size:24px"><b>Metrics</b>: J/bit · lifetime · residual energy · bits/J</div></div>
+      <div class="panel rel" data-l="4" style="padding:16px 22px"><div class="note" style="font-size:24px"><b>γ_sd = Ps|h_sd|²/N0</b> · AF amplifies noise · DF decodes (better, complex)</div></div>
+      <div class="panel rel" data-l="5" style="padding:16px 22px"><div class="note" style="font-size:24px"><b>Selection</b>: max min(γ_sr, γ_rd) · <b>Outage</b>: γ &lt; 2^(2R) − 1</div></div>
+      <div class="panel rel" data-l="5" data-f="0.5" style="padding:16px 22px"><div class="note" style="font-size:24px">Relaying ↑ <b>diversity, reliability, range</b></div></div>
+    </div>
+    <div class="abs" style="left:0;right:0;top:640px;text-align:center"><span class="fv-endcard" data-l="6"></span></div>
+  </section>
+</div>
+<script src="timing.js"></script>
+<script src="fv-runtime.js"></script>
+<script src="fvlib.js"></script>
+<script>
+const { seg, enter, css, ease, clamp, lerp } = FV;
+const { COL, at, mk, reveal, arrow, traveller } = L;
+const node = (svg, x, y, r, txt, c, fs = 30) => { const g = mk('g', {}, svg); mk('circle', { cx: x, cy: y, r, fill: 'rgba(13,20,42,.95)', stroke: c, 'stroke-width': 4 }, g); mk('text', { x, y: y + fs * 0.35, 'text-anchor': 'middle', fill: '#fff', 'font-size': fs, 'font-weight': 800 }, g, txt); return g; };
+const boxS = (svg, x, y, w, h, a, b, c, fs = 28) => { const g = mk('g', {}, svg); mk('rect', { x, y, width: w, height: h, rx: 18, fill: 'rgba(13,20,42,.92)', stroke: c, 'stroke-width': 3 }, g); mk('text', { x: x + w / 2, y: y + h / 2 + (b ? -6 : fs * 0.35), 'text-anchor': 'middle', fill: '#fff', 'font-size': fs, 'font-weight': 800 }, g, a); if (b) mk('text', { x: x + w / 2, y: y + h / 2 + 28, 'text-anchor': 'middle', fill: COL.mut, 'font-size': 21 }, g, b); return g; };
+['intro', 'ra', 'traffic', 'edm', 'era', 'egt', 'agri', 'direct', 'recap'].forEach((id) => FV.scene(id, reveal));
+
+FV.scene('dm', (() => {
+  const svg = document.getElementById('dm-svg');
+  const S = [['Collection', 'temperature, traffic, health', COL.a], ['Processing', 'filter, aggregate, analyze', COL.b], ['Storage', 'local · fog · cloud', COL.c], ['Dissemination', 'to decision-makers / actuators', COL.e]];
+  const g = S.map(([a, b, c], k) => boxS(svg, k * 430, 160, 390, 170, a, b, c, 32));
+  const ar = [0, 1, 2].map((k) => arrow(svg, k * 430 + 392, 245, k * 430 + 428, 245, COL.mut));
+  return (t, ctx) => { reveal(t, ctx); g.forEach((e, k) => e.style.opacity = seg(t, at(ctx, k + 1, 0), at(ctx, k + 1, 0.3))); ar.forEach((f, k) => f(t, at(ctx, k + 2, 0), 0.3)); };
+})());
+
+FV.scene('gt', (() => {
+  const svg = document.getElementById('gt-svg');
+  const pl = [[160, 160], [600, 160], [160, 470], [600, 470]];
+  const nodes = pl.map(([x, y], k) => node(svg, x, y, 60, 'P' + (k + 1), COL.e, 30));
+  const bars = pl.map(([x, y]) => mk('rect', { x: x - 60, y: y + 72, height: 14, rx: 7, fill: COL.c }, svg));
+  const eq = mk('text', { x: 380, y: 325, 'text-anchor': 'middle', fill: COL.c, 'font-size': 30, 'font-weight': 800 }, svg, 'Nash Equilibrium');
+  const r = FV.rand(4); const ph = pl.map(() => r() * 6);
+  return (t, ctx) => {
+    reveal(t, ctx);
+    svg.style.opacity = seg(t, at(ctx, 1, 0), at(ctx, 1, 0.3));
+    const settle = seg(t, at(ctx, 2, 0), at(ctx, 2, 0.9));
+    bars.forEach((b, k) => { const w = 60 + (1 - settle) * 50 * Math.sin(t * 2.5 + ph[k]) + 0; b.setAttribute('width', Math.max(10, w)); });
+    eq.style.opacity = settle;
+  };
+})());
+
+FV.scene('cr', (() => {
+  const svg = document.getElementById('cr-svg');
+  const S = [120, 230], R = [700, 110], B = [1520, 200];
+  node(svg, S[0], S[1], 50, 'far', COL.d, 22); node(svg, R[0], R[1], 50, 'relay', COL.b, 22);
+  const cl = boxS(svg, 1420, 140, 220, 120, '☁ cloud', '', COL.a, 30);
+  const direct = mk('line', { x1: 175, y1: 235, x2: 1415, y2: 210, stroke: COL.d, 'stroke-width': 3, 'stroke-dasharray': '6 12' }, svg);
+  mk('text', { x: 800, y: 265, 'text-anchor': 'middle', fill: COL.d, 'font-size': 22 }, svg, 'direct: weak / costly');
+  const tv = traveller(svg, `M ${S[0]} ${S[1]} L ${R[0]} ${R[1]} L 1420 190`, COL.b, 11);
+  return (t, ctx) => { reveal(t, ctx); svg.style.opacity = seg(t, 0.3, 1); tv(t, at(ctx, 4, 0), 2.4); };
+})());
+
+FV.scene('ecr', (() => {
+  const svg = document.getElementById('ec-svg');
+  node(svg, 120, 200, 50, 'node', COL.d, 22); node(svg, 820, 200, 50, 'relay', COL.b, 22); node(svg, 1540, 200, 56, 'BS', COL.a, 26);
+  const dir = mk('g', {}, svg); mk('path', { d: 'M 170 170 Q 830 0 1490 170', stroke: COL.d, 'stroke-width': 4, fill: 'none', 'stroke-dasharray': '10 8' }, dir); mk('text', { x: 830, y: 60, 'text-anchor': 'middle', fill: COL.d, 'font-size': 24, 'font-weight': 700 }, dir, 'direct: d → power ∝ d⁴ (huge)');
+  const hop = mk('g', {}, svg); mk('line', { x1: 175, y1: 200, x2: 765, y2: 200, stroke: COL.b, 'stroke-width': 5 }, hop); mk('line', { x1: 875, y1: 200, x2: 1480, y2: 200, stroke: COL.b, 'stroke-width': 5 }, hop); mk('text', { x: 830, y: 300, 'text-anchor': 'middle', fill: COL.b, 'font-size': 24, 'font-weight': 700 }, hop, 'two hops of d/2 → each (d/2)⁴ = d⁴/16 (illustrative)');
+  return (t, ctx) => { reveal(t, ctx); dir.style.opacity = seg(t, 0.3, 1); hop.style.opacity = seg(t, at(ctx, 1, 0.2), at(ctx, 1, 0.6)); };
+})());
+
+FV.scene('drones', (() => {
+  const svg = document.getElementById('dr-svg');
+  const cc = boxS(svg, 1400, 150, 260, 120, 'Control center', '', COL.a, 26);
+  const ds = [[150, 90], [150, 330], [520, 210], [900, 120], [1050, 300]];
+  ds.forEach(([x, y], k) => node(svg, x, y, 38, '🚁', COL.e, 30));
+  const tv = [traveller(svg, 'M 150 90 L 520 210 L 900 120 L 1400 200', COL.c, 9), traveller(svg, 'M 150 330 L 520 210 L 1050 300 L 1400 230', COL.c, 9)];
+  mk('text', { x: 150, y: 410, 'text-anchor': 'middle', fill: COL.mut, 'font-size': 20 }, svg, 'far drones');
+  return (t, ctx) => { reveal(t, ctx); svg.style.opacity = seg(t, 0.3, 1); tv.forEach((f, k) => f(t, at(ctx, 2, 0) + k * 0.8, 2.6)); };
+})());
+
+function triangle(svg, labels = true) {
+  const S = [140, 470], R = [490, 130], D = [840, 470];
+  const g = {};
+  g.sr = arrow(svg, S[0] + 36, S[1] - 36, R[0] - 34, R[1] + 34, COL.a, { label: labels ? 'h_sr' : '', lx: 270, ly: 280, fs: 26 });
+  g.sd = arrow(svg, S[0] + 48, S[1], D[0] - 48, D[1], COL.a, { label: labels ? 'h_sd' : '', ly: 450, fs: 26 });
+  g.rd = arrow(svg, R[0] + 34, R[1] + 34, D[0] - 36, D[1] - 36, COL.b, { label: labels ? 'h_rd' : '', lx: 720, ly: 280, fs: 26, dash: '12 8' });
+  node(svg, S[0], S[1], 46, 'S', '#22c55e'); node(svg, R[0], R[1], 46, 'R', '#22c55e'); node(svg, D[0], D[1], 46, 'D', COL.ink);
+  return g;
+}
+
+FV.scene('coop', (() => {
+  const svg = document.getElementById('co-svg');
+  const g = triangle(svg, false);
+  const p1 = mk('text', { x: 490, y: 540, 'text-anchor': 'middle', fill: COL.a, 'font-size': 28, 'font-weight': 800 }, svg, 'Phase 1: sender → destination + relay');
+  const p2 = mk('text', { x: 490, y: 40, 'text-anchor': 'middle', fill: COL.b, 'font-size': 28, 'font-weight': 800 }, svg, 'Phase 2: relay → destination');
+  return (t, ctx) => { reveal(t, ctx); g.sd(t, at(ctx, 2, 0.2)); g.sr(t, at(ctx, 2, 0.3)); p1.style.opacity = seg(t, at(ctx, 2, 0.2), at(ctx, 2, 0.5)); g.rd(t, at(ctx, 3, 0.2)); p2.style.opacity = seg(t, at(ctx, 3, 0.2), at(ctx, 3, 0.5)); };
+})());
+
+FV.scene('model', (() => {
+  const svg = document.getElementById('sm-svg');
+  const g = triangle(svg, true);
+  mk('text', { x: 100, y: 390, fill: COL.ink, 'font-size': 24 }, svg, 'E_S'); mk('text', { x: 440, y: 60, fill: COL.ink, 'font-size': 24 }, svg, 'E_R');
+  const lg = mk('g', {}, svg); mk('text', { x: 140, y: 580, fill: COL.a, 'font-size': 24, 'font-weight': 700 }, lg, '── time-slot 1'); mk('text', { x: 520, y: 580, fill: COL.b, 'font-size': 24, 'font-weight': 700 }, lg, '- - time-slot 2');
+  return (t, ctx) => { reveal(t, ctx); g.sr(t, at(ctx, 2, 0.1)); g.sd(t, at(ctx, 2, 0.3)); g.rd(t, at(ctx, 2, 0.5)); lg.style.opacity = seg(t, at(ctx, 4, 0), at(ctx, 4, 0.3)); };
+})());
+
+function relayFlow(svg, mode) {
+  node(svg, 120, 110, 50, 'S', COL.a); node(svg, 840, 110, 56, 'R', mode === 'af' ? COL.g : COL.b); node(svg, 1560, 110, 50, 'D', COL.ink);
+  const a1 = arrow(svg, 175, 110, 780, 110, COL.a, { label: 'signal + noise', fs: 24 });
+  const a2 = arrow(svg, 900, 110, 1505, 110, mode === 'af' ? COL.g : COL.b, { label: mode === 'af' ? 'amplified signal + amplified noise ✗' : 're-encoded clean signal ✓', fs: 24 });
+  const tag = mk('text', { x: 840, y: 210, 'text-anchor': 'middle', fill: mode === 'af' ? COL.g : COL.b, 'font-size': 26, 'font-weight': 800 }, svg, mode === 'af' ? '× G (amplify)' : 'decode → re-encode');
+  return (t, s) => { a1(t, s); tag.style.opacity = seg(t, s + 0.7, s + 1); a2(t, s + 1); };
+}
+FV.scene('af', (() => { const f = relayFlow(document.getElementById('af-svg'), 'af'); return (t, ctx) => { reveal(t, ctx); f(t, at(ctx, 1, 0.1)); }; })());
+FV.scene('dfscheme', (() => { const f = relayFlow(document.getElementById('df-svg'), 'df'); return (t, ctx) => { reveal(t, ctx); f(t, at(ctx, 1, 0.1)); }; })());
+
+FV.scene('multi', (() => {
+  const svg = document.getElementById('mr-svg');
+  const S = [100, 280], D = [900, 280];
+  const rel = [[500, 80, 'γ_sr 9 · γ_rd 2', 2], [500, 280, 'γ_sr 5 · γ_rd 6', 5], [500, 480, 'γ_sr 3 · γ_rd 8', 3]];
+  const hl = [];
+  rel.forEach(([x, y, lab, m], k) => {
+    mk('line', { x1: S[0], y1: S[1], x2: x, y2: y, stroke: 'rgba(148,163,200,.35)', 'stroke-width': 3 }, svg);
+    mk('line', { x1: x, y1: y, x2: D[0], y2: D[1], stroke: 'rgba(148,163,200,.35)', 'stroke-width': 3 }, svg);
+    const h = mk('path', { d: `M ${S[0]} ${S[1]} L ${x} ${y} L ${D[0]} ${D[1]}`, stroke: COL.c, 'stroke-width': 6, fill: 'none' }, svg); hl.push(h);
+    node(svg, x, y, 38, 'R' + (k + 1), COL.e, 24);
+    mk('text', { x, y: y - 50, 'text-anchor': 'middle', fill: COL.ink, 'font-size': 20 }, svg, lab + ' → min ' + m);
+  });
+  node(svg, S[0], S[1], 46, 'S', COL.a); node(svg, D[0], D[1], 46, 'D', COL.b);
+  mk('text', { x: 500, y: 560, 'text-anchor': 'middle', fill: COL.mut, 'font-size': 20 }, svg, '(illustrative numbers) → pick R2: largest min = 5');
+  return (t, ctx) => { reveal(t, ctx); hl.forEach((h, k) => h.style.opacity = k === 1 ? seg(t, at(ctx, 1, 0.6), at(ctx, 1, 0.9)) : 0); };
+})());
+
+FV.scene('outage', (() => {
+  const svg = document.getElementById('ot-svg');
+  const X = (g) => 70 + g / 7 * 700, Y = (c) => 540 - c / 1.6 * 470;
+  mk('line', { x1: 70, y1: 540, x2: 790, y2: 540, stroke: COL.mut, 'stroke-width': 2 }, svg); mk('line', { x1: 70, y1: 60, x2: 70, y2: 540, stroke: COL.mut, 'stroke-width': 2 }, svg);
+  mk('text', { x: 780, y: 580, 'text-anchor': 'end', fill: COL.mut, 'font-size': 22 }, svg, 'γ (SNR)'); mk('text', { x: 80, y: 50, fill: COL.mut, 'font-size': 22 }, svg, 'C');
+  let d = ''; for (let i = 0; i <= 70; i++) { const g = i / 10; d += (i ? 'L' : 'M') + X(g) + ' ' + Y(0.5 * Math.log2(1 + g)); }
+  mk('path', { d, stroke: COL.a, 'stroke-width': 5, fill: 'none' }, svg);
+  const R = 1, th = Math.pow(2, 2 * R) - 1;
+  const g2 = mk('g', {}, svg);
+  mk('line', { x1: 70, y1: Y(R), x2: 790, y2: Y(R), stroke: COL.c, 'stroke-width': 3, 'stroke-dasharray': '8 6' }, g2);
+  mk('text', { x: 780, y: Y(R) - 10, 'text-anchor': 'end', fill: COL.c, 'font-size': 22, 'font-weight': 700 }, g2, 'target rate R = 1');
+  const g3 = mk('g', {}, svg);
+  mk('rect', { x: 70, y: 60, width: X(th) - 70, height: 480, fill: 'rgba(248,113,113,.14)' }, g3);
+  mk('line', { x1: X(th), y1: 60, x2: X(th), y2: 540, stroke: COL.d, 'stroke-width': 3 }, g3);
+  mk('text', { x: (70 + X(th)) / 2, y: 120, 'text-anchor': 'middle', fill: COL.d, 'font-size': 24, 'font-weight': 800 }, g3, 'OUTAGE');
+  mk('text', { x: X(th) + 8, y: 520, fill: COL.d, 'font-size': 22, 'font-weight': 700 }, g3, 'γ = 2^(2·1) − 1 = 3');
+  return (t, ctx) => { reveal(t, ctx); svg.style.opacity = seg(t, at(ctx, 1, 0), at(ctx, 1, 0.4)); g2.style.opacity = seg(t, at(ctx, 2, 0), at(ctx, 2, 0.4)); g3.style.opacity = seg(t, at(ctx, 3, 0), at(ctx, 3, 0.4)); };
+})());
+</script>
+</body>
+</html>
