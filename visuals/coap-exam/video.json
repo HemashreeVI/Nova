@@ -1,0 +1,359 @@
+{
+  "title": "CoAP Explained: Constrained Application Protocol — Full Exam Revision",
+  "slug": "coap-exam",
+  "description": "A complete animated revision of CoAP, the Constrained Application Protocol: constrained networks, devices and resources, CoAP vs HTTP, the message format, codes and message IDs, methods, URIs, CON / NON / ACK / RST messaging, piggybacked and separate responses, retransmission with exponential back-off, OBSERVE and block transfer.",
+  "tags": [
+    "CoAP",
+    "Constrained Application Protocol",
+    "IoT",
+    "M2M",
+    "6LoWPAN",
+    "IETF CoRE",
+    "UDP",
+    "IoT protocols",
+    "exam revision"
+  ],
+  "voice": "af_heart",
+  "speed": 1.0,
+  "fps": 30,
+  "captions": true,
+  "endCard": "📘 more to learn → github.com/HemashreeVI",
+  "thumbnail": "format@14",
+  "pronounce": {
+    "CoAP": "co-app",
+    "CoAPy": "co-app-pie",
+    "coaps": "co-app-S",
+    "coap": "co-app",
+    "IETF": "I E T F",
+    "CoRE": "core",
+    "6LoWPAN": "six low pan",
+    "LoWPANs": "low pans",
+    "LoWPAN": "low pan",
+    "M2M": "machine to machine",
+    "ROLL": "roll",
+    "UDP": "U D P",
+    "TCP": "T C P",
+    "HTTP": "H T T P",
+    "REST": "rest",
+    "RESTful": "restful",
+    "RAM": "ram",
+    "IoT": "I O T",
+    "IP": "I P",
+    "TKL": "T K L",
+    "DTLS": "D T L S",
+    "URI": "U R I",
+    "CON": "con",
+    "NON": "non",
+    "ACK": "ack",
+    "ACKs": "acks",
+    "RST": "R S T",
+    "MID": "M I D",
+    "SZX": "S Z X",
+    "nr": "N R",
+    "0x7d34": "hex seven D three four",
+    "0x01a0": "hex zero one A zero",
+    "0x1234": "hex one two three four",
+    "0x1235": "hex one two three five",
+    "0x7a10": "hex seven A one zero",
+    "0x23bb": "hex two three B B",
+    "0x73": "hex seven three",
+    "0x7a11": "hex seven A one one",
+    "0x23bc": "hex two three B C",
+    "0x74": "hex seven four",
+    "0x22": "hex two two",
+    "0xABCD": "hex A B C D",
+    "0x4a": "hex four A",
+    "0xFF": "hex F F",
+    "2.05": "two point zero five",
+    "2.01": "two point zero one",
+    "4.04": "four point zero four",
+    "4.00": "four point zero zero",
+    "5683": "five six eight three",
+    "5684": "five six eight four",
+    "%7E": "percent seven E",
+    "temp.xml": "temp dot X M L",
+    "c.dd": "C dot D D",
+    "GET": "get",
+    "PUT": "put",
+    "POST": "post",
+    "DELETE": "delete",
+    "OBSERVE": "observe",
+    "/temperature": "slash temperature",
+    "/light": "slash light",
+    "coap://example.com:5683/~sensors/temp.xml": "co-app, colon, slash slash, example dot com, colon five six eight three, slash tilde sensors, slash temp dot X M L"
+  },
+  "scenes": [
+    {
+      "id": "intro",
+      "title": "What is CoAP?",
+      "pad": [
+        0.8,
+        0.8
+      ],
+      "lines": [
+        "How does a tiny battery-powered sensor talk to the internet, when it is too weak to run normal web protocols?",
+        "The answer is CoAP, the Constrained Application Protocol.",
+        "CoAP is defined by the IETF CoRE working group. CoRE stands for Constrained RESTful Environments.",
+        "Its job is the manipulation of resources on a device that sits on a constrained IP network.",
+        "In this revision we cover every slide: from constrained networks, through the message format, to OBSERVE and block transfer."
+      ]
+    },
+    {
+      "id": "isnot",
+      "title": "What CoAP is, and is not",
+      "lines": [
+        "First, what CoAP is.",
+        "CoAP is a RESTful protocol.",
+        "It supports both synchronous and asynchronous communication.",
+        "It is built for constrained devices and constrained networks.",
+        "It is specialized for M2M, machine to machine, applications.",
+        "And it is easy to proxy to and from HTTP.",
+        "Now, what CoAP is not.",
+        "It is not a replacement for HTTP.",
+        "It is not a general HTTP compression scheme.",
+        "And it is not separate from the web. It fits into the web through proxies."
+      ]
+    },
+    {
+      "id": "network",
+      "title": "Constrained IP networks",
+      "lines": [
+        "So what is a constrained IP network?",
+        "It has limited packet sizes.",
+        "It may show a high degree of packet loss.",
+        "And it may have many devices that are powered off most of the time, but periodically wake up for brief periods.",
+        "These networks and their nodes have severe limits on throughput, on available power,",
+        "and on complexity, because each node has limited code size and limited RAM.",
+        "Low-Power Wireless Personal Area Networks, called LoWPANs, are an example of this type of network.",
+        "Constrained networks appear in home and building automation, energy management, and the Internet of Things."
+      ]
+    },
+    {
+      "id": "devices",
+      "title": "Devices and resources",
+      "lines": [
+        "The general architecture is made of nodes on the constrained network, called Devices.",
+        "Each Device is responsible for one or more Resources.",
+        "A resource may represent a sensor, an actuator, a combination of values, or other information.",
+        "Devices send messages to change and to query resources on other Devices.",
+        "Devices can send notifications about changed resource values to Devices that have subscribed to them.",
+        "And a Device can also publish its resources, or be queried about them."
+      ]
+    },
+    {
+      "id": "scope",
+      "title": "Application scope",
+      "lines": [
+        "CoAP targets the operating environments defined by the ROLL and 6LoWPAN working groups.",
+        "These have extra constraints compared to normal IP networks.",
+        "But CoAP also operates over traditional IP networks.",
+        "Applications include monitoring simple sensors, like temperature sensors, light switches, and power meters.",
+        "Controlling actuators, like light switches, heating controllers, and door locks.",
+        "And managing devices."
+      ]
+    },
+    {
+      "id": "vshttp",
+      "title": "CoAP vs HTTP and the CoAP layers",
+      "lines": [
+        "Like HTTP, CoAP is a way of structuring REST communications, but it is optimized for M2M applications.",
+        "TCP and HTTP are considered too heavy for 6LoWPAN devices such as sensors.",
+        "So CoAP is based on UDP, with a compressed and simplified message exchange.",
+        "Here is the CoAP RESTful application stack.",
+        "At the bottom is UDP.",
+        "Above it, CoAP is split into two sub-layers. The messages layer handles reliability and duplicates.",
+        "The request and response layer carries the REST methods and response codes.",
+        "And the application sits on top."
+      ]
+    },
+    {
+      "id": "format",
+      "title": "CoAP message format",
+      "lines": [
+        "Now the CoAP message format. It starts with a fixed four byte header.",
+        "Ver is the version, two bits, and it is set to one.",
+        "T is the message type, two bits.",
+        "Zero is CON, confirmable. One is NON, non-confirmable. Two is ACK, acknowledgement. Three is RST, reset.",
+        "TKL is the token length, four bits.",
+        "Code is eight bits: a three bit class and a five bit detail, written as c.dd.",
+        "The class says request, zero; success response, two; client error, four; or server error, five.",
+        "Message ID is sixteen bits, an identifier used to match responses.",
+        "After the header comes the Token, TKL bytes long, used to correlate requests and responses.",
+        "Then any Options.",
+        "Then a marker byte of eight ones, 0xFF, and finally the payload, if any."
+      ]
+    },
+    {
+      "id": "code",
+      "title": "Code and Message ID",
+      "lines": [
+        "The Code compresses the three digit HTTP text representation into one byte.",
+        "For requests, the first three bits are zero zero zero.",
+        "The next five bits pick the method: one is GET, two is POST, three is PUT, four is DELETE.",
+        "For responses, the first three bits hold the first digit of the HTTP code: two for success, four for client error, five for server error.",
+        "The next five bits hold the last two digits.",
+        "So HTTP 201 becomes zero one zero, then zero zero zero zero one. That is 2.01.",
+        "And HTTP 400 becomes one zero zero, then all zeros. That is 4.00.",
+        "You will also see 2.05, which means Content, a successful response carrying data.",
+        "The Message ID is used in the acknowledgement process, to tie a request with its response."
+      ]
+    },
+    {
+      "id": "methods",
+      "title": "CoAP methods",
+      "lines": [
+        "CoAP uses GET, PUT, POST and DELETE, in a similar manner to HTTP.",
+        "GET reads a resource, POST creates or processes, PUT updates, and DELETE removes it.",
+        "But new methods can be added, and they do not necessarily have to use requests and responses in pairs.",
+        "For example, OBSERVE. One request can produce many responses over time."
+      ]
+    },
+    {
+      "id": "uri",
+      "title": "CoAP URI",
+      "lines": [
+        "A CoAP URI looks a lot like a web address.",
+        "It is coap, colon, slash slash, then the host, an optional port, a path, and an optional query.",
+        "For example, coap://example.com:5683/~sensors/temp.xml.",
+        "Port 5683 is the default CoAP port.",
+        "This second form, with the host in capitals and the tilde written as %7E, points to the same resource.",
+        "The secure version uses the scheme coaps, with exactly the same structure. It runs over DTLS, on port 5684."
+      ]
+    },
+    {
+      "id": "reliable",
+      "title": "Reliable messages: CON and ACK",
+      "lines": [
+        "CoAP has two messaging modes. First, reliable message transmission.",
+        "Reliability is provided by marking a message as Confirmable, CON.",
+        "Here the client sends CON with Message ID 0x7d34.",
+        "The server replies with an ACK carrying the same Message ID, 0x7d34.",
+        "If no ACK arrives, the confirmable message is retransmitted using a default timeout,",
+        "with exponential back-off between retransmissions, until the recipient sends an acknowledgement."
+      ]
+    },
+    {
+      "id": "unreliable",
+      "title": "Unreliable messages: NON",
+      "lines": [
+        "Second, unreliable message transmission.",
+        "A message that does not need reliable delivery can be sent as Non-confirmable, NON.",
+        "Here the client sends NON with Message ID 0x01a0.",
+        "NON messages are not acknowledged. No ACK comes back, and nothing is retransmitted.",
+        "This suits frequent sensor readings, where a lost value is soon replaced by the next one."
+      ]
+    },
+    {
+      "id": "ex1",
+      "title": "Example 1: synchronous exchange",
+      "lines": [
+        "Example one: a synchronous message exchange.",
+        "The client sends a CONfirmable message, MID 0x1234, and starts a timer.",
+        "The server sends an ACK with the same MID, 0x1234, and the response is piggybacked inside that ACK. The timer stops.",
+        "Next, the client sends CON, MID 0x1235.",
+        "But this time the ACK is lost on the way back.",
+        "The client's timer expires, so it resends the message, with the same MID 0x1235.",
+        "Now the ACK arrives, and the timer stops.",
+        "Between retransmissions, the waiting time grows with exponential back-off. Each timeout is roughly double the last one."
+      ]
+    },
+    {
+      "id": "ex2a",
+      "title": "Example 2a: asynchronous, separate response",
+      "lines": [
+        "Example two a: an asynchronous message exchange.",
+        "The client sends CON, MID 0x7a10, GET /temperature, with token 0x73.",
+        "The server cannot answer yet, so it immediately sends an empty ACK, with MID 0x7a10. This stops the client retransmitting.",
+        "Time passes.",
+        "When the response is ready, the server sends it in a new CON message, with a new MID 0x23bb.",
+        "It carries 2.05 Content, the same token 0x73, and the payload, twenty two point five degrees C.",
+        "The client acknowledges with ACK 0x23bb.",
+        "Key point: the token links request and response. The Message ID only links each message to its ACK."
+      ]
+    },
+    {
+      "id": "ex2b",
+      "title": "Example 2b: asynchronous with NON",
+      "lines": [
+        "Example two b: asynchronous, with non-confirmable messages.",
+        "The client sends NON, MID 0x7a11, GET /temperature, with token 0x74.",
+        "The response is sent using a new Non-confirmable message, MID 0x23bc, 2.05 Content, token 0x74, twenty two point five C.",
+        "No acknowledgements anywhere.",
+        "The server may instead send the response as a Confirmable message, if it wants an acknowledgement."
+      ]
+    },
+    {
+      "id": "ex3a",
+      "title": "Example 3a: OBSERVE",
+      "lines": [
+        "Example three a: OBSERVE, periodic responses from a server.",
+        "The client sends a CONfirmable message, MID 0x1234, token 0x22, with the OBSERVE option set to zero, asking for periodic responses.",
+        "The server acknowledges with ACK, MID 0x1234, and the client's timer stops.",
+        "Now the server sends NON responses, all with the same token, 0x22.",
+        "The first is MID 0xABCD, with OBSERVE equal to ten.",
+        "The OBSERVE number in each response increases, to indicate the order of the responses.",
+        "Here, OBSERVE twenty is delayed in the network, and arrives after OBSERVE thirty.",
+        "So the client ignores OBSERVE twenty, because it is older than the thirty it already has.",
+        "Either the client or the server can terminate the observation."
+      ]
+    },
+    {
+      "id": "ex3b",
+      "title": "Example 3b: OBSERVE notifications",
+      "lines": [
+        "Example three b shows the same idea with real values.",
+        "Registration: the client sends GET /temperature, token 0x4a, observe zero.",
+        "The server replies with a notification of the current state: 2.05 Content, observe twelve, twenty two point nine Celsius.",
+        "When the state changes, it notifies again: observe forty four, twenty two point eight.",
+        "And again: observe sixty, twenty three point one. Every notification carries the same token, 0x4a.",
+        "A notification can be confirmable or non-confirmable.",
+        "The server may send a confirmable notification to request an acknowledgement from the client."
+      ]
+    },
+    {
+      "id": "ex4",
+      "title": "Example 4: block transfer",
+      "lines": [
+        "Example four: block transfer from server to client.",
+        "The resource /light is four thousand ninety six bytes, too big for one small packet. So it is split into four blocks of one thousand twenty four bytes.",
+        "First, the client sends a CONfirmable GET /light.",
+        "The server replies ACK, block number zero, more flag one, size one thousand twenty four, with 2.05. The more flag says it has more blocks to send.",
+        "The client then asks for more: CON, block number one, GET /light. The server returns block one, more equals one.",
+        "Then block two, again with more equals one.",
+        "Finally block three, with more equals zero. That was the last block.",
+        "The block option value has three fields. NUM is the block number. M is the more flag.",
+        "And SZX encodes the block size. Size equals two to the power of SZX plus four, so SZX six means one thousand twenty four."
+      ]
+    },
+    {
+      "id": "summary",
+      "title": "Summary",
+      "lines": [
+        "To summarise the slides.",
+        "CoAP is applicable to any IP network, not only constrained ones.",
+        "Open source software is available for these protocols.",
+        "For example, CoAPy, the Constrained Application Protocol in Python, at coapy dot sourceforge dot net."
+      ]
+    },
+    {
+      "id": "recap",
+      "title": "Exam recap",
+      "pad": [
+        0.6,
+        2.4
+      ],
+      "lines": [
+        "Quick exam recap.",
+        "CoAP: by IETF CoRE, RESTful, over UDP, for constrained M2M devices.",
+        "Header: version two bits, type two bits, token length four bits, code eight bits, message ID sixteen bits.",
+        "Types: CON zero, NON one, ACK two, RST three.",
+        "Code is c.dd: zero for requests, two success, four client error, five server error.",
+        "Message ID matches a message to its ACK. Token matches a request to its response.",
+        "CON is retransmitted with exponential back-off. NON is never acknowledged.",
+        "Piggybacked responses ride inside the ACK. Separate responses come later in a new message.",
+        "OBSERVE gives ordered notifications, and older ones are ignored. Block transfer splits big resources with NUM, M and SZX.",
+        "Good luck in your exam!"
+      ]
+    }
+  ]
+}

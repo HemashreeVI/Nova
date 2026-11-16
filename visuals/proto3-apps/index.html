@@ -1,0 +1,482 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>IoT Protocols Part 3</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="fvlib.css">
+<style>
+  .sec{position:relative;padding:18px 22px;border-radius:18px;border:2px solid var(--k);background:color-mix(in srgb,var(--k) 10%,rgba(13,20,42,.8))}
+  .sec h3{margin:0 0 8px;font:800 28px Inter;color:var(--k)}
+  .sec p{margin:0;font:500 22px/1.4 Inter;color:var(--ink)}
+  .col h3{margin:0 0 10px;font:800 28px Inter;color:var(--k)}
+  .col .sub{font:600 20px 'JetBrains Mono';color:var(--mut);margin-bottom:10px}
+  .col li{font:500 25px/1.45 Inter;list-style:none}
+  .col ul{margin:0;padding:0}
+</style>
+</head>
+<body>
+<div id="fv-stage">
+  <div id="bg-grid"></div>
+
+  <!-- INTRO -->
+  <section class="fv-scene" data-scene="intro">
+    <div class="abs" style="left:0;right:0;top:290px;text-align:center">
+      <div data-l="0" class="mono" style="font-size:28px;letter-spacing:.3em;color:var(--a)">IOT PROTOCOLS · PART 3</div>
+      <div data-l="0" data-f="0.4" class="big" style="margin-top:26px;font-size:104px">IoT <span style="color:var(--a)">Applications</span> &amp; Case Studies</div>
+      <div data-l="1" class="note" style="margin-top:30px;font-size:34px">IoT @ businesses and society — use cases across industries</div>
+    </div>
+    <div class="abs" style="left:0;right:0;top:680px;display:flex;justify-content:center;gap:16px;flex-wrap:wrap;padding:0 120px">
+      <span class="chip sm" data-l="2" style="--k:var(--a)">smart homes</span><span class="chip sm" data-l="2" data-f="0.1" style="--k:var(--f)">wearables</span><span class="chip sm" data-l="2" data-f="0.2" style="--k:var(--e)">smart city</span><span class="chip sm" data-l="2" data-f="0.3" style="--k:var(--c)">smart grid</span><span class="chip sm" data-l="2" data-f="0.4" style="--k:var(--b)">retail</span><span class="chip sm" data-l="2" data-f="0.5" style="--k:var(--d)">health</span><span class="chip sm" data-l="2" data-f="0.6" style="--k:var(--g)">cars</span><span class="chip sm" data-l="2" data-f="0.75" style="--k:var(--mut)">oil &amp; gas</span>
+    </div>
+  </section>
+
+  <!-- SECTORS -->
+  <section class="fv-scene" data-scene="sectors">
+    <div class="kicker">Applications of IoT</div>
+    <div class="title">IoT by sector</div>
+    <div class="abs" style="left:120px;top:235px;width:1680px;display:grid;grid-template-columns:repeat(4,1fr);gap:16px 18px">
+      <div class="sec" data-l="1" style="--k:var(--e);height:240px"><h3>Consumer</h3><p>Smart home control (lighting, security, comfort) · optimized energy use · maintenance</p></div>
+      <div class="sec" data-l="2" style="--k:var(--a);height:240px"><h3>Retail</h3><p>Product tracking · inventory control · focused marketing</p></div>
+      <div class="sec" data-l="3" style="--k:var(--d);height:240px"><h3>Medical</h3><p>Wearable devices · implanted devices · telehealth services</p></div>
+      <div class="sec" data-l="4" style="--k:var(--c);height:240px"><h3>Military</h3><p>Resource allocation · threat analysis · troop monitoring</p></div>
+      <div class="sec" data-l="5" style="--k:var(--a);height:240px"><h3>Industrial</h3><p>Smart meters · wear-out sensing · manufacturing control · climate control</p></div>
+      <div class="sec" data-l="6" style="--k:var(--g);height:240px"><h3>Automotive</h3><p>Parking · traffic flow · anti-theft location</p></div>
+      <div class="sec" data-l="7" style="--k:var(--b);height:240px"><h3>Environmental</h3><p>Species tracking · weather prediction · resource management</p></div>
+      <div class="sec" data-l="8" style="--k:var(--b);height:240px"><h3>Agriculture</h3><p>Crop management · soil analysis</p></div>
+    </div>
+  </section>
+
+  <!-- FEW -->
+  <section class="fv-scene" data-scene="few">
+    <div class="kicker">Applications of IoT</div>
+    <div class="title">A few applications of IoT</div>
+    <div class="abs" style="left:120px;top:250px;width:1680px;display:grid;grid-template-columns:1fr 1fr;gap:12px 40px">
+      <div class="item" data-l="1"><span class="dot" style="--k:var(--b)"></span>Building and home automation</div>
+      <div class="item" data-l="3"><span class="dot" style="--k:var(--b)"></span>Infrastructure management</div>
+      <div class="item" data-l="1" data-f="0.4"><span class="dot" style="--k:var(--b)"></span>Manufacturing</div>
+      <div class="item" data-l="3" data-f="0.4"><span class="dot" style="--k:var(--b)"></span>Energy management</div>
+      <div class="item" data-l="1" data-f="0.7"><span class="dot" style="--k:var(--b)"></span>Oil and gas sector</div>
+      <div class="item" data-l="3" data-f="0.7"><span class="dot" style="--k:var(--b)"></span>Transportation</div>
+      <div class="item" data-l="2"><span class="dot" style="--k:var(--b)"></span>Medical and healthcare systems</div>
+      <div class="item" data-l="4"><span class="dot" style="--k:var(--b)"></span>Better quality of life for elderly</div>
+      <div class="item" data-l="2" data-f="0.4"><span class="dot" style="--k:var(--b)"></span>Media</div>
+      <div class="item" data-l="5"><span class="dot" style="--k:var(--f)"></span>Wearable tech · smart appliances · healthcare</div>
+      <div class="item" data-l="2" data-f="0.7"><span class="dot" style="--k:var(--b)"></span>Environmental monitoring</div>
+    </div>
+    <div class="abs" data-l="5" data-f="0.5" style="left:0;right:0;top:760px;text-align:center;font:800 italic 40px Inter;color:var(--c)">You name it, and you will have it in IoT!</div>
+  </section>
+
+  <!-- DIVERSE -->
+  <section class="fv-scene" data-scene="diverse">
+    <div class="kicker">Applications of IoT</div>
+    <div class="title">IoT → diverse applications</div>
+    <div class="abs" style="left:100px;top:230px;width:1720px;display:grid;grid-template-columns:repeat(5,1fr);gap:14px">
+      <div class="sec col" data-l="1" style="--k:#ef4444;height:640px"><h3>HOME</h3><div class="sub">consumer</div><ul><li>Light bulbs</li><li>Security</li><li>Pet feeding</li><li>Irrigation controller</li><li>Smoke alarm</li><li>Refrigerator</li><li>Infotainment</li><li>Washer / dryer</li><li>Stove</li><li>Energy monitoring</li></ul></div>
+      <div class="sec col" data-l="2" style="--k:var(--g);height:640px"><h3>TRANSPORT</h3><div class="sub">mobility</div><ul><li>Traffic routing</li><li>Telematics</li><li>Package monitoring</li><li>Smart parking</li><li>Insurance adjustments</li><li>Supply chain</li><li>Shipping</li><li>Public transport</li><li>Airlines</li><li>Trains</li></ul></div>
+      <div class="sec col" data-l="3" style="--k:var(--c);height:640px"><h3>HEALTH</h3><div class="sub">body</div><ul><li>Patient care</li><li>Elderly monitoring</li><li>Remote diagnostic</li><li>Equipment monitoring</li><li>Hospital hygiene</li><li>Bio wearables</li><li>Food sensors</li></ul></div>
+      <div class="sec col" data-l="4" style="--k:var(--b);height:640px"><h3>BUILDINGS</h3><div class="sub">infrastructure</div><ul><li>HVAC</li><li>Security</li><li>Lighting</li><li>Electrical</li><li>Transit</li><li>Emergency alerts</li><li>Structural integrity</li><li>Occupancy</li><li>Energy credits</li></ul></div>
+      <div class="sec col" data-l="5" style="--k:var(--a);height:640px"><h3>CITIES</h3><div class="sub">industry</div><ul><li>Electrical distribution</li><li>Maintenance</li><li>Surveillance</li><li>Signage</li><li>Utilities / smart grid</li><li>Emergency services</li><li>Waste management</li></ul></div>
+    </div>
+  </section>
+
+  <!-- RANKING -->
+  <section class="fv-scene" data-scene="ranking">
+    <div class="kicker">Applications of IoT</div>
+    <div class="title">The IoT applications ranking</div>
+    <div id="rk" class="abs" style="left:120px;top:228px;width:1680px"></div>
+    <div class="abs mut" data-l="7" style="left:120px;top:870px;font:500 20px Inter">Monthly Google searches · tweets with #IOT · LinkedIn posts · Q4 2014 · source: IoT Analytics</div>
+  </section>
+
+  <!-- HOME -->
+  <section class="fv-scene" data-scene="home">
+    <div class="kicker">IoT case study</div>
+    <div class="title">Smart homes</div>
+    <svg id="hm-svg" class="abs" width="1680" height="640" style="left:120px;top:230px"></svg>
+  </section>
+
+  <!-- WEARABLES -->
+  <section class="fv-scene" data-scene="wear">
+    <div class="kicker">IoT case study</div>
+    <div class="title">Wearables</div>
+    <div class="panel" data-l="0" style="left:120px;top:240px;width:1680px;height:620px">
+      <div class="item"><span class="dot" style="--k:var(--f)"></span><span>The <b style="color:var(--f)">second hot area</b> in IoT</span></div>
+      <div class="item" data-l="1"><span class="dot" style="--k:var(--f)"></span><span>Most of them <b>connected with smart phones</b></span></div>
+      <div class="item" data-l="2"><span class="dot" style="--k:var(--f)"></span><span>Devices <b>worn on wrist</b> — e.g. smart watches: <b>Samsung Gear</b></span></div>
+      <div class="item" data-l="3"><span class="dot" style="--k:var(--f)"></span><span>Devices put on <b>like a spectacle</b> — e.g. <b>Google Glass</b></span></div>
+      <div class="item" data-l="4"><span class="dot" style="--k:var(--f)"></span><span><b>Smart garments</b></span></div>
+      <div class="item" data-l="5"><span class="dot" style="--k:var(--f)"></span><span>Skin-coloured <b>tattoo / patch-like sensors</b></span></div>
+    </div>
+  </section>
+
+  <!-- WEARABLE EXAMPLES -->
+  <section class="fv-scene" data-scene="wear2">
+    <div class="kicker">IoT case study · wearables</div>
+    <div class="title">Wearable examples</div>
+    <div class="abs" style="left:120px;top:235px;width:1680px;display:grid;grid-template-columns:1fr 1fr;gap:16px 24px">
+      <div class="sec" data-l="1" style="--k:var(--g);height:190px"><h3>Wearable panic buttons</h3><p>Built into jewellery / clothing; quickly alert a pre-designated circle of trusted contacts and the police when in distress</p></div>
+      <div class="sec" data-l="2" style="--k:var(--g);height:190px"><h3>Safe driving internables</h3><p>Ingestible pills with sensors measure blood alcohol; talk to your car, rendering it useless above the legal limit</p></div>
+      <div class="sec" data-l="3" style="--k:var(--b);height:190px"><h3>Smart garments: slow wash</h3><p>Inbuilt sensors alert you when the garment needs washing — saves water and energy</p></div>
+      <div class="sec" data-l="3" data-f="0.55" style="--k:var(--b);height:190px"><h3>Smart garments: exact measure</h3><p>Built-in sensors send body measurements to an app, which recommends clothes online that match</p></div>
+      <div class="sec" data-l="4" style="--k:var(--a);height:190px"><h3>Non-verbal: Embrace</h3><p>Smart garment that lets physical touch be transferred wirelessly between couples, recreated on their skin</p></div>
+      <div class="sec" data-l="5" style="--k:var(--a);height:190px"><h3>Non-verbal: Mood detector</h3><p>Skin-coloured patch / tattoo-like sensor tracks your mood through the day and recommends actions</p></div>
+    </div>
+  </section>
+
+  <!-- SMART CITY -->
+  <section class="fv-scene" data-scene="city">
+    <div class="kicker">IoT case study</div>
+    <div class="title">Smart city</div>
+    <div class="panel" data-l="1" style="left:120px;top:235px;width:1020px;height:400px;padding:24px 28px">
+      <div class="item sm"><span class="dot" style="--k:var(--e)"></span><span>Includes <b style="color:var(--e)">traffic management, water distribution, waste management, urban security and environmental monitoring</b></span></div>
+      <div class="item sm" data-l="2"><span class="dot" style="--k:var(--e)"></span><span>Promises to alleviate <b>real pains</b> of people living in cities</span></div>
+      <div class="item sm" data-l="3"><span class="dot" style="--k:var(--e)"></span><span>Solves <b style="color:var(--e)">traffic congestion</b>, reduces <b style="color:var(--e)">noise and pollution</b>, makes cities <b style="color:var(--e)">safer</b></span></div>
+    </div>
+    <div class="panel" data-l="4" style="left:1180px;top:235px;width:620px;height:400px;padding:22px 26px">
+      <div class="ph" style="font-size:28px">The smart city</div>
+      <div class="flex" style="gap:10px"><span class="chip sm" style="--k:var(--d)">alert systems</span><span class="chip sm" style="--k:var(--mut)">security</span><span class="chip sm" style="--k:var(--a)">connected cars</span><span class="chip sm" style="--k:var(--e)">mobile-centric</span><span class="chip sm" style="--k:var(--c)">public transit</span><span class="chip sm" style="--k:var(--b)">smart automation</span></div>
+    </div>
+    <div class="panel" data-l="5" style="left:120px;top:660px;width:1680px;height:200px;padding:20px 28px;border-color:var(--c)">
+      <div class="ph" style="font-size:28px;--k:var(--c)">Smart parking</div>
+      <div class="note" style="font-size:25px"><b>Residents</b> identify &amp; reserve the closest available space · <b>traffic wardens</b> identify non-compliant usage · <b>municipalities</b> introduce demand-based pricing</div>
+    </div>
+  </section>
+
+  <!-- WASTE -->
+  <section class="fv-scene" data-scene="waste">
+    <div class="kicker">IoT case study · smart city</div>
+    <div class="title">Smart waste management (sensing-as-a-service)</div>
+    <svg id="ws-svg" class="abs" width="1680" height="620" style="left:120px;top:240px"></svg>
+  </section>
+
+  <!-- GRID -->
+  <section class="fv-scene" data-scene="grid">
+    <div class="kicker">IoT case study</div>
+    <div class="title">Smart grid</div>
+    <div class="panel" data-l="1" style="left:120px;top:240px;width:820px;height:620px;padding:24px 28px">
+      <div class="note">Uses information about the <b style="color:var(--c)">behaviours of electricity suppliers and consumers</b>, in an <b>automated fashion</b>.</div>
+      <div class="ph" style="font-size:28px;margin-top:22px">Helps to:</div>
+      <div class="row" data-l="2"><span class="num" style="--k:var(--c)">1</span><span class="note">Deliver power more efficiently</span></div>
+      <div class="row" data-l="3"><span class="num" style="--k:var(--c)">2</span><span class="note">Improve operations</span></div>
+      <div class="row" data-l="3" data-f="0.5"><span class="num" style="--k:var(--c)">3</span><span class="note">Reduce emissions and management costs</span></div>
+      <div class="row" data-l="4"><span class="num" style="--k:var(--c)">4</span><span class="note">Restore power failures faster</span></div>
+    </div>
+    <svg id="gr-svg" class="abs" width="820" height="620" style="left:980px;top:240px"></svg>
+  </section>
+
+  <!-- RETAIL -->
+  <section class="fv-scene" data-scene="retail">
+    <div class="kicker">IoT case study</div>
+    <div class="title">Smart retail</div>
+    <div class="abs" data-l="0" style="left:120px;top:235px;display:flex;gap:18px"><span class="chip" style="--k:var(--b)">1 · improving the customer experience</span><span class="chip" style="--k:var(--b)">2 · optimizing supply chain operation</span></div>
+    <div class="abs mono mut" data-l="1" style="left:120px;top:330px;font-size:24px">IoT APPLICATION SCENARIO — SHOPPING</div>
+    <div class="abs" style="left:120px;top:375px;width:1680px;display:grid;grid-template-columns:1fr 1fr;gap:16px 24px">
+      <div class="sec" data-l="1" style="--k:var(--a);height:200px"><h3>(1) Entering the doors</h3><p>Scanners identify the tags on her clothing</p></div>
+      <div class="sec" data-l="2" style="--k:var(--a);height:200px"><h3>(2) Shopping in the market</h3><p>The goods introduce themselves</p></div>
+      <div class="sec" data-l="3" style="--k:var(--a);height:200px"><h3>(3) Moving the goods</h3><p>The reader tells the staff to put a new one on the shelf</p></div>
+      <div class="sec" data-l="4" style="--k:var(--a);height:200px"><h3>(4) Paying for the goods</h3><p>The microchip of the credit card communicates with the checkout reader</p></div>
+    </div>
+  </section>
+
+  <!-- SUPPLY -->
+  <section class="fv-scene" data-scene="supply">
+    <div class="kicker">IoT case study · retail</div>
+    <div class="title">IoT solutions for the supply chain</div>
+    <svg id="sp-svg" class="abs" width="1680" height="640" style="left:120px;top:230px"></svg>
+  </section>
+
+  <!-- HEALTH -->
+  <section class="fv-scene" data-scene="health">
+    <div class="kicker">IoT case study</div>
+    <div class="title">Connected health</div>
+    <div class="panel" data-l="1" style="left:120px;top:235px;width:1680px;height:180px;padding:22px 28px">
+      <div class="note"><b style="color:var(--d)">IoT in healthcare</b> = a heterogeneous computing, wirelessly communicating system of apps and devices,
+        <span data-l="2">connecting <b>patients and health providers</b> to <b>diagnose, monitor, track and store</b> vital statistics and medical info.</span></div>
+    </div>
+    <div class="abs mono mut" data-l="3" style="left:120px;top:440px;font-size:24px">FEW EXAMPLES OF IOT IN HEALTHCARE</div>
+    <div class="abs" style="left:120px;top:485px;width:1680px;display:flex;flex-wrap:wrap;gap:14px">
+      <span class="chip sm" data-l="3" style="--k:var(--d)">headsets that measure brainwaves</span>
+      <span class="chip sm" data-l="3" data-f="0.2" style="--k:var(--d)">clothes with sensing devices</span>
+      <span class="chip sm" data-l="3" data-f="0.4" style="--k:var(--d)">BP monitors</span>
+      <span class="chip sm" data-l="3" data-f="0.5" style="--k:var(--d)">glucose monitors</span>
+      <span class="chip sm" data-l="3" data-f="0.65" style="--k:var(--d)">ECG monitors</span>
+      <span class="chip sm" data-l="3" data-f="0.8" style="--k:var(--d)">pulse oximeters</span>
+      <span class="chip sm" data-l="4" style="--k:var(--f)">sensors in medical equipment</span>
+      <span class="chip sm" data-l="4" data-f="0.2" style="--k:var(--f)">dispensing systems</span>
+      <span class="chip sm" data-l="4" data-f="0.35" style="--k:var(--f)">surgical robots</span>
+      <span class="chip sm" data-l="4" data-f="0.5" style="--k:var(--f)">device implants</span>
+      <span class="chip sm" data-l="4" data-f="0.7" style="--k:var(--f)">any wearable technology device</span>
+    </div>
+  </section>
+
+  <!-- LIFE LOGGING -->
+  <section class="fv-scene" data-scene="logging">
+    <div class="kicker">IoT case study · connected health</div>
+    <div class="title">IoT helps you in life logging</div>
+    <div class="panel" data-l="1" style="left:120px;top:240px;width:700px;height:620px;padding:24px 28px">
+      <div class="ph" style="--k:var(--a)">How well do I sleep?</div>
+      <div class="note" style="font-size:25px">Fitness band (e.g. <b>Fitbit Flex</b>) tracks:</div>
+      <div class="item sm"><span class="dot"></span>sleep pattern (asleep / awake)</div>
+      <div class="item sm"><span class="dot"></span>sleep efficiency (e.g. 92%)</div>
+      <div class="item sm"><span class="dot"></span>time asleep</div>
+      <div class="item sm"><span class="dot"></span>times awoken</div>
+      <svg id="lg-svg" width="640" height="120" style="margin-top:10px"></svg>
+    </div>
+    <div class="panel" data-l="2" style="left:860px;top:240px;width:940px;height:620px;padding:24px 28px">
+      <div class="ph" style="--k:var(--c)">I want to know more about myself</div>
+      <div class="item sm"><span class="dot" style="--k:var(--c)"></span>Where you're going?</div>
+      <div class="item sm"><span class="dot" style="--k:var(--c)"></span>Who you've interacted with?</div>
+      <div class="item sm"><span class="dot" style="--k:var(--c)"></span>How long you've spoken to friends?</div>
+      <div class="item sm" data-l="3"><span class="dot" style="--k:var(--c)"></span>The affinity of connections? · time to get to work?</div>
+      <div class="item sm" data-l="3" data-f="0.6"><span class="dot" style="--k:var(--c)"></span>The tone of your messages?</div>
+      <div class="item sm" data-l="4"><span class="dot" style="--k:var(--c)"></span>Amount you text, tweet or update?</div>
+      <div class="item sm" data-l="4" data-f="0.5"><span class="dot" style="--k:var(--c)"></span>How much exercise? · how much you get distracted?</div>
+    </div>
+  </section>
+
+  <!-- CAR -->
+  <section class="fv-scene" data-scene="car">
+    <div class="kicker">IoT case study</div>
+    <div class="title">Connected car</div>
+    <svg id="car-svg" class="abs" width="1680" height="600" style="left:120px;top:250px"></svg>
+  </section>
+
+  <!-- OIL INTRO -->
+  <section class="fv-scene" data-scene="oil">
+    <div class="kicker">IoT case study</div>
+    <div class="title">Oil &amp; gas industry introduction</div>
+    <div class="abs" style="left:120px;top:240px;width:1680px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:26px">
+      <div class="sec" data-l="1" style="--k:var(--a);height:600px"><h3>Upstream</h3><p style="font-size:25px">• <b>Exploration &amp; Production (E&amp;P)</b><br><br>• Firms explore new hydrocarbon fields<br><br>• Discovered fields developed and petroleum produced</p></div>
+      <div class="sec" data-l="2" style="--k:var(--c);height:600px"><h3>Midstream</h3><p style="font-size:25px">• <b>Transportation</b> of oil and natural gas<br><br>• Shipping<br><br>• Pipelines<br><br>• LNG terminals</p></div>
+      <div class="sec" data-l="3" style="--k:var(--d);height:600px"><h3>Downstream</h3><p style="font-size:25px">• <b>Refinery</b> processes crude oil to produce different products<br><br>• Petrochemical plants<br><br>• Polymers, plastics and other products</p></div>
+    </div>
+  </section>
+
+  <!-- UP / MID / DOWN -->
+  <section class="fv-scene" data-scene="upstream">
+    <div class="kicker">Oil &amp; gas · upstream</div>
+    <div class="title">Upstream: problem → IoT solution</div>
+    <div class="panel" data-l="0" style="left:120px;top:250px;width:760px;height:600px;border-color:var(--d)">
+      <div class="ph" style="--k:var(--d)">The upstream industry problem</div>
+      <div class="item sm" data-l="1"><span class="dot" style="--k:var(--d)"></span>Loses <b>billions of dollars</b> every year due to <b>non-productive time (NPT)</b></div>
+      <div class="item sm" data-l="2"><span class="dot" style="--k:var(--d)"></span><b>Deadly accidents</b></div>
+      <div class="item sm" data-l="2" data-f="0.5"><span class="dot" style="--k:var(--d)"></span>Processes are <b>not optimized</b></div>
+    </div>
+    <div class="abs" data-l="3" style="left:900px;top:500px;font:800 90px Inter;color:var(--a)">➜</div>
+    <div class="panel" data-l="3" style="left:1040px;top:250px;width:760px;height:600px;border-color:var(--b)">
+      <div class="ph" style="--k:var(--b)">IoT solution</div>
+      <div class="item sm"><span class="dot" style="--k:var(--b)"></span>Plan shutdowns, <b>minimize downtime</b>, <b>improve safety records</b></div>
+      <div class="item sm" data-l="4"><span class="dot" style="--k:var(--b)"></span><b>Accidents can be prevented</b></div>
+      <div class="item sm" data-l="4" data-f="0.5"><span class="dot" style="--k:var(--b)"></span>Processes <b>can be optimized</b></div>
+    </div>
+  </section>
+  <section class="fv-scene" data-scene="midstream">
+    <div class="kicker">Oil &amp; gas · midstream</div>
+    <div class="title">Midstream: problem → IoT solution</div>
+    <div class="panel" data-l="0" style="left:120px;top:250px;width:760px;height:600px;border-color:var(--d)">
+      <div class="ph" style="--k:var(--d)">The midstream industry problem</div>
+      <div class="item sm" data-l="1"><span class="dot" style="--k:var(--d)"></span>Transporting <b>variable volumes and grades</b> from multiple locations to new end-users and markets</div>
+      <div class="item sm" data-l="2"><span class="dot" style="--k:var(--d)"></span>Connecting <b>pipeline networks, sensors, leak detection, alarms and emergency shutdowns</b> to interact seamlessly</div>
+    </div>
+    <div class="abs" data-l="3" style="left:900px;top:500px;font:800 90px Inter;color:var(--a)">➜</div>
+    <div class="panel" data-l="3" style="left:1040px;top:250px;width:760px;height:600px;border-color:var(--b)">
+      <div class="ph" style="--k:var(--b)">IoT solution</div>
+      <div class="item sm"><span class="dot" style="--k:var(--b)"></span>Data available for <b>analysis and interpretation in real time</b></div>
+      <div class="item sm"><span class="dot" style="--k:var(--b)"></span>Would <b>significantly reduce major risks</b> this sector deals with</div>
+    </div>
+  </section>
+  <section class="fv-scene" data-scene="downstream">
+    <div class="kicker">Oil &amp; gas · downstream</div>
+    <div class="title">Downstream: problem → IoT solution</div>
+    <div class="panel" data-l="0" style="left:120px;top:250px;width:760px;height:600px;border-color:var(--d)">
+      <div class="ph" style="--k:var(--d)">The downstream industry problem</div>
+      <div class="item sm" data-l="1"><span class="dot" style="--k:var(--d)"></span><b>Refinery shutdowns</b>, handling <b>various grades of crude</b>, and <b>changing environmental regulations</b></div>
+      <div class="item sm" data-l="1" data-f="0.6"><span class="dot" style="--k:var(--d)"></span>→ push <b>gross refining margins</b> down to a bare minimum</div>
+    </div>
+    <div class="abs" data-l="2" style="left:900px;top:500px;font:800 90px Inter;color:var(--a)">➜</div>
+    <div class="panel" data-l="2" style="left:1040px;top:250px;width:760px;height:600px;border-color:var(--b)">
+      <div class="ph" style="--k:var(--b)">IoT solution</div>
+      <div class="item sm"><span class="dot" style="--k:var(--b)"></span>Refineries can <b>plan their shutdowns</b></div>
+      <div class="item sm"><span class="dot" style="--k:var(--b)"></span><b>Minimize their downtime</b></div>
+      <div class="item sm"><span class="dot" style="--k:var(--b)"></span><b>Improve safety records</b></div>
+    </div>
+  </section>
+
+  <!-- OPPORTUNITIES -->
+  <section class="fv-scene" data-scene="opps">
+    <div class="kicker">Oil &amp; gas</div>
+    <div class="title">Countless opportunities for IoT</div>
+    <div class="abs" style="left:120px;top:230px;width:1680px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px">
+      <div class="sec col" data-l="1" style="--k:var(--a);height:640px"><h3>Upstream</h3><ul><li>Asset tracking</li><li>Vehicle monitoring</li><li>Remote video</li><li>Machine monitoring</li><li>Site monitoring</li><li>Well head monitoring</li><li>Security / access sensors</li><li>Lone worker tracking</li><li>Rig monitoring</li><li>Tank monitoring</li></ul></div>
+      <div class="sec col" data-l="2" style="--k:var(--c);height:640px"><h3>Midstream</h3><ul><li>Tank farm monitoring</li><li>Field crew monitoring</li><li>Remote video</li><li>Pipeline monitoring</li><li>Terminal access control</li><li>Asset tracking</li><li>Flow meter connectivity</li><li>Pipeline monitoring</li><li>Wellhead monitoring</li><li>Cargo shipping monitoring</li></ul></div>
+      <div class="sec col" data-l="3" style="--k:var(--d);height:640px"><h3>Downstream</h3><ul><li>Perimeter security sensors</li><li>Perimeter video camera</li><li>Mobile asset tracking</li><li>Vehicle monitoring</li><li>Production sensors</li><li>IoT cloud storage</li><li>Lone worker wearables</li><li>Contractor tracking</li><li>Refinery monitoring</li></ul></div>
+    </div>
+  </section>
+
+  <!-- RECAP -->
+  <section class="fv-scene" data-scene="recap">
+    <div class="kicker">Exam recap</div>
+    <div class="title">Remember these</div>
+    <div class="abs" style="left:120px;top:230px;width:1680px;display:grid;grid-template-columns:1fr 1fr;gap:14px 26px">
+      <div class="panel rel" data-l="1" style="padding:16px 22px"><div class="note" style="font-size:24px"><b style="color:var(--a)">Ranking</b>: smart home 100% · wearables 63% · smart city 34% · smart grid 28% · industrial internet 25%</div></div>
+      <div class="panel rel" data-l="2" style="padding:16px 22px"><div class="note" style="font-size:24px"><b style="color:var(--c)">Smart grid</b>: efficient delivery · better operations · lower emissions &amp; costs · faster restoration</div></div>
+      <div class="panel rel" data-l="3" style="padding:16px 22px"><div class="note" style="font-size:24px"><b style="color:var(--b)">Smart retail</b>: customer experience + supply chain · <b style="color:var(--g)">Connected car</b>: in-vehicle + V2V</div></div>
+      <div class="panel rel" data-l="4" style="padding:16px 22px"><div class="note" style="font-size:24px"><b>Oil &amp; gas</b>: upstream = E&amp;P · midstream = transport · downstream = refining</div></div>
+    </div>
+    <div class="abs" style="left:0;right:0;top:620px;text-align:center"><span class="fv-endcard" data-l="5"></span></div>
+  </section>
+</div>
+<script src="timing.js"></script>
+<script src="fv-runtime.js"></script>
+<script src="fvlib.js"></script>
+<script>
+const { seg, enter, css, ease, clamp, lerp } = FV;
+const { COL, at, mk, reveal, arrow, traveller } = L;
+const boxS = (svg, x, y, w, h, txt, c, fs = 24) => { const g = mk('g', {}, svg); mk('rect', { x, y, width: w, height: h, rx: 14, fill: 'rgba(13,20,42,.9)', stroke: c, 'stroke-width': 3 }, g); mk('text', { x: x + w / 2, y: y + h / 2 + fs * 0.35, 'text-anchor': 'middle', fill: COL.ink, 'font-size': fs, 'font-weight': 700 }, g, txt); return g; };
+
+['intro', 'sectors', 'few', 'diverse', 'wear', 'wear2', 'city', 'retail', 'health', 'oil', 'upstream', 'midstream', 'downstream', 'opps', 'recap'].forEach((id) => FV.scene(id, reveal));
+
+/* ranking bars */
+FV.scene('ranking', (() => {
+  const data = [['Smart Home', 100, 'smart thermostat · connected lights · smart fridge · smart door lock', 1], ['Wearables', 63, 'smart watch · activity tracker · smart glass', 2], ['Smart City', 34, 'smart parking · smart waste mgmt', 3],
+    ['Smart grid', 28, 'smart metering', 4], ['Industrial internet', 25, 'remote asset control', 4], ['Connected car', 19, 'remote car control', 5], ['Connected Health', 6, '', 5], ['Smart retail', 2, '', 6], ['Smart supply chain', 2, '', 6], ['Smart farming', 1, '', 6]];
+  const box = document.getElementById('rk');
+  const bars = data.map(([n, v, ex, l], k) => {
+    const r = document.createElement('div');
+    r.dataset.l = l; r.dataset.f = ({3: 0, 4: 0.5, 5: 0, 6: 0.5, 7: 0, 8: 0.3, 9: 0.6})[k] || 0;
+    r.style.cssText = 'display:flex;align-items:center;gap:16px;height:60px';
+    r.innerHTML = `<div class="num" style="--k:var(--a)">${k + 1}</div><div style="width:290px;font:700 27px Inter">${n}</div><div style="flex:1;position:relative;height:40px"><div class="bar" style="position:absolute;left:0;top:0;bottom:0;border-radius:8px;background:linear-gradient(90deg,#0ea5e9,#38bdf8)"></div><div class="lab" style="position:absolute;top:6px;font:800 26px Inter;white-space:nowrap"></div></div>`;
+    const ext = document.createElement('div'); ext.className = 'mut'; ext.style.cssText = 'position:absolute;left:12px;top:9px;font:600 18px Inter;color:#06101f;white-space:nowrap'; ext.textContent = v >= 25 ? ex : '';
+    r.querySelector('.bar').appendChild(ext);
+    box.appendChild(r);
+    return { r, v, bar: r.querySelector('.bar'), lab: r.querySelector('.lab') };
+  });
+  return (t, ctx) => {
+    reveal(t, ctx);
+    bars.forEach(({ r, v, bar, lab }) => {
+      const s = at(ctx, +r.dataset.l, +r.dataset.f);
+      const p = seg(t, s + 0.1, s + 0.9);
+      const w = v * 11.4 * p; // 100% ≈ 1140px
+      bar.style.width = w + 'px'; lab.style.left = (w + 12) + 'px'; lab.textContent = Math.round(v * p) + '%';
+    });
+  };
+})());
+
+/* smart home ring */
+FV.scene('home', (() => {
+  const svg = document.getElementById('hm-svg');
+  const c = [840, 320];
+  boxS(svg, c[0] - 160, c[1] - 70, 320, 140, 'Smart Home', COL.a, 36);
+  const items = [['Lights & curtain', 1], ['Smart appliances', 1], ['Smart media', 1], ['Air control', 2], ['Background music', 2], ['Central heating', 2], ['Safeguard', 3], ['Video intercom', 3], ['Central AC', 3]];
+  const els = items.map(([n, l], k) => {
+    const ang = (-90 + k * 40) * Math.PI / 180;
+    const x = c[0] + Math.cos(ang) * 600, y = c[1] + Math.sin(ang) * 255;
+    const g = mk('g', {}, svg);
+    mk('line', { x1: c[0], y1: c[1], x2: x, y2: y, stroke: 'rgba(148,163,200,.3)', 'stroke-width': 2, 'stroke-dasharray': '6 8' }, g);
+    boxS(g, x - 140, y - 30, 280, 60, n, [COL.a, COL.c, COL.e][l - 1], 24);
+    return { g, l, f: (k % 3) * 0.3 };
+  });
+  return (t, ctx) => { reveal(t, ctx); els.forEach(({ g, l, f }) => g.style.opacity = seg(t, at(ctx, l, f), at(ctx, l, f) + 0.5)); };
+})());
+
+/* waste management flow */
+FV.scene('waste', (() => {
+  const svg = document.getElementById('ws-svg');
+  const g1 = boxS(svg, 0, 120, 360, 100, 'Garbage cans', COL.b, 28); mk('text', { x: 180, y: 250, 'text-anchor': 'middle', fill: COL.mut, 'font-size': 20 }, g1, 'low-cost passive sensors');
+  const g2 = boxS(svg, 0, 330, 360, 100, 'Garbage cans', COL.b, 28); mk('text', { x: 180, y: 460, 'text-anchor': 'middle', fill: COL.mut, 'font-size': 20 }, g2, 'active sensors');
+  const g3 = boxS(svg, 520, 400, 360, 100, 'Garbage trucks', COL.g, 28); mk('text', { x: 700, y: 530, 'text-anchor': 'middle', fill: COL.mut, 'font-size': 20 }, g3, 'act as data collectors');
+  const g4 = boxS(svg, 620, 60, 420, 120, 'Cloud platform', COL.a, 30); mk('text', { x: 830, y: 210, 'text-anchor': 'middle', fill: COL.mut, 'font-size': 20 }, g4, 'supports sensing-as-a-service');
+  const outs = ['City council', 'Recycling plant', 'Manufacturing plant', 'Health & safety authorities'].map((n, k) => boxS(svg, 1240, 20 + k * 140, 420, 90, n, COL.e, 24));
+  const a = [arrow(svg, 365, 160, 610, 110, COL.b, { dash: '10 8' }), arrow(svg, 365, 380, 515, 440, COL.b, { dash: '10 8' }), arrow(svg, 365, 360, 610, 160, COL.b, { dash: '10 8' }), arrow(svg, 700, 395, 780, 190, COL.g, { dash: '10 8' })];
+  const b = outs.map((_, k) => arrow(svg, 1045, 120, 1230, 65 + k * 140, COL.e, { dash: '10 8' }));
+  return (t, ctx) => {
+    reveal(t, ctx);
+    [g1, g2].forEach((g, k) => g.style.opacity = seg(t, at(ctx, 1, k * 0.4), at(ctx, 1, k * 0.4) + 0.4));
+    g3.style.opacity = seg(t, at(ctx, 2, 0), at(ctx, 2, 0.3));
+    g4.style.opacity = seg(t, at(ctx, 3, 0), at(ctx, 3, 0.3));
+    a[0](t, at(ctx, 3, 0.2)); a[2](t, at(ctx, 3, 0.3)); a[1](t, at(ctx, 2, 0.3)); a[3](t, at(ctx, 3, 0.5));
+    outs.forEach((g, k) => g.style.opacity = seg(t, at(ctx, 4, 0.1 + k * 0.18), at(ctx, 4, 0.25 + k * 0.18)));
+    b.forEach((f, k) => f(t, at(ctx, 4, 0.1 + k * 0.18)));
+  };
+})());
+
+/* smart grid ring */
+FV.scene('grid', (() => {
+  const svg = document.getElementById('gr-svg');
+  const c = [410, 310];
+  mk('ellipse', { cx: c[0], cy: c[1], rx: 370, ry: 270, fill: 'rgba(52,211,153,.06)', stroke: 'rgba(52,211,153,.4)', 'stroke-width': 2 }, svg);
+  const nodes = ['Homes', 'Factories', 'Nuclear plant', 'Thermal plant', 'Hydraulic power', 'Photovoltaic', 'Renewable energy', 'Wind generator', 'Ecological vehicle', 'Cities & offices'];
+  const ns = nodes.map((n, k) => {
+    const ang = (-90 + k * 36) * Math.PI / 180;
+    const x = c[0] + Math.cos(ang) * 320, y = c[1] + Math.sin(ang) * 235;
+    const g = mk('g', {}, svg);
+    mk('line', { x1: c[0], y1: c[1], x2: x, y2: y, stroke: 'rgba(148,163,200,.3)', 'stroke-width': 2 }, g);
+    mk('circle', { cx: x, cy: y, r: 8, fill: COL.c }, g);
+    mk('text', { x, y: y + (y < c[1] ? -16 : 30), 'text-anchor': 'middle', fill: COL.ink, 'font-size': 19, 'font-weight': 600 }, g, n);
+    return { g, tv: traveller(svg, `M ${x} ${y} L ${c[0]} ${c[1]}`, COL.c, 6) };
+  });
+  mk('ellipse', { cx: c[0], cy: c[1], rx: 120, ry: 60, fill: '#16a34a', stroke: '#86efac', 'stroke-width': 3 }, svg);
+  mk('text', { x: c[0], y: c[1] + 10, 'text-anchor': 'middle', fill: '#fff', 'font-size': 30, 'font-weight': 800 }, svg, 'Smart Grid');
+  return (t, ctx) => {
+    reveal(t, ctx);
+    svg.style.opacity = seg(t, 0.3, 1);
+    ns.forEach(({ g, tv }, k) => { g.style.opacity = seg(t, 0.5 + k * 0.15, 0.9 + k * 0.15); tv(t, 1 + k * 0.3, 2.4); });
+  };
+})());
+
+/* supply chain wheel */
+FV.scene('supply', (() => {
+  const svg = document.getElementById('sp-svg');
+  const c = [840, 320];
+  const items = [['Create fleet efficiencies', 'for optimization', COL.mut], ['Life cycle visibility', 'of product', COL.a], ['Understand inventory levels', '& warehouse stock', '#334155'], ['Study product performance', '& predict failure', COL.g], ['Gain user insight', '', COL.b]];
+  const segs = items.map(([a, b, col], k) => {
+    const ang = (-90 + k * 72) * Math.PI / 180;
+    const x = c[0] + Math.cos(ang) * 520, y = c[1] + Math.sin(ang) * 250;
+    const g = mk('g', {}, svg);
+    mk('rect', { x: x - 210, y: y - 50, width: 420, height: 100, rx: 20, fill: 'rgba(13,20,42,.9)', stroke: col === '#334155' ? COL.ink : col, 'stroke-width': 3 }, g);
+    mk('text', { x, y: y - 6, 'text-anchor': 'middle', fill: COL.ink, 'font-size': 23, 'font-weight': 700 }, g, a);
+    if (b) mk('text', { x, y: y + 26, 'text-anchor': 'middle', fill: COL.mut, 'font-size': 21 }, g, b);
+    return g;
+  });
+  mk('circle', { cx: c[0], cy: c[1], r: 110, fill: 'rgba(56,189,248,.12)', stroke: COL.a, 'stroke-width': 3 }, svg);
+  mk('text', { x: c[0], y: c[1] - 6, 'text-anchor': 'middle', fill: COL.ink, 'font-size': 26, 'font-weight': 800 }, svg, 'IoT Solutions');
+  mk('text', { x: c[0], y: c[1] + 28, 'text-anchor': 'middle', fill: COL.ink, 'font-size': 22 }, svg, 'for Supply Chain');
+  return (t, ctx) => { reveal(t, ctx); segs.forEach((g, k) => g.style.opacity = seg(t, at(ctx, k + 1, 0), at(ctx, k + 1, 0.3))); };
+})());
+
+/* life logging: sleep bars */
+FV.scene('logging', (() => {
+  const svg = document.getElementById('lg-svg');
+  const r = FV.rand(7);
+  const bars = [...Array(30)].map((_, k) => mk('rect', { x: k * 21, width: 15, y: 110, height: 0, rx: 3, fill: r() > 0.8 ? COL.f : COL.b }, svg));
+  const hs = bars.map(() => 30 + r() * 70);
+  return (t, ctx) => { reveal(t, ctx); bars.forEach((b, k) => { const p = seg(t, at(ctx, 1, 0.3) + k * 0.03, at(ctx, 1, 0.3) + k * 0.03 + 0.4); b.setAttribute('height', hs[k] * p); b.setAttribute('y', 110 - hs[k] * p); }); };
+})());
+
+/* connected car */
+FV.scene('car', (() => {
+  const svg = document.getElementById('car-svg');
+  const car = (x, y, c) => { const g = mk('g', {}, svg); mk('rect', { x, y, width: 300, height: 110, rx: 30, fill: 'rgba(13,20,42,.9)', stroke: c, 'stroke-width': 4 }, g); mk('rect', { x: x + 60, y: y - 50, width: 170, height: 60, rx: 20, fill: 'rgba(13,20,42,.9)', stroke: c, 'stroke-width': 4 }, g); mk('circle', { cx: x + 70, cy: y + 115, r: 28, fill: '#0b1020', stroke: c, 'stroke-width': 4 }, g); mk('circle', { cx: x + 230, cy: y + 115, r: 28, fill: '#0b1020', stroke: c, 'stroke-width': 4 }, g); return g; };
+  const g1 = mk('g', {}, svg);
+  mk('text', { x: 300, y: 30, 'text-anchor': 'middle', fill: COL.a, 'font-size': 32, 'font-weight': 800 }, g1, '1 · In-vehicle applications');
+  g1.appendChild(car(150, 260, COL.a));
+  ['navigation', 'infotainment', 'diagnostics'].forEach((n, k) => { mk('text', { x: 300, y: 480 + k * 34, 'text-anchor': 'middle', fill: COL.mut, 'font-size': 22 }, g1, n); });
+  mk('text', { x: 300, y: 590, 'text-anchor': 'middle', fill: COL.mut, 'font-size': 18 }, g1, '(illustrative examples)');
+  const g2 = mk('g', {}, svg);
+  mk('text', { x: 1220, y: 30, 'text-anchor': 'middle', fill: COL.c, 'font-size': 32, 'font-weight': 800 }, g2, '2 · V2V (vehicle-to-vehicle)');
+  g2.appendChild(car(860, 260, COL.c)); g2.appendChild(car(1280, 260, COL.c));
+  const w = [1, 2, 3].map((k) => mk('path', { d: `M ${1220 - k * 22} ${200 - k * 14} q ${k * 22} ${-k * 18} ${k * 44} 0`, fill: 'none', stroke: COL.c, 'stroke-width': 4 }, g2));
+  const a = arrow(svg, 1170, 315, 1270, 315, COL.c), b = arrow(svg, 1270, 345, 1170, 345, COL.c);
+  return (t, ctx) => {
+    reveal(t, ctx);
+    g1.style.opacity = seg(t, at(ctx, 2, 0), at(ctx, 2, 0.3));
+    g2.style.opacity = seg(t, at(ctx, 3, 0), at(ctx, 3, 0.3));
+    a(t, at(ctx, 3, 0.3)); b(t, at(ctx, 3, 0.5));
+    w.forEach((p, k) => p.style.opacity = 0.3 + 0.7 * ((Math.sin(t * 4 - k) + 1) / 2));
+  };
+})());
+</script>
+</body>
+</html>

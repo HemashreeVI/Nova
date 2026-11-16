@@ -1,0 +1,543 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>IoT Protocols Part 2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="fvlib.css">
+</head>
+<body>
+<div id="fv-stage">
+  <div id="bg-grid"></div>
+
+  <!-- INTRO -->
+  <section class="fv-scene" data-scene="intro">
+    <div class="abs" style="left:0;right:0;top:280px;text-align:center">
+      <div data-l="0" class="mono" style="font-size:28px;letter-spacing:.3em;color:var(--a)">IOT PROTOCOLS · PART 2</div>
+      <div data-l="0" data-f="0.4" class="big" style="margin-top:26px;font-size:104px">Models, APIs &amp; <span style="color:var(--a)">IoT Levels</span></div>
+    </div>
+    <div class="abs" style="left:0;right:0;top:560px;display:flex;justify-content:center;gap:22px">
+      <span class="chip" data-l="2" style="--k:var(--a)">Request–Response</span>
+      <span class="chip" data-l="2" data-f="0.25" style="--k:var(--c)">Publish–Subscribe</span>
+      <span class="chip" data-l="2" data-f="0.5" style="--k:var(--b)">Push–Pull</span>
+      <span class="chip" data-l="2" data-f="0.75" style="--k:var(--e)">Exclusive Pair</span>
+    </div>
+    <div class="abs" style="left:0;right:0;top:660px;display:flex;justify-content:center;gap:22px">
+      <span class="chip sm" data-l="3" style="--k:var(--mut)">REST APIs</span>
+      <span class="chip sm" data-l="3" data-f="0.15" style="--k:var(--mut)">WebSocket APIs</span>
+      <span class="chip sm" data-l="3" data-f="0.4" style="--k:var(--mut)">IoT system components</span>
+      <span class="chip sm" data-l="3" data-f="0.7" style="--k:var(--mut)">IoT levels 1–6</span>
+    </div>
+  </section>
+
+  <!-- REQ-RES -->
+  <section class="fv-scene" data-scene="reqres">
+    <div class="kicker">Communication model 1</div>
+    <div class="title">Request–Response model</div>
+    <svg id="rr-svg" class="abs" width="1680" height="330" style="left:120px;top:240px"></svg>
+    <div class="panel" data-l="1" style="left:120px;top:600px;width:1680px;height:260px">
+      <div class="item sm"><span class="dot"></span><span>Client sends <b style="color:var(--a)">requests</b>; server <b style="color:var(--b)">responds</b> to the requests</span></div>
+      <div class="item sm" data-l="2"><span class="dot"></span><span>On a request, the server <b>decides how to respond</b>,</span></div>
+      <div class="item sm" data-l="3"><span class="dot"></span><span><b>fetches the data</b>, <b>retrieves resource representations</b>, <b>prepares the response</b>,</span></div>
+      <div class="item sm" data-l="4"><span class="dot"></span><span>and then <b>sends</b> the response to the client</span></div>
+    </div>
+  </section>
+
+  <!-- PUB-SUB -->
+  <section class="fv-scene" data-scene="pubsub">
+    <div class="kicker">Communication model 2</div>
+    <div class="title">Publish–Subscribe model</div>
+    <svg id="ps-svg" class="abs" width="900" height="620" style="left:100px;top:240px"></svg>
+    <div class="panel" data-l="4" style="left:1040px;top:240px;width:760px;height:620px;padding:24px 28px">
+      <div class="ph" style="font-size:28px">Publishers · Brokers · Consumers</div>
+      <div class="item sm" data-l="4"><span class="dot" style="--k:var(--a)"></span>Publishers are the <b>source of data</b></div>
+      <div class="item sm" data-l="5"><span class="dot" style="--k:var(--a)"></span>Publishers send data to <b>topics</b>, managed by the <b>broker</b></div>
+      <div class="item sm" data-l="6"><span class="dot" style="--k:var(--a)"></span>Publishers are <b>not aware of the consumers</b></div>
+      <div class="item sm" data-l="7"><span class="dot" style="--k:var(--b)"></span>Consumers <b>subscribe</b> to topics managed by the broker</div>
+      <div class="item sm" data-l="8"><span class="dot" style="--k:var(--c)"></span>Broker receives data for a topic → sends it to <b>all subscribed consumers</b></div>
+    </div>
+  </section>
+
+  <!-- TOPICS -->
+  <section class="fv-scene" data-scene="topics">
+    <div class="kicker">Communication model 2</div>
+    <div class="title">Publish–Subscribe with topics</div>
+    <svg id="tp-svg" class="abs" width="1680" height="600" style="left:120px;top:250px"></svg>
+  </section>
+
+  <!-- PUSH-PULL -->
+  <section class="fv-scene" data-scene="pushpull">
+    <div class="kicker">Communication model 3</div>
+    <div class="title">Push–Pull model</div>
+    <svg id="pp-svg" class="abs" width="1680" height="330" style="left:120px;top:240px"></svg>
+    <div class="panel" data-l="1" style="left:120px;top:590px;width:1680px;height:270px;padding:22px 30px">
+      <div class="item sm"><span class="dot" style="--k:var(--b)"></span><span>Producers <b>push</b> data to <b>queues</b>; consumers <b>pull</b> data from the queues</span></div>
+      <div class="item sm" data-l="3"><span class="dot" style="--k:var(--b)"></span><span>Producers <b>do not need to be aware</b> of the consumers</span></div>
+      <div class="item sm" data-l="4"><span class="dot" style="--k:var(--b)"></span><span>Queues help in <b>decoupling</b> the messaging between producers and consumers</span></div>
+      <div class="item sm" data-l="5"><span class="dot" style="--k:var(--c)"></span><span>Queues act as a <b>buffer</b> when push rate ≠ pull rate</span></div>
+    </div>
+  </section>
+
+  <!-- EXCLUSIVE PAIR -->
+  <section class="fv-scene" data-scene="pair">
+    <div class="kicker">Communication model 4</div>
+    <div class="title">Exclusive Pair model</div>
+    <svg id="ep-svg" class="abs" width="1000" height="660" style="left:100px;top:230px"></svg>
+    <div class="panel" data-l="1" style="left:1140px;top:240px;width:660px;height:620px;padding:24px 28px">
+      <div class="item sm"><span class="dot" style="--k:var(--e)"></span><span><b>Bidirectional</b>, <b>fully duplex</b></span></div>
+      <div class="item sm"><span class="dot" style="--k:var(--e)"></span><span>Uses a <b>persistent connection</b> between client and server</span></div>
+      <div class="item sm" data-l="3"><span class="dot" style="--k:var(--e)"></span><span>Once set up, stays <b>open until the client requests to close</b></span></div>
+      <div class="item sm" data-l="4"><span class="dot" style="--k:var(--e)"></span><span>Client and server can send messages to each other <b>after</b> connection setup</span></div>
+    </div>
+  </section>
+
+  <!-- REST -->
+  <section class="fv-scene" data-scene="rest">
+    <div class="kicker">Communication APIs</div>
+    <div class="title">REST-based communication APIs</div>
+    <div class="panel" data-l="1" style="left:120px;top:250px;width:1680px;height:600px">
+      <div class="item" data-l="1"><span class="dot"></span><span><b style="color:var(--a)">Re</b>presentational <b style="color:var(--a)">S</b>tate <b style="color:var(--a)">T</b>ransfer: a set of <b>architectural principles</b> to design <b>web services and web APIs</b></span></div>
+      <div class="item" data-l="2"><span class="dot"></span><span>Focuses on a system's <b>resources</b>, and how <b>resource states are addressed and transferred</b></span></div>
+      <div class="item" data-l="3"><span class="dot" style="--k:var(--c)"></span><span>REST APIs follow the <b style="color:var(--c)">request–response</b> communication model</span></div>
+      <div class="item" data-l="4"><span class="dot"></span><span>Constraints apply to the <b>components, connectors and data elements</b>, within a <b>distributed hypermedia system</b></span></div>
+    </div>
+  </section>
+
+  <!-- REST FLOW -->
+  <section class="fv-scene" data-scene="restflow">
+    <div class="kicker">Communication APIs</div>
+    <div class="title">How a REST request flows</div>
+    <div class="panel" data-l="1" style="left:120px;top:250px;width:340px;height:330px;border-color:var(--c)">
+      <div class="ph" style="font-size:28px;--k:var(--c)">HTTP Client</div><div class="note" style="font-size:26px">REST-aware HTTP client</div></div>
+    <div class="panel" data-l="2" style="left:540px;top:250px;width:560px;height:330px;border-color:var(--d)">
+      <div class="ph" style="font-size:28px;--k:var(--d)">HTTP Packet</div>
+      <div class="mut" style="font:600 22px Inter">HTTP command</div>
+      <div class="flex" style="gap:8px;margin:8px 0 14px"><span class="chip xs" style="--k:var(--b)">GET</span><span class="chip xs" style="--k:var(--a)">PUT</span><span class="chip xs" style="--k:var(--c)">POST</span><span class="chip xs" style="--k:var(--d)">DELETE</span></div>
+      <div class="mut" style="font:600 22px Inter">REST payload</div>
+      <div class="flex" style="gap:8px;margin-top:8px"><span class="chip xs" style="--k:var(--e)">JSON</span><span class="chip xs" style="--k:var(--e)">XML</span></div>
+    </div>
+    <div class="panel" data-l="3" style="left:1180px;top:250px;width:620px;height:330px;border-color:var(--b)">
+      <div class="ph" style="font-size:28px;--k:var(--b)">HTTP Server</div>
+      <div class="flex" style="flex-direction:column;align-items:flex-start;gap:12px"><span class="chip sm" style="--k:var(--b)">Authorization</span><span class="chip sm" style="--k:var(--b)">RESTful web service</span></div></div>
+    <div class="panel" data-l="4" style="left:1180px;top:620px;width:620px;height:240px;border-color:var(--a)">
+      <div class="ph" style="font-size:28px;--k:var(--a)">Resources</div>
+      <div class="flex" style="gap:14px"><span class="chip xs" style="--k:var(--a)">URI → Representations → Resource</span><span class="chip xs" style="--k:var(--a)">URI → Representations → Resource</span></div></div>
+    <svg id="rf-svg" class="abs" width="1920" height="1080" style="inset:0"></svg>
+    <div class="panel" data-l="5" style="left:120px;top:620px;width:1020px;height:240px">
+      <div class="ph" style="font-size:28px">In short</div>
+      <div class="mono" style="font-size:24px;line-height:1.6">HTTP Client (REST aware) ⇄ HTTP Socket<br>(REST payload JSON/XML) ⇄ HTTP Server (authorisation,<br>RESTful web service) ⇄ Resources database</div>
+    </div>
+  </section>
+
+  <!-- REST CONSTRAINTS -->
+  <section class="fv-scene" data-scene="restcons">
+    <div class="kicker">Communication APIs</div>
+    <div class="title">REST constraints</div>
+    <div class="abs" style="left:120px;top:240px;width:1680px;display:grid;grid-template-columns:1fr 1fr;gap:18px 26px">
+      <div class="panel rel" data-l="1" style="height:190px"><div class="ph" style="font-size:30px;--k:var(--a)">1 · Client–server</div><div class="note" style="font-size:25px">Client and server separated; each can evolve independently</div></div>
+      <div class="panel rel" data-l="2" style="height:190px"><div class="ph" style="font-size:30px;--k:var(--b)">2 · Stateless</div><div class="note" style="font-size:25px">Each request carries all info; server stores no client state</div></div>
+      <div class="panel rel" data-l="3" style="height:190px"><div class="ph" style="font-size:30px;--k:var(--c)">3 · Cache-able</div><div class="note" style="font-size:25px">Responses marked cacheable or not, to improve performance</div></div>
+      <div class="panel rel" data-l="4" style="height:190px"><div class="ph" style="font-size:30px;--k:var(--g)">4 · Layered system</div><div class="note" style="font-size:25px">Client can't tell if it reaches the server or an intermediary</div></div>
+      <div class="panel rel" data-l="5" style="height:190px"><div class="ph" style="font-size:30px;--k:var(--e)">5 · Uniform interface</div><div class="note" style="font-size:25px">Resources identified by URIs, manipulated the same standard way</div></div>
+      <div class="panel rel" data-l="6" style="height:190px"><div class="ph" style="font-size:30px;--k:var(--f)">6 · Code on demand</div><div class="note" style="font-size:25px">Server may send executable code — the only <b>optional</b> one</div></div>
+    </div>
+  </section>
+
+  <!-- WEBSOCKET -->
+  <section class="fv-scene" data-scene="websocket">
+    <div class="kicker">Communication APIs</div>
+    <div class="title">WebSocket-based communication APIs</div>
+    <svg id="ws-svg" class="abs" width="1100" height="660" style="left:80px;top:230px"></svg>
+    <div class="panel" data-l="1" style="left:1220px;top:240px;width:580px;height:380px;padding:24px 28px">
+      <div class="item sm"><span class="dot" style="--k:var(--e)"></span><span><b>Bi-directional</b>, <b>full duplex</b> communication between clients and servers</span></div>
+      <div class="item sm" data-l="2"><span class="dot" style="--k:var(--e)"></span><span>Follows the <b style="color:var(--e)">exclusive pair</b> communication model</span></div>
+    </div>
+    <div class="panel" data-l="6" style="left:1220px;top:650px;width:580px;height:210px;padding:22px 24px">
+      <div class="flex" style="gap:10px"><span class="chip sm" style="--k:var(--g)">Application Client</span><span class="mut">⇄</span><span class="chip sm" style="--k:var(--b)">WebSocket</span><span class="mut">⇄</span><span class="chip sm" style="--k:var(--mut)">Server</span></div>
+      <div class="mono mut" style="font-size:22px;margin-top:14px">WebSocket ⇄ Server runs over TCP</div>
+    </div>
+  </section>
+
+  <!-- SYSTEM -->
+  <section class="fv-scene" data-scene="system">
+    <div class="kicker">IoT system</div>
+    <div class="title">Seven components of an IoT system</div>
+    <div class="abs" style="left:120px;top:280px;width:1680px;display:grid;grid-template-columns:repeat(4,1fr);gap:22px">
+      <div class="chip" data-l="1" style="--k:var(--f);justify-content:center;height:90px">1 · Device</div>
+      <div class="chip" data-l="1" data-f="0.1" style="--k:var(--a);justify-content:center;height:90px">2 · Resource</div>
+      <div class="chip" data-l="1" data-f="0.22" style="--k:var(--g);justify-content:center;height:90px">3 · Controller Service</div>
+      <div class="chip" data-l="1" data-f="0.38" style="--k:var(--mut);justify-content:center;height:90px">4 · Database</div>
+      <div class="chip" data-l="1" data-f="0.5" style="--k:var(--b);justify-content:center;height:90px">5 · Web Service</div>
+      <div class="chip" data-l="1" data-f="0.65" style="--k:var(--c);justify-content:center;height:90px">6 · Analysis Component</div>
+      <div class="chip" data-l="1" data-f="0.85" style="--k:var(--e);justify-content:center;height:90px">7 · Application</div>
+    </div>
+  </section>
+
+  <!-- COMP 1 -->
+  <section class="fv-scene" data-scene="comp1">
+    <div class="kicker">IoT system components</div>
+    <div class="title">Device · Resource · Controller Service</div>
+    <div class="panel" data-l="0" style="left:120px;top:240px;width:1680px;height:130px;border-color:var(--f)">
+      <div class="note"><b style="color:var(--f)">Device</b>: allows <b>identification</b>, <b>remote sensing</b> and <b>remote monitoring</b> capabilities</div></div>
+    <div class="panel" data-l="1" style="left:120px;top:390px;width:1680px;height:220px;border-color:var(--a)">
+      <div class="note"><b style="color:var(--a)">Resource</b>: software components on the IoT device for</div>
+      <div class="flex" style="margin-top:14px">
+        <span class="chip sm" data-l="2" style="--k:var(--a)">accessing, processing &amp; storing sensor info</span>
+        <span class="chip sm" data-l="3" style="--k:var(--a)">controlling actuators</span>
+        <span class="chip sm" data-l="4" style="--k:var(--a)">enabling network access</span></div></div>
+    <div class="panel" data-l="5" style="left:120px;top:630px;width:1680px;height:230px;border-color:var(--g)">
+      <div class="note"><b style="color:var(--g)">Controller Service</b>: a <b>native service</b> that runs on the device and interacts with the web services</div>
+      <div class="note" data-l="6" style="margin-top:12px">Sends data <b>device → web service</b>; receives <b>commands from the application</b> (via web services) to control the device</div></div>
+  </section>
+
+  <!-- COMP 2 -->
+  <section class="fv-scene" data-scene="comp2">
+    <div class="kicker">IoT system components</div>
+    <div class="title">Database · Web Service · Analysis · Application</div>
+    <div class="abs" style="left:120px;top:240px;width:1680px;display:grid;grid-template-columns:1fr 1fr;gap:20px 26px">
+      <div class="panel rel" data-l="0" style="height:300px;border-color:var(--mut)"><div class="ph" style="font-size:30px">Database</div><div class="note" style="font-size:26px">Local <b>or</b> in the cloud; stores the data generated by the IoT device</div></div>
+      <div class="panel rel" data-l="1" style="height:300px;border-color:var(--b)"><div class="ph" style="font-size:30px;--k:var(--b)">Web Service</div><div class="note" style="font-size:26px">Link between IoT device, application, database &amp; analysis</div><div class="note" data-l="2" style="font-size:24px;margin-top:10px">HTTP + REST → <b>REST service</b> · WebSocket protocol → <b>WebSocket service</b></div></div>
+      <div class="panel rel" data-l="3" style="height:270px;border-color:var(--c)"><div class="ph" style="font-size:30px;--k:var(--c)">Analysis Component</div><div class="note" style="font-size:26px">Analyzes IoT data; generates results in a form easy for the user to understand</div></div>
+      <div class="panel rel" data-l="4" style="height:270px;border-color:var(--e)"><div class="ph" style="font-size:30px;--k:var(--e)">Application</div><div class="note" style="font-size:26px">Interface to <b>control and monitor</b> the IoT system</div><div class="note" data-l="5" style="font-size:24px;margin-top:8px">Also to <b>view system status</b> and processed data</div></div>
+    </div>
+  </section>
+
+  <!-- SYSTEM EXAMPLE -->
+  <section class="fv-scene" data-scene="sysex">
+    <div class="kicker">IoT system</div>
+    <div class="title">An IoT system example</div>
+    <svg id="sx-svg" class="abs" width="1920" height="1080" style="inset:0"></svg>
+  </section>
+
+  <!-- LEVELS 1..6 -->
+  <section class="fv-scene" data-scene="lvl1">
+    <div class="kicker">IoT levels</div>
+    <div class="title">IoT Level-1</div>
+    <div class="panel" data-l="1" style="left:120px;top:240px;width:780px;height:620px;padding:24px 28px">
+      <div class="item sm"><span class="dot"></span><span><b style="color:var(--a)">Single node/device</b>: sensing and/or actuation, <b>stores data</b>, <b>performs analysis</b>, <b>hosts the application</b></span></div>
+      <div class="item sm" data-l="2"><span class="dot"></span><span>Everything is <b>local</b></span></div>
+      <div class="item sm" data-l="3"><span class="dot" style="--k:var(--b)"></span><span>For <b>low-cost, low-complexity</b> solutions; data <b>not big</b>; analysis <b>not computationally intensive</b></span></div>
+      <div class="panel rel" data-l="4" style="margin-top:14px;padding:16px 20px;border-color:var(--c)"><div class="note" style="font-size:23px"><b style="color:var(--c)">Example: Home automation system</b><br>lighting control · smoke detector · mailbox sensor · doorbell · intrusion detector · electric pot · AC control · sprinkler</div></div>
+    </div>
+    <svg class="abs lv" data-level="1" width="880" height="620" style="left:940px;top:240px"></svg>
+  </section>
+  <section class="fv-scene" data-scene="lvl2">
+    <div class="kicker">IoT levels</div>
+    <div class="title">IoT Level-2</div>
+    <div class="panel" data-l="1" style="left:120px;top:240px;width:780px;height:620px;padding:24px 28px">
+      <div class="item sm"><span class="dot"></span><span><b style="color:var(--a)">Single node</b>: sensing and/or actuation and <b>local analysis</b></span></div>
+      <div class="item sm" data-l="2"><span class="dot"></span><span>Data <b>stored in the cloud</b>; application usually <b>cloud-based</b></span></div>
+      <div class="item sm" data-l="3"><span class="dot" style="--k:var(--b)"></span><span>Data involved is <b>big</b>, but primary analysis is <b>not computationally intensive</b> → done locally</span></div>
+      <div class="panel rel" data-l="4" style="margin-top:14px;padding:16px 20px;border-color:var(--c)"><div class="note" style="font-size:23px"><b style="color:var(--c)">Example: Smart irrigation</b><br>temperature · moisture · pressure · health · connectivity</div></div>
+    </div>
+    <svg class="abs lv" data-level="2" width="880" height="620" style="left:940px;top:240px"></svg>
+  </section>
+  <section class="fv-scene" data-scene="lvl3">
+    <div class="kicker">IoT levels</div>
+    <div class="title">IoT Level-3</div>
+    <div class="panel" data-l="1" style="left:120px;top:240px;width:780px;height:620px;padding:24px 28px">
+      <div class="item sm"><span class="dot"></span><span><b style="color:var(--a)">Single node</b>; data <b>stored and analyzed in the cloud</b>; app cloud-based</span></div>
+      <div class="item sm" data-l="2"><span class="dot" style="--k:var(--b)"></span><span>Data <b>big</b> and analysis <b>computationally intensive</b></span></div>
+      <div class="panel rel" data-l="3" style="margin-top:14px;padding:16px 20px;border-color:var(--c)"><div class="note" style="font-size:23px"><b style="color:var(--c)">Example: Tracking package handling</b></div>
+        <div class="note" data-l="4" style="font-size:23px"><b>Accelerometer</b>: senses movement / vibrations<br><b>Gyroscope</b>: gives orientation info</div>
+        <div class="note" data-l="5" style="font-size:23px;margin-top:6px"><b style="color:var(--b)">WebSocket</b> service — sensor data sent in <b>real time</b></div></div>
+    </div>
+    <svg class="abs lv" data-level="3" width="880" height="620" style="left:940px;top:240px"></svg>
+  </section>
+  <section class="fv-scene" data-scene="lvl4">
+    <div class="kicker">IoT levels</div>
+    <div class="title">IoT Level-4</div>
+    <div class="panel" data-l="1" style="left:120px;top:240px;width:780px;height:620px;padding:24px 28px">
+      <div class="item sm"><span class="dot"></span><span><b style="color:var(--a)">Multiple nodes</b> with <b>local analysis</b>; data in the cloud; app cloud-based</span></div>
+      <div class="item sm" data-l="2"><span class="dot" style="--k:var(--g)"></span><span>Local &amp; cloud-based <b>observer nodes</b> subscribe to / receive info collected in the cloud</span></div>
+      <div class="item sm" data-l="3"><span class="dot" style="--k:var(--b)"></span><span>Multiple nodes needed, data <b>big</b>, analysis <b>computationally intensive</b></span></div>
+      <div class="panel rel" data-l="4" style="margin-top:14px;padding:16px 20px;border-color:var(--c)"><div class="note" style="font-size:23px"><b style="color:var(--c)">Example: Noise monitoring</b><br>sound sensors at many locations</div></div>
+    </div>
+    <svg class="abs lv" data-level="4" width="880" height="620" style="left:940px;top:240px"></svg>
+  </section>
+  <section class="fv-scene" data-scene="lvl5">
+    <div class="kicker">IoT levels</div>
+    <div class="title">IoT Level-5</div>
+    <div class="panel" data-l="1" style="left:120px;top:240px;width:780px;height:620px;padding:22px 26px">
+      <div class="item sm" style="font-size:24px"><span class="dot"></span><span><b style="color:var(--a)">Multiple end nodes</b> + <b style="color:var(--e)">one coordinator node</b></span></div>
+      <div class="item sm" data-l="2" style="font-size:24px"><span class="dot"></span><span>End nodes: sensing and/or actuation</span></div>
+      <div class="item sm" data-l="3" style="font-size:24px"><span class="dot" style="--k:var(--e)"></span><span>Coordinator <b>collects</b> from end nodes, <b>sends to cloud</b></span></div>
+      <div class="item sm" data-l="4" style="font-size:24px"><span class="dot"></span><span>Stored &amp; analyzed in cloud; app cloud-based</span></div>
+      <div class="item sm" data-l="5" style="font-size:24px"><span class="dot" style="--k:var(--b)"></span><span>For <b>wireless sensor networks</b>; big data; intensive analysis</span></div>
+      <div class="panel rel" data-l="6" style="margin-top:10px;padding:14px 18px;border-color:var(--c)"><div class="note" style="font-size:22px"><b style="color:var(--c)">Example: Forest fire detection</b> — detect early, while controllable</div>
+        <div class="note" data-l="7" style="font-size:22px">temperature · smoke · weather · slope of the earth · wind speed · speed of fire spread · flame length</div></div>
+    </div>
+    <svg class="abs lv" data-level="5" width="880" height="620" style="left:940px;top:240px"></svg>
+  </section>
+  <section class="fv-scene" data-scene="lvl6">
+    <div class="kicker">IoT levels</div>
+    <div class="title">IoT Level-6</div>
+    <div class="panel" data-l="1" style="left:120px;top:240px;width:780px;height:620px;padding:22px 26px">
+      <div class="item sm" style="font-size:24px"><span class="dot"></span><span><b style="color:var(--a)">Multiple independent end nodes</b> sense/act and <b>send data to the cloud</b></span></div>
+      <div class="item sm" data-l="2" style="font-size:24px"><span class="dot"></span><span>Data in cloud; app cloud-based</span></div>
+      <div class="item sm" data-l="3" style="font-size:24px"><span class="dot" style="--k:var(--c)"></span><span><b>Analytics component</b> analyzes, stores results in <b>cloud database</b></span></div>
+      <div class="item sm" data-l="4" style="font-size:24px"><span class="dot"></span><span>Results visualized with the cloud app</span></div>
+      <div class="item sm" data-l="5" style="font-size:24px"><span class="dot" style="--k:var(--e)"></span><span><b>Centralized controller</b>: knows status of all end nodes, <b>sends control commands</b></span></div>
+      <div class="panel rel" data-l="6" style="margin-top:10px;padding:14px 18px;border-color:var(--c)"><div class="note" style="font-size:22px"><b style="color:var(--c)">Example: Weather monitoring system</b></div>
+        <div class="note" data-l="7" style="font-size:21px">wind speed &amp; direction · solar radiation · temperature (air, water, soil) · relative humidity · precipitation · snow depth · barometric pressure · soil moisture</div></div>
+    </div>
+    <svg class="abs lv" data-level="6" width="880" height="620" style="left:940px;top:240px"></svg>
+  </section>
+
+  <!-- LEVELS TABLE -->
+  <section class="fv-scene" data-scene="levels">
+    <div class="kicker">IoT levels</div>
+    <div class="title">All six levels compared</div>
+    <div class="panel" data-l="0" style="left:120px;top:240px;width:1680px;height:630px;padding:20px 28px">
+      <table class="tbl" style="width:100%;font-size:24px">
+        <tr><th>Level</th><th>Nodes</th><th>Analysis</th><th>Data stored</th><th>Use when / example</th></tr>
+        <tr data-l="1"><td><b style="color:var(--a)">1</b></td><td>single</td><td>local</td><td>local</td><td>small data, light analysis · home automation</td></tr>
+        <tr data-l="1" data-f="0.45"><td><b style="color:var(--a)">2</b></td><td>single</td><td>local</td><td>cloud</td><td>big data, light analysis · smart irrigation</td></tr>
+        <tr data-l="1" data-f="0.75"><td><b style="color:var(--a)">3</b></td><td>single</td><td>cloud</td><td>cloud</td><td>big data, heavy analysis · package tracking</td></tr>
+        <tr data-l="2"><td><b style="color:var(--a)">4</b></td><td>multiple + observer nodes</td><td>local</td><td>cloud</td><td>many nodes, big data · noise monitoring</td></tr>
+        <tr data-l="3"><td><b style="color:var(--a)">5</b></td><td>end nodes + coordinator</td><td>cloud</td><td>cloud</td><td>wireless sensor networks · forest fire</td></tr>
+        <tr data-l="4"><td><b style="color:var(--a)">6</b></td><td>independent end nodes + centralized controller</td><td>cloud analytics</td><td>cloud</td><td>weather monitoring</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <!-- RECAP -->
+  <section class="fv-scene" data-scene="recap">
+    <div class="kicker">Exam recap</div>
+    <div class="title">Remember these</div>
+    <div class="abs" style="left:120px;top:230px;width:1680px;display:grid;grid-template-columns:1fr 1fr;gap:14px 26px">
+      <div class="panel rel" data-l="1" style="padding:16px 22px"><div class="note" style="font-size:24px"><b style="color:var(--a)">Req–Res</b>: client asks, server answers · <b style="color:var(--c)">Pub–Sub</b>: publisher → broker topics → subscribers</div></div>
+      <div class="panel rel" data-l="2" style="padding:16px 22px"><div class="note" style="font-size:24px"><b style="color:var(--b)">Push–Pull</b>: producers push to queues, consumers pull · queues decouple + buffer</div></div>
+      <div class="panel rel" data-l="3" style="padding:16px 22px"><div class="note" style="font-size:24px"><b style="color:var(--e)">Exclusive pair</b>: bidirectional, full duplex, persistent connection</div></div>
+      <div class="panel rel" data-l="4" style="padding:16px 22px"><div class="note" style="font-size:24px"><b>REST</b> → request–response, 6 constraints · <b>WebSocket</b> → exclusive pair</div></div>
+      <div class="panel rel" data-l="5" style="padding:16px 22px"><div class="note" style="font-size:24px"><b>7 components</b>: device, resource, controller service, database, web service, analysis, application</div></div>
+      <div class="panel rel" data-l="6" style="padding:16px 22px"><div class="note" style="font-size:22px"><b>Ref</b>: Bahga &amp; Madisetti, "Internet of Things: A Hands-on Approach", University Press, 2015 · internet-of-things-book.com</div></div>
+    </div>
+    <div class="abs" style="left:0;right:0;top:700px;text-align:center"><span class="fv-endcard" data-l="7"></span></div>
+  </section>
+</div>
+<script src="timing.js"></script>
+<script src="fv-runtime.js"></script>
+<script src="fvlib.js"></script>
+<script>
+const { seg, enter, css, ease, clamp, lerp } = FV;
+const { COL, at, mk, reveal, arrow, traveller, seq } = L;
+const boxS = (svg, x, y, w, h, txt, c, fs = 24) => { const g = mk('g', {}, svg); mk('rect', { x, y, width: w, height: h, rx: 14, fill: 'rgba(13,20,42,.9)', stroke: c, 'stroke-width': 3 }, g); mk('text', { x: x + w / 2, y: y + h / 2 + fs * 0.35, 'text-anchor': 'middle', fill: COL.ink, 'font-size': fs, 'font-weight': 700 }, g, txt); return g; };
+
+FV.scene('intro', reveal);
+
+FV.scene('reqres', (() => {
+  const svg = document.getElementById('rr-svg');
+  const c = boxS(svg, 0, 60, 300, 220, 'Client', COL.a, 30);
+  const s = boxS(svg, 700, 60, 300, 220, 'Server', COL.b, 30);
+  const r = boxS(svg, 1360, 20, 320, 300, 'Resources', COL.c, 30);
+  const a1 = arrow(svg, 310, 120, 690, 120, COL.a, { label: 'Request' });
+  const a2 = arrow(svg, 690, 230, 310, 230, COL.b, { label: 'Response', ly: 270 });
+  const a3 = arrow(svg, 1010, 150, 1350, 150, COL.c, { label: 'fetch / look up' });
+  const a4 = arrow(svg, 1350, 200, 1010, 200, COL.c);
+  return (t, ctx) => {
+    reveal(t, ctx);
+    [c, s, r].forEach((g, k) => g.style.opacity = seg(t, 0.3 + k * 0.3, 0.8 + k * 0.3));
+    a1(t, at(ctx, 1, 0.2)); a3(t, at(ctx, 3, 0.1)); a4(t, at(ctx, 3, 0.5)); a2(t, at(ctx, 4, 0.2));
+  };
+})());
+
+FV.scene('pubsub', (() => {
+  const svg = document.getElementById('ps-svg');
+  const brk = [450, 320];
+  mk('rect', { x: brk[0] - 55, y: brk[1] - 150, width: 110, height: 300, rx: 55, fill: 'rgba(52,211,153,.2)', stroke: COL.b, 'stroke-width': 4 }, svg);
+  'Broker'.split('').forEach((ch, k) => mk('text', { x: brk[0], y: brk[1] - 90 + k * 40, 'text-anchor': 'middle', fill: COL.ink, 'font-size': 30, 'font-weight': 800 }, svg, ch));
+  const pub = boxS(svg, 10, 280, 200, 80, 'CLIENT', COL.a, 28);
+  const subs = [[700, 80], [700, 280], [700, 480]].map(([x, y]) => boxS(svg, x, y, 190, 80, 'CLIENT', COL.c, 28));
+  const json = mk('text', { x: 10, y: 400, fill: COL.c, 'font-size': 18 }, svg, '{"temp": 32, "moisture": 60}');
+  const subA = [[700, 120], [700, 320], [700, 520]].map(([x, y]) => arrow(svg, x - 8, y, brk[0] + 60, brk[1] + (y - 320) * 0.3, COL.mut, { label: 'subscribes', fs: 20, lx: 600, ly: y - 14 + (y < 320 ? 0 : y > 320 ? 0 : 0) }));
+  const pubA = arrow(svg, 215, 320, brk[0] - 60, 320, COL.a, { label: 'publishes', fs: 22 });
+  const del = [[700, 120], [700, 320], [700, 520]].map(([x, y]) => arrow(svg, brk[0] + 60, brk[1] + (y - 320) * 0.3 + 14, x - 8, y + 14, COL.b, { label: '', fs: 20 }));
+  const delT = [[700, 120], [700, 320], [700, 520]].map(([x, y]) => traveller(svg, `M ${brk[0] + 60} ${brk[1] + (y - 320) * 0.3 + 14} L ${x - 8} ${y + 14}`, COL.c, 9));
+  const pubT = traveller(svg, `M 215 320 L ${brk[0] - 60} 320`, COL.c, 9);
+  return (t, ctx) => {
+    reveal(t, ctx);
+    svg.style.opacity = seg(t, 0.2, 0.8);
+    subA.forEach((f, k) => f(t, at(ctx, 1, 0.1 + k * 0.2)));
+    pubA(t, at(ctx, 2, 0.1)); json.style.opacity = seg(t, at(ctx, 2, 0.4), at(ctx, 2, 0.6));
+    pubT(t, at(ctx, 2, 0.4), 2.2);
+    del.forEach((f, k) => f(t, at(ctx, 3, 0.1 + k * 0.15)));
+    delT.forEach((f) => f(t, at(ctx, 3, 0.6), 2.2, 0.5));
+  };
+})());
+
+FV.scene('topics', (() => {
+  const svg = document.getElementById('tp-svg');
+  mk('ellipse', { cx: 760, cy: 300, rx: 330, ry: 270, fill: 'rgba(251,191,36,.06)', stroke: COL.c, 'stroke-width': 3, 'stroke-dasharray': '10 10' }, svg);
+  mk('text', { x: 760, y: 20, 'text-anchor': 'middle', fill: COL.c, 'font-size': 30, 'font-weight': 800 }, svg, 'Broker');
+  const pub = boxS(svg, 40, 260, 230, 80, 'Publisher', COL.a, 28);
+  mk('text', { x: 155, y: 390, 'text-anchor': 'middle', fill: COL.mut, 'font-size': 22 }, svg, 'sends messages to topics');
+  const tA = boxS(svg, 640, 170, 220, 70, 'Topic A', COL.c, 26), tB = boxS(svg, 640, 360, 220, 70, 'Topic B', COL.c, 26);
+  const S = [[1300, 90, 'Subscriber 1'], [1300, 270, 'Subscriber 2'], [1300, 450, 'Subscriber 3']].map(([x, y, n]) => boxS(svg, x, y, 260, 80, n, COL.b, 26));
+  const a = [arrow(svg, 275, 290, 630, 205, COL.a), arrow(svg, 275, 310, 630, 395, COL.a),
+    arrow(svg, 870, 205, 1290, 130, COL.b), arrow(svg, 870, 395, 1290, 310, COL.b), arrow(svg, 870, 210, 1290, 300, COL.b), arrow(svg, 870, 400, 1290, 490, COL.b)];
+  const tr = [traveller(svg, 'M 275 290 L 630 205', COL.c, 9), traveller(svg, 'M 275 310 L 630 395', COL.c, 9), traveller(svg, 'M 870 205 L 1290 130', COL.c, 9), traveller(svg, 'M 870 400 L 1290 490', COL.c, 9)];
+  const note = mk('text', { x: 760, y: 610, 'text-anchor': 'middle', fill: COL.ink, 'font-size': 26, 'font-weight': 700 }, svg, 'publisher never knows who is listening → decoupled');
+  return (t, ctx) => {
+    reveal(t, ctx);
+    svg.style.opacity = seg(t, 0.2, 0.8);
+    a[0](t, at(ctx, 1, 0.3)); a[1](t, at(ctx, 1, 0.5));
+    a[2](t, at(ctx, 2, 0.05)); a[3](t, at(ctx, 2, 0.35)); a[4](t, at(ctx, 2, 0.45)); a[5](t, at(ctx, 2, 0.55));
+    tr.forEach((f, k) => f(t, at(ctx, 2, 0.8) + k * 0.2, 2));
+    note.style.opacity = seg(t, ctx.line(3), ctx.line(3) + 0.5);
+  };
+})());
+
+FV.scene('pushpull', (() => {
+  const svg = document.getElementById('pp-svg');
+  boxS(svg, 0, 40, 280, 250, 'Publisher', COL.a, 28);
+  mk('text', { x: 140, y: 220, 'text-anchor': 'middle', fill: COL.mut, 'font-size': 20 }, svg, 'sends messages to queue');
+  const qs = [80, 220].map((y) => { const g = mk('g', {}, svg); mk('rect', { x: 560, y: y - 32, width: 420, height: 64, rx: 12, fill: 'rgba(13,20,42,.9)', stroke: COL.mut, 'stroke-width': 2 }, g); return g; });
+  mk('text', { x: 770, y: 300, 'text-anchor': 'middle', fill: COL.c, 'font-size': 24, 'font-weight': 700 }, svg, 'QUEUES (buffer)');
+  boxS(svg, 1280, 40, 300, 90, 'Consumer 1', COL.d, 28); boxS(svg, 1280, 180, 300, 90, 'Consumer 2', COL.d, 28);
+  const ap = [arrow(svg, 290, 80, 550, 80, COL.a, { label: 'push', fs: 22, ly: 30 }), arrow(svg, 290, 220, 550, 220, COL.a, { label: 'push', fs: 22, ly: 170 })];
+  const ac = [arrow(svg, 990, 80, 1270, 85, COL.d, { label: 'pull', fs: 22, ly: 30 }), arrow(svg, 990, 220, 1270, 225, COL.d, { label: 'pull', fs: 22, ly: 170 })];
+  const cols = [COL.c, COL.a, COL.b, COL.d, COL.e];
+  const msgs = [];
+  for (let q = 0; q < 2; q++) for (let k = 0; k < 6; k++) msgs.push({ q, k, el: mk('rect', { width: 52, height: 44, rx: 6, fill: cols[(k + q) % 5] }, svg) });
+  return (t, ctx) => {
+    reveal(t, ctx);
+    ap.forEach((f, k) => f(t, at(ctx, 1, 0.1 + k * 0.1)));
+    ac.forEach((f, k) => f(t, at(ctx, 1, 0.5 + k * 0.1)));
+    const s = at(ctx, 2, 0.1);
+    msgs.forEach(({ q, k, el }) => {
+      const y = (q ? 220 : 80) - 22;
+      const prog = ((Math.max(0, t - s) * (q ? 0.13 : 0.18)) + k / 6) % 1; // move through 290 → 1270
+      const x = 290 + prog * 980;
+      el.setAttribute('x', x); el.setAttribute('y', y);
+      el.style.opacity = t < s ? 0 : Math.min(1, Math.min(prog, 1 - prog) * 12);
+    });
+  };
+})());
+
+FV.scene('pair', (() => {
+  const up = seq(document.getElementById('ep-svg'), { cx: 170, sx: 860, top: 90, bot: 640, cl: 'CLIENT', sl: 'SERVER', rows: [
+    { dir: '>', y: 140, label: 'Request to setup connection', c: 'a', l: 2, f: 0.1 },
+    { dir: '<', y: 220, label: 'Response accepting the request', c: 'd', l: 2, f: 0.55 },
+    { dir: '>', y: 310, label: 'Message from Client to Server', c: 'a', l: 4, f: 0.1 },
+    { dir: '<', y: 390, label: 'Message from Server to Client', c: 'd', l: 4, f: 0.5 },
+    { dir: '>', y: 480, label: 'Connection close request', c: 'a', l: 5, f: 0.1 },
+    { dir: '<', y: 560, label: 'Connection close response', c: 'd', l: 5, f: 0.5 },
+  ] });
+  return (t, ctx) => { reveal(t, ctx); up(t, ctx); };
+})());
+
+FV.scene('rest', reveal);
+FV.scene('restflow', (() => {
+  const svg = document.getElementById('rf-svg');
+  const a = [arrow(svg, 462, 415, 536, 415, COL.c), arrow(svg, 1102, 415, 1176, 415, COL.d), arrow(svg, 1490, 582, 1490, 616, COL.b)];
+  return (t, ctx) => { reveal(t, ctx); a[0](t, at(ctx, 2, 0)); a[1](t, at(ctx, 3, 0)); a[2](t, at(ctx, 4, 0)); };
+})());
+FV.scene('restcons', reveal);
+
+FV.scene('websocket', (() => {
+  const svg = document.getElementById('ws-svg');
+  const up = seq(svg, { cx: 170, sx: 800, top: 90, bot: 640, cl: 'Client', sl: 'Server', rows: [
+    { dir: '>', y: 130, label: 'Request to setup WebSocket connection', c: 'a', l: 3, f: 0.1, fs: 22 },
+    { dir: '<', y: 195, label: 'Response accepting the request', c: 'c', l: 3, f: 0.6, fs: 22 },
+    { dir: '>', y: 275, label: 'Data frame', c: 'b', l: 4, f: 0.05, fs: 22 },
+    { dir: '<', y: 330, label: 'Data frame', c: 'b', l: 4, f: 0.25, fs: 22 },
+    { dir: '>', y: 385, label: 'Data frame', c: 'b', l: 4, f: 0.45, fs: 22 },
+    { dir: '<', y: 440, label: 'Data frame', c: 'b', l: 4, f: 0.65, fs: 22 },
+    { dir: '>', y: 525, label: 'Connection close request', c: 'a', l: 5, f: 0.1, fs: 22 },
+    { dir: '<', y: 590, label: 'Connection close response', c: 'c', l: 5, f: 0.5, fs: 22 },
+  ] });
+  const br = [[110, 215, 'Initial handshake', '(over HTTP)', 3], [250, 460, 'Bidirectional comm.', '(persistent WebSocket)', 4], [505, 610, 'Closing', 'connection', 5]].map(([y1, y2, a, b, l]) => {
+    const g = mk('g', {}, svg);
+    mk('path', { d: `M 840 ${y1} h 20 v ${y2 - y1} h -20`, stroke: COL.mut, 'stroke-width': 3, fill: 'none' }, g);
+    mk('text', { x: 875, y: (y1 + y2) / 2 - 4, fill: COL.ink, 'font-size': 21, 'font-weight': 700 }, g, a);
+    mk('text', { x: 875, y: (y1 + y2) / 2 + 22, fill: COL.mut, 'font-size': 19 }, g, b);
+    return [g, l];
+  });
+  return (t, ctx) => { reveal(t, ctx); up(t, ctx); br.forEach(([g, l]) => g.style.opacity = seg(t, at(ctx, l, 0.6), at(ctx, l, 0.9))); };
+})());
+
+FV.scene('system', reveal);
+FV.scene('comp1', reveal);
+FV.scene('comp2', reveal);
+
+FV.scene('sysex', (() => {
+  const svg = document.getElementById('sx-svg');
+  const g = [];
+  g.push(boxS(svg, 140, 330, 260, 90, 'Sensors', COL.a, 28));
+  g.push(boxS(svg, 140, 520, 260, 90, 'Actuators', COL.a, 28));
+  g.push(boxS(svg, 560, 380, 300, 180, 'Raspberry Pi', COL.d, 30));
+  mk('text', { x: 710, y: 520, 'text-anchor': 'middle', fill: COL.d, 'font-size': 24, 'font-weight': 700 }, g[2], 'Node-RED');
+  g.push(boxS(svg, 1000, 380, 300, 180, 'Network', COL.a, 30));
+  mk('text', { x: 1150, y: 520, 'text-anchor': 'middle', fill: COL.c, 'font-size': 26, 'font-weight': 800 }, g[3], 'IFTTT');
+  g.push(boxS(svg, 560, 700, 300, 80, 'Local User', COL.e, 26));
+  const outs = [[1440, 250, 'Other IoT (thermostat)'], [1440, 380, 'Remote User'], [1440, 510, 'Google · Twitter'], [1440, 640, 'Remote Systems']].map(([x, y, n]) => boxS(svg, x, y, 380, 80, n, COL.b, 24));
+  const a = [arrow(svg, 405, 375, 550, 430, COL.a, { label: 'Inputs', fs: 22, lx: 470, ly: 380 }), arrow(svg, 550, 520, 405, 565, COL.a, { label: 'Outputs', fs: 22, lx: 470, ly: 590 }),
+    arrow(svg, 865, 470, 990, 470, COL.d, { label: 'Gateway', fs: 22, ly: 450 }), arrow(svg, 710, 565, 710, 690, COL.e)];
+  const b = [[1440, 290], [1440, 420], [1440, 550], [1440, 680]].map(([x, y]) => arrow(svg, 1305, 470, x - 10, y, COL.b));
+  return (t, ctx) => {
+    reveal(t, ctx);
+    [g[0], g[1]].forEach((e) => e.style.opacity = seg(t, at(ctx, 1, 0), at(ctx, 1, 0.2)));
+    g[2].style.opacity = seg(t, at(ctx, 1, 0.3), at(ctx, 1, 0.5));
+    a[0](t, at(ctx, 1, 0.4)); a[1](t, at(ctx, 1, 0.6));
+    g[3].style.opacity = seg(t, at(ctx, 2, 0), at(ctx, 2, 0.3)); a[2](t, at(ctx, 2, 0.2));
+    g[4].style.opacity = seg(t, at(ctx, 3, 0), at(ctx, 3, 0.3)); a[3](t, at(ctx, 3, 0.1));
+    outs.forEach((e, k) => e.style.opacity = seg(t, at(ctx, 4, 0.15 + k * 0.15), at(ctx, 4, 0.3 + k * 0.15)));
+    b.forEach((f, k) => f(t, at(ctx, 4, 0.1 + k * 0.15)));
+  };
+})());
+
+/* IoT level diagrams */
+(function () {
+  const C = { app: COL.f, rest: COL.b, db: COL.mut, ctrl: COL.g, res: COL.a, dev: COL.e, obs: '#fdba74', ana: '#bef264', coord: '#c084fc', cc: '#fde68a' };
+  const spec = {
+    1: { local: [[['App', 'app'], ['REST/WebSocket Services', 'rest'], ['Database', 'db'], ['Controller Service', 'ctrl'], ['Resource', 'res'], ['Device', 'dev']]], cloud: [], note: 'monitoring node: performs analysis, stores data' },
+    2: { local: [[['Controller Service', 'ctrl'], ['Resource', 'res'], ['Device', 'dev']]], cloud: [['App', 'app'], ['REST/WebSocket Services', 'rest'], ['Database (cloud storage)', 'db']], note: 'node performs analysis locally → cloud storage' },
+    3: { local: [[['Controller Service', 'ctrl'], ['Resource', 'res'], ['Device', 'dev']]], cloud: [['App', 'app'], ['REST/WebSocket Services', 'rest'], ['Database', 'db'], ['Cloud storage & analysis', 'ana']], note: 'monitoring node → cloud storage & analysis' },
+    4: { local: [[['Controller', 'ctrl'], ['Resource', 'res'], ['Device', 'dev']], [['Controller', 'ctrl'], ['Resource', 'res'], ['Device', 'dev']]], localTop: ['Observer Node', 'obs'], cloud: [['App', 'app'], ['Observer Node', 'obs'], ['REST Services', 'rest'], ['Analytics (IoT intelligence)', 'ana'], ['Database', 'db']], note: 'monitoring nodes perform local analysis → cloud' },
+    5: { local: [[['Controller', 'ctrl'], ['Resource', 'res'], ['End-node', 'dev']], [['Controller', 'ctrl'], ['Resource', 'res'], ['End-node', 'dev']], [['Controller', 'ctrl'], ['Resource', 'res'], ['Coordinator', 'coord']]], cloud: [['App', 'app'], ['Observer Node', 'obs'], ['REST/WebSocket Services', 'rest'], ['Analytics Component', 'ana'], ['Database', 'db']], note: 'end nodes → coordinator → cloud storage & analysis' },
+    6: { local: [[['Controller', 'ctrl'], ['Resource', 'res'], ['Device', 'dev']], [['Controller', 'ctrl'], ['Resource', 'res'], ['Device', 'dev']]], cloud: [['App', 'app'], ['Observer Node', 'obs'], ['Centralized Controller', 'cc'], ['REST/WebSocket Services', 'rest'], ['Analytics Component', 'ana'], ['Database', 'db']], note: 'independent end nodes → cloud; controller sends commands' },
+  };
+  document.querySelectorAll('svg.lv').forEach((svg) => {
+    const lv = +svg.dataset.level, s = spec[lv];
+    mk('rect', { x: 0, y: 0, width: 880, height: 620, rx: 24, fill: 'rgba(13,20,42,.8)', stroke: 'rgba(148,163,200,.25)', 'stroke-width': 2 }, svg);
+    mk('text', { x: 200, y: 44, 'text-anchor': 'middle', fill: COL.ink, 'font-size': 26, 'font-weight': 700 }, svg, 'Local');
+    mk('text', { x: 660, y: 44, 'text-anchor': 'middle', fill: COL.ink, 'font-size': 26, 'font-weight': 700 }, svg, 'Cloud');
+    mk('line', { x1: 440, y1: 20, x2: 440, y2: 560, stroke: COL.mut, 'stroke-width': 2, 'stroke-dasharray': '8 8' }, svg);
+    const groups = [];
+    const n = s.local.length, colW = n === 1 ? 300 : n === 2 ? 180 : 125;
+    const gl = mk('g', {}, svg);
+    s.local.forEach((col, ci) => {
+      const x = 20 + (400 - n * colW - (n - 1) * 10) / 2 + ci * (colW + 10);
+      const h = lv === 1 ? 62 : 58, top = lv === 1 ? 80 : 560 - col.length * (h + 10) - 10;
+      col.forEach(([txt, k], ri) => boxS(gl, x, top + ri * (h + 10), colW, h, txt, C[k], n === 3 ? 17 : lv === 1 ? 19 : 20));
+    });
+    if (s.localTop) boxS(gl, 100, 80, 220, 56, s.localTop[0], C[s.localTop[1]], 20);
+    groups.push(gl);
+    const gc = mk('g', {}, svg);
+    s.cloud.forEach(([txt, k], ri) => boxS(gc, 480, 70 + ri * 76, 380, 60, txt, C[k], 19));
+    groups.push(gc);
+    const ga = mk('g', {}, svg);
+    if (s.cloud.length) arrow(ga, 410, 400, 472, 200, COL.ink, {})(1e9, 0);
+    mk('text', { x: 440, y: 600, 'text-anchor': 'middle', fill: COL.c, 'font-size': 21, 'font-weight': 700 }, ga, s.note);
+    groups.push(ga);
+    svg._groups = groups;
+  });
+  [1, 2, 3, 4, 5, 6].forEach((lv) => {
+    FV.scene('lvl' + lv, (t, ctx) => {
+      reveal(t, ctx);
+      const g = ctx.el.querySelector('svg.lv')._groups;
+      g[0].style.opacity = seg(t, at(ctx, 1, 0.1), at(ctx, 1, 0.3));
+      g[1].style.opacity = seg(t, at(ctx, lv === 1 ? 1 : 2, 0.1), at(ctx, lv === 1 ? 1 : 2, 0.3));
+      g[2].style.opacity = seg(t, at(ctx, 2, 0.4), at(ctx, 2, 0.7));
+    });
+  });
+})();
+
+FV.scene('levels', reveal);
+FV.scene('recap', reveal);
+</script>
+</body>
+</html>

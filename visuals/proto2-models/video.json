@@ -1,0 +1,208 @@
+{
+  "title": "IoT Protocols Part 2: Communication Models, REST & WebSocket APIs, IoT System Components, IoT Levels 1–6 — Exam Revision",
+  "slug": "proto2-models",
+  "description": "Exam revision of IoT protocols, part 2: request-response, publish-subscribe, push-pull and exclusive pair communication models; REST-based and WebSocket-based communication APIs; the components of an IoT system; and IoT levels 1 to 6 with their examples.",
+  "tags": ["IoT communication models", "publish subscribe", "request response", "push pull", "exclusive pair", "REST API", "WebSocket", "IoT levels", "exam revision"],
+  "voice": "af_heart",
+  "speed": 1.0,
+  "fps": 30,
+  "captions": true,
+  "endCard": "📘 more to learn → github.com/HemashreeVI",
+  "thumbnail": "pubsub@12",
+  "scenes": [
+    { "id": "intro", "title": "Four ways IoT devices talk", "pad": [0.8, 0.8], "lines": [
+      "When an IoT device sends data, who does it talk to, and how?",
+      "In part two, we cover the four IoT communication models:",
+      "request response, publish subscribe, push pull, and exclusive pair.",
+      "Then REST and WebSocket based communication APIs, the components of an IoT system, and IoT levels one to six."
+    ]},
+    { "id": "reqres", "title": "Request-Response model", "lines": [
+      "Model one: Request Response.",
+      "The client sends requests to the server, and the server responds to the requests.",
+      "When the server receives a request, it decides how to respond.",
+      "It fetches the data, retrieves resource representations, prepares the response,",
+      "and then sends the response to the client.",
+      "Each request is independent, and the server works with its resources to answer it."
+    ]},
+    { "id": "pubsub", "title": "Publish-Subscribe model", "lines": [
+      "Model two: Publish Subscribe. It involves publishers, brokers and consumers.",
+      "First, clients subscribe to the broker.",
+      "A publishing client publishes data to the broker, for example temp thirty two, moisture sixty.",
+      "The broker then delivers that data to every client that subscribed.",
+      "Publishers are the source of data.",
+      "Publishers send the data to topics, which are managed by the broker.",
+      "Publishers are not aware of the consumers.",
+      "Consumers subscribe to the topics managed by the broker.",
+      "When the broker receives data for a topic from the publisher, it sends the data to all the subscribed consumers."
+    ]},
+    { "id": "topics", "title": "Topics in Publish-Subscribe", "lines": [
+      "Here it is with topics.",
+      "The publisher sends messages to topics, here topic A and topic B, inside the broker.",
+      "Subscriber one gets topic A. Subscribers two and three get topic B, or both.",
+      "The broker decouples the two sides. The publisher never needs to know who is listening."
+    ]},
+    { "id": "pushpull", "title": "Push-Pull model", "lines": [
+      "Model three: Push Pull.",
+      "Data producers push the data to queues, and the consumers pull the data from the queues.",
+      "Here the publisher sends messages to queues, and consumer one and consumer two pull from them.",
+      "Producers do not need to be aware of the consumers.",
+      "Queues help in decoupling the messaging between the producers and consumers.",
+      "Queues also act as a buffer, which helps when there is a mismatch between the rate producers push data and the rate consumers pull data."
+    ]},
+    { "id": "pair", "title": "Exclusive Pair model", "lines": [
+      "Model four: Exclusive Pair.",
+      "It is a bidirectional, fully duplex communication model, that uses a persistent connection between the client and server.",
+      "The client sends a request to set up the connection, and the server responds, accepting the request.",
+      "Once the connection is set up, it remains open, until the client sends a request to close the connection.",
+      "After connection setup, the client and server can both send messages to each other.",
+      "Finally, a connection close request, and a connection close response."
+    ]},
+    { "id": "rest", "title": "REST-based communication APIs", "lines": [
+      "Now the communication APIs. First, REST based communication APIs.",
+      "Representational State Transfer, REST, is a set of architectural principles by which you can design web services and web APIs.",
+      "It focuses on a system's resources, and how resource states are addressed and transferred.",
+      "REST APIs follow the request response communication model.",
+      "The REST architectural constraints apply to the components, connectors, and data elements, within a distributed hypermedia system."
+    ]},
+    { "id": "restflow", "title": "How a REST request flows", "lines": [
+      "Here is the flow.",
+      "A REST aware HTTP client sends an HTTP packet.",
+      "The packet holds the HTTP command, GET, PUT, POST or DELETE, and a REST payload in JSON or XML.",
+      "The HTTP server does authorization, and runs the RESTful web service.",
+      "Behind it are the resources. Each resource has a URI, and one or more representations.",
+      "In short: HTTP client, then HTTP socket with the REST payload, then the server, then the resources database."
+    ]},
+    { "id": "restcons", "title": "REST constraints", "lines": [
+      "REST has six constraints.",
+      "Client server: the client and server are separated, so each can change independently.",
+      "Stateless: each request carries all the information needed. The server keeps no client state between requests.",
+      "Cacheable: responses say whether they can be cached, to improve performance.",
+      "Layered system: the client cannot tell if it talks to the server directly, or through intermediaries like proxies.",
+      "Uniform interface: resources are identified by URIs, and handled the same way through standard methods.",
+      "Code on demand: the server can send executable code to the client. This is the only optional constraint."
+    ]},
+    { "id": "websocket", "title": "WebSocket-based communication APIs", "lines": [
+      "Next, WebSocket based communication APIs.",
+      "WebSocket APIs allow bi directional, full duplex communication between clients and servers.",
+      "WebSocket APIs follow the exclusive pair communication model.",
+      "First, the initial handshake, over HTTP: a request to set up the WebSocket connection, and a response accepting the request.",
+      "Then bidirectional communication, as data frames, in both directions, over the persistent WebSocket connection.",
+      "Finally, closing the connection: a close request, and a close response.",
+      "The application client talks to the server through the WebSocket, which runs over TCP."
+    ]},
+    { "id": "system", "title": "Components of an IoT system", "lines": [
+      "An IoT system has seven components.",
+      "Device, Resource, Controller Service, Database, Web Service, Analysis Component, and Application."
+    ]},
+    { "id": "comp1", "title": "Device, Resource, Controller Service", "lines": [
+      "Device: an IoT device allows identification, remote sensing, and remote monitoring capabilities.",
+      "Resource: software components on the IoT device,",
+      "for accessing, processing and storing sensor information,",
+      "for controlling actuators connected to the device,",
+      "and for enabling network access for the device.",
+      "Controller Service: a native service that runs on the device, and interacts with the web services.",
+      "It sends data from the device to the web service, and receives commands from the application, via web services, for controlling the device."
+    ]},
+    { "id": "comp2", "title": "Database, Web Service, Analysis, Application", "lines": [
+      "Database: it can be either local or in the cloud, and stores the data generated by the IoT device.",
+      "Web Service: it serves as a link between the IoT device, application, database and analysis components.",
+      "It can be implemented using HTTP and REST principles, a REST service, or using the WebSocket protocol, a WebSocket service.",
+      "Analysis Component: responsible for analyzing the IoT data, and generating results in a form that is easy for the user to understand.",
+      "Application: IoT applications provide an interface that users can use to control and monitor various aspects of the IoT system.",
+      "Applications also allow users to view the system status and the processed data."
+    ]},
+    { "id": "sysex", "title": "An IoT system example", "lines": [
+      "Here is a complete IoT system.",
+      "Sensors give inputs, and actuators receive outputs, from a Raspberry Pi running Node-RED.",
+      "The Pi acts as the gateway to the network, here using IFTTT.",
+      "A local user can work with it directly.",
+      "Through the network, it connects to other IoT devices like a thermostat, remote users, services like Google and Twitter, and remote systems."
+    ]},
+    { "id": "lvl1", "title": "IoT Level 1", "lines": [
+      "Now the IoT levels. Level one.",
+      "A level one IoT system has a single node, or device, that performs sensing and or actuation, stores data, performs analysis, and hosts the application.",
+      "Everything is local. The device, resource, controller service, database, REST or WebSocket services, and the app.",
+      "Level one is suitable for modelling low cost, low complexity solutions, where the data involved is not big, and the analysis is not computationally intensive.",
+      "Example: a home automation system. One controller handles lighting control, a smoke detector, a mailbox sensor, the doorbell, an intrusion detector, an electric pot, air conditioner control and the sprinkler."
+    ]},
+    { "id": "lvl2", "title": "IoT Level 2", "lines": [
+      "Level two.",
+      "A level two IoT system has a single node, that performs sensing and or actuation, and local analysis.",
+      "Data is stored in the cloud, and the application is usually cloud based.",
+      "Level two suits solutions where the data involved is big, but the primary analysis is not computationally intensive, and can be done locally.",
+      "Example: smart irrigation, sensing temperature, moisture, pressure, plant health, and connectivity."
+    ]},
+    { "id": "lvl3", "title": "IoT Level 3", "lines": [
+      "Level three.",
+      "A level three IoT system has a single node. Data is stored and analyzed in the cloud, and the application is cloud based.",
+      "Level three suits solutions where the data involved is big, and the analysis requirements are computationally intensive.",
+      "Example: tracking package handling.",
+      "It uses an accelerometer, to sense movement or vibrations, and a gyroscope, which gives orientation information.",
+      "A WebSocket service is used, because sensor data can be sent in real time."
+    ]},
+    { "id": "lvl4", "title": "IoT Level 4", "lines": [
+      "Level four.",
+      "A level four IoT system has multiple nodes, that perform local analysis. Data is stored in the cloud, and the application is cloud based.",
+      "Level four contains local and cloud based observer nodes, which can subscribe to and receive information collected in the cloud from IoT devices.",
+      "It suits solutions where multiple nodes are required, the data involved is big, and the analysis is computationally intensive.",
+      "Example: noise monitoring, using sound sensors at many locations."
+    ]},
+    { "id": "lvl5", "title": "IoT Level 5", "lines": [
+      "Level five.",
+      "A level five IoT system has multiple end nodes, and one coordinator node.",
+      "The end nodes perform sensing and or actuation.",
+      "The coordinator node collects data from the end nodes, and sends it to the cloud.",
+      "Data is stored and analyzed in the cloud, and the application is cloud based.",
+      "Level five suits solutions based on wireless sensor networks, where data is big, and analysis is computationally intensive.",
+      "Example: forest fire detection, to detect fire in early stages, and take action while it is still controllable.",
+      "Sensors measure temperature, smoke, weather, slope of the earth, wind speed, speed of fire spread, and flame length."
+    ]},
+    { "id": "lvl6", "title": "IoT Level 6", "lines": [
+      "Level six.",
+      "A level six IoT system has multiple independent end nodes, that perform sensing and or actuation, and send data to the cloud.",
+      "Data is stored in the cloud, and the application is cloud based.",
+      "The analytics component analyzes the data, and stores the results in the cloud database.",
+      "The results are visualized with the cloud based application.",
+      "The centralized controller is aware of the status of all the end nodes, and sends control commands to the nodes.",
+      "Example: a weather monitoring system.",
+      "Sensors used: wind speed and direction, solar radiation, temperature of air, water and soil, relative humidity, precipitation, snow depth, barometric pressure, and soil moisture."
+    ]},
+    { "id": "levels", "title": "IoT levels compared", "lines": [
+      "Compare all six levels in one table.",
+      "Levels one, two and three have a single node. Level one does everything locally. Level two analyzes locally but stores in the cloud. Level three stores and analyzes in the cloud.",
+      "Level four has multiple nodes with local analysis, plus observer nodes.",
+      "Level five adds a coordinator node that collects from end nodes.",
+      "Level six has independent end nodes, a cloud analytics component, and a centralized controller."
+    ]},
+    { "id": "recap", "title": "Exam recap", "pad": [0.6, 2.4], "lines": [
+      "Quick recap.",
+      "Request response: client asks, server answers. Publish subscribe: publishers, broker, topics, subscribers.",
+      "Push pull: producers push to queues, consumers pull. Queues decouple and buffer.",
+      "Exclusive pair: bidirectional, full duplex, persistent connection.",
+      "REST follows request response, with six constraints. WebSocket follows exclusive pair.",
+      "Seven components: device, resource, controller service, database, web service, analysis, application.",
+      "Reference: Bahga and Madisetti, Internet of Things, A Hands-on Approach, University Press, 2015.",
+      "Good luck in your exam!"
+    ]}
+  ],
+  "pronounce": {
+    "IoT": "I O T",
+    "REST": "rest",
+    "RESTful": "restful",
+    "API": "A P I",
+    "APIs": "A P Is",
+    "HTTP": "H T T P",
+    "JSON": "jason",
+    "XML": "X M L",
+    "URI": "U R I",
+    "URIs": "U R Is",
+    "URI,": "U R I,",
+    "TCP": "T C P",
+    "GET": "get",
+    "PUT": "put",
+    "POST": "post",
+    "DELETE": "delete",
+    "IFTTT": "if this then that",
+    "Node-RED": "node red"
+  }
+}

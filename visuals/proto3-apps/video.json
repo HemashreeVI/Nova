@@ -1,0 +1,186 @@
+{
+  "title": "IoT Protocols Part 3: IoT Applications & Case Studies — Smart Home, Wearables, Smart City, Grid, Retail, Health, Car, Oil & Gas",
+  "slug": "proto3-apps",
+  "description": "Exam revision of IoT protocols, part 3: IoT applications across industries, the IoT applications ranking, and case studies: smart homes, wearables, smart city, smart parking, waste management, smart grid, smart retail, supply chain, connected health, life logging, connected car and IoT in the oil and gas industry.",
+  "tags": ["IoT applications", "IoT case study", "smart city", "smart grid", "wearables", "smart home", "connected health", "oil and gas IoT", "exam revision"],
+  "voice": "af_heart",
+  "speed": 1.0,
+  "fps": 30,
+  "captions": true,
+  "endCard": "📘 more to learn → github.com/HemashreeVI",
+  "thumbnail": "ranking@14",
+  "scenes": [
+    { "id": "intro", "title": "IoT at businesses and society", "pad": [0.8, 0.8], "lines": [
+      "Where is the Internet of Things actually used?",
+      "Part three covers IoT at businesses and society: use cases and applications across industries.",
+      "Then the case studies: smart homes, wearables, smart cities, smart grid, retail, health, cars, and oil and gas."
+    ]},
+    { "id": "sectors", "title": "Applications of IoT by sector", "lines": [
+      "Applications of IoT, sector by sector.",
+      "Consumer: smart home control of lighting, security and comfort, optimized energy use, and maintenance.",
+      "Retail: product tracking, inventory control, and focused marketing.",
+      "Medical: wearable devices, implanted devices, and telehealth services.",
+      "Military: resource allocation, threat analysis, and troop monitoring.",
+      "Industrial: smart meters, wear out sensing, manufacturing control, and climate control.",
+      "Automotive: parking, traffic flow, and anti theft location.",
+      "Environmental: species tracking, weather prediction, and resource management.",
+      "Agriculture: crop management, and soil analysis."
+    ]},
+    { "id": "few", "title": "A few applications of IoT", "lines": [
+      "A few more applications of IoT:",
+      "building and home automation, manufacturing, the oil and gas sector,",
+      "medical and healthcare systems, media, and environmental monitoring,",
+      "infrastructure management, energy management, and transportation,",
+      "and a better quality of life for the elderly.",
+      "Plus wearable tech, smart appliances, and healthcare. You name it, and you will have it in IoT!"
+    ]},
+    { "id": "diverse", "title": "IoT to diverse applications", "lines": [
+      "IoT spreads into five big areas.",
+      "Home, the consumer: light bulbs, security, pet feeding, irrigation controller, smoke alarm, refrigerator, infotainment, washer and dryer, stove, and energy monitoring.",
+      "Transport, mobility: traffic routing, telematics, package monitoring, smart parking, insurance adjustments, supply chain, shipping, public transport, airlines and trains.",
+      "Health, the body: patient care, elderly monitoring, remote diagnostic, equipment monitoring, hospital hygiene, bio wearables, and food sensors.",
+      "Buildings, infrastructure: HVAC, security, lighting, electrical, transit, emergency alerts, structural integrity, occupancy, and energy credits.",
+      "Cities, industry: electrical distribution, maintenance, surveillance, signage, utilities and smart grid, emergency services, and waste management."
+    ]},
+    { "id": "ranking", "title": "The IoT applications ranking", "lines": [
+      "The IoT applications ranking, by overall popularity.",
+      "Number one, smart home, at one hundred percent. Examples: smart thermostat, connected lights, smart fridge, smart door lock.",
+      "Two, wearables, sixty three percent: smart watch, activity tracker, smart glass.",
+      "Three, smart city, thirty four percent: smart parking and smart waste management.",
+      "Four, smart grid, twenty eight percent: smart metering. Five, industrial internet, twenty five percent: remote asset control.",
+      "Six, connected car, nineteen percent. Seven, connected health, six percent.",
+      "Eight, smart retail, two percent. Nine, smart supply chain, two percent. Ten, smart farming, one percent.",
+      "The scores came from monthly Google searches, tweets and LinkedIn posts, valid for the fourth quarter of 2014, from IoT Analytics."
+    ]},
+    { "id": "home", "title": "Case study: smart homes", "lines": [
+      "Now the IoT case studies. First, smart homes.",
+      "A smart home connects lights and curtains, smart appliances, and smart media,",
+      "air control, background music, and central heating,",
+      "a safeguard security system, a video intercom, and central AC."
+    ]},
+    { "id": "wear", "title": "Case study: wearables", "lines": [
+      "Wearables are the second hot area in IoT.",
+      "Most of them are connected with smart phones.",
+      "Devices worn on the wrist, for example smart watches, like Samsung Gear.",
+      "Devices put on like a spectacle, for example Google Glass.",
+      "Smart garments.",
+      "And skin coloured tattoo or patch like sensors."
+    ]},
+    { "id": "wear2", "title": "Wearable examples", "lines": [
+      "Some wearable examples.",
+      "Wearable panic buttons: built into jewellery or clothing, to quickly alert a circle of trusted contacts, and the police, when in distress.",
+      "Safe driving internables: ingestible pills with sensors that measure blood alcohol, and talk to your car, making it useless if you exceed the legal limit.",
+      "Smart garments: slow wash garments alert you when they need washing, saving water and energy. Exact measure garments send your body measurements to an app, which recommends clothes that fit.",
+      "Non verbal communication: Embrace, a smart garment that transfers physical touch wirelessly between couples.",
+      "And the mood detector: a skin coloured patch, or tattoo like sensor, that tracks your mood through the day and recommends actions."
+    ]},
+    { "id": "city", "title": "Case study: smart city", "lines": [
+      "Smart city.",
+      "A smart city includes traffic management, water distribution, waste management, urban security, and environmental monitoring.",
+      "Many smart city solutions have promised to alleviate real pains of people living in cities these days.",
+      "IoT solutions in the smart city solve traffic congestion problems, reduce noise and pollution, and help make cities safer.",
+      "Smart city services include alert systems, security, connected cars, mobile centric services, public transit, and smart automation.",
+      "Smart parking: residents can identify and reserve the closest available space, traffic wardens can identify non compliant usage, and municipalities can introduce demand based pricing."
+    ]},
+    { "id": "waste", "title": "Smart waste management", "lines": [
+      "Efficient waste management in smart cities, supported by sensing as a service.",
+      "Garbage cans carry low cost passive sensors, or active sensors.",
+      "Garbage trucks act as data collectors.",
+      "The data goes to a cloud platform that supports sensing as a service.",
+      "It is then shared with the city council, recycling plants, manufacturing plants, and health and safety authorities."
+    ]},
+    { "id": "grid", "title": "Case study: smart grid", "lines": [
+      "Smart grid.",
+      "A smart grid uses information about the behaviours of electricity suppliers and consumers, in an automated fashion.",
+      "This technology helps to: one, deliver power more efficiently.",
+      "Two, improve operations. Three, reduce emissions and management costs.",
+      "Four, restore power failures faster.",
+      "The grid links homes, factories, nuclear, thermal and hydraulic power plants, photovoltaic, wind and renewable energy, ecological vehicles, and cities and offices."
+    ]},
+    { "id": "retail", "title": "Case study: smart retail", "lines": [
+      "Smart retail focuses on two areas: improving the customer experience, and optimizing supply chain operation.",
+      "An IoT shopping scenario. One: when entering the doors, scanners identify the tags on her clothing.",
+      "Two: when shopping in the market, the goods introduce themselves.",
+      "Three: when moving the goods, the reader tells the staff to put a new one on the shelf.",
+      "Four: when paying for the goods, the microchip of the credit card communicates with the checkout reader."
+    ]},
+    { "id": "supply", "title": "IoT solutions for supply chain", "lines": [
+      "IoT solutions for the supply chain.",
+      "Create fleet efficiencies, for optimization.",
+      "Life cycle visibility of the product.",
+      "Understand inventory levels and warehouse stock.",
+      "Study product performance, and predict failure.",
+      "And gain user insight."
+    ]},
+    { "id": "health", "title": "Case study: connected health", "lines": [
+      "Connected health.",
+      "IoT in healthcare is a heterogeneous computing, wirelessly communicating system of apps and devices,",
+      "that connects patients and health providers to diagnose, monitor, track and store vital statistics and medical information.",
+      "Examples: headsets that measure brainwaves, clothes with sensing devices, BP monitors, glucose monitors, ECG monitors, and pulse oximeters.",
+      "Also sensors embedded in medical equipment, dispensing systems, surgical robots and device implants, and any wearable technology device."
+    ]},
+    { "id": "logging", "title": "Life logging", "lines": [
+      "IoT helps you in life logging.",
+      "How well do I sleep? A fitness band like the Fitbit Flex tracks sleep pattern, sleep efficiency, time asleep, and times awoken.",
+      "Can IoT help us know more about ourselves? Where you are going, who you interacted with, and how long you have spoken to friends.",
+      "The affinity of connections, how long it takes to get to work, the tone of your messages,",
+      "the amount you text, tweet or update, how much exercise you are getting, and how much you get distracted."
+    ]},
+    { "id": "car", "title": "Case study: connected car", "lines": [
+      "Connected car.",
+      "Connected car applications can be separated into two categories.",
+      "One: in vehicle applications, inside a single car.",
+      "Two: V2V, vehicle to vehicle applications, where cars talk to each other."
+    ]},
+    { "id": "oil", "title": "Oil and gas industry introduction", "lines": [
+      "Finally, IoT in the oil and gas industry. It has three segments.",
+      "Upstream: exploration and production, E and P. Firms explore new hydrocarbon fields, and discovered fields are developed and petroleum produced.",
+      "Midstream: transportation of oil and natural gas, by shipping, pipelines, and LNG terminals.",
+      "Downstream: refinery processes crude oil to produce different products, in petrochemical plants, making polymers, plastics and other products."
+    ]},
+    { "id": "upstream", "title": "Oil and gas: upstream", "lines": [
+      "The upstream industry problem.",
+      "It loses billions of dollars every year due to non productive time, NPT.",
+      "There are deadly accidents, and processes are not optimized.",
+      "The IoT solution: with IoT, refineries can plan their shutdowns, minimize their downtime, and improve safety records.",
+      "Accidents can be prevented, and processes can be optimized."
+    ]},
+    { "id": "midstream", "title": "Oil and gas: midstream", "lines": [
+      "The midstream industry problem.",
+      "It has the challenging task of transporting variable volumes and grades of products, from multiple locations, to new end users and markets.",
+      "And of connecting pipeline networks, sensors, leak detection, alarms, and emergency shutdowns, to interact seamlessly.",
+      "The IoT solution: with IoT, data available for analysis and interpretation in real time would significantly reduce some of the major risks this sector deals with."
+    ]},
+    { "id": "downstream", "title": "Oil and gas: downstream", "lines": [
+      "The downstream industry problem.",
+      "Refinery shutdowns, handling various grades of crude oil, and changing environmental regulations are pushing gross refining margins down to a bare minimum.",
+      "The IoT solution: with IoT, refineries can plan their shutdowns, minimize their downtime, and improve safety records."
+    ]},
+    { "id": "opps", "title": "Countless opportunities in oil and gas", "lines": [
+      "There are countless opportunities for IoT in oil and gas.",
+      "Upstream: asset tracking, vehicle monitoring, remote video, machine monitoring, site monitoring, well head monitoring, security and access sensors, lone worker tracking, rig monitoring, and tank monitoring.",
+      "Midstream: tank farm monitoring, field crew monitoring, remote video, pipeline monitoring, terminal access control, asset tracking, flow meter connectivity, wellhead monitoring, and cargo shipping monitoring.",
+      "Downstream: perimeter security sensors, perimeter video cameras, mobile asset tracking, vehicle monitoring, production sensors, IoT cloud storage, lone worker wearables, contractor tracking, and refinery monitoring."
+    ]},
+    { "id": "recap", "title": "Exam recap", "pad": [0.6, 2.4], "lines": [
+      "Quick recap.",
+      "Top of the ranking: smart home, then wearables, then smart city, smart grid, and industrial internet.",
+      "Smart grid helps four ways: efficient delivery, better operations, lower emissions and costs, faster restoration.",
+      "Smart retail: customer experience and supply chain. Connected car: in vehicle and V2V.",
+      "Oil and gas: upstream is exploration and production, midstream is transport, downstream is refining.",
+      "Good luck in your exam!"
+    ]}
+  ],
+  "pronounce": {
+    "IoT": "I O T",
+    "HVAC": "H V A C",
+    "AC": "A C",
+    "BP": "B P",
+    "ECG": "E C G",
+    "V2V": "V to V",
+    "NPT": "N P T",
+    "LNG": "L N G",
+    "E and P": "E and P",
+    "LinkedIn": "linked in"
+  }
+}

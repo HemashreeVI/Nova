@@ -1,0 +1,666 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>IoT Protocols Part 1</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="fvlib.css">
+</head>
+<body>
+<div id="fv-stage">
+  <div id="bg-grid"></div>
+
+  <!-- INTRO -->
+  <section class="fv-scene" data-scene="intro">
+    <svg id="in-svg" class="abs" width="1920" height="1080" style="inset:0"></svg>
+    <div class="abs" style="left:0;right:0;top:330px;text-align:center">
+      <div data-l="0" class="mono" style="font-size:28px;letter-spacing:.3em;color:var(--a)">IOT PROTOCOLS · PART 1</div>
+      <div data-l="1" class="big" style="margin-top:26px">Layers &amp; <span style="color:var(--a)">Protocols</span></div>
+    </div>
+    <div class="abs" style="left:310px;top:620px;width:1300px">
+      <div class="item" data-l="2"><span class="dot"></span><span>IoT protocols let devices <b style="color:var(--a)">exchange data</b> in a structured, meaningful way</span></div>
+      <div class="item" data-l="3"><span class="dot"></span><span>They are the platform IoT devices use to <b style="color:var(--a)">communicate</b></span></div>
+    </div>
+  </section>
+
+  <!-- OSI -->
+  <section class="fv-scene" data-scene="osi">
+    <div class="kicker">Network models</div>
+    <div class="title">The OSI model — 7 layers</div>
+    <div id="osi-rows" class="abs" style="left:120px;top:235px;width:1680px"></div>
+    <div class="abs chip" data-l="8" style="--k:var(--c);left:120px;top:836px">Mnemonic (top → down): All People Seem To Need Data Processing</div>
+  </section>
+
+  <!-- TCP/IP -->
+  <section class="fv-scene" data-scene="tcpip">
+    <div class="kicker">Network models</div>
+    <div class="title">The TCP/IP protocol suite — 5 layers</div>
+    <div class="abs" style="left:240px;top:250px;width:520px">
+      <div class="mono mut" data-l="5" style="font-size:24px;margin-bottom:10px">OSI</div>
+      <div id="tc-osi" data-l="5"></div>
+    </div>
+    <div class="abs" style="left:900px;top:250px;width:440px">
+      <div class="mono mut" data-l="0" style="font-size:24px;margin-bottom:10px">TCP/IP</div>
+      <div class="layer" data-l="1" data-hl="1" style="--k:var(--a);height:250px;margin-bottom:10px">Application</div>
+      <div class="layer" data-l="2" data-hl="2" style="--k:var(--g);height:74px;margin-bottom:10px">Transport</div>
+      <div class="layer" data-l="3" data-hl="3" style="--k:var(--c);height:74px;margin-bottom:10px">Network</div>
+      <div class="layer" data-l="4" data-hl="4" style="--k:var(--mut);height:74px;margin-bottom:10px">Data link</div>
+      <div class="layer" data-l="4" data-hl="4" style="--k:var(--mut);height:74px">Physical</div>
+    </div>
+    <div class="abs" style="left:1380px;top:250px;width:440px">
+      <div style="height:34px"></div>
+      <div class="note" data-l="1" style="height:250px;margin-bottom:10px;display:flex;align-items:center">Several application protocols</div>
+      <div class="note" data-l="2" style="height:74px;margin-bottom:10px;display:flex;align-items:center">Several transport protocols</div>
+      <div class="note" data-l="3" style="height:74px;margin-bottom:10px;display:flex;align-items:center;font-size:25px">Internet Protocol + some helping protocols</div>
+      <div class="note" data-l="4" style="height:158px;display:flex;align-items:center">Underlying LAN and WAN technology</div>
+    </div>
+  </section>
+
+  <!-- IoT STACK -->
+  <section class="fv-scene" data-scene="stack">
+    <div class="kicker">The big picture</div>
+    <div class="title">The IoT protocol stack — 4 layers</div>
+    <div class="abs" style="left:120px;top:240px;width:1100px">
+      <div class="layer" data-l="4" data-hl="4" style="--k:var(--c);height:150px;flex-direction:column;align-items:flex-start;justify-content:center;gap:12px;margin-bottom:12px">
+        <span>Application layer</span>
+        <span class="flex" style="gap:10px"><span class="chip xs" style="--k:var(--c)">HTTP</span><span class="chip xs" style="--k:var(--c)">CoAP</span><span class="chip xs" style="--k:var(--c)">WebSocket</span><span class="chip xs" style="--k:var(--c)">MQTT</span><span class="chip xs" style="--k:var(--c)">XMPP</span><span class="chip xs" style="--k:var(--c)">DDS</span><span class="chip xs" style="--k:var(--c)">AMQP</span></span></div>
+      <div class="layer" data-l="3" data-hl="3" style="--k:var(--b);height:130px;flex-direction:column;align-items:flex-start;justify-content:center;gap:12px;margin-bottom:12px">
+        <span>Transport layer</span><span class="flex" style="gap:10px"><span class="chip xs" style="--k:var(--b)">TCP</span><span class="chip xs" style="--k:var(--b)">UDP</span></span></div>
+      <div class="layer" data-l="2" data-hl="2" style="--k:var(--a);height:130px;flex-direction:column;align-items:flex-start;justify-content:center;gap:12px;margin-bottom:12px">
+        <span>Network / Internet layer</span><span class="flex" style="gap:10px"><span class="chip xs" style="--k:var(--a)">IPv4</span><span class="chip xs" style="--k:var(--a)">IPv6</span><span class="chip xs" style="--k:var(--a)">6LoWPAN</span></span></div>
+      <div class="layer" data-l="1" data-hl="1" style="--k:var(--mut);height:150px;flex-direction:column;align-items:flex-start;justify-content:center;gap:12px">
+        <span>Link layer</span><span class="flex" style="gap:10px"><span class="chip xs" style="--k:var(--mut)">802.3 Ethernet</span><span class="chip xs" style="--k:var(--mut)">802.11 Wi-Fi</span><span class="chip xs" style="--k:var(--mut)">802.16 WiMax</span><span class="chip xs" style="--k:var(--mut)">802.15.4 LR-WPAN</span><span class="chip xs" style="--k:var(--mut)">2G/3G/4G</span></span></div>
+    </div>
+    <div class="panel" data-l="5" style="left:1260px;top:240px;width:540px;height:612px;padding:24px 26px">
+      <div class="ph" style="font-size:30px;--k:var(--c)">Full forms</div>
+      <div class="item sm" data-l="6"><b style="color:var(--c);display:inline-block;min-width:130px">CoAP</b><span>Constrained Application Protocol</span></div>
+      <div class="item sm" data-l="6" data-f="0.5"><b style="color:var(--c);display:inline-block;min-width:130px">XMPP</b><span>Extensible Messaging and Presence Protocol</span></div>
+      <div class="item sm" data-l="7"><b style="color:var(--c);display:inline-block;min-width:130px">DDS</b><span>Data-Distribution Service</span></div>
+      <div class="item sm" data-l="7" data-f="0.5"><b style="color:var(--c);display:inline-block;min-width:130px">MQTT</b><span>Message Queuing Telemetry Transport</span></div>
+      <div class="item sm" data-l="8"><b style="color:var(--c);display:inline-block;min-width:130px">AMQP</b><span>Advanced Message Queuing Protocol</span></div>
+      <div class="item sm" data-l="8" data-f="0.5"><b style="color:var(--a);display:inline-block;min-width:130px">6LoWPAN</b><span>IPv6 over Low-Power Wireless Personal Area Networks</span></div>
+    </div>
+  </section>
+
+  <!-- LINK / ETHERNET -->
+  <section class="fv-scene" data-scene="link">
+    <div class="kicker">Layer 1 · Link layer</div>
+    <div class="title">Link layer &amp; 802.3 Ethernet</div>
+    <div class="panel" data-l="1" style="left:120px;top:240px;width:1680px;height:170px">
+      <div class="note">Determines <b>how the data is physically sent</b> over the network's physical layer</div>
+      <div class="flex" style="margin-top:16px" data-l="2"><span class="chip sm" style="--k:var(--g)">copper wire</span><span class="chip sm" style="--k:var(--a)">optical fibre cable (OFC)</span><span class="chip sm" style="--k:var(--e)">radio waves</span></div>
+    </div>
+    <div class="panel" data-l="3" style="left:120px;top:440px;width:820px;height:420px">
+      <div class="ph" style="--k:var(--g)">802.3 — Ethernet</div>
+      <div class="item" data-l="4"><span class="dot" style="--k:var(--g)"></span><span>Coaxial cables, twisted pair wire or optical fibre as medium</span></div>
+      <div class="item" data-l="6"><span class="dot" style="--k:var(--g)"></span><span>Data rate: <b>10 Mbps → 40 Gbps</b></span></div>
+      <svg id="ln-svg" width="760" height="110" style="margin-top:10px"></svg>
+    </div>
+    <div class="panel" data-l="5" style="left:980px;top:440px;width:820px;height:420px">
+      <div class="ph" style="font-size:30px">Ethernet variants</div>
+      <table class="tbl mono">
+        <tr><td style="color:var(--g)">802.3</td><td>Coaxial cable</td></tr>
+        <tr><td style="color:var(--g)">802.3i</td><td>Copper twisted pair</td></tr>
+        <tr><td style="color:var(--g)">802.3j</td><td>Fibre optics</td></tr>
+        <tr><td style="color:var(--g)">802.3ae</td><td>Fibre</td></tr>
+        <tr><td class="mut">…</td><td class="mut">and so on</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <!-- WIFI -->
+  <section class="fv-scene" data-scene="wifi">
+    <div class="kicker">Layer 1 · Link layer</div>
+    <div class="title">802.11 — Wi-Fi</div>
+    <div class="panel" data-l="0" style="left:120px;top:240px;width:620px;height:620px">
+      <div class="item"><span class="dot"></span><span><b>Wireless LAN</b></span></div>
+      <div class="item" data-l="1"><span class="dot"></span><span>802.11 <b>b / g / n</b></span></div>
+      <div class="item" data-l="1" data-f="0.5"><span class="dot"></span><span><b>2.4 GHz / 5 GHz</b> band</span></div>
+      <div class="item" data-l="2"><span class="dot"></span><span><b>1 Mbps → 6.75 Gbps</b> data rate</span></div>
+    </div>
+    <div class="panel" data-l="3" style="left:780px;top:240px;width:1020px;height:620px">
+      <div class="ph" style="font-size:30px">Version → band</div>
+      <div id="wf-rows"></div>
+    </div>
+  </section>
+
+  <!-- WIMAX / LR-WPAN -->
+  <section class="fv-scene" data-scene="wimax">
+    <div class="kicker">Layer 1 · Link layer</div>
+    <div class="title">802.16 WiMax &amp; 802.15.4 LR-WPAN</div>
+    <div class="panel" data-l="0" style="left:120px;top:240px;width:760px;height:190px;--k:var(--e)">
+      <div class="ph" style="font-size:30px;--k:var(--e)">802.16 — WiMax</div>
+      <div class="item sm"><span class="dot" style="--k:var(--e)"></span>Collection of wireless broadband standards</div>
+      <div class="item sm"><span class="dot" style="--k:var(--e)"></span><b>1.5 Mbps → 1 Gbps</b></div>
+    </div>
+    <div class="panel" data-l="1" style="left:120px;top:450px;width:760px;height:410px">
+      <div class="ph" style="font-size:30px;--k:var(--b)">802.15.4 — LR-WPAN</div>
+      <div class="item sm"><span class="dot" style="--k:var(--b)"></span>Low-Rate Wireless Personal Area Networks · ex: LoRa</div>
+      <div class="item sm" data-l="2"><span class="dot" style="--k:var(--b)"></span><b>40 kbps → 250 kbps</b> <span class="mut" style="font-size:20px">(slide 10 writes "40bps")</span></div>
+      <div class="item sm" data-l="3"><span class="dot" style="--k:var(--b)"></span>Low-cost, low-speed communication for low-power, power-constrained devices</div>
+    </div>
+    <svg id="wx-svg" class="abs" width="900" height="640" style="left:920px;top:230px"></svg>
+  </section>
+
+  <!-- CELLULAR -->
+  <section class="fv-scene" data-scene="cellular">
+    <div class="kicker">Layer 1 · Link layer</div>
+    <div class="title">2G / 3G / 4G mobile communication</div>
+    <div class="abs" style="left:120px;top:260px;width:1680px;display:flex;gap:30px">
+      <div class="panel rel" data-l="1" style="flex:1;height:300px;border-color:var(--c)"><div class="big" style="font-size:96px;color:var(--c)">2G</div><div class="note" style="margin-top:20px">GSM and CDMA</div></div>
+      <div class="panel rel" data-l="2" style="flex:1;height:300px;border-color:var(--g)"><div class="big" style="font-size:96px;color:var(--g)">3G</div><div class="note" style="margin-top:20px">UMTS and CDMA2000</div></div>
+      <div class="panel rel" data-l="3" style="flex:1;height:300px;border-color:var(--d)"><div class="big" style="font-size:96px;color:var(--d)">4G</div><div class="note" style="margin-top:20px">LTE</div></div>
+    </div>
+    <div class="abs" data-l="4" style="left:120px;top:620px;width:1680px">
+      <div class="note" style="margin-bottom:14px">Data rate: <b style="color:var(--c)">9.6 kbps (2G)</b> → up to <b style="color:var(--d)">100 Mbps (4G)</b></div>
+      <div style="height:34px;border-radius:17px;background:rgba(148,163,200,.15);position:relative"><div id="cl-bar" style="position:absolute;left:0;top:0;bottom:0;border-radius:17px;background:linear-gradient(90deg,var(--c),var(--d))"></div></div>
+    </div>
+  </section>
+
+  <!-- NETWORK / IPv4 -->
+  <section class="fv-scene" data-scene="network">
+    <div class="kicker">Layer 2 · Network layer</div>
+    <div class="title">Network layer &amp; IPv4</div>
+    <div class="panel" data-l="1" style="left:120px;top:240px;width:1680px;height:130px;padding:22px 32px">
+      <div class="note">Sends <b>IP datagrams</b> from a source network to the destination network</div>
+      <div class="note" data-l="2" style="margin-top:6px">Performs <b style="color:var(--a)">host addressing</b> and <b style="color:var(--a)">packet routing</b></div>
+    </div>
+    <div class="abs" data-l="3" style="left:120px;top:400px;font:700 34px Inter">IPv4 · <span style="color:var(--a)">32-bit</span> addresses → 2<sup>32</sup> total</div>
+    <div id="v4" class="abs" data-l="4" style="left:120px;top:470px;display:flex;gap:22px;align-items:flex-end"></div>
+    <div class="abs mono" data-l="5" style="left:120px;top:640px;font-size:24px;color:var(--mut)">one byte = eight bits · 4 bytes × 8 = 32 bits</div>
+    <div class="panel" data-l="6" style="left:1220px;top:400px;width:580px;height:460px;padding:24px 28px">
+      <div class="item sm"><span class="dot" style="--k:var(--d)"></span>Addresses got <b>exhausted in 2011</b></div>
+      <div class="item sm" data-l="7"><span class="dot"></span>Guaranteed delivery &amp; data integrity handled by upper layers, e.g. <b>TCP</b></div>
+      <div class="item sm" data-l="8"><span class="dot" style="--k:var(--c)"></span>Formally described in <b style="color:var(--c)">RFC 791</b></div>
+    </div>
+  </section>
+
+  <!-- IPv6 -->
+  <section class="fv-scene" data-scene="ipv6">
+    <div class="kicker">Layer 2 · Network layer</div>
+    <div class="title">IPv6 — 128-bit addressing</div>
+    <div class="abs" data-l="0" style="left:120px;top:250px;font:700 36px Inter"><span style="color:var(--a)">128 bits</span> → 2<sup>128</sup> addresses</div>
+    <div class="abs mono" data-l="1" style="left:120px;top:310px;font-size:26px;color:var(--c)">≈ 3.4 × 10<sup>38</sup> = 340,282,366,920,938,463,374,607,432,768,211,456</div>
+    <div id="v6" class="abs" data-l="2" style="left:120px;top:420px;display:flex;gap:10px"></div>
+    <div class="abs" data-l="3" style="left:120px;top:530px;width:1680px;display:flex;font:700 26px Inter">
+      <div style="width:830px;text-align:center;color:var(--a);border-top:4px solid var(--a);padding-top:10px">Network Prefix</div>
+      <div style="width:20px"></div>
+      <div style="width:830px;text-align:center;color:var(--b);border-top:4px solid var(--b);padding-top:10px">Interface ID</div>
+    </div>
+    <div class="abs mono mut" data-l="2" style="left:120px;top:385px;font-size:20px">example address (illustrative)</div>
+    <div class="abs note" data-l="2" data-f="0.5" style="left:120px;top:640px">each group <b class="mono">xxxx</b> = <b class="mono">0000</b> through <b class="mono">FFFF</b> (hex)</div>
+    <div class="abs chip" data-l="4" style="--k:var(--c);left:120px;top:730px">Formally described in RFC 2460</div>
+  </section>
+
+  <!-- 6LoWPAN -->
+  <section class="fv-scene" data-scene="lowpan">
+    <div class="kicker">Layer 2 · Network layer</div>
+    <div class="title">6LoWPAN</div>
+    <div class="panel" data-l="0" style="left:120px;top:250px;width:1680px;height:150px">
+      <div class="note" style="font-size:36px"><b style="color:var(--a)">IPv6</b> over <b style="color:var(--b)">Lo</b>w-power <b style="color:var(--b)">W</b>ireless <b style="color:var(--b)">P</b>ersonal <b style="color:var(--b)">A</b>rea <b style="color:var(--b)">N</b>etworks</div>
+    </div>
+    <div class="abs" style="left:120px;top:440px;width:1680px;display:grid;grid-template-columns:repeat(4,1fr);gap:24px">
+      <div class="panel rel" data-l="1" style="height:250px"><div class="ph" style="font-size:28px;--k:var(--b)">Devices</div><div class="note" style="font-size:26px">Low power devices with limited processing capabilities</div></div>
+      <div class="panel rel" data-l="2" style="height:250px"><div class="ph" style="font-size:28px;--k:var(--c)">Frequency</div><div class="big" style="font-size:60px">2.4 GHz</div></div>
+      <div class="panel rel" data-l="2" data-f="0.5" style="height:250px"><div class="ph" style="font-size:28px;--k:var(--g)">Transfer rate</div><div class="big" style="font-size:60px">250 kbps</div></div>
+      <div class="panel rel" data-l="3" style="height:250px"><div class="ph" style="font-size:28px;--k:var(--e)">Link layer</div><div class="note" style="font-size:26px">Works with <b>802.15.4</b> link layer protocols</div></div>
+    </div>
+  </section>
+
+  <!-- TCP -->
+  <section class="fv-scene" data-scene="tcp">
+    <div class="kicker">Layer 3 · Transport layer</div>
+    <div class="title">Transport layer &amp; TCP</div>
+    <div class="panel" data-l="1" style="left:120px;top:240px;width:1680px;height:100px;padding:22px 32px">
+      <div class="note">End-to-end message transfer, <b>independent of the underlying network</b></div>
+    </div>
+    <div class="panel" data-l="2" style="left:120px;top:370px;width:840px;height:490px">
+      <div class="ph" style="--k:var(--b)">TCP — Transmission Control Protocol</div>
+      <div class="item sm" data-l="3"><span class="dot" style="--k:var(--b)"></span><span><b>Connection-oriented</b> and <b>stateful</b></span></div>
+      <div class="item sm" data-l="4"><span class="dot" style="--k:var(--b)"></span><span>Reliable transmission · error detection · flow control · congestion control</span></div>
+      <div class="item sm" data-l="5"><span class="dot" style="--k:var(--b)"></span><span>Most widely used; reliable, <b>in-order</b> delivery of packets</span></div>
+      <div class="item sm" data-l="6"><span class="dot" style="--k:var(--b)"></span><span>Avoids network congestion and congestion collapse</span></div>
+    </div>
+    <svg id="tcp-svg" class="abs" data-l="7" width="800" height="490" style="left:1000px;top:370px"></svg>
+  </section>
+
+  <!-- UDP -->
+  <section class="fv-scene" data-scene="udp">
+    <div class="kicker">Layer 3 · Transport layer</div>
+    <div class="title">UDP — User Datagram Protocol</div>
+    <div class="panel" data-l="0" style="left:120px;top:250px;width:760px;height:600px">
+      <div class="item" data-l="1"><span class="dot" style="--k:var(--c)"></span><span><b>Connectionless</b> and <b>stateless</b></span></div>
+      <div class="item" data-l="2"><span class="dot" style="--k:var(--c)"></span><span><b>Asynchronous</b> protocol</span></div>
+      <div class="item" data-l="3"><span class="dot" style="--k:var(--c)"></span><span>For <b>time-sensitive</b> applications</span></div>
+      <div class="item" data-l="4"><span class="dot" style="--k:var(--c)"></span><span><b>Transaction-oriented</b>, stateless</span></div>
+      <div class="item" data-l="5"><span class="dot" style="--k:var(--d)"></span><span><b>No guaranteed delivery</b></span></div>
+    </div>
+    <svg id="udp-svg" class="abs" width="880" height="600" style="left:920px;top:250px"></svg>
+  </section>
+
+  <!-- TCP vs UDP -->
+  <section class="fv-scene" data-scene="tcpudp">
+    <div class="kicker">Comparison</div>
+    <div class="title">TCP vs UDP</div>
+    <div class="panel" data-l="1" style="left:120px;top:240px;width:820px;height:620px;border-color:var(--b)">
+      <div class="ph" style="--k:var(--b)">TCP</div>
+      <div class="item">Slower but <b>reliable</b> transfers</div>
+      <div class="item" data-l="2">Typical: <b>email</b>, <b>web browsing</b></div>
+      <svg id="tu-tcp" data-l="2" data-f="0.5" width="740" height="250" style="margin-top:20px"></svg>
+    </div>
+    <div class="panel" data-l="3" style="left:980px;top:240px;width:820px;height:620px;border-color:var(--c)">
+      <div class="ph" style="--k:var(--c)">UDP</div>
+      <div class="item">Fast but non-guaranteed (<b>"best effort"</b>)</div>
+      <div class="item" data-l="4">Typical: <b>VoIP</b>, <b>music streaming</b></div>
+      <svg id="tu-udp" data-l="5" width="740" height="250" style="margin-top:20px"></svg>
+    </div>
+  </section>
+
+  <!-- APP / HTTP -->
+  <section class="fv-scene" data-scene="app">
+    <div class="kicker">Layer 4 · Application layer</div>
+    <div class="title">Application layer &amp; HTTP</div>
+    <div class="panel" data-l="1" style="left:120px;top:240px;width:1680px;height:120px;padding:22px 32px">
+      <div class="note">Defines how <b>applications interface with lower layer protocols</b> to send data over a network</div>
+    </div>
+    <div class="panel" data-l="2" style="left:120px;top:390px;width:760px;height:470px">
+      <div class="ph" style="--k:var(--a)">HTTP — Hypertext Transfer Protocol</div>
+      <div class="item sm" data-l="3"><span class="dot"></span>Foundation of the <b>World Wide Web</b></div>
+      <div class="item sm" data-l="4"><span class="dot"></span><b>Request–response</b> model</div>
+      <div class="item sm" data-l="5"><span class="dot"></span><b>Stateless</b> protocol</div>
+      <div class="item sm" data-l="6"><span class="dot"></span>Uses <b>URIs</b> (Universal Resource Identifiers)</div>
+    </div>
+    <svg id="http-svg" class="abs" width="880" height="470" style="left:920px;top:390px"></svg>
+  </section>
+
+  <!-- CoAP -->
+  <section class="fv-scene" data-scene="coap">
+    <div class="kicker">IoT application protocols · 1</div>
+    <div class="title">CoAP — Constrained Application Protocol</div>
+    <div class="abs" style="left:120px;top:250px;width:1680px" class="grid2">
+      <div class="grid2">
+        <div class="panel rel" data-l="1"><div class="note"><b style="color:var(--a)">Freely available</b>, usable for <b>any IoT device</b></div></div>
+        <div class="panel rel" data-l="2"><div class="note">Designed for the needs of <b style="color:var(--a)">HTTP-based IoT systems</b></div></div>
+        <div class="panel rel" data-l="3"><div class="note">Relies on <b style="color:var(--b)">UDP</b> for establishing <b>secure communication</b> between endpoints</div></div>
+        <div class="panel rel" data-l="4"><div class="note"><b style="color:var(--c)">Quality of Service</b> (with acknowledgement messages)</div></div>
+        <div class="panel rel" data-l="5"><div class="note"><b style="color:var(--g)">Extremely light</b> — for battery-operated / low-energy devices</div></div>
+        <div class="panel rel" data-l="6"><div class="note">Good match for <b style="color:var(--e)">web service-based IoT systems</b></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MQTT -->
+  <section class="fv-scene" data-scene="mqtt">
+    <div class="kicker">IoT application protocols · 2</div>
+    <div class="title">MQTT — Message Queuing Telemetry Transport</div>
+    <div class="panel" data-l="1" style="left:120px;top:240px;width:820px;height:620px">
+      <div class="item sm"><span class="dot" style="--k:var(--c)"></span><span>Widely adopted in the <b>Industrial IoT (IIoT)</b></span></div>
+      <div class="item sm" data-l="2"><span class="dot" style="--k:var(--c)"></span><span>Simple, lightweight <b>publish/subscribe</b> messaging</span></div>
+      <div class="item sm" data-l="3"><span class="dot" style="--k:var(--c)"></span><span>Designed for <b>battery-powered devices</b></span></div>
+      <div class="item sm" data-l="4"><span class="dot" style="--k:var(--c)"></span><span><b>Publisher · Broker · Subscriber</b> model</span></div>
+      <div class="ph" data-l="5" style="font-size:28px;margin-top:18px">Features</div>
+      <div class="item sm" data-l="5"><span class="dot" style="--k:var(--b)"></span>Minimum bandwidth use; wireless networks</div>
+      <div class="item sm" data-l="6"><span class="dot" style="--k:var(--b)"></span>Low energy consumption · good reliability</div>
+      <div class="item sm" data-l="7"><span class="dot" style="--k:var(--b)"></span>Little processing and memory resources</div>
+    </div>
+    <svg id="mq-svg" class="abs" width="820" height="620" style="left:980px;top:240px"></svg>
+  </section>
+
+  <!-- XMPP -->
+  <section class="fv-scene" data-scene="xmpp">
+    <div class="kicker">IoT application protocols · 3</div>
+    <div class="title">XMPP — Extensible Messaging &amp; Presence Protocol</div>
+    <div class="panel" data-l="1" style="left:120px;top:250px;width:1080px;height:600px">
+      <div class="item" data-l="1"><span class="dot"></span><span>Developed by the <b style="color:var(--a)">open source</b> community</span></div>
+      <div class="item" data-l="2"><span class="dot"></span><span>For <b style="color:var(--a)">message-oriented middleware</b>, based on the <b>XML</b> language</span></div>
+      <div class="item" data-l="3"><span class="dot"></span><span>Real-time exchange of <b style="color:var(--a)">structured</b> but extensible data between two or more network clients</span></div>
+      <div class="abs mono" data-l="2" data-f="0.6" style="left:32px;bottom:30px;font-size:24px;color:var(--b)">&lt;message to="sensor@iot"&gt;&lt;temp&gt;32&lt;/temp&gt;&lt;/message&gt;</div>
+    </div>
+    <div class="panel" data-l="4" style="left:1240px;top:250px;width:560px;height:600px;border-color:var(--d)">
+      <div class="ph" style="--k:var(--d)">Drawbacks</div>
+      <div class="item"><span class="dot" style="--k:var(--d)"></span><b>No Quality of Service</b></div>
+      <div class="item" data-l="5"><span class="dot" style="--k:var(--d)"></span><b>No end-to-end encryption</b></div>
+    </div>
+  </section>
+
+  <!-- DDS -->
+  <section class="fv-scene" data-scene="dds">
+    <div class="kicker">IoT application protocols · 4</div>
+    <div class="title">DDS — Data-Distribution Service</div>
+    <div class="panel" data-l="1" style="left:120px;top:250px;width:1680px;height:600px">
+      <div class="item" data-l="1"><span class="dot" style="--k:var(--e)"></span><span>Falls under the <b style="color:var(--e)">publish-subscribe</b> methodology</span></div>
+      <div class="item" data-l="2"><span class="dot" style="--k:var(--e)"></span><span>Designed by the <b>Object Management Group (OMG)</b></span></div>
+      <div class="item" data-l="3"><span class="dot" style="--k:var(--e)"></span><span>For <b style="color:var(--e)">real-time M2M</b> communication; enables:</span></div>
+      <div class="flex" data-l="4" style="margin:16px 0 16px 30px"><span class="chip" style="--k:var(--b)">scalable</span><span class="chip" style="--k:var(--b)">reliable</span><span class="chip" style="--k:var(--b)">high-performance</span><span class="chip" style="--k:var(--b)">interoperable</span></div>
+      <div class="item" data-l="4" data-f="0.5"><span class="dot" style="--k:var(--e)"></span><span>data exchange between connected devices</span></div>
+      <div class="item" data-l="5"><span class="dot" style="--k:var(--d)"></span><span><b style="color:var(--d)">independent of the hardware and the software platform</b></span></div>
+    </div>
+  </section>
+
+  <!-- DDS APPS -->
+  <section class="fv-scene" data-scene="ddsapp">
+    <div class="kicker">IoT application protocols · 4</div>
+    <div class="title">Applications of DDS (IIoT)</div>
+    <div class="abs" style="left:120px;top:250px;width:1680px;display:grid;grid-template-columns:repeat(4,1fr);gap:20px">
+      <div class="chip" data-l="1" style="--k:var(--e);justify-content:center">air-traffic control</div>
+      <div class="chip" data-l="1" data-f="0.35" style="--k:var(--e);justify-content:center">smart grid management</div>
+      <div class="chip" data-l="1" data-f="0.7" style="--k:var(--e);justify-content:center">autonomous vehicles</div>
+      <div class="chip" data-l="2" style="--k:var(--e);justify-content:center">transportation systems</div>
+      <div class="chip" data-l="2" data-f="0.4" style="--k:var(--e);justify-content:center">robotics</div>
+      <div class="chip" data-l="2" data-f="0.7" style="--k:var(--e);justify-content:center">power generation</div>
+      <div class="chip" data-l="3" style="--k:var(--e);justify-content:center">healthcare services</div>
+    </div>
+    <div class="panel" data-l="4" style="left:120px;top:540px;width:1680px;height:200px;border-color:var(--c)">
+      <div class="note"><b style="color:var(--c)">Overall:</b> DDS manages data exchange between <b>lightweight devices</b>, and interconnects <b>large, high-performance sensor networks</b>.</div>
+    </div>
+  </section>
+
+  <!-- AMQP -->
+  <section class="fv-scene" data-scene="amqp">
+    <div class="kicker">IoT application protocols · 5</div>
+    <div class="title">AMQP — Advanced Message Queuing Protocol</div>
+    <div class="panel" data-l="0" style="left:120px;top:240px;width:1080px;height:620px">
+      <div class="item sm" data-l="1"><span class="dot" style="--k:var(--g)"></span><span>Open standard <b style="color:var(--g)">publish/subscribe</b> type protocol</span></div>
+      <div class="item sm" data-l="2"><span class="dot" style="--k:var(--g)"></span><span>Roots in the <b>financial services</b> sector</span></div>
+      <div class="ph" data-l="3" style="font-size:28px;margin-top:16px">Features</div>
+      <div class="flex" style="gap:12px">
+        <span class="chip sm" data-l="3" style="--k:var(--g)">message orientation</span>
+        <span class="chip sm" data-l="3" data-f="0.6" style="--k:var(--g)">queuing</span>
+        <span class="chip sm" data-l="4" style="--k:var(--g)">routing: point-to-point + publish-and-subscribe</span>
+        <span class="chip sm" data-l="5" style="--k:var(--g)">reliability</span>
+        <span class="chip sm" data-l="5" data-f="0.5" style="--k:var(--g)">security</span>
+      </div>
+      <div class="item" data-l="6" style="margin-top:26px"><span class="dot" style="--k:var(--b)"></span><span>Can guarantee <b style="color:var(--b)">complete transactions</b></span></div>
+    </div>
+    <div class="panel" data-l="7" style="left:1240px;top:240px;width:560px;height:620px;border-color:var(--d)">
+      <div class="ph" style="--k:var(--d)">Limitation</div>
+      <div class="note">Due to its <b style="color:var(--d)">heaviness</b>, AMQP is not suitable for <b>sensor devices</b> with limited:</div>
+      <div class="item" style="margin-top:16px"><span class="dot" style="--k:var(--d)"></span>memory</div>
+      <div class="item"><span class="dot" style="--k:var(--d)"></span>power</div>
+      <div class="item"><span class="dot" style="--k:var(--d)"></span>network bandwidth</div>
+    </div>
+  </section>
+
+  <!-- RECAP -->
+  <section class="fv-scene" data-scene="recap">
+    <div class="kicker">Exam recap</div>
+    <div class="title">Remember these</div>
+    <div class="abs" style="left:120px;top:230px;width:1680px;display:grid;grid-template-columns:1fr 1fr;gap:14px 26px">
+      <div class="panel rel" data-l="1" style="padding:16px 22px"><div class="note" style="font-size:24px"><b style="color:var(--a)">Models</b>: OSI 7 · TCP/IP 5 · IoT stack 4 (link, network, transport, application)</div></div>
+      <div class="panel rel" data-l="2" style="padding:16px 22px"><div class="note" style="font-size:24px"><b style="color:var(--mut)">Link</b>: Ethernet, Wi-Fi, WiMax, LR-WPAN, 2G/3G/4G · <b style="color:var(--a)">Net</b>: IPv4 32b, IPv6 128b, 6LoWPAN</div></div>
+      <div class="panel rel" data-l="3" style="padding:16px 22px"><div class="note" style="font-size:24px"><b style="color:var(--b)">TCP</b> reliable, connection-oriented · <b style="color:var(--c)">UDP</b> fast, connectionless, best effort</div></div>
+      <div class="panel rel" data-l="4" style="padding:16px 22px"><div class="note" style="font-size:24px"><b style="color:var(--a)">CoAP</b> light, UDP, web-style · <b style="color:var(--c)">MQTT</b> pub/sub + broker, IIoT</div></div>
+      <div class="panel rel" data-l="5" style="padding:16px 22px"><div class="note" style="font-size:24px"><b style="color:var(--a)">XMPP</b> XML, no QoS, no E2E encryption · <b style="color:var(--e)">DDS</b> pub/sub by OMG, real-time</div></div>
+      <div class="panel rel" data-l="6" style="padding:16px 22px"><div class="note" style="font-size:24px"><b style="color:var(--g)">AMQP</b> pub/sub, finance roots, complete transactions, too heavy for sensors</div></div>
+    </div>
+    <div class="abs" style="left:0;right:0;top:700px;text-align:center"><span class="fv-endcard" data-l="7"></span></div>
+  </section>
+</div>
+<script src="timing.js"></script>
+<script src="fv-runtime.js"></script>
+<script src="fvlib.js"></script>
+<script>
+const { seg, enter, css, ease, clamp, lerp } = FV;
+const { COL, at, mk, reveal, arrow, traveller } = L;
+
+/* intro: devices around a hub */
+FV.scene('intro', (() => {
+  const svg = document.getElementById('in-svg');
+  const hub = [960, 220];
+  const pts = [[300, 160], [560, 110], [1360, 110], [1620, 160], [300, 860], [1620, 860]];
+  const tv = pts.map(([x, y], k) => {
+    mk('line', { x1: x, y1: y, x2: hub[0], y2: hub[1], stroke: 'rgba(148,163,200,.25)', 'stroke-width': 2, 'stroke-dasharray': '6 8' }, svg);
+    mk('circle', { cx: x, cy: y, r: 22, fill: 'rgba(13,20,42,.9)', stroke: Object.values(COL)[k], 'stroke-width': 3 }, svg);
+    return traveller(svg, `M ${x} ${y} L ${hub[0]} ${hub[1]}`, Object.values(COL)[k], 8);
+  });
+  mk('circle', { cx: hub[0], cy: hub[1], r: 34, fill: 'rgba(56,189,248,.2)', stroke: COL.a, 'stroke-width': 3 }, svg);
+  return (t, ctx) => { reveal(t, ctx); svg.style.opacity = seg(t, 0.3, 1.2); tv.forEach((f, k) => f(t, 0.6 + k * 0.2, 1.8)); };
+})());
+
+/* OSI rows */
+(function () {
+  const rows = [
+    ['Application', '#f6c08a', 'To allow access to network resources'],
+    ['Presentation', '#f6c08a', 'To translate, encrypt, and compress data'],
+    ['Session', '#f6c08a', 'To establish, manage, and terminate sessions'],
+    ['Transport', '#a3e635', 'To provide reliable process-to-process message delivery and error recovery'],
+    ['Network', '#67e8f9', 'To move packets from source to destination; to provide internetworking'],
+    ['Data link', '#fde047', 'To organize bits into frames; to provide hop-to-hop delivery'],
+    ['Physical', '#fde047', 'To transmit bits over a medium; to provide mechanical and electrical specifications'],
+  ];
+  const box = document.getElementById('osi-rows');
+  rows.forEach(([n, c, d], i) => {
+    const r = document.createElement('div');
+    r.style.cssText = 'display:flex;gap:24px;align-items:center;margin-bottom:10px';
+    r.innerHTML = `<div class="mono" style="width:40px;font-size:26px;color:var(--mut)">${7 - i}</div><div class="layer" data-hl="${i + 1}" style="--k:${c};width:320px;height:72px;font-size:30px">${n}</div><div class="note" data-l="${i + 1}" style="font-size:28px">${d}</div>`;
+    box.appendChild(r);
+  });
+  FV.scene('osi', reveal);
+})();
+
+/* TCP/IP: OSI ghost column */
+(function () {
+  const box = document.getElementById('tc-osi');
+  [['Application', 74], ['Presentation', 74], ['Session', 74], ['Transport', 74], ['Network', 74], ['Data link', 74], ['Physical', 74]].forEach(([n], i) => {
+    const d = document.createElement('div');
+    d.className = 'layer'; d.style.cssText = `--k:var(--mut);height:${i < 3 ? 76.6 : 74}px;margin-bottom:10px;opacity:.85;font-size:26px`;
+    if (i < 3) d.style.marginBottom = i === 2 ? '10px' : '10px';
+    d.textContent = n; box.appendChild(d);
+  });
+  // first three OSI boxes: 3*76.6 + 2*10 = 250 → aligns with TCP/IP application block
+  box.children[0].style.height = box.children[1].style.height = box.children[2].style.height = '76.6px';
+  FV.scene('tcpip', reveal);
+})();
+
+FV.scene('stack', reveal);
+
+/* link: medium animation */
+FV.scene('link', (() => {
+  const svg = document.getElementById('ln-svg');
+  mk('rect', { x: 0, y: 40, width: 760, height: 30, rx: 15, fill: 'rgba(251,146,60,.18)', stroke: COL.g, 'stroke-width': 2 }, svg);
+  const bits = [...Array(10)].map((_, k) => mk('text', { x: 0, y: 63, fill: '#fff', 'font-size': 22, 'font-weight': 700 }, svg, k % 3 ? '1' : '0'));
+  return (t, ctx) => {
+    reveal(t, ctx);
+    bits.forEach((b, k) => { const x = ((t * 120 + k * 76) % 760); b.setAttribute('x', x); });
+  };
+})());
+
+/* wifi rows */
+(function () {
+  const rows = [['802.11a', [5], 4], ['802.11b / g', [2.4], 5], ['802.11n', [2.4, 5], 6], ['802.11ac', [5], 7], ['802.11ad', [60], 8]];
+  const box = document.getElementById('wf-rows');
+  rows.forEach(([n, bands, l]) => {
+    const r = document.createElement('div');
+    r.dataset.l = l; r.dataset.hl = l;
+    r.style.cssText = 'display:flex;align-items:center;gap:20px;margin:16px 0;padding:8px 14px;border-radius:12px;--k:var(--a)';
+    r.innerHTML = `<div class="mono" style="width:260px;font-size:30px;font-weight:700;color:var(--a)">${n}</div>` +
+      bands.map((b) => `<span class="chip sm" style="--k:${b === 60 ? 'var(--f)' : b === 5 ? 'var(--e)' : 'var(--c)'}">${b} GHz</span>`).join('');
+    box.appendChild(r);
+  });
+  const foot = document.createElement('div'); foot.className = 'note mut'; foot.dataset.l = 8; foot.dataset.f = 0.5;
+  foot.style.marginTop = '20px'; foot.textContent = 'Data rate: 1 Mb/s → 6.75 Gb/s'; box.appendChild(foot);
+  FV.scene('wifi', reveal);
+})();
+
+/* wimax: star + peer-to-peer */
+FV.scene('wimax', (() => {
+  const svg = document.getElementById('wx-svg');
+  const gStar = mk('g', {}, svg), gP2p = mk('g', {}, svg), gLeg = mk('g', {}, svg);
+  mk('text', { x: 200, y: 40, 'text-anchor': 'middle', fill: COL.ink, 'font-size': 28, 'font-weight': 700 }, gStar, 'Star');
+  const c = [200, 250];
+  const sp = [[90, 130], [320, 140], [60, 300], [340, 360], [180, 420]];
+  const stTv = sp.map(([x, y], k) => {
+    mk('line', { x1: c[0], y1: c[1], x2: x, y2: y, stroke: COL.mut, 'stroke-width': 3 }, gStar);
+    mk('circle', { cx: x, cy: y, r: 20, fill: k % 2 ? '#0d142a' : '#5b6b8c', stroke: '#e8edf7', 'stroke-width': 3 }, gStar);
+    return traveller(gStar, `M ${x} ${y} L ${c[0]} ${c[1]}`, COL.b, 7);
+  });
+  mk('circle', { cx: c[0], cy: c[1], r: 26, fill: '#e8edf7' }, gStar);
+  mk('text', { x: 640, y: 40, 'text-anchor': 'middle', fill: COL.ink, 'font-size': 28, 'font-weight': 700 }, gP2p, 'Peer-to-peer');
+  const pp = [[640, 110], [520, 250], [740, 250], [860, 250], [640, 390]];
+  [[0, 1], [0, 2], [1, 2], [2, 3], [1, 4], [2, 4]].forEach(([a, b]) => mk('line', { x1: pp[a][0], y1: pp[a][1], x2: pp[b][0], y2: pp[b][1], stroke: COL.mut, 'stroke-width': 3 }, gP2p));
+  const ppTv = [[0, 1], [2, 3], [1, 4], [2, 4]].map(([a, b]) => traveller(gP2p, `M ${pp[a][0]} ${pp[a][1]} L ${pp[b][0]} ${pp[b][1]}`, COL.c, 7));
+  pp.forEach(([x, y], k) => mk('circle', { cx: x, cy: y, r: 20, fill: k === 2 ? '#e8edf7' : '#5b6b8c', stroke: '#e8edf7', 'stroke-width': 3 }, gP2p));
+  [['#e8edf7', 'PAN Coordinator'], ['#5b6b8c', 'FFD — full function device'], ['#0d142a', 'RFD — reduced function device']].forEach(([f, txt], k) => {
+    mk('circle', { cx: 60, cy: 500 + k * 44, r: 14, fill: f, stroke: '#e8edf7', 'stroke-width': 3 }, gLeg);
+    mk('text', { x: 90, y: 509 + k * 44, fill: COL.ink, 'font-size': 25 }, gLeg, txt);
+  });
+  mk('text', { x: 440, y: 600, fill: COL.b, 'font-size': 24, 'font-weight': 700 }, gLeg, 'for power-constrained devices');
+  mk('text', { x: 440, y: 630, fill: COL.mut, 'font-size': 22 }, gLeg, 'data rates 40–250 kb/s');
+  return (t, ctx) => {
+    reveal(t, ctx);
+    gStar.style.opacity = seg(t, ctx.line(4), ctx.line(4) + 0.5);
+    gP2p.style.opacity = seg(t, ctx.line(5), ctx.line(5) + 0.5);
+    gLeg.style.opacity = seg(t, ctx.line(6), ctx.line(6) + 0.5);
+    stTv.forEach((f, k) => f(t, ctx.line(4) + 0.4 + k * 0.25, 1.5));
+    ppTv.forEach((f, k) => f(t, ctx.line(5) + 0.4 + k * 0.3, 1.5));
+  };
+})());
+
+FV.scene('cellular', (t, ctx) => {
+  reveal(t, ctx);
+  document.getElementById('cl-bar').style.width = (seg(t, at(ctx, 4, 0.2), at(ctx, 4, 0.9)) * 100) + '%';
+});
+
+/* IPv4 bytes */
+FV.scene('network', (() => {
+  const box = document.getElementById('v4');
+  const bytes = [172, 16, 254, 1];
+  const cells = bytes.map((b, k) => {
+    const d = document.createElement('div');
+    d.style.cssText = 'text-align:center';
+    d.innerHTML = `<div class="mono" style="font:800 64px 'JetBrains Mono';color:var(--a)">${b}</div><div class="mono bin" style="font-size:24px;color:var(--c);margin-top:8px">${b.toString(2).padStart(8, '0')}</div>`;
+    box.appendChild(d);
+    if (k < 3) { const dot = document.createElement('div'); dot.style.cssText = "font:800 64px 'JetBrains Mono';color:var(--mut);padding-bottom:40px"; dot.textContent = '.'; box.appendChild(dot); }
+    return d;
+  });
+  return (t, ctx) => {
+    reveal(t, ctx);
+    cells.forEach((d, k) => { d.querySelector('.bin').style.opacity = seg(t, at(ctx, 5, 0.1 + k * 0.12), at(ctx, 5, 0.25 + k * 0.12)); });
+  };
+})());
+
+/* IPv6 groups */
+FV.scene('ipv6', (() => {
+  const box = document.getElementById('v6');
+  const groups = ['2001', '0db8', '85a3', '0000', '0000', '8a2e', '0370', '7334'];
+  const els = groups.map((g, k) => {
+    const d = document.createElement('div');
+    d.className = 'layer mono'; d.style.cssText = `--k:${k < 4 ? 'var(--a)' : 'var(--b)'};width:200px;height:80px;justify-content:center;font-size:32px`;
+    d.textContent = g; box.appendChild(d); return d;
+  });
+  return (t, ctx) => { reveal(t, ctx); els.forEach((d, k) => enter(d, t, at(ctx, 2, 0.05 + k * 0.06), 0.4, 14)); };
+})());
+
+FV.scene('lowpan', reveal);
+
+/* TCP state diagram (simplified from the slide) */
+FV.scene('tcp', (() => {
+  const svg = document.getElementById('tcp-svg');
+  mk('rect', { x: 0, y: 0, width: 800, height: 490, rx: 24, fill: 'rgba(13,20,42,.8)', stroke: 'rgba(148,163,200,.25)', 'stroke-width': 2 }, svg);
+  mk('text', { x: 30, y: 46, fill: COL.ink, 'font-size': 26, 'font-weight': 700 }, svg, 'TCP connection states');
+  const node = (x, y, txt, c) => { mk('rect', { x: x - 110, y: y - 28, width: 220, height: 56, rx: 28, fill: 'rgba(13,20,42,.9)', stroke: c, 'stroke-width': 3 }, svg); mk('text', { x, y: y + 9, 'text-anchor': 'middle', fill: c, 'font-size': 24, 'font-weight': 700 }, svg, txt); };
+  node(400, 120, 'ESTABLISHED', COL.b);
+  node(160, 250, 'FIN/ACK', COL.c); node(640, 250, 'ACK', COL.c);
+  node(400, 380, 'CLOSED', COL.d);
+  const a1 = arrow(svg, 300, 145, 200, 220, COL.mut);
+  const a2 = arrow(svg, 500, 145, 600, 220, COL.mut);
+  const a3 = arrow(svg, 200, 280, 310, 360, COL.mut);
+  const a4 = arrow(svg, 600, 280, 490, 360, COL.mut);
+  mk('text', { x: 400, y: 460, 'text-anchor': 'middle', fill: COL.mut, 'font-size': 20 }, svg, 'reliable, in-order, congestion-controlled');
+  return (t, ctx) => { reveal(t, ctx); const s = at(ctx, 7, 0.3); a1(t, s); a2(t, s + 0.3); a3(t, s + 0.9); a4(t, s + 1.2); };
+})());
+
+/* UDP: fire-and-forget */
+FV.scene('udp', (() => {
+  const svg = document.getElementById('udp-svg');
+  mk('rect', { x: 20, y: 240, width: 160, height: 100, rx: 18, fill: 'rgba(56,189,248,.15)', stroke: COL.a, 'stroke-width': 3 }, svg);
+  mk('text', { x: 100, y: 298, 'text-anchor': 'middle', fill: COL.ink, 'font-size': 26, 'font-weight': 700 }, svg, 'Sender');
+  mk('rect', { x: 700, y: 240, width: 160, height: 100, rx: 18, fill: 'rgba(251,191,36,.15)', stroke: COL.c, 'stroke-width': 3 }, svg);
+  mk('text', { x: 780, y: 298, 'text-anchor': 'middle', fill: COL.ink, 'font-size': 26, 'font-weight': 700 }, svg, 'Receiver');
+  const pk = [0, 1, 2, 3, 4].map(() => mk('rect', { width: 70, height: 36, rx: 8, fill: COL.c }, svg));
+  const lost = mk('text', { x: 440, y: 440, 'text-anchor': 'middle', fill: COL.d, 'font-size': 26, 'font-weight': 700 }, svg, 'lost packet: no retry');
+  const nost = mk('text', { x: 440, y: 160, 'text-anchor': 'middle', fill: COL.mut, 'font-size': 24 }, svg, 'no connection setup · no ACK');
+  return (t, ctx) => {
+    reveal(t, ctx);
+    const s = ctx.line(0) + 0.5;
+    pk.forEach((r, k) => {
+      const q = Math.max(0, ((t - s) * 0.45 + k * 0.2) % 1);
+      const drop = k === 2 && q > 0.5;
+      const f = drop ? (q - 0.5) * 2 : 0;
+      r.setAttribute('x', 190 + q * 440); r.setAttribute('y', 272 + f * 140);
+      r.style.opacity = t < s ? 0 : (1 - f) * Math.min(1, Math.min(q, 1 - q) * 10);
+      r.setAttribute('fill', drop ? COL.d : COL.c);
+    });
+    nost.style.opacity = seg(t, ctx.line(1), ctx.line(1) + 0.5);
+    lost.style.opacity = seg(t, ctx.line(5), ctx.line(5) + 0.5);
+  };
+})());
+
+/* TCP vs UDP cast diagrams */
+FV.scene('tcpudp', (() => {
+  function cast(svg, cx, label, n, color) {
+    const g = mk('g', {}, svg);
+    mk('circle', { cx, cy: 120, r: 16, fill: COL.d }, g);
+    const leaves = [];
+    for (let k = 0; k < 5; k++) {
+      const ang = (-60 + k * 30) * Math.PI / 180;
+      const x = cx + Math.cos(ang) * 90, y = 120 + Math.sin(ang) * 90;
+      const hit = k < n;
+      mk('line', { x1: cx, y1: 120, x2: x, y2: y, stroke: hit ? color : 'rgba(148,163,200,.25)', 'stroke-width': 3 }, g);
+      mk('circle', { cx: x, cy: y, r: 11, fill: hit ? color : '#334155' }, g);
+    }
+    mk('text', { x: cx + 20, y: 240, 'text-anchor': 'middle', fill: COL.ink, 'font-size': 24, 'font-weight': 700 }, g, label);
+    return g;
+  }
+  const t1 = document.getElementById('tu-tcp');
+  cast(t1, 300, 'unicast', 1, COL.b);
+  const t2 = document.getElementById('tu-udp');
+  const gs = [cast(t2, 110, 'unicast', 1, COL.c), cast(t2, 350, 'multicast', 3, COL.c), cast(t2, 590, 'broadcast', 5, COL.c)];
+  return (t, ctx) => { reveal(t, ctx); gs.forEach((g, k) => g.style.opacity = seg(t, at(ctx, 5, 0.1 + k * 0.25), at(ctx, 5, 0.3 + k * 0.25))); };
+})());
+
+/* HTTP req/resp */
+FV.scene('app', (() => {
+  const svg = document.getElementById('http-svg');
+  const box = (x, txt, c) => { mk('rect', { x, y: 40, width: 220, height: 380, rx: 22, fill: 'rgba(13,20,42,.85)', stroke: c, 'stroke-width': 3 }, svg); mk('text', { x: x + 110, y: 230, 'text-anchor': 'middle', fill: COL.ink, 'font-size': 28, 'font-weight': 700 }, svg, txt); };
+  box(20, 'Client', COL.a); box(640, 'Web server', COL.c);
+  const r1 = arrow(svg, 250, 150, 630, 150, COL.a, { label: 'GET /index.html', fs: 24 });
+  const r2 = arrow(svg, 630, 310, 250, 310, COL.b, { label: '200 OK + page', fs: 24 });
+  const st = mk('text', { x: 440, y: 455, 'text-anchor': 'middle', fill: COL.mut, 'font-size': 22 }, svg, 'server keeps no memory of past requests');
+  return (t, ctx) => { reveal(t, ctx); const s = at(ctx, 4, 0.1); r1(t, s); r2(t, s + 0.9); st.style.opacity = seg(t, ctx.line(5), ctx.line(5) + 0.5); };
+})());
+
+FV.scene('coap', reveal);
+
+/* MQTT pub → broker → subs */
+FV.scene('mqtt', (() => {
+  const svg = document.getElementById('mq-svg');
+  const pub = [110, 310], brk = [410, 310], subs = [[710, 130], [710, 310], [710, 490]];
+  const nodeG = mk('g', {}, svg);
+  mk('circle', { cx: pub[0], cy: pub[1], r: 64, fill: 'rgba(56,189,248,.15)', stroke: COL.a, 'stroke-width': 3 }, nodeG);
+  mk('text', { x: pub[0], y: pub[1] + 8, 'text-anchor': 'middle', fill: COL.ink, 'font-size': 19, 'font-weight': 700 }, nodeG, 'Publisher');
+  mk('circle', { cx: brk[0], cy: brk[1], r: 80, fill: 'rgba(251,191,36,.25)', stroke: COL.c, 'stroke-width': 4 }, nodeG);
+  mk('text', { x: brk[0], y: brk[1] - 4, 'text-anchor': 'middle', fill: COL.ink, 'font-size': 26, 'font-weight': 800 }, nodeG, 'MQTT');
+  mk('text', { x: brk[0], y: brk[1] + 26, 'text-anchor': 'middle', fill: COL.ink, 'font-size': 24, 'font-weight': 700 }, nodeG, 'broker');
+  subs.forEach(([x, y]) => { mk('circle', { cx: x, cy: y, r: 58, fill: 'rgba(52,211,153,.15)', stroke: COL.b, 'stroke-width': 3 }, nodeG); mk('text', { x, y: y + 8, 'text-anchor': 'middle', fill: COL.ink, 'font-size': 17, 'font-weight': 700 }, nodeG, 'Subscriber'); });
+  [[pub, brk]].concat(subs.map((s) => [brk, s])).forEach(([a, b]) => mk('line', { x1: a[0], y1: a[1], x2: b[0], y2: b[1], stroke: 'rgba(148,163,200,.3)', 'stroke-width': 3, 'stroke-dasharray': '6 8' }, nodeG));
+  const tp = traveller(svg, `M ${pub[0] + 64} ${pub[1]} L ${brk[0] - 80} ${brk[1]}`, COL.a, 10);
+  const ts = subs.map(([x, y]) => traveller(svg, `M ${brk[0]} ${brk[1]} L ${x} ${y}`, COL.b, 10));
+  return (t, ctx) => {
+    reveal(t, ctx);
+    nodeG.style.opacity = seg(t, 0.5, 1.2);
+    const s = at(ctx, 4, 0.2);
+    tp(t, s, 2); ts.forEach((f) => f(t, s + 1, 2));
+  };
+})());
+
+FV.scene('xmpp', reveal);
+FV.scene('dds', reveal);
+FV.scene('ddsapp', reveal);
+FV.scene('amqp', reveal);
+FV.scene('recap', reveal);
+</script>
+</body>
+</html>
