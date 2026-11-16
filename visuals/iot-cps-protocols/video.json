@@ -1,0 +1,232 @@
+{
+ "title": "IoT & CPS Protocols Explained Simply — WiFi, ZigBee, Z-Wave, LoRaWAN, NB-IoT, Modbus, PROFINET, M2M",
+ "slug": "iot-cps-protocols",
+ "description": "Every protocol in the IoT & CPS protocols deck: architecture, structure, working, real-world examples and functionality.",
+ "tags": [
+  "IoT",
+  "CPS",
+  "ZigBee",
+  "LoRaWAN",
+  "Modbus",
+  "PROFINET",
+  "exam revision"
+ ],
+ "voice": "am_michael",
+ "speed": 1.0,
+ "fps": 24,
+ "captions": true,
+ "endCard": "📘 5 headings: architecture · structure · working · examples · functionality",
+ "thumbnail": "intro@4",
+ "pronounce": {
+  "NB-IoT": "N B I o T",
+  "IoT": "I o T",
+  "CPS": "C P S",
+  "Z-Wave": "Z wave",
+  "PROFINET": "Profi net",
+  "AP": "A P",
+  "TCP/IP": "T C P I P",
+  "GHz": "gigahertz",
+  "MHz": "megahertz",
+  "Sub-GHz": "sub gigahertz",
+  "802.11": "eight oh two dot eleven",
+  "802.15.4": "eight oh two dot fifteen dot four",
+  "IEEE": "I triple E",
+  "MAC": "mac",
+  "PLC": "P L C",
+  "PLCs": "P L Cs",
+  "JSON": "Jason",
+  "LTE": "L T E",
+  "M2M": "M 2 M",
+  "HVAC": "H vac",
+  "MQTT": "M Q T T",
+  "CoAP": "co app",
+  "HTTP": "H T T P",
+  "XML": "X M L",
+  "WiFi": "Wi-Fi"
+ },
+ "scenes": [
+  {
+   "id": "intro",
+   "title": "Intro",
+   "lines": [
+    "Smart homes, farms, factories and cities all have machines talking to each other. But they don't all speak the same language.",
+    "Each language is a protocol. This video covers every protocol in the IoT and CPS protocols deck. CPS means cyber physical systems.",
+    "For each one, the slides give five things: its architecture, its structure, how it works, real world examples, and its functionality.",
+    "We will cover eight protocols: WiFi, ZigBee, Z-Wave, LoRaWAN, NB-IoT, Modbus TCP, PROFINET, and machine to machine, or M2M.",
+    "Tip: in the exam, write each protocol under exactly these five headings."
+   ],
+   "pad": [
+    0.6,
+    1.0
+   ]
+  },
+  {
+   "id": "headings",
+   "title": "The five headings",
+   "lines": [
+    "Architecture is the shape of the network. Star means everyone talks to one centre. Mesh means devices pass messages through each other.",
+    "Structure tells you the layers: the radio frequency and physical layer, the MAC or data link layer, and the application layer.",
+    "Working is the step by step journey of the data.",
+    "Applications are real products that use it.",
+    "And functionality is the protocol's main strengths. Now, protocol one."
+   ]
+  },
+  {
+   "id": "wifi",
+   "title": "1. WiFi (IEEE 802.11)",
+   "lines": [
+    "WiFi, also called IEEE 802.11. You use it every day.",
+    "Architecture: star topology. Devices connect to an Access Point, which connects to the local network, and then to the internet.",
+    "Structure: the physical layer uses two point four or five gigahertz. The data link layer is the IEEE 802.11 MAC. On top runs the normal TCP/IP stack.",
+    "Working, step one: the device scans for available networks.",
+    "Step two: it associates with the Access Point. Associate simply means joins.",
+    "Step three: data is exchanged using TCP/IP.",
+    "Step four: the Access Point forwards the data to the router and the internet.",
+    "Examples: a smart home speaker like Amazon Echo communicates with the cloud over WiFi.",
+    "And industrial PCs send data from machines to a cloud dashboard.",
+    "Functionality: high bandwidth, it supports mobility, and it is suitable for a local area."
+   ]
+  },
+  {
+   "id": "zigbee",
+   "title": "2. ZigBee (IEEE 802.15.4)",
+   "lines": [
+    "Protocol two: ZigBee, which is built on IEEE 802.15.4.",
+    "Architecture: it supports mesh, star and tree topologies. Sensors and actuators send to a Coordinator, then a Home Hub, then the Cloud.",
+    "Structure: the physical layer uses two point four gigahertz, or eight sixty eight or nine fifteen megahertz.",
+    "The MAC layer is IEEE 802.15.4, and the application layer is the ZigBee Cluster Library.",
+    "Working, step one: sensors detect events, like motion or a door opening.",
+    "Step two: the data is sent to the Coordinator.",
+    "Step three: it is aggregated, meaning collected together, at the Hub.",
+    "Step four: it is communicated to the cloud.",
+    "Examples: the Philips Hue lighting system for home automation.",
+    "And soil moisture sensors that report data for precision irrigation.",
+    "Functionality: low power operation and reliable mesh networking. If one path fails, messages hop through another device."
+   ]
+  },
+  {
+   "id": "zwave",
+   "title": "3. Z-Wave",
+   "lines": [
+    "Protocol three: Z-Wave, another smart home protocol.",
+    "Architecture: mesh topology. Devices connect to a Z-Wave Controller, which connects to the cloud or a mobile app.",
+    "Structure: it uses sub gigahertz frequencies, around nine oh eight or eight sixty eight megahertz.",
+    "And it uses a proprietary stack. Proprietary means owned by one company, not an open standard.",
+    "Working, step one: a sensor or actuator sends data to the Controller.",
+    "Step two: the Controller forwards commands back to devices.",
+    "Step three: repeaters extend coverage. Powered devices relay messages for devices that are far away.",
+    "Examples: Yale smart locks that you can control remotely.",
+    "And smart thermostats adjusting home temperature.",
+    "Functionality: low power, simple device pairing, and interoperable, meaning devices from different brands work together."
+   ]
+  },
+  {
+   "id": "lorawan",
+   "title": "4. LoRaWAN",
+   "lines": [
+    "Protocol four: LoRaWAN. Long range wide area network.",
+    "Architecture: star of stars. End devices send to gateways, gateways send to a Network Server, which sends to an Application Server.",
+    "Star of stars means each gateway is the centre of its own star, and all gateways together form a bigger star around the server.",
+    "Structure: sub gigahertz, eight sixty eight or nine fifteen megahertz, with the LoRaWAN protocol stack.",
+    "Working, step one: the sensor sends data using LoRa radio.",
+    "Step two: the gateway forwards it to the Network Server.",
+    "Step three: the server processes it and forwards it to the Application Server.",
+    "Examples: soil moisture sensors in a farm sending data for irrigation.",
+    "And LoRaWAN tags for tracking shipping containers.",
+    "Functionality: long range, very low power, and suitable for sparse sensor networks, where devices are few and far apart."
+   ]
+  },
+  {
+   "id": "nbiot",
+   "title": "5. NB-IoT",
+   "lines": [
+    "Protocol five: NB-IoT, narrowband IoT, which runs on mobile networks.",
+    "Architecture: star topology. The IoT device talks to a Base Station, which connects to the Core Network, and then to the Cloud Application.",
+    "Structure: it uses the LTE spectrum, but only narrowband resource blocks. A resource block is a small slice of the LTE channel.",
+    "Working, step one: the device connects to the NB-IoT base station.",
+    "Step two: data is sent using minimal LTE resources.",
+    "Step three: it is forwarded to the cloud.",
+    "Examples: smart meters sending consumption data.",
+    "And parking sensors sending whether a parking slot is free.",
+    "Functionality: low power, deep coverage, even underground, and cost effective."
+   ]
+  },
+  {
+   "id": "modbus",
+   "title": "6. Modbus TCP",
+   "lines": [
+    "Protocol six: Modbus TCP, used in factories.",
+    "Architecture: a client server model, also called master and slave. The master asks, the slaves answer.",
+    "In Modbus TCP, the master is the client, and each slave device acts as a server.",
+    "Structure: the physical layer is Ethernet, and the application layer is Modbus commands.",
+    "Working, step one: the master sends read or write requests. For example, read register ten.",
+    "Step two: the slave responds with the data.",
+    "Step three: all this communication happens over TCP/IP.",
+    "Examples: temperature sensors in a chemical plant reporting to a PLC, a programmable logic controller.",
+    "And HVAC system controllers reading thermostats. HVAC means heating, ventilation and air conditioning.",
+    "Functionality: simple, built for industrial communication, and reliable for data and control."
+   ]
+  },
+  {
+   "id": "profinet",
+   "title": "7. PROFINET",
+   "lines": [
+    "Protocol seven: PROFINET, an industrial Ethernet protocol.",
+    "Architecture: industrial Ethernet, connecting controllers to field devices. Field devices are the machines on the factory floor.",
+    "Structure: Ethernet at the physical layer, with deterministic data exchange.",
+    "Deterministic means the timing is guaranteed. A message always arrives within a fixed time. That's critical when a robot is moving.",
+    "Working, step one: PLCs send real time commands.",
+    "Step two: field devices respond deterministically, always on time.",
+    "Think of it like a train timetable. Every message has a fixed slot, so nothing is ever late.",
+    "Step three: the system handles diagnostics, detecting faults and problems.",
+    "Examples: a robotic arm in a car assembly line.",
+    "And process monitoring in chemical plants.",
+    "Functionality: high speed, deterministic control, and it supports redundancy, meaning backup paths if one link fails."
+   ]
+  },
+  {
+   "id": "m2m",
+   "title": "8. M2M (Machine-to-Machine)",
+   "lines": [
+    "Protocol eight: M2M, machine to machine. Machines talk to each other with no human in between.",
+    "Architecture: either peer to peer, or client server. A sensor or actuator talks to a cloud server, or directly to a peer device.",
+    "Peer to peer means two equal devices talk directly. Client server means one central server.",
+    "Structure: M2M is a concept, so it uses existing protocols, for example MQTT, CoAP, HTTP, Modbus, or NB-IoT.",
+    "Working, step one: the sensor collects data.",
+    "Step two: the data is packaged, in a format like JSON or XML.",
+    "Step three: it is sent via a protocol to the server or peer.",
+    "Step four: the server responds with commands. For example, send a refill truck.",
+    "Examples: vending machine stock monitoring.",
+    "And remote oil pump monitoring, in places where no engineer is around.",
+    "Functionality: automated communication, scalable to thousands of machines, and ideal for remote monitoring."
+   ]
+  },
+  {
+   "id": "compare",
+   "title": "Comparison table",
+   "lines": [
+    "Let's compare all eight. WiFi: star topology, two point four or five gigahertz, best for high bandwidth.",
+    "ZigBee: mesh, star or tree, on 802.15.4, best for low power mesh networks.",
+    "Z-Wave: mesh, sub gigahertz, proprietary, with simple pairing.",
+    "LoRaWAN: star of stars, sub gigahertz, long range and very low power.",
+    "NB-IoT: star, on the LTE spectrum, with deep coverage.",
+    "Modbus TCP: master and slave over Ethernet, simple and reliable.",
+    "PROFINET: industrial Ethernet with deterministic, guaranteed timing.",
+    "And M2M: peer to peer or client server, using protocols like MQTT and CoAP."
+   ]
+  },
+  {
+   "id": "recap",
+   "title": "How to pick one",
+   "lines": [
+    "To finish, a quick way to remember them. In a smart home, use ZigBee or Z-Wave for low power mesh, or WiFi for high bandwidth.",
+    "On a farm or wide area with few sensors, use LoRaWAN.",
+    "For city meters and parking sensors, NB-IoT, because it uses the existing mobile network.",
+    "For simple factory sensors, Modbus TCP.",
+    "For real time robots, PROFINET.",
+    "And for machines reporting automatically from far away, M2M. Remember the five headings for each, and you're ready!"
+   ],
+   "hold": 3
+  }
+ ]
+}

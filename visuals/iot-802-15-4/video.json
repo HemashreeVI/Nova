@@ -1,0 +1,651 @@
+{
+ "title": "IEEE 802.15.4 & IoT Communication Criteria (Module 4) — Full Revision with Numericals",
+ "slug": "iot-802-15-4",
+ "description": "Module 4 explained simply: range, frequency bands, power, RFC 7228 classes, constrained networks, 802.15.4 PHY, topologies, superframe, MAC frames, message sequences, slotted & unslotted CSMA/CA, and all numericals.",
+ "tags": [
+  "IEEE 802.15.4",
+  "ZigBee",
+  "CSMA/CA",
+  "superframe",
+  "IoT",
+  "exam revision"
+ ],
+ "voice": "am_michael",
+ "speed": 1.0,
+ "fps": 24,
+ "captions": true,
+ "endCard": "📘 Re-watch the numericals before the exam",
+ "thumbnail": "superframe@20",
+ "pronounce": {
+  "IoT": "I o T",
+  "CPS": "C P S",
+  "IEEE": "I triple E",
+  "802.15.4": "eight oh two dot fifteen dot four",
+  "802.15.4e": "eight oh two dot fifteen dot four e",
+  "802.15.4g": "eight oh two dot fifteen dot four g",
+  "802.15.1": "eight oh two dot fifteen dot one",
+  "802.15.7": "eight oh two dot fifteen dot seven",
+  "802.11": "eight oh two dot eleven",
+  "802.11ah": "eight oh two dot eleven a h",
+  "802.11ac": "eight oh two dot eleven a c",
+  "802.3": "eight oh two dot three",
+  "1901.2": "nineteen oh one dot two",
+  "WPAN": "W pan",
+  "PAN": "pan",
+  "VLC": "V L C",
+  "PLC": "P L C",
+  "LPWA": "L P W A",
+  "ITU": "I T U",
+  "FCC": "F C C",
+  "ISM": "I S M",
+  "RFID": "R F I D",
+  "NB-IoT": "N B I o T",
+  "LTE-M": "L T E M",
+  "LTE": "L T E",
+  "GHz": "gigahertz",
+  "MHz": "megahertz",
+  "kbps": "kilobits per second",
+  "bps": "bits per second",
+  "Mbps": "megabits per second",
+  "RFC": "R F C",
+  "KB": "kilobytes",
+  "CoAP": "co app",
+  "IP": "I P",
+  "LLN": "L L N",
+  "LLNs": "L L Ns",
+  "TSCH": "T S C H",
+  "MTU": "M T U",
+  "MTUs": "M T Us",
+  "IPv6": "I P v six",
+  "MAC": "mac",
+  "CSMA/CA": "C S M A, C A",
+  "CSMA": "C S M A",
+  "O-QPSK": "O Q P S K",
+  "BPSK": "B P S K",
+  "SHR": "S H R",
+  "SFD": "S F D",
+  "PHR": "P H R",
+  "PSDU": "P S D U",
+  "MHR": "M H R",
+  "MSDU": "M S D U",
+  "MFR": "M F R",
+  "ED": "E D",
+  "CCA": "C C A",
+  "LQI": "L Q I",
+  "FFD": "F F D",
+  "RFD": "R F D",
+  "FFDs": "F F Ds",
+  "RFDs": "R F Ds",
+  "GTS": "G T S",
+  "CAP": "C A P",
+  "CFP": "C F P",
+  "SO": "S O",
+  "BO": "B O",
+  "NB": "N B",
+  "BE": "B E",
+  "CW": "C W",
+  "macMinBE": "mac min B E",
+  "macMaxBE": "mac max B E",
+  "aMaxBE": "a max B E",
+  "macMaxCSMABackoffs": "mac max C S M A backoffs",
+  "aMaxMACFrameSize": "a max mac frame size",
+  "MCPS-DATA.request": "M C P S data request",
+  "MCPS-DATA.confirm": "M C P S data confirm",
+  "MCPS-DATA.indication": "M C P S data indication",
+  "MLME-ASSOCIATE.request": "M L M E associate request",
+  "MLME-ASSOCIATE.indication": "M L M E associate indication",
+  "MLME-ASSOCIATE.response": "M L M E associate response",
+  "MLME-ASSOCIATE.confirm": "M L M E associate confirm",
+  "MLME-COMM-STATUS.indication": "M L M E comm status indication",
+  "MLME-DISASSOCIATE.request": "M L M E disassociate request",
+  "MLME-DISASSOCIATE.confirm": "M L M E disassociate confirm",
+  "MLME-DISASSOCIATE.indication": "M L M E disassociate indication",
+  "MCPS": "M C P S",
+  "MLME": "M L M E",
+  "ACK": "ack",
+  "6LoWPAN": "six low pan",
+  "RPL": "ripple",
+  "ICMPv6": "I C M P v six",
+  "UDP": "U D P",
+  "TCP": "T C P",
+  "2G": "two G",
+  "3G": "three G",
+  "4G": "four G",
+  "5G": "five G",
+  "WiMAX": "Wy max",
+  "PHY": "physical"
+ },
+ "scenes": [
+  {
+   "id": "intro",
+   "title": "Intro",
+   "lines": [
+    "How does a tiny battery sensor decide which wireless technology to use? And how does it share the air with hundreds of other sensors?",
+    "This is Module 4: IoT communication protocols for cyber physical systems.",
+    "We'll cover the criteria for choosing a technology: range, frequency bands, and power. Then device classes and constrained networks.",
+    "Then the main star: IEEE 802.15.4. Its physical layer, topologies, superframe, frame formats, message sequences, and C S M A, C A.",
+    "And we'll solve every numerical problem from the slides, step by step."
+   ],
+   "pad": [
+    0.6,
+    1.0
+   ]
+  },
+  {
+   "id": "criteria",
+   "title": "Communication criteria",
+   "lines": [
+    "Module 4 starts with a question: there are numerous wired and wireless access technologies for IoT. How do we pick one?",
+    "We use evaluation criteria. These are crucial for matching a technology to a specific use case.",
+    "Wireless communication is popular because of its mobility and ease of deployment.",
+    "Wired connectivity is still considered when it is relevant, for example when power cables already exist.",
+    "The first key criterion is range. How far does the signal need to reach?",
+    "We also separate indoor and outdoor deployments. Based on range, technologies are grouped as short, medium, and long range."
+   ]
+  },
+  {
+   "id": "range",
+   "title": "Communication range",
+   "lines": [
+    "Short range technologies cover typically tens of meters between devices. They are often used as replacements for serial cables.",
+    "Examples are IEEE 802.15.1 Bluetooth, and IEEE 802.15.7 visible light communications, which sends data using light.",
+    "Short range has limited adoption in IoT, due to maturity and range limitations.",
+    "Medium range covers tens to hundreds of meters, up to about one mile. This is the most commonly used group in IoT deployments.",
+    "Examples: IEEE 802.11 Wi-Fi, IEEE 802.15.4 wireless personal area networks, and IEEE 1901.2 narrowband power line communications.",
+    "There's also a wired example: IEEE 802.3 Ethernet.",
+    "Long range means distances greater than one mile, suitable for wide area coverage with low power consumption.",
+    "Examples: cellular, like 2G, 3G and 4G, LPWA, meaning low power wide area technologies, and outdoor IEEE 802.11 Wi-Fi.",
+    "Long range is ideal for industrial networks and battery powered IoT sensors."
+   ]
+  },
+  {
+   "id": "bands",
+   "title": "Frequency bands: licensed vs unlicensed",
+   "lines": [
+    "Criterion two: frequency bands. The radio spectrum is regulated by organizations like the ITU and the FCC.",
+    "The spectrum is shared by radio, TV, the military and more, so spectrum for communication is seen as a critical resource.",
+    "There are two types. First, licensed spectrum. It is used for long range IoT technologies.",
+    "Users must subscribe to a service provider, which adds complexity. Think of paying a mobile operator.",
+    "In return you get exclusivity, and guaranteed quality of service. Examples are cellular, WiMAX, and NB-IoT.",
+    "Second, unlicensed spectrum. There is no need to subscribe to a service provider. Anyone can use it, within the rules.",
+    "It is used for short to medium range technologies, but it is prone to interference from other devices.",
+    "Examples are the two point four gigahertz band, used by Wi-Fi and Bluetooth, and sub gigahertz bands, used by LoRa and Sigfox."
+   ]
+  },
+  {
+   "id": "unlic",
+   "title": "Unlicensed bands in India",
+   "lines": [
+    "Now the unlicensed bands for IoT in India. First, the two point four gigahertz ISM band, from 2400 to 2483.5 megahertz. ISM means industrial, scientific and medical.",
+    "It is widely used for Wi-Fi, Bluetooth, Zigbee and other short range links, in smart homes, industrial automation, and personal area networks.",
+    "Second, the five point eight gigahertz ISM band, from 5725 to 5875 megahertz. It is for high data rates, like advanced Wi-Fi, 802.11ac.",
+    "Then the sub gigahertz ISM bands. The 433 megahertz band, from 433.05 to 434.79 megahertz, for remote controls, sensor networks and telemetry.",
+    "And the 865 to 867 megahertz band, for RFID and low power devices, and LPWA networks like LoRaWAN, for smart metering, asset tracking and industrial IoT."
+   ]
+  },
+  {
+   "id": "lic",
+   "title": "Licensed bands in India",
+   "lines": [
+    "Next, licensed bands for IoT in India. These are cellular bands used for NB-IoT and LTE-M.",
+    "The 850 megahertz band, called band 5, and the 900 megahertz band, called band 8. Each has a separate uplink and downlink range.",
+    "Then 1800 megahertz, band 3, and 2100 megahertz, band 1.",
+    "Finally 2300 megahertz, band 40, and 2500 megahertz, band 41. These two use one shared range for both directions.",
+    "Uplink means device to tower. Downlink means tower to device. The exact numbers are on screen for your notes.",
+    "These bands support applications that need wider coverage and higher reliability: smart cities, utility metering, vehicle telematics, and health monitoring."
+   ]
+  },
+  {
+   "id": "rangevsrate",
+   "title": "Range vs data rate",
+   "lines": [
+    "A key deployment consideration: range versus data rate.",
+    "Sub gigahertz bands give better range and penetration, but lower data rates.",
+    "Higher frequencies, like two point four gigahertz, give the opposite: shorter range, but more data.",
+    "This trade-off is important when choosing a technology based on your IoT sensor's requirements."
+   ]
+  },
+  {
+   "id": "power",
+   "title": "Power consumption",
+   "lines": [
+    "Criterion three: power consumption. IoT devices can be powered, or battery powered, and power is a key concern for battery nodes.",
+    "Powered nodes connect directly to a power source, so power consumption has no significant limit. But deployment is limited to where power is available, and mobility is complex.",
+    "Battery powered nodes offer greater flexibility and mobility. They are classified by the battery lifetime they need.",
+    "Ten to fifteen years, for long term deployments like water or gas meters.",
+    "Five to seven years, for medium term applications like smart parking sensors. And two to three years, for devices with regular maintenance cycles.",
+    "This is why low power wide area, or LPWA, technologies evolved. They meet the low power needs of IoT.",
+    "They are ideal for battery devices needing long life, and they reduce battery replacements, making large scale deployments practical.",
+    "Finally, even powered nodes need power optimization.",
+    "Example: smart meters using power line communication. Wasting a little power across millions of meters adds up to a substantial amount of energy."
+   ]
+  },
+  {
+   "id": "rfc",
+   "title": "Device classes (RFC 7228)",
+   "lines": [
+    "IoT devices vary widely in capability, so RFC 7228 groups them. RFC is a standards document from the internet community.",
+    "Devices are split into constrained and unconstrained nodes. Constrained nodes have limited computing, memory, storage and networking.",
+    "Class 0 nodes: less than 10 kilobytes of RAM and less than 100 kilobytes of flash.",
+    "They are severely constrained, usually battery powered, and cannot implement a full IP stack.",
+    "Example: a push button sending just one byte of information. They suit low power wide area wireless technology.",
+    "Class 1 nodes: around 10 kilobytes of RAM and 100 kilobytes of flash. More capable than class 0, but still limited.",
+    "They use optimized protocols like CoAP, the constrained application protocol, and can communicate with basic security.",
+    "Example: environmental sensors.",
+    "Class 2 nodes: more than 50 kilobytes of RAM and 250 kilobytes of flash. They can run a full IP stack.",
+    "Example: a smart power meter. They are fully integrated into IP networks."
+   ]
+  },
+  {
+   "id": "cnn",
+   "title": "Constrained-node networks",
+   "lines": [
+    "Constrained node networks connect these low power, limited resource devices.",
+    "They are often called low power and lossy networks, or LLNs. Lossy means packets often get lost. Common technologies are 802.15.4, LPWA, and 802.11ah.",
+    "Characteristic one: data rate and throughput. They range from about 100 bits per second with Sigfox, up to megabits per second with LTE.",
+    "Real throughput can be much lower, because of protocol overhead and environmental factors.",
+    "So applications must understand their bandwidth and throughput requirements.",
+    "Characteristic two: latency and determinism. Latency can vary from milliseconds to seconds.",
+    "Wireless networks must manage packet loss and retransmissions.",
+    "For low latency needs, technologies like deterministic Ethernet and IEEE 802.15.4e TSCH are considered. TSCH means time slotted channel hopping.",
+    "Characteristic three: overhead and payload. The MAC payload size affects how efficiently data is sent.",
+    "IPv6 needs a minimum MTU of 1280 bytes. MTU is the biggest packet a link can carry. Smaller MTUs require fragmentation, meaning chopping packets into pieces.",
+    "And LPWA technologies usually have small payload sizes, to meet their low data rate and duty cycle needs."
+   ]
+  },
+  {
+   "id": "ov154",
+   "title": "IEEE 802.15.4 overview",
+   "lines": [
+    "Now the core topic, IEEE 802.15.4. It is a wireless access technology for low cost, low data rate devices.",
+    "It suits both powered and battery operated devices. It offers low cost, reasonable battery life, easy installation, and a compact protocol stack.",
+    "Applications: home and building automation, controlling lights, thermostats, and security systems.",
+    "Automotive networks, for vehicle safety and convenience features.",
+    "Industrial wireless sensor networks, to monitor processes and equipment.",
+    "And interactive toys and remote controls."
+   ]
+  },
+  {
+   "id": "crit154",
+   "title": "Criticisms of 802.15.4",
+   "lines": [
+    "It has criticisms too. First, MAC reliability and latency. It uses CSMA/CA, carrier sense multiple access with collision avoidance, to share the channel.",
+    "Because devices wait random times after collisions, delay has no upper limit. That's called unbounded latency.",
+    "This also leads to reliability issues.",
+    "Second, interference and multipath fading. It lacks frequency hopping, so it is more sensitive to interference.",
+    "Multipath means the signal bounces off walls and arrives several times, weakening itself.",
+    "The later standards, IEEE 802.15.4e and 802.15.4g, add enhancements to fix MAC reliability, latency and interference, making it more robust."
+   ]
+  },
+  {
+   "id": "zstack",
+   "title": "ZigBee protocol stack",
+   "lines": [
+    "802.15.4 itself only defines the bottom two layers: the physical layer, and the MAC layer.",
+    "The MAC layer decides who may talk and when. The physical layer is the actual radio.",
+    "ZigBee builds on top of it. The ZigBee platform stack adds the network and security layer, and the application support layer.",
+    "At the very top are the application profiles, which are ZigBee or vendor specific."
+   ]
+  },
+  {
+   "id": "zipstack",
+   "title": "ZigBee IP stack",
+   "lines": [
+    "ZigBee IP brings internet protocols onto 802.15.4. At the bottom are the 802.15.4 2006 MAC and physical layers.",
+    "Above that is the 6LoWPAN adaptation layer. It squeezes big IPv6 packets into small 802.15.4 frames, by compressing headers and fragmenting.",
+    "Then the network layer: IPv6, ICMPv6, and 6LoWPAN neighbour discovery, along with RPL, the routing protocol for low power and lossy networks.",
+    "Then the transport layer: UDP and TCP.",
+    "And on top, ZigBee IP with the Smart Energy 2.0 profile."
+   ]
+  },
+  {
+   "id": "phybands",
+   "title": "PHY frequency bands",
+   "lines": [
+    "The 802.15.4 physical layer defines different frequency bands, each with its own modulation scheme, so it can be used in many regions.",
+    "Band one: the two point four gigahertz ISM band, available worldwide.",
+    "It uses O-QPSK modulation, gives a maximum data rate of 250 kilobits per second, and has 16 channels from 2400 to 2483.5 megahertz.",
+    "It is the most commonly used, because it works worldwide. It is ideal for Zigbee, IoT, and wireless sensor networks.",
+    "Band two: 868 megahertz, used in Europe. It uses BPSK modulation, gives 20 kilobits per second, and has just one channel.",
+    "It suits low power applications with low data rate requirements.",
+    "Band three: 915 megahertz, for North America. BPSK modulation, 40 kilobits per second, and 10 channels from 902 to 928 megahertz.",
+    "It is widely used there for low power, long range communication. Memory trick: 250, 20, 40 kilobits; 16, 1, 10 channels."
+   ]
+  },
+  {
+   "id": "modul",
+   "title": "O-QPSK vs BPSK",
+   "lines": [
+    "Now the two modulation techniques. Modulation is how bits are carried on a radio wave.",
+    "O-QPSK, offset quadrature phase shift keying, is used in the two point four gigahertz band. Each symbol is a specific phase shift of the carrier signal.",
+    "That allows higher data rates, 250 kilobits per second, and it is robust in noisy environments and crowded bands.",
+    "BPSK, binary phase shift keying, is used in the 868 and 915 megahertz bands. It shifts the carrier between just two phases, one for zero, one for one.",
+    "It is simpler, and supports lower data rates than O-QPSK.",
+    "But BPSK is more energy efficient, so it suits long range and low power applications."
+   ]
+  },
+  {
+   "id": "phyframe",
+   "title": "PHY frame structure",
+   "lines": [
+    "Here is the frame structure of the 802.15.4 physical layer.",
+    "First, the synchronization header, or SHR. It starts with the preamble, which helps the receiver synchronize with the transmitter's clock.",
+    "Then the start of frame delimiter, or SFD, which marks the beginning of the frame. Together, preamble and SFD form the synchronization header.",
+    "Next, the PHY header, or PHR. It contains the length of the payload, meaning the size of the PSDU. Headers so far total 6 bytes.",
+    "Then the PHY service data unit, or PSDU, from 0 to 127 bytes. This is the actual data being transmitted.",
+    "The PSDU contains the whole MAC layer frame: the MAC header, the MAC service data unit, and the MAC footer.",
+    "So remember: sync, start, length, data. And the biggest PSDU is 127 bytes."
+   ]
+  },
+  {
+   "id": "phyfunc",
+   "title": "Key functions of the PHY",
+   "lines": [
+    "The physical layer has six key functions.",
+    "One: data transmission and reception. It modulates data from the MAC layer into radio waves, and demodulates received radio signals back into packets.",
+    "Two: channel access. It transmits and receives on specific frequency channels, and can switch channels when the environment is crowded.",
+    "Three: energy detection, or ED. It measures the energy level in the channel, to tell whether the channel is busy or idle.",
+    "This helps avoid collisions by checking availability before sending.",
+    "Four: clear channel assessment, or CCA. Before transmitting, it checks whether the channel is free or occupied, so devices don't talk over each other.",
+    "Five: link quality indication, or LQI. It measures the quality of the received signal, the strength and reliability of the link.",
+    "Upper layers use LQI to make decisions about routing or retrying transmissions.",
+    "Six: channel selection. 802.15.4 supports multiple bands, and the PHY selects the appropriate channel. Each band uses a different modulation scheme."
+   ]
+  },
+  {
+   "id": "lowpower",
+   "title": "Low-power operation",
+   "lines": [
+    "How does 802.15.4 save power? Four ways.",
+    "First, duty cycle control using the superframe structure. Duty cycle is the fraction of time the radio is awake.",
+    "It is controlled with two numbers, the beacon order and the superframe order, plus a coordinator battery life extension option.",
+    "Second, indirect data transmission. The coordinator holds messages until the sleeping device wakes up and asks for them.",
+    "Third, devices may sleep for an extended period, over multiple beacons.",
+    "Fourth, higher layers can control the receiver state, switching the radio on only when needed."
+   ]
+  },
+  {
+   "id": "devtypes",
+   "title": "FFD vs RFD",
+   "lines": [
+    "Before topologies, two device types. An FFD, full function device, can act as a PAN coordinator, a coordinator, or a normal device. It can talk to anyone.",
+    "On the diagrams, FFDs are blue dots.",
+    "An RFD, reduced function device, is a simple end device, like a light switch. It can only talk to an FFD. It's cheap and sleeps most of the time.",
+    "RFDs are red dots.",
+    "The PAN coordinator is the main FFD that starts and controls the personal area network."
+   ]
+  },
+  {
+   "id": "star",
+   "title": "Star topology",
+   "lines": [
+    "Topology one: star. One FFD in the middle is the PAN coordinator.",
+    "All other devices, FFDs and RFDs, connect directly to it.",
+    "It is a master slave arrangement. The coordinator is the master.",
+    "Even if two devices want to talk to each other, the message goes through the coordinator, like the yellow packet here."
+   ]
+  },
+  {
+   "id": "p2p",
+   "title": "Peer-to-peer topology",
+   "lines": [
+    "Topology two: peer to peer. Here devices can talk directly to each other, not just to a coordinator.",
+    "The first form is point to point, or mesh. Any FFD can talk to any other FFD in range, and messages can hop across several devices.",
+    "This gives multiple paths, so if one node fails, data finds another route.",
+    "The second form is the cluster tree. Devices form branches, like a family tree, and routes follow the branches.",
+    "Notice that RFDs are always at the edges, as leaves, because they can only talk to an FFD."
+   ]
+  },
+  {
+   "id": "combined",
+   "title": "Combined topology",
+   "lines": [
+    "Topology three: the combined topology, which mixes star and peer to peer. It is also called clustered stars.",
+    "Example: a hotel. Each room has its own small star network to control lights and air conditioning.",
+    "And cluster nodes exist between the rooms, linking the stars together into one big network.",
+    "So a message from one room's switch can travel through the cluster nodes to a device in another room."
+   ]
+  },
+  {
+   "id": "superframe",
+   "title": "Superframe structure",
+   "lines": [
+    "Now the superframe, an optional frame structure used in beacon enabled networks. Think of it as a repeating timetable for the channel.",
+    "It starts with a network beacon, transmitted by the PAN coordinator. It carries network information, the frame structure, and notification of pending messages for nodes.",
+    "The superframe is divided into 16 equal slots, numbered 0 to 15.",
+    "Right after the beacon is the beacon extension period. This is space reserved for the beacon to grow when there are many pending messages. It is also linked to battery life extension.",
+    "Next is the contention access period, or CAP. Here any node can access the channel, using CSMA-CA. Devices compete, like people raising hands.",
+    "Contention means competing. If two devices try at once, one must back off and try again.",
+    "Then comes the contention free period, or CFP. It holds guaranteed time slots, or GTS. Here, GTS 3, GTS 2 and GTS 1.",
+    "A guaranteed time slot is reserved for a node that needs guaranteed bandwidth. No competing. Like a reserved seat.",
+    "The length of the superframe is 15 milliseconds times 2 to the power n, where n is between 0 and 14.",
+    "Then the next beacon arrives, and the cycle repeats."
+   ]
+  },
+  {
+   "id": "inactive",
+   "title": "Inactive period, SO and BO",
+   "lines": [
+    "The superframe may also have an inactive period.",
+    "After the active part ends, nobody transmits. The coordinator and the devices can all go to sleep, until the next beacon.",
+    "This is how the duty cycle is controlled.",
+    "The active part lasts 15 milliseconds times 2 to the power SO. SO is the superframe order, and it is between 0 and 14.",
+    "It's the same formula as before. The n we saw earlier is the superframe order.",
+    "The time between two beacons, the beacon interval, is 15 milliseconds times 2 to the power BO, the beacon order.",
+    "BO must be at least SO, and at most 14. If BO is bigger than SO, an inactive period appears.",
+    "Example: superframe order 2 and beacon order 5. The active part is 2 squared over 2 to the fifth, so the network is awake only one eighth of the time."
+   ]
+  },
+  {
+   "id": "mactree",
+   "title": "802.15.4 MAC modes",
+   "lines": [
+    "The 802.15.4 MAC can run in two modes. Mode one: beacon enabled.",
+    "It uses the superframe. The contention access period uses slotted CSMA/CA, and the optional contention free period uses GTS allocations.",
+    "Mode two: non beacon enabled. There are no beacons and no superframe. Devices simply use unslotted CSMA/CA whenever they want to send.",
+    "Keep these two in mind. We'll walk through both CSMA procedures shortly."
+   ]
+  },
+  {
+   "id": "macframe",
+   "title": "General MAC frame format",
+   "lines": [
+    "Now the general MAC frame format. The numbers above each field are sizes in octets, which means bytes.",
+    "It starts with the frame control field, 2 bytes, which describes the frame.",
+    "Then the sequence number, 1 byte, used to match acknowledgments to frames.",
+    "Then the addressing fields: destination PAN identifier, destination address, source PAN identifier, and source address. Each can be 0, 2 or 8 bytes long.",
+    "All of these together form the MAC header.",
+    "Next, the frame payload, of variable length. This is the MAC payload.",
+    "Finally, the frame check sequence, 2 bytes, the MAC footer. It is a checksum that detects errors.",
+    "Let's zoom into the 16 bit frame control field.",
+    "Bits 0 to 2 give the frame type, like data, ack or beacon. Bit 3 says security enabled. Bit 4 is frame pending, meaning more data is waiting.",
+    "Bit 5 is acknowledgment request. Bit 6 is intra PAN, meaning both devices are in the same PAN. Bits 7 to 9 are reserved.",
+    "Bits 10 and 11 give the destination addressing mode, bits 12 and 13 are reserved, and bits 14 and 15 give the source addressing mode."
+   ]
+  },
+  {
+   "id": "dataack",
+   "title": "Data frame and ACK frame",
+   "lines": [
+    "Here is the data frame, with a maximum of 127 bytes, the PSDU limit we saw earlier.",
+    "Frame control, 2 bytes. Data sequence number, 1 byte. Address information, 4 to 20 bytes. These form the MAC header. Then the data payload, and a 2 byte frame check sequence as the footer.",
+    "Remember the size of each field. You'll need them for the numerical problems.",
+    "And the acknowledgment frame is tiny: just frame control, 2 bytes, data sequence number, 1 byte, and frame check sequence, 2 bytes. Total, 5 bytes.",
+    "It has no addresses and no payload. It simply echoes the sequence number of the frame it is acknowledging."
+   ]
+  },
+  {
+   "id": "dataservice",
+   "title": "MAC data service",
+   "lines": [
+    "The MAC provides a data service. It transfers data to neighbouring devices.",
+    "Transfers can be acknowledged or unacknowledged.",
+    "They can be direct or indirect. Direct means the data is sent immediately.",
+    "Indirect means the coordinator keeps the data until the sleepy device asks for it.",
+    "Transfers can also use the GTS service, the guaranteed time slots.",
+    "The maximum data length, the MSDU, is aMaxMACFrameSize, which is 102 bytes. That's 127 bytes minus the space needed for headers."
+   ]
+  },
+  {
+   "id": "msc_data",
+   "title": "Data transfer sequence",
+   "lines": [
+    "Now the message sequence diagrams. Each vertical line is a layer, and arrows are messages in time order, top to bottom.",
+    "Request, indication, confirm: these are called primitives, the ways layers talk to each other inside one device. MCPS means MAC common part sublayer, the MAC's data service.",
+    "Step one: the originator's higher layer hands data to its MAC with MCPS-DATA.request.",
+    "Step two: the originator MAC sends a data frame over the air to the recipient MAC.",
+    "Step three: if an acknowledgment was requested, the recipient MAC sends an acknowledgment back.",
+    "Step four: the recipient MAC passes the data up to its higher layer with MCPS-DATA.indication.",
+    "Step five: the originator MAC tells its higher layer the result with MCPS-DATA.confirm. Pattern: request, frame, ack, indication, confirm."
+   ]
+  },
+  {
+   "id": "msc_indirect",
+   "title": "Indirect data transfer",
+   "lines": [
+    "Indirect data transfer is for a device that sleeps. The coordinator can't just send, because the device's radio is off.",
+    "Step one: the coordinator's higher layer issues MCPS-DATA.request, marked indirect. The MAC stores the data and waits.",
+    "Step two: when the device wakes, it hears the beacon frame. The beacon says: I have pending data for you.",
+    "Step three: the device MAC sends a data request to the coordinator. Basically, please send my mail.",
+    "Step four: the coordinator acknowledges the request.",
+    "Step five: the coordinator sends the data frame.",
+    "Step six: the device acknowledges it.",
+    "Step seven: the device MAC passes the data up with MCPS-DATA.indication.",
+    "And step eight: the coordinator MAC reports MCPS-DATA.confirm to its higher layer. The device chose when to listen, so it saved battery."
+   ]
+  },
+  {
+   "id": "msc_assoc",
+   "title": "Association",
+   "lines": [
+    "Association is how a device joins a PAN. MLME means MAC layer management entity, the MAC's management service.",
+    "Step one: the device's higher layer asks its MAC to join, with MLME-ASSOCIATE.request.",
+    "Step two: the device MAC sends an association request frame to the coordinator.",
+    "Step three: the coordinator MAC acknowledges it.",
+    "Step four: the coordinator MAC tells its higher layer with MLME-ASSOCIATE.indication. Someone wants to join.",
+    "Step five: the coordinator's higher layer decides, and replies with MLME-ASSOCIATE.response. Meanwhile, the device waits a time called aResponseWaitTime.",
+    "Step six: after that wait, the device sends a data request, asking for the answer. This is indirect transfer again.",
+    "Step seven: the coordinator acknowledges, then sends the association response, which includes the device's new short address.",
+    "Step eight: the device acknowledges the response.",
+    "Finally, the device MAC reports MLME-ASSOCIATE.confirm to its higher layer, and the coordinator MAC reports MLME-COMM-STATUS.indication to its higher layer. The device has joined."
+   ]
+  },
+  {
+   "id": "msc_disassoc",
+   "title": "Disassociation",
+   "lines": [
+    "Disassociation is leaving the network. Either the device or the coordinator can start it.",
+    "Step one: the originator's higher layer issues MLME-DISASSOCIATE.request.",
+    "Step two: the originator MAC sends a disassociation notification frame.",
+    "Step three: the recipient MAC acknowledges it.",
+    "Step four: the originator MAC confirms to its higher layer, with MLME-DISASSOCIATE.confirm.",
+    "Step five: the recipient MAC informs its higher layer, with MLME-DISASSOCIATE.indication. Same shape as a data transfer."
+   ]
+  },
+  {
+   "id": "slotted",
+   "title": "Slotted CSMA/CA procedure",
+   "lines": [
+    "Now the most important algorithm: slotted CSMA/CA, used in beacon enabled networks. Three variables: NB, number of backoffs. CW, contention window. And BE, backoff exponent.",
+    "Start: NB equals 0, and CW equals 2.",
+    "Is battery life extension on? If yes, BE is the lesser of 2 and macMinBE. If no, BE equals macMinBE. In our example, BE equals 3.",
+    "Locate the backoff period boundary. In slotted mode, everything lines up with the slot boundaries.",
+    "Delay for a random number of backoff periods, from 0 to 2 to the BE, minus 1. With BE 3, that's 0 to 7.",
+    "Then perform a clear channel assessment, CCA, on a backoff period boundary.",
+    "If the channel is busy: reset CW to 2, increase NB by 1, and increase BE by 1, but never above aMaxBE.",
+    "So now NB is 1, BE is 4, and the next random wait is 0 to 15. Waiting longer reduces the chance of colliding again.",
+    "If NB becomes greater than macMaxCSMABackoffs, give up. That's a failure. Otherwise, go back and delay again.",
+    "If the channel is idle: decrease CW by 1. Why? Slotted mode must see the channel idle twice in a row to be safe.",
+    "If CW reaches 0, success, transmit the frame. If not, perform CCA again on the next boundary."
+   ]
+  },
+  {
+   "id": "unslotted",
+   "title": "Unslotted CSMA/CA procedure",
+   "lines": [
+    "Unslotted CSMA/CA is used in non beacon networks. It is simpler.",
+    "Start with NB equals 0 and BE equals macMinBE. There is no CW here.",
+    "Delay for a random number of backoff periods, 0 to 2 to the BE minus 1. No need to align with slot boundaries.",
+    "Perform CCA. If the channel is idle, success. Transmit immediately.",
+    "If busy, increase NB by 1, and set BE to the minimum of BE plus 1 and aMaxBE.",
+    "If NB is now greater than macMaxCSMABackoffs, it's a failure. Otherwise, go back and wait again.",
+    "Key differences from slotted: no contention window, no slot boundaries, and only one idle check is needed."
+   ]
+  },
+  {
+   "id": "q1",
+   "title": "Numerical 1: 45-byte payload",
+   "lines": [
+    "Time for numericals. Question one: the payload in data frames is typically 30 to 60 bytes. Calculate the transmission time for a data frame with a 45 byte payload, at 250 kilobits per second.",
+    "Given: 45 bytes, and 250 kilobits per second, the 2.4 gigahertz rate.",
+    "Use the formula: transmission time equals total bits divided by the transmission rate.",
+    "Convert bytes to bits. 45 times 8 equals 360 bits.",
+    "Divide: 360 bits over 250,000 bits per second.",
+    "That is 0.00144 seconds, which is 1.44 milliseconds. That's the slide's answer."
+   ]
+  },
+  {
+   "id": "q2",
+   "title": "Numerical 2: max frame time",
+   "lines": [
+    "Question two: calculate the maximum transmission time for a data frame, if the transmission rate is 250 kilobits per second.",
+    "The maximum frame size is 127 bytes.",
+    "Step one: convert to bits. 127 times 8 equals 1016 bits.",
+    "Step two: divide by the rate. 1016 over 250,000 equals 0.004064 seconds.",
+    "So the maximum transmission time for a data frame in 802.15.4 is 4.064 milliseconds."
+   ]
+  },
+  {
+   "id": "q3",
+   "title": "Numerical 3: ACK frame time",
+   "lines": [
+    "Question three: calculate the transmission time for an ACK frame.",
+    "The ACK frame is 5 bytes: frame control 2, sequence number 1, and frame check sequence 2. That's 40 bits.",
+    "40 divided by 250,000 is 0.00016 seconds.",
+    "So the answer is 0.16 milliseconds, or 160 microseconds, using the same method as the slides.",
+    "Note: if your teacher includes the 6 byte physical header too, it becomes 11 bytes, 88 bits, which is 0.352 milliseconds. Write the method clearly and you're safe."
+   ]
+  },
+  {
+   "id": "q4",
+   "title": "Numerical 4: CSMA NB and BE",
+   "lines": [
+    "Question four. Settings: macMinBE equals 3, macMaxBE equals 5, and macMaxCSMABackoffs equals 4.",
+    "A device starts slotted CSMA/CA with NB equals 0 and CW equals 2. So BE starts at macMinBE, which is 3.",
+    "The device checks the channel and finds it busy. What are NB and BE now? And how many backoff periods will it wait?",
+    "NB increases by 1 after a failed attempt. So NB equals 1.",
+    "BE equals the minimum of BE plus 1 and macMaxBE. Minimum of 3 plus 1 and 5, which is 4.",
+    "The device picks a random number of backoff periods between 0 and 2 to the 4 minus 1, which is 0 to 15.",
+    "Answer: NB equals 1, BE equals 4, and it waits a random 0 to 15 backoff periods before trying again."
+   ]
+  },
+  {
+   "id": "q5",
+   "title": "Numerical 5: two failed attempts",
+   "lines": [
+    "Question five. Settings: macMinBE equals 2, macMaxBE equals 5, and macMaxCSMABackoffs equals 3.",
+    "The device has two unsuccessful attempts. How many backoff periods could it wait in total, and what is BE after the second attempt?",
+    "After the first failed attempt, BE becomes the minimum of 2 plus 1 and 5, which is 3.",
+    "So it waits a random number between 0 and 2 cubed minus 1, which is 0 to 7.",
+    "After the second failed attempt, BE becomes the minimum of 3 plus 1 and 5, which is 4.",
+    "So it waits between 0 and 2 to the 4 minus 1, which is 0 to 15.",
+    "Add them up: across the two attempts, the total wait could be anywhere from 0 to 22 backoff periods.",
+    "Final answer: BE equals 4 after the second attempt, and the total backoff is between 0 and 22 periods."
+   ]
+  },
+  {
+   "id": "recap",
+   "title": "Recap",
+   "lines": [
+    "Let's recap Module 4. Choose a technology by range, frequency band, and power.",
+    "RFC 7228 classes: class 0 can't run IP, class 1 uses CoAP, class 2 runs full IP.",
+    "802.15.4's physical layer: three bands, O-QPSK at 250 kilobits, BPSK at 20 and 40, frames up to 127 bytes, plus ED, CCA and LQI.",
+    "Topologies: star, peer to peer, and combined, built from FFDs and RFDs.",
+    "The superframe: beacon, CAP, CFP with GTS, and an optional inactive period set by SO and BO.",
+    "Frames: the MAC header, payload and footer. ACK is 5 bytes. Maximum MSDU is 102 bytes.",
+    "And CSMA/CA: on busy, increase NB and BE. Transmission time is bits divided by rate. You're ready. Good luck tomorrow!"
+   ],
+   "hold": 3
+  }
+ ]
+}

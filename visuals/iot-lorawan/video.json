@@ -1,0 +1,331 @@
+{
+ "title": "LoRaWAN Explained Simply — Full Chapter Revision (SF, ADR, Classes A/B/C)",
+ "slug": "iot-lorawan",
+ "description": "The LoRaWAN chapter explained simply: long-range landscape, LPWAN requirements, LoRa vs LoRaWAN, architecture, spread spectrum, spreading factor & ADR, sensitivity tables, classes A/B/C and device identity.",
+ "tags": [
+  "LoRaWAN",
+  "LoRa",
+  "LPWAN",
+  "IoT",
+  "spreading factor",
+  "exam revision"
+ ],
+ "voice": "am_michael",
+ "speed": 1.0,
+ "fps": 24,
+ "captions": true,
+ "endCard": "📘 Remember: SF ↑ = range ↑, speed ↓ · A / B / C classes",
+ "thumbnail": "arch@12",
+ "pronounce": {
+  "IoT": "I o T",
+  "3GPP": "three G P P",
+  "LPWAN": "L P WAN",
+  "LPWA": "L P W A",
+  "NB-IoT": "N B I o T",
+  "LTE-M": "L T E M",
+  "EC-GSM": "E C G S M",
+  "LTE": "L T E",
+  "RPMA": "R P M A",
+  "M2M": "M 2 M",
+  "GHz": "gigahertz",
+  "MHz": "megahertz",
+  "kHz": "kilohertz",
+  "KHz": "kilohertz",
+  "Hz": "hertz",
+  "kbps": "kilobits per second",
+  "Kbps": "kilobits per second",
+  "bps": "bits per second",
+  "dBm": "d B m",
+  "dB": "d B",
+  "CSS": "C S S",
+  "SF": "S F",
+  "SF7": "S F seven",
+  "SF8": "S F eight",
+  "SF9": "S F nine",
+  "SF10": "S F ten",
+  "SF11": "S F eleven",
+  "SF12": "S F twelve",
+  "ADR": "A D R",
+  "GW": "gateway",
+  "GTW": "gateway",
+  "CDMA": "C D M A",
+  "3G": "three G",
+  "5G": "five G",
+  "TCP/IP": "T C P I P",
+  "SSL": "S S L",
+  "AES": "A E S",
+  "RSSI": "R S S I",
+  "SNR": "S N R",
+  "BW": "bandwidth",
+  "DL": "downlink",
+  "UL": "uplink",
+  "RX1": "R X one",
+  "RX2": "R X two",
+  "DevAddr": "Dev Address",
+  "AppEUI": "App E U I",
+  "EUI64": "E U I sixty four",
+  "NwkSKey": "Network session key",
+  "AppSKey": "App session key",
+  "MIC": "M I C",
+  "IEEE": "I triple E",
+  "MAC": "mac",
+  "ISM": "I S M",
+  "Cat": "category",
+  "LoS": "line of sight"
+ },
+ "scenes": [
+  {
+   "id": "intro",
+   "title": "Intro",
+   "lines": [
+    "How can a soil sensor in a field send data fifteen kilometres away, on a battery that lasts years?",
+    "The answer is LoRaWAN, one of the most important long range IoT technologies.",
+    "We'll cover the long range landscape, LPWAN requirements, LoRa versus LoRaWAN, the architecture, spread spectrum, spreading factor, device classes, and device identity.",
+    "Let's start."
+   ],
+   "pad": [
+    0.6,
+    1.0
+   ]
+  },
+  {
+   "id": "landscape",
+   "title": "Long-range technology landscape",
+   "lines": [
+    "The deck begins with a summary of IoT connectivity.",
+    "First, fixed and short range technologies. Then long range technologies, which split into two families.",
+    "Family one: non 3GPP standards, also called LPWAN. These are LoRa or LoRaWAN, Sigfox, Weightless, and others like RPMA.",
+    "They are not made by the mobile phone standards body, and typically use unlicensed spectrum.",
+    "Family two: 3GPP standards, made by the mobile standards body. These are LTE-M, EC-GSM, NB-IoT, and 5G.",
+    "LoRaWAN is in the first family: a non 3GPP, low power wide area network."
+   ]
+  },
+  {
+   "id": "m2mtable",
+   "title": "Wide-area M2M comparison",
+   "lines": [
+    "This table, from Dhillon and others in IEEE Communications Magazine, compares wide area M2M technologies.",
+    "Licensed cellular: LTE category 0 uses 20 megahertz, and LTE category M uses 1.4 megahertz. Both give about 1 megabit per second.",
+    "NB-IoT and EC-GSM use just 200 kilohertz, with a link budget of 164 d B. Link budget is how much signal loss a link can survive. Higher means longer reach.",
+    "Unlicensed: Ingenu RPMA at 2.4 gigahertz, with 1 megahertz bandwidth, reaching 500 kilometres line of sight.",
+    "LoRa, chirp spread spectrum, in sub 1 gigahertz, with a 125 kilohertz channel. Range: 15 kilometres rural, 5 kilometres urban.",
+    "And the ultra narrowband ones, Weightless-N at 200 hertz, and Sigfox at 160 hertz, both sending about 100 bits per second. Sigfox reaches 50 kilometres rural."
+   ]
+  },
+  {
+   "id": "lpwanreq",
+   "title": "LPWAN requirements",
+   "lines": [
+    "Every LPWAN must meet five requirements.",
+    "One: long battery life.",
+    "Two: low device cost.",
+    "Three: low cost and easy deployment of the network.",
+    "Four: extended coverage. 10 to 15 kilometres in rural areas, and 2 to 5 kilometres in urban areas.",
+    "Five: support for a massive number of devices."
+   ]
+  },
+  {
+   "id": "lvl",
+   "title": "LoRa vs LoRaWAN",
+   "lines": [
+    "Now section one, LoRaWAN. First, an important difference: LoRa is not the same as LoRaWAN.",
+    "LoRa contains only the link layer protocol. It is the radio technique itself. LoRa modules are a little cheaper than LoRaWAN ones.",
+    "LoRaWAN includes the network layer too.",
+    "So it is possible to send information to any base station that is already connected to a cloud platform.",
+    "Simple analogy: LoRa is the voice. LoRaWAN is the language and the phone network that carries it to the right place."
+   ]
+  },
+  {
+   "id": "loraov",
+   "title": "LoRa technology overview",
+   "lines": [
+    "Here's the LoRa technology overview. LoRaWAN is a low power wide area network.",
+    "LoRa modulation is a version of chirp spread spectrum, or CSS, with a typical channel bandwidth of 125 kilohertz.",
+    "A chirp is a signal whose frequency sweeps up or down, like a bird's chirp.",
+    "It has very high sensitivity: end nodes can hear signals down to minus 137 dBm, and gateways down to minus 142 dBm.",
+    "dBm measures signal power. The more negative the number a receiver can still hear, the weaker the signals it can catch, so the longer the range.",
+    "It supports long range communication, up to 15 kilometres.",
+    "It has strong indoor penetration. With a high spreading factor, up to 20 d B more, for deep indoor devices.",
+    "It occupies the entire bandwidth of the channel, making it robust to channel noise. And it resists the Doppler effect, multipath, and signal weakening."
+   ]
+  },
+  {
+   "id": "arch",
+   "title": "LoRaWAN architecture",
+   "lines": [
+    "Here is the LoRaWAN architecture. On the left are end devices, the sensors.",
+    "They send data using LoRa radio to LoRa gateways. One message can be heard by several gateways at once. No pairing needed.",
+    "The gateways forward the data over TCP/IP with SSL, which is a secure internet connection, to the network server in the cloud.",
+    "This is a star of stars: devices form stars around gateways, and gateways form a star around the network server.",
+    "The network server passes the data to the application server.",
+    "Which finally delivers it to users: email alerts, customer IT systems, or remote monitoring dashboards.",
+    "Key specs from the slide: LoRa RF spread spectrum modulation, a range of about 15 kilometres, and throughput of 0.3 to 27 kilobits per second.",
+    "Traffic type is data packets, payload is about 243 bytes, and security is AES encryption."
+   ]
+  },
+  {
+   "id": "spread",
+   "title": "Spread spectrum basics",
+   "lines": [
+    "Now spread spectrum basics. LoRa is a spread spectrum technique.",
+    "Instead of sending one bit as one short signal, the transmitter takes the information symbol, say a 1.",
+    "And combines it with a fast spreading code made of many small pieces called chips.",
+    "The result is the spread information. One bit becomes many chips, spread over a wider bandwidth.",
+    "At the receiver, a correlator detects its own signal.",
+    "It multiplies the received signal by the same code, and integrates, meaning adds up over time. Its own signal builds into a strong peak.",
+    "A signal from another device, with a different code, does not line up, so it averages out to almost nothing.",
+    "This is why spread spectrum works even below the noise level."
+   ]
+  },
+  {
+   "id": "sfcontrol",
+   "title": "Who controls SF and frequency?",
+   "lines": [
+    "Who decides the spreading factor and the frequency? First, the spreading factor, SF, is chosen initially by the device.",
+    "But the network server can adjust it dynamically using the ADR mechanism, adaptive data rate, to optimize communication.",
+    "The frequency is determined by the device, based on the network's frequency plan. Devices can use frequency hopping to transmit on different channels.",
+    "The gateway does not actively allocate SF or frequency.",
+    "Instead it listens passively to multiple frequencies and spreading factors at the same time, and relays data to and from the network server.",
+    "In summary: the gateway doesn't control SF or frequency. The network server optimizes SF via ADR, and devices follow frequency plans."
+   ]
+  },
+  {
+   "id": "spectrum",
+   "title": "Spreading factor & orthogonality",
+   "lines": [
+    "Now the spectrum. Different spreading factors create orthogonal sequences.",
+    "So two messages, from two different devices, arriving at the gateway at the same time, do not interfere. This is the code division multiple access idea, CDMA, also used in 3G.",
+    "Spread spectrum makes the signal more robust. The more the signal is spread, the more robust it is.",
+    "It becomes less sensitive to interference and to selective frequency fading, where only some frequencies get weakened.",
+    "The spreading factor controls how much spreading happens. SF 12 gives high gain but low data rate. It's for far devices and deep indoor.",
+    "SF 9 gives average gain and average data rate.",
+    "SF 7 gives low gain but high data rate, for close devices.",
+    "The spectrum used is unlicensed: the 915 megahertz ISM band in the US, and 868 megahertz in Europe."
+   ]
+  },
+  {
+   "id": "adr",
+   "title": "Influence of SF & ADR",
+   "lines": [
+    "How does the spreading factor affect a real device? The slide shows a seesaw: spreading factor on one side, data rate and sensitivity on the other.",
+    "For a 10 byte payload, SF 12 takes 1.4 seconds on air, at about 290 bits per second. SF 11 takes 0.74 seconds, SF 10 takes 0.37 seconds, and SF 9 about 0.2 seconds.",
+    "Longer time on air means more energy used.",
+    "Case one: a device that is far away, with obstacles. It needs high sensitivity, so the network increases the SF.",
+    "Throughput decreases, but the connection is maintained.",
+    "Case two: a device that is close. Low sensitivity is sufficient, so the network decreases the SF, and throughput increases.",
+    "This automatic tuning is called adaptive throughput, or ADR, adaptive data rate."
+   ]
+  },
+  {
+   "id": "sftable",
+   "title": "SF, bit rate, sensitivity, SNR",
+   "lines": [
+    "This table gives exact numbers for a 125 kilohertz channel. The number in brackets is chips per symbol, which is 2 to the power SF.",
+    "SF 7: 128 chips, 5469 bits per second, sensitivity minus 124 dBm, and signal to noise ratio minus 7.5 d B.",
+    "Each step up halves roughly the bit rate: SF 8 at 3125, SF 9 at 1758, SF 10 at 977, SF 11 at 537 bits per second.",
+    "Meanwhile sensitivity improves by about 2 to 3 dBm per step, and the required SNR drops by 2.5 d B per step.",
+    "At SF 12: 4096 chips, only 293 bits per second, but sensitivity of minus 137 dBm, and it works even at minus 20 d B SNR, below the noise.",
+    "SF and repetitions can be set manually by the end device, or automatically, managed by the network."
+   ]
+  },
+  {
+   "id": "rssi",
+   "title": "Sensitivity vs bandwidth",
+   "lines": [
+    "This table shows receiver sensitivity, in dBm, for each spreading factor and bandwidth. RSSI means received signal strength indicator.",
+    "At 125 kilohertz, sensitivity goes from minus 123 at SF 7 down to minus 136 at SF 12.",
+    "At 250 kilohertz, it goes from minus 120 to minus 133.",
+    "At 500 kilohertz, from minus 116 to minus 130.",
+    "Two patterns to remember: higher SF means better sensitivity. And wider bandwidth means worse sensitivity, but faster data."
+   ]
+  },
+  {
+   "id": "classes",
+   "title": "Device classes A, B, C",
+   "lines": [
+    "LoRaWAN defines three device classes. Any LoRa object can transmit and receive data. The classes differ in when the device listens.",
+    "Class A, for all. It listens only after it transmits. It suits devices with no latency constraint.",
+    "It is the most energy economical class, supported by all modules, and suited to battery power. Examples: fire detection, earthquake early detection.",
+    "Class B, for beacon. The module listens at a regular, adjustable frequency. It suits devices that need downlink messages within a few seconds.",
+    "Its consumption is optimized and suits batteries. Examples: smart metering, and temperature rise alerts.",
+    "Class C, for continuous. The module is always listening. It suits devices with a strong latency requirement, less than one second.",
+    "It needs mains power from the grid, or no power constraint. Examples: fleet management, and real time traffic management."
+   ]
+  },
+  {
+   "id": "classA",
+   "title": "Class A in detail",
+   "lines": [
+    "Class A in detail. The end device sends one packet. This is the uplink.",
+    "Then it waits 1 second, plus or minus 20 microseconds,",
+    "and opens the first receive window, RX1.",
+    "It waits another second, and opens the second receive window, RX2.",
+    "Then it goes back to sleep. Only in these two windows can the gateway send downlink: acknowledgments, MAC commands, or application commands.",
+    "Each listening period depends on the spreading factor: 5.1 milliseconds at SF 7, for outdoor close devices, 10.2 milliseconds at SF 8.",
+    "And up to 164 milliseconds at SF 12, for deep indoor or far devices.",
+    "Class A is very economic energetically, because communication is always triggered by the end device. The server must wait until the device speaks first."
+   ]
+  },
+  {
+   "id": "classB",
+   "title": "Class B in detail",
+   "lines": [
+    "Class B is the synchronized mode. The gateway sends regular beacons, and the device synchronizes its clock to them.",
+    "The two beacons act as a beginning tag and an end tag.",
+    "Between them, the device opens N reception windows at regular intervals: Rx 1, Rx 2, Rx 3, up to Rx N.",
+    "Each listening duration depends on the spreading factor.",
+    "So the server knows exactly when the device is listening, and can send downlink without waiting for an uplink.",
+    "Result: optimized energy consumption, and communication can be initiated by the gateway."
+   ]
+  },
+  {
+   "id": "classC",
+   "title": "Class C in detail",
+   "lines": [
+    "Class C means permanent listening.",
+    "The reception window is always open, so a packet can be received at almost any time.",
+    "It closes the receive window only while it is transmitting. Then it opens again immediately.",
+    "This gives the lowest latency, but uses the most power. So class C is adapted to devices connected to the power grid."
+   ]
+  },
+  {
+   "id": "ident",
+   "title": "Device identification & keys",
+   "lines": [
+    "Finally, how is an end device identified? First, the end device address, DevAddr.",
+    "It has two parts: a 7 bit network identifier,",
+    "and a 25 bit network address of the end device. 32 bits in total.",
+    "Second, AppEUI, the application identifier. It's a global application ID in the IEEE EUI64 address space.",
+    "It uniquely identifies the owner of the end device.",
+    "Third, NwkSKey, the network session key. The network server and the device use it to calculate and verify the message integrity code of every data message.",
+    "That ensures data integrity, meaning nobody changed the message on the way.",
+    "Fourth, AppSKey, the application session key. It is used to encrypt and decrypt the payload of data messages.",
+    "Memory trick: network key protects integrity, application key protects privacy."
+   ]
+  },
+  {
+   "id": "state",
+   "title": "Current state of LoRaWAN",
+   "lines": [
+    "What about the real world? Amsterdam was the first city covered by LoRaWAN.",
+    "It needed only 10 gateways for the whole city, at about 1200 dollars per unit. That shows how far LoRa reaches, and how cheap deployment is.",
+    "Since then, several cities have followed the trend.",
+    "Boston, São Paulo, Cape Town, Buenos Aires, Kochi in India, Manchester, Rotterdam, Zurich, Ottawa, Perth, Mexico City, Johannesburg, and many more."
+   ]
+  },
+  {
+   "id": "recap",
+   "title": "Recap",
+   "lines": [
+    "Let's recap. LoRaWAN is a non 3GPP LPWAN, unlike LTE-M, EC-GSM, NB-IoT and 5G.",
+    "Every LPWAN needs long battery life, low cost, easy deployment, wide coverage, and massive device support.",
+    "LoRa is the radio, using chirp spread spectrum at 125 kilohertz. LoRaWAN adds the network layer.",
+    "The architecture is a star of stars: devices, gateways, network server, application server.",
+    "Spreading factor trades speed for range, and the network server tunes it with ADR.",
+    "Class A listens after sending, class B on a beacon schedule, class C all the time.",
+    "And each device has a DevAddr, an AppEUI, and two session keys. You've got this. Good luck!"
+   ],
+   "hold": 3
+  }
+ ]
+}

@@ -1,0 +1,182 @@
+{
+ "title": "NB-IoT (Narrowband IoT) Explained Simply — Full Chapter Revision",
+ "slug": "iot-nb-iot",
+ "description": "Every point of the NB-IoT chapter explained in simple words: what it is, how it works, benefits, applications and barriers.",
+ "tags": [
+  "NB-IoT",
+  "IoT",
+  "LPWAN",
+  "3GPP",
+  "exam revision"
+ ],
+ "voice": "am_michael",
+ "speed": 1.0,
+ "fps": 24,
+ "captions": true,
+ "endCard": "📘 Revise: what · how · benefits · uses · barriers",
+ "thumbnail": "intro@3",
+ "pronounce": {
+  "NB-IoT": "N B I o T",
+  "IoT": "I o T",
+  "LTE-M": "L T E M",
+  "3GPP": "three G P P",
+  "LPWAN": "L P WAN",
+  "GSM": "G S M",
+  "LTE": "L T E",
+  "kHz": "kilohertz",
+  "KHz": "kilohertz",
+  "Kbps": "kilobits per second",
+  "kbps": "kilobits per second",
+  "GPRS": "G P R S",
+  "SCM": "S C M",
+  "2G": "two G",
+  "3G": "three G",
+  "4G": "four G",
+  "5G": "five G",
+  "OS": "O S"
+ },
+ "scenes": [
+  {
+   "id": "intro",
+   "title": "Intro",
+   "lines": [
+    "Imagine a water meter buried in a basement, that must send one small reading every day, for ten years, on a single battery.",
+    "Normal mobile networks are built for phones and videos. They are too power hungry for that little meter.",
+    "This video covers the full NB-IoT chapter: what it is, how it works, its benefits, its applications, and its barriers.",
+    "Let's go slide by slide, in simple words."
+   ],
+   "pad": [
+    0.6,
+    1.0
+   ]
+  },
+  {
+   "id": "what",
+   "title": "What is NB-IoT?",
+   "lines": [
+    "Narrowband IoT, or NB-IoT, is a wireless Internet of Things protocol.",
+    "It uses LPWAN technology. LPWAN means Low-Power Wide Area Network: low power, but long distance.",
+    "It was developed by 3GPP, the 3rd Generation Partnership Project, for cellular wireless communication.",
+    "NB-IoT is one of the three main 3GPP LPWAN standards, and it enables a wide range of new devices and services.",
+    "Simple way to remember it: it is a mobile network, but slimmed down for tiny devices instead of phones.",
+    "The NB-IoT standard lets IoT devices operate through carrier networks, meaning normal mobile operators."
+   ]
+  },
+  {
+   "id": "modes",
+   "title": "Three ways to deploy NB-IoT",
+   "lines": [
+    "Now, where exactly does NB-IoT sit? The slide gives three options.",
+    "Option one: within an existing GSM carrier wave. It shares the space of the old 2G network.",
+    "Option two: in an unused guard band between LTE channels. A guard band is the empty gap kept between channels to avoid interference.",
+    "Option three: independently, on its own frequency. This is called standalone.",
+    "All three are possible because NB-IoT needs only a very narrow slice of spectrum. That's where the name narrowband comes from."
+   ]
+  },
+  {
+   "id": "goals",
+   "title": "Goal: coverage extension",
+   "lines": [
+    "One big goal of NB-IoT is coverage extension. It wants to reach places existing cellular technologies cannot reach.",
+    "To do this, it offers transmission repetitions. A weak device simply sends the same data many times.",
+    "Like shouting the same word five times in a noisy room. The listener combines the copies and finally understands.",
+    "This is how a meter deep inside a basement can still be heard by the tower.",
+    "It also offers different bandwidth allocation configurations in the uplink. Uplink means from the device to the network.",
+    "Overall, NB-IoT can enable a broad range of new IoT devices and services.",
+    "It reduces the power consumption of devices, while increasing system capacity and bandwidth efficiency.",
+    "This works especially in locations that aren't easily covered by traditional cellular technology.",
+    "And for many use cases, NB-IoT devices can have a battery life of more than ten years."
+   ]
+  },
+  {
+   "id": "how",
+   "title": "How does NB-IoT work?",
+   "lines": [
+    "So how does it work? NB-IoT is a data transmission standard that lets devices operate in mobile carrier networks.",
+    "It uses low-bandwidth signals to communicate within existing LTE and GSM technologies.",
+    "The standard uses a small radio band of just two hundred kilohertz, specially designed for IoT use cases.",
+    "The basic building blocks are specially designed devices and sensors. They collect information from their surroundings.",
+    "They transmit that data to NB-IoT base stations, also called transmission nodes. That's the mobile tower.",
+    "Each base station is connected to an IoT gateway, and then to IoT cloud application servers.",
+    "There, the data is monitored centrally and analysed. Follow the yellow dot: sensor, tower, gateway, cloud."
+   ]
+  },
+  {
+   "id": "how2",
+   "title": "New physical layer & coexistence",
+   "lines": [
+    "Next, NB-IoT employs a new physical layer, with its own signals and channels. The physical layer is the actual radio part.",
+    "This layer is designed for extended coverage in rural areas and deep indoors.",
+    "At the same time, it keeps device complexity low. It is much less complex than GSM or GPRS modules.",
+    "It is supported by all major mobile equipment, chipset and module manufacturers.",
+    "And NB-IoT can exist along with 2G, 3G, 4G, LTE-M and 5G mobile networks. It does not replace them, it lives beside them."
+   ]
+  },
+  {
+   "id": "ben1",
+   "title": "Benefits part 1",
+   "lines": [
+    "Now the benefits. There are seven in total, spread over two slides.",
+    "Benefit one: ubiquitous coverage and connectivity. Ubiquitous simply means everywhere.",
+    "NB-IoT networks can connect billions of nodes, so they support massive numbers of devices. They are designed for extended coverage indoors.",
+    "Benefit two: bandwidth. NB-IoT is designed with bandwidth efficiency in mind. It uses only a small portion of the spectrum.",
+    "Because each network is so thin, multiple NB-IoT networks can coexist in the same area without any interference.",
+    "Benefit three: strong signals. NB-IoT signals are designed to penetrate multiple layers of brick."
+   ]
+  },
+  {
+   "id": "ben2",
+   "title": "Benefits part 2",
+   "lines": [
+    "Benefit four: low power consumption. NB-IoT doesn't need to run a heavy operating system, such as Linux.",
+    "It also doesn't do a lot of signal processing. So it is more power efficient than other cellular technologies.",
+    "Benefit five: low cost of devices. Lower complexity makes devices easier to create, so they cost significantly less.",
+    "Benefit six: multiyear battery life. The improved power consumption lets a device run for many years on one battery.",
+    "Benefit seven: security. NB-IoT is secured using data encryption, secure authentication, and signaling protection.",
+    "Quick memory trick for all seven: coverage, bandwidth, signal, power, cost, battery, security."
+   ]
+  },
+  {
+   "id": "apps",
+   "title": "Applications",
+   "lines": [
+    "Where is NB-IoT used? The slides list eight applications.",
+    "One: smart metering. Meters send readings to the utility automatically, no person needs to visit.",
+    "Two: energy savings, by tracking where energy is used.",
+    "Three: water conservation, for example spotting leaks early.",
+    "Four: supply chain management, or SCM, to follow goods as they move.",
+    "Five: monitoring temperature levels, or optimizing store layouts.",
+    "Six: smart buildings.",
+    "Seven: tracking.",
+    "And eight: smart farming. Notice the pattern: small data, sent rarely, from places that are hard to reach."
+   ]
+  },
+  {
+   "id": "barriers",
+   "title": "Barriers to NB-IoT",
+   "lines": [
+    "Finally, the barriers. The NB-IoT market is expected to grow thirty one percent by 2027, according to the research firm Technavio. But some problems remain.",
+    "Barrier one: limited device mobility. Devices stay connected only within a finite environment, and only to one network operator.",
+    "So a wearable that leaves its area, say into another country, could stop working if that operator has no local presence there.",
+    "Barrier two: limited data transmission. Voice or video is not an option.",
+    "NB-IoT can only send less than one kilobyte of data per day. That is about one text message.",
+    "Its upload rate is around twenty kilobits per second, low compared to competing technologies, and its bandwidth is about two hundred kilohertz.",
+    "Barrier three: limited support for roaming. Roaming connects devices across countries, but the network must be supported in each country.",
+    "Barrier four: limited large data transfers. Because the data rate is slow, large quantities of data can't be transferred quickly."
+   ]
+  },
+  {
+   "id": "recap",
+   "title": "Recap — remember these",
+   "lines": [
+    "Let's recap. NB-IoT is a wireless LPWAN protocol from 3GPP that runs on cellular carrier networks.",
+    "It can sit inside a GSM carrier, in an LTE guard band, or standalone.",
+    "It uses a two hundred kilohertz band, repeats transmissions for deep coverage, and sends data from sensor to base station to gateway to cloud.",
+    "Its seven benefits: coverage, bandwidth efficiency, strong signals, low power, low cost, multiyear battery, and security.",
+    "It is used in metering, energy, water, supply chains, stores, buildings, tracking and farming.",
+    "And its barriers: limited mobility, tiny data, limited roaming, and no large transfers. You've got this!"
+   ],
+   "hold": 3
+  }
+ ]
+}
