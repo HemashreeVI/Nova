@@ -1,0 +1,257 @@
+{
+ "title": "CCPS Module 3 Part 4: Data-Centric & Hierarchical Routing — Flooding, Gossiping, SPIN, Directed Diffusion, LEACH, PEGASIS, TEEN",
+ "slug": "m3-dc-hier",
+ "description": "Exam revision of CCPS Module 3 part 4: why data-centric routing, flooding and its problems, gossiping, SPIN six-step operation, Directed Diffusion interests, gradients and reinforcement, SPIN vs DD, hierarchical routing, LEACH phases and the CH threshold worked example, PEGASIS chain example, TEEN hard and soft thresholds with a worked table, and last-minute revision.",
+ "tags": [
+  "data-centric routing",
+  "SPIN",
+  "directed diffusion",
+  "LEACH",
+  "PEGASIS",
+  "TEEN",
+  "hierarchical routing",
+  "CCPS Module 3",
+  "exam revision"
+ ],
+ "voice": "af_heart",
+ "speed": 1.0,
+ "fps": 30,
+ "captions": true,
+ "endCard": "📘 more to learn → github.com/HemashreeVI",
+ "thumbnail": "leach@25",
+ "pronounce": {
+  "WSN": "W S N",
+  "WSNs": "W S Ns",
+  "CPS": "C P S",
+  "MANET": "manet",
+  "MANETs": "manets",
+  "M2M": "machine to machine",
+  "ADC": "A D C",
+  "GPS": "G P S",
+  "CH": "C H",
+  "CHs": "C Hs",
+  "BS": "B S",
+  "RFID": "R F I D",
+  "ZigBee": "zig bee",
+  "WiMAX": "why max",
+  "Wi-Fi": "wifi",
+  "SaaS": "software as a service",
+  "HVAC": "H V A C",
+  "IoT": "I O T",
+  "ITS": "I T S",
+  "DSRC": "D S R C",
+  "QoS": "Q O S",
+  "PMUs": "P M Us",
+  "RREQ": "R R E Q",
+  "NBC": "N B C",
+  "VANET": "van et",
+  "UAVs": "U A Vs",
+  "GPSR": "G P S R",
+  "GEAR": "gear",
+  "WEAR": "wear",
+  "GAF": "gaff",
+  "GREES": "grees",
+  "BOSS": "boss",
+  "EBGRES": "E B G R E S",
+  "SPIN": "spin",
+  "ADV": "A D V",
+  "REQ": "R E Q",
+  "DATA": "data",
+  "ACK": "ack",
+  "SELECT": "select",
+  "LEACH": "leech",
+  "PEGASIS": "pegasus",
+  "TEEN": "teen",
+  "TDMA": "T D M A",
+  "HT": "H T",
+  "ST": "S T",
+  "DD": "D D",
+  "DoS": "D O S",
+  "CN": "C N",
+  "T(n)": "T of n"
+ },
+ "scenes": [
+  {
+   "id": "intro",
+   "title": "Data-centric and hierarchical routing",
+   "lines": [
+    "When there are thousands of identical sensors, how do you ask for data without knowing any node's address, and how do you stop batteries from dying?",
+    "Part four covers data centric routing: flooding, gossiping, SPIN, and Directed Diffusion. Then hierarchical routing: LEACH, PEGASIS, and TEEN."
+   ],
+   "pad": [
+    0.8,
+    0.8
+   ]
+  },
+  {
+   "id": "why",
+   "title": "12.1 Why data-centric routing?",
+   "lines": [
+    "Three challenges in CPS using WSNs make data centric routing necessary.",
+    "One, no unique IDs: there are too many sensors to give each a global ID.",
+    "Two, random deployment: the topology is unknown, so you cannot address node fifty seven.",
+    "Three, redundant transmission: every sensor in an area sends the same kind of data, wasting energy.",
+    "The key idea: ask for data by what it is, like temperature above forty degrees in region R, not by which node has it.",
+    "Solutions: selective node usage, so only a subset transmits. Data aggregation while relaying, combining and removing duplicates. And query to regions: the sink queries regions and waits for data from sensors there.",
+    "Notable protocols: SPIN, the first data centric protocol, using negotiation to remove redundant data, and Directed Diffusion, which improves on SPIN."
+   ]
+  },
+  {
+   "id": "flood",
+   "title": "12.3 Flooding",
+   "lines": [
+    "Flooding is the baseline. A node receiving a packet broadcasts it to all neighbours, until it reaches the destination or the maximum hop count.",
+    "Its advantage: very simple, with no routing algorithm or topology maintenance.",
+    "Disadvantage one, implosion: the same message reaches a node many times via different neighbours. Here, D receives A's packet twice, via B and via C.",
+    "Disadvantage two, overlap: nodes sensing the same region send similar data to the same neighbour.",
+    "Disadvantage three, energy exhaustion: the huge number of redundant packets drains batteries."
+   ]
+  },
+  {
+   "id": "gossip",
+   "title": "12.4 Gossiping",
+   "lines": [
+    "Gossiping is a modified flooding. The node sends the packet to only one randomly selected neighbour, which repeats the process.",
+    "Its advantage: fewer copies, so it avoids implosion.",
+    "Its disadvantages: propagation delay from the random, indirect route, and inefficient routing, because the packet may move away from the destination, or even loop and fail.",
+    "Compare. Flooding sends to all neighbours, gossiping to one random neighbour. Flooding has implosion, gossiping avoids it.",
+    "Delay: flooding low, gossiping high. Delivery: flooding almost guaranteed, gossiping not guaranteed. Energy: flooding very high, gossiping lower."
+   ]
+  },
+  {
+   "id": "spin",
+   "title": "12.5 SPIN",
+   "lines": [
+    "SPIN: Sensor Protocols for Information via Negotiation. Data is shared only with interested nodes.",
+    "Data is described by metadata, a high level descriptor, which is negotiated before the real data is sent.",
+    "Three messages: ADV, advertise, I have new data. REQ, request, I am interested, send it. And DATA, the actual sensor data.",
+    "The six step operation. One, node A sends ADV to its neighbours. Two, interested neighbour B replies with REQ. Three, A sends DATA to B.",
+    "Four, B now has the data, so it sends ADV to its own neighbours. Five, interested neighbours reply with REQ, while uninterested ones stay silent. Six, B sends DATA to them.",
+    "Advantages: it solves implosion, overlap and energy exhaustion. Nodes need only single hop neighbour knowledge, so topology changes stay local, saving energy and bandwidth.",
+    "Limitations: no guarantee of delivery. A far node gets data only if every intermediate node is also interested. If a middle node doesn't send REQ, the data stops there.",
+    "So it is not for mission critical CPS like traffic monitoring or battlefield surveillance, which need reliable, timely data."
+   ]
+  },
+  {
+   "id": "dd",
+   "title": "12.6 Directed Diffusion",
+   "lines": [
+    "Directed Diffusion, in four parts.",
+    "One, data naming and interests. Data is named by attribute value pairs, for example type equals vehicle, interval twenty milliseconds, duration ten seconds, and a rectangle area.",
+    "The sink broadcasts an interest message with the object name, interval, duration, and geographic area. Nodes cache the interests.",
+    "Two, gradients. Each node sets up a gradient, a reply link, towards the neighbour it received the interest from, forming paths from the source back to the sink.",
+    "Three, data delivery and reinforcement. The source sends data along gradients, possibly on multiple paths. The sink reinforces one path by re sending the interest on it with a smaller interval, a higher data rate, so the source sends more frequently on that path.",
+    "Four, path resilience. If a path fails, reinforcement restarts to find an alternate. An enhancement by Ganesan and others keeps multiple backup paths in advance, for immediate switch over.",
+    "Advantages: no unique addressing, caching reduces delay, and it is energy efficient, on demand, with no global topology.",
+    "Limitation: it is inefficient for continuous monitoring and real time reporting, like battlefield awareness or traffic surveillance, because on demand queries cause delays or missed information."
+   ]
+  },
+  {
+   "id": "spindd",
+   "title": "SPIN vs Directed Diffusion",
+   "lines": [
+    "SPIN versus Directed Diffusion.",
+    "Who starts: in SPIN, the source advertises data, a push. In Directed Diffusion, the sink queries with an interest, a pull, on demand.",
+    "Data naming: SPIN uses metadata. Directed Diffusion uses attribute value pairs.",
+    "Delivery: SPIN has no guarantee. Directed Diffusion is better, with multiple paths and reinforcement.",
+    "Good for: SPIN suits small networks, disseminating to interested nodes. Directed Diffusion suits query driven applications."
+   ]
+  },
+  {
+   "id": "hier",
+   "title": "13. Hierarchical routing",
+   "lines": [
+    "Hierarchical routing organises nodes in levels: ordinary nodes, then first level cluster heads, then higher level cluster heads, then the base station.",
+    "Higher level nodes aggregate and forward data, so most nodes only transmit over short distances."
+   ]
+  },
+  {
+   "id": "leach",
+   "title": "13.1 LEACH",
+   "lines": [
+    "LEACH: Low Energy Adaptive Clustering Hierarchy. Its goal is to reduce energy and extend lifetime, by clustering and rotating cluster heads.",
+    "Clustering: each cluster has one CH plus members. The CH collects, aggregates, and sends to the base station, so there are fewer direct transmissions.",
+    "Randomised CH rotation: nodes decide autonomously to become CH using a predetermined probability. Nodes that were CH recently are less likely to be CH again soon, so the energy load is spread evenly.",
+    "Data aggregation: the CH compresses and combines member data before sending.",
+    "Each round has two phases. The setup phase: each node decides to become CH using the probability function, and CHs broadcast an advertisement.",
+    "Non CH nodes join the CH with the strongest signal and notify it. Each CH creates a TDMA schedule, a time slot for each member.",
+    "The steady state phase: members send data to the CH in their TDMA slots, with their radio off otherwise, saving energy.",
+    "The CH aggregates and sends to the base station. After a fixed time, the network returns to setup with new CHs."
+   ]
+  },
+  {
+   "id": "thresh",
+   "title": "LEACH CH threshold example",
+   "lines": [
+    "For full marks, the standard LEACH election formula. This is not on the slides.",
+    "Node n picks a random number between zero and one, and becomes CH if it is below T of n.",
+    "T of n equals P, divided by one minus P times r mod one over P, if n has not been CH in the last one over P rounds. Otherwise T of n is zero.",
+    "P is the desired fraction of CHs, and r is the current round.",
+    "Example: P equals 0.05, five percent, so one over P is twenty rounds.",
+    "Round zero: T equals 0.05. Round ten: T equals 0.05 divided by one minus 0.5, which is 0.1.",
+    "Round nineteen: T equals 0.05 divided by one minus 0.95, which is one. Every remaining node becomes CH, so every node is CH exactly once in twenty rounds.",
+    "Advantages of LEACH: energy efficiency through rotation and aggregation, scalability through localised communication, and self organisation with no central control.",
+    "Disadvantages: random CH selection may place CHs unevenly, so some clusters are too large and their CHs die faster.",
+    "The single hop CH to BS assumption: far CHs spend a lot of energy in large networks. And clustering overhead in the setup phase is bad for highly dynamic networks."
+   ]
+  },
+  {
+   "id": "pegasis",
+   "title": "13.2 PEGASIS",
+   "lines": [
+    "PEGASIS: Power Efficient Gathering in Sensor Information Systems. It is a chain based hierarchical protocol that improves on LEACH by reducing the number and distance of transmissions.",
+    "One, chain formation: nodes form a chain using a greedy algorithm, starting from the node farthest from the base station, and repeatedly adding the nearest unvisited neighbour.",
+    "Two, leader: in each round one node in the chain is the leader, and leaders take turns so energy is shared.",
+    "Three, data gathering: data passes along the chain towards the leader from both ends. Each node fuses its own data with what it receives, and passes on one packet.",
+    "Four, only the leader transmits to the base station.",
+    "The slide example: the chain is zero, one, two, three, four, and node two is the leader. Node zero sends to one, and one fuses and sends to two. Node four sends to three, and three fuses and sends to two. Node two fuses everything and sends one packet to the base station.",
+    "Advantages over LEACH: each node talks only to a close neighbour, only one transmission to the BS per round, and no cluster formation overhead.",
+    "Disadvantages: increased latency along a long chain, scalability issues as chains grow, chain formation overhead when nodes move or fail, and a single point of failure, because one dead node breaks the chain until it is rebuilt.",
+    "LEACH versus PEGASIS. Structure: clusters versus a single chain. Talks to BS: every CH versus only the leader. Energy: good versus better. Latency: lower versus higher. Failure impact: one cluster versus the whole chain."
+   ]
+  },
+  {
+   "id": "teen",
+   "title": "13.3 TEEN",
+   "lines": [
+    "TEEN: Threshold sensitive Energy Efficient sensor Network. A hierarchical protocol for reactive, time critical applications, like sudden changes in temperature, humidity or pressure.",
+    "Features: hierarchical clustering, threshold based transmission, reactive, energy efficient, and data aggregation at the CH.",
+    "Two thresholds. The hard threshold, HT, is an absolute value. A node transmits only when the sensed value exceeds HT.",
+    "The soft threshold, ST, is a small change. After the first transmission, the node transmits again only if the value has changed by at least ST since the last transmission.",
+    "Worked example: HT equals fifty degrees, and ST equals two degrees. Readings: forty five, fifty one, fifty two, fifty three point five, forty nine.",
+    "Forty five is not above HT, so no. Fifty one crosses HT for the first time, so transmit, and last sent becomes fifty one.",
+    "Fifty two is above HT, but changed by only one, less than two, so no. Fifty three point five changed by two point five, at least two, so transmit, and last sent becomes fifty three point five.",
+    "Forty nine is below HT, so no. Only two transmissions instead of five, so energy is saved.",
+    "Phases: cluster formation, threshold broadcasting where the CH sends HT and ST, data transmission when the rules are met, and collection and aggregation at the CH.",
+    "A known drawback, from general knowledge: if the threshold is never reached, the base station hears nothing, and cannot tell a quiet node from a dead one."
+   ]
+  },
+  {
+   "id": "glance",
+   "title": "13.4 Hierarchical protocols at a glance",
+   "lines": [
+    "Hierarchical protocols at a glance.",
+    "LEACH: clusters with rotating CH, periodic TDMA sending, best for periodic monitoring. Weakness: uneven CHs, and single hop to BS.",
+    "PEGASIS: a chain with a rotating leader, periodic sending along the chain, best for maximum energy saving. Weakness: latency, and chain breaks.",
+    "TEEN: clusters plus thresholds, reactive sending, best for time critical events. Weakness: silent when there is no event."
+   ]
+  },
+  {
+   "id": "recap",
+   "title": "Last-minute one-liners",
+   "lines": [
+    "Last minute one liners for the whole module.",
+    "Energy grows with d squared, so multi hop saves energy.",
+    "Local minimum: GPSR with perimeter and the right hand rule, or WEAR with hole info. Path overuse: GEAR, WEAR, GREES.",
+    "Beaconless: BOSS and EBGRES with DATA, ACK, SELECT. Sleep scheduling on a virtual grid: GAF.",
+    "SPIN is ADV, REQ, DATA, where the source pushes. Directed Diffusion is interest, gradient, reinforcement, where the sink pulls.",
+    "LEACH is setup plus steady state, TDMA, random CH rotation. PEGASIS is chain plus leader. TEEN is hard plus soft threshold.",
+    "Good luck in your exam!"
+   ],
+   "pad": [
+    0.6,
+    2.4
+   ]
+  }
+ ]
+}

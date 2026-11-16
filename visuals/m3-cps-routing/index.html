@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CCPS Module 3 Part 2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="fvlib.css">
+<style>
+ .flow{position:absolute;left:120px;top:228px;width:1680px;display:flex;flex-direction:column;gap:16px}
+ .card{position:relative;border:2px solid var(--k);border-radius:18px;background:color-mix(in srgb,var(--k) 9%,rgba(13,20,42,.86));padding:16px 20px;box-sizing:border-box}
+ .card h3{margin:0 0 6px;font:800 27px Inter;color:var(--k)}
+ .card p{margin:0;font:500 22px/1.38 Inter}
+ .eqb{border:2px solid var(--k);border-radius:16px;background:rgba(13,20,42,.86);padding:14px 22px;font:600 28px/1.4 'JetBrains Mono',monospace;color:#fff}
+ .tblw{border:2px solid rgba(148,163,200,.25);border-radius:18px;background:rgba(13,20,42,.86);padding:8px 16px}
+ .tblw td,.tblw th{vertical-align:top}
+ .bl .item{font-size:26px;margin:7px 0}
+</style></head><body><div id="fv-stage"><div id="bg-grid"></div>
+<section class="fv-scene" data-scene="intro"><div class="abs" style="left:0;right:0;top:250px;text-align:center"><div data-l="0" class="mono" style="font-size:28px;letter-spacing:.3em;color:var(--a)">CCPS MODULE 3 · PART 2</div><div data-l="0" data-f="0.3" class="big" style="margin-top:22px;font-size:92px">CPS Architectures &amp; <span style='color:var(--a)'>Routing Challenges</span></div></div><div class="flow" style="top:600px"><div class="flex" data-l="1" style="gap:12px"><span class="chip sm" style="--k:var(--mut)">CPS architectures</span><span class="chip sm" style="--k:var(--mut)">Healthcare · smart space · emergency · transport</span><span class="chip sm" style="--k:var(--mut)">Role of WSN</span><span class="chip sm" style="--k:var(--mut)">8 routing challenges</span><span class="chip sm" style="--k:var(--mut)">Classification</span></div></div></section>
+<section class="fv-scene" data-scene="overview"><div class="kicker">Module 3 · 7.1–7.3</div><div class="title">CPS overview &amp; high-level architectures</div><div class="flow"><div style="display:grid;grid-template-columns:repeat(2,1fr);gap:14px"><div class="card" data-l="0" style="--k:var(--mut);"><h3>Diverse definitions</h3><p>Vary by application domain — <b>no consensus</b> on one definition</p></div><div class="card" data-l="1" style="--k:var(--a);"><h3>Overlaps</h3><p>With WSN, MANET, M2M, IoT — but <b>tightly integrates</b> information &amp; physical processes</p></div></div><svg class="dg" id="ovr" width="1680" height="330"></svg><div class="note" data-l="5" style="font-size:25px"><b style='color:var(--d)'>Limitation:</b> restrictive — reduces CPS to a <b>simple bridge</b>; lacks awareness of complex cyber-physical interactions</div></div></section>
+<section class="fv-scene" data-scene="five"><div class="kicker">Module 3 · 7.4</div><div class="title">Five-layer CPS architecture</div><div class="flow"><svg class="dg" id="five" width="1680" height="610"></svg></div></section>
+<section class="fv-scene" data-scene="health"><div class="kicker">Module 3 · 7.5 · frequently asked</div><div class="title">Healthcare CPS — 9 steps</div><div class="flow"><svg class="dg" id="health" width="1680" height="620"></svg></div></section>
+<section class="fv-scene" data-scene="smart"><div class="kicker">Module 3 · 7.6</div><div class="title">Smart-space CPS: smart air-conditioning</div><div class="flow"><svg class="dg" id="smart" width="1680" height="420"></svg><div class="note" data-l="1" style="font-size:25px">Control box supports <b>Wi-Fi, Bluetooth, ZigBee, infrared</b></div></div></section>
+<section class="fv-scene" data-scene="emerg"><div class="kicker">Module 3 · 7.7</div><div class="title">CPS in emergency response</div><div class="flow"><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px"><div class="card" data-l="1" style="--k:var(--a);height:200px;"><h3>Pervasive sensing &amp; comm.</h3><p>Global view of affected areas; communication <b>timely, efficient, secure</b></p></div><div class="card" data-l="2" style="--k:var(--c);height:200px;"><h3>Control &amp; computing</h3><p>Event <b>priorities</b>; response plans: <b>trajectory navigation, task allocation</b></p></div><div class="card" data-l="3" style="--k:var(--g);height:200px;"><h3>Action</h3><p>Decisions → static &amp; mobile devices (<b>robots, drones</b>)</p></div></div><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px"><div class="card" data-l="4" style="--k:var(--b);height:180px;"><h3>1 · Wireless comm. networks layer</h3><p>Sensors acquire data from heterogeneous entities &amp; events</p></div><div class="card" data-l="5" style="--k:var(--b);height:180px;"><h3>2 · Environment perception layer</h3><p>Perceptions + <b>global map</b> of the situation</p></div><div class="card" data-l="6" style="--k:var(--b);height:180px;"><h3>3 · Heterogeneous networks convergence</h3><p>Service composition, coverage, <b>QoS</b></p></div></div><div class="note" data-l="7" style="font-size:25px"><b>Autonomous mobile robots:</b> interaction &amp; perception; challenges = <b>coordination &amp; relocation</b> in dynamic conditions</div></div></section>
+<section class="fv-scene" data-scene="its"><div class="kicker">Module 3 · 7.8</div><div class="title">Intelligent transport CPS</div><div class="flow"><svg class="dg" id="its" width="1680" height="520"></svg></div></section>
+<section class="fv-scene" data-scene="role"><div class="kicker">Module 3 · 8 · 10-mark answer</div><div class="title">Role of WSN in CPS</div><div class="flow"><div class="tblw" data-l="0"><table class="tbl" style="width:100%;font-size:23px;font-weight:500"><tr><th>Role</th><th>Point 1</th><th>Point 2</th></tr><tr data-l="1"><td><b>1 · Data collection &amp; reporting</b></td><td>Timely data from the right areas/events</td><td>Contextual reporting to neighbours &amp; apps</td></tr><tr data-l="2"><td><b>2 · Data routing &amp; support</b></td><td>Route data between physical facilities</td><td>Processing support when needed</td></tr><tr data-l="3"><td><b>3 · Monitoring &amp; control</b></td><td>Condition monitoring of devices</td><td>Operational control in applications</td></tr><tr data-l="4"><td><b>4 · Aggregation &amp; analysis</b></td><td>Aggregate, filter, analyse, process</td><td>Decision forwarding cyber → physical</td></tr><tr data-l="5"><td><b>5 · Intelligence &amp; autonomy</b></td><td>Embedded intelligence in the environment</td><td>Multi-level control</td></tr><tr data-l="6"><td><b>6 · Security &amp; energy</b></td><td>Secure processing &amp; routing</td><td>Save energy in appliances</td></tr></table></div><div class="note" data-l="7" style="font-size:25px"><b>Smart building:</b> collect occupancy (1) → route (2) → monitor HVAC (3) → aggregate per floor (4) → auto lights off (5) → save energy (6)</div></div></section>
+<section class="fv-scene" data-scene="energy"><div class="kicker">Module 3 · 9.1</div><div class="title">Routing challenge 1: energy</div><div class="flow"><div class="flex" data-l="0" style="gap:12px"><span class="chip sm" style="--k:var(--c)">E</span><span class="chip sm" style="--k:var(--c)">D</span><span class="chip sm" style="--k:var(--c)">M</span><span class="chip sm" style="--k:var(--c)">R</span><span class="chip sm" style="--k:var(--c)">S</span><span class="chip sm" style="--k:var(--c)">D</span><span class="chip sm" style="--k:var(--c)">S</span><span class="chip sm" style="--k:var(--c)">Q</span><span class="chip sm" style="--k:var(--mut)">Energy · Deployment · Mobility · Reliability · Security · Data model · Scalability · QoS</span></div><div class="bl"><div class="item" data-l="2" style="font-size:25px"><span class="dot" style="--k:var(--c)"></span>Transmission energy <b>∝ d²</b> (or <b>d⁴</b> with obstacles)</div><div class="item" data-l="3" style="font-size:25px"><span class="dot" style="--k:var(--d)"></span>Battery death → node failure → topology change → re-route</div><div class="item" data-l="4" style="font-size:25px"><span class="dot" style="--k:var(--b)"></span><b>Multi-hop</b> for large areas · direct only when close to sink</div></div><svg class="dg" id="energy" width="1680" height="300"></svg></div></section>
+<section class="fv-scene" data-scene="deploy"><div class="kicker">Module 3 · 9.2–9.4</div><div class="title">Deployment, mobility, reliability</div><div class="flow"><div class="tblw" data-l="0"><table class="tbl" style="width:100%;font-size:23px;font-weight:500"><tr><th></th><th>Deterministic</th><th>Random</th></tr><tr data-l="0"><td><b>How</b></td><td>Predefined, fixed locations</td><td>Scattered (dropped from aircraft) → ad hoc</td></tr><tr data-l="0"><td><b>Routing</b></td><td>Predetermined, simple paths</td><td>Unpredictable topology; needs <b>clustering</b></td></tr><tr data-l="1" data-f="0"><td><b>Use</b></td><td>Specific coverage &amp; control (factory)</td><td>Inaccessible/hazardous: forests, battlefields, volcanoes</td></tr></table></div><div style="display:grid;grid-template-columns:repeat(2,1fr);gap:14px"><div class="card" data-l="2" style="--k:var(--a);height:200px;"><h3>Mobility</h3><p>Static = common. Mobile: <b>disaster response</b>, sensors on <b>UAVs</b>.<br>Routes change → protocol must <b>adapt</b></p></div><div class="card" data-l="4" style="--k:var(--b);height:200px;"><h3>Reliability</h3><p><b>Robustness:</b> tolerate node/link failures.<br><b>Redundancy:</b> multiple routing paths</p></div></div></div></section>
+<section class="fv-scene" data-scene="security"><div class="kicker">Module 3 · 9.5</div><div class="title">Security: three routing attacks</div><div class="flow"><svg class="dg" id="worm" width="1680" height="200"></svg><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px"><div class="card" data-l="1" style="--k:var(--d);height:260px;"><h3>Wormhole</h3><p>Record packets at one place, <b>tunnel</b> via fast private link, replay elsewhere → <b>false short path</b>, misrouting</p></div><div class="card" data-l="3" style="--k:var(--f);height:260px;"><h3>Sybil</h3><p>One attacker, <b>many fake identities</b> → undue influence on voting, resource allocation, routing</p></div><div class="card" data-l="4" style="--k:var(--g);height:260px;"><h3>Rushing</h3><p>Forwards <b>RREQ very fast</b> → its copy arrives first, legit copies dropped as duplicates → interception / partition</p></div></div></div></section>
+<section class="fv-scene" data-scene="models"><div class="kicker">Module 3 · 9.6</div><div class="title">Data sensing &amp; collection models</div><div class="flow"><div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px"><div class="card" data-l="1" style="--k:var(--a);height:300px;"><h3>Time-driven</h3><p>Regular intervals, changed or not.<br><i>Smart-grid PMUs at fixed rate</i></p></div><div class="card" data-l="2" style="--k:var(--d);height:300px;"><h3>Event-driven</h3><p>Only when an event occurs.<br><i>ITS alert when jam detected</i></p></div><div class="card" data-l="3" style="--k:var(--c);height:300px;"><h3>Query-driven</h3><p>Only on request.<br><i>"Temperature of zone 3 now?"</i></p></div><div class="card" data-l="4" style="--k:var(--e);height:300px;"><h3>Hybrid</h3><p>Mix of models.<br><i>time-driven → event-driven when special</i></p></div></div><div class="note" data-l="5" style="font-size:25px"><b>Impact on routing:</b> energy (how often &amp; how much) · route stability (varying rates)</div></div></section>
+<section class="fv-scene" data-scene="scale"><div class="kicker">Module 3 · 9.7–9.8</div><div class="title">Scalability &amp; QoS</div><div class="flow"><div style="display:grid;grid-template-columns:repeat(2,1fr);gap:14px"><div class="card" data-l="0" style="--k:var(--a);height:420px;"><h3>Scalability</h3><p>Huge numbers of sensors; efficient at any size.<br>• <b>Dynamic response</b>: join/leave/sleep<br>• <b>Energy mgmt</b>: route via awake nodes<br>• <b>Event-driven</b>: many nodes active at once (fire, intrusion)</p></div><div class="card" data-l="4" style="--k:var(--d);height:420px;"><h3>QoS — bounded latency</h3><p>Late data = useless data.<br>• <b>ITS:</b> speed drops sharply (jam) → send immediately<br>• Prefer <b>low-latency routes</b><br>• <b>Prioritise critical</b> data</p></div></div></div></section>
+<section class="fv-scene" data-scene="classify"><div class="kicker">Module 3 · 10</div><div class="title">Classification of routing protocols</div><div class="flow"><svg class="dg" id="tree" width="1680" height="470"></svg><div class="note" data-l="4" style="font-size:25px">Covered in Parts 3–4: <b>location-based</b>, <b>data-centric</b>, <b>hierarchical</b></div></div></section>
+<section class="fv-scene" data-scene="recap"><div class="kicker">Exam recap</div><div class="title">Remember these</div><div class="flow"><div class="bl"><div class="item" data-l="1" style="font-size:25px"><span class="dot" style="--k:var(--a)"></span><b>5-layer:</b> sensing · data management · next-gen Internet · service-aware · application</div><div class="item" data-l="2" style="font-size:25px"><span class="dot" style="--k:var(--f)"></span><b>Healthcare:</b> sensors → gateway → cloud → observation centre → clinicians → decision → actuator</div><div class="item" data-l="3" style="font-size:25px"><span class="dot" style="--k:var(--b)"></span><b>Role of WSN:</b> 6 headings × 2 points</div><div class="item" data-l="4" style="font-size:25px"><span class="dot" style="--k:var(--c)"></span><b>E-D-M-R-S-D-S-Q</b> · energy ∝ d² → multi-hop · wormhole · Sybil · rushing</div><div class="item" data-l="5" style="font-size:25px"><span class="dot" style="--k:var(--e)"></span><b>Models:</b> time, event, query, hybrid · <b>classify:</b> addressing, operation, hierarchy</div></div><div style="text-align:center;margin-top:10px"><span class="fv-endcard" data-l="6"></span></div></div></section>
+</div><script src="timing.js"></script><script src="fv-runtime.js"></script><script src="fvlib.js"></script><script>
+const { seg, enter, css, ease, clamp, lerp } = FV;
+const { COL, at, mk, reveal, arrow, traveller } = L;
+const node = (svg, x, y, r, txt, c, fs = 24) => { const g = mk('g', {}, svg); mk('circle', { cx: x, cy: y, r, fill: 'rgba(13,20,42,.95)', stroke: c, 'stroke-width': 3.5 }, g); mk('text', { x, y: y + fs * 0.35, 'text-anchor': 'middle', fill: '#fff', 'font-size': fs, 'font-weight': 800 }, g, txt); return g; };
+const boxS = (svg, x, y, w, h, a, b, c, fs = 24) => { const g = mk('g', {}, svg); mk('rect', { x, y, width: w, height: h, rx: 14, fill: 'rgba(13,20,42,.92)', stroke: c, 'stroke-width': 3 }, g); mk('text', { x: x + w / 2, y: y + h / 2 + (b ? -5 : fs * 0.35), 'text-anchor': 'middle', fill: '#fff', 'font-size': fs, 'font-weight': 800 }, g, a); if (b) mk('text', { x: x + w / 2, y: y + h / 2 + 24, 'text-anchor': 'middle', fill: COL.mut, 'font-size': 19 }, g, b); g.querySelectorAll('text').forEach((tx) => { try { const L = tx.getComputedTextLength(); if (L > w - 16) tx.setAttribute('textLength', w - 16), tx.setAttribute('lengthAdjust', 'spacingAndGlyphs'); } catch (e) {} }); return g; };
+const fade = (el, t, ctx, l, f = 0) => { el.style.opacity = seg(t, at(ctx, l, f), at(ctx, l, f) + 0.4); };
+const DIAG = {};
+
+DIAG.ovr = (svg) => {
+  const g1 = mk('g', {}, svg);
+  boxS(g1, 0, 20, 300, 80, 'Sensors', 'spatially distributed', COL.a); boxS(g1, 560, 10, 480, 100, 'Decision-making system', 'cyber world', COL.e, 26); boxS(g1, 1300, 20, 300, 80, 'Actuators', '', COL.g);
+  const a1 = arrow(svg, 305, 60, 555, 60, COL.a, { label: 'real-time inputs', fs: 19 }), a2 = arrow(svg, 1045, 60, 1295, 60, COL.g, { label: 'decisions', fs: 19 });
+  const g2 = mk('g', {}, svg);
+  boxS(g2, 0, 180, 460, 130, 'Physical world', 'infrastructure, hardware, humans, processes', COL.b, 26);
+  boxS(g2, 600, 180, 480, 130, 'Cyberspace (controller)', 'networks, software, computing, storage', COL.e, 26);
+  boxS(g2, 1220, 180, 380, 130, 'Actuators', 'execute decisions → change world', COL.g, 26);
+  const b1 = arrow(svg, 465, 245, 595, 245, COL.a, { label: 'sensors', fs: 19 }), b2 = arrow(svg, 1085, 245, 1215, 245, COL.g);
+  return (t, ctx) => { fade(g1, t, ctx, 2); a1(t, at(ctx, 3, 0)); a2(t, at(ctx, 3, .5)); fade(g2, t, ctx, 4); b1(t, at(ctx, 4, .4)); b2(t, at(ctx, 4, .7)); };
+};
+DIAG.five = (svg) => {
+  const L = [['5 · Application module', 'deploys services, interfaces with devices', COL.f], ['4 · Service-aware module', 'analyses data, supports decision making', COL.e], ['3 · Next-generation Internet', 'communication between modules', COL.a], ['2 · Data management module', 'processes and stores collected data', COL.b], ['1 · Sensing module', 'collects data from the physical world', COL.c]];
+  const gs = L.map(([a, b, c], k) => boxS(svg, 280, 10 + k * 100, 1120, 86, a, b, c, 28));
+  const pw = boxS(svg, 600, 520, 480, 70, 'Physical world', '', COL.mut, 24);
+  return (t, ctx) => { fade(pw, t, ctx, 0); gs.forEach((g, k) => fade(g, t, ctx, 5 - k)); };
+};
+DIAG.health = (svg) => {
+  const P = node(svg, 120, 120, 70, 'Patient', COL.f, 24);
+  const G = boxS(svg, 300, 80, 220, 80, 'Gateway', '', COL.mut);
+  const C = boxS(svg, 640, 60, 300, 120, 'Cloud storage', '', COL.a, 26);
+  const CS = boxS(svg, 1100, 60, 300, 120, 'Cloud server', 'real-time processing', COL.a, 26);
+  const O = boxS(svg, 640, 300, 300, 100, 'Observation centre', 'results + alarms', COL.c, 24);
+  const CL = boxS(svg, 1100, 290, 420, 120, 'Clinicians', '+ other health systems', COL.b, 26);
+  const A = boxS(svg, 300, 470, 340, 100, 'Actuators', 'e.g. insulin pump', COL.g, 26);
+  const st = (x, y, n) => { const g = mk('g', {}, svg); mk('circle', { cx: x, cy: y, r: 20, fill: COL.c }, g); mk('text', { x, y: y + 7, 'text-anchor': 'middle', fill: '#06101f', 'font-size': 18, 'font-weight': 800 }, g, n); return g; };
+  const a = [arrow(svg, 195, 120, 295, 120, COL.f), arrow(svg, 525, 120, 635, 120, COL.mut), arrow(svg, 945, 100, 1095, 100, COL.a), arrow(svg, 1095, 145, 945, 145, COL.a), arrow(svg, 790, 185, 790, 295, COL.c), arrow(svg, 945, 350, 1095, 350, COL.b), arrow(svg, 1150, 415, 645, 515, COL.g), arrow(svg, 300, 500, 150, 195, COL.g)];
+  const s = [st(240, 90, 1), st(1020, 75, 2), st(1020, 170, 3), st(820, 240, 4), st(1020, 325, '5–7'), st(900, 470, 8), st(200, 330, 9)];
+  const sched = [[0, [P]], [1, [G, C]], [2, [CS]], [4, [O]], [5, [CL]], [6, [A]]];
+  return (t, ctx) => {
+    fade(P, t, ctx, 1); fade(G, t, ctx, 1); fade(C, t, ctx, 1, .3); a[0](t, at(ctx, 1, .2)); a[1](t, at(ctx, 1, .4)); fade(s[0], t, ctx, 1, .4);
+    fade(CS, t, ctx, 2); a[2](t, at(ctx, 2, .1)); fade(s[1], t, ctx, 2, .1); a[3](t, at(ctx, 2, .6)); fade(s[2], t, ctx, 2, .6);
+    fade(O, t, ctx, 3); a[4](t, at(ctx, 3, .1)); fade(s[3], t, ctx, 3, .1);
+    fade(CL, t, ctx, 4); a[5](t, at(ctx, 4, .1)); fade(s[4], t, ctx, 4, .1);
+    fade(A, t, ctx, 5); a[6](t, at(ctx, 5, .1)); fade(s[5], t, ctx, 5, .1);
+    a[7](t, at(ctx, 6, .1)); fade(s[6], t, ctx, 6, .1);
+  };
+};
+DIAG.smart = (svg) => {
+  const T = boxS(svg, 0, 150, 300, 110, 'Temperature sensor', 'reads 35°C', COL.d, 24);
+  const B = boxS(svg, 520, 140, 380, 130, 'Intelligent control box', 'Wi-Fi · Bluetooth · ZigBee · IR', COL.c, 26);
+  const D = boxS(svg, 1180, 20, 480, 130, 'CPS analysis / decision', 'digital world (cloud)', COL.e, 26);
+  const AC = boxS(svg, 1180, 280, 480, 110, 'Air conditioner', '', COL.a, 26);
+  const a1 = arrow(svg, 305, 205, 515, 205, COL.d, { label: 'ZigBee: 35°C', fs: 21 }), a2 = arrow(svg, 905, 170, 1175, 90, COL.e, { label: 'Wi-Fi', fs: 21, lx: 1000, ly: 110 }), a3 = arrow(svg, 1175, 130, 905, 210, COL.b, { label: 'Wi-Fi: open AC', fs: 21, lx: 1100, ly: 200 }), a4 = arrow(svg, 905, 250, 1175, 330, COL.a, { label: 'infrared', fs: 21, lx: 1000, ly: 320 });
+  return (t, ctx) => { fade(T, t, ctx, 1); fade(B, t, ctx, 1, .3); a1(t, at(ctx, 1, .4)); fade(D, t, ctx, 2); a2(t, at(ctx, 2, .2)); a3(t, at(ctx, 3, 0)); fade(AC, t, ctx, 3, .4); a4(t, at(ctx, 3, .5)); };
+};
+DIAG.its = (svg) => {
+  const C = boxS(svg, 60, 160, 520, 180, 'CYBER', 'real-time models, information, speed & position', COL.e, 32);
+  const P = boxS(svg, 1100, 160, 520, 180, 'PHYSICAL', 'traffic system: vehicles, signals, behaviour', COL.b, 32);
+  const s = arrow(svg, 1095, 200, 585, 200, COL.a, { label: 'Sensing (speed, position)', fs: 24, ly: 180 });
+  const c = arrow(svg, 585, 300, 1095, 300, COL.g, { label: 'Control / actuation (signals, alert drivers)', fs: 24, ly: 380 });
+  const comp = boxS(svg, 60, 20, 520, 90, 'Computation', 'cloud computing, embedded systems', COL.c, 24);
+  const comm = boxS(svg, 640, 410, 420, 90, 'Communication', 'sensor nets, mobile nets, DSRC, IoT', COL.c, 24);
+  return (t, ctx) => { fade(C, t, ctx, 1); fade(P, t, ctx, 1, .4); s(t, at(ctx, 2, .1)); fade(comp, t, ctx, 3); fade(comm, t, ctx, 3, .5); c(t, at(ctx, 4, .1)); };
+};
+DIAG.energy = (svg) => {
+  const rows = [['Direct 100 m', [100], '100² = 10,000', COL.d, 5], ['2 hops × 50 m', [50, 50], '2 × 2,500 = 5,000 (½)', COL.c, 7], ['4 hops × 25 m', [25, 25, 25, 25], '4 × 625 = 2,500 (¼)', COL.b, 8]];
+  const gs = rows.map(([lab, hops, res, c, l], k) => {
+    const g = mk('g', {}, svg); const y = 40 + k * 95;
+    mk('text', { x: 0, y: y + 8, fill: COL.ink, 'font-size': 22, 'font-weight': 700 }, g, lab);
+    let x = 230; hops.forEach((h, i) => { const w = h * 8; mk('line', { x1: x, y1: y, x2: x + w, y2: y, stroke: c, 'stroke-width': 6 }, g); mk('circle', { cx: x, cy: y, r: 9, fill: i ? COL.e : COL.a }, g); x += w; });
+    mk('circle', { cx: x, cy: y, r: 11, fill: COL.ink }, g);
+    mk('text', { x: 1080, y: y + 8, fill: c, 'font-size': 26, 'font-weight': 800 }, g, res);
+    return [g, l];
+  });
+  return (t, ctx) => gs.forEach(([g, l]) => fade(g, t, ctx, l));
+};
+DIAG.worm = (svg) => {
+  const xs = [200, 500, 800, 1100, 1400]; const ns = xs.map((x, k) => node(svg, x, 140, 30, 'ABCDE'[k], COL.a, 24));
+  for (let i = 0; i < 4; i++) mk('line', { x1: xs[i] + 30, y1: 140, x2: xs[i + 1] - 30, y2: 140, stroke: COL.mut, 'stroke-width': 3 }, svg);
+  const w = mk('g', {}, svg); mk('path', { d: 'M 230 115 Q 800 10 1370 115', stroke: COL.d, 'stroke-width': 6, fill: 'none', 'stroke-dasharray': '14 8' }, w);
+  mk('text', { x: 800, y: 24, 'text-anchor': 'middle', fill: COL.d, 'font-size': 24, 'font-weight': 800 }, w, 'wormhole tunnel: A and E look like neighbours (really 4 hops)');
+  return (t, ctx) => fade(w, t, ctx, 2);
+};
+DIAG.tree = (svg) => {
+  const R = boxS(svg, 560, 0, 560, 80, 'Routing protocols in WSNs for CPS', '', COL.ink, 26);
+  const P = [['Network addressing', 1, COL.a, ['Topology-based', 'Geographical / location-based']], ['Protocol operation / design', 2, COL.c, ['Query-based / data-centric', 'QoS-aware', 'Security-aware', 'Energy-aware']], ['Network hierarchy', 3, COL.b, ['Flat / non-hierarchical', 'Hierarchical']]];
+  const gs = P.map(([n, l, c, kids], k) => {
+    const g = mk('g', {}, svg); const x = 20 + k * 560;
+    mk('line', { x1: 840, y1: 80, x2: x + 260, y2: 130, stroke: COL.mut, 'stroke-width': 2 }, g);
+    boxS(g, x, 130, 520, 76, n, 'perspective', c, 25);
+    kids.forEach((kd, i) => { boxS(g, x + 40, 240 + i * 56, 440, 46, kd, '', c, 21); });
+    return [g, l];
+  });
+  return (t, ctx) => { fade(R, t, ctx, 0); gs.forEach(([g, l]) => fade(g, t, ctx, l)); };
+};
+
+document.querySelectorAll('.fv-scene').forEach((sec) => {
+  const id = sec.dataset.scene; const svgs = [...sec.querySelectorAll('svg.dg')].map((s) => DIAG[s.id] ? DIAG[s.id](s) : null).filter(Boolean);
+  FV.scene(id, (t, ctx) => { reveal(t, ctx); svgs.forEach((u) => u(t, ctx)); });
+});
+</script></body></html>

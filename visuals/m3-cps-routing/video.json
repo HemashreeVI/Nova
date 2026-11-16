@@ -1,0 +1,263 @@
+{
+ "title": "CCPS Module 3 Part 2: CPS Architectures & Case Studies, Role of WSN, Routing Design Challenges, Protocol Classification",
+ "slug": "m3-cps-routing",
+ "description": "Exam revision of CCPS Module 3 part 2: CPS overview, high-level and five-layer CPS architectures, healthcare CPS 9 steps, smart-space air-conditioning CPS, emergency response CPS, intelligent transport CPS, the six roles of WSN in CPS, the eight routing design challenges (energy and the d squared example, deployment, mobility, reliability, wormhole, Sybil and rushing attacks, data models, scalability, QoS), and the classification of routing protocols.",
+ "tags": [
+  "CPS architecture",
+  "healthcare CPS",
+  "role of WSN",
+  "routing challenges",
+  "wormhole attack",
+  "Sybil attack",
+  "CCPS Module 3",
+  "exam revision"
+ ],
+ "voice": "af_heart",
+ "speed": 1.0,
+ "fps": 30,
+ "captions": true,
+ "endCard": "📘 more to learn → github.com/HemashreeVI",
+ "thumbnail": "health@20",
+ "pronounce": {
+  "WSN": "W S N",
+  "WSNs": "W S Ns",
+  "CPS": "C P S",
+  "MANET": "manet",
+  "MANETs": "manets",
+  "M2M": "machine to machine",
+  "ADC": "A D C",
+  "GPS": "G P S",
+  "CH": "C H",
+  "CHs": "C Hs",
+  "BS": "B S",
+  "RFID": "R F I D",
+  "ZigBee": "zig bee",
+  "WiMAX": "why max",
+  "Wi-Fi": "wifi",
+  "SaaS": "software as a service",
+  "HVAC": "H V A C",
+  "IoT": "I O T",
+  "ITS": "I T S",
+  "DSRC": "D S R C",
+  "QoS": "Q O S",
+  "PMUs": "P M Us",
+  "RREQ": "R R E Q",
+  "NBC": "N B C",
+  "VANET": "van et",
+  "UAVs": "U A Vs",
+  "GPSR": "G P S R",
+  "GEAR": "gear",
+  "WEAR": "wear",
+  "GAF": "gaff",
+  "GREES": "grees",
+  "BOSS": "boss",
+  "EBGRES": "E B G R E S",
+  "SPIN": "spin",
+  "ADV": "A D V",
+  "REQ": "R E Q",
+  "DATA": "data",
+  "ACK": "ack",
+  "SELECT": "select",
+  "LEACH": "leech",
+  "PEGASIS": "pegasus",
+  "TEEN": "teen",
+  "TDMA": "T D M A",
+  "HT": "H T",
+  "ST": "S T",
+  "DD": "D D",
+  "DoS": "D O S",
+  "CN": "C N",
+  "T(n)": "T of n"
+ },
+ "scenes": [
+  {
+   "id": "intro",
+   "title": "Part 2 overview",
+   "lines": [
+    "How does a patient's sensor become an insulin pump adjustment, and why is routing in a sensor network so hard?",
+    "Part two covers CPS architectures and case studies, the role of WSN in CPS, the eight routing design challenges, and how routing protocols are classified."
+   ],
+   "pad": [
+    0.8,
+    0.8
+   ]
+  },
+  {
+   "id": "overview",
+   "title": "7. CPS overview and high-level architectures",
+   "lines": [
+    "CPS has diverse definitions that vary by application domain, and there is no consensus on one precise definition.",
+    "It overlaps with WSN, MANET, M2M and IoT, but goes beyond simple IT by tightly integrating information and physical processes.",
+    "The high level architecture: a decision making system in the cyber world, plus spatially distributed sensors and actuators giving real time data.",
+    "Sensor inputs go to the decision system, its outputs are decisions based on the current situation, and they are sent to actuators.",
+    "Another view: the physical world, meaning infrastructure, hardware, humans and processes, is sensed. Cyberspace, meaning networks, software, computing and storage, runs controllers that analyse and decide. Actuators execute the decisions, changing the physical environment.",
+    "Its limitation: this vision is restrictive. It reduces CPS to a simple bridge between cyber and physical, and lacks awareness of the complex interactions between the two worlds."
+   ]
+  },
+  {
+   "id": "five",
+   "title": "7.4 Five-layer CPS architecture",
+   "lines": [
+    "The five layer, or five module, CPS architecture, from the bottom.",
+    "One, the sensing module collects data from the physical world.",
+    "Two, the data management module processes and stores the collected data.",
+    "Three, the next generation Internet provides communication between modules.",
+    "Four, the service aware module analyses data and supports decision making.",
+    "Five, the application module deploys services and interfaces with devices."
+   ]
+  },
+  {
+   "id": "health",
+   "title": "7.5 Healthcare CPS: nine steps",
+   "lines": [
+    "Healthcare CPS, in nine steps. This is frequently asked.",
+    "Step one: sensors on the patient collect data and send it to cloud storage via a gateway.",
+    "Step two: the cloud server processes the data in real time. Step three: the processed data is stored back in the cloud.",
+    "Step four: results and alarms are sent to the observation centre.",
+    "Steps five to seven: clinicians access and process the data, and consult other healthcare systems.",
+    "Step eight: decisions are sent to the actuation components.",
+    "Step nine: interventions are carried out for patient care, for example an insulin pump adjusts the dose."
+   ]
+  },
+  {
+   "id": "smart",
+   "title": "7.6 Smart-space CPS: smart air conditioning",
+   "lines": [
+    "Smart space CPS, with smart air conditioning.",
+    "In the physical world, a temperature sensor reads the room, say thirty five degrees, and sends it over ZigBee to an intelligent control box, which supports Wi-Fi, Bluetooth, ZigBee and infrared.",
+    "The control box forwards the reading over Wi-Fi to the digital world, the CPS analysis and decision making system in the cloud.",
+    "The decision, open the air conditioner, comes back over Wi-Fi, and the control box sends an infrared command to the AC."
+   ]
+  },
+  {
+   "id": "emerg",
+   "title": "7.7 CPS in emergency response",
+   "lines": [
+    "CPS in emergency response operations.",
+    "Pervasive sensing and communication: sensing facilities in the environment give a global view of affected areas, and communication must be timely, efficient and secure.",
+    "Control and computing facilities identify event priorities, and set up response plans like trajectory navigation and task allocation.",
+    "Action: decisions are sent to static and mobile devices, like robots and drones, to execute tasks.",
+    "Three layers. One, the wireless communication networks layer: sensors acquire data from heterogeneous entities and events.",
+    "Two, the environment perception layer: builds perceptions and a global map of the current situation.",
+    "Three, the heterogeneous networks convergence layer: service composition, network coverage and QoS.",
+    "Autonomous mobile robots have interaction and perception abilities. Their challenges are coordination and relocation in dynamic conditions, so accurate and efficient CPS workload reaction is essential."
+   ]
+  },
+  {
+   "id": "its",
+   "title": "7.8 Intelligent transport CPS",
+   "lines": [
+    "Intelligent transport CPS is a closed loop between the cyber side and the physical side.",
+    "The cyber side has real time models, information, and parameters of speed and position. The physical side is the traffic system: vehicles, traffic signals, behaviour and environment.",
+    "Sensing goes from physical to cyber, like vehicle speed and position.",
+    "Computation uses cloud computing and embedded systems. Communication uses sensor networks, mobile networks, DSRC and IoT.",
+    "And control, or actuation, goes from cyber to physical: changing traffic signals and alerting drivers."
+   ]
+  },
+  {
+   "id": "role",
+   "title": "8. Role of WSN in CPS",
+   "lines": [
+    "The role of WSN in CPS. Write six headings with two points each for ten marks.",
+    "One, data collection and reporting: gather timely data from the right areas and events, and contextual reporting, sharing relevant data with neighbouring devices and applications at the right time.",
+    "Two, data routing and support: routing data between physical facilities, and processing support for specific tasks when needed.",
+    "Three, monitoring and control: condition monitoring of physical devices, and operational control of device operations in specific applications.",
+    "Four, data aggregation and analysis: aggregate, filter, analyse and process collected data, and decision forwarding from the cyber world to physical devices.",
+    "Five, intelligence and autonomy: embedded intelligence and autonomy in the physical environment, and multi level control of the environment.",
+    "Six, security and energy efficiency: help secure processing and routing, and help save energy in appliances.",
+    "Example: in a smart building, the WSN collects room occupancy, routes it to the controller, monitors HVAC status, aggregates per floor, lets local nodes switch off lights automatically, and saves energy."
+   ]
+  },
+  {
+   "id": "energy",
+   "title": "9.1 Routing challenge: energy",
+   "lines": [
+    "Now the eight design challenges for routing in WSN for CPS. The mnemonic is E D M R S D S Q: energy, deployment, mobility, reliability, security, data collection model, scalability, and QoS.",
+    "Energy consumption. Normal tasks like processing and transmission quickly drain a node's battery.",
+    "Transmission energy grows with the square of distance, or with higher powers like distance to the fourth if obstacles are present.",
+    "Battery death means node failure, which changes the topology, so data must be re routed.",
+    "Multi hop routing is best for large areas. Direct communication works when all nodes are close to the sink.",
+    "Worked example: a node is one hundred metres from the sink, and energy is proportional to distance squared.",
+    "Direct: one hundred squared is ten thousand units.",
+    "Two hops of fifty metres: two thousand five hundred plus two thousand five hundred is five thousand units. Half the energy.",
+    "Four hops of twenty five metres: four times six hundred twenty five is two thousand five hundred units. One quarter."
+   ]
+  },
+  {
+   "id": "deploy",
+   "title": "9.2 to 9.4 Deployment, mobility, reliability",
+   "lines": [
+    "Node deployment. Deterministic deployment places nodes at predefined, fixed locations, so routing uses predetermined, simple paths. It gives optimised placement, for places like a factory.",
+    "Random deployment scatters nodes, for example dropped from aircraft, forming an ad hoc network with unpredictable topology. It works in inaccessible or hazardous areas like forests, battlefields and volcanoes, and needs clustering to save energy.",
+    "Mobility. Static nodes are the common case. But some applications need mobile nodes: in disaster response, mobile sensors gather critical data, and sensors can be mounted on UAVs to reach many locations quickly.",
+    "Mobility means routes change, so the routing protocol must adapt.",
+    "Reliability. Robustness: protocols must tolerate node failures, link interruptions and other anomalies. Redundancy: keep multiple routing paths so connectivity and data integrity survive failures."
+   ]
+  },
+  {
+   "id": "security",
+   "title": "9.5 Security: three routing attacks",
+   "lines": [
+    "Security: three routing attacks.",
+    "The wormhole attack. An attacker records packets at one location and tunnels them, over a fast private link, to another location, where they are replayed.",
+    "It creates a false short path. In the diagram, A and E are four hops apart, but the tunnel makes them look like neighbours, so nodes prefer the tunnel and packets get misrouted.",
+    "The Sybil attack. One attacker presents many fake identities. This gives it undue influence on voting, resource allocation and routing, and compromises integrity.",
+    "The rushing attack. The attacker forwards route discovery, or RREQ, packets very fast, so its copy arrives first, and the legitimate copies are discarded as duplicates.",
+    "The malicious route gets established, leading to data interception or network partition."
+   ]
+  },
+  {
+   "id": "models",
+   "title": "9.6 Data sensing and collection models",
+   "lines": [
+    "Data sensing and collection models.",
+    "Time driven: data is sent at regular intervals, whether or not anything changed. Example: smart grid PMUs report AC waveforms to the control centre at a fixed rate per second.",
+    "Event driven: data is sent only when an event occurs, giving less unnecessary traffic. Example: an ITS traffic alert only when a jam is detected.",
+    "Query driven: data is sent only in response to a query, on demand. Example: an operator asks, temperature of zone three now?",
+    "Hybrid: a mix of two or more. For example, normally time driven, switching to event driven under special conditions.",
+    "The impact on routing: energy, because the model decides how often and how much data is sent, and route stability, because varying data rates affect path stability and reliability."
+   ]
+  },
+  {
+   "id": "scale",
+   "title": "9.7 to 9.8 Scalability and QoS",
+   "lines": [
+    "Scalability. CPS deploy huge numbers of sensors, so routing must work efficiently regardless of size.",
+    "Dynamic response: protocols scale up or down as nodes join, leave, or switch between active and sleep.",
+    "Energy management: handle sleeping sensors, and route data from awake ones while keeping the network intact.",
+    "Event driven scalability: on a sudden event like fire or intrusion, many sensors become active at once, and data must still reach the control centre quickly.",
+    "QoS, bounded latency. In time sensitive CPS, late data is useless data.",
+    "ITS example: roadside sensors see vehicle speed drop sharply in a jam. The data must be sent immediately, because even a few minutes delay gives outdated traffic information.",
+    "Solutions: routing that prefers low latency routes, and QoS mechanisms that prioritise critical data over less urgent data."
+   ]
+  },
+  {
+   "id": "classify",
+   "title": "10. Classification of routing protocols",
+   "lines": [
+    "Routing protocols in WSNs for CPS are classified from three perspectives.",
+    "One, the network addressing perspective: topology based, and geographical, or location based.",
+    "Two, the protocol operation or design perspective: query based, or data centric, QoS aware, security aware, and energy aware.",
+    "Three, the network hierarchy perspective: flat, or non hierarchical, and hierarchical.",
+    "Parts three and four of this series cover location based routing, data centric routing, and hierarchical routing in detail."
+   ]
+  },
+  {
+   "id": "recap",
+   "title": "Exam recap",
+   "lines": [
+    "Quick recap.",
+    "Five layer CPS: sensing, data management, next generation Internet, service aware, application.",
+    "Healthcare CPS: sensors, gateway, cloud process and store, observation centre, clinicians, decision, actuator intervention.",
+    "Role of WSN: six headings, from data collection to security and energy.",
+    "Routing challenges: E D M R S D S Q. Energy grows with d squared, so multi hop saves energy. Attacks: wormhole, Sybil, rushing.",
+    "Data models: time, event, query, hybrid. Classification: addressing, operation, hierarchy.",
+    "Good luck in your exam!"
+   ],
+   "pad": [
+    0.6,
+    2.4
+   ]
+  }
+ ]
+}

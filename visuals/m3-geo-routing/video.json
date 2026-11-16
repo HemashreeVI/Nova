@@ -1,0 +1,230 @@
+{
+ "title": "CCPS Module 3 Part 3: Location-Based Geographic Routing — Greedy, GPSR, GEAR, WEAR, GAF, GREES, BOSS, EBGRES, Secure Routing",
+ "slug": "m3-geo-routing",
+ "description": "Exam revision of CCPS Module 3 part 3: location-based geographic routing concepts, triangulation, greedy forwarding worked example, advantages, the local minimum and path overuse problems, and the solutions GPSR, GEAR, WEAR, GAF, GREES, BOSS, EBGRES and secure geographic routing.",
+ "tags": [
+  "geographic routing",
+  "GPSR",
+  "GEAR",
+  "GAF",
+  "BOSS",
+  "local minimum",
+  "WSN routing",
+  "CCPS Module 3",
+  "exam revision"
+ ],
+ "voice": "af_heart",
+ "speed": 1.0,
+ "fps": 30,
+ "captions": true,
+ "endCard": "📘 more to learn → github.com/HemashreeVI",
+ "thumbnail": "gpsr@20",
+ "pronounce": {
+  "WSN": "W S N",
+  "WSNs": "W S Ns",
+  "CPS": "C P S",
+  "MANET": "manet",
+  "MANETs": "manets",
+  "M2M": "machine to machine",
+  "ADC": "A D C",
+  "GPS": "G P S",
+  "CH": "C H",
+  "CHs": "C Hs",
+  "BS": "B S",
+  "RFID": "R F I D",
+  "ZigBee": "zig bee",
+  "WiMAX": "why max",
+  "Wi-Fi": "wifi",
+  "SaaS": "software as a service",
+  "HVAC": "H V A C",
+  "IoT": "I O T",
+  "ITS": "I T S",
+  "DSRC": "D S R C",
+  "QoS": "Q O S",
+  "PMUs": "P M Us",
+  "RREQ": "R R E Q",
+  "NBC": "N B C",
+  "VANET": "van et",
+  "UAVs": "U A Vs",
+  "GPSR": "G P S R",
+  "GEAR": "gear",
+  "WEAR": "wear",
+  "GAF": "gaff",
+  "GREES": "grees",
+  "BOSS": "boss",
+  "EBGRES": "E B G R E S",
+  "SPIN": "spin",
+  "ADV": "A D V",
+  "REQ": "R E Q",
+  "DATA": "data",
+  "ACK": "ack",
+  "SELECT": "select",
+  "LEACH": "leech",
+  "PEGASIS": "pegasus",
+  "TEEN": "teen",
+  "TDMA": "T D M A",
+  "HT": "H T",
+  "ST": "S T",
+  "DD": "D D",
+  "DoS": "D O S",
+  "CN": "C N",
+  "T(n)": "T of n"
+ },
+ "scenes": [
+  {
+   "id": "intro",
+   "title": "Routing by location",
+   "lines": [
+    "What if a packet could find its way just by knowing where the destination is, with no routing tables at all?",
+    "That is location based, or geographic, routing. Part three covers how it works, its problems, and the protocols that fix them: GPSR, GEAR, WEAR, GAF, GREES, BOSS, EBGRES, and secure geographic routing."
+   ],
+   "pad": [
+    0.8,
+    0.8
+   ]
+  },
+  {
+   "id": "concepts",
+   "title": "11.1 Key concepts",
+   "lines": [
+    "Three steps. Step one: node location identification. Each node finds its own and its neighbours' locations using GPS, or localization algorithms like triangulation.",
+    "Triangulation measures the distance from three or more known reference points, called anchors. The unknown node is where the three distance circles intersect.",
+    "Step two: location sharing. Nodes share their locations with their neighbours.",
+    "Step three: forwarding, based on the locations of the source, the neighbours, and the destination.",
+    "The intermediate node uses greedy forwarding: on receiving a packet, it forwards it to the neighbour closest to the destination.",
+    "These protocols are greedy, stateless, and on demand. Paths are made only when needed, using current node locations."
+   ]
+  },
+  {
+   "id": "greedy",
+   "title": "Greedy forwarding worked example",
+   "lines": [
+    "A worked example. Destination D is at ten comma zero. Node S at zero comma zero has three neighbours.",
+    "A at three comma two, B at four comma zero, and C at minus two comma one.",
+    "Distance from A to D: the square root of seven squared plus two squared, which is root fifty three, about 7.3.",
+    "Distance from B to D: ten minus four, which is 6.",
+    "Distance from C to D: the square root of twelve squared plus one squared, about 12.",
+    "B is closest to D, so S sends the packet to B."
+   ]
+  },
+  {
+   "id": "pros",
+   "title": "11.2 to 11.3 Advantages and disadvantages",
+   "lines": [
+    "Five advantages of location based routing.",
+    "One, efficient path finding: the greedy mechanism generally finds the shortest path. Two, localized decisions based only on nearby neighbours, with one hop message exchange and no flooding.",
+    "Three, low memory: stateless with minimal storage, so it scales well. Four, dynamic adaptation: neighbour information is updated periodically at minimal cost. Five, flexible design, easily extended with energy aware and hole avoiding routing.",
+    "Two disadvantages. One, the local minimum problem: routing gets stuck at a dead end, or hole, where a node has no neighbour closer to the destination than itself.",
+    "Two, path overuse: the same best path is used again and again, so those nodes die early, and load is imbalanced.",
+    "The solutions: for local minimum, GPSR and WEAR. For path overuse, the energy aware GEAR, WEAR and GREES. For control message overhead, the beaconless BOSS and EBGRES. For energy through sleep scheduling, GAF. And for security, secure geographic routing."
+   ]
+  },
+  {
+   "id": "gpsr",
+   "title": "11.5 GPSR",
+   "lines": [
+    "GPSR: Greedy Perimeter Stateless Routing. It has two modes.",
+    "Mode one, greedy forwarding, the primary mode, used while a neighbour closer to the destination exists.",
+    "Mode two, perimeter routing, the fallback, used at a local minimum.",
+    "The network graph is converted into a planar graph, keeping only edges that do not cross each other.",
+    "The packet is forwarded around the face of the graph using the right hand rule: walk along edges keeping them on your right hand side.",
+    "At each step, GPSR checks whether it has reached a node closer to the destination than the node where greedy failed. If yes, it switches back to greedy.",
+    "So GPSR solves the local minimum problem while keeping greedy routing's efficiency."
+   ]
+  },
+  {
+   "id": "gear",
+   "title": "11.6 GEAR",
+   "lines": [
+    "GEAR: Geography and Energy Aware Routing.",
+    "Dual criteria: the next hop is chosen using distance to the destination, plus remaining, or residual, energy.",
+    "The objective is to avoid overusing low energy nodes, and balance energy across the network. Among neighbours it prefers those with higher energy, using a composite metric of distance and energy.",
+    "A simple illustration, not from the slides: cost equals alpha times normalised distance, plus one minus alpha times normalised energy used. Choose the minimum cost.",
+    "This distributes load, avoids bottlenecks, and extends network lifetime.",
+    "When greedy fails at a local minimum, GEAR uses recursive geographic forwarding to explore a broader set of paths, or restricted flooding, a controlled flood limited to a few nodes.",
+    "Example: neighbour A is five metres from D with ten percent battery. Neighbour B is six metres from D with ninety percent battery. Pure greedy picks A. GEAR picks B, protecting A from dying."
+   ]
+  },
+  {
+   "id": "wear",
+   "title": "11.7 WEAR",
+   "lines": [
+    "WEAR: Wear Evidence Aware Routing. It tackles local minimum caused by holes, large areas with no active sensors.",
+    "Hole detection is collaborative. Nodes periodically exchange location and activity status with neighbours, and areas with sparse or no active neighbours are likely holes.",
+    "Nodes on the hole's edge, with neighbours on one side and none on the other, are boundary nodes.",
+    "Hole information is broadcast using controlled flooding, so only relevant nodes are told, with low overhead.",
+    "The routing decision uses four factors: distance to destination, energy level, location information, and local hole information.",
+    "Benefits: hole avoidance without overusing perimeter nodes, load balancing, and fault tolerance for failures that create new holes."
+   ]
+  },
+  {
+   "id": "gaf",
+   "title": "11.8 GAF",
+   "lines": [
+    "GAF: Geographical Adaptive Fidelity.",
+    "The sensing area is divided into a virtual grid of cells, sized so that all nodes in one cell are equivalent for routing. Any one of them can talk to any node in adjacent cells.",
+    "Each node has three states. Sleep: radio off, while other nodes in the same cell maintain connectivity.",
+    "Discovery: wake periodically to find neighbours in the same cell, and decide whether to stay active or sleep.",
+    "Active: take part in routing. Only one active node per cell is needed.",
+    "Transitions: from discovery to active if chosen to serve the cell, or to sleep if another node is active. Active returns to discovery when its active time is over, and sleep returns to discovery when its timer expires.",
+    "Non critical nodes sleep, and nodes take turns being active, with no redundant transmissions.",
+    "Example: a cell has four nodes, and only one is awake at a time. Each node is awake about twenty five percent of the time, so the lifetime is roughly four times longer than if all were awake."
+   ]
+  },
+  {
+   "id": "grees",
+   "title": "11.9 GREES",
+   "lines": [
+    "GREES: Geographic Routing with Environmental Energy Supply. The next hop is chosen considering five things.",
+    "One, energy efficient plus geographic routing: proximity to the destination and energy efficiency of the route.",
+    "Two, realistic wireless channel conditions: signal attenuation, interference, and varying link quality, not ideal links.",
+    "Three, packet advancement: each hop should move the packet significantly closer, so fewer hops and less energy.",
+    "Four, residual battery energy: higher energy nodes are preferred, preventing early death and network partitioning.",
+    "Five, environmental energy supply: nodes with energy harvesting, like solar panels, are preferred.",
+    "Advantages: a realistic system model, load balancing, and extended lifetime. Example: on a sunny day, a solar powered node is chosen as relay over a battery only node at similar distance."
+   ]
+  },
+  {
+   "id": "boss",
+   "title": "11.10 to 11.11 BOSS and EBGRES",
+   "lines": [
+    "BOSS: Beaconless Opportunistic Strategy Selection.",
+    "The problem: normal protocols broadcast beacons periodically to keep neighbour tables, a large overhead. BOSS's idea: the data message itself is the probe.",
+    "One, data driven discovery: the sender broadcasts the DATA packet, which both tries to forward data and probes neighbours.",
+    "Two, neighbour response: neighbours that consider themselves suitable, by position towards the destination, residual energy, and link quality, respond.",
+    "Three, real time link quality assessment: only neighbours that received and acknowledged the data have good links, so poor links are filtered out automatically.",
+    "Four, collaborative forwarder selection: the sender picks the best responder, by position and reliability, as the next forwarder.",
+    "Five, automatic adaptation: probing happens with every transmission, so it adapts quickly to mobility and changing links. Advantages: efficiency, real time decisions, reduced congestion.",
+    "EBGRES: Energy efficient Beaconless Geographic Routing with Environmental Sensing. It is similar to BOSS: beaconless, with fewer control messages, using three message types, DATA, ACK and SELECT.",
+    "Its extra feature: it considers environmental energy availability, like solar, so it suits energy harvesting networks."
+   ]
+  },
+  {
+   "id": "secure",
+   "title": "11.12 Secure geographic routing",
+   "lines": [
+    "Secure geographic routing. Location based routing is vulnerable to blackhole attacks, which drop all packets, and selective forwarding attacks, which drop some packets. There are four defences.",
+    "Rate control counters packet overflow, or DoS, attacks. Each node estimates the maximum packet rate it can handle and drops excess packets.",
+    "Forwarding verification counters blackhole and selective forwarding. A trusted peer, an anchor or designated node, is queried to confirm the packets were really forwarded.",
+    "Probabilistic next hop selection counters predictable routing exploits. The next hop is chosen probabilistically among geographically suitable neighbours, so the attacker cannot predict the route.",
+    "Multi path routing counters blackhole and selective forwarding. Data goes along multiple paths, so if one is compromised, the others still deliver."
+   ]
+  },
+  {
+   "id": "recap",
+   "title": "Exam recap",
+   "lines": [
+    "Quick recap.",
+    "Geographic routing: locate by GPS or triangulation, share locations, forward greedily to the neighbour closest to the destination.",
+    "Local minimum: GPSR with perimeter mode and the right hand rule, or WEAR with hole information.",
+    "Path overuse: energy aware GEAR, WEAR and GREES. Beaconless: BOSS and EBGRES with DATA, ACK and SELECT.",
+    "Sleep scheduling on a virtual grid: GAF. Security: rate control, forwarding verification, probabilistic next hop, multi path.",
+    "Good luck in your exam!"
+   ],
+   "pad": [
+    0.6,
+    2.4
+   ]
+  }
+ ]
+}

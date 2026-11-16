@@ -1,0 +1,272 @@
+{
+ "title": "CCPS Module 3 Part 1: WSN Basics, Topologies, CPS, WSN-CPS Architecture, MANET vs WSN vs M2M vs CPS",
+ "slug": "m3-wsn-cps",
+ "description": "Exam revision of CCPS Module 3 part 1: WSN definition and components, sensor node structure, base station, star/cluster-tree/mesh topologies, WSN applications and challenges, CPS definition, characteristics, advantages and domains, two-layer and three-layer WSN-CPS architecture, CPS challenges, and the MANET, WSN, M2M and CPS comparison.",
+ "tags": [
+  "WSN",
+  "CPS",
+  "network topology",
+  "WSN-CPS architecture",
+  "MANET",
+  "M2M",
+  "CCPS Module 3",
+  "exam revision"
+ ],
+ "voice": "af_heart",
+ "speed": 1.0,
+ "fps": 30,
+ "captions": true,
+ "endCard": "📘 more to learn → github.com/HemashreeVI",
+ "thumbnail": "topo@20",
+ "pronounce": {
+  "WSN": "W S N",
+  "WSNs": "W S Ns",
+  "CPS": "C P S",
+  "MANET": "manet",
+  "MANETs": "manets",
+  "M2M": "machine to machine",
+  "ADC": "A D C",
+  "GPS": "G P S",
+  "CH": "C H",
+  "CHs": "C Hs",
+  "BS": "B S",
+  "RFID": "R F I D",
+  "ZigBee": "zig bee",
+  "WiMAX": "why max",
+  "Wi-Fi": "wifi",
+  "SaaS": "software as a service",
+  "HVAC": "H V A C",
+  "IoT": "I O T",
+  "ITS": "I T S",
+  "DSRC": "D S R C",
+  "QoS": "Q O S",
+  "PMUs": "P M Us",
+  "RREQ": "R R E Q",
+  "NBC": "N B C",
+  "VANET": "van et",
+  "UAVs": "U A Vs",
+  "GPSR": "G P S R",
+  "GEAR": "gear",
+  "WEAR": "wear",
+  "GAF": "gaff",
+  "GREES": "grees",
+  "BOSS": "boss",
+  "EBGRES": "E B G R E S",
+  "SPIN": "spin",
+  "ADV": "A D V",
+  "REQ": "R E Q",
+  "DATA": "data",
+  "ACK": "ack",
+  "SELECT": "select",
+  "LEACH": "leech",
+  "PEGASIS": "pegasus",
+  "TEEN": "teen",
+  "TDMA": "T D M A",
+  "HT": "H T",
+  "ST": "S T",
+  "DD": "D D",
+  "DoS": "D O S",
+  "CN": "C N",
+  "T(n)": "T of n"
+ },
+ "scenes": [
+  {
+   "id": "intro",
+   "title": "CCPS Module 3 overview",
+   "lines": [
+    "How do hundreds of tiny sensors scattered across a farm, a forest or a factory work together, and how do they become part of a cyber physical system?",
+    "This is CCPS Module 3: network topology design and network operation.",
+    "Part one covers WSN basics, topologies, CPS, the WSN-CPS architectures, and how MANET, WSN, M2M and CPS differ."
+   ],
+   "pad": [
+    0.8,
+    0.8
+   ]
+  },
+  {
+   "id": "wsn",
+   "title": "1.1 What is a WSN?",
+   "lines": [
+    "A wireless sensor network, or WSN, is a large network of small, resource constrained sensor nodes that can sense, process and communicate wirelessly, deployed in a sensing field to achieve an application objective.",
+    "Its purpose is to implement application goals, like monitoring temperature or intrusion, in a specific sensing field.",
+    "WSNs extend the Internet into the physical world, creating a cyber physical environment.",
+    "Example: two hundred soil moisture sensors scattered across a farm send readings to a base station, which turns irrigation pumps on or off.",
+    "There are three key components. Nodes, or motes: spatially distributed autonomous devices that use sensors to monitor physical or environmental conditions.",
+    "Communication: nodes talk to each other over multiple hops, or directly to an external base station.",
+    "And base stations, or gateways, which forward data from sensors to a monitoring centre or decision system, using wireless or wired links."
+   ]
+  },
+  {
+   "id": "node",
+   "title": "1.3 Structure of a sensor node",
+   "lines": [
+    "A sensor node has three basic functions: sensing, data processing, and communication.",
+    "It has four main components.",
+    "The sensing unit, a sensor plus an ADC. It senses the physical quantity, and the ADC converts the analog signal to digital.",
+    "The processing and storage unit: a microcontroller plus memory, that processes data and runs protocols.",
+    "The transceiver: the radio that sends and receives data.",
+    "And the power supply: the battery that powers all the other units.",
+    "Optional components are a power generator like a solar cell, a location finding system like GPS, and a mobilizer to move the node."
+   ]
+  },
+  {
+   "id": "bs",
+   "title": "1.4 The base station",
+   "lines": [
+    "The base station, or sink, is the gateway between the WSN and the outside world. It is more powerful and better designed than ordinary nodes.",
+    "It has three primary tasks. Remember C P F.",
+    "Collection: gather data from the sensor nodes. Processing: analyse and organise the data. Forwarding: send processed data to a remote application server over the Internet.",
+    "It has two interfaces. The in field communication interface receives data from sensor nodes over short range, for example ZigBee.",
+    "The out of field long range channel sends data to the remote server, for example over cellular or the Internet.",
+    "This dual interface setup moves data from the physical environment to the digital systems that analyse it."
+   ]
+  },
+  {
+   "id": "topo",
+   "title": "2. Network topologies",
+   "lines": [
+    "The network topology of a WSN is a connectivity graph. Vertices are sensor nodes, and edges are communication links. Each link is a one hop connection.",
+    "Star topology: every node talks directly to one central base station.",
+    "Its advantages: simple, easy to implement, and low latency to the base station. Its drawbacks: the base station is a single point of failure, scalability is limited, and distant nodes spend more energy. Example: a small smart home with six sensors around one hub.",
+    "Cluster tree topology: nodes are grouped into clusters, each with a cluster head. Members send to the CH, and the CH sends to the base station.",
+    "Advantages: better scalability and energy efficiency, and less traffic to the base station. Drawbacks: latency from multi hop paths, and if a CH fails, its cluster is cut off. Example: forest monitoring with sensors grouped by area.",
+    "Mesh topology: nodes are interconnected, giving multiple paths to the base station.",
+    "Advantages: high reliability and robustness, self healing, and good scalability. Drawbacks: complex management, and higher energy use from routing overhead. Example: industrial plant monitoring where data must never be lost."
+   ]
+  },
+  {
+   "id": "compare",
+   "title": "2.4 Topology comparison",
+   "lines": [
+    "Here is the comparison table to write in the exam.",
+    "Path to BS: star is direct, one hop. Cluster tree goes member to CH to BS. Mesh has multiple multi hop paths.",
+    "Latency: star lowest, cluster tree medium, mesh higher.",
+    "Reliability: star is low, because a BS failure kills everything. Cluster tree is medium, because only a CH failure. Mesh is highest, because it self heals.",
+    "Scalability: star limited, cluster tree and mesh good.",
+    "Energy: star is high for far nodes, cluster tree is efficient, and mesh is higher due to routing overhead. Complexity: simple, moderate, complex.",
+    "Conclusion: each topology trades off reliability, latency and energy efficiency, so the choice depends on the application and deployment."
+   ]
+  },
+  {
+   "id": "apps",
+   "title": "3. WSN applications and challenges",
+   "lines": [
+    "WSN applications fall into four groups. Remember E M H H.",
+    "Environmental monitoring: crops and livestock, irrigation systems, forest fires and flooding, disasters and pollution levels.",
+    "Military: target tracking, battlefield surveillance, intrusion detection and identification, reconnaissance of enemy forces and terrain, and NBC, nuclear biological chemical, attack detection.",
+    "Health: patient monitoring, tracking patients and staff in hospitals, assistance for disabled patients, and body sensor networks via surgical implants.",
+    "Home automation: better standard of living, enhanced security, and energy efficiency.",
+    "The challenges: resource constraints. Limited processing power, bandwidth, connectivity, and especially battery life.",
+    "Key areas for development: communication protocols, operating systems and hardware platforms, power management mechanisms, and MAC and routing protocols.",
+    "The battery decides the network lifetime, so aggressive power saving like sleep scheduling, short hop routing, and data aggregation is essential.",
+    "And integrating WSN with CPS adds new problems, because physical and cyber parts must work together on timing, heterogeneity and reliability."
+   ]
+  },
+  {
+   "id": "cps",
+   "title": "4. Cyber-physical systems",
+   "lines": [
+    "Cyber physical systems integrate computing, communication and storage capabilities with the monitoring and control of physical entities.",
+    "The vision: enable modern social services that transcend time and space, like a doctor monitoring a patient remotely in real time.",
+    "The simple idea: sense the physical world, decide in the cyber world, and act back on the physical world.",
+    "Six defining characteristics. One, cybernetic capacities in every physical component. Two, large or very large scale networking. Three, heterogeneity, meaning diverse components.",
+    "Four, dynamic reconfiguration at run time. Five, closed loop control with a high degree of automation. Six, dependability, sometimes certified, as in avionics.",
+    "Advantages: efficient and safe systems, lower production and operational costs, and letting individual entities combine into complex systems with new capabilities."
+   ]
+  },
+  {
+   "id": "domains",
+   "title": "4.4 CPS application domains",
+   "lines": [
+    "CPS application domains.",
+    "Transportation: reduce environmental impact, complex traffic control, high dependability. Energy: higher efficiency and security through smart grids.",
+    "Civil infrastructure: precise control, warning and prevention, like bridge health. Environment monitoring: minimal energy use, and accurate data collection.",
+    "Defense: precise control, high security, high computing power. Smart buildings: lower energy consumption, better security and safety.",
+    "Health and biomedical: new analysis and integration technologies, and new medical devices.",
+    "Manufacturing and production: intelligent control, automatic assembly, safe human robot environments, and competitiveness."
+   ]
+  },
+  {
+   "id": "arch2",
+   "title": "5.2 Two-layer WSN-CPS architecture",
+   "lines": [
+    "Now the WSN-CPS architecture. CPS integrate embedded systems, sensor networks, actuators and intelligent decision systems to monitor and control physical environments.",
+    "The role of WSN: it collects physical information for the CPS, and often includes actuation to improve monitoring and control.",
+    "The two layer architecture. The physical layer has sensors and actuators, which collect data from and control physical processes.",
+    "The cyber layer has storage platforms, knowledge, and a decision system, for real time decision making, turning raw data into high level knowledge.",
+    "A network connects them: sensors send to the network, which feeds the cyber layer, and decisions go back through the network to the actuators.",
+    "The architecture must handle communication delays, time differences and heterogeneity, and support dynamic reconfiguration for dependability and security."
+   ]
+  },
+  {
+   "id": "arch3",
+   "title": "5.3 Three-layer WSN-CPS architecture",
+   "lines": [
+    "The advanced three layer architecture is an information centric view.",
+    "The bottom, physical layer collects information and controls physical processes with sensors and actuators. Its concerns: energy efficiency, data movement, and communication among heterogeneous components.",
+    "The middle layer has three components. Data storage: distributed databases of sensor data.",
+    "The knowledge base: an ontology for decision making and negotiation rules.",
+    "And the multi agent society: specialised software agents for data storage, conflict negotiation, data processing, testing, diagnosis and decision making.",
+    "The middle layer ensures dependability and security, gives decisions for control and monitoring, and performs complex analysis for end users.",
+    "The top layer is cyberspace services: CPS monitoring, control and analysis offered as SaaS, software as a service, plus client applications like web services to access them.",
+    "Sensing data goes up from the physical layer, and control actions come back down.",
+    "Applications of this architecture: critical infrastructures, environment, smart buildings, and others like manufacturing, transportation and healthcare."
+   ]
+  },
+  {
+   "id": "chal",
+   "title": "5.5 Challenges in CPS",
+   "lines": [
+    "Three challenges in CPS.",
+    "One, abstraction and architecture: we need formalisms and architectures that integrate heterogeneous CPS components and ensure interoperability.",
+    "Two, distributed computation and networked control: handle time driven and event driven computing, time delays, failures, and reconfiguration, and provide distributed decision support for high reliability and security.",
+    "Three, verification and validation: guarantee the quality of service of software and hardware from the early design stages."
+   ]
+  },
+  {
+   "id": "manet",
+   "title": "6. MANET, WSN and M2M",
+   "lines": [
+    "A MANET, mobile ad hoc network, is a self configuring network of mobile devices connected wirelessly, that can move freely and independently.",
+    "Every device acts as a router, forwarding traffic that is not its own. There is no fixed infrastructure, the topology is dynamic, and it uses heterogeneous protocols.",
+    "Examples: soldiers' radios forming a network in the field, or vehicles talking to each other in a VANET.",
+    "A WSN is a special form of MANET. Its components are spatially distributed sensing devices, monitoring physical or environmental conditions. Sensors collaborate to achieve goals beyond any single sensor, and mobility, when present, improves tracking and data collection.",
+    "M2M, machine to machine communication, lets networked devices exchange information and act without manual human intervention.",
+    "Its key components: RFID for tracking and identification, sensors for environmental data, communication links like ZigBee, WiMAX, Wi-Fi and cellular, and computing software that interprets data and makes decisions.",
+    "Example: a smart meter automatically sending electricity readings to the utility server."
+   ]
+  },
+  {
+   "id": "table",
+   "title": "6.4 MANET vs WSN vs M2M vs CPS",
+   "lines": [
+    "The most important table: distinguishing MANET, WSN, M2M and CPS.",
+    "Goal. MANET: ad hoc communication, extending infrastructure coverage. WSN: deliver situational data about events and objects. M2M: task or device specific machine type communication. CPS: multiple sensor networks plus the Internet to build intelligence across domains.",
+    "Composition. MANET: mobile communicating devices. WSN: sensors, static or mobile, with limited capability. M2M: sensors, RFID, networked devices. CPS: physical parts plus cyber parts for processing, storage and decision.",
+    "Topology. MANET: random and highly dynamic. WSN and M2M: random, predefined, or field specific, and WSN uses clustering. CPS: highly dynamic, with clustering.",
+    "Communication. MANET: arbitrary, unicast, multicast, broadcast. WSN: collective among sensors. M2M: between heterogeneous devices. CPS: inter and intra WSN, and cross domain protocols.",
+    "Power. MANET: energy saving, nodes sleep when possible. WSN: energy conservation with long sleep wake cycles. M2M: energy is generally not a major concern. CPS: sensor activation is mission oriented.",
+    "Mobility. MANET: arbitrary and unrestricted. WSN: limited, controlled or uncontrolled. M2M: field specific. CPS: both controllable and uncontrollable.",
+    "Coverage. MANET: precise connectivity. WSN: connectivity and sensing coverage. M2M: connectivity essential. CPS: multiple levels of connectivity and coverage.",
+    "Knowledge mining. MANET: not a focus. WSN: acquire and manage sensing data. M2M: supports machine type communication. CPS: extract new knowledge from multiple sensing domains.",
+    "Memory trick: MANET means move and talk. WSN means sense. M2M means machines act alone. CPS means sense, think and act across domains."
+   ]
+  },
+  {
+   "id": "recap",
+   "title": "Exam recap",
+   "lines": [
+    "Quick recap.",
+    "Sensor node: sensing unit, processing and storage, transceiver, power supply. Base station: collection, processing, forwarding, with two interfaces.",
+    "Topologies: star is simple but has a single point of failure. Cluster tree is efficient. Mesh is most reliable but complex.",
+    "CPS: six characteristics, from cybernetic capacity to dependability. Two layer: physical and cyber. Three layer: physical, middle with storage, knowledge base and agents, and top cyberspace services.",
+    "MANET moves and talks, WSN senses, M2M machines act alone, CPS senses, thinks and acts.",
+    "Good luck in your exam!"
+   ],
+   "pad": [
+    0.6,
+    2.4
+   ]
+  }
+ ]
+}
