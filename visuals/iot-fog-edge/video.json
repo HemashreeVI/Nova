@@ -1,0 +1,308 @@
+{
+ "title": "Fog & Edge Computing in CPS Explained Simply — Module 7 Full Revision",
+ "slug": "iot-fog-edge",
+ "description": "Fog and edge computing in cyber-physical systems: edge uses, fog uses, edge-fog-cloud architecture, use cases, a full smart-factory scenario, coordination flows and edge vs fog.",
+ "tags": [
+  "fog computing",
+  "edge computing",
+  "CPS",
+  "Industry 4.0",
+  "exam revision"
+ ],
+ "voice": "am_michael",
+ "speed": 1.0,
+ "fps": 24,
+ "captions": true,
+ "endCard": "📘 Edge < 10 ms · Fog 10–100 ms · Cloud learns",
+ "thumbnail": "arch@20",
+ "pronounce": {
+  "CPS": "C P S",
+  "IoT": "I o T",
+  "PLC": "P L C",
+  "PLCs": "P L Cs",
+  "GPU": "G P U",
+  "GPUs": "G P Us",
+  "CPU": "C P U",
+  "ML": "M L",
+  "V2I": "V 2 I",
+  "M2M": "M 2 M",
+  "AGVs": "A G Vs",
+  "AGV": "A G V",
+  "ERP": "E R P",
+  "SCADA": "Scada",
+  "OTA": "O T A",
+  "KPI": "K P I",
+  "AWS": "A W S",
+  "MCU": "M C U",
+  "5G": "five G",
+  "DB": "database",
+  "ms": "milliseconds"
+ },
+ "scenes": [
+  {
+   "id": "intro",
+   "title": "Intro",
+   "lines": [
+    "A robot arm is about to hit a worker. Should it ask a cloud server in another country what to do? Of course not. There's no time.",
+    "That's why cyber physical systems use edge computing and fog computing, close to the machines.",
+    "We'll cover edge computing, fog computing, the combined edge fog cloud architecture, real use cases, a full smart factory scenario, and edge versus fog.",
+    "Let's start."
+   ],
+   "pad": [
+    0.6,
+    1.0
+   ]
+  },
+  {
+   "id": "cps",
+   "title": "CPS and why fog/edge matter",
+   "lines": [
+    "A cyber physical system involves real time interaction between physical devices, sensors, actuators, networks, and computational intelligence.",
+    "In simple words: sensors feel the world, computers think, and actuators act on the world.",
+    "Examples: smart grids, autonomous cars, industrial automation, smart healthcare, robotics, smart agriculture, and smart factories.",
+    "Fog and edge computing play a major role in four things: improving latency, bandwidth efficiency, security, and real time decision making.",
+    "Latency is delay. Bandwidth is how much data the network can carry."
+   ]
+  },
+  {
+   "id": "edge",
+   "title": "Edge computing: what & why",
+   "lines": [
+    "Edge computing processes data directly on or near the devices, such as sensors, gateways, or embedded controllers.",
+    "Think of it as giving every machine its own small brain. Why does CPS need edge? Three reasons.",
+    "One: CPS requires millisecond level responses.",
+    "Two: sensors generate huge amounts of data, so we can't send everything to the cloud.",
+    "Three: local processing increases speed, reliability, and data privacy, because the data never has to leave the building."
+   ]
+  },
+  {
+   "id": "edgeA",
+   "title": "Edge use A: real-time control",
+   "lines": [
+    "Where is edge used? First, real time control and decision making. CPS requires immediate feedback.",
+    "Edge nodes, like PLCs, microcontrollers, and embedded GPUs, do the computing. A PLC is a programmable logic controller, a rugged factory computer.",
+    "They compute things like collision detection in autonomous vehicles, adaptive braking, real time robotic movement, and industrial machine failure detection.",
+    "Edge ensures latency below 10 milliseconds. That's faster than a blink."
+   ]
+  },
+  {
+   "id": "edgeB",
+   "title": "Edge use B: local analytics",
+   "lines": [
+    "Second, local analytics and preprocessing. Edge devices perform four jobs.",
+    "Data filtering: keeping only the readings that matter.",
+    "Noise removal: cleaning up jittery, random errors in the readings.",
+    "Feature extraction: turning thousands of numbers into a few useful values, like the average vibration.",
+    "Event detection: spotting abnormal vibration, overheating, or voltage fluctuations.",
+    "This avoids sending raw sensor data to the cloud. Only the useful results travel."
+   ]
+  },
+  {
+   "id": "edgeCD",
+   "title": "Edge uses C & D: reliability, security",
+   "lines": [
+    "Third, reliability when the network fails. A CPS cannot stop working just because the cloud is unreachable.",
+    "Edge ensures local autonomy. Machines continue functioning even with connectivity loss. A factory keeps running even if the internet goes down.",
+    "Fourth, security at the source. Edge adds secure data storage.",
+    "Early attack detection, by spotting cyber anomalies.",
+    "And authentication at the gateway, so only trusted devices can connect. This helps protect industrial CPS and the smart grid from cyber attacks."
+   ]
+  },
+  {
+   "id": "fog",
+   "title": "Fog computing: what & why",
+   "lines": [
+    "Fog computing sits between the edge and the cloud. Like real fog, it's a cloud that is close to the ground.",
+    "It provides a distributed layer of intermediate computing nodes, usually close to the physical environment.",
+    "These nodes are routers, switches, gateways, and local servers.",
+    "Why does CPS need fog? Because the cloud is too far away, which adds delay.",
+    "And the edge is too small, with limited processing power.",
+    "Fog provides larger computation, but still with low latency. It also supports regional coordination, reduces bandwidth, and keeps latency under a second."
+   ]
+  },
+  {
+   "id": "fogA",
+   "title": "Fog use A: coordination",
+   "lines": [
+    "Where is fog used? First, distributed coordination of multiple CPS devices. One edge device only knows about itself. Fog sees the whole area.",
+    "Fog nodes coordinate multiple robots on a factory floor,",
+    "traffic signals together with vehicles in smart transportation,",
+    "energy balancing in the smart grid,",
+    "and multiple drones flying together.",
+    "So fog gives region level processing."
+   ]
+  },
+  {
+   "id": "fogB",
+   "title": "Fog use B: heavy analytics",
+   "lines": [
+    "Second, heavy analytics that are not possible at the edge.",
+    "Examples: predictive maintenance machine learning models.",
+    "Large scale sensor fusion, combining data from many sensors.",
+    "Video analytics from multiple cameras.",
+    "And optimization tasks, like scheduling, routing, and energy balancing.",
+    "Fog servers run GPU and CPU clusters near the CPS environment."
+   ]
+  },
+  {
+   "id": "fogCD",
+   "title": "Fog uses C & D",
+   "lines": [
+    "Third, data aggregation and hierarchical processing. Fog performs batch analytics, time series storage, local backup, and consolidation of edge data.",
+    "Time series means readings stored in time order, like temperature every second.",
+    "This saves bandwidth, and only refined results are sent to the cloud.",
+    "Fourth, latency sensitive communication. Fog nodes manage vehicle to infrastructure, drone to base station, and machine to machine communication.",
+    "Fog keeps latency within 10 to 100 milliseconds."
+   ]
+  },
+  {
+   "id": "arch",
+   "title": "Edge + Fog + Cloud architecture",
+   "lines": [
+    "Now put it all together. This is the combined edge, fog and cloud architecture.",
+    "At the bottom, sensors and actuators, the physical layer.",
+    "Above them, the edge layer: microcontrollers, PLCs, and IoT devices. Edge means immediate actions.",
+    "Then the fog layer: local servers, routers and gateways. Fog means regional intelligence and coordination.",
+    "At the top, the cloud layer, for storage and global analytics. Cloud means long term learning.",
+    "Memory line: edge acts now, fog coordinates the region, cloud learns for the long term."
+   ]
+  },
+  {
+   "id": "usecases",
+   "title": "Use cases",
+   "lines": [
+    "Let's see four real examples. In each, notice how the job gets bigger and slower as we go up the layers.",
+    "Smart manufacturing, or Industry 4.0: edge monitors machine vibration in real time. Fog runs predictive maintenance with machine learning. Cloud does long term analysis and planning.",
+    "Autonomous vehicles: edge does object detection and lane tracking. Fog coordinates traffic. Cloud does fleet analytics and software updates.",
+    "Smart grid: edge takes meter readings and detects local faults. Fog monitors substations. Cloud does load forecasting.",
+    "Smart healthcare: edge monitors patient vitals. Fog processes emergency alerts. Cloud stores medical records."
+   ]
+  },
+  {
+   "id": "scenario",
+   "title": "Smart factory scenario",
+   "lines": [
+    "Now the deck walks through one complete example: the coordination of edge, fog and cloud in an industrial CPS.",
+    "Imagine a smart manufacturing plant, with machines, robots, sensors, and quality control cameras.",
+    "Different layers coordinate to ensure real time control, safety, optimization, and long term analytics.",
+    "We'll go layer by layer, from the bottom up."
+   ]
+  },
+  {
+   "id": "phys",
+   "title": "Layer 1: physical",
+   "lines": [
+    "Layer one is the physical layer: the sensors and machines.",
+    "Machines have vibration sensors, temperature sensors, proximity sensors, AI vision cameras, and robots, conveyors and motors.",
+    "Together they continuously produce high speed operational data."
+   ]
+  },
+  {
+   "id": "edgeL",
+   "title": "Layer 2: edge",
+   "lines": [
+    "Layer two is the edge layer, for real time, machine level control. Edge devices include PLCs, industrial controllers, embedded processors, and edge AI boxes like NVIDIA Jetson and Intel Movidius.",
+    "Its first responsibility: real time actions, within 1 to 10 milliseconds.",
+    "For example: shut down a machine if vibration crosses a threshold, correct a robot's path, or adjust motor speed.",
+    "Or reject a defective workpiece on the spot.",
+    "It also does on device vision defect detection, overheating prediction, and sensor fusion.",
+    "Sensor fusion means combining several sensors to get a better picture.",
+    "And operation continuity: even if the network fails, the machines keep working.",
+    "Outcome: safety, and real time responsiveness."
+   ]
+  },
+  {
+   "id": "fogL",
+   "title": "Layer 3: fog",
+   "lines": [
+    "Layer three is the fog layer, for shop floor or plant level coordination. It sits between edge and cloud. Fog nodes are industrial gateways, local servers, on premises clusters, and even a 5G base station inside the factory.",
+    "Responsibility one: coordinating multiple machines.",
+    "That means robot to robot scheduling, preventing collisions between automated arms, synchronizing conveyors and AGVs, which are automated guided vehicles, and load balancing between production lines.",
+    "Responsibility two: regional analytics.",
+    "Batch analytics for the entire line, energy optimization for all machines, predictive maintenance using machine learning models, and shop floor dashboards.",
+    "Responsibility three: aggregation and filtering.",
+    "It collects data from hundreds of edge devices, stores it locally in a fast database, and sends only insights to the cloud.",
+    "Responsibility four: medium latency decisions, in 10 to 100 milliseconds.",
+    "Such as line level quality deviation, production rate tuning, and dynamic resource allocation.",
+    "Outcome: smart coordination, and production optimization."
+   ]
+  },
+  {
+   "id": "cloudL",
+   "title": "Layer 4: cloud",
+   "lines": [
+    "Layer four is the cloud layer, for plant to enterprise intelligence. Cloud systems include Azure IoT Hub, AWS IoT Core, Google Cloud IoT, and ERP or SCADA integrated cloud modules.",
+    "ERP is the company's business software. SCADA is supervisory control and data acquisition, the system that oversees industrial processes.",
+    "Responsibility one: global decision making.",
+    "Long term production forecasting, supply chain optimization, inventory planning, and enterprise analytics across many factories.",
+    "Responsibility two: high power analytics.",
+    "Training machine learning models for predictive maintenance, digital twins, which are virtual copies of real machines, big data storage, and comparing KPIs, key performance indicators, across factories.",
+    "Responsibility three: OTA, over the air updates.",
+    "The cloud updates edge AI models, updates machine firmware, and pushes load balancing policies down to the fog.",
+    "Outcome: strategic decisions, and global optimization."
+   ]
+  },
+  {
+   "id": "flows",
+   "title": "How the layers coordinate",
+   "lines": [
+    "How do the layers work together? There are four flows.",
+    "Flow one, real time operation: machines send data to the edge, and the edge takes immediate action, at millisecond level.",
+    "Flow two, local coordination: the edge sends to the fog, and the fog does shop floor optimization.",
+    "Flow three, enterprise level intelligence: fog sends to the cloud. The cloud does analysis and machine learning training.",
+    "Then the cloud sends updates back down to the fog, and on to the edge.",
+    "Flow four, control feedback: commands travel from cloud, to fog, to edge, and finally to the machine."
+   ]
+  },
+  {
+   "id": "pm",
+   "title": "Example: predictive maintenance",
+   "lines": [
+    "Here's a full example: predictive maintenance.",
+    "At the edge: a motor's vibration exceeds its limit, so the edge sends an alert to the fog.",
+    "At the fog: it combines vibration data from all the motors, and analyzes the pattern using machine learning.",
+    "It predicts which motor will fail soon.",
+    "Then it sends a maintenance request to the cloud.",
+    "At the cloud: it schedules maintenance based on inventory, orders spare parts, and updates the ERP system.",
+    "Finally, it sends a new, improved model back to the fog and edge."
+   ]
+  },
+  {
+   "id": "robots",
+   "title": "Example: robotic assembly line",
+   "lines": [
+    "Second example: a smart robotic assembly line. At the edge, each robot avoids hitting objects,",
+    "and checks its own joint torque and position.",
+    "At the fog, multiple robots are coordinated so they don't collide with each other,",
+    "and robot speed is adjusted based on workload.",
+    "At the cloud, the production rate is optimized, historical performance is analyzed,",
+    "and a new control policy is pushed down to the robots."
+   ]
+  },
+  {
+   "id": "edgevsfog",
+   "title": "Edge vs Fog",
+   "lines": [
+    "Let's compare the layers side by side.",
+    "Edge is local, device level computing. Fog is regional computing. Cloud is global.",
+    "Edge has ultra low latency, under 10 milliseconds. Fog has medium latency, 10 to 100 milliseconds.",
+    "Edge handles real time machine control. Fog handles factory floor coordination and medium latency analytics.",
+    "Cloud handles global optimization, storage, machine learning training, and enterprise integration.",
+    "Together they create a hierarchical CPS architecture, enabling millisecond control, smart coordination, predictive maintenance, and enterprise wide optimization."
+   ]
+  },
+  {
+   "id": "summary",
+   "title": "Summary",
+   "lines": [
+    "To summarize, fog and edge computing enhance CPS in five ways.",
+    "Reducing latency.",
+    "Enabling real time decision making.",
+    "Improving reliability.",
+    "Providing hierarchical processing.",
+    "And supporting smart automation. Remember: edge acts now, fog coordinates, cloud learns. Good luck!"
+   ],
+   "hold": 3
+  }
+ ]
+}

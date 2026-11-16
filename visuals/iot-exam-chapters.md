@@ -104,3 +104,46 @@
 38:25 Recap
 ```
 
+## Cyber-Physical Cloud Computing (CPCC) Explained Simply — Module 7
+
+```
+0:00 Intro
+0:36 What is CPCC?
+1:24 Cyber world & physical world
+2:08 Opportunities in CPCC
+2:53 Challenges in CPCC
+3:35 Real-time processing
+4:07 Big data in CPCC
+4:45 Data mining
+5:26 Data integration
+6:11 Load balancing
+6:43 Recap
+```
+
+## Fog & Edge Computing in CPS Explained Simply — Module 7 Full Revision
+
+```
+0:00 Intro
+0:29 CPS and why fog/edge matter
+1:13 Edge computing: what & why
+1:50 Edge use A: real-time control
+2:28 Edge use B: local analytics
+3:03 Edge uses C & D: reliability, security
+3:42 Fog computing: what & why
+4:24 Fog use A: coordination
+4:54 Fog use B: heavy analytics
+5:22 Fog uses C & D
+5:59 Edge + Fog + Cloud architecture
+6:40 Use cases
+7:32 Smart factory scenario
+8:00 Layer 1: physical
+8:19 Layer 2: edge
+9:15 Layer 3: fog
+10:37 Layer 4: cloud
+11:53 How the layers coordinate
+12:34 Example: predictive maintenance
+13:11 Example: robotic assembly line
+13:41 Edge vs Fog
+14:28 Summary
+```
+
