@@ -1,0 +1,1039 @@
+{
+ "title": "HCI — Computer Supported Cooperative Work (CSCW) (story explainer)",
+ "slug": "hci-cscw",
+ "kicker": "HCI · Computer Supported Cooperative Work",
+ "description": "Exam revision told as a story: CSCW vs HCI, history, disciplines, workgroup computing vs workflow, groupware definitions, related fields and methods, the time–place matrix, 3C classification, activity spectrum, group vs community, groupware functions and systems, videoconferencing and ClearBoard, shared calendars, joint editing, project management, education and meeting/decision support.",
+ "tags": [
+  "HCI",
+  "CSCW",
+  "groupware",
+  "time-place matrix",
+  "workflow"
+ ],
+ "voice": "af_heart",
+ "speed": 1.0,
+ "fps": 24,
+ "captions": true,
+ "endCard": "📘 CSCW — revised. You've got this!",
+ "thumbnail": "matrix2@12",
+ "pronounce": {
+  "CSCW": "C S C W",
+  "CMC": "C M C",
+  "HCI": "H C I",
+  "WWW": "World Wide Web",
+  "IRC": "I R C",
+  "MSN": "M S N",
+  "SubethaEdit": "Sub-etha Edit",
+  "Ishii": "Ee-shee",
+  "Dix": "Dix",
+  "IM": "I M",
+  "3C": "three C",
+  "To-do": "to do",
+  "todo": "to do"
+ },
+ "scenes": [
+  {
+   "id": "intro",
+   "title": "Intro",
+   "pad": [
+    0.6,
+    1.0
+   ],
+   "viz": {
+    "type": "hook",
+    "icon": "👩‍💻🤝👨‍💻",
+    "t": "Computer Supported Cooperative Work",
+    "s": "How do computers help a GROUP work together?",
+    "sAt": 1,
+    "cAt": 2,
+    "chips": [
+     "CSCW vs HCI",
+     "History",
+     "Disciplines",
+     "Workgroup vs workflow",
+     "Groupware",
+     "Time–place matrix",
+     "3C",
+     "Activity spectrum",
+     "Group vs community",
+     "Groupware functions",
+     "ClearBoard",
+     "Meeting support"
+    ]
+   },
+   "lines": [
+    "Riya, Kabir, Meera and Sam have a group project due in a week. Kabir is in Delhi, Meera works nights, and Sam never checks his phone.",
+    "How will four people, in different places and different hours, work as one team?",
+    "That's the question behind Computer Supported Cooperative Work, or C S C W."
+   ]
+  },
+  {
+   "id": "what",
+   "title": "1. What is CSCW?",
+   "viz": {
+    "type": "cards",
+    "cols": 2,
+    "items": [
+     {
+      "icon": "🧍",
+      "h": "HCI",
+      "b": "looks at <b>one individual</b> solving a problem",
+      "c": "b",
+      "at": 0
+     },
+     {
+      "icon": "👥",
+      "h": "CSCW",
+      "b": "support for <b>groups</b> and their joint activities:<br>• how to design systems for group work<br>• how to understand the effects on collaboration patterns",
+      "c": "g",
+      "at": 1
+     },
+     {
+      "icon": "🤝",
+      "h": "Work is social",
+      "b": "people and their activities are integral to the design of technology",
+      "c": "y",
+      "at": 2
+     },
+     {
+      "icon": "🔭",
+      "h": "Scale",
+      "b": "individuals → small groups → project teams → organisation → community<br>(HCI = individual · CSCW = everything above)",
+      "c": "p",
+      "at": 3
+     }
+    ],
+    "small": true,
+    "bs": 26
+   },
+   "lines": [
+    "Normal HCI looks at one individual solving a problem: Riya alone with her laptop.",
+    "C S C W deals with supporting groups and their joint activities. How to design systems for group work, and how to understand the effects on how people collaborate.",
+    "Because work is a social activity. People and their activities are integral to designing technology.",
+    "Picture rings: individuals in the middle, then small groups, project teams, organisations, and whole communities. Traditional HCI is the centre. C S C W covers the rest."
+   ]
+  },
+  {
+   "id": "history",
+   "title": "2. Stages of CSCW",
+   "viz": {
+    "type": "timeline",
+    "y": 580,
+    "hUp": 290,
+    "hDn": 270,
+    "events": [
+     {
+      "y": "1970s",
+      "icon": "📨",
+      "h": "CMC",
+      "b": "Computer Mediated Communication",
+      "c": "b",
+      "at": 0
+     },
+     {
+      "y": "~1985",
+      "icon": "👥",
+      "h": "CSCW",
+      "b": "term &amp; field begin",
+      "c": "g",
+      "at": 1
+     },
+     {
+      "y": "early 90s",
+      "icon": "🌐",
+      "h": "WWW &amp; Internet",
+      "b": "huge growth",
+      "c": "y",
+      "at": 2
+     }
+    ]
+   },
+   "lines": [
+    "It grew in three stages. From the nineteen seventies: computer mediated communication, C M C.",
+    "From about nineteen eighty five: C S C W as a field.",
+    "And in the early nineteen nineties, the growth of the World Wide Web and the internet."
+   ]
+  },
+  {
+   "id": "disc",
+   "title": "3. Where CSCW sits",
+   "viz": {
+    "type": "cards",
+    "cols": 3,
+    "small": true,
+    "items": [
+     {
+      "icon": "🏛️",
+      "h": "Pentagon of disciplines",
+      "b": "CSCW / groupware sits between: <b>Sociology · Computer science · Communication · Economy &amp; management · Organisation theory</b>",
+      "c": "b",
+      "at": 0
+     },
+     {
+      "icon": "🧑‍🤝‍🧑",
+      "h": "People",
+      "c": "g",
+      "at": 1
+     },
+     {
+      "icon": "✅",
+      "h": "Task",
+      "c": "y",
+      "at": 1.25
+     },
+     {
+      "icon": "🏢",
+      "h": "Organisation",
+      "c": "p",
+      "at": 1.5
+     },
+     {
+      "icon": "💻",
+      "h": "Technology",
+      "c": "k",
+      "at": 1.75
+     },
+     {
+      "icon": "🖧",
+      "h": "Technologies inside CSCW",
+      "b": "teleconferencing · multimedia · video/audio · email · group editor · hypertext · information management — within office communication",
+      "c": "o",
+      "at": 2.5
+     }
+    ]
+   },
+   "lines": [
+    "C S C W sits in the middle of five disciplines: sociology, computer science, communication, economy and management, and organisation theory.",
+    "Four aspects interrelate, each linked to all others: people, task, organisation, and technology.",
+    "And the technologies inside C S C W include teleconferencing, multimedia, video and audio, email, group editors, hypertext and information management, all within office communication."
+   ]
+  },
+  {
+   "id": "wvw",
+   "title": "4. Workgroup computing vs workflow management",
+   "viz": {
+    "type": "table",
+    "fs": 27,
+    "head": [
+     "",
+     "Workgroup computing",
+     "Workflow management"
+    ],
+    "rows": [
+     {
+      "cells": [
+       "Focus",
+       "the <b>information</b> being processed — sharing info in the group",
+       "the <b>process</b> — a container for information"
+      ],
+      "c": "b",
+      "at": 1
+     },
+     {
+      "cells": [
+       "Rules",
+       "flexible, spontaneous",
+       "needs a set of rules defining the steps"
+      ],
+      "c": "y",
+      "at": 2
+     },
+     {
+      "cells": [
+       "Who starts",
+       "the <b>user</b> controls &amp; initiates",
+       "defined at the start; the <b>system</b> initiates actions"
+      ],
+      "c": "p",
+      "at": 3
+     },
+     {
+      "cells": [
+       "Idea",
+       "people work <b>together, same time</b>, on one big problem",
+       "split into <b>smaller sub-problems</b> solved by different people"
+      ],
+      "c": "g",
+      "at": 4
+     },
+     {
+      "cells": [
+       "Size",
+       "limited (concurrency &amp; coordination are hard)",
+       "can be large"
+      ],
+      "c": "k",
+      "at": 5
+     }
+    ]
+   },
+   "lines": [
+    "Two big approaches. Imagine the group project two ways.",
+    "Focus: workgroup computing focuses on the information, helping people share it. Workflow focuses on the process, which acts as a container for the information.",
+    "Rules: workflow needs a set of rules defining each step. Workgroup computing is flexible and spontaneous.",
+    "Control: in workgroup computing, the user starts the interaction. In workflow, the process is defined at the beginning, and the system triggers the next actions.",
+    "Idea: workflow divides the problem into smaller sub problems for different people. Workgroup computing has people working together, at the same time, on one big problem.",
+    "Size: workflow can involve many people. Workgroup computing stays small, because concurrency control and coordination get hard."
+   ]
+  },
+  {
+   "id": "defs",
+   "title": "5. Definitions",
+   "viz": {
+    "type": "cards",
+    "items": [
+     {
+      "icon": "📖",
+      "h": "CSCW (Dix et al.)",
+      "b": "“CSCW is about groups of users — how to design systems to support their work as a group and how to understand the effect of technology on their work patterns”",
+      "c": "b",
+      "at": 0
+     },
+     {
+      "icon": "🧰",
+      "h": "Groupware (Ellis et al.)",
+      "b": "“Computer-based systems that support groups of people engaged in a <b>common task (or goal)</b> and that provide an interface to a <b>shared environment</b>”",
+      "c": "g",
+      "at": 1
+     },
+     {
+      "icon": "🪆",
+      "h": "How they nest",
+      "b": "CSCW is the big field; <b>groupware</b> sits inside it; <b>workflow management</b> sits inside groupware; <b>workgroup computing</b> overlaps both",
+      "c": "y",
+      "at": 2
+     }
+    ]
+   },
+   "lines": [
+    "Two definitions to memorise. Dix and colleagues: C S C W is about groups of users, how to design systems to support their work as a group, and how to understand the effect of technology on their work patterns.",
+    "Ellis and colleagues define groupware: computer based systems that support groups of people engaged in a common task or goal, and that provide an interface to a shared environment.",
+    "How they nest: C S C W is the big field. Groupware sits inside it, workflow management sits inside groupware, and workgroup computing overlaps them."
+   ]
+  },
+  {
+   "id": "fields",
+   "title": "6. Related fields & methods",
+   "viz": {
+    "type": "cards",
+    "cols": 3,
+    "small": true,
+    "bs": 24,
+    "items": [
+     {
+      "icon": "🧠",
+      "h": "Behavioural science",
+      "b": "social psychology · organisational science · anthropology · sociology",
+      "c": "p",
+      "at": 0
+     },
+     {
+      "icon": "💻",
+      "h": "Computer science",
+      "b": "distributed computing · networking · UI / visualisation · mobile &amp; wireless",
+      "c": "b",
+      "at": 0.5
+     },
+     {
+      "icon": "📞",
+      "h": "Telecommunications",
+      "b": "telephony · video",
+      "c": "y",
+      "at": 1
+     },
+     {
+      "icon": "🎯",
+      "h": "User-centred design",
+      "b": "focus on the user at the interface",
+      "c": "g",
+      "at": 2
+     },
+     {
+      "icon": "📊",
+      "h": "Management studies",
+      "b": "focus on decision making",
+      "c": "o",
+      "at": 2.4
+     },
+     {
+      "icon": "🔎",
+      "h": "Contextual · Participatory · Ethnography",
+      "b": "interviews in work settings · the user as designer · long-term study of groups",
+      "c": "k",
+      "at": 2.8
+     }
+    ],
+    "note": "Related methods all say one thing: involve users!",
+    "noteLabel": "KEY",
+    "noteAt": 3
+   },
+   "lines": [
+    "Related fields. Behavioural science: social psychology, organisational science, anthropology and sociology.",
+    "Computer science: distributed computing, networking, user interfaces and visualisation, mobile and wireless.",
+    "And telecommunications: telephony and video.",
+    "Related methods: user centred design, focusing on the user at the interface. Management studies, focusing on decision making. Contextual analysis and design, with interviews in work settings.",
+    "Participatory design, where the user becomes a designer. And anthropology or ethnography, the long term study of groups and organisations. The key message: involve users!"
+   ]
+  },
+  {
+   "id": "factors",
+   "title": "7. Two groupware factors: time & place",
+   "viz": {
+    "type": "cards",
+    "cols": 2,
+    "items": [
+     {
+      "icon": "⏱️",
+      "h": "Same time = synchronous",
+      "b": "works only if the receiver is present <b>right now</b> — chat, audio / video calls",
+      "c": "b",
+      "at": 0
+     },
+     {
+      "icon": "📬",
+      "h": "Different time = asynchronous",
+      "b": "works even if the receiver is absent; they get it when they come online — email, newsgroups, forums",
+      "c": "y",
+      "at": 1
+     },
+     {
+      "icon": "📍",
+      "h": "Same place",
+      "b": "the group is together, co-located",
+      "c": "g",
+      "at": 2
+     },
+     {
+      "icon": "🌍",
+      "h": "Different place",
+      "b": "the group is remote",
+      "c": "k",
+      "at": 2.5
+     }
+    ]
+   },
+   "lines": [
+    "Groupware is classified by two factors. The time factor. Same time, called synchronous or real time: it only works if the receiver is there right now, like a chat or a video call.",
+    "Different time, called asynchronous: it works even if the receiver is absent. They get the message when they come online, like email, newsgroups or a forum.",
+    "And the place factor: is the group in the same place, or in different places?"
+   ]
+  },
+  {
+   "id": "matrix1",
+   "title": "8. Time–place matrix — everyday life",
+   "viz": {
+    "type": "custom",
+    "name": "matrix",
+    "axis": "TIME ↓ · PLACE →",
+    "cols": [
+     "Same place",
+     "Different place"
+    ],
+    "rows": [
+     "Same time",
+     "Different time"
+    ],
+    "cells": [
+     [
+      {
+       "icon": "🗣️",
+       "h": "Face-to-face conversation",
+       "b": "synchronous · local",
+       "c": "b",
+       "at": 1
+      },
+      {
+       "icon": "📞",
+       "h": "Telephone",
+       "b": "synchronous · remote",
+       "c": "g",
+       "at": 2
+      }
+     ],
+     [
+      {
+       "icon": "🗒️",
+       "h": "Post-it note",
+       "b": "asynchronous · local",
+       "c": "y",
+       "at": 3
+      },
+      {
+       "icon": "✉️",
+       "h": "Letter",
+       "b": "asynchronous · remote",
+       "c": "k",
+       "at": 4
+      }
+     ]
+    ]
+   },
+   "lines": [
+    "Put the two factors together and you get the famous time place matrix. Start with everyday life.",
+    "Same time, same place: Riya and Meera talking face to face. Synchronous, local.",
+    "Same time, different place: Riya phones Kabir in Delhi. Synchronous, remote.",
+    "Different time, same place: Riya sticks a post-it note on the hostel door for Sam. Asynchronous, local.",
+    "Different time, different place: a letter. Asynchronous, remote."
+   ]
+  },
+  {
+   "id": "matrix2",
+   "title": "9. Time–place matrix — groupware",
+   "viz": {
+    "type": "custom",
+    "name": "matrix",
+    "axis": "TIME ↓ · PLACE →",
+    "cols": [
+     "Same place",
+     "Different place"
+    ],
+    "rows": [
+     "Same time (sync)",
+     "Different time (async)"
+    ],
+    "cells": [
+     [
+      {
+       "icon": "🏫",
+       "h": "Meeting rooms",
+       "b": "face-to-face meetings · presentations · shared PCs &amp; windows · co-authoring / electronic meeting rooms",
+       "c": "b",
+       "at": 0,
+       "bs": 22
+      },
+      {
+       "icon": "📹",
+       "h": "Video conference",
+       "b": "video wall · IM · chat rooms · conference calls · shared work surfaces &amp; editors · synchronous messaging",
+       "c": "g",
+       "at": 1,
+       "bs": 22
+      }
+     ],
+     [
+      {
+       "icon": "📌",
+       "h": "Augmentation tools",
+       "b": "“Where were you?” · written records · bulletin boards · electronic project room",
+       "c": "y",
+       "at": 2,
+       "bs": 22
+      },
+      {
+       "icon": "📧",
+       "h": "Email",
+       "b": "electronic conferences · co-authoring · shared calendars · voice mail · workflow / project management · forums",
+       "c": "k",
+       "at": 3,
+       "bs": 22
+      }
+     ]
+    ]
+   },
+   "lines": [
+    "Now fill it with groupware. Same time, same place: meeting rooms, face to face meetings, presentations, shared PCs, and electronic meeting rooms.",
+    "Same time, different place: video conferencing, video walls, instant messaging, chat rooms, conference calls, shared editors and work surfaces.",
+    "Different time, same place: augmentation tools that answer where were you, written records, bulletin boards, and an electronic project room.",
+    "Different time, different place: email, electronic conferences, co-authoring systems, shared calendars, voice mail, workflow and project management, and message boards. Riya's group lives mostly here."
+   ]
+  },
+  {
+   "id": "threec",
+   "title": "10. 3C classification & activity spectrum",
+   "viz": {
+    "type": "cards",
+    "cols": 3,
+    "small": true,
+    "bs": 24,
+    "items": [
+     {
+      "icon": "💬",
+      "h": "Communication",
+      "b": "main goal: exchange messages",
+      "c": "b",
+      "at": 0.3
+     },
+     {
+      "icon": "🗓️",
+      "h": "Coordination",
+      "b": "main goal: organise who does what, when",
+      "c": "y",
+      "at": 0.6
+     },
+     {
+      "icon": "🤝",
+      "h": "Collaboration",
+      "b": "main goal: work on the shared thing together",
+      "c": "g",
+      "at": 0.9
+     },
+     {
+      "icon": "🌫️",
+      "h": "Loosely coupled",
+      "b": "awareness · shared experience · social activities · informal interactions",
+      "c": "p",
+      "at": 2
+     },
+     {
+      "icon": "🏢",
+      "h": "In between",
+      "b": "locating colleagues · office sharing",
+      "c": "o",
+      "at": 2.5
+     },
+     {
+      "icon": "🔥",
+      "h": "Highly interactive",
+      "b": "meetings · focused work tasks",
+      "c": "r",
+      "at": 3
+     }
+    ]
+   },
+   "lines": [
+    "The three C classification asks what a groupware system's main goal is: communication, coordination, or collaboration.",
+    "WhatsApp is mainly communication. A shared calendar is coordination. A shared Google Doc is collaboration.",
+    "Next, the activity spectrum. At the loosely coupled end: awareness, shared experience, social activities and informal interactions.",
+    "In the middle: locating colleagues and office sharing.",
+    "And at the highly interactive end: meetings and focused work tasks."
+   ]
+  },
+  {
+   "id": "group",
+   "title": "11. Group vs community",
+   "viz": {
+    "type": "table",
+    "fs": 30,
+    "head": [
+     "",
+     "Group",
+     "Community"
+    ],
+    "rows": [
+     {
+      "cells": [
+       "Size",
+       "small",
+       "big"
+      ],
+      "c": "b",
+      "at": 0
+     },
+     {
+      "cells": [
+       "Degree of interaction",
+       "tight",
+       "loose"
+      ],
+      "c": "y",
+      "at": 0.5
+     },
+     {
+      "cells": [
+       "Motivation",
+       "common goal",
+       "shared interest"
+      ],
+      "c": "g",
+      "at": 1
+     },
+     {
+      "cells": [
+       "Objectives",
+       "defined, shared objectives",
+       "occasional information exchange"
+      ],
+      "c": "p",
+      "at": 1.5
+     },
+     {
+      "cells": [
+       "Relationships",
+       "know each other",
+       "individuals don't know each other"
+      ],
+      "c": "k",
+      "at": 2
+     },
+     {
+      "cells": [
+       "Interaction ladder",
+       "Cooperation ← Collaboration ← Coordination ← Information",
+       "team (small) ↔ community (big)"
+      ],
+      "c": "o",
+      "at": 3
+     }
+    ]
+   },
+   "lines": [
+    "Groups and communities are different. Riya's team is a group: small, with tight interaction. A Reddit forum is a community: big, with loose interaction.",
+    "A group has a common goal. A community has a shared interest. A group has defined, shared objectives, and a community just exchanges information occasionally.",
+    "Group members know each other. Community members often don't. Groups usually have an inner structure and rules.",
+    "And group size changes the degree of interaction: big communities mainly share information. As groups shrink, they coordinate, then collaborate, and small teams cooperate."
+   ]
+  },
+  {
+   "id": "funcs1",
+   "title": "12. Groupware functions — part 1",
+   "viz": {
+    "type": "cards",
+    "cols": 3,
+    "small": true,
+    "bs": 24,
+    "items": [
+     {
+      "icon": "⚡",
+      "h": "Synchronous messaging",
+      "b": "chat (IRC, Livechat) · IM (Telegram, MSN, Skype, FB Messenger)",
+      "c": "b",
+      "at": 0
+     },
+     {
+      "icon": "📧",
+      "h": "Asynchronous messaging",
+      "b": "email · mailing lists · newsgroups",
+      "c": "p",
+      "at": 1
+     },
+     {
+      "icon": "🧵",
+      "h": "Message boards &amp; forums",
+      "b": "post messages in many threads",
+      "c": "y",
+      "at": 2
+     },
+     {
+      "icon": "🔀",
+      "h": "Workflow management",
+      "b": "route documents: person A writes a change request → person B fills it out",
+      "c": "g",
+      "at": 3
+     },
+     {
+      "icon": "📊",
+      "h": "Project management",
+      "b": "projects, tasks, workers, assignments, status, quality, completeness, to-do lists",
+      "c": "k",
+      "at": 4
+     },
+     {
+      "icon": "✍️",
+      "h": "Collaborative writing",
+      "b": "wikis · even synchronous editing (SubEthaEdit for Mac)",
+      "c": "o",
+      "at": 5
+     }
+    ]
+   },
+   "lines": [
+    "What can groupware actually do? Synchronous messaging: chat systems like I R C and LiveChat, and instant messaging like Telegram, M S N, Skype and Facebook Messenger.",
+    "Asynchronous messaging: email, mailing lists and newsgroups.",
+    "Message boards and forums, with posts in many threads.",
+    "Workflow management, like routing a document: person A writes a change request, and it passes to person B to fill out.",
+    "Project management: creating projects, tasks and workers, assigning tasks, and viewing status, quality, completeness and to do lists.",
+    "Collaborative writing: wikis are the best known, and some tools even allow real time co-writing, like SubEthaEdit on the Mac."
+   ]
+  },
+  {
+   "id": "funcs2",
+   "title": "13. Groupware functions — part 2",
+   "viz": {
+    "type": "cards",
+    "cols": 4,
+    "small": true,
+    "bs": 22,
+    "items": [
+     {
+      "icon": "🖍️",
+      "h": "Shared whiteboards",
+      "b": "many users draw on one surface; each user's objects in their own colour",
+      "c": "b",
+      "at": 0
+     },
+     {
+      "icon": "🎧",
+      "h": "Audio",
+      "b": "two or multi-user voice",
+      "c": "p",
+      "at": 1
+     },
+     {
+      "icon": "📹",
+      "h": "Video",
+      "b": "audio + seeing each other",
+      "c": "y",
+      "at": 1.4
+     },
+     {
+      "icon": "🗳️",
+      "h": "Decision support",
+      "b": "voting · brainstorming · weighting ideas &amp; probabilities",
+      "c": "g",
+      "at": 2
+     },
+     {
+      "icon": "📁",
+      "h": "Document / file management",
+      "b": "sharing · access control · archiving · versioning",
+      "c": "k",
+      "at": 3
+     },
+     {
+      "icon": "🚗",
+      "h": "Resource management",
+      "b": "book cars, rooms, equipment, employees' time",
+      "c": "o",
+      "at": 4
+     },
+     {
+      "icon": "📇",
+      "h": "Contacts",
+      "b": "duplicate, remove, send contacts",
+      "c": "r",
+      "at": 5
+     },
+     {
+      "icon": "📅✅",
+      "h": "Calendar &amp; to-do",
+      "b": "share &amp; sync events · group to-do lists",
+      "c": "w",
+      "at": 5.5
+     }
+    ]
+   },
+   "lines": [
+    "Collaborative drawing with shared whiteboards: many users draw on one surface, and each person's objects get their own colour.",
+    "Audio communication, like a phone call, and video communication, adding the ability to see each other.",
+    "Decision support: voting, brainstorming, and putting weights and probabilities on ideas.",
+    "Document and file management: sharing, controlling access for different users, archiving and versioning.",
+    "Resource management: booking cars, rooms, technical equipment, or even employees' time.",
+    "Address book and contacts management, and calendars and to do lists for the whole group."
+   ]
+  },
+  {
+   "id": "where",
+   "title": "14. Where do email & videoconferencing fit?",
+   "viz": {
+    "type": "custom",
+    "name": "matrix",
+    "axis": "TIME ↓ · PLACE →",
+    "cols": [
+     "Same place",
+     "Different place"
+    ],
+    "rows": [
+     "Same time",
+     "Different time"
+    ],
+    "cells": [
+     [
+      {
+       "h": "Synchronous local",
+       "c": "w",
+       "at": 0,
+       "fs": 26
+      },
+      {
+       "icon": "📹",
+       "h": "Videoconferencing",
+       "b": "synchronous · remote",
+       "c": "g",
+       "at": 2
+      }
+     ],
+     [
+      {
+       "h": "Asynchronous local",
+       "c": "w",
+       "at": 0,
+       "fs": 26
+      },
+      {
+       "icon": "📧",
+       "h": "Email",
+       "b": "asynchronous · remote",
+       "c": "y",
+       "at": 1
+      }
+     ]
+    ]
+   },
+   "lines": [
+    "Famous groupware systems include email, videoconferencing, Lotus Notes, bulletin boards and Google Docs. Where do they fit in the matrix?",
+    "Email: different time, different place. Asynchronous and remote. Sam can reply whenever he finally checks.",
+    "Videoconferencing: same time, different place. Synchronous and remote. Kabir joins from Delhi."
+   ]
+  },
+  {
+   "id": "video",
+   "title": "15. Videoconferencing — and ClearBoard",
+   "viz": {
+    "type": "cards",
+    "cols": 3,
+    "small": true,
+    "bs": 24,
+    "items": [
+     {
+      "icon": "❓",
+      "h": "Discussion questions",
+      "b": "What are the difficulties? How has it failed? How has it succeeded? How could it be improved?",
+      "c": "w",
+      "at": 0
+     },
+     {
+      "icon": "👀",
+      "h": "A common difficulty",
+      "b": "no eye contact and no shared workspace — you see a face <i>or</i> the work, not both",
+      "c": "r",
+      "at": 1
+     },
+     {
+      "icon": "🪟",
+      "h": "ClearBoard / TeamWorkStation",
+      "b": "Ishii et al. — draw on a glass board while seeing your partner <b>through</b> it",
+      "c": "g",
+      "at": 2
+     },
+     {
+      "icon": "🖍️",
+      "h": "VideoWhiteboard",
+      "b": "Tang et al. — shared drawing surface with video of hands &amp; gestures",
+      "c": "b",
+      "at": 3
+     }
+    ]
+   },
+   "lines": [
+    "For videoconferencing, ask: what are the difficulties, how has it failed, how has it succeeded, and how could it be improved?",
+    "One classic difficulty: you see your partner's face, or the work, but not both, and there's no real eye contact.",
+    "Improvements: ClearBoard and TeamWorkStation, by Ishii and colleagues. You draw on a glass board while seeing your partner right through it.",
+    "And VideoWhiteboard, by Tang and colleagues, a shared drawing surface showing the video of each other's hands and gestures."
+   ]
+  },
+  {
+   "id": "apps",
+   "title": "16. Groupware in action",
+   "viz": {
+    "type": "cards",
+    "cols": 2,
+    "small": true,
+    "bs": 25,
+    "items": [
+     {
+      "icon": "📅",
+      "h": "Shared calendar",
+      "b": "users → <b>shared interface</b> → one calendar for the whole group",
+      "c": "b",
+      "at": 0
+     },
+     {
+      "icon": "📄",
+      "h": "Joint editing",
+      "b": "several users edit one <b>shared document</b> through a shared interface",
+      "c": "g",
+      "at": 1
+     },
+     {
+      "icon": "📈",
+      "h": "Project management system",
+      "b": "joint project plan with packages &amp; milestones over time; team members <b>update</b>, the manager <b>monitors</b>",
+      "c": "y",
+      "at": 2
+     },
+     {
+      "icon": "🎓",
+      "h": "CSCW in education",
+      "b": "teacher shares knowledge &amp; information → students send back questions",
+      "c": "k",
+      "at": 3
+     }
+    ]
+   },
+   "lines": [
+    "Here's how Riya's group uses it. A shared calendar: all four connect through a shared interface to one calendar.",
+    "Joint editing: all four write the same report at once.",
+    "A project management system: the project plan has work packages and milestones over time. Team members update it, and the manager, their professor, monitors it.",
+    "And C S C W in education: the teacher shares knowledge and information, and the students send back questions."
+   ]
+  },
+  {
+   "id": "meeting",
+   "title": "17. Meeting & decision support systems",
+   "viz": {
+    "type": "cards",
+    "cols": 2,
+    "items": [
+     {
+      "icon": "💡",
+      "h": "Goals",
+      "b": "in design, management &amp; research: <b>generate, develop, record</b> ideas — primary emphasis: <b>common understanding</b>",
+      "c": "y",
+      "at": 0
+     },
+     {
+      "icon": "🗂️",
+      "h": "Argumentation tools",
+      "b": "record the arguments behind a decision — <b>asynchronous, co-located</b> design teams",
+      "c": "b",
+      "at": 1
+     },
+     {
+      "icon": "🏫",
+      "h": "Meeting rooms",
+      "b": "support face-to-face groups (<b>synchronous, co-located</b>) — brainstorming, management meetings",
+      "c": "g",
+      "at": 2
+     },
+     {
+      "icon": "🖊️",
+      "h": "Shared drawing surfaces",
+      "b": "for <b>synchronous, remote</b> design meetings",
+      "c": "k",
+      "at": 3
+     }
+    ],
+    "bs": 27
+   },
+   "lines": [
+    "Finally, meeting and decision support systems. In design, management and research, we want to generate ideas, develop them and record them, with the main emphasis on common understanding.",
+    "Argumentation tools record the arguments used to reach a decision. They mainly support asynchronous, co-located design teams.",
+    "Meeting rooms support face to face groups, synchronous and co-located, for brainstorming and management meetings.",
+    "And shared drawing surfaces support synchronous, remote design meetings."
+   ]
+  },
+  {
+   "id": "recap",
+   "title": "Recap",
+   "pad": [
+    0.5,
+    2.0
+   ],
+   "viz": {
+    "type": "hook",
+    "icon": "✅",
+    "t": "Recap",
+    "s": "Same / different time × same / different place",
+    "sAt": 1,
+    "cAt": 1.2,
+    "endcard": true,
+    "endAt": 2,
+    "chips": [
+     "HCI = one · CSCW = groups",
+     "CMC 70s · CSCW 85 · WWW 90s",
+     "Workgroup = info · Workflow = process",
+     "Dix (CSCW) · Ellis (groupware)",
+     "Face-to-face · Phone · Post-it · Letter",
+     "Communication · Coordination · Collaboration",
+     "Group: small, tight · Community: big, loose",
+     "Argumentation · Meeting rooms · Shared drawing"
+    ]
+   },
+   "lines": [
+    "Quick recap.",
+    "C S C W supports groups, not just individuals. Remember the time place matrix: face to face, phone, post-it, letter. Workgroup computing shares information, while workflow follows a process.",
+    "Know the three Cs, groups versus communities, the groupware functions, and meeting support. Riya's group submitted on time. You've got this."
+   ]
+  }
+ ]
+}

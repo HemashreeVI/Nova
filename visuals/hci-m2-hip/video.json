@@ -1,0 +1,262 @@
+{
+  "title": "HCI Module 2 — Human Information Processing (story explainer)",
+  "slug": "hci-m2-hip",
+  "kicker": "HCI · Module 2 · Human Information Processing",
+  "description": "Exam revision told as a story: human factors, task modelling, the human problem-solving model, hierarchical task models, the gulf, memory capacity, context switching and GOMS timing.",
+  "tags": ["HCI", "human information processing", "GOMS", "mental model"],
+  "voice": "af_heart",
+  "speed": 1.0,
+  "fps": 24,
+  "captions": true,
+  "endCard": "📘 Human Information Processing — revised. You've got this!",
+  "thumbnail": "tree@14",
+  "pronounce": {"GOMS": "gomms", "HCI": "H C I", "STM": "S T M", "LTM": "L T M", "Times-Roman": "Times Roman", "ms": "milliseconds"},
+  "scenes": [
+    { "id": "intro", "title": "Intro", "pad": [0.6, 1.0],
+      "viz": {"type": "hook", "icon": "🧠⚙️", "t": "Human Information Processing", "s": "What happens inside your head when you click a button?", "sAt": 1, "cAt": 2.5,
+        "chips": ["Human factors", "Task modelling", "Problem-solving model", "Task hierarchy", "The gulf", "Memory capacity", "Context switching", "GOMS times"]},
+      "lines": [
+        "Meet Riya. She's typing an assignment, and she wants to change the word Hello into the Times Roman font.",
+        "It takes her two seconds. But inside her head, a whole little factory just switched on.",
+        "This video is about that factory, how humans process information, and how designers use it to build better interfaces."
+      ]},
+    { "id": "hf", "title": "1. Where do interface requirements come from?",
+      "viz": {"type": "cards", "items": [
+        {"icon": "🎤", "h": "Ask the users", "b": "focus interviews and surveys with the <b>target users</b> — the main way to get requirements", "c": "b", "at": 0},
+        {"icon": "📚", "h": "Human-factors knowledge", "b": "general knowledge of how ALL humans work gives a fairly good picture of the user", "c": "y", "at": 1},
+        {"icon": "🧠", "h": "(a) Cognitive science", "b": "the human's capability and model of <b>conscious, high-level</b> information processing", "c": "p", "at": 2},
+        {"icon": "🪑", "h": "(b) Ergonomics", "b": "how raw signals enter our <b>five senses</b>, are processed to the <b>pre-attentive</b> level, then acted on through the <b>motor organs</b>", "c": "g", "at": 3}
+      ], "cols": 2},
+      "lines": [
+        "Before designing Riya's word processor, designers must understand her. Usually they ask target users directly, with focus interviews and surveys.",
+        "But they can also get a fairly good picture from human factors knowledge, facts that are true for almost every human.",
+        "Human factors splits into two parts. Cognitive science explains our conscious, high level thinking.",
+        "And ergonomics explains the work environment: how raw signals reach our five senses, get processed before we even notice, and turn into action through our muscles."
+      ]},
+    { "id": "help", "title": "2. How human factors helps design",
+      "viz": {"type": "cards", "items": [
+        {"icon": "🗺️", "h": "1 · Task / interaction modelling", "b": "write down the steps a human takes to solve a task → the <b>interaction model</b><br>observe real users too — cognitive science makes the model much better", "c": "b", "at": 0},
+        {"icon": "🔮", "h": "2 · Prediction, assessment &amp; evaluation", "b": "predict how people react mentally to different ways of <b>showing information</b> and <b>asking for input</b> → choose the interface<br>then evaluate models &amp; implementations: explain or predict <b>performance and usability</b>", "c": "k", "at": 2}
+      ]},
+      "lines": [
+        "Human factors helps in two ways. First, task and interaction modelling: writing down the steps a human takes to solve a task.",
+        "A careful designer still watches real users, but knowing cognitive science makes the model much better.",
+        "Second, prediction, assessment and evaluation. We can predict how people will react to different ways of showing information and asking for input, and choose the interface on that basis.",
+        "We can also evaluate an interaction model or a finished interface, and explain or predict its performance and usability."
+      ]},
+    { "id": "problem", "title": "3. Interaction = solving a problem",
+      "viz": {"type": "acronym", "ls": 100, "ws": 40, "ds": 27, "h": 470, "letters": [
+        {"L": "❓", "w": "Problem", "d": "goal: a nice-looking document, as easily as possible", "c": "r", "at": 1},
+        {"L": "👆", "w": "Actions", "d": "e.g. a <b>menu item selection</b>", "c": "y", "at": 2},
+        {"L": "📝", "w": "Objects", "d": "e.g. the <b>highlighted text</b>", "c": "b", "at": 2.5},
+        {"L": "✅", "w": "Solution", "d": "Hello is now in Times-Roman", "c": "g", "at": 3}
+      ]},
+      "lines": [
+        "Task modelling helps us understand every task needed to reach the system's final goal.",
+        "Riya's word processor has a goal: produce a nice looking document as easily as possible. In abstract terms, she's a human solving a problem.",
+        "She applies actions on objects. For the small problem of fixing the font, the action is a menu item selection, and the object is the highlighted text.",
+        "Keep applying actions to objects, and you arrive at the final solution. So designers can build the interface around this natural problem solving process."
+      ]},
+    { "id": "model", "title": "4. The human problem-solving model (a)",
+      "viz": {"type": "flow", "nodes": [
+        {"icon": "👁️", "h": "Sensation", "b": "senses the screen", "c": "b", "at": 1},
+        {"icon": "🔍", "h": "Perception", "b": "“that's the word Hello”", "c": "b", "at": 1.5},
+        {"icon": "🧠", "h": "Short-term memory", "b": "working memory ⇄ long-term memory", "c": "y", "at": 2},
+        {"icon": "🤔", "h": "Decision", "b": "“select it, then change font”", "c": "p", "at": 3},
+        {"icon": "🖱️", "h": "Action", "b": "hand clicks the mouse", "c": "g", "at": 3.5}
+      ]},
+      "lines": [
+        "Researchers proposed several human problem solving models, but they all boil down to one picture.",
+        "Information from the screen hits Riya's senses. That's sensation. Then perception interprets it: oh, that's the word Hello.",
+        "It lands in short term, or working, memory, which constantly swaps knowledge with long term memory.",
+        "Then the decision maker decides what to do,",
+        "and finally the motor system acts. Her hand clicks the mouse. This chain is the overall information processing model."
+      ]},
+    { "id": "cycle", "title": "5. Inside the decision maker (b)",
+      "viz": {"type": "custom", "name": "cycle", "center": "Decision maker / executor", "centerAt": 0, "loopAt": 5, "nodes": [
+        {"icon": "🎯", "h": "Define a problem", "c": "r", "at": 0.5},
+        {"icon": "📚", "h": "Gather knowledge", "c": "b", "at": 1},
+        {"icon": "💡", "h": "Consider possible actions", "c": "y", "at": 1.5},
+        {"icon": "🗒️", "h": "Create plan", "c": "p", "at": 2},
+        {"icon": "▶️", "h": "Execute plan", "c": "g", "at": 2.5},
+        {"icon": "👀", "h": "Observe results", "c": "k", "at": 3},
+        {"icon": "🔁", "h": "Repeat or stop", "b": "not solved → repeat<br>solved → terminate", "c": "o", "at": 4}
+      ]},
+      "lines": [
+        "Zoom into the decision maker, and it runs a loop. First, define the problem: Hello is in the wrong font.",
+        "Gather knowledge: where are the font options?",
+        "Consider possible actions: right click? the menu bar?",
+        "Create a plan, and execute it.",
+        "Observe the results. Did the font change?",
+        "If the problem isn't solved, repeat the process. If it is, terminate. Problem solved.",
+        "Round and round, until done."
+      ]},
+    { "id": "parts", "title": "6. Three important parts",
+      "viz": {"type": "cards", "bs": 27, "items": [
+        {"icon": "👁️👂✋", "h": "1 · Sensation &amp; Perception", "b": "sensation senses external info (visual, aural, haptic); perception interprets its basic meaning<br><i>lower level — more ergonomic</i>", "c": "b", "at": 0},
+        {"icon": "🗄️", "h": "2 · Memory", "b": "momentary, short-term and long-term knowledge: the world, procedures, rules, relations, <b>schemas</b>, candidate actions, current objective, the plan", "c": "y", "at": 1},
+        {"icon": "🎬", "h": "3 · Decision maker / executor", "b": "formulates &amp; revises a <b>plan</b>, decides using memory, then acts by commanding the motor system (e.g. left click)", "c": "p", "at": 3}
+      ]},
+      "lines": [
+        "So information processing has three important parts. One: sensation and perception. Sensing visual, aural and haptic input, and pulling out its meaning. This lower level is the ergonomic side.",
+        "Two: memory, storing momentary, short term and long term knowledge.",
+        "That includes facts about the world, procedures, rules, relations, schemas, candidate actions, the current objective, and the plan.",
+        "Three: the decision maker and executor. It forms and revises a plan, decides what to do using memory, and acts by commanding the motor system, like clicking the left mouse button."
+      ]},
+    { "id": "tree", "title": "7. A hierarchical task model",
+      "viz": {"type": "custom", "name": "tree", "root": {"h": "Change font of “Hello” to Times-Roman", "fs": 30, "at": 0},
+        "kids": [
+          {"h": "Select text (“Hello”)", "c": "b", "at": 1, "leaves": [
+            {"h": "Designate start", "b": "cursor left of letter “H”", "at": 1.5},
+            {"h": "Designate whole text", "b": "drag to right of letter “o”", "at": 1.8}]},
+          {"h": "Change font to Times-Roman", "c": "g", "at": 2, "leaves": [
+            {"h": "Activate command list", "b": "bring up the pop-up menu", "at": 2.4},
+            {"h": "Choose “Change Font”", "b": "menu item", "at": 2.7},
+            {"h": "Choose “Times-Roman”", "b": "menu item", "at": 3}]}
+        ]},
+      "lines": [
+        "Now let's write Riya's task as a tree. At the top: change the font of Hello to Times Roman.",
+        "It splits into two subtasks. Select the text: put the cursor left of the letter H, then drag to the right of the letter o.",
+        "And change the font: bring up the pop up menu, choose the change font command, then choose Times Roman.",
+        "Notice the bottom row. For each of those little subtasks, the designer can choose a specific interface, like a menu, a drag, or a shortcut."
+      ]},
+    { "id": "concl", "title": "8. What the tree teaches us",
+      "viz": {"type": "cards", "cols": 2, "items": [
+        {"icon": "🌳", "h": "Refine hierarchically", "b": "a task model can be broken down level by level and becomes the basis of the <b>interface structure</b>", "c": "g", "at": 0},
+        {"icon": "🎯", "h": "Select interfaces for the leaves", "b": "choosing an interface for each bottom subtask = the <b>crux</b> (heart) of the HCI design process", "c": "y", "at": 1},
+        {"icon": "💭", "h": "Match the mental model", "b": "the model must reflect what the user <b>expects</b> must be done → the user feels “in tune”", "c": "b", "at": 2},
+        {"icon": "⚖️", "h": "How to select", "b": "based on <b>ergonomics</b>, <b>user preference</b>, and other requirements or constraints", "c": "k", "at": 3}
+      ]},
+      "lines": [
+        "Lessons from the tree. A task model can be refined level by level, and it becomes the skeleton of the interface.",
+        "Choosing an interface for each bottom subtask is the crux, the very heart, of HCI design.",
+        "The model must match what the user has in mind, their mental model of what must be done. Then the user feels in tune with the app.",
+        "And the interface choice is based on ergonomics, user preference, and other requirements or constraints."
+      ]},
+    { "id": "gulf", "title": "9. Mental model mismatch — the gulf",
+      "viz": {"type": "custom", "name": "gulf", "beats": [0, 2, 3, 1.3, 4]},
+      "lines": [
+        "Second section: predicting human reaction. Performance has a cognitive side and an ergonomic side. And before acting, a user forms a mental model, much like that hierarchical action plan.",
+        "Riya expects the font option to be under right click. But this app hides it under Format, then Text.",
+        "That mismatch between the user's mental model and the system's task model creates the gulf. The gulf of execution asks: how do I use this system?",
+        "The gulf of evaluation asks: what is the current state of the system? Did anything change?",
+        "But when the system's task model maps well to the user's mental model, the gulf closes, and performance becomes very fluid."
+      ]},
+    { "id": "memory", "title": "10. Memory capacity",
+      "viz": {"type": "flow", "nodes": [
+        {"icon": "📥", "h": "Sensory input", "c": "w", "at": 1},
+        {"icon": "⚡", "h": "Sensory memory", "b": "not transferred → lost", "c": "b", "at": 1.3},
+        {"icon": "🧠", "h": "Short-term (working) memory", "b": "≈ 8 chunks · very short · rehearsal 🔁 · not transferred → lost", "c": "y", "at": 2},
+        {"icon": "🗄️", "h": "Long-term memory", "b": "large, but slow to retrieve", "c": "g", "at": 3}
+      ]},
+      "lines": [
+        "Memory capacity hugely affects performance. Humans have two main types of memory, short term and long term.",
+        "Information first passes through sensory memory. If it isn't passed on, it's lost.",
+        "Short term memory is also called working memory. It holds changing chunks that matter for the task right now. We hold about eight chunks, for a very short time. Rehearsal keeps them alive.",
+        "So an interface can't rely on more than that. Imagine a menu with fifty items. Riya would scan it again and again before choosing."
+      ]},
+    { "id": "checkout", "title": "11. Story: the online checkout",
+      "viz": {"type": "cards", "cols": 3, "small": true, "items": [
+        {"icon": "🛍️", "h": "Items purchased", "c": "b", "at": 1},
+        {"icon": "🚚", "h": "Delivery option", "c": "p", "at": 1.25},
+        {"icon": "💳", "h": "Credit card chosen", "c": "y", "at": 1.5},
+        {"icon": "🏠", "h": "Billing address", "c": "g", "at": 1.75},
+        {"icon": "🏷️", "h": "Discount card used", "c": "k", "at": 2},
+        {"icon": "📋", "h": "Fix: show a summary", "b": "present the info again from time to time to <b>refresh memory</b> and prevent errors", "c": "o", "at": 3}
+      ]},
+      "lines": [
+        "Riya is buying shoes online. By the last page, can she remember everything?",
+        "The items, the delivery option, which credit card, the billing address, and whether she used a discount card?",
+        "That's more than eight chunks. She can't hold it all.",
+        "So good checkouts show this information again, from time to time, as a summary. It refreshes her memory and makes sure no errors are made."
+      ]},
+    { "id": "recog", "title": "12. Recognition beats recall",
+      "viz": {"type": "cards", "items": [
+        {"icon": "😰", "h": "Recall (from scratch)", "b": "<span style='font-family:JetBrains Mono'>Type the font name: [ ______ ]</span><br>retrieving from long-term memory is <b>difficult and slow</b>", "c": "r", "at": 0},
+        {"icon": "😊", "h": "Recognition (among options)", "b": "<span style='font-family:JetBrains Mono'>Arial · Calibri · <b>Times-Roman</b> · Verdana</span><br>display expert knowledge so users <b>recognise</b> it — even for experts", "c": "g", "at": 1}
+      ]},
+      "lines": [
+        "Getting things out of long term memory is difficult and relatively slow. Typing a font name from memory is hard.",
+        "So even if a system targets experts, it should display that knowledge so users can recognise it among options, rather than recall it from scratch."
+      ]},
+    { "id": "switch", "title": "13. Multitasking & context switching",
+      "viz": {"type": "flow", "nodes": [
+        {"icon": "📝", "h": "Writing the assignment", "b": "working memory full of essay chunks", "c": "b", "at": 0.5},
+        {"icon": "💬", "h": "Switch to WhatsApp", "b": "<b>context switch</b>: working memory replaced; essay state stored back to LTM", "c": "r", "at": 1},
+        {"icon": "📉", "h": "Performance drops", "b": "overall degradation in many respects", "c": "o", "at": 2},
+        {"icon": "🔖", "h": "App helps", "b": "capture context on suspension → display, remind, highlight on resumption", "c": "g", "at": 3}
+      ]},
+      "lines": [
+        "Memory also matters in multitasking. Most modern computers let us run many tasks at once.",
+        "Riya leaves her essay to answer a WhatsApp message. A context switch happens in her brain. Working memory is replaced with chunks for the new task, and the essay's state goes back to long term memory.",
+        "This can degrade overall task performance in many ways.",
+        "So a good app helps: it captures the context when you leave, and on your return it displays, reminds and highlights where you were, for fast switching."
+      ]},
+    { "id": "goms", "title": "14. Predictive assessment: GOMS",
+      "viz": {"type": "acronym", "ls": 160, "ws": 40, "ds": 27, "h": 470, "letters": [
+        {"L": "G", "w": "Goal", "d": "what the user wants to accomplish", "c": "b", "at": 1},
+        {"L": "O", "w": "Operator", "d": "what the user does to accomplish it", "c": "p", "at": 1.4},
+        {"L": "M", "w": "Method", "d": "a series of operators that achieve the goal", "c": "y", "at": 1.8},
+        {"L": "S", "w": "Selection", "d": "rules for picking one method when there are several", "c": "g", "at": 2.2}
+      ], "note": "GOMS is a hierarchical task analysis technique — but only measures task performance", "noteLabel": "LIMIT", "noteAt": 3},
+      "lines": [
+        "Can we predict how fast Riya will be, before she even touches the app? Yes, with GOMS. It's a task analysis technique, in fact a hierarchical task analysis technique.",
+        "Goal: what the user wants. Operator: what the user does.",
+        "Method: a series of operators that reaches the goal. Selection rules: if there are several methods, how one is chosen.",
+        "Remember the limit: GOMS only evaluates task performance, while HCI designs should be judged on many other criteria too."
+      ]},
+    { "id": "table1", "title": "15. Table 1 — GOMS time estimates",
+      "viz": {"type": "table", "fs": 30, "head": ["Operator", "Meaning", "Time"], "rows": [
+        {"cells": ["K", "keyboard input", "expert 0.12 s · average 0.20 s · novice 1.2 s"], "c": "b", "at": 0},
+        {"cells": ["T(n)", "type n characters", "280 × n ms"], "c": "b", "at": 1},
+        {"cells": ["P", "point with mouse", "1100 ms"], "c": "p", "at": 2},
+        {"cells": ["B / BB", "press or release button / click", "100 ms / 200 ms"], "c": "y", "at": 3},
+        {"cells": ["H", "home hands to keyboard or mouse", "400 ms"], "c": "g", "at": 4},
+        {"cells": ["M", "mental operator (thinking)", "1200 ms (can change)"], "c": "k", "at": 5},
+        {"cells": ["W(t)", "waiting for the system", "t ms"], "c": "o", "at": 6}
+      ]},
+      "lines": [
+        "GOMS comes with time estimates from Card, Moran and Newell. K, keyboard input: point one two seconds for experts, point two for average users, one point two for novices.",
+        "T of n, typing n characters: two hundred eighty milliseconds times n.",
+        "P, pointing with the mouse: eleven hundred milliseconds.",
+        "B, pressing or releasing a button: one hundred milliseconds. B B, a full click: two hundred.",
+        "H, moving your hands between keyboard and mouse: four hundred milliseconds.",
+        "M, the mental operator, thinking what to do: twelve hundred milliseconds, though it can change.",
+        "And W of t: waiting t milliseconds for the system to respond."
+      ]},
+    { "id": "method", "title": "16. How a GOMS evaluation works",
+      "viz": {"type": "flow", "nodes": [
+        {"icon": "🌳", "h": "Task hierarchy", "b": "same hierarchical task model as before", "c": "b", "at": 0},
+        {"icon": "🔗", "h": "Map operators", "b": "map an operator (an interface) to each subtask", "c": "y", "at": 1},
+        {"icon": "➕", "h": "Sum the times", "b": "total time = sum of all subtask times", "c": "g", "at": 2},
+        {"icon": "⚖️", "h": "Compare designs", "b": "try different operator mappings", "c": "k", "at": 3}
+      ], "note": "Made for desktops ~30 years ago — still valid, because humans haven't changed", "noteLabel": "WHY STILL VALID", "noteAt": 4},
+      "lines": [
+        "The method: start with the same hierarchical task model.",
+        "Map a specific operator, in other words an interface, onto each bottom subtask.",
+        "Add up all the times to get the total task time.",
+        "Then try different mappings and compare their performance.",
+        "GOMS was built for desktops nearly thirty years ago, yet the numbers are still amazingly valid. Computers changed a lot, but human capabilities stayed mostly the same. GOMS models now exist for other environments too."
+      ]},
+    { "id": "delete", "title": "17. Story: two ways to delete a file",
+      "viz": {"type": "cards", "items": [
+        {"icon": "🐢", "h": "Design 1 — menus · ≈ 4.8 s", "b": "1 point to file icon <b>P</b><br>2 click mouse button <b>BB</b><br>3 point to file menu <b>P</b><br>4 press &amp; hold button <b>B</b><br>5 point to DELETE item <b>P</b><br>6 release button <b>B</b><br>7 point to original window <b>P</b>", "c": "r", "at": 1},
+        {"icon": "🐇", "h": "Design 2 — expert hot key · ≈ 2.7 s", "b": "1 point to file icon <b>P</b><br>2 click mouse button <b>BB</b><br>3 move hand to keyboard <b>H</b><br>4 hit command-T <b>KK</b><br>5 move hand back to mouse <b>H</b>", "c": "g", "at": 3}
+      ]},
+      "lines": [
+        "Let's test it. Riya wants to delete a file. Two designs.",
+        "Design one uses menus: point to the file icon, click, point to the file menu, press and hold, point to delete, release, and point back to the window.",
+        "Four pointing moves at one point one seconds each, plus the clicks: about four point eight seconds.",
+        "Design two is the expert version with a hot key: point to the file, click, move hand to the keyboard, hit command T, and move back to the mouse.",
+        "About two point seven seconds. Same task, nearly half the time. That's GOMS helping you choose a design before building it."
+      ]},
+    { "id": "recap", "title": "Recap", "pad": [0.5, 2.0],
+      "viz": {"type": "hook", "icon": "✅", "t": "Recap", "s": "Sense → Perceive → Remember → Decide → Act", "sAt": 1, "cAt": 1.5, "endcard": true, "endAt": 2,
+        "chips": ["Cognitive science + Ergonomics", "Modelling · Prediction", "Problem → Actions → Objects", "Define → Gather → Plan → Execute → Observe", "Task tree → pick interface per leaf", "Gulf of execution / evaluation", "≈ 8 chunks", "Recognition > recall", "Context switch", "P 1.1 s · H 0.4 s · M 1.2 s", "Delete: 4.8 s vs 2.7 s"]},
+      "lines": [
+        "Quick recap.",
+        "Riya senses, perceives, remembers, decides and acts. Designers model her task as a tree, choose an interface for each leaf, and match her mental model to close the gulf.",
+        "Respect her eight chunk memory, let her recognise rather than recall, help her switch tasks, and use GOMS to predict which design is faster. You've got this."
+      ]}
+  ]
+}

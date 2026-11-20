@@ -1,0 +1,161 @@
+{
+  "title": "HCI — Shneiderman's Eight Golden Rules (story explainer)",
+  "slug": "hci-golden",
+  "kicker": "HCI · Shneiderman's Eight Golden Rules",
+  "description": "Exam revision told as a story: all eight golden rules of interface design with the examples from the notes (Amazon, Canva, Google Drive, Outlook, YouTube, Capian).",
+  "tags": ["HCI", "Shneiderman", "eight golden rules", "usability heuristics"],
+  "voice": "af_heart",
+  "speed": 1.0,
+  "fps": 24,
+  "captions": true,
+  "endCard": "📘 Eight Golden Rules — revised. You've got this!",
+  "thumbnail": "overview@14",
+  "pronounce": {"Shneiderman": "Schneiderman", "Shneiderman's": "Schneidermans", "Capian": "Capian", "Canva": "Canva"},
+  "scenes": [
+    { "id": "intro", "title": "Intro", "pad": [0.6, 1.0],
+      "viz": {"type": "hook", "icon": "🏆📜", "t": "The Eight Golden Rules", "s": "Why some apps feel effortless — and others make you want to throw your phone", "sAt": 1, "cAt": 2,
+        "chips": ["Consistency", "Shortcuts", "Feedback", "Closure", "Error handling", "Reversal", "Locus of control", "Memory load"]},
+      "lines": [
+        "Have you ever used an app that just felt right? And another that made you want to throw your phone?",
+        "The difference usually comes down to eight simple rules.",
+        "Let's follow Riya on a shopping trip, and watch each golden rule save her day."
+      ]},
+    { "id": "who", "title": "1. Who is Ben Shneiderman?",
+      "viz": {"type": "cards", "items": [
+        {"icon": "👨‍🔬", "h": "Ben Shneiderman", "b": "American scientist, expert in human–machine interaction; many of his works are fundamental today — e.g. he created the <b>Treemap</b>", "c": "b", "at": 0},
+        {"icon": "📜", "h": "8 golden rules", "b": "principles from his experience — refined, developed and explained — applicable to <b>interactive systems</b>", "c": "y", "at": 1},
+        {"icon": "🛠️", "h": "Purpose", "b": "eight <b>heuristics</b> that help designers solve problems and make interfaces <b>user-friendly</b>", "c": "g", "at": 2}
+      ]},
+      "lines": [
+        "First, who made these rules? Ben Shneiderman, an American scientist and expert in human machine interaction. Many of his works are fundamental today, like the Treemap.",
+        "From his experience, he proposed eight principles. After being refined and explained, they apply to any interactive system.",
+        "They're eight heuristics, rules of thumb, that help designers solve problems. Because to improve usability, an interface must be well designed, and user friendly."
+      ]},
+    { "id": "overview", "title": "2. All eight at a glance",
+      "viz": {"type": "acronym", "ls": 96, "ws": 25, "ds": 21, "h": 420, "letters": [
+        {"L": "C", "w": "Consistency", "d": "same look everywhere", "c": "b", "at": 1},
+        {"L": "S", "w": "Shortcuts", "d": "for frequent users", "c": "p", "at": 1.15},
+        {"L": "F", "w": "Feedback", "d": "informative", "c": "y", "at": 1.3},
+        {"L": "C", "w": "Closure", "d": "dialogs end clearly", "c": "g", "at": 1.45},
+        {"L": "E", "w": "Errors", "d": "simple handling", "c": "r", "at": 1.6},
+        {"L": "R", "w": "Reversal", "d": "easy undo", "c": "k", "at": 1.75},
+        {"L": "L", "w": "Locus of control", "d": "user in charge", "c": "o", "at": 1.9},
+        {"L": "M", "w": "Memory", "d": "reduce STM load", "c": "w", "at": 2.05}
+      ], "note": "“Cats Seldom Fetch Cold Eggs, Rather Lick Milk”", "noteAt": 3},
+      "lines": [
+        "Here are all eight.",
+        "Consistency. Shortcuts. Feedback. Closure. Errors. Reversal. Locus of control. Memory.",
+        "That's C, S, F, C, E, R, L, M.",
+        "Memory hook: Cats Seldom Fetch Cold Eggs, Rather Lick Milk."
+      ]},
+    { "id": "r1", "title": "Rule 1 — Strive for consistency",
+      "viz": {"type": "cards", "items": [
+        {"icon": "🛒", "h": "Story", "b": "Riya browses Amazon: home page, product page, cart. The <b>Add to Cart</b> button is always the same shape, size and colour. She never hunts for it.", "c": "y", "at": 0},
+        {"icon": "🎨", "h": "What to keep consistent", "b": "layout · button size · colour code · tone of writing — across the whole site", "c": "b", "at": 1},
+        {"icon": "🪪", "h": "Why", "b": "builds your <b>identity</b> and stops users getting lost as they navigate", "c": "g", "at": 2}
+      ]},
+      "lines": [
+        "Rule one: strive for consistency. Riya browses Amazon. Home page, product page, cart page. The layout is the same, the buttons are always similar in size, and the colours are unmistakably Amazon.",
+        "Whether it's the layout, the button size, the colour code, or the tone of writing, keep it consistent across the whole site.",
+        "Consistency builds your identity, and users won't get lost as they navigate."
+      ]},
+    { "id": "r2", "title": "Rule 2 — Enable frequent users to use shortcuts",
+      "viz": {"type": "cards", "items": [
+        {"icon": "🎨⌨️", "h": "Story", "b": "Riya designs a poster in <b>Canva</b>. As a beginner she used menus; now she presses <b>Ctrl+C / Ctrl+V</b> and flies.", "c": "y", "at": 0},
+        {"icon": "🧭", "h": "Minimum clicks", "b": "reach every part of the site in a minimum of clicks — good menu hierarchy, clear labels", "c": "b", "at": 1},
+        {"icon": "⚡", "h": "Experts + beginners", "b": "features for both: <b>keyboard shortcuts</b>, <b>macro facilities</b>", "c": "g", "at": 2}
+      ]},
+      "lines": [
+        "Rule two: enable frequent users to use shortcuts. Riya designs a poster in Canva. At first she used menus. Now she presses control C and control V, and she flies.",
+        "Let users reach every part of the site in a minimum of clicks, with a good menu hierarchy and clear labels.",
+        "Include features for both beginners and advanced users, like keyboard shortcuts or macro facilities."
+      ]},
+    { "id": "r3", "title": "Rule 3 — Offer informative feedback",
+      "viz": {"type": "cards", "items": [
+        {"icon": "☁️📤", "h": "Story", "b": "Riya drags a video into a <b>Google Drive</b> folder. A window pops up: <i>Uploading 1 item… 45%</i>. She knows it's working.", "c": "y", "at": 0},
+        {"icon": "📣", "h": "Rule", "b": "when users act, show feedback <b>immediately</b> so they know where their process is", "c": "b", "at": 1},
+        {"icon": "🤷", "h": "Without it", "b": "users wonder: did it work? Should I click again?", "c": "r", "at": 2}
+      ]},
+      "lines": [
+        "Rule three: offer informative feedback. Riya creates a folder in Google Drive and drags a video into it. Instantly a little window appears: uploading, forty five percent.",
+        "Whenever users perform an action, show feedback immediately, so they know where their process stands.",
+        "Without it, Riya would wonder: did it work? Should I drag it again?"
+      ]},
+    { "id": "r4", "title": "Rule 4 — Design dialogs to yield closure",
+      "viz": {"type": "flow", "nodes": [
+        {"icon": "🛒", "h": "Beginning", "b": "add items to cart", "c": "b", "at": 0},
+        {"icon": "💳", "h": "Middle", "b": "address · payment", "c": "p", "at": 0.5},
+        {"icon": "🧾", "h": "Summary message", "b": "review the purchase", "c": "y", "at": 1},
+        {"icon": "🎉", "h": "End: closure", "b": "“Order placed — thank you!” · validation message", "c": "g", "at": 1.5}
+      ], "note": "Closure reduces mental load — the user sees the path of the action end", "noteLabel": "WHY", "noteAt": 2},
+      "lines": [
+        "Rule four: design dialogs to yield closure. Riya's purchase has a beginning, a middle, and an end.",
+        "At the end, the site shows a summary, then: order placed, thank you! A thank you message, a validation message, a summary during a purchase.",
+        "Close every interaction clearly. When users see their action reach its end, their mental load drops and the experience improves."
+      ]},
+    { "id": "r5", "title": "Rule 5 — Offer simple error handling",
+      "viz": {"type": "cards", "items": [
+        {"icon": "🔐", "h": "Story", "b": "Riya mistypes her password. The site says: <b>“Incorrect password. Forgot password?”</b> — clear, with a fix.", "c": "y", "at": 0},
+        {"icon": "🛡️", "h": "Prevent first", "b": "design to <b>avoid errors</b> as much as possible", "c": "b", "at": 1},
+        {"icon": "💬", "h": "Then explain", "b": "if something goes wrong: clear <b>error notifications</b> + descriptive <b>hints</b> to resolve it", "c": "g", "at": 2}
+      ]},
+      "lines": [
+        "Rule five: offer simple error handling. Riya logs in and mistypes her password. The site clearly says the login details are wrong, and offers a fix.",
+        "A good interface is designed to avoid errors as much as possible.",
+        "But when something does go wrong, make it easy to understand and resolve, with clear error notifications and descriptive hints."
+      ]},
+    { "id": "r6", "title": "Rule 6 — Permit easy reversal of actions",
+      "viz": {"type": "cards", "items": [
+        {"icon": "📧↩️", "h": "Story", "b": "In the <b>Outlook</b> app, Riya archives the wrong email. A bar pops up at the bottom: <b>“Archived · Undo”</b>. Phew.", "c": "y", "at": 0},
+        {"icon": "😌", "h": "Less anxiety", "b": "knowing there's an easy way back → users feel less anxious", "c": "g", "at": 1},
+        {"icon": "🧭", "h": "More exploration", "b": "they become willing to explore options · applies to single actions or groups of actions", "c": "b", "at": 2}
+      ]},
+      "lines": [
+        "Rule six: permit easy reversal of actions. In the Outlook mobile app, Riya archives the wrong email. A small window appears at the bottom, offering to undo. Phew.",
+        "Discovering that cancel is easy after a mistake is a great feeling. Users become less anxious,",
+        "and more willing to explore. Reversal can apply to single operations or whole groups of operations."
+      ]},
+    { "id": "r7", "title": "Rule 7 — Support internal locus of control",
+      "viz": {"type": "cards", "items": [
+        {"icon": "🔔", "h": "Story", "b": "On Capian's <b>YouTube</b> page, Riya chooses the bell setting: <b>All · Personalised · None</b>. She decides.", "c": "y", "at": 0},
+        {"icon": "🎮", "h": "Give control &amp; freedom", "b": "users should feel <b>they</b> are in control of the system", "c": "b", "at": 1},
+        {"icon": "🤗", "h": "Reassurance", "b": "some form of free will reassures the user", "c": "g", "at": 2}
+      ]},
+      "lines": [
+        "Rule seven: support an internal locus of control. On Capian's YouTube page, Riya decides whether to turn on notifications, and how many she wants.",
+        "Give users control and freedom, so they feel they are running the system, not the other way round.",
+        "That free will reassures them. YouTube makes users feel in control of what they receive."
+      ]},
+    { "id": "r8", "title": "Rule 8 — Reduce short-term memory load",
+      "viz": {"type": "cards", "cols": 2, "small": true, "bs": 25, "items": [
+        {"icon": "🏠", "h": "Story", "b": "Capian's home page is <b>minimalist</b>: one clear call-to-action, nothing to distract Riya", "c": "y", "at": 3},
+        {"icon": "🧠", "h": "Why", "b": "human short-term memory is limited", "c": "r", "at": 0},
+        {"icon": "📋", "h": "So", "b": "keep displays simple · consolidate multi-page displays · reduce window-motion frequency · allow training time for codes, mnemonics &amp; action sequences", "c": "b", "at": 1},
+        {"icon": "🎯", "h": "Prioritise", "b": "don't overload with same-level info; decide what goes <b>first</b> — home page or menus", "c": "g", "at": 2}
+      ]},
+      "lines": [
+        "Rule eight: reduce short term memory load. Human short term memory is limited.",
+        "So keep displays simple, consolidate multiple page displays, reduce how often windows move, and allow enough training time for codes, mnemonics and sequences of actions.",
+        "Don't overload a page with information of the same level. Decide what goes first, whether on the home page or in menus, or you'll lose the user's attention.",
+        "Capian's home page is minimalist. Riya's attention goes straight to the call to action, with nothing to distract her."
+      ]},
+    { "id": "concl", "title": "3. Conclusion",
+      "viz": {"type": "cards", "items": [
+        {"icon": "📖❌", "h": "Not gospel", "b": "the rules are not to be followed blindly", "c": "r", "at": 0},
+        {"icon": "🧭", "h": "Clear guidelines", "b": "they orient your <b>audits</b> of an interface", "c": "b", "at": 1},
+        {"icon": "🔎", "h": "Find the main problems", "b": "detect the main issues in your web interfaces", "c": "g", "at": 1.5}
+      ]},
+      "lines": [
+        "To conclude: Shneiderman's rules are not gospel.",
+        "But clear guidelines orient your interface audits, and help you detect the main problems in your web interfaces."
+      ]},
+    { "id": "recap", "title": "Recap", "pad": [0.5, 2.0],
+      "viz": {"type": "hook", "icon": "✅", "t": "Recap", "s": "Cats Seldom Fetch Cold Eggs, Rather Lick Milk", "sAt": 1, "cAt": 1.2, "endcard": true, "endAt": 2,
+        "chips": ["1 Consistency — Amazon", "2 Shortcuts — Canva", "3 Feedback — Google Drive", "4 Closure — thank-you page", "5 Errors — wrong login", "6 Reversal — Outlook undo", "7 Locus of control — YouTube bell", "8 Memory — Capian minimal page"]},
+      "lines": [
+        "Recap with Riya's trip.",
+        "Amazon stays consistent. Canva gives shortcuts. Google Drive gives feedback. The checkout gives closure.",
+        "The login explains errors. Outlook lets her undo. YouTube puts her in control. And Capian keeps it simple for her memory. You've got this."
+      ]}
+  ]
+}

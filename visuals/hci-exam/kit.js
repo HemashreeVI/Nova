@@ -513,6 +513,131 @@
     },
   };
 
+  // ---- CYCLE: nodes around an ellipse with a travelling dot ----
+  custom.cycle = {
+    build(root, v) {
+      const cx = 960, cy = v.cy || 590, rx = v.rx || 660, ry = v.ry || 250, n = v.nodes.length;
+      const sv = svg('svg', { width: 1920, height: 1080, class: 'abs', style: 'left:0;top:0' }, root);
+      v.track = svg('ellipse', { cx, cy, rx, ry, fill: 'none', stroke: '#334155', 'stroke-width': 6, 'stroke-dasharray': '14 12' }, sv);
+      v.dot = svg('circle', { r: 14, fill: '#fbbf24' }, sv);
+      v.geo = { cx, cy, rx, ry };
+      v._els = v.nodes.map((nd, i) => {
+        const a = -Math.PI / 2 + (2 * Math.PI * i) / n, x = cx + rx * Math.cos(a), y = cy + ry * Math.sin(a), cc = col(nd.c, i);
+        return box(root, x - 175, y - 62, 350, 124, `<div class="ch" style="color:${cc};font-size:29px">${nd.icon ? nd.icon + ' ' : ''}${nd.h}</div>${nd.b ? `<div class="cb" style="font-size:21px">${nd.b}</div>` : ''}`, cc);
+      });
+      v.mid = h('div', 'cyc', v.center || '', { left: cx - 300 + 'px', top: cy - 60 + 'px', width: '600px' }); root.appendChild(v.mid);
+    },
+    anim(v, t, ctx) {
+      v.track.style.opacity = seg(t, 0.2, 0.8);
+      v.nodes.forEach((nd, k) => { reveal(v._els[k], t, at(ctx, nd.at)); spot(v._els[k], t, ctx, v.nodes, k, col(nd.c, k)); });
+      reveal(v.mid, t, at(ctx, v.centerAt != null ? v.centerAt : 0));
+      const s = at(ctx, v.loopAt != null ? v.loopAt : v.nodes[v.nodes.length - 1].at);
+      if (t < s) { v.dot.style.opacity = 0; return; }
+      const a = -Math.PI / 2 + (t - s) * 0.9; const g = v.geo;
+      v.dot.style.opacity = 1; v.dot.setAttribute('cx', g.cx + g.rx * Math.cos(a)); v.dot.setAttribute('cy', g.cy + g.ry * Math.sin(a));
+    },
+  };
+
+  // ---- TREE: hierarchical task model ----
+  custom.tree = {
+    build(root, v) {
+      const sv = svg('svg', { width: 1920, height: 1080, class: 'abs', style: 'left:0;top:0' }, root);
+      const leaves = []; v.kids.forEach((k) => k.leaves.forEach((l) => leaves.push(l)));
+      const L = leaves.length, gap = 20, lw = (X1 - X0 - gap * (L - 1)) / L, ly = v.ly || 660, ky = v.ky || 450, ry = v.ry || 250;
+      const node = (x, y, w, hh, nd, c) => box(root, x, y, w, hh, `<div class="ch" style="font-size:${nd.fs || 28}px;color:${c}">${nd.h}</div>${nd.b ? `<div class="cb" style="font-size:21px">${nd.b}</div>` : ''}`, c);
+      const line = (x1, y1, x2, y2) => svg('line', { x1, y1, x2, y2, stroke: '#64748b', 'stroke-width': 4 }, sv);
+      v.rootEl = node(960 - 260, ry, 520, 120, v.root, '#fbbf24');
+      v.items = []; let li = 0;
+      v.kids.forEach((k, ki) => {
+        const first = li, last = li + k.leaves.length - 1;
+        const xa = X0 + first * (lw + gap), xb = X0 + last * (lw + gap) + lw, kx = (xa + xb) / 2, c = col(k.c, ki + 1);
+        const kel = node(kx - 210, ky, 420, 110, k, c); const kl = line(960, ry + 120, kx, ky);
+        v.items.push({ el: kel, ln: kl, at: k.at });
+        k.leaves.forEach((l, j) => { const x = X0 + li * (lw + gap); const el = node(x, ly, lw, 170, l, c); const ln = line(kx, ky + 110, x + lw / 2, ly); v.items.push({ el, ln, at: l.at }); li++; });
+      });
+    },
+    anim(v, t, ctx) {
+      reveal(v.rootEl, t, at(ctx, v.root.at || 0));
+      v.items.forEach((it) => { const s = at(ctx, it.at); reveal(it.el, t, s); it.ln.style.opacity = seg(t, s - 0.2, s + 0.3); });
+    },
+  };
+
+  // ---- GULF: user vs system, execution & evaluation ----
+  custom.gulf = {
+    build(root, v) {
+      v.u = h('div', 'orb', '🧑<br><b>User</b><span>mental model</span>', { left: '200px', top: '400px', borderColor: '#38bdf8' });
+      v.w = h('div', 'orb', '💻<br><b>System</b><span>task model</span>', { left: '1400px', top: '400px', borderColor: '#34d399' });
+      v.gap = h('div', 'chasm', 'THE GULF', {});
+      v.ex = h('div', 'garrow', '→ Gulf of <b>Execution</b><br><i>“How do I use this system?”</i>', { left: '560px', top: '300px', color: '#fbbf24' });
+      v.ev = h('div', 'garrow', '← Gulf of <b>Evaluation</b><br><i>“What is the current system state?”</i>', { left: '560px', top: '760px', color: '#f472b6' });
+      [v.gap, v.u, v.w, v.ex, v.ev].forEach((e) => root.appendChild(e));
+    },
+    anim(v, t, ctx) {
+      const b = v.beats; reveal(v.u, t, at(ctx, b[0])); reveal(v.w, t, at(ctx, b[0]) + 0.3);
+      reveal(v.ex, t, at(ctx, b[1])); reveal(v.ev, t, at(ctx, b[2]));
+      const wide = seg(t, at(ctx, b[3]), at(ctx, b[3]) + 1), close = seg(t, at(ctx, b[4]), at(ctx, b[4]) + 1.5);
+      const w = 40 + 420 * wide * (1 - close);
+      css(v.gap, { left: 960 - w / 2 + "px", width: w + "px", o: seg(t, at(ctx, b[3]), at(ctx, b[3]) + 0.5) * 0.9 });
+      v.gap.textContent = close > 0.5 ? '✓ fluid' : 'THE GULF';
+      v.gap.style.color = close > 0.5 ? '#34d399' : '#f87171';
+    },
+  };
+
+  // ---- PROSCONS: story card + definition + pros/cons lists ----
+  custom.proscons = {
+    build(root, v) {
+      v.story = box(root, 110, 250, 560, 640, `<div class="ic" style="font-size:90px">${v.story.icon}</div><div class="ch" style="font-size:34px;color:#fbbf24">${v.story.h}</div><div class="cb" style="font-size:27px;text-align:left">${v.story.b}</div>`, COL.y);
+      v.story.style.justifyContent = 'flex-start';
+      v.def = h('div', 'card', `<div class="ch" style="font-size:30px;color:#38bdf8">What it is</div><div class="cb" style="font-size:25px">${v.what}</div>${v.designer ? `<div class="cb" style="font-size:23px;color:#a5b4fc"><b>Designer:</b> ${v.designer}</div>` : ''}`, { left: '700px', top: '250px', width: '1110px', height: (v.defH || 250) + 'px', borderTop: '6px solid #38bdf8' });
+      root.appendChild(v.def);
+      const top = 250 + (v.defH || 250) + 20, hh = 890 - top;
+      const list = (x, title, c, arr) => { const e = h('div', 'card', `<div class="ch" style="font-size:30px;color:${c}">${title}</div>`, { left: x + 'px', top: top + 'px', width: '545px', height: hh + 'px', borderTop: `6px solid ${c}` }); root.appendChild(e);
+        const its = arr.map((it) => { const li = h('div', 'li', (c === '#34d399' ? '✔ ' : '✘ ') + it.t, { opacity: 0 }); e.appendChild(li); return li; }); return { e, its }; };
+      v.P = list(700, 'Advantages', '#34d399', v.pros || []); v.C = list(1265, 'Disadvantages', '#f87171', v.cons || []);
+    },
+    anim(v, t, ctx) {
+      reveal(v.story, t, at(ctx, v.storyAt || 0)); reveal(v.def, t, at(ctx, v.defAt || 1));
+      reveal(v.P.e, t, at(ctx, (v.pros[0] || {}).at || 2)); reveal(v.C.e, t, at(ctx, (v.cons[0] || {}).at || 3));
+      v.pros.forEach((it, k) => reveal(v.P.its[k], t, at(ctx, it.at), 10)); v.cons.forEach((it, k) => reveal(v.C.its[k], t, at(ctx, it.at), 10));
+    },
+  };
+
+  // ---- MATRIX: 2x2 (or RxC) grid with axis labels ----
+  custom.matrix = {
+    build(root, v) {
+      const R = v.rows.length, C = v.cols.length, gx = 20, x0 = 430, y0 = v.top || 300, W = (X1 - x0 - gx * (C - 1)) / C, H = ((v.bottom || 890) - y0 - gx * (R - 1)) / R;
+      v.hd = v.cols.map((c, j) => { const e = h('div', 'mhd', c, { left: x0 + j * (W + gx) + 'px', top: y0 - 50 + 'px', width: W + 'px' }); root.appendChild(e); return e; });
+      v.rl = v.rows.map((r, i) => { const e = h('div', 'mrl', r, { left: '110px', top: y0 + i * (H + gx) + 'px', width: '300px', height: H + 'px' }); root.appendChild(e); return e; });
+      if (v.axis) { v.ax = h('div', 'tag', v.axis, { left: '110px', top: y0 - 50 + 'px', width: '300px', fontSize: '22px' }); root.appendChild(v.ax); }
+      v.cl = []; v.cells.forEach((row, i) => row.forEach((c, j) => { const cc = col(c.c, i * C + j); const e = box(root, x0 + j * (W + gx), y0 + i * (H + gx), W, H, `${c.icon ? `<div class="ic" style="font-size:54px">${c.icon}</div>` : ''}<div class="ch" style="font-size:${c.fs || 32}px;color:${cc}">${c.h}</div>${c.b ? `<div class="cb" style="font-size:${c.bs || 24}px">${c.b}</div>` : ''}`, cc); v.cl.push({ e, c }); }));
+    },
+    anim(v, t, ctx) {
+      v.hd.forEach((e) => reveal(e, t, 0.2)); v.rl.forEach((e) => reveal(e, t, 0.3)); if (v.ax) reveal(v.ax, t, 0.3);
+      const items = v.cl.map((x) => x.c);
+      v.cl.forEach((x, k) => { reveal(x.e, t, at(ctx, x.c.at)); spot(x.e, t, ctx, items, k, col(x.c.c, k)); });
+    },
+  };
+
+  // ---- BODY: stick figure with glowing hotspots + info card ----
+  custom.body = {
+    build(root, v) {
+      const sv = svg('svg', { width: 1920, height: 1080, class: 'abs', style: 'left:0;top:0' }, root);
+      const L = (pts) => svg('polyline', { points: pts, fill: 'none', stroke: '#cbd5e1', 'stroke-width': 16, 'stroke-linecap': 'round', 'stroke-linejoin': 'round' }, sv);
+      svg('circle', { cx: 400, cy: 320, r: 56, fill: 'none', stroke: '#cbd5e1', 'stroke-width': 14 }, sv);
+      L('400,380 400,620'); L('300,430 500,430'); L('300,430 270,540 290,650'); L('500,430 530,540 510,650'); L('400,620 340,860'); L('400,620 460,860');
+      const HS = { wrist: [510, 645], hand: [515, 690], shoulder: [500, 432], elbow: [530, 540], finger: [515, 700], back: [400, 590], neck: [400, 385] };
+      v.hs = v.parts.map((p) => { const [x, y] = HS[p.spot]; return svg('circle', { cx: x, cy: y, r: 24, fill: col(p.c) }, sv); });
+      v.cards = v.parts.map((p, i) => { const e = box(root, 700, 260, 1110, 620, `<div class="ic" style="font-size:80px">${p.icon || ''}</div><div class="ch" style="font-size:52px;color:${col(p.c, i)}">${p.h}</div><div class="cb" style="font-size:31px;text-align:left">${p.b}</div>`, col(p.c, i)); e.style.justifyContent = 'flex-start'; e.style.alignItems = 'flex-start'; return e; });
+    },
+    anim(v, t, ctx) {
+      v.parts.forEach((p, k) => {
+        const [s, e] = activeWin(ctx, v.parts, k); const on = Math.min(seg(t, s, s + 0.4), 1 - seg(t, e - 0.1, e + 0.3));
+        css(v.cards[k], { o: on, y: (1 - on) * 20 });
+        const g = t >= s && t < e ? 1 : 0; v.hs[k].setAttribute('r', 18 + 14 * g + 6 * g * Math.sin(t * 6)); v.hs[k].style.opacity = t >= s ? (g ? 1 : 0.35) : 0;
+      });
+    },
+  };
+
   // ---------------- build everything ----------------
   const spec = window.SPEC;
   stage.innerHTML = '';

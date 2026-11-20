@@ -1,0 +1,138 @@
+{
+  "title": "HCI — Ergonomics & Musculoskeletal Disorders (story explainer)",
+  "slug": "hci-ergonomics",
+  "kicker": "HCI · Ergonomics",
+  "description": "Exam revision told as a story: meaning of ergonomics, risk factors, six musculoskeletal disorders (carpal tunnel, tendonitis, rotator cuff, epicondylitis, trigger finger, lower back), their effects, prevention, OSHA protections and ergonomics plans.",
+  "tags": ["HCI", "ergonomics", "MSD", "carpal tunnel", "OSHA"],
+  "voice": "af_heart",
+  "speed": 1.0,
+  "fps": 24,
+  "captions": true,
+  "endCard": "📘 Ergonomics — revised. You've got this!",
+  "thumbnail": "msd1@12",
+  "pronounce": {"MSD": "M S D", "MSDs": "M S Ds", "MSD's": "M S Ds", "NSAIDs": "en-saids", "NSAIDS": "en-saids", "OSHA": "Osha", "BLS": "B L S", "Epicondylitis": "Epi-kon-di-lie-tis", "epicondylitis": "epi-kon-di-lie-tis", "Tenosynovitis": "Teno-sino-vie-tis", "tenosynovitis": "teno-sino-vie-tis"},
+  "scenes": [
+    { "id": "intro", "title": "Intro", "pad": [0.6, 1.0],
+      "viz": {"type": "hook", "icon": "🧑‍💻🪑", "t": "Ergonomics", "s": "Why does your body hurt after a long day at the computer?", "sAt": 1, "cAt": 2,
+        "chips": ["Meaning", "Risk factors", "Carpal tunnel", "Tendonitis", "Rotator cuff", "Tennis elbow", "Trigger finger", "Lower back", "Effects", "Prevention", "OSHA", "Ergonomics plan"]},
+      "lines": [
+        "Meet Arjun, a programmer. Ten hours a day at the keyboard, hunched over a laptop on the sofa.",
+        "One month later, his wrist tingles, his back aches, and one finger keeps getting stuck.",
+        "This video is about ergonomics: why that happens, and how to stop it."
+      ]},
+    { "id": "obj", "title": "1. What you need to know",
+      "viz": {"type": "cards", "cols": 3, "small": true, "bs": 26, "items": [
+        {"icon": "📖", "h": "Meaning of ergonomics", "c": "b", "at": 0},
+        {"icon": "🦴", "h": "Basic MSDs", "b": "carpal tunnel · tendonitis · rotator cuff · epicondylitis · trigger finger · strains &amp; lower back", "c": "r", "at": 0.5},
+        {"icon": "📉", "h": "Effects on productivity", "b": "of preventable MSDs", "c": "o", "at": 1},
+        {"icon": "🛡️", "h": "How ergonomics prevents MSDs", "c": "g", "at": 1.4},
+        {"icon": "⚖️", "h": "Regulations &amp; protections", "b": "for workers", "c": "p", "at": 1.8},
+        {"icon": "📋", "h": "A prevention plan", "b": "how to develop one", "c": "y", "at": 2.2}
+      ]},
+      "lines": [
+        "Here's the checklist. Understand the meaning of ergonomics, and know the basic musculoskeletal disorders, called M S Ds.",
+        "Know how preventable M S Ds hurt worker productivity, and how ergonomics prevents them.",
+        "Know the regulations and protections for workers, and how to develop a prevention plan."
+      ]},
+    { "id": "what", "title": "2. What is ergonomics? + risk factors",
+      "viz": {"type": "cards", "cols": 4, "small": true, "bs": 25, "items": [
+        {"icon": "🧩", "h": "Ergonomics", "b": "<b>fitting the person to the job</b> — matching work, tools and environment to the human body", "c": "b", "at": 0},
+        {"icon": "📦", "h": "Lifting heavy items", "b": "pushing and pulling heavy loads", "c": "r", "at": 1},
+        {"icon": "🤸", "h": "Bending &amp; reaching", "b": "awkward body positions", "c": "o", "at": 1.5},
+        {"icon": "🔁", "h": "Repetitive tasks", "b": "same motion, again and again — typing, clicking", "c": "y", "at": 2},
+        {"icon": "🧍", "h": "Body position", "b": "posture held for hours", "c": "k", "at": 2.5}
+      ]},
+      "lines": [
+        "Ergonomics means fitting the person to the job, making the work, the tools and the environment suit the human body.",
+        "There are four big risk factors. Lifting heavy items, which means pushing and pulling heavy loads.",
+        "Bending and reaching, putting the body in awkward positions.",
+        "Performing tasks repetitively. For Arjun, that's thousands of keystrokes and clicks.",
+        "And body position, like his slouch on the sofa, held for hours."
+      ]},
+    { "id": "msd1", "title": "3. MSDs — wrist, tendons, shoulder",
+      "viz": {"type": "custom", "name": "body", "parts": [
+        {"spot": "wrist", "c": "r", "icon": "✋⚡", "h": "Carpal Tunnel Syndrome", "b": "• numbness &amp; tingling in the hand<br>• caused by a <b>pinched nerve in the wrist</b><br>• very common: <b>&gt; 3 million US cases a year</b><br>• many causes — common in many jobs, including computer work<br>• very preventable and easily treatable (even surgery)", "at": 0},
+        {"spot": "hand", "c": "o", "icon": "🔥", "h": "Tendonitis", "b": "• <b>inflammation of tendons</b> (microscopic tears)<br>• caused by <b>overuse</b> (too often) and <b>overload</b> (too much)<br>• lasts a few days or weeks; risk of re-injury<br>• treatment: NSAIDs, ice packs, splinting", "at": 2},
+        {"spot": "shoulder", "c": "y", "icon": "💪", "h": "Rotator Cuff", "b": "• a form of <b>tendonitis in the shoulder joint</b><br>• not typically common as a computer injury<br>• symptoms &amp; treatment same as tendonitis", "at": 4}
+      ]},
+      "lines": [
+        "Arjun's wrist tingles. That's carpal tunnel syndrome: numbness and tingling in the hand, caused by a pinched nerve in the wrist.",
+        "It's very common, more than three million US cases a year, with many causes, including computer work. Good news: it's very preventable and easily treatable, even with surgery.",
+        "Next, tendonitis: inflammation of tendons, from microscopic tears. It's caused by overuse, doing it too often, and overload, doing too much.",
+        "It can last days or weeks, with a risk of re-injury. Treatment is anti-inflammatory painkillers called N SAIDs, ice packs, and splinting.",
+        "Rotator cuff injury is tendonitis in the shoulder joint. It's not very common as a computer injury, and its symptoms and treatment are the same as tendonitis."
+      ]},
+    { "id": "msd2", "title": "4. MSDs — elbow, finger, back",
+      "viz": {"type": "custom", "name": "body", "parts": [
+        {"spot": "elbow", "c": "p", "icon": "🎾", "h": "Epicondylitis", "b": "• <b>tennis elbow</b> (lateral) · <b>golfer's elbow</b> (medial)<br>• pain &amp; irritation in the forearm<br>• very common — racquet sports are a risk factor<br>• a form of tendonitis; similar treatment", "at": 0},
+        {"spot": "finger", "c": "k", "icon": "☝️🔒", "h": "Trigger finger", "b": "• <b>tenosynovitis</b> — finger gets <b>stuck in a bent position</b><br>• inflammation narrows the sheath around finger tendons<br>• caused mainly by <b>repetitive gripping</b><br>• treatment: rest, splint, NSAIDs", "at": 2},
+        {"spot": "back", "c": "b", "icon": "🪑", "h": "Lower back injury / pain", "b": "• very common in computer &amp; office workers<br>• correct <b>ergonomic chair heights</b><br>• use <b>lower-back supports</b><br>• regular posture checks, breaks, exercise, stretching, movement<br>• true for <b>driving</b> too", "at": 4}
+      ]},
+      "lines": [
+        "Epicondylitis is commonly called tennis elbow, on the outer side, or golfer's elbow, on the inner side. Pain and irritation in the forearm.",
+        "It's very common, racquet sports are a risk factor, and it's a form of tendonitis with similar treatment.",
+        "Remember Arjun's stuck finger? That's trigger finger, or tenosynovitis. Inflammation narrows the sheath around the finger tendons, so the finger gets stuck bent.",
+        "It's caused mainly by repetitive gripping. Treatment: rest, a splint, and N SAIDs.",
+        "Finally, lower back pain, very common in computer and office workers. Fix it with correct chair heights, lower back supports,",
+        "and regular posture checks, breaks, exercises, stretching and movement. The same applies to driving."
+      ]},
+    { "id": "effects", "title": "5. Effects of MSDs",
+      "viz": {"type": "cards", "items": [
+        {"icon": "📊", "h": "33%", "b": "of all worker injury and illness cases are MSDs (Bureau of Labor Statistics)", "c": "r", "at": 0, "hs": 72},
+        {"icon": "⏳", "h": "#1 cause of lost time", "b": "most frequently reported cause of lost or restricted work time", "c": "o", "at": 1},
+        {"icon": "💔", "h": "Quality of life", "b": "strongly related to quality-of-life issues", "c": "p", "at": 2}
+      ]},
+      "lines": [
+        "Why should employers care? M S Ds account for thirty three percent, one third, of all worker injury and illness cases, according to the Bureau of Labor Statistics.",
+        "They're the most frequently reported cause of lost or restricted work time.",
+        "And they're strongly linked to quality of life. Arjun can't even hold his phone comfortably."
+      ]},
+    { "id": "prevent", "title": "6. Prevention",
+      "viz": {"type": "flow", "nodes": [
+        {"icon": "🪑🖥️", "h": "Ergonomic desk", "b": "every desk position follows ergonomic guidelines (chair height, screen, keyboard)", "c": "b", "at": 0},
+        {"icon": "⏰🤸", "h": "Frequent breaks", "b": "practise regular breaks and exercises", "c": "g", "at": 1},
+        {"icon": "🚨", "h": "Recognise early signs", "b": "of repetitive-task injuries or tendonitis", "c": "y", "at": 2}
+      ]},
+      "lines": [
+        "Prevention has three parts. First, make sure every desk position follows ergonomic guidelines. Arjun moves from the sofa to a proper chair and desk.",
+        "Second, take frequent breaks and do exercises.",
+        "Third, recognise the early signs of repetitive task injuries or tendonitis, before they get serious."
+      ]},
+    { "id": "osha", "title": "7. OSHA protections",
+      "viz": {"type": "flow", "dir": "v", "w": 1300, "nodes": [
+        {"icon": "⚖️", "h": "General Duty Clause", "b": "employers must keep the workplace free from recognised serious hazards — including <b>ergonomic</b> hazards", "c": "p", "at": 0},
+        {"icon": "1️⃣", "h": "Does an ergonomic hazard exist?", "c": "b", "at": 1},
+        {"icon": "2️⃣", "h": "Is the hazard recognised?", "c": "b", "at": 1.4},
+        {"icon": "3️⃣", "h": "Is it causing, or likely to cause, serious physical harm?", "c": "r", "at": 1.8},
+        {"icon": "4️⃣", "h": "Is there a feasible way to reduce it?", "c": "g", "at": 2.2}
+      ]},
+      "lines": [
+        "What protects workers by law? In the US, OSHA's General Duty Clause: employers must keep the workplace free from recognised serious hazards, including ergonomic hazards.",
+        "To decide whether to cite an employer, OSHA asks four questions. Does an ergonomic hazard exist? Is the hazard recognised?",
+        "Is it causing, or likely to cause, serious physical harm to employees? And is there a feasible way to reduce it?",
+        "Memory hook: exists, recognised, harmful, fixable."
+      ]},
+    { "id": "plan", "title": "8. An ergonomics plan",
+      "viz": {"type": "cards", "cols": 3, "small": true, "bs": 25, "items": [
+        {"icon": "👔", "h": "Management support", "b": "management must back the ergonomic process", "c": "b", "at": 0},
+        {"icon": "🙋", "h": "Worker involvement", "b": "workplace assessment · identify risks · responsible for avoiding risk factors", "c": "g", "at": 1},
+        {"icon": "🎓", "h": "Training", "b": "on ergonomics and risk factors", "c": "y", "at": 2},
+        {"icon": "📣", "h": "Reporting mechanism", "b": "a way to report symptoms &amp; hazards", "c": "k", "at": 2.5},
+        {"icon": "🔍", "h": "Evaluation process", "b": "check the plan is working", "c": "p", "at": 3}
+      ]},
+      "lines": [
+        "Finally, an ergonomics plan. Management must support the ergonomic process.",
+        "Workers must be involved: assessing the workplace, identifying risks, and taking responsibility for avoiding risk factors.",
+        "Provide training on ergonomics and risk factors, and have a reporting mechanism,",
+        "and an evaluation process to check it's working. Arjun's company now does all five, and his wrist has stopped tingling."
+      ]},
+    { "id": "recap", "title": "Recap", "pad": [0.5, 2.0],
+      "viz": {"type": "hook", "icon": "✅", "t": "Recap", "s": "Fit person and job together — before the body breaks", "sAt": 1, "cAt": 1.2, "endcard": true, "endAt": 2,
+        "chips": ["Lift · Bend · Repeat · Posture", "Carpal tunnel — pinched wrist nerve", "Tendonitis — overuse + overload", "Rotator cuff — shoulder", "Tennis / golfer's elbow", "Trigger finger — stuck bent", "Lower back — chair, breaks", "33% of injuries", "OSHA: exists · recognised · harmful · fixable", "Mgmt · Workers · Training · Reporting · Evaluation"]},
+      "lines": [
+        "Quick recap.",
+        "Four risk factors: lifting, bending, repetition and posture. Six disorders: carpal tunnel, tendonitis, rotator cuff, tennis elbow, trigger finger, and lower back pain.",
+        "M S Ds are a third of all injuries. Prevent them with good desks, breaks and early signs, backed by OSHA and a solid plan. You've got this."
+      ]}
+  ]
+}

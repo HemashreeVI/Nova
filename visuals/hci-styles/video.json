@@ -1,0 +1,188 @@
+{
+  "title": "HCI — Interaction Styles (story explainer)",
+  "slug": "hci-styles",
+  "kicker": "HCI · Interaction Styles",
+  "description": "Exam revision told as a story: direct manipulation, menu selection, form fill-in, spreadsheets, command language, natural language, question/answer, metaphors, web navigation, 3D and zoomable interfaces — with advantages and disadvantages.",
+  "tags": ["HCI", "interaction styles", "direct manipulation", "menu selection"],
+  "voice": "af_heart",
+  "speed": 1.0,
+  "fps": 24,
+  "captions": true,
+  "endCard": "📘 Interaction Styles — revised. You've got this!",
+  "thumbnail": "dm@10",
+  "pronounce": {"VISICALC": "Visi-Calc", "VisiCalc": "Visi-Calc", "VisiCorp": "Visi-Corp", "VRML": "V R M L", "X3-D": "X 3 D", "X3D": "X 3 D", "XML": "X M L", "ZIP": "zip", "ZUI": "Z U I", "Pad++": "Pad plus plus", "GUIs": "gooeys", "GUI": "gooey", "Raskin": "Raskin", "Web3D.org": "Web 3 D dot org", "git": "git"},
+  "scenes": [
+    { "id": "intro", "title": "Intro", "pad": [0.6, 1.0],
+      "viz": {"type": "hook", "icon": "🖱️⌨️🗣️", "t": "Interaction Styles", "s": "Eleven ways humans talk to computers — all in one day of Riya's life", "sAt": 1, "cAt": 2,
+        "chips": ["Direct manipulation", "Menu selection", "Form fill-in", "Spreadsheets", "Command language", "Natural language", "Question / answer", "Metaphor", "Web navigation", "3D", "Zoomable"]},
+      "lines": [
+        "There's more than one way to talk to a computer. You can drag, click, type, or simply speak.",
+        "Each way is called an interaction style.",
+        "Let's follow Riya through one ordinary day, and she'll use all eleven styles. For each, remember what it is, what the designer must do, and its advantages and disadvantages."
+      ]},
+    { "id": "dm", "title": "1. Direct manipulation",
+      "viz": {"type": "custom", "name": "proscons",
+        "story": {"icon": "🖱️📁", "h": "8 am — drag &amp; drop", "b": "Riya drags her photo file into a folder. She <b>sees</b> it move instantly. No commands to remember."},
+        "what": "users <b>point at visual representations</b> of objects &amp; actions, work rapidly and see <b>immediate results</b>; cursor-motion devices replace keyboard control",
+        "designer": "choose icons &amp; graphics that “immerse” the user — minimal training needed", "defAt": 1,
+        "pros": [{"t": "visually presents task concepts", "at": 2}, {"t": "easy learning", "at": 2.3}, {"t": "easy retention", "at": 2.5}, {"t": "errors can be avoided", "at": 2.7}, {"t": "encourages exploration", "at": 2.9}, {"t": "high subjective satisfaction", "at": 3.1}],
+        "cons": [{"t": "may be hard to program", "at": 4}, {"t": "needs graphics display &amp; pointing devices", "at": 4.4}]},
+      "lines": [
+        "Eight A M. Riya drags a photo into a folder. She sees it move instantly. That's direct manipulation.",
+        "Users point at visual representations of objects and actions, work rapidly, and see immediate results. The mouse replaces typed commands. Designers must choose icons that immerse the user, so very little training is needed.",
+        "Advantages: it presents task concepts visually, it's easy to learn and easy to remember,",
+        "errors can be avoided, it encourages exploration, and users feel highly satisfied.",
+        "Disadvantages: it may be hard to program, and it needs a graphics display and a pointing device."
+      ]},
+    { "id": "menu", "title": "2. Menu selection",
+      "viz": {"type": "custom", "name": "proscons",
+        "story": {"icon": "🍔📋", "h": "9 am — food app", "b": "Breakfast! Riya taps Burgers → Veg → Medium → Confirm. She only <b>reads and picks</b>."},
+        "what": "users read a list, select the right item, indicate the choice, confirm, initiate the action and observe the effect",
+        "designer": "careful <b>task analysis</b> so every function is present and used consistently", "defAt": 1,
+        "pros": [{"t": "shortens learning", "at": 2}, {"t": "reduces keystrokes", "at": 2.25}, {"t": "structures decision making", "at": 2.5}, {"t": "permits dialog-management tools", "at": 2.75}, {"t": "easy support of error handling", "at": 3}],
+        "cons": [{"t": "danger of many menus", "at": 4}, {"t": "may slow frequent users", "at": 4.25}, {"t": "consumes screen space", "at": 4.5}, {"t": "requires rapid display rate", "at": 4.75}]},
+      "lines": [
+        "Nine A M. Riya orders breakfast in a food app: Burgers, then Veg, then Medium, then Confirm. She just reads and picks. That's menu selection.",
+        "Users read the list, select the right item, confirm, start the action and watch the effect. Designers need careful task analysis so all functions are there and consistent.",
+        "Advantages: it shortens learning, reduces keystrokes, and structures decision making.",
+        "It also permits dialog management tools, and makes error handling easy.",
+        "Disadvantages: the danger of too many menus, it may slow frequent users, it eats screen space, and it needs a rapid display rate."
+      ]},
+    { "id": "form", "title": "3. Form fill-in",
+      "viz": {"type": "custom", "name": "proscons",
+        "story": {"icon": "📝🏫", "h": "10 am — scholarship form", "b": "Name, roll number, CGPA, bank account… Riya <b>tabs</b> from field to field and types."},
+        "what": "users see a display of <b>related fields</b>, move the cursor among them and enter data",
+        "designer": "users must understand field labels, valid values, the entry method, and error messages — some training may be needed", "defAt": 1,
+        "pros": [{"t": "simplifies data entry", "at": 2}, {"t": "requires modest training", "at": 2.3}, {"t": "gives convenient assistance", "at": 2.6}, {"t": "permits form-management tools", "at": 2.9}],
+        "cons": [{"t": "consumes screen space", "at": 3.5}]},
+      "lines": [
+        "Ten A M. Riya applies for a scholarship: name, roll number, CGPA, bank details. She tabs from field to field. That's form fill-in.",
+        "Users see related fields, move the cursor among them, and enter data. Designers must make sure users understand the labels, valid values, the entry method, and the error messages. Some training may be necessary.",
+        "Advantages: it simplifies data entry, needs only modest training,",
+        "gives convenient assistance, and permits form management tools.",
+        "Disadvantage: it consumes screen space."
+      ]},
+    { "id": "sheet", "title": "4. Spreadsheets",
+      "viz": {"type": "cards", "cols": 3, "small": true, "bs": 25, "items": [
+        {"icon": "💰", "h": "Story — trip budget", "b": "Riya types costs in cells; =SUM() updates the total instantly", "c": "y", "at": 0},
+        {"icon": "📋➕", "h": "Sophisticated form fill-in", "b": "a variation of form fill-in", "c": "b", "at": 1},
+        {"icon": "🕰️", "h": "History", "b": "<b>VisiCalc</b> (VisiCorp) first → <b>Lotus 1-2-3</b> → <b>Microsoft Excel</b> most popular today", "c": "p", "at": 2},
+        {"icon": "🔢", "h": "Grid of cells", "b": "cells hold <b>values or formulas</b>; formulas can use other cells; users enter &amp; alter data", "c": "g", "at": 3},
+        {"icon": "✔", "h": "Strengths", "b": "unlimited space · complex calculations", "c": "g", "at": 4},
+        {"icon": "✘", "h": "Weaknesses", "b": "can be difficult to learn · may need programming skills", "c": "r", "at": 4.5}
+      ]},
+      "lines": [
+        "Eleven A M. Riya plans a trip budget in a spreadsheet. She types the costs, and a formula updates the total instantly.",
+        "Spreadsheets are a sophisticated variation of form fill-in.",
+        "The first was VisiCalc, by VisiCorp, followed by Lotus one two three. Today Microsoft Excel is the most popular.",
+        "A spreadsheet is a grid of cells holding values or formulas. Formulas can use other cells, and users can enter and alter data.",
+        "They give unlimited space and complex calculations. But they can be difficult to learn, and might need programming skills."
+      ]},
+    { "id": "cmd", "title": "5. Command language",
+      "viz": {"type": "custom", "name": "proscons",
+        "story": {"icon": "💻⌨️", "h": "1 pm — lab terminal", "b": "<span style='font-family:JetBrains Mono'>$ git add . &amp;&amp; git commit -m \"done\"</span><br>One line does a lot — if you remember the <b>syntax</b>."},
+        "what": "users learn the <b>syntax</b>; can express complex things rapidly without distracting prompts",
+        "designer": "must allow for <b>high error rates</b>; mapping task → syntax is hard; user training is necessary", "defAt": 1,
+        "pros": [{"t": "flexible", "at": 2}, {"t": "appeals to “power” users", "at": 2.25}, {"t": "supports user initiative", "at": 2.5}, {"t": "easy creation of user-defined macros", "at": 2.75}],
+        "cons": [{"t": "poor error handling", "at": 3.5}, {"t": "substantial training &amp; memorisation", "at": 3.8}]},
+      "lines": [
+        "One P M, in the lab. Riya types a git command into the terminal. One line does a lot, if you remember the syntax. That's command language.",
+        "Users learn the syntax, and can express complex possibilities rapidly, without distracting prompts. Designers must allow for high error rates, because mapping a task to computer syntax is hard. Training is necessary.",
+        "Advantages: it's flexible, appeals to power users, supports user initiative, and makes it easy to create user defined macros.",
+        "Disadvantages: poor error handling, and it needs substantial training and memorisation."
+      ]},
+    { "id": "nl", "title": "6. Natural language",
+      "viz": {"type": "custom", "name": "proscons",
+        "story": {"icon": "🗣️📱", "h": "3 pm — voice assistant", "b": "“Remind me about the HCI exam.”<br>“Which day — today or tomorrow?” 🤖<br>The computer <b>asks to clarify</b>."},
+        "what": "users enter natural-language sentences; the computer often <b>seeks clarification</b> before starting",
+        "designer": "must understand the task domain to narrow interpretations — design is <b>extremely difficult</b>", "defAt": 1,
+        "pros": [{"t": "relieves the burden of learning syntax", "at": 2}],
+        "cons": [{"t": "requires clarification dialog", "at": 3}, {"t": "may need more keystrokes", "at": 3.25}, {"t": "may not show context", "at": 3.5}, {"t": "is unpredictable", "at": 3.75}]},
+      "lines": [
+        "Three P M. Riya says: remind me about the HCI exam. The assistant asks: which day? That's natural language.",
+        "Users type or say normal sentences, and the computer often asks for clarification first. Designers must understand the task domain to narrow the possible meanings. Design is extremely difficult.",
+        "Advantage: there's no syntax to learn.",
+        "Disadvantages: it needs a clarification dialog, may take more keystrokes, may not show context, and is unpredictable."
+      ]},
+    { "id": "qa", "title": "7. Question / answer (wizards)",
+      "viz": {"type": "custom", "name": "proscons",
+        "story": {"icon": "🧙‍♂️", "h": "4 pm — installer wizard", "b": "“Accept licence?” → Next → “Where to install?” → Next → “Create shortcut?” → Finish."},
+        "what": "user is led through a <b>sequential series of questions</b>; used heavily in early computing &amp; information systems; also called <b>wizards</b> — good for novices, restricted functionality", "defH": 230, "defAt": 1,
+        "pros": [{"t": "low memory requirements", "at": 2}, {"t": "self-explanatory", "at": 2.25}, {"t": "simple linear presentation", "at": 2.5}, {"t": "easy for beginners", "at": 2.75}],
+        "cons": [{"t": "requires valid input from the user", "at": 3.3}, {"t": "requires familiarity with controls", "at": 3.6}, {"t": "tedious to correct mistakes", "at": 3.9}]},
+      "lines": [
+        "Four P M. Riya installs software. Accept licence? Next. Where to install? Next. Create shortcut? Finish. That's a question and answer interface, also called a wizard.",
+        "Used a lot in early computing and in information systems, it leads the user through a sequence of questions. It suits novices, but functionality is restricted.",
+        "Advantages: low memory requirements, self explanatory, a simple linear presentation, and easy for beginners.",
+        "Disadvantages: it needs valid input, needs familiarity with the controls, and correcting mistakes can be tedious. Imagine going back five screens."
+      ]},
+    { "id": "meta", "title": "8. Metaphors",
+      "viz": {"type": "cards", "cols": 3, "small": true, "bs": 25, "items": [
+        {"icon": "🖥️🗑️📁", "h": "Real-world links", "b": "GUIs relate to real objects: desktop, folders, trash can — draws on real-world knowledge", "c": "b", "at": 0},
+        {"icon": "🚪", "h": "Affordances", "b": "real-world affordances can be reflected (a button looks pressable)", "c": "g", "at": 1},
+        {"icon": "🤨", "h": "Must match expectations", "b": "otherwise confusion &amp; frustration — <b>Mac trashcan</b>: dragging a disk to the trash <i>ejects</i> it!", "c": "r", "at": 2},
+        {"icon": "🕳️", "h": "Run out of metaphors", "b": "some virtual objects have no real-world counterpart", "c": "o", "at": 3},
+        {"icon": "🔀", "h": "Mixed metaphors", "c": "y", "at": 3.4},
+        {"icon": "💭", "h": "Connotations", "b": "metaphors carry associations", "c": "p", "at": 3.8}
+      ]},
+      "lines": [
+        "Five P M. Riya deletes old notes by dropping them in the recycle bin. A desktop, folders, a trash can: these are metaphors, visual links to real world objects.",
+        "Metaphors help people understand complex ideas using real world knowledge, and can reflect real world affordances.",
+        "But a metaphor must behave as people expect. On the old Mac, dragging a disk to the trash ejected it. Users panicked, thinking they'd delete everything.",
+        "Other problems: you can run out of metaphors, because some virtual things have no real world match. Metaphors get mixed. And they carry connotations and associations."
+      ]},
+    { "id": "web", "title": "9. Web navigation",
+      "viz": {"type": "cards", "cols": 2, "small": true, "bs": 25, "items": [
+        {"icon": "🔗", "h": "Link-based navigation", "b": "sensitive to <b>articulatory distance</b> (physical form of an expression ↔ its meaning)<br>ambiguous link labels widen the <b>gulf of evaluation</b>", "c": "b", "at": 1},
+        {"icon": "🔍", "h": "Search", "b": "sensitive to <b>semantic distance</b> (user intention ↔ meaning of interface expressions)<br>poor search algorithms widen the <b>gulf of execution</b> · slight advantage for mental models", "c": "y", "at": 2},
+        {"icon": "🧑", "h": "Adults", "b": "increasingly <b>search dominant</b>", "c": "g", "at": 3},
+        {"icon": "🧒", "h": "Kids", "b": "bookmarks, remembering favourite sites, paid content &amp; games — don't search", "c": "k", "at": 3.5}
+      ]},
+      "lines": [
+        "Six P M. Riya looks for exam notes online. The web has two basic styles.",
+        "Link based navigation: clicking links. It's sensitive to articulatory distance, how well a link's wording matches what it means. Vague link labels widen the gulf of evaluation.",
+        "Search: typing a query. It's sensitive to semantic distance, how well the system's language matches the user's intention. Poor search algorithms widen the gulf of execution. Search has a slight advantage in building mental models.",
+        "Adults are increasingly search dominant. Kids, though, use bookmarks, remember favourite sites, and go straight to games and paid content."
+      ]},
+    { "id": "threed", "title": "10. 3D environments",
+      "viz": {"type": "cards", "cols": 3, "small": true, "bs": 24, "items": [
+        {"icon": "🎮", "h": "Natural &amp; common", "b": "3D interaction is natural in the real world; common in games", "c": "b", "at": 0},
+        {"icon": "🔥", "h": "Processor-intensive", "b": "rich 3D graphics need lots of computing", "c": "r", "at": 1},
+        {"icon": "↔️🔄", "h": "Navigation", "b": "<b>Translation</b> — movement on a plane<br><b>Rotation</b> — movement around an axis", "c": "y", "at": 2},
+        {"icon": "🖥️", "h": "Desktop 3D", "b": "GUIs are mostly 2D; 3D on a 2D screen is hard to navigate", "c": "p", "at": 3},
+        {"icon": "🌐", "h": "Web 3D · VRML", "b": "vector graphics to cut file size; polygons with transparency, texture maps, shininess", "c": "g", "at": 4},
+        {"icon": "📄", "h": "X3D", "b": "XML-based (Web3D.org) — more flexibility &amp; control, but 3D navigation gets confusing fast", "c": "o", "at": 5}
+      ]},
+      "lines": [
+        "Eight P M. Riya relaxes with a 3D game. 3D interaction is natural in the real world, and common in games.",
+        "But rich 3D graphics are processor intensive.",
+        "3D navigation has two movements: translation, moving on a plane, and rotation, moving around an axis.",
+        "Desktop interfaces are mostly 2D, and 3D shown on a flat 2D screen is difficult to navigate.",
+        "On the web, 3D uses vector graphics to reduce file size. VRML, the Virtual Reality Modeling Language, uses polygons with parameters like transparency, texture maps and shininess.",
+        "X3D is XML based, from Web3D dot org, giving more flexibility and control. But three dimensional navigation can quickly become difficult and confusing."
+      ]},
+    { "id": "zoom", "title": "11. Zoomable interfaces",
+      "viz": {"type": "cards", "cols": 3, "small": true, "bs": 25, "items": [
+        {"icon": "🗺️", "h": "Story — maps", "b": "Riya pinches to zoom from India → Chennai → her hostel", "c": "y", "at": 0},
+        {"icon": "🍎", "h": "Jef Raskin · ZoomWorld", "b": "HCI expert who started Apple's <b>Macintosh</b> project (late 1970s)", "c": "b", "at": 1},
+        {"icon": "🔎", "h": "ZIP", "b": "<b>zooming interface paradigm</b>: landmarks + relative positioning", "c": "p", "at": 2},
+        {"icon": "📐", "h": "Organisational cues", "b": "Proportion · Colour · Patterns · Proximity", "c": "g", "at": 3},
+        {"icon": "➕➕", "h": "Pad++", "b": "a Zoomable User Interface (ZUI)", "c": "k", "at": 4}
+      ], "note": "ZIP cues: “Please Colour People's Places” — Proportion, Colour, Patterns, Proximity", "noteAt": 3.5},
+      "lines": [
+        "Ten P M. Riya checks a map, zooming from India, to Chennai, to her hostel. That's a zoomable interface.",
+        "ZoomWorld came from Jef Raskin, the interface expert who started Apple's Macintosh project in the late nineteen seventies.",
+        "It's based on the zooming interface paradigm, ZIP, which uses landmarks and relative positioning, instead of windows and folders.",
+        "Its organisational cues are proportion, colour, patterns and proximity. Memory hook: Please Colour People's Places.",
+        "Another example is Pad plus plus, a zoomable user interface, or Z U I."
+      ]},
+    { "id": "recap", "title": "Recap", "pad": [0.5, 2.0],
+      "viz": {"type": "hook", "icon": "✅", "t": "Recap", "s": "One day, eleven interaction styles", "sAt": 1, "cAt": 1.2, "endcard": true, "endAt": 2,
+        "chips": ["Drag → Direct manipulation", "Food app → Menu", "Scholarship → Form", "Budget → Spreadsheet", "git → Command", "Assistant → Natural language", "Installer → Q&A wizard", "Recycle bin → Metaphor", "Links vs search", "Game → 3D", "Map → Zoomable"]},
+      "lines": [
+        "Recap Riya's day.",
+        "Drag a file, direct manipulation. Order food, menus. Scholarship, form fill-in. Budget, spreadsheet. Git, command language. Assistant, natural language. Installer, wizard.",
+        "Recycle bin, metaphor. Notes online, links versus search. Game, 3D. And the map, zoomable. You've got this."
+      ]}
+  ]
+}
