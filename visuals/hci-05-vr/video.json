@@ -1,0 +1,97 @@
+{
+  "title": "UI & UX Design for Virtual Reality — Visual Exam Revision",
+  "slug": "hci-05-vr",
+  "description": "UX design for virtual reality, animated: applications of VR, the five UX principles in VR (user-centered design, consistency, hierarchy, comfort, empathy) and nine VR UX guidelines for designers.",
+  "tags": ["hci", "virtual reality", "vr ux", "ui design", "exam revision"],
+  "voice": "am_michael",
+  "speed": 1.0,
+  "fps": 30,
+  "captions": true,
+  "endCard": "📘 more to learn → github.com/HemashreeVI",
+  "thumbnail": "principles@10",
+  "pronounce": { "AR": "A R", "VR": "V R", "UI": "U I", "UX": "U X", "3D": "three D" },
+  "scenes": [
+    { "id": "intro", "title": "What is VR?", "pad": [0.6, 0.8], "lines": [
+      "Put on a headset, and you are standing inside an ancient museum.",
+      "That is virtual reality. A highly immersive and interactive experience.",
+      "Remember the difference: augmented reality adds to your world. Virtual reality replaces it."
+    ]},
+    { "id": "apps", "title": "Applications of VR", "lines": [
+      "VR is versatile. It is used in education, entertainment, training, healthcare and more.",
+      "In education, it can simulate real-world scenarios, historical events, and scientific concepts.",
+      "Entertainment ranges from immersive gaming to virtual tours and interactive storytelling.",
+      "Designers craft these immersive experiences. That raises engagement and satisfaction, and brings users back again."
+    ]},
+    { "id": "principles", "title": "5 UX principles in VR + mnemonic", "lines": [
+      "Five classic UX principles still work in VR.",
+      "User-centered design. Consistency. Hierarchy. Comfort of the users. And empathy.",
+      "Remember: U Can Have Cool Experiences."
+    ]},
+    { "id": "ucd", "title": "Principle 1: User-centered design", "lines": [
+      "Principle one. User-centered design. User needs and expectations come first.",
+      "In VR, physical things matter too, like the headset itself: its weight and fit.",
+      "Consider the target audience, and the context: where will the equipment be used? Is there a sofa in the way?",
+      "The focus should not be only on profit or cutting costs. The product should help users reach their goals with minimal effort."
+    ]},
+    { "id": "cons", "title": "Principle 2: Consistency", "lines": [
+      "Principle two. Consistency. In virtual environments, it matters even more.",
+      "Keep colors, typography, and visual hierarchy consistent.",
+      "But in VR, objects change with the user's position and perspective.",
+      "So the experience must stay consistent from every angle. That improves engagement and understanding."
+    ]},
+    { "id": "hier", "title": "Principle 3: Hierarchy", "lines": [
+      "Principle three. Hierarchy. Visual and textual hierarchy organize information and guide attention.",
+      "In VR this is harder, because objects are three dimensional, and users move around them.",
+      "The fix: consistent typography, and clear standards for what is primary and what is secondary.",
+      "Then the user's eye always lands on the most important thing first."
+    ]},
+    { "id": "comfort", "title": "Principle 4: Comfort of the users", "lines": [
+      "Principle four. User comfort. It is a key priority for any VR project.",
+      "Comfort is hard, because of the technology involved, and interacting with virtual objects.",
+      "And the futuristic nature of VR can itself make people uneasy.",
+      "So consider the user's context, the technology, and the interaction scenarios, to design more comfortable experiences."
+    ]},
+    { "id": "empathy", "title": "Principle 5: Empathy", "lines": [
+      "Principle five. Empathy. The ability to fully understand, mirror, then share another person's expressions, needs and motivations.",
+      "It is often overlooked in mixed reality design. But even with VR's limits, user-centric experiences are possible.",
+      "User research and design thinking help you understand needs.",
+      "Then user test your VR prototypes. Findings reveal key concerns, you resolve them, and the experience improves."
+    ]},
+    { "id": "guides", "title": "9 VR UX guidelines + mnemonic", "lines": [
+      "Now, nine VR UX guidelines for designers.",
+      "Understand the users. Focus on learning. Guide users. Prioritize comfort. Avoid abrupt changes.",
+      "Natural hand actions. Minimal text. Audio. And aesthetics.",
+      "Memory trick: Ugly Lions Get Comfy And Nap, Munching Apples Afterwards."
+    ]},
+    { "id": "v1", "title": "Guidelines 1-2: Understand users, learning experience", "lines": [
+      "Guideline one. Understand the users and their needs. Do user research and market analysis before designing.",
+      "Expectations in VR can be unrealistic, so balance them with realistic goals.",
+      "Guideline two. Focus on the learning experience. New technology is hard to grasp, and overwhelming users makes them quit.",
+      "Design the system and information architecture to ease users in. Don't expect too much from them."
+    ]},
+    { "id": "v2", "title": "Guidelines 3-4: Guide users, prioritize comfort", "lines": [
+      "Guideline three. Guide users along the way. An intro tutorial alone is not enough in VR.",
+      "Offer guides, tips and mini tutorials when needed, without overriding user control or spoiling the fun.",
+      "Guideline four. Prioritize comfort. VR can feel intimidating, so make it familiar and low effort.",
+      "Take inspiration from natural contexts, to create relaxed interactions."
+    ]},
+    { "id": "v3", "title": "Guidelines 5-6: Avoid abrupt changes, natural hands", "lines": [
+      "Guideline five. Avoid abrupt changes. A sudden jump in the environment can trigger motion sickness.",
+      "Use smooth transitions instead, so the experience never causes discomfort.",
+      "Guideline six. Create natural actions for hands. The user's mental model should match the actual system.",
+      "Grab a cup like a real cup. Never force unusual hand movements."
+    ]},
+    { "id": "v4", "title": "Guidelines 7-9: Minimal text, audio, aesthetics", "lines": [
+      "Guideline seven. Use minimal text for instructions. Nobody stops to read a paragraph inside an immersive world.",
+      "Use visual cues and hierarchy instead.",
+      "Guideline eight. Focus on audio. Ambiance and well-chosen sounds make the world feel real.",
+      "Guideline nine. Give due attention to aesthetics: color, sound design, and scene transitions make it beautiful and engaging."
+    ]},
+    { "id": "recap", "title": "Recap", "pad": [0.5, 2.0], "lines": [
+      "Recap. VR replaces your world, and is used in education, entertainment, training and healthcare.",
+      "Five principles: U Can Have Cool Experiences.",
+      "Nine guidelines: Ugly Lions Get Comfy And Nap, Munching Apples Afterwards.",
+      "Picture the museum tour, and you will remember them all."
+    ]}
+  ]
+}

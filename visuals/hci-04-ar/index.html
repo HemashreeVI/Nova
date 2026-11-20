@@ -1,0 +1,360 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>UI for Augmented Reality</title>
+<link rel="stylesheet" href="../hci-kit/kit.css">
+<style>
+  :root{--c1:#34d399}
+  .kicker{color:var(--c5)} .numbadge{background:var(--c5);font-size:56px} .key{border-left-color:var(--c5)} .tile .n{color:var(--c5)}
+  .room{position:absolute;overflow:hidden;border-radius:30px;border:8px solid #33416e;background:#0d1530}
+  .room .wall{position:absolute;inset:0 0 35% 0;background:linear-gradient(#3b4466,#2c3350)}
+  .room .wall2{position:absolute;inset:0 0 35% 0;background:linear-gradient(#e2d8c4,#cbbf9f)}
+  .room .floor{position:absolute;left:0;right:0;bottom:0;height:35%;background:linear-gradient(#5b4632,#3f2f20)}
+  .room .wnd{position:absolute;left:8%;top:10%;width:22%;height:32%;border:8px solid #94a3b8;background:linear-gradient(#7dd3fc,#bae6fd)}
+  .room .plant{position:absolute;right:7%;bottom:22%;font-size:110px}
+  .virt{position:absolute;filter:drop-shadow(0 0 18px rgba(52,211,153,.9))}
+  .vbox{position:absolute;border:3px dashed var(--c5);border-radius:12px}
+  .lab{position:absolute;padding:6px 14px;border-radius:10px;font:800 22px 'JetBrains Mono';letter-spacing:.06em}
+  .lab.v{background:var(--c5);color:#052e1f} .lab.r{background:#e2e8f0;color:#0f172a}
+  .dots{position:absolute;left:12%;right:12%;bottom:6%;height:24%;background-image:radial-gradient(rgba(52,211,153,.95) 3px,transparent 4px);background-size:34px 34px}
+  .road{position:absolute;left:0;right:0;height:180px;background:#334155}
+  .road:after{content:"";position:absolute;left:0;right:0;top:84px;height:12px;background:repeating-linear-gradient(90deg,#fde047 0 60px,transparent 60px 110px)}
+  .card{position:absolute;padding:16px 22px;border-radius:16px;background:rgba(15,23,42,.92);border:2px solid var(--c5)}
+  .wave{position:absolute;width:14px;border-radius:7px;background:var(--c5)}
+  .stage-ttl{position:absolute;left:0;right:0;text-align:center;font:800 64px Inter}
+</style>
+</head>
+<body>
+<div id="fv-stage">
+
+  <section class="fv-scene" data-scene="intro">
+    <div class="room" style="left:110px;top:150px;width:1000px;height:640px" data-in="@0.2">
+      <div class="wall"></div><div class="floor"></div><div class="wnd"></div><div class="plant">🪴</div>
+      <div class="virt" style="left:330px;top:300px;font-size:220px" data-in="0.45" data-pop>🛋️</div>
+      <div class="vbox" style="left:320px;top:310px;width:270px;height:230px" data-in="0.6"></div>
+      <div class="lab v" style="left:330px;top:265px" data-in="0.65">VIRTUAL</div>
+      <div class="lab r" style="left:820px;top:290px" data-in="0.7">REAL</div>
+    </div>
+    <div class="abs" style="left:1180px;top:200px;font:800 76px/1.1 Inter" data-in="1.0">Augmented<br><span style="color:var(--c5)">Reality</span></div>
+    <div class="abs" style="left:1180px;top:400px;font:700 40px Inter;color:var(--mut)" data-in="1.4">= real 🌍 + virtual ✨</div>
+    <div class="chip" style="position:absolute;left:1180px;top:520px" data-in="3.2">🔊 sound</div>
+    <div class="chip" style="position:absolute;left:1400px;top:520px" data-in="3.35">🎬 video</div>
+    <div class="chip" style="position:absolute;left:1180px;top:600px" data-in="3.5">✨ animation</div>
+    <div class="chip" style="position:absolute;left:1180px;top:680px" data-in="3.7">📦 extension of real objects</div>
+  </section>
+
+  <section class="fv-scene" data-scene="adv">
+    <div class="kicker" data-in="@0.1">Why AR?</div>
+    <div class="title" data-in="@0.2">Advantages of an augmented experience</div>
+    <div class="grid" style="grid-template-columns:repeat(2,1fr);top:260px">
+      <div class="tile" data-in="1.0" data-hl="1.0~1.95"><span class="n">01</span>🌍 Uses the user's <b style="color:var(--c3)">real context</b><div style="font:500 26px Inter;color:var(--mut);margin-top:8px">no need to build a whole world (unlike VR)</div></div>
+      <div class="tile" data-in="2.0" data-hl="2.0~2.95"><span class="n">02</span>🧠 <b style="color:var(--c3)">Reduced cognitive load</b><div style="font:500 26px Inter;color:var(--mut);margin-top:8px">info appears right where you need it</div></div>
+      <div class="tile" data-in="3.0" data-hl="3.0~3.95"><span class="n">03</span>🔀 <b style="color:var(--c3)">Multiple sources of info</b><div style="font:500 26px Inter;color:var(--mut);margin-top:8px">multimodality: 👁️ sight 🔊 sound 👆 touch</div></div>
+      <div class="tile" data-in="4.0" data-hl="4.0~4.95"><span class="n">04</span>🤩 Higher <b style="color:var(--c3)">engagement</b><div style="font:500 26px Inter;color:var(--mut);margin-top:8px">freedom for designers and users</div></div>
+    </div>
+  </section>
+
+  <section class="fv-scene" data-scene="elements">
+    <div class="kicker" data-in="@0.1">5 UX design elements</div>
+    <div class="title" data-in="@0.2">What to design in AR</div>
+    <div class="grid" style="grid-template-columns:repeat(5,1fr);top:300px">
+      <div class="tile" style="text-align:center" data-in="1.0" data-on="2.1"><div style="font-size:80px">🏞️</div><span class="L">E</span>nvironment</div>
+      <div class="tile" style="text-align:center" data-in="1.2" data-on="2.2"><div style="font-size:80px">🚶</div><span class="L">M</span>ovement</div>
+      <div class="tile" style="text-align:center" data-in="1.4" data-on="2.3"><div style="font-size:80px">🎓</div><span class="L">O</span>nboarding</div>
+      <div class="tile" style="text-align:center" data-in="1.6" data-on="2.4"><div style="font-size:80px">👆</div><span class="L">I</span>nteraction</div>
+      <div class="tile" style="text-align:center" data-in="1.8" data-on="2.5"><div style="font-size:80px">🖼️</div><span class="L">U</span>ser <span class="L" style="font-size:inherit;color:inherit">I</span>nterface</div>
+    </div>
+    <div class="mnemo" style="top:700px">
+      <span data-in="2.05"><span class="L">E</span>very</span> <span data-in="2.15"><span class="L">M</span>oving</span> <span data-in="2.25"><span class="L">O</span>bject</span> <span data-in="2.35"><span class="L">I</span>s</span> <span data-in="2.45"><span class="L">UI</span></span>
+    </div>
+  </section>
+
+  <section class="fv-scene" data-scene="env">
+    <div class="kicker" data-in="@0.1">Element 1 · E</div>
+    <div class="title" data-in="@0.2">Environment</div>
+    <div class="numbadge" data-in="@0.3" data-pop>🏞️</div>
+    <div class="col-l">
+      <div class="key" data-in="1.0">✨ Virtual elements — <b>designer controls</b></div>
+      <div class="key" data-in="2.0">🌍 User's real world — <b>not controlled</b>, varies</div>
+      <div class="key" data-in="3.0">UI changes as users <b>move place to place</b></div>
+      <div class="key" data-in="3.5"><b>Public</b> vs <b>private</b> → comfort</div>
+    </div>
+    <div class="mem" data-in="3.7">Two layers: the one you draw ✏️, the one you get 🌍.</div>
+    <div class="demo">
+      <div class="room" style="left:60px;top:40px;width:730px;height:420px;border-width:4px">
+        <div class="wall"></div><div class="wall2" data-in="2.4" data-out="3.0"></div><div class="floor"></div><div class="wnd"></div><div class="plant" style="font-size:80px">🪴</div>
+        <div class="virt" style="left:260px;top:180px;font-size:150px" data-hl="1.0~1.9">🛋️</div>
+        <div class="lab v" style="left:260px;top:150px" data-in="1.1">DESIGNER ✓</div>
+        <div class="lab r" style="left:560px;top:140px" data-in="2.1">NOT YOURS ✗</div>
+      </div>
+      <div class="chip" style="position:absolute;left:60px;top:500px" data-in="3.5">🏠 private: relaxed</div>
+      <div class="chip" style="position:absolute;left:400px;top:500px" data-in="3.7">🚉 public: self-conscious</div>
+    </div>
+  </section>
+
+  <section class="fv-scene" data-scene="move">
+    <div class="kicker" data-in="@0.1">Element 2 · M</div>
+    <div class="title" data-in="@0.2">Movement</div>
+    <div class="numbadge" data-in="@0.3" data-pop>🚶</div>
+    <div class="col-l">
+      <div class="key" data-in="1.0">Users are <b>on the move</b>: walk, bus, run</div>
+      <div class="key" data-in="2.0">Real ↔ virtual <b>blurred</b> → simultaneous interaction</div>
+      <div class="key" data-in="3.0">Design for <b>real movement</b> &amp; <b>transitions</b></div>
+    </div>
+    <div class="mem" data-in="3.4">AR doesn't sit on a desk. It walks with you. 🚶‍♀️</div>
+    <div class="demo">
+      <div class="road" style="top:330px"></div>
+      <div style="position:absolute;left:40px;top:220px;font-size:100px" data-in="1.0" data-move="1.0~3.6:560,0">🚶</div>
+      <div style="position:absolute;left:600px;top:360px;font-size:110px" data-in="1.3" data-move="1.3~3.6:-560,0">🚌</div>
+      <div style="position:absolute;left:60px;top:520px;font-size:80px" data-in="1.6" data-move="1.6~2.8:620,0">🏃</div>
+      <div style="position:absolute;left:330px;top:60px;font-size:90px" data-in="2.0" data-hl="2.0~3.0">⭐</div>
+      <div class="lab v" style="left:290px;top:170px" data-in="2.1">virtual coin</div>
+    </div>
+  </section>
+
+  <section class="fv-scene" data-scene="onboard">
+    <div class="kicker" data-in="@0.1">Element 3 · O</div>
+    <div class="title" data-in="@0.2">Onboarding</div>
+    <div class="numbadge" data-in="@0.3" data-pop>🎓</div>
+    <div class="col-l">
+      <div class="key" data-in="1.0">Treat users as <b>learners</b> — guide them</div>
+      <div class="key" data-in="2.0">Crucial for <b>first-time</b> users</div>
+      <div class="key" data-in="2.5">Extra important in AR: <b>unfamiliar</b> world</div>
+    </div>
+    <div class="mem" data-in="3.0">Scan → detect → tap → place. Teach it once. 🎓</div>
+    <div class="demo">
+      <div class="room" style="left:60px;top:40px;width:730px;height:560px;border-width:4px">
+        <div class="wall"></div><div class="floor"></div><div class="wnd"></div><div class="plant" style="font-size:80px">🪴</div>
+        <div class="dots" data-in="3.3"></div>
+        <div class="virt" style="left:250px;top:300px;font-size:160px" data-in="3.85" data-pop>🛋️</div>
+        <div style="position:absolute;left:310px;top:330px;font-size:90px" data-in="3.0" data-move="3.0~3.2:-120,0;3.2~3.4:200,0;3.4~3.5:0,0" data-out="3.55">📱</div>
+        <div class="card" style="left:120px;top:30px;font:700 28px Inter" data-in="3.0" data-out="3.5">📱 Move your phone slowly to scan the floor</div>
+        <div class="card" style="left:180px;top:30px;font:700 28px Inter" data-in="3.55" data-out="3.9">👆 Tap to place the sofa</div>
+        <div style="position:absolute;left:330px;top:400px;font-size:80px" data-in="3.6" data-click="3.8" data-out="3.95">👆</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="fv-scene" data-scene="interact">
+    <div class="kicker" data-in="@0.1">Element 4 · I</div>
+    <div class="title" data-in="@0.2">Interaction</div>
+    <div class="numbadge" data-in="@0.3" data-pop>👆</div>
+    <div class="col-l">
+      <div class="key" data-in="1.0">Reveals <b>affordances</b> &amp; features</div>
+      <div class="key" data-in="2.0"><b>Micro</b> (one gesture) + <b>macro</b> (whole flow)</div>
+      <div class="key" data-in="3.0"><b>Minimize physical input</b></div>
+    </div>
+    <div class="mem" data-in="3.6">Holding a phone up = heavy arms. Keep it short. 💪</div>
+    <div class="demo">
+      <div class="tag" style="left:40px;top:40px;color:var(--c5)" data-in="2.0">MICRO: pinch</div>
+      <div class="virt" style="left:60px;top:100px;font-size:130px" data-in="2.0" data-hl="2.1~2.4"><span style="display:inline-block" data-in="2.0">🛋️</span></div>
+      <div style="position:absolute;left:250px;top:130px;font-size:90px" data-in="2.1">🤏</div>
+      <div class="tag" style="left:440px;top:40px;color:var(--c3)" data-in="2.45">MACRO: whole flow</div>
+      <div class="chip" style="position:absolute;left:420px;top:100px" data-in="2.5">Scan</div>
+      <div class="chip" style="position:absolute;left:540px;top:100px" data-in="2.6">Place</div>
+      <div class="chip" style="position:absolute;left:670px;top:100px" data-in="2.7">Resize</div>
+      <div class="chip" style="position:absolute;left:540px;top:180px;background:var(--good);color:#06240f" data-in="2.8">Buy ✓</div>
+      <div class="tag" style="left:40px;top:340px;color:var(--bad)" data-in="3.4">💪 arm fatigue</div>
+      <div class="track" style="left:40px;top:390px;width:760px;height:40px" data-in="3.4"><div class="fill" style="background:linear-gradient(90deg,var(--c3),var(--bad))" data-grow="3.4~3.9"></div></div>
+      <div class="tag" style="left:40px;top:470px;color:var(--good)" data-in="3.95">✓ fewer taps, shorter holds</div>
+    </div>
+  </section>
+
+  <section class="fv-scene" data-scene="ui">
+    <div class="kicker" data-in="@0.1">Element 5 · UI</div>
+    <div class="title" data-in="@0.2">User interface</div>
+    <div class="numbadge" data-in="@0.3" data-pop>🖼️</div>
+    <div class="col-l">
+      <div class="key" data-in="1.0">Visual <b>hierarchy</b>, <b>typography</b>, <b>aesthetics</b></div>
+      <div class="key" data-in="2.0">Interface is <b>dynamic</b> — background = real world</div>
+      <div class="key" data-in="3.0">Blend virtual into real · design <b>holistically</b></div>
+    </div>
+    <div class="mem" data-in="3.5">Your canvas is someone's room — and it keeps changing. 🎨</div>
+    <div class="demo">
+      <div class="room" style="left:60px;top:40px;width:730px;height:560px;border-width:4px">
+        <div class="wall"></div><div class="wall2" data-in="2.3" data-out="2.7"></div><div class="wall2" data-in="2.9"></div><div class="floor"></div><div class="wnd"></div><div class="plant" style="font-size:80px">🪴</div>
+        <div class="virt" style="left:230px;top:290px;font-size:160px">🛋️</div>
+        <div class="card" style="left:420px;top:150px;width:260px" data-in="1.0">
+          <div style="font:800 34px Inter" data-in="1.2">Sofa</div>
+          <div style="font:600 24px Inter;color:var(--mut)" data-in="1.4">Velvet · 3-seater</div>
+          <div style="font:800 30px Inter;color:var(--c3);margin:6px 0" data-in="1.5">₹24,999</div>
+          <div class="btn g" style="font-size:24px;padding:8px 20px" data-in="1.6">Buy</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="fv-scene" data-scene="guides">
+    <div class="kicker" data-in="@0.1">10 guidelines</div>
+    <div class="title" data-in="@0.2">AR UX design guidelines</div>
+    <div class="grid" style="grid-template-columns:repeat(5,1fr);top:250px">
+      <div class="tile" data-in="1.0" data-on="3.3"><span class="n">01 👥</span><span class="L">C</span>onsider user contexts</div>
+      <div class="tile" data-in="1.2" data-on="3.36"><span class="n">02 🗺️</span><span class="L">H</span>olistic experience</div>
+      <div class="tile" data-in="1.4" data-on="3.42"><span class="n">03 ⚠️</span><span class="L">S</span>afety first</div>
+      <div class="tile" data-in="1.6" data-on="3.5"><span class="n">04 📱</span><span class="L">D</span>evice optimized</div>
+      <div class="tile" data-in="1.8" data-on="3.58"><span class="n">05 🌬️</span>Clear <span class="L">S</span>pace</div>
+      <div class="tile" data-in="2.0" data-on="3.66"><span class="n">06 🔝</span>Visual <span class="L">H</span>ierarchy</div>
+      <div class="tile" data-in="2.25" data-on="3.74"><span class="n">07 ❓</span><span class="L">I</span>nstructions &amp; help</div>
+      <div class="tile" data-in="2.5" data-on="3.82"><span class="n">08 🤚</span><span class="L">D</span>irect interaction</div>
+      <div class="tile" data-in="2.7" data-on="3.9"><span class="n">09 🔊</span><span class="L">A</span>udio</div>
+      <div class="tile" data-in="2.85" data-on="3.96"><span class="n">10 📖</span><span class="L">L</span>earn from existing</div>
+    </div>
+    <div class="mnemo" style="top:700px;font-size:50px">
+      <span data-in="3.3">🐱 <span class="L">C</span>ats <span class="L">H</span>ate <span class="L">S</span>howers,</span>
+      <span data-in="3.58">🐶 <span class="L">D</span>ogs <span class="L">S</span>hake <span class="L">H</span>ard</span><br>
+      <span data-in="3.75"><span class="L">I</span>n <span class="L">D</span>irty <span class="L">A</span>lley <span class="L">L</span>akes 💦</span>
+    </div>
+  </section>
+
+  <section class="fv-scene" data-scene="g1">
+    <div class="kicker" data-in="@0.1">Guidelines 1 · 2</div>
+    <div class="title" data-in="@0.2">User contexts · Holistic experience</div>
+    <div class="numbadge" data-in="@0.3" data-pop>👥</div>
+    <div class="col-l">
+      <div class="key" data-in="0.3"><b>1. Contexts</b>: needs change with where/how</div>
+      <div class="key" data-in="1.1">Use <b>personas</b> &amp; <b>use cases</b></div>
+      <div class="key" data-in="2.0"><b>2. Holistic</b>: whole journey &gt; one interaction</div>
+      <div class="key" data-in="3.2">Before · during · after — fix <b>breakpoints</b></div>
+    </div>
+    <div class="mem" data-in="3.7">Design the whole trip, not just one stop. 🗺️</div>
+    <div class="demo">
+      <div class="chip" style="position:absolute;left:40px;top:40px" data-in="1.1">👩‍🎓 student · tiny hostel room</div>
+      <div class="chip" style="position:absolute;left:40px;top:120px" data-in="1.3">👨‍👩‍👧 family · big living room</div>
+      <div class="chip" style="position:absolute;left:40px;top:200px" data-in="1.5">🧑‍💼 office · in a meeting</div>
+      <div class="track" style="left:60px;top:420px;width:730px;height:12px" data-in="3.0"><div class="fill" data-grow="3.0~3.6"></div></div>
+      <div class="tag" style="left:40px;top:350px;color:var(--c1)" data-in="3.1">BEFORE</div>
+      <div class="tag" style="left:350px;top:350px;color:var(--c1)" data-in="3.3">DURING</div>
+      <div class="tag" style="left:680px;top:350px;color:var(--c1)" data-in="3.5">AFTER</div>
+      <div class="tag" style="left:40px;top:460px;color:var(--mut);font-size:20px" data-in="3.1">find &amp; install app</div>
+      <div class="tag" style="left:330px;top:460px;color:var(--mut);font-size:20px" data-in="3.3">place the sofa</div>
+      <div class="tag" style="left:620px;top:460px;color:var(--mut);font-size:20px" data-in="3.5">buy · delivery</div>
+      <div class="bad" style="left:460px;top:500px" data-in="3.6" data-pop data-out="3.85">⚠</div>
+      <div class="good" style="left:460px;top:500px" data-in="3.9" data-pop>✓</div>
+    </div>
+  </section>
+
+  <section class="fv-scene" data-scene="g2">
+    <div class="kicker" data-in="@0.1">Guidelines 3 · 4</div>
+    <div class="title" data-in="@0.2">Safety · Devices</div>
+    <div class="numbadge" data-in="@0.3" data-pop>⚠️</div>
+    <div class="col-l">
+      <div class="key" data-in="0.3"><b>3. Safety</b>: think about real risks</div>
+      <div class="key" data-in="2.0">Reduce risk · <b>warnings</b> &amp; safety features</div>
+      <div class="key" data-in="3.0"><b>4. Devices</b>: not all give the same AR</div>
+      <div class="key" data-in="4.0">Be <b>transparent</b>: preferred &amp; compatible</div>
+    </div>
+    <div class="mem" data-in="2.4">Eyes on the game, feet on the road? ⚠️ Warn them.</div>
+    <div class="demo">
+      <div class="road" style="top:120px;height:150px" data-in="1.0"></div>
+      <div style="position:absolute;left:340px;top:20px;font-size:90px" data-in="1.0">🚶</div>
+      <div style="position:absolute;left:820px;top:130px;font-size:100px" data-in="1.2" data-move="1.2~2.4:-300,0">🚗</div>
+      <div class="toast err" style="left:80px;top:290px;width:640px" data-in="2.0" data-pop>⚠️ Look up! Road ahead — game paused</div>
+      <div style="position:absolute;left:60px;top:400px;font-size:56px" data-in="3.1">📱</div>
+      <div class="tag" style="left:140px;top:418px;color:var(--good);font-size:22px" data-in="3.2">new phone · full AR ✓</div>
+      <div style="position:absolute;left:60px;top:465px;font-size:56px;opacity:.6" data-in="3.4">📱</div>
+      <div class="tag" style="left:140px;top:483px;color:var(--c3);font-size:22px" data-in="3.5">old phone · limited ⚠</div>
+      <div class="chip" style="position:absolute;left:60px;top:555px;background:#0c2a45;color:#bae6fd" data-in="4.1">ℹ️ Best on devices with depth sensors</div>
+    </div>
+  </section>
+
+  <section class="fv-scene" data-scene="g3">
+    <div class="kicker" data-in="@0.1">Guidelines 5 · 6</div>
+    <div class="title" data-in="@0.2">Clear space · Visual hierarchy</div>
+    <div class="numbadge" data-in="@0.3" data-pop>🧘</div>
+    <div class="col-l">
+      <div class="key" data-in="0.3"><b>5. Clear space</b>: give breathing room</div>
+      <div class="key" data-in="1.5"><b>Minimalism</b> keeps it clear</div>
+      <div class="key" data-in="2.0"><b>6. Hierarchy</b>: even in changing contexts</div>
+      <div class="key" data-in="3.0">Consistency + personas → <b>most important first</b></div>
+    </div>
+    <div class="mem" data-in="3.6">Don't crowd someone's room. Let the main thing shout. 📣</div>
+    <div class="demo">
+      <div class="room" style="left:60px;top:40px;width:730px;height:560px;border-width:4px">
+        <div class="wall"></div><div class="floor"></div><div class="wnd"></div><div class="plant" style="font-size:80px">🪴</div>
+        <div class="virt" style="left:230px;top:290px;font-size:160px">🛋️</div>
+        <div class="card" style="left:20px;top:20px;font:700 22px Inter" data-in="1.0" data-move="1.5~2.0:-400,0">⭐ 4.5 (2k reviews)</div>
+        <div class="card" style="left:420px;top:30px;font:700 22px Inter" data-in="1.05" data-move="1.5~2.0:400,0">🚚 Free delivery</div>
+        <div class="card" style="left:30px;top:150px;font:700 22px Inter" data-in="1.1" data-move="1.55~2.05:-400,0">🎨 12 colours</div>
+        <div class="card" style="left:470px;top:170px;font:700 22px Inter" data-in="1.15" data-move="1.55~2.05:400,0">📏 220 × 90 cm</div>
+        <div class="card" style="left:20px;top:460px;font:700 22px Inter" data-in="1.2" data-move="1.6~2.1:-400,0">💬 Chat with us</div>
+        <div class="card" style="left:480px;top:460px;font:700 22px Inter" data-in="1.25" data-move="1.6~2.1:400,0">🔁 Compare</div>
+        <div class="btn g" style="position:absolute;left:250px;top:180px;font-size:34px" data-in="2.5" data-pop data-hl="3.0~4.0">Buy · ₹24,999</div>
+        <div class="tag" style="left:260px;top:260px;font-size:20px;color:#e2e8f0" data-in="2.7">details ›</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="fv-scene" data-scene="g4">
+    <div class="kicker" data-in="@0.1">Guidelines 7 · 8</div>
+    <div class="title" data-in="@0.2">Instructions &amp; help · Direct interaction</div>
+    <div class="numbadge" data-in="@0.3" data-pop>🤚</div>
+    <div class="col-l">
+      <div class="key" data-in="0.3"><b>7. Instructions</b>: onboarding, requirements, modes</div>
+      <div class="key" data-in="1.0"><b>Concise</b>, on demand — don't nag</div>
+      <div class="key" data-in="2.0"><b>8. Direct interaction</b>: touch &amp; gestures</div>
+      <div class="key" data-in="3.0">Immersive · intuitive · less <b>strain</b></div>
+    </div>
+    <div class="mem" data-in="3.6">Grab it and turn it — like a real object. 🔄</div>
+    <div class="demo">
+      <div class="card" style="left:60px;top:40px;font:700 26px Inter" data-in="0.4" data-out="1.3">📱 Needs camera + flat floor · 👆 tap · 🤏 pinch · 🔄 rotate</div>
+      <div class="btn" style="position:absolute;right:40px;top:40px;width:64px;height:64px;padding:0;border-radius:50%;background:var(--c5);color:#052e1f" data-in="1.3" data-hl="1.4~2.0">?</div>
+      <div class="tag" style="left:500px;top:120px;color:var(--mut);font-size:20px" data-in="1.4">help is one tap away →</div>
+      <div class="virt" style="left:260px;top:220px;font-size:220px" data-in="2.0" data-rot="2.3~3.3:360"><span>🛋️</span></div>
+      <div style="position:absolute;left:520px;top:330px;font-size:100px" data-in="2.2" data-move="2.3~2.8:0,-60;2.8~3.3:0,0">👆</div>
+      <div class="tag" style="left:200px;top:540px;color:var(--c5)" data-in="2.4">↻ drag to rotate in 3D</div>
+    </div>
+  </section>
+
+  <section class="fv-scene" data-scene="g5">
+    <div class="kicker" data-in="@0.1">Guidelines 9 · 10</div>
+    <div class="title" data-in="@0.2">Audio · Learn from existing designs</div>
+    <div class="numbadge" data-in="@0.3" data-pop>🔊</div>
+    <div class="col-l">
+      <div class="key" data-in="0.3"><b>9. Audio</b>: sound effects → immersion</div>
+      <div class="key" data-in="1.4">Audio cues: <b>feedback</b>, guidance, ambiance</div>
+      <div class="key" data-in="2.0"><b>Accessibility</b>: volume + subtitles</div>
+      <div class="key" data-in="3.0"><b>10. Learn</b> from others → adapt, iterate</div>
+    </div>
+    <div class="mem" data-in="3.6">Ears make it real. Others' apps make you better. 👂📖</div>
+    <div class="demo">
+      <div style="position:absolute;left:60px;top:60px;font-size:110px" data-in="0.4">🔊</div>
+      <div id="waves" class="abs" style="left:220px;top:60px;width:560px;height:130px" data-in="0.5"></div>
+      <div class="chip" style="position:absolute;left:60px;top:230px" data-in="1.3">✅ "ding" = placed</div>
+      <div class="chip" style="position:absolute;left:380px;top:230px" data-in="1.5">🌧️ ambiance</div>
+      <div class="chip" style="position:absolute;left:60px;top:310px" data-in="2.1">🔉 volume</div>
+      <div class="chip" style="position:absolute;left:280px;top:310px;font-family:'JetBrains Mono'" data-in="2.3">[CC] *soft thud*</div>
+      <div class="chip" style="position:absolute;left:60px;top:440px" data-in="3.2">🪑 furniture AR</div>
+      <div class="chip" style="position:absolute;left:330px;top:440px" data-in="3.35">🎮 AR games</div>
+      <div class="chip" style="position:absolute;left:560px;top:440px" data-in="3.5">🧭 AR maps</div>
+      <div class="tag" style="left:60px;top:530px;color:var(--c3)" data-in="3.7">study → adapt → iterate → add your touch ✨</div>
+    </div>
+  </section>
+
+  <section class="fv-scene" data-scene="recap">
+    <div class="kicker" data-in="@0.1">Recap</div>
+    <div class="title" data-in="@0.2">UI for Augmented Reality</div>
+    <div class="abs" style="left:110px;top:250px;font:600 34px Inter;color:var(--mut)" data-in="0.2">AR = real 🌍 + virtual ✨ · uses context · less cognitive load · multimodal</div>
+    <div class="tile" style="position:absolute;left:110px;top:340px;width:1640px;font-size:40px" data-in="1.0" data-hl="1.0~1.9"><span class="n">5 ELEMENTS</span>🏞️🚶🎓👆🖼️ &nbsp;<span class="L">E</span>very <span class="L">M</span>oving <span class="L">O</span>bject <span class="L">I</span>s <span class="L">UI</span></div>
+    <div class="tile" style="position:absolute;left:110px;top:530px;width:1640px;font-size:40px" data-in="2.0" data-hl="2.0~2.9"><span class="n">10 GUIDELINES</span>🐱 <span class="L">C</span>ats <span class="L">H</span>ate <span class="L">S</span>howers, 🐶 <span class="L">D</span>ogs <span class="L">S</span>hake <span class="L">H</span>ard <span class="L">I</span>n <span class="L">D</span>irty <span class="L">A</span>lley <span class="L">L</span>akes</div>
+    <div class="endcard fv-endcard" data-in="3.2"></div>
+  </section>
+</div>
+<script src="timing.js"></script>
+<script src="fv-runtime.js"></script>
+<script src="../hci-kit/kit.js"></script>
+<script>
+// sound-wave bars: pure function of t
+const W = document.getElementById('waves');
+for (let i = 0; i < 18; i++) { const b = document.createElement('div'); b.className = 'wave'; b.style.left = (i * 30) + 'px'; W.appendChild(b); }
+K.scene('g5', (t) => {
+  W.querySelectorAll('.wave').forEach((b, i) => {
+    const h = 20 + 90 * Math.abs(Math.sin(t * 5 + i * 0.7)) * Math.abs(Math.sin(t * 1.3 + i * 0.3));
+    b.style.height = h + 'px'; b.style.top = (65 - h / 2) + 'px';
+  });
+});
+K.init();
+</script>
+</body>
+</html>

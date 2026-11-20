@@ -1,0 +1,87 @@
+{
+  "title": "Norman's 7 Principles for Making Hard Things Easy — Visual Exam Revision",
+  "slug": "hci-03-norman",
+  "description": "Don Norman's seven principles of user-centered design, animated: knowledge in the world and in the head, simplify task structure, make things visible, get the mappings right, exploit constraints, design for error, and standardize.",
+  "tags": ["hci", "don norman", "user centered design", "ux", "exam revision"],
+  "voice": "am_michael",
+  "speed": 1.0,
+  "fps": 30,
+  "captions": true,
+  "endCard": "📘 more to learn → github.com/HemashreeVI",
+  "thumbnail": "overview@14",
+  "pronounce": { "UI": "U I", "CRN": "C R N" },
+  "scenes": [
+    { "id": "intro", "title": "Intro", "pad": [0.6, 0.8], "lines": [
+      "Ever pushed a door that said pull? That is not your fault. It is the designer's.",
+      "Don Norman's idea of user-centered design gives seven principles for making hard things easy.",
+      "Let's see each one, with a picture you can remember."
+    ]},
+    { "id": "overview", "title": "The 7 at a glance + mnemonic", "lines": [
+      "Here are the seven.",
+      "One, use knowledge in the world and in the head. Two, simplify task structure. Three, make things visible.",
+      "Four, get the mappings right. Five, exploit the power of constraints. Six, design for error. And seven, when all else fails, standardize.",
+      "First letters: K, S, V, M, C, E, S.",
+      "Kind Students Visit My College Every Saturday."
+    ]},
+    { "id": "p1", "title": "1. Knowledge in the world and in the head", "lines": [
+      "Principle one. Use knowledge in the world, and knowledge in the head.",
+      "Knowledge in the world is on the screen: labels, menus, hints. New users do better when everything they need is in the interface.",
+      "Knowledge in the head is what you have memorized, like shortcuts. Experienced users are faster with it.",
+      "All users do better when the system's implementation model matches their mental model.",
+      "And avoid depending on user manuals. A manual is a very inconvenient part of the world."
+    ]},
+    { "id": "p2", "title": "2. Simplify task structure", "lines": [
+      "Principle two. Simplify the task structure.",
+      "Consider the user's psychology: short term memory, long term memory, and concentration.",
+      "New technology should make tasks simpler, not harder.",
+      "Four ways. Keep the same task but add mental aids. Increase visibility. Automate the simple steps.",
+      "Or change the nature of the task entirely. Seven steps of booking become one tap."
+    ]},
+    { "id": "p3", "title": "3. Make things visible", "lines": [
+      "Principle three. Make things visible.",
+      "Users should quickly see what they can do, how they can do it, and what will happen.",
+      "Possible actions should serve the user's goal. Norman calls this revenue, not excise. Real work, not overhead.",
+      "And system state should always be obvious.",
+      "Example: a course registration site should always show the current semester and the C R N you are working on."
+    ]},
+    { "id": "p4", "title": "4. Get the mappings right", "lines": [
+      "Principle four. Get the mappings right.",
+      "Look at this stove. Four burners, four knobs in a row. Which knob controls which burner? You have to guess.",
+      "Now arrange the knobs in the same layout as the burners. The mapping is obvious.",
+      "Map intentions to actions, actions to effects, and system state to what is visible, and to what users need.",
+      "Graphics and icons are easier to understand. But designing good graphics is hard, and not a common skill among programmers."
+    ]},
+    { "id": "p5", "title": "5. Exploit the power of constraints", "lines": [
+      "Principle five. Exploit the power of constraints.",
+      "Constraints stop users from entering wrong data in the first place.",
+      "Old stereo systems had dozens of wires, all alike. Modern ones use different connectors, so each plug only fits its own socket.",
+      "In software: date pickers on travel sites, radio buttons and dropdown lists, and ignoring dashes in phone and card numbers.",
+      "Think of it as strong typing for user interfaces."
+    ]},
+    { "id": "p6", "title": "6. Design for error", "lines": [
+      "Principle six. Design for error.",
+      "Users are not perfect. They will enter invalid data. So design for invalid inputs.",
+      "Use constraints to avoid them. Correct them automatically when you can.",
+      "Make it simple to fix mistakes, and allow users to postpone corrections instead of blocking them.",
+      "And always, make it easy to undo."
+    ]},
+    { "id": "p7", "title": "7. When all else fails, standardize", "lines": [
+      "Principle seven. When all else fails, standardize.",
+      "Think of car pedals. Accelerator on the right, brake to its left. In every car you rent.",
+      "Standard controls are all the same, so they only have to be learned once.",
+      "But it is a last resort, because it forces knowledge into the head.",
+      "And standardize early, or it will be too late."
+    ]},
+    { "id": "house", "title": "Bonus: House of knowledge", "lines": [
+      "One bonus idea. Norman's book came out just before the web was proposed.",
+      "Berners-Lee built the web to make all information available to all users, all the time. Copying a file costs almost nothing, unlike writing a book.",
+      "So what was the biggest problem Norman expected? Finding what we want."
+    ]},
+    { "id": "recap", "title": "Recap", "pad": [0.5, 2.0], "lines": [
+      "Recap. Kind Students Visit My College Every Saturday.",
+      "Knowledge in world and head. Simplify tasks. Make things visible. Get the mappings right.",
+      "Exploit constraints. Design for error. And when all else fails, standardize.",
+      "Door, booking, stove, plugs, pedals. Remember the pictures, and you remember the principles."
+    ]}
+  ]
+}

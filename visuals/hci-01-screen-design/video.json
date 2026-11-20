@@ -1,0 +1,114 @@
+{
+  "title": "Screen Design & Layout (HCI) — Visual Exam Revision",
+  "slug": "hci-01-screen-design",
+  "description": "Screen design and layout from HCI, animated: basic principles, the five layout tools (grouping, order, decoration, alignment, white space), physical controls, entering information, knowing what to do, presenting information, aesthetics, colour and 3D, localisation, and prototyping.",
+  "tags": ["hci", "screen design", "layout", "alan dix", "exam revision"],
+  "voice": "am_michael",
+  "speed": 1.0,
+  "fps": 30,
+  "captions": true,
+  "endCard": "📘 more to learn → github.com/HemashreeVI",
+  "thumbnail": "tools@9",
+  "pronounce": { "UI": "U I", "3D": "three D" },
+  "scenes": [
+    { "id": "intro", "title": "Basic principles", "pad": [0.6, 0.6], "lines": [
+      "Why do some screens feel effortless, and others feel like a puzzle?",
+      "Screen design starts with three steps. Ask: what is the user doing?",
+      "Think: what information do they need, what comparisons, in what order?",
+      "Then design. Form follows function."
+    ]},
+    { "id": "tools", "title": "The 5 layout tools + mnemonic", "lines": [
+      "You have five tools to lay out a screen.",
+      "Grouping of items. Order of items. Decoration, like fonts and boxes. Alignment of items. And white space between them.",
+      "Remember: Good Order Deserves A Wow. Grouping, Order, Decoration, Alignment, White space."
+    ]},
+    { "id": "grouping", "title": "Grouping and structure", "lines": [
+      "Tool one. Grouping and structure.",
+      "The rule is simple: things that are logically together should be physically together.",
+      "Here, the order form fields are scattered. Group them into customer details, address, and payment, and the structure becomes obvious."
+    ]},
+    { "id": "order", "title": "Order of groups and items", "lines": [
+      "Tool two. Order. Think: what is the natural order?",
+      "The screen order should match it. Use boxes and space to show it, and set the keyboard tab order right.",
+      "For instructions, beware the cake recipe syndrome.",
+      "Mix milk and flour, add the fruit, after beating them. By the time you read after beating them, it is too late!",
+      "Write steps in the order they are done."
+    ]},
+    { "id": "decoration", "title": "Decoration", "lines": [
+      "Tool three. Decoration.",
+      "Use boxes to group logical items. Use fonts for emphasis and headings.",
+      "But not too many! Five fonts and four colours just create noise."
+    ]},
+    { "id": "aligntext", "title": "Alignment: text and names", "lines": [
+      "Tool four. Alignment. In English, we read from left to right, so align text on the left-hand side.",
+      "Centered lists look fancy, and are fine for special effects, but they are hard to scan. Left aligned is boring, but readable.",
+      "For names, people usually scan for surnames. So make it easy: align the surnames, or put the surname first."
+    ]},
+    { "id": "alignnum", "title": "Alignment: numbers", "lines": [
+      "Numbers. Think about the purpose. Which of these is biggest?",
+      "Left aligned, you have to read every digit.",
+      "Visually, a long number should mean a big number. So align the decimal points, or right align integers.",
+      "Now the biggest number jumps out instantly."
+    ]},
+    { "id": "columns", "title": "Multiple columns", "lines": [
+      "Multiple columns. Scanning across a big gap is hard, and often hard to avoid with database fields.",
+      "Fix one: use leaders, a row of dots that carries your eye across.",
+      "Fix two: grey alternate rows, so each row stays together.",
+      "Fix three, with care: deliberately bad alignment. Right align the labels, so they sit next to their numbers."
+    ]},
+    { "id": "whitespace", "title": "White space", "lines": [
+      "Tool five. White space. Look at the letters. The empty space inside them is called the counter.",
+      "What you see is shaped as much by the space as by the ink.",
+      "White space has three jobs. Space to separate. Space to structure. And space to highlight."
+    ]},
+    { "id": "physical", "title": "Physical controls: the microwave", "lines": [
+      "These five tools work on physical controls too. Take a microwave.",
+      "Grouping: defrost settings, type of food, and time to cook each get their own group.",
+      "Order: type of heating, then temperature, then time to cook, then start. The order you actually use it.",
+      "Decoration: different colours for different functions, and lines around related buttons.",
+      "Alignment: is centered text in buttons easy to scan? And white space: gaps between groups aid grouping."
+    ]},
+    { "id": "entering", "title": "Entering information", "lines": [
+      "Next, user action and control. First, entering information, in forms and dialogue boxes.",
+      "The same layout issues apply. Watch alignment, because labels have different lengths.",
+      "Use task analysis for a logical layout and groupings.",
+      "Follow the natural order for entering information: top to bottom, left to right, depending on culture. And set the tab order for keyboard entry."
+    ]},
+    { "id": "knowing", "title": "Knowing what to do", "lines": [
+      "Second, knowing what to do. What is active, and what is passive? Where do you click? Where do you type?",
+      "A consistent style helps. For example, underlined links on the web.",
+      "Use clear labels and icons, and standards for common actions.",
+      "Be careful with language. Does bold mean the current state, or the action you can take?",
+      "And use affordances: things should look like what they do."
+    ]},
+    { "id": "presenting", "title": "Presenting information", "lines": [
+      "Now, appropriate appearance. Presenting information. Purpose matters.",
+      "Choose the sort order: which column, numeric or alphabetic. Choose text or a diagram, a scatter graph or a histogram.",
+      "Use paper presentation principles, but add interactivity. Letting users re-order columns softens design choices."
+    ]},
+    { "id": "aesthetics", "title": "Aesthetics, colour and 3D", "lines": [
+      "Aesthetics and utility. Aesthetically pleasing designs increase user satisfaction and improve productivity.",
+      "But beauty and utility may conflict. A pretty background behind text is good to look at, but hard to read.",
+      "Colour and three D are both often used very badly. Use colour sparingly, to reinforce other information. And beware colour blindness.",
+      "Test: turn your monitor to greys only. Can you still read your screen?",
+      "Three D is good for physical information, but text in perspective and three D pie charts? No."
+    ]},
+    { "id": "culture", "title": "Localisation and internationalisation", "lines": [
+      "Across countries and cultures: localisation and internationalisation, changing interfaces for particular cultures and languages.",
+      "Globalisation means choosing symbols that work everywhere.",
+      "Simply changing the language? Use a resource database instead of literal text. But translations change sizes, and even left-right order.",
+      "There are deeper issues too: cultural values, and the meaning of symbols. A tick and a cross mean yes and no in some cultures, but both just mean mark this in others."
+    ]},
+    { "id": "proto", "title": "Iteration and prototyping", "lines": [
+      "Finally, prototyping. You never get it right first time. If at first you don't succeed, iterate.",
+      "But beware. Moving little by little, where are you heading? The Malvern hills, or the Matterhorn?",
+      "Small improvements can trap you on a small hill. So you need a good start point, and you need to understand what is wrong."
+    ]},
+    { "id": "recap", "title": "Recap", "pad": [0.5, 2.0], "lines": [
+      "Recap. Ask, think, design. Form follows function.",
+      "Five tools: Good Order Deserves A Wow. Grouping, order, decoration, alignment, white space.",
+      "Then user action: entering info, knowing what to do, and affordances.",
+      "Appearance: presenting info, aesthetics, colour and three D, and culture. And always, iterate with prototypes."
+    ]}
+  ]
+}

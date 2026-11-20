@@ -1,0 +1,106 @@
+{
+  "title": "UI & UX Design for Augmented Reality — Visual Exam Revision",
+  "slug": "hci-04-ar",
+  "description": "UX design for augmented reality, animated: what AR is, its advantages, the five UX design elements (environment, movement, onboarding, interaction, user interface) and the ten AR UX design guidelines.",
+  "tags": ["hci", "augmented reality", "ar ux", "ui design", "exam revision"],
+  "voice": "am_michael",
+  "speed": 1.0,
+  "fps": 30,
+  "captions": true,
+  "endCard": "📘 more to learn → github.com/HemashreeVI",
+  "thumbnail": "elements@12",
+  "pronounce": { "AR": "A R", "VR": "V R", "UI": "U I", "UX": "U X", "3D": "three D" },
+  "scenes": [
+    { "id": "intro", "title": "What is AR?", "pad": [0.6, 0.8], "lines": [
+      "Point your phone at your living room, and a sofa that doesn't exist appears next to your real plant.",
+      "That is augmented reality. An experience that mixes the real and the virtual.",
+      "Designers use real-world elements and context to create an immersive experience.",
+      "AR elements can be sound, video, animation, or an extension of real-world objects."
+    ]},
+    { "id": "adv", "title": "Advantages of AR", "lines": [
+      "Why do designers love AR? Four advantages.",
+      "One. It benefits from the user's context. The real world is already there, so unlike virtual reality, you don't build an environment from scratch.",
+      "Two. Reduced cognitive load. The information sits right where you need it.",
+      "Three. Multiple sources of information, so you can use multimodality: sight, sound, touch.",
+      "And four. Higher user engagement."
+    ]},
+    { "id": "elements", "title": "5 UX design elements + mnemonic", "lines": [
+      "There are five UX design elements for AR.",
+      "Environment. Movement. Onboarding. Interaction. And user interface.",
+      "Remember them as: Every Moving Object Is UI. Because in AR, it really is."
+    ]},
+    { "id": "env", "title": "Element 1: Environment", "lines": [
+      "Element one. The environment, which is seen from two perspectives.",
+      "First, the virtual elements embedded in the real world. The designer controls these.",
+      "Second, the user's real environment. The designer does not control it, and it changes from context to context.",
+      "As users move between places, the UI must adapt. And think about public versus private spaces, because comfort decides satisfaction."
+    ]},
+    { "id": "move", "title": "Element 2: Movement", "lines": [
+      "Element two. Movement.",
+      "AR users are often on the move: walking, riding a bus, even running to finish a game task.",
+      "The boundary between real and virtual is blurred, so designers must allow for simultaneous interaction with both.",
+      "Factor in the user's real movement, and the transitions between real and virtual."
+    ]},
+    { "id": "onboard", "title": "Element 3: Onboarding", "lines": [
+      "Element three. Onboarding.",
+      "Treat users as learners, and guide them through the experience.",
+      "It is crucial for first-time users, and even more important in AR, because interacting in a mixed environment is unfamiliar.",
+      "For example: move your phone slowly to scan the floor. Then tap to place the sofa."
+    ]},
+    { "id": "interact", "title": "Element 4: Interaction", "lines": [
+      "Element four. Interaction.",
+      "Interaction reveals a product's affordances and features. In AR, it is different, because real and virtual are blended.",
+      "Design at both the micro level, like one gesture, and the macro level, like the whole task flow.",
+      "And minimize physical input, so users are not overwhelmed. Holding a phone up for long is tiring."
+    ]},
+    { "id": "ui", "title": "Element 5: User interface", "lines": [
+      "Element five. The user interface.",
+      "It includes visual hierarchy, typography and aesthetics.",
+      "But in AR the interface is dynamic. The background is the real world, and it keeps changing.",
+      "So consider context, environment, and how virtual elements blend into the real scene. Design holistically."
+    ]},
+    { "id": "guides", "title": "10 AR design guidelines + mnemonic", "lines": [
+      "Now the ten AR UX design guidelines.",
+      "Consider user contexts. Holistic experience. Safety. Devices. Clear space.",
+      "Hierarchy. Instructions and help. Direct interaction. Audio. And learn from existing designs.",
+      "Memory trick: Cats Hate Showers, Dogs Shake Hard In Dirty Alley Lakes."
+    ]},
+    { "id": "g1", "title": "Guidelines 1-2: Contexts and holistic experience", "lines": [
+      "Guideline one. Consider different user contexts. User needs change depending on where and how they use the app.",
+      "Create personas and use cases to cover these contexts, including interactions beyond the physical environment.",
+      "Guideline two. Focus on the holistic experience, not individual interactions.",
+      "Understand the whole user journey: before, during and after using the app, and fix every breakpoint along it."
+    ]},
+    { "id": "g2", "title": "Guidelines 3-4: Safety and devices", "lines": [
+      "Guideline three. Optimize the experience for user safety.",
+      "Playing an AR game while walking on a street can lead to accidents.",
+      "So design to reduce risk, and add safety features and warnings.",
+      "Guideline four. Optimize for devices. Not every device gives the same AR experience.",
+      "Be transparent. Tell users which devices are preferred, and which are compatible, to manage expectations."
+    ]},
+    { "id": "g3", "title": "Guidelines 5-6: Clear space and hierarchy", "lines": [
+      "Guideline five. Maintain visual clear space.",
+      "Placing virtual objects in the real world changes the space around the user. Give them breathing room. Minimalism helps.",
+      "Guideline six. Stick to visual hierarchy, even though the context keeps changing.",
+      "Consistent virtual elements and well-defined personas make hierarchy possible. The most important thing should stand out first."
+    ]},
+    { "id": "g4", "title": "Guidelines 7-8: Instructions and direct interaction", "lines": [
+      "Guideline seven. Provide clear instructions and help, covering onboarding, app requirements, and the modes of interaction.",
+      "Keep them concise and available when needed. In long sessions, don't nag, but keep help easy to reach.",
+      "Guideline eight. Focus on direct interaction where possible.",
+      "Let users rotate a three D object with touch and hand gestures. It is more immersive, more intuitive, and reduces physical strain."
+    ]},
+    { "id": "g5", "title": "Guidelines 9-10: Audio and learning from others", "lines": [
+      "Guideline nine. Make good use of audio.",
+      "Sound effects for characters and objects increase immersion. Audio cues give feedback, guide interaction, and create ambiance.",
+      "For accessibility, offer volume control and subtitles.",
+      "Guideline ten. Learn from existing AR designs. Study quality AR apps, then adapt, iterate, and add your own unique touch."
+    ]},
+    { "id": "recap", "title": "Recap", "pad": [0.5, 2.0], "lines": [
+      "Recap. AR mixes real and virtual, uses the user's context, and reduces cognitive load.",
+      "Five elements: Every Moving Object Is UI.",
+      "Ten guidelines: Cats Hate Showers, Dogs Shake Hard In Dirty Alley Lakes.",
+      "Picture the sofa in your living room, and you will remember them all."
+    ]}
+  ]
+}

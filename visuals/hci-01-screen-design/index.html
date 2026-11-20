@@ -1,0 +1,420 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Screen Design &amp; Layout</title>
+<link rel="stylesheet" href="../hci-kit/kit.css">
+<style>
+  .kicker{color:var(--c3)} .numbadge{background:var(--c3);font-size:56px} .key{border-left-color:var(--c3)} .tile .n{color:var(--c3)}
+  .key b{color:var(--c1)}
+  .fld{position:absolute;width:280px;height:54px;border-radius:10px;background:#0b1229;border:2px solid #33416e;font:600 22px Inter;color:var(--mut);display:flex;align-items:center;padding:0 16px}
+  .box{position:absolute;border:3px solid var(--c3);border-radius:16px}
+  .box>span{position:absolute;left:14px;top:-18px;padding:0 10px;background:#0c1330;font:800 22px Inter;color:var(--c3)}
+  .list{position:absolute;font:600 26px/1.7 Inter}
+  .num{position:absolute;font:600 30px/1.6 'JetBrains Mono'}
+  .num .i{display:inline-block;width:120px;text-align:right}
+  .tbl{position:absolute;width:380px;border-radius:14px;background:#0b1229;border:2px solid #2a3760;padding:12px 16px;font:600 22px/1.75 Inter}
+  .tbl div{display:flex}
+  .tbl .gr div:nth-child(odd){background:#1b2648}
+  .mw{position:absolute;border-radius:24px;background:#cbd5e1;border:6px solid #94a3b8}
+  .mwin{position:absolute;border-radius:14px;background:radial-gradient(#334155,#0f172a)}
+  .mb{position:absolute;width:76px;height:44px;border-radius:8px;background:#64748b;color:#fff;font:700 15px Inter;display:flex;align-items:center;justify-content:center;text-align:center}
+  .mb.on.r{background:#ef4444}.mb.on.b{background:#3b82f6}.mb.on.g{background:#16a34a}.mb.on.y{background:#d97706}
+  .mgrp{position:absolute;border:3px solid #0f172a;border-radius:10px}
+  .mlbl{position:absolute;font:800 15px Inter;color:#0f172a}
+  .ord{position:absolute;width:34px;height:34px;border-radius:50%;background:var(--c4);color:#2a0618;font:900 20px Inter;display:flex;align-items:center;justify-content:center}
+  .stroke{font:900 170px/1 Inter;color:transparent;-webkit-text-stroke:3px #e8edf7;letter-spacing:.02em}
+  .busy{background:repeating-linear-gradient(45deg,#f472b6 0 18px,#a78bfa 18px 36px,#fbbf24 36px 54px)}
+  .gray.on{filter:grayscale(1)}
+  .link{color:var(--c1);text-decoration:underline}
+</style>
+</head>
+<body>
+<div id="fv-stage">
+
+  <section class="fv-scene" data-scene="intro">
+    <div class="hook" style="top:120px;font-size:84px" data-in="0.1">Screen design &amp; <span style="color:var(--c3)">layout</span></div>
+    <div class="tile" style="position:absolute;left:150px;top:380px;width:430px;text-align:center;font-size:36px" data-in="1.0" data-hl="1.3~1.95"><div style="font-size:100px">🤔</div><span style="color:var(--c3)">ASK</span><div style="font:500 26px Inter;color:var(--mut);margin-top:6px">what is the user doing?</div></div>
+    <div class="tag" style="left:620px;top:500px;font-size:70px;color:var(--c3)" data-in="2.0">→</div>
+    <div class="tile" style="position:absolute;left:745px;top:380px;width:430px;text-align:center;font-size:36px" data-in="2.0" data-hl="2.0~2.95"><div style="font-size:100px">💭</div><span style="color:var(--c3)">THINK</span><div style="font:500 26px Inter;color:var(--mut);margin-top:6px">what info, comparisons, order?</div></div>
+    <div class="tag" style="left:1215px;top:500px;font-size:70px;color:var(--c3)" data-in="3.0">→</div>
+    <div class="tile" style="position:absolute;left:1340px;top:380px;width:430px;text-align:center;font-size:36px" data-in="3.0" data-hl="3.0~4.0"><div style="font-size:100px">✏️</div><span style="color:var(--c3)">DESIGN</span><div style="font:500 26px Inter;color:var(--mut);margin-top:6px">form follows function</div></div>
+  </section>
+
+  <section class="fv-scene" data-scene="tools">
+    <div class="kicker" data-in="@0.1">Available tools</div>
+    <div class="title" data-in="@0.2">The 5 layout tools</div>
+    <div class="grid" style="grid-template-columns:repeat(5,1fr);top:300px">
+      <div class="tile" style="text-align:center" data-in="1.0" data-on="2.3"><div style="font-size:80px">🧺</div><span class="L">G</span>rouping</div>
+      <div class="tile" style="text-align:center" data-in="1.2" data-on="2.4"><div style="font-size:80px">🔢</div><span class="L">O</span>rder</div>
+      <div class="tile" style="text-align:center" data-in="1.4" data-on="2.5"><div style="font-size:80px">🎀</div><span class="L">D</span>ecoration<div style="font:500 20px Inter;color:var(--mut)">fonts, boxes</div></div>
+      <div class="tile" style="text-align:center" data-in="1.65" data-on="2.6"><div style="font-size:80px">📏</div><span class="L">A</span>lignment</div>
+      <div class="tile" style="text-align:center" data-in="1.85" data-on="2.7"><div style="font-size:80px">⬜</div><span class="L">W</span>hite space</div>
+    </div>
+    <div class="mnemo" style="top:720px">
+      <span data-in="2.05"><span class="L">G</span>ood</span> <span data-in="2.12"><span class="L">O</span>rder</span> <span data-in="2.2"><span class="L">D</span>eserves</span> <span data-in="2.27"><span class="L">A</span></span> <span data-in="2.32"><span class="L">W</span>ow!</span> 🤩
+    </div>
+  </section>
+
+  <section class="fv-scene" data-scene="grouping">
+    <div class="kicker" data-in="@0.1">Tool 1 · G</div>
+    <div class="title" data-in="@0.2">Grouping &amp; structure</div>
+    <div class="numbadge" data-in="@0.3" data-pop>🧺</div>
+    <div class="col-l">
+      <div class="key" style="font-size:40px" data-in="1.0"><b>Logically</b> together<br>→ <b>physically</b> together</div>
+    </div>
+    <div class="mem" data-in="2.6">Like socks in one drawer, shirts in another. 🧦👕</div>
+    <div class="demo">
+      <div class="box" style="left:40px;top:60px;width:370px;height:220px" data-in="2.3"><span>Customer</span></div>
+      <div class="box" style="left:440px;top:60px;width:370px;height:220px" data-in="2.4"><span>Address</span></div>
+      <div class="box" style="left:40px;top:330px;width:770px;height:160px" data-in="2.5"><span>Payment</span></div>
+      <div class="fld" style="left:520px;top:420px" data-in="2.0" data-move="2.3~2.8:-450,-300">Name</div>
+      <div class="fld" style="left:300px;top:250px" data-in="2.05" data-move="2.32~2.82:-230,-60">Phone</div>
+      <div class="fld" style="left:80px;top:500px" data-in="2.1" data-move="2.34~2.84:400,-380">Street</div>
+      <div class="fld" style="left:600px;top:80px" data-in="2.15" data-move="2.36~2.86:-120,110">City</div>
+      <div class="fld" style="left:380px;top:120px" data-in="2.2" data-move="2.38~2.88:-310,270">Card number</div>
+      <div class="fld" style="left:90px;top:40px" data-in="2.25" data-move="2.4~2.9:360,350">Expiry</div>
+    </div>
+  </section>
+
+  <section class="fv-scene" data-scene="order">
+    <div class="kicker" data-in="@0.1">Tool 2 · O</div>
+    <div class="title" data-in="@0.2">Order of groups &amp; items</div>
+    <div class="numbadge" data-in="@0.3" data-pop>🔢</div>
+    <div class="col-l">
+      <div class="key" data-in="0.3">What is the <b>natural order</b>?</div>
+      <div class="key" data-in="1.0">Screen order <b>matches</b> it · boxes &amp; space</div>
+      <div class="key" data-in="1.6">Set <b>tab order</b> right ⇥</div>
+      <div class="key" data-in="2.0">Beware the <b>cake recipe syndrome</b> 🎂</div>
+    </div>
+    <div class="mem" data-in="4.0">Write steps in the order they're done. 🥣</div>
+    <div class="demo">
+      <div class="fld" style="left:40px;top:40px;width:340px" data-in="1.0">Name</div><div class="ord" style="left:345px;top:50px" data-in="1.6" data-pop>1</div>
+      <div class="fld" style="left:430px;top:40px;width:340px" data-in="1.0">Phone</div><div class="ord" style="left:735px;top:50px" data-in="1.7" data-pop>2</div>
+      <div class="fld" style="left:40px;top:120px;width:340px" data-in="1.0">Street</div><div class="ord" style="left:345px;top:130px" data-in="1.8" data-pop>3</div>
+      <div class="fld" style="left:430px;top:120px;width:340px" data-in="1.0">City</div><div class="ord" style="left:735px;top:130px" data-in="1.9" data-pop>4</div>
+      <div class="card" style="position:absolute;left:40px;top:240px;width:730px;padding:20px 26px;border-radius:16px;background:#fff7ed;color:#3b2106;font:600 30px/1.4 Georgia,serif" data-in="2.1">
+        📜 Mix milk and flour, add the fruit, <span style="background:rgba(239,68,68,calc(var(--hl,0)*.5));border-radius:6px" data-hl="3.4~end">after beating them.</span>
+      </div>
+      <div class="em" style="position:absolute;left:640px;top:330px;font-size:80px" data-in="3.5" data-pop>😱</div>
+      <div class="card" style="position:absolute;left:40px;top:430px;width:730px;padding:16px 26px;border-radius:16px;background:#052e1f;border:2px solid var(--good);color:#bbf7d0;font:700 26px/1.5 Inter" data-in="4.1">
+        ✓ 1. Beat milk &amp; flour &nbsp; 2. Mix &nbsp; 3. Add the fruit
+      </div>
+    </div>
+  </section>
+
+  <section class="fv-scene" data-scene="decoration">
+    <div class="kicker" data-in="@0.1">Tool 3 · D</div>
+    <div class="title" data-in="@0.2">Decoration</div>
+    <div class="numbadge" data-in="@0.3" data-pop>🎀</div>
+    <div class="col-l">
+      <div class="key" data-in="1.0"><b>Boxes</b> to group logical items</div>
+      <div class="key" data-in="1.5"><b>Fonts</b> for emphasis &amp; headings</div>
+      <div class="key" data-in="2.0">…but <b>not too many!!</b></div>
+    </div>
+    <div class="mem" data-in="2.4">Decoration is seasoning — a pinch, not the whole jar. 🧂</div>
+    <div class="demo">
+      <div class="abs" style="left:40px;top:40px;width:340px;height:400px;border-radius:14px;background:#0b1229;padding:20px" data-in="2.0">
+        <div style="font:italic 900 40px Georgia,serif;color:#f472b6">TODAY'S</div>
+        <div style="font:400 34px 'Comic Sans MS',cursive;color:#fbbf24">Specials!!!</div>
+        <div style="font:700 26px 'JetBrains Mono';color:#34d399;text-decoration:underline">Pizza ₹299</div>
+        <div style="font:italic 300 30px serif;color:#38bdf8">Pasta ₹249</div>
+        <div style="font:900 28px Inter;color:#fb923c;text-transform:uppercase">Burger ₹199</div>
+      </div>
+      <div class="bad" style="left:320px;top:10px" data-in="2.3" data-pop>✗</div>
+      <div class="abs" style="left:450px;top:40px;width:320px;height:400px;border-radius:14px;background:#0b1229;border:3px solid var(--c3);padding:20px" data-in="1.0">
+        <div style="font:800 30px Inter;color:var(--c3);margin-bottom:10px" data-in="1.5">Today's specials</div>
+        <div style="font:500 28px/1.9 Inter">Pizza<span style="float:right">₹299</span><br>Pasta<span style="float:right">₹249</span><br>Burger<span style="float:right">₹199</span></div>
+      </div>
+      <div class="good" style="left:750px;top:10px" data-in="2.4" data-pop>✓</div>
+      <div class="tag" style="left:40px;top:500px;color:var(--bad);font-size:22px" data-in="2.3">5 fonts + 5 colours = noise</div>
+      <div class="tag" style="left:450px;top:500px;color:var(--good);font-size:22px" data-in="2.4">1 box + 1 heading</div>
+    </div>
+  </section>
+
+  <section class="fv-scene" data-scene="aligntext">
+    <div class="kicker" data-in="@0.1">Tool 4 · A</div>
+    <div class="title" data-in="@0.2">Alignment — text &amp; names</div>
+    <div class="numbadge" data-in="@0.3" data-pop>📏</div>
+    <div class="col-l">
+      <div class="key" data-in="0.3">Read left → right ⇒ <b>align left</b></div>
+      <div class="key" data-in="1.0">Centered: fancy but <b>hard to scan</b></div>
+      <div class="key" data-in="2.0">Names: align <b>surnames</b> or <b>surname first</b></div>
+    </div>
+    <div class="mem" data-in="1.6">Your eye needs a straight edge to slide down. 📐</div>
+    <div class="demo">
+      <div class="list" style="left:20px;top:30px;width:400px;text-align:center;font-size:22px" data-in="1.0">Willy Wonka and the Chocolate Factory<br>Winston Churchill - A Biography<br>Wizard of Oz<br>Xena - Warrior Princess</div>
+      <div class="list" style="left:440px;top:30px;width:400px;font-size:22px;border-left:4px solid var(--good);padding-left:14px" data-in="1.5">Willy Wonka and the Chocolate Factory<br>Winston Churchill - A Biography<br>Wizard of Oz<br>Xena - Warrior Princess</div>
+      <div class="tag" style="left:110px;top:240px;color:var(--bad);font-size:20px" data-in="1.2">fancy · hard to scan ✗</div>
+      <div class="tag" style="left:460px;top:240px;color:var(--good);font-size:20px" data-in="1.6">boring · readable ✓</div>
+      <div class="list" style="left:40px;top:320px;font-size:26px" data-in="2.0">Alan Dix<br>Janet Finlay<br>Gregory Abowd<br>Russell Beale</div>
+      <div class="list mono" style="left:300px;top:320px;font-size:24px;white-space:pre" data-in="2.3">Alan    <b style="color:var(--c3)">Dix</b>
+Janet   <b style="color:var(--c3)">Finlay</b>
+Gregory <b style="color:var(--c3)">Abowd</b>
+Russell <b style="color:var(--c3)">Beale</b></div>
+      <div class="list" style="left:600px;top:320px;font-size:26px" data-in="2.6"><b style="color:var(--c3)">Dix</b>, Alan<br><b style="color:var(--c3)">Finlay</b>, Janet<br><b style="color:var(--c3)">Abowd</b>, Gregory<br><b style="color:var(--c3)">Beale</b>, Russell</div>
+    </div>
+  </section>
+
+  <section class="fv-scene" data-scene="alignnum">
+    <div class="kicker" data-in="@0.1">Tool 4 · A</div>
+    <div class="title" data-in="@0.2">Alignment — numbers</div>
+    <div class="numbadge" data-in="@0.3" data-pop>📏</div>
+    <div class="col-l">
+      <div class="key" data-in="0.3">Think <b>purpose</b>: which is biggest?</div>
+      <div class="key" data-in="2.0">Long number = <b>big number</b></div>
+      <div class="key" data-in="2.4">Align <b>decimal points</b> or <b>right-align</b> integers</div>
+    </div>
+    <div class="mem" data-in="3.2">Line up the dots, and size jumps out. 📊</div>
+    <div class="demo">
+      <div class="tag" style="left:80px;top:30px;color:var(--bad)" data-in="1.0">left aligned 😵</div>
+      <div class="num" style="left:80px;top:80px" data-in="0.4">627.865<br>1.005763<br>382.583<br>2502.56<br>432.935<br>2.0175<br>652.87<br>56.34</div>
+      <div class="tag" style="left:460px;top:30px;color:var(--good)" data-in="2.4">decimal aligned ✓</div>
+      <div class="num" style="left:400px;top:80px" data-in="2.5"><span class="i">627</span>.865<br><span class="i">1</span>.005763<br><span class="i">382</span>.583<br><span class="i" style="color:var(--c3)" data-hl="3.0~end">2502</span><span style="color:var(--c3)">.56</span><br><span class="i">432</span>.935<br><span class="i">2</span>.0175<br><span class="i">652</span>.87<br><span class="i">56</span>.34</div>
+      <div class="abs" style="left:519px;top:80px;width:3px;height:390px;background:var(--c3);opacity:.5" data-in="2.7"></div>
+      <div class="tag" style="left:620px;top:228px;color:var(--c3);font-size:30px" data-in="3.0">← biggest!</div>
+    </div>
+  </section>
+
+  <section class="fv-scene" data-scene="columns">
+    <div class="kicker" data-in="@0.1">Tool 4 · A</div>
+    <div class="title" data-in="@0.2">Multiple columns</div>
+    <div class="numbadge" data-in="@0.3" data-pop>📏</div>
+    <div class="col-l">
+      <div class="key" data-in="0.3">Scanning across <b>gaps</b> is hard</div>
+      <div class="key" data-in="1.0">① <b>Leaders</b> (dots) ........</div>
+      <div class="key" data-in="2.0">② <b>Greying</b> alternate rows</div>
+      <div class="key" data-in="3.0">③ 'Bad' alignment — <b>with care!</b></div>
+    </div>
+    <div class="mem" data-in="3.6">Build a bridge for the eye across the gap. 🌉</div>
+    <div class="demo">
+      <div class="tbl" style="left:20px;top:20px" data-in="0.3"><div>sherbert<span style="margin-left:auto">75</span></div><div>toffee<span style="margin-left:auto">120</span></div><div>chocolate<span style="margin-left:auto">35</span></div><div>fruit gums<span style="margin-left:auto">27</span></div><div>coconut dreams<span style="margin-left:auto">85</span></div></div>
+      <div class="tbl" style="left:440px;top:20px" data-in="1.0"><div>sherbert<span style="flex:1;border-bottom:3px dotted #64748b;margin:0 8px 10px"></span>75</div><div>toffee<span style="flex:1;border-bottom:3px dotted #64748b;margin:0 8px 10px"></span>120</div><div>chocolate<span style="flex:1;border-bottom:3px dotted #64748b;margin:0 8px 10px"></span>35</div><div>fruit gums<span style="flex:1;border-bottom:3px dotted #64748b;margin:0 8px 10px"></span>27</div><div>coconut dreams<span style="flex:1;border-bottom:3px dotted #64748b;margin:0 8px 10px"></span>85</div></div>
+      <div class="tbl" style="left:20px;top:330px" data-in="2.0"><div class="gr" style="display:block"><div>sherbert<span style="margin-left:auto">75</span></div><div>toffee<span style="margin-left:auto">120</span></div><div>chocolate<span style="margin-left:auto">35</span></div><div>fruit gums<span style="margin-left:auto">27</span></div><div>coconut dreams<span style="margin-left:auto">85</span></div></div></div>
+      <div class="tbl" style="left:440px;top:330px" data-in="3.0"><div><span style="width:200px;text-align:right">sherbert</span>&nbsp;&nbsp;75</div><div><span style="width:200px;text-align:right">toffee</span>&nbsp;&nbsp;120</div><div><span style="width:200px;text-align:right">chocolate</span>&nbsp;&nbsp;35</div><div><span style="width:200px;text-align:right">fruit gums</span>&nbsp;&nbsp;27</div><div><span style="width:200px;text-align:right">coconut dreams</span>&nbsp;&nbsp;85</div></div>
+    </div>
+  </section>
+
+  <section class="fv-scene" data-scene="whitespace">
+    <div class="kicker" data-in="@0.1">Tool 5 · W</div>
+    <div class="title" data-in="@0.2">White space</div>
+    <div class="numbadge" data-in="@0.3" data-pop>⬜</div>
+    <div class="abs stroke" style="left:110px;top:280px;font-size:150px" data-in="0.2">WHAT YOU SEE</div>
+    <div class="abs" style="left:1500px;top:230px;width:190px;height:230px;border-radius:50%;border:44px solid #e8edf7;background:var(--c3);box-sizing:border-box" data-in="0.6" data-pop></div>
+    <div class="tag" style="left:1720px;top:320px;color:var(--c3);font-size:26px" data-in="0.8">← counter</div>
+    <div class="tag" style="left:110px;top:470px;color:var(--c3);font-size:30px" data-in="0.7">the "counter" = the space inside letters like O, A, P — designed, not leftover</div>
+    <div class="tile" style="position:absolute;left:110px;top:560px;width:520px;height:270px" data-in="2.1" data-hl="2.15~2.45"><span class="n">SEPARATE</span><div style="display:flex;gap:70px;margin-top:20px"><div style="display:grid;grid-template-columns:repeat(2,40px);gap:8px"><i style="height:40px;background:var(--c1);border-radius:6px"></i><i style="background:var(--c1);border-radius:6px"></i><i style="height:40px;background:var(--c1);border-radius:6px"></i><i style="background:var(--c1);border-radius:6px"></i></div><div style="display:grid;grid-template-columns:repeat(2,40px);gap:8px"><i style="height:40px;background:var(--c4);border-radius:6px"></i><i style="background:var(--c4);border-radius:6px"></i><i style="height:40px;background:var(--c4);border-radius:6px"></i><i style="background:var(--c4);border-radius:6px"></i></div></div></div>
+    <div class="tile" style="position:absolute;left:700px;top:560px;width:520px;height:270px" data-in="2.45" data-hl="2.5~2.75"><span class="n">STRUCTURE</span><div style="font:600 24px/1.55 Inter;margin-top:6px">Chapter 1<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.1 Grouping<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.2 Order<br>Chapter 2</div></div>
+    <div class="tile" style="position:absolute;left:1290px;top:560px;width:520px;height:270px" data-in="2.75" data-hl="2.8~3.1"><span class="n">HIGHLIGHT</span><div style="text-align:center;margin-top:60px;font:800 44px Inter;color:var(--c3)">SALE</div></div>
+  </section>
+
+  <section class="fv-scene" data-scene="physical">
+    <div class="kicker" data-in="@0.1">Same tools, real buttons</div>
+    <div class="title" data-in="@0.2">Physical controls — the microwave</div>
+    <div class="numbadge" data-in="@0.3" data-pop>📟</div>
+    <div class="col-l">
+      <div class="key" data-in="1.0">🧺 <b>Grouping</b>: defrost · food · time</div>
+      <div class="key" data-in="2.0">🔢 <b>Order</b>: heating → temp → time → start</div>
+      <div class="key" data-in="3.0">🎀 <b>Decoration</b>: colours + lines</div>
+      <div class="key" data-in="4.0">📏 <b>Alignment</b> · ⬜ <b>gaps</b> group</div>
+    </div>
+    <div class="mem" data-in="4.5">Good Order Deserves A Wow — even on a microwave. 📟</div>
+    <div class="mw" style="left:960px;top:250px;width:850px;height:560px">
+      <div class="mwin" style="left:30px;top:30px;width:420px;height:490px"></div>
+      <div class="abs" style="left:150px;top:200px;font-size:120px">🍲</div>
+      <div class="mgrp" style="left:480px;top:30px;width:340px;height:110px" data-in="3.2"></div>
+      <div class="mlbl" style="left:490px;top:36px" data-in="1.0">TYPE OF HEATING</div>
+      <div class="mb b" style="left:495px;top:72px" data-on="3.1">Micro</div><div class="mb b" style="left:603px;top:72px" data-on="3.1">Grill</div><div class="mb b" style="left:711px;top:72px" data-on="3.1">Combi</div>
+      <div class="mgrp" style="left:480px;top:155px;width:340px;height:110px" data-in="3.25"></div>
+      <div class="mlbl" style="left:490px;top:161px" data-in="1.1">TEMPERATURE</div>
+      <div class="mb y" style="left:495px;top:197px" data-on="3.15">Low</div><div class="mb y" style="left:603px;top:197px" data-on="3.15">Med</div><div class="mb y" style="left:711px;top:197px" data-on="3.15">High</div>
+      <div class="mgrp" style="left:480px;top:280px;width:340px;height:110px" data-in="3.3"></div>
+      <div class="mlbl" style="left:490px;top:286px" data-in="1.2">TIME TO COOK</div>
+      <div class="mb g" style="left:495px;top:322px" data-on="3.2">+10 s</div><div class="mb g" style="left:603px;top:322px" data-on="3.2">+1 min</div><div class="mb g" style="left:711px;top:322px" data-on="3.2">Defrost</div>
+      <div class="mb r" style="left:540px;top:420px;width:220px;height:80px;font-size:28px" data-on="3.25" data-hl="2.85~3.0">START</div>
+      <div class="ord" style="left:450px;top:80px" data-in="2.2" data-pop>1</div>
+      <div class="ord" style="left:450px;top:205px" data-in="2.4" data-pop>2</div>
+      <div class="ord" style="left:450px;top:330px" data-in="2.6" data-pop>3</div>
+      <div class="ord" style="left:500px;top:442px" data-in="2.8" data-pop>4</div>
+    </div>
+  </section>
+
+  <section class="fv-scene" data-scene="entering">
+    <div class="kicker" data-in="@0.1">User action &amp; control</div>
+    <div class="title" data-in="@0.2">Entering information</div>
+    <div class="numbadge" data-in="@0.3" data-pop>⌨️</div>
+    <div class="col-l">
+      <div class="key" data-in="0.3">Forms &amp; dialogue boxes</div>
+      <div class="key" data-in="1.0">Mind <b>different label lengths</b></div>
+      <div class="key" data-in="2.0"><b>Task analysis</b> → logical layout, groups</div>
+      <div class="key" data-in="3.0"><b>Natural order</b> (culture) + <b>tab order</b></div>
+    </div>
+    <div class="mem" data-in="3.6">Labels right-aligned, boxes in one straight line. 📐</div>
+    <div class="demo">
+      <div class="tag" style="left:40px;top:30px;color:var(--bad)" data-in="1.0" data-out="1.6">ragged ✗</div>
+      <div data-in="1.0" data-out="1.6">
+        <div class="tag" style="left:40px;top:100px;font:600 24px Inter">Ph:</div><div class="fld" style="left:100px;top:86px;width:300px"></div>
+        <div class="tag" style="left:40px;top:180px;font:600 24px Inter">Delivery address:</div><div class="fld" style="left:260px;top:166px;width:300px"></div>
+        <div class="tag" style="left:40px;top:260px;font:600 24px Inter">Name:</div><div class="fld" style="left:130px;top:246px;width:300px"></div>
+      </div>
+      <div class="tag" style="left:40px;top:30px;color:var(--good)" data-in="1.6">aligned ✓</div>
+      <div data-in="1.6">
+        <div class="tag" style="left:40px;top:100px;width:220px;text-align:right;font:600 24px Inter">Name:</div><div class="fld" style="left:280px;top:86px;width:360px"></div><div class="ord" style="left:660px;top:96px" data-in="3.4" data-pop>1</div>
+        <div class="tag" style="left:40px;top:180px;width:220px;text-align:right;font:600 24px Inter">Ph:</div><div class="fld" style="left:280px;top:166px;width:360px"></div><div class="ord" style="left:660px;top:176px" data-in="3.5" data-pop>2</div>
+        <div class="tag" style="left:40px;top:260px;width:220px;text-align:right;font:600 24px Inter">Delivery address:</div><div class="fld" style="left:280px;top:246px;width:360px"></div><div class="ord" style="left:660px;top:256px" data-in="3.6" data-pop>3</div>
+      </div>
+      <div class="chip" style="position:absolute;left:40px;top:420px" data-in="3.1">⬇ top → bottom</div>
+      <div class="chip" style="position:absolute;left:290px;top:420px" data-in="3.2">➡ left → right (English)</div>
+      <div class="chip" style="position:absolute;left:290px;top:500px" data-in="3.3">⬅ right → left (Arabic)</div>
+    </div>
+  </section>
+
+  <section class="fv-scene" data-scene="knowing">
+    <div class="kicker" data-in="@0.1">User action &amp; control</div>
+    <div class="title" data-in="@0.2">Knowing what to do</div>
+    <div class="numbadge" data-in="@0.3" data-pop>🖱️</div>
+    <div class="col-l">
+      <div class="key" data-in="0.3"><b>Active</b> vs <b>passive</b> · click? type?</div>
+      <div class="key" data-in="1.0"><b>Consistent style</b>: underlined links</div>
+      <div class="key" data-in="2.0"><b>Labels</b>, <b>icons</b>, <b>standards</b></div>
+      <div class="key" data-in="3.0">Bold = <b>state</b> or <b>action</b>?</div>
+      <div class="key" data-in="4.0"><b>Affordances</b>: looks like what it does</div>
+    </div>
+    <div class="demo">
+      <div class="abs" style="left:40px;top:40px;width:760px;font:500 28px/1.6 Inter;color:#cbd5e1" data-in="0.4">Our menu changes daily. <span class="link" data-hl="1.0~1.9">See today's specials</span> or call us.</div>
+      <div class="chip" style="position:absolute;left:40px;top:180px" data-in="2.0">💾 Save</div>
+      <div class="chip" style="position:absolute;left:220px;top:180px" data-in="2.1">🖨️ Print</div>
+      <div class="chip" style="position:absolute;left:400px;top:180px" data-in="2.2">🗑️ Delete</div>
+      <div class="btn" style="position:absolute;left:40px;top:290px;font-weight:900" data-in="3.0">B</div>
+      <div class="tag" style="left:130px;top:300px;color:var(--c3);font-size:26px" data-in="3.2">"Bold" — is it ON now, or will clicking make it bold? 🤔</div>
+      <div class="btn p" style="position:absolute;left:40px;top:440px;box-shadow:0 8px 0 #0369a1" data-in="4.0" data-pop>Press me</div>
+      <div class="tag" style="left:240px;top:458px;color:var(--good);font-size:22px" data-in="4.2">raised = pressable ✓</div>
+      <div class="tag" style="left:600px;top:458px;color:var(--mut);font-size:22px" data-in="4.3">flat text? 🤷</div>
+    </div>
+  </section>
+
+  <section class="fv-scene" data-scene="presenting">
+    <div class="kicker" data-in="@0.1">Appropriate appearance</div>
+    <div class="title" data-in="@0.2">Presenting information</div>
+    <div class="numbadge" data-in="@0.3" data-pop>📊</div>
+    <div class="col-l">
+      <div class="key" data-in="0.3"><b>Purpose</b> matters</div>
+      <div class="key" data-in="1.0"><b>Sort order</b>: which column? numeric/alpha?</div>
+      <div class="key" data-in="1.5"><b>Text</b> vs <b>diagram</b> · scatter vs histogram</div>
+      <div class="key" data-in="2.0">Paper principles + <b>interactivity</b></div>
+    </div>
+    <div class="mem" data-in="2.6">Let users re-sort — it softens your design choices. 🔀</div>
+    <div class="demo">
+      <div class="tbl" style="left:40px;top:40px;width:360px;font-size:24px" data-in="0.4">
+        <div style="color:var(--c3)">Dish<span style="margin-left:auto" data-hl="1.1~1.5">Price ▲</span></div>
+      </div>
+      <div class="tbl" style="left:40px;top:100px;width:360px;font-size:24px;border-top:0" data-in="0.4">
+        <div data-move="1.2~1.5:0,126">Pizza<span style="margin-left:auto">299</span></div>
+        <div data-move="1.2~1.5:0,42">Pasta<span style="margin-left:auto">249</span></div>
+        <div data-move="1.2~1.5:0,-84">Fries<span style="margin-left:auto">99</span></div>
+        <div data-move="1.2~1.5:0,-84">Burger<span style="margin-left:auto">199</span></div>
+      </div>
+      <div class="abs" style="left:480px;top:400px;width:320px;height:3px;background:#64748b" data-in="1.6"></div>
+      <div class="abs" style="left:500px;top:220px;width:56px;height:180px;background:var(--c1);transform-origin:bottom" data-in="1.6"></div>
+      <div class="abs" style="left:575px;top:250px;width:56px;height:150px;background:var(--c1)" data-in="1.65"></div>
+      <div class="abs" style="left:650px;top:340px;width:56px;height:60px;background:var(--c1)" data-in="1.7"></div>
+      <div class="abs" style="left:725px;top:290px;width:56px;height:110px;background:var(--c1)" data-in="1.75"></div>
+      <div class="tag" style="left:480px;top:420px;color:var(--mut);font-size:20px" data-in="1.8">same data, as a diagram</div>
+      <div class="chip" style="position:absolute;left:40px;top:500px" data-in="2.2">🔀 drag to re-order columns</div>
+    </div>
+  </section>
+
+  <section class="fv-scene" data-scene="aesthetics">
+    <div class="kicker" data-in="@0.1">Appropriate appearance</div>
+    <div class="title" data-in="@0.2">Aesthetics · Colour · 3D</div>
+    <div class="numbadge" data-in="@0.3" data-pop>🎨</div>
+    <div class="col-l">
+      <div class="key" data-in="0.3">Pleasing → <b>satisfaction</b> &amp; <b>productivity</b></div>
+      <div class="key" data-in="1.0">Beauty vs <b>utility</b> may conflict</div>
+      <div class="key" data-in="2.0">Colour <b>sparingly</b>, to <b>reinforce</b> · colour-blind!</div>
+      <div class="key" data-in="4.0">3D: physical info ✓ · 3D pies ✗</div>
+    </div>
+    <div class="mem" data-in="3.0">Grey test: if it still reads in greys, it works. 🩶</div>
+    <div class="demo gray" data-on="3.0">
+      <div class="abs busy" style="left:40px;top:40px;width:360px;height:120px;border-radius:12px;display:flex;align-items:center;justify-content:center;font:700 26px Inter;color:#fff" data-in="1.2">Hard to read text</div>
+      <div class="abs" style="left:440px;top:40px;width:360px;height:120px;border-radius:12px;background:#f8fafc;display:flex;align-items:center;justify-content:center;font:700 26px Inter;color:#0f172a" data-in="1.4">Easy to read text</div>
+      <div class="chip" style="position:absolute;left:40px;top:210px;background:#16a34a;color:#fff" data-in="2.2">Paid</div>
+      <div class="chip" style="position:absolute;left:180px;top:210px;background:#dc2626;color:#fff" data-in="2.25">Due</div>
+      <div class="tag" style="left:300px;top:222px;color:var(--bad);font-size:22px" data-in="2.3">colour only ✗</div>
+      <div class="chip" style="position:absolute;left:40px;top:290px;background:#16a34a;color:#fff" data-in="2.5">✓ Paid</div>
+      <div class="chip" style="position:absolute;left:220px;top:290px;background:#dc2626;color:#fff" data-in="2.55">✗ Due</div>
+      <div class="tag" style="left:380px;top:302px;color:var(--good);font-size:22px" data-in="2.6">colour + icon ✓</div>
+      <div class="abs" style="left:80px;top:420px;width:220px;height:110px;border-radius:50%;background:conic-gradient(#f472b6 0 40%,#38bdf8 0 70%,#fbbf24 0);box-shadow:0 22px 0 #7c2d5a" data-in="4.1"></div>
+      <div class="bad" style="left:300px;top:420px" data-in="4.3" data-pop>✗</div>
+      <div class="abs" style="left:440px;top:440px;perspective:300px" data-in="4.2"><div style="font:800 34px Inter;transform:rotateX(50deg)">Text in perspective</div></div>
+    </div>
+  </section>
+
+  <section class="fv-scene" data-scene="culture">
+    <div class="kicker" data-in="@0.1">Across countries &amp; cultures</div>
+    <div class="title sm" data-in="@0.2">Localisation &amp; internationalisation</div>
+    <div class="numbadge" data-in="@0.3" data-pop>🌐</div>
+    <div class="col-l">
+      <div class="key" data-in="0.3">Adapt UI to <b>culture</b> &amp; <b>language</b></div>
+      <div class="key" data-in="1.0"><b>Globalisation</b>: symbols that work everywhere</div>
+      <div class="key" data-in="2.0"><b>Resource database</b>, not literal text</div>
+      <div class="key" data-in="3.0">Deeper: <b>values</b> &amp; <b>symbol meanings</b></div>
+    </div>
+    <div class="demo">
+      <div class="chip mono" style="position:absolute;left:40px;top:40px" data-in="2.0">btn.save →</div>
+      <div class="btn p" style="position:absolute;left:260px;top:34px" data-in="2.2">Save</div>
+      <div class="btn p" style="position:absolute;left:260px;top:114px" data-in="2.4">Speichern</div>
+      <div class="btn p" style="position:absolute;left:260px;top:194px;direction:rtl" data-in="2.6">حفظ</div>
+      <div class="tag" style="left:520px;top:130px;color:var(--c3);font-size:22px" data-in="2.5">← German: wider!</div>
+      <div class="tag" style="left:420px;top:210px;color:var(--c3);font-size:22px" data-in="2.7">← Arabic: right-to-left</div>
+      <div class="abs" style="left:40px;top:330px;font-size:90px" data-in="3.4">✓ ✗</div>
+      <div class="tag" style="left:280px;top:340px;color:var(--good);font-size:24px" data-in="3.5">some cultures: yes / no</div>
+      <div class="tag" style="left:280px;top:400px;color:var(--c3);font-size:24px" data-in="3.75">others: both = "mark this"</div>
+      <div class="tag" style="left:40px;top:500px;color:var(--mut);font-size:22px" data-in="1.1">globalisation picks safe symbols: 🔍 🏠 ⚙️</div>
+    </div>
+  </section>
+
+  <section class="fv-scene" data-scene="proto">
+    <div class="kicker" data-in="@0.1">Iteration</div>
+    <div class="title" data-in="@0.2">Prototyping</div>
+    <div class="numbadge" data-in="@0.3" data-pop>🔁</div>
+    <div class="col-l">
+      <div class="key" data-in="0.3">Never right <b>first time</b> → <b>iterate</b></div>
+      <div class="key" data-in="1.0">Small steps… but <b>to where?</b></div>
+      <div class="key" data-in="2.0">1. Need a <b>good start point</b></div>
+      <div class="key" data-in="2.4">2. <b>Understand what is wrong</b></div>
+    </div>
+    <div class="mem" data-in="2.6">Don't polish a small hill when there's a mountain. 🏔️</div>
+    <div class="demo">
+      <svg class="abs" style="left:0;top:0" width="850" height="640" viewBox="0 0 850 640">
+        <path d="M0 560 Q120 560 200 430 Q270 330 330 430 Q380 520 430 520 L640 110 L800 560 L850 560" fill="none" stroke="#64748b" stroke-width="6"/>
+        <path d="M0 560 Q120 560 200 430 Q270 330 330 430 Q380 520 430 520 L640 110 L800 560 L850 560 L850 640 L0 640Z" fill="rgba(100,116,139,.15)"/>
+      </svg>
+      <div class="tag" style="left:205px;top:470px;color:var(--c5);font-size:22px" data-in="1.2">Malverns</div>
+      <div class="tag" style="left:600px;top:60px;color:var(--c3);font-size:22px" data-in="1.4">Matterhorn 🏔️</div>
+      <div class="abs" style="left:60px;top:530px;width:30px;height:30px;border-radius:50%;background:var(--c4)" data-in="1.0" data-move="1.0~1.6:140,-100;1.6~2.0:200,-180"></div>
+      <div class="tag" style="left:120px;top:290px;color:var(--c4);font-size:22px" data-in="2.0">stuck at a local top</div>
+      <div class="cursor" style="display:none"></div>
+    </div>
+  </section>
+
+  <section class="fv-scene" data-scene="recap">
+    <div class="kicker" data-in="@0.1">Recap</div>
+    <div class="title" data-in="@0.2">Screen design &amp; layout</div>
+    <div class="grid" style="grid-template-columns:repeat(4,1fr);top:260px">
+      <div class="tile" data-in="0.2" data-hl="0.2~0.95"><span class="n">PRINCIPLES</span>🤔 Ask → 💭 Think → ✏️ Design<div style="font:500 22px Inter;color:var(--mut)">form follows function</div></div>
+      <div class="tile" style="grid-column:span 3" data-in="1.0" data-hl="1.0~1.95"><span class="n">5 TOOLS</span><span class="L">G</span>ood <span class="L">O</span>rder <span class="L">D</span>eserves <span class="L">A</span> <span class="L">W</span>ow<div style="font:500 22px Inter;color:var(--mut)">grouping · order (cake recipe!) · decoration · alignment (decimals!) · white space (counter)</div></div>
+      <div class="tile" style="grid-column:span 2" data-in="2.0" data-hl="2.0~2.95"><span class="n">USER ACTION</span>⌨️ entering info · 🖱️ knowing what to do · 👆 affordances</div>
+      <div class="tile" style="grid-column:span 2" data-in="3.0" data-hl="3.0~3.8"><span class="n">APPEARANCE</span>📊 presenting · 🎨 aesthetics · 🩶 colour &amp; 3D · 🌐 culture</div>
+      <div class="tile" style="grid-column:span 4" data-in="3.8" data-hl="3.8~4.5"><span class="n">ALWAYS</span>🔁 Prototype &amp; iterate — good start point, know what's wrong 🏔️</div>
+    </div>
+    <div class="endcard fv-endcard" style="top:800px" data-in="3.6"></div>
+  </section>
+</div>
+<script src="timing.js"></script>
+<script src="fv-runtime.js"></script>
+<script src="../hci-kit/kit.js"></script>
+<script>K.init();</script>
+</body>
+</html>

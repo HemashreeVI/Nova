@@ -1,0 +1,367 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nielsen's 10 Heuristics</title>
+<link rel="stylesheet" href="../hci-kit/kit.css">
+<style>
+  .phone{position:absolute;left:250px;top:40px;width:350px;height:560px;border-radius:40px;background:#0d1530;border:4px solid #33416e;overflow:hidden}
+  .phone .hdr{height:70px;display:flex;align-items:center;justify-content:center;font:800 28px Inter;background:#1b2648}
+  .row{position:absolute;left:24px;right:24px;font:600 26px Inter;display:flex;justify-content:space-between;align-items:center}
+  .step{position:absolute;left:300px;font:700 28px Inter}
+  .q{position:absolute;font:900 64px Inter;color:var(--bad)}
+  .field{position:absolute;height:64px;border-radius:12px;background:#0b1229;border:3px solid #33416e;font:600 26px 'JetBrains Mono';display:flex;align-items:center;padding:0 18px}
+  .field.on{border-color:var(--bad);box-shadow:0 0 30px rgba(248,113,113,.5)}
+  .menu{position:absolute;border-radius:14px;background:#1b2648;padding:10px 0;font:600 26px Inter}
+  .menu div{padding:10px 24px}
+  .menu div.on{background:var(--c1);color:#06122a}
+  .scr{position:absolute;top:40px;width:240px;height:260px;border-radius:18px;background:#111a33;border:2px solid #2a3760}
+  .scr i{display:block;height:16px;margin:22px 18px 0;border-radius:8px;background:#22305a}
+  .scr .btn{position:absolute;right:16px;bottom:16px;font-size:24px;padding:10px 18px}
+  .cal{position:absolute;display:grid;grid-template-columns:repeat(7,64px);gap:8px}
+  .cal div{height:56px;border-radius:10px;background:#1f2a4d;display:flex;align-items:center;justify-content:center;font:700 22px Inter}
+  .cal div.past{opacity:.25;text-decoration:line-through}
+  .cal div.on{background:var(--c1);color:#06122a}
+  [data-scene=recap] .tile{font-size:38px;padding:36px 28px}
+  .clutter{position:absolute;border-radius:12px;font:800 24px Inter;display:flex;align-items:center;justify-content:center;color:#111}
+</style>
+</head>
+<body>
+<div id="fv-stage">
+
+  <!-- INTRO -->
+  <section class="fv-scene" data-scene="intro">
+    <div class="hook" style="top:300px" data-in="0.1">Is this interface <span style="color:var(--c3)">good</span>?</div>
+    <div class="sub" style="top:450px" data-in="1">Jakob Nielsen's</div>
+    <div class="hook" style="top:510px;font-size:120px;color:var(--c1)" data-in="1.3" data-pop>10 Usability Heuristics</div>
+    <div class="sub" style="top:700px" data-in="2.6">running example: 🍕 a food ordering app</div>
+  </section>
+
+  <!-- OVERVIEW -->
+  <section class="fv-scene" data-scene="overview">
+    <div class="kicker" data-in="@0.1">The ten, in order</div>
+    <div class="title" data-in="@0.2">Nielsen's 10 heuristics</div>
+    <div class="grid" style="grid-template-columns:repeat(5,1fr)">
+      <div class="tile" data-in="1.02" data-on="3.42"><span class="n">01</span><span class="L">V</span>isibility of system status</div>
+      <div class="tile" data-in="1.22" data-on="3.48"><span class="n">02</span><span class="L">M</span>atch system &amp; real world</div>
+      <div class="tile" data-in="1.42" data-on="3.54"><span class="n">03</span><span class="L">U</span>ser control &amp; freedom</div>
+      <div class="tile" data-in="1.62" data-on="3.60"><span class="n">04</span><span class="L">C</span>onsistency &amp; standards</div>
+      <div class="tile" data-in="1.82" data-on="3.66"><span class="n">05</span><span class="L">E</span>rror prevention</div>
+      <div class="tile" data-in="2.02" data-on="3.72"><span class="n">06</span><span class="L">R</span>ecognition rather than recall</div>
+      <div class="tile" data-in="2.22" data-on="3.78"><span class="n">07</span><span class="L">F</span>lexibility &amp; efficiency</div>
+      <div class="tile" data-in="2.38" data-on="3.84"><span class="n">08</span><span class="L">A</span>esthetic &amp; minimalist</div>
+      <div class="tile" data-in="2.55" data-on="3.90"><span class="n">09</span><span class="L">H</span>elp recognize, diagnose, recover from errors</div>
+      <div class="tile" data-in="2.80" data-on="3.96"><span class="n">10</span><span class="L">H</span>elp &amp; documentation</div>
+    </div>
+    <div class="mnemo" style="top:720px">
+      <span data-in="4.0"><span class="L">V</span>ery</span> <span data-in="4.08"><span class="L">M</span>any</span> <span data-in="4.16"><span class="L">U</span>sers</span> <span data-in="4.26"><span class="L">C</span>omplain,</span>
+      <span data-in="4.38"><span class="L">E</span>rrors</span> <span data-in="4.48"><span class="L">R</span>eally</span> <span data-in="4.58"><span class="L">F</span>rustrate</span><br>
+      <span data-in="4.70"><span class="L">A</span>nd</span> <span data-in="4.78"><span class="L">H</span>urt</span> <span data-in="4.88"><span class="L">H</span>umans</span>
+    </div>
+  </section>
+
+  <!-- H1 VISIBILITY -->
+  <section class="fv-scene" data-scene="h1">
+    <div class="kicker" data-in="@0.1">Heuristic 1</div>
+    <div class="title" data-in="@0.2">Visibility of system status</div>
+    <div class="numbadge" data-in="@0.3" data-pop>1</div>
+    <div class="col-l">
+      <div class="key" data-in="2.1">Keep users <b>informed</b> — what is going on?</div>
+      <div class="key" data-in="2.6">Feedback <b>fast</b> (ideally immediate)</div>
+      <div class="key" data-in="3.1">Never act with consequences <b>silently</b></div>
+      <div class="key" data-in="4.3">Predictable → builds <b>trust</b></div>
+    </div>
+    <div class="mem" data-in="4.7">Like a delivery tracker: you always know where your food is.</div>
+    <div class="demo">
+      <div class="phone" style="left:40px">
+        <div class="hdr">🍕 QuickBite</div>
+        <div class="row" style="top:110px">Margherita<span>₹299</span></div>
+        <div class="row" style="top:160px;color:var(--mut)">Garlic bread<span>₹99</span></div>
+        <div class="btn p" style="position:absolute;left:30px;right:30px;top:440px" data-click="1.35,1.6,2.0">Place Order</div>
+      </div>
+      <div class="cursor" style="left:240px;top:620px" data-in="1.0" data-move="1.0~1.3:-20,-130"></div>
+      <div class="q" style="left:70px;top:300px" data-in="1.45" data-out="2.0">?</div>
+      <div class="q" style="left:310px;top:250px" data-in="1.65" data-out="2.0">?</div>
+      <div class="bad" style="left:180px;top:300px" data-in="1.7" data-pop data-out="2.0">✗</div>
+      <div class="step" style="left:440px;top:120px;color:var(--good)" data-in="2.05">✓ Order placed</div>
+      <div class="step" style="left:440px;top:200px;color:var(--c3)" data-in="2.3">● Preparing…</div>
+      <div class="step" style="left:440px;top:280px;color:var(--mut)" data-in="2.5">○ On the way</div>
+      <div class="track" style="left:440px;top:360px;width:360px" data-in="2.3"><div class="fill" data-grow="2.3~4.0"></div></div>
+      <div class="toast" style="left:430px;top:430px;width:300px" data-in="2.2" data-pop>Arriving in <b data-count="2.2~3.0:60,25">25</b> min</div>
+      <div class="chip" style="position:absolute;left:520px;top:560px;background:var(--good);color:#06240f" data-in="4.4" data-pop>Trust ↑</div>
+    </div>
+  </section>
+
+  <!-- H2 MATCH -->
+  <section class="fv-scene" data-scene="h2">
+    <div class="kicker" data-in="@0.1">Heuristic 2</div>
+    <div class="title" data-in="@0.2">Match between system &amp; the real world</div>
+    <div class="numbadge" data-in="@0.3" data-pop>2</div>
+    <div class="col-l">
+      <div class="key" data-in="1.1">Speak the <b>user's language</b>, not system terms</div>
+      <div class="key" data-in="3.0">Follow <b>real-world conventions</b> &amp; natural order</div>
+      <div class="key" data-in="4.0">Don't assume — do <b>user research</b></div>
+    </div>
+    <div class="mem" data-in="3.6">🗑️ Trash can = delete, because that's how the real world works.</div>
+    <div class="demo">
+      <div class="lbl">payment screen</div>
+      <div class="toast err mono" style="left:60px;top:90px;width:650px;font-size:28px" data-in="1.2" data-strike="2.0">ERR_TXN_0x5F: PAYLOAD_REJECTED</div>
+      <div class="bad" style="left:750px;top:80px" data-in="1.6" data-pop>✗</div>
+      <div class="toast" style="left:60px;top:220px;width:650px;font-size:30px" data-in="2.05" data-pop>Your card was declined. Try another card.</div>
+      <div class="good" style="left:750px;top:210px" data-in="2.3" data-pop>✓</div>
+      <div style="position:absolute;left:90px;top:400px;font-size:120px" data-in="3.55" data-pop>🛒</div>
+      <div style="position:absolute;left:340px;top:400px;font-size:120px" data-in="3.7" data-pop>🗑️</div>
+      <div style="position:absolute;left:590px;top:400px;font-size:120px" data-in="3.85" data-pop>📁</div>
+      <div class="tag" style="left:90px;top:560px;color:var(--mut)" data-in="3.6">cart</div>
+      <div class="tag" style="left:340px;top:560px;color:var(--mut)" data-in="3.75">delete</div>
+      <div class="tag" style="left:590px;top:560px;color:var(--mut)" data-in="3.9">folder</div>
+    </div>
+  </section>
+
+  <!-- H3 USER CONTROL -->
+  <section class="fv-scene" data-scene="h3">
+    <div class="kicker" data-in="@0.1">Heuristic 3</div>
+    <div class="title" data-in="@0.2">User control &amp; freedom</div>
+    <div class="numbadge" data-in="@0.3" data-pop>3</div>
+    <div class="col-l">
+      <div class="key" data-in="2.0">Clearly marked <b>emergency exit</b></div>
+      <div class="key" data-in="3.1">Support <b>Undo</b> &amp; <b>Redo</b></div>
+      <div class="key" data-in="3.6">Clear <b>Cancel</b> / way out</div>
+      <div class="key" data-in="4.1">Exit is <b>labeled</b> &amp; <b>discoverable</b></div>
+    </div>
+    <div class="mem" data-in="4.5">Ctrl+Z is the emergency exit door. 🚪</div>
+    <div class="demo">
+      <div class="lbl">your cart</div>
+      <div class="win" style="left:60px;top:80px;width:730px;height:330px">
+        <div class="bar"><i></i><i></i><i></i>&nbsp;Cart</div>
+        <div class="row" style="top:80px" data-out="1.45" ><span>🍕 Margherita</span><span>₹299</span></div>
+        <div class="row" style="top:80px" data-in="2.75"><span>🍕 Margherita</span><span>₹299</span></div>
+        <div class="row" style="top:150px"><span>🥖 Garlic bread</span><span>₹99</span></div>
+        <div class="btn" style="position:absolute;left:30px;bottom:24px">Cancel</div>
+        <div class="btn p" style="position:absolute;right:30px;bottom:24px">Checkout</div>
+      </div>
+      <div class="toast" style="left:120px;top:450px;width:610px;display:flex;justify-content:space-between;background:#1b2648;color:var(--ink);border-color:var(--c3)" data-in="1.5" data-out="2.8">Item removed <span class="btn p" style="padding:6px 20px;font-size:26px" data-click="2.6">UNDO</span></div>
+      <div class="cursor" style="left:660px;top:120px" data-in="1.0" data-move="1.0~1.35:-10,0;2.2~2.55:-40,370" data-click="1.4"></div>
+      <div class="tag" style="left:200px;top:580px;color:var(--good)" data-in="2.8">↩ back in one tap</div>
+      <div class="glow" style="position:absolute;left:84px;top:330px;width:170px;height:66px;border-radius:14px;border:4px solid var(--c3)" data-in="3.6" data-hl="3.6~4.8"></div>
+    </div>
+  </section>
+
+  <!-- H4 CONSISTENCY -->
+  <section class="fv-scene" data-scene="h4">
+    <div class="kicker" data-in="@0.1">Heuristic 4</div>
+    <div class="title" data-in="@0.2">Consistency &amp; standards</div>
+    <div class="numbadge" data-in="@0.3" data-pop>4</div>
+    <div class="col-l">
+      <div class="key" data-in="1.1">Same word, same action, <b>same meaning</b></div>
+      <div class="key" data-in="2.0"><b>Internal</b>: within your product / product family</div>
+      <div class="key" data-in="3.0"><b>External</b>: industry &amp; web conventions</div>
+      <div class="key" data-in="4.0">Inconsistent → more <b>cognitive load</b></div>
+    </div>
+    <div class="mem" data-in="4.5">Internal = inside my family. External = the whole world's rules.</div>
+    <div class="demo">
+      <div class="scr" style="left:40px"><i></i><i style="width:60%"></i><i></i><div class="btn p" data-in="1.1">Save</div></div>
+      <div class="scr" style="left:305px"><i style="margin-top:90px"></i><i style="width:50%"></i><div class="btn" style="background:var(--c6);left:16px;right:auto;top:16px;bottom:auto" data-in="1.35" data-out="2.0">Store</div><div class="btn p" data-in="2.1">Save</div></div>
+      <div class="scr" style="left:570px"><i></i><i></i><i style="width:40%"></i><div class="btn" style="background:var(--c4)" data-in="1.55" data-out="2.0">Keep</div><div class="btn p" data-in="2.1">Save</div></div>
+      <div class="bad" style="left:385px;top:10px" data-in="1.6" data-pop data-out="2.0">✗</div>
+      <div class="good" style="left:385px;top:10px" data-in="2.15" data-pop data-out="2.95">✓</div>
+      <div class="tag" style="left:40px;top:320px;color:var(--c1)" data-in="2.2" data-out="2.95">INTERNAL: same button everywhere in my app</div>
+      <div class="win" style="left:40px;top:380px;width:770px;height:200px" data-in="3.1">
+        <div class="bar"><i></i><i></i><i></i>&nbsp;any shopping site</div>
+        <div style="position:absolute;left:24px;top:68px;font:800 30px Inter">LOGO</div>
+        <div style="position:absolute;right:30px;top:58px;font-size:56px" data-hl="3.6~4.6">🛒</div>
+      </div>
+      <div class="tag" style="left:40px;top:320px;color:var(--c5)" data-in="3.5">EXTERNAL: every shop puts the cart top-right ↓</div>
+    </div>
+  </section>
+
+  <!-- H5 ERROR PREVENTION -->
+  <section class="fv-scene" data-scene="h5">
+    <div class="kicker" data-in="@0.1">Heuristic 5</div>
+    <div class="title" data-in="@0.2">Error prevention</div>
+    <div class="numbadge" data-in="@0.3" data-pop>5</div>
+    <div class="col-l">
+      <div class="key" data-in="1.1">Best design <b>prevents</b> the problem</div>
+      <div class="key" data-in="2.1"><b>Remove</b> error-prone conditions, or <b>confirm</b></div>
+      <div class="key" data-in="3.1">Prevent <b>high-cost</b> errors first</div>
+      <div class="key" data-in="4.0">Slips → <b>constraints</b> + good <b>defaults</b></div>
+    </div>
+    <div class="mem" data-in="4.6">A guard rail is better than an ambulance. 🚧</div>
+    <div class="demo">
+      <div class="lbl">pick delivery date</div>
+      <div class="cal" style="left:60px;top:80px" data-in="2.0">
+        <div class="past">11</div><div class="past">12</div><div class="past">13</div><div class="past">14</div><div class="on">15</div><div>16</div><div>17</div>
+      </div>
+      <div class="tag" style="left:60px;top:160px;color:var(--mut)" data-in="2.3">past dates greyed out — can't be picked</div>
+      <div class="win" style="left:120px;top:250px;width:610px;height:270px" data-in="2.65" data-pop>
+        <div class="bar"><i></i><i></i><i></i>&nbsp;Confirm</div>
+        <div style="position:absolute;left:30px;top:70px;font:700 30px Inter">Cancel order of ₹398?</div>
+        <div style="position:absolute;left:30px;top:118px;font:500 24px Inter;color:var(--mut)">This can't be undone.</div>
+        <div class="btn" style="position:absolute;left:30px;bottom:24px">Keep order</div>
+        <div class="btn d" style="position:absolute;right:30px;bottom:24px">Yes, cancel</div>
+      </div>
+      <div class="chip" style="position:absolute;left:60px;top:560px;background:var(--bad);color:#2a0606" data-in="3.1">💸 high cost first</div>
+      <div class="chip" style="position:absolute;left:350px;top:560px;background:var(--c3);color:#2a1a00" data-in="3.6">😤 small frustrations later</div>
+    </div>
+  </section>
+
+  <!-- H6 RECOGNITION -->
+  <section class="fv-scene" data-scene="h6">
+    <div class="kicker" data-in="@0.1">Heuristic 6</div>
+    <div class="title" data-in="@0.2">Recognition rather than recall</div>
+    <div class="numbadge" data-in="@0.3" data-pop>6</div>
+    <div class="col-l">
+      <div class="key" data-in="2.1">Make actions &amp; options <b>visible</b></div>
+      <div class="key" data-in="3.1">Don't make users <b>remember</b> across screens</div>
+      <div class="key" data-in="4.1">Help <b>in context</b>, not long tutorials</div>
+    </div>
+    <div class="mem" data-in="1.4">Fill-in-the-blank = recall 😰 · Multiple choice = recognition 😌</div>
+    <div class="demo">
+      <div class="tag" style="left:40px;top:30px;color:var(--bad)" data-in="1.1">RECALL</div>
+      <div class="field" style="left:40px;top:80px;width:350px" data-in="1.1">&gt; order ______</div>
+      <div class="tag" style="left:440px;top:30px;color:var(--good)" data-in="1.5">RECOGNITION</div>
+      <div class="menu" style="left:440px;top:80px;width:360px" data-in="1.5">
+        <div>🍔 Burger</div><div data-on="1.8">🍕 Pizza</div><div>🍜 Noodles</div><div>🥗 Salad</div>
+      </div>
+      <div class="bad" style="left:180px;top:180px" data-in="1.6" data-pop>?</div>
+      <div class="tag" style="left:40px;top:420px;color:var(--c3)" data-in="3.2">RECENT ORDERS (no need to remember!)</div>
+      <div class="chip" style="position:absolute;left:40px;top:470px" data-in="3.4">🍕 Margherita — reorder</div>
+      <div class="chip" style="position:absolute;left:420px;top:470px" data-in="3.55">🥖 Garlic bread</div>
+      <div class="chip" style="position:absolute;left:40px;top:550px;background:#3b2f0a;color:#fde68a" data-in="4.2">💡 tip: tap ⭐ to save favorites</div>
+    </div>
+  </section>
+
+  <!-- H7 FLEXIBILITY -->
+  <section class="fv-scene" data-scene="h7">
+    <div class="kicker" data-in="@0.1">Heuristic 7</div>
+    <div class="title" data-in="@0.2">Flexibility &amp; efficiency of use</div>
+    <div class="numbadge" data-in="@0.3" data-pop>7</div>
+    <div class="col-l">
+      <div class="key" data-in="2.2"><b>Accelerators</b>: shortcuts, gestures</div>
+      <div class="key" data-in="2.6">Hidden from novices, speed up <b>experts</b></div>
+      <div class="key" data-in="3.1">Caters to <b>both</b> novice &amp; expert</div>
+      <div class="key" data-in="4.1"><b>Personalize</b> &amp; <b>customize</b></div>
+    </div>
+    <div class="mem" data-in="4.5">Two roads to one place: the long path 🚶 and the shortcut 🏎️.</div>
+    <div class="demo">
+      <div class="tag" style="left:40px;top:40px;color:var(--c2)" data-in="1.0">🚶 NOVICE</div>
+      <div class="chip" style="position:absolute;left:40px;top:100px" data-in="1.15">Home</div>
+      <div class="tag" style="left:155px;top:108px;color:var(--mut)" data-in="1.3">→</div>
+      <div class="chip" style="position:absolute;left:200px;top:100px" data-in="1.3">Italian</div>
+      <div class="tag" style="left:330px;top:108px;color:var(--mut)" data-in="1.45">→</div>
+      <div class="chip" style="position:absolute;left:375px;top:100px" data-in="1.45">Pizza</div>
+      <div class="tag" style="left:490px;top:108px;color:var(--mut)" data-in="1.6">→</div>
+      <div class="chip" style="position:absolute;left:535px;top:100px" data-in="1.6">Add</div>
+      <div class="tag" style="left:630px;top:108px;color:var(--mut)" data-in="1.75">→</div>
+      <div class="chip" style="position:absolute;left:675px;top:100px;background:var(--good);color:#06240f" data-in="1.8">Pay</div>
+      <div class="tag" style="left:40px;top:250px;color:var(--c6)" data-in="2.0">🏎️ EXPERT</div>
+      <div class="btn p" style="position:absolute;left:40px;top:310px;font-size:32px" data-in="2.1" data-pop data-click="2.5">⚡ Reorder last meal</div>
+      <div class="chip mono" style="position:absolute;left:460px;top:318px" data-in="2.4">Ctrl+S</div>
+      <div class="chip" style="position:absolute;left:640px;top:318px" data-in="2.55">👆 swipe</div>
+      <div class="tag" style="left:40px;top:430px;color:var(--mut)" data-in="4.0">⚙️ MY SETTINGS</div>
+      <div class="chip" style="position:absolute;left:40px;top:480px" data-in="4.1">🌶️ spicy by default</div>
+      <div class="chip" style="position:absolute;left:380px;top:480px" data-in="4.3">🌙 dark mode</div>
+      <div class="chip" style="position:absolute;left:40px;top:560px" data-in="4.5">🏠 home address saved</div>
+    </div>
+  </section>
+
+  <!-- H8 MINIMALIST -->
+  <section class="fv-scene" data-scene="h8">
+    <div class="kicker" data-in="@0.1">Heuristic 8</div>
+    <div class="title" data-in="@0.2">Aesthetic &amp; minimalist design</div>
+    <div class="numbadge" data-in="@0.3" data-pop>8</div>
+    <div class="col-l">
+      <div class="key" data-in="1.1">No <b>irrelevant</b> or rarely needed info</div>
+      <div class="key" data-in="2.1">Extra info <b>competes</b> with relevant info</div>
+      <div class="key" data-in="3.2">Focus on <b>essentials</b> &amp; primary goal</div>
+    </div>
+    <div class="mem" data-in="4.1">Minimalist ≠ ugly. It means no noise. 🔇</div>
+    <div class="demo">
+      <div class="clutter" style="left:30px;top:30px;width:380px;height:90px;background:#f472b6" data-in="1.1" data-move="3.0~3.6:-600,-200">🔥 MEGA SALE 70%!!!</div>
+      <div class="clutter" style="left:440px;top:40px;width:370px;height:120px;background:#fbbf24" data-in="1.25" data-move="3.05~3.65:600,-200">Download our app!</div>
+      <div class="clutter" style="left:40px;top:150px;width:250px;height:170px;background:#a78bfa" data-in="1.4" data-move="3.1~3.7:-600,0">Refer a friend 🎁</div>
+      <div class="clutter" style="left:560px;top:190px;width:260px;height:150px;background:#34d399" data-in="1.55" data-move="3.15~3.75:600,0">Rate us ⭐⭐⭐⭐⭐</div>
+      <div class="clutter" style="left:40px;top:470px;width:330px;height:130px;background:#fb923c" data-in="1.7" data-move="3.2~3.8:-600,300">Newsletter signup</div>
+      <div class="clutter" style="left:480px;top:460px;width:340px;height:140px;background:#38bdf8" data-in="1.85" data-move="3.25~3.85:600,300">Cookie notice 🍪</div>
+      <div class="clutter" style="left:300px;top:345px;width:250px;height:100px;background:#e2e8f0" data-in="2.0" data-move="3.3~3.9:0,400">Blog · News · FAQ</div>
+      <div class="btn p" style="position:absolute;left:300px;top:250px;font-size:30px;padding:24px 40px" data-hl="3.9~5.0" data-base="">🍕 Order Pizza</div>
+    </div>
+  </section>
+
+  <!-- H9 ERRORS -->
+  <section class="fv-scene" data-scene="h9">
+    <div class="kicker" data-in="@0.1">Heuristic 9</div>
+    <div class="title sm" data-in="@0.2">Help users recognize, diagnose &amp; recover from errors</div>
+    <div class="numbadge" data-in="@0.3" data-pop>9</div>
+    <div class="col-l">
+      <div class="key" data-in="2.05"><b>Plain language</b> — no error codes</div>
+      <div class="key" data-in="2.4"><b>Precisely</b> indicate the problem</div>
+      <div class="key" data-in="2.75">Constructively <b>suggest a solution</b></div>
+      <div class="key" data-in="3.1"><b>Visual treatment</b> so it's noticed</div>
+    </div>
+    <div class="mem" data-in="4.0">#5 = BEFORE the error 🚧 · #9 = AFTER the error 🩹</div>
+    <div class="demo">
+      <div class="lbl">card number</div>
+      <div class="win" style="left:140px;top:70px;width:560px;height:220px" data-in="1.0" data-pop data-out="2.0" >
+        <div class="bar"><i></i><i></i><i></i>&nbsp;Error</div>
+        <div style="position:absolute;left:30px;top:80px;font:700 32px 'JetBrains Mono'">Error 0x80070057</div>
+        <div class="btn" style="position:absolute;right:24px;bottom:20px">OK</div>
+      </div>
+      <div class="bad" style="left:660px;top:50px" data-in="1.4" data-pop data-out="2.0">?</div>
+      <div class="field" style="left:60px;top:90px;width:720px" data-in="2.1" data-on="3.0">4111 1111 1111 11</div>
+      <div class="toast err" style="left:60px;top:190px;width:680px" data-in="2.2">❌ Card number is missing 2 digits.</div>
+      <div class="toast" style="left:60px;top:300px;width:680px;background:#0c2a45;border-color:var(--c1);color:#bae6fd" data-in="2.75">💡 Check the 16 digits on your card and try again.</div>
+      <div class="tag" style="left:60px;top:440px;color:var(--c3)" data-in="2.5">WHAT happened ✓</div>
+      <div class="tag" style="left:380px;top:440px;color:var(--c3)" data-in="2.6">WHERE ✓</div>
+      <div class="tag" style="left:580px;top:440px;color:var(--c3)" data-in="2.85">HOW to fix ✓</div>
+    </div>
+  </section>
+
+  <!-- H10 HELP -->
+  <section class="fv-scene" data-scene="h10">
+    <div class="kicker" data-in="@0.1">Heuristic 10</div>
+    <div class="title" data-in="@0.2">Help &amp; documentation</div>
+    <div class="numbadge" data-in="@0.3" data-pop>10</div>
+    <div class="col-l">
+      <div class="key" data-in="1.1">Best: <b>no explanation</b> needed</div>
+      <div class="key" data-in="2.2">Easy to <b>search</b></div>
+      <div class="key" data-in="2.6">Focused on the user's <b>task</b></div>
+      <div class="key" data-in="3.1"><b>Concise</b>, concrete <b>steps</b></div>
+    </div>
+    <div class="mem" data-in="3.5">Help = a recipe card 📇, not a novel 📚.</div>
+    <div class="demo">
+      <div class="lbl">help center</div>
+      <div class="field" style="left:60px;top:80px;width:720px" data-in="2.1">🔍 <span data-type="2.2~2.7">&nbsp;how to cancel an order</span></div>
+      <div class="tag" style="left:60px;top:200px;color:var(--c1)" data-in="2.8">Cancel an order</div>
+      <div class="key" style="position:absolute;left:60px;top:250px;width:660px;font-size:28px" data-in="3.05">1. Open <b>My Orders</b></div>
+      <div class="key" style="position:absolute;left:60px;top:340px;width:660px;font-size:28px" data-in="3.3">2. Tap the order → <b>Cancel</b></div>
+      <div class="key" style="position:absolute;left:60px;top:430px;width:660px;font-size:28px" data-in="3.55">3. Choose a reason → <b>Confirm</b></div>
+    </div>
+  </section>
+
+  <!-- RECAP -->
+  <section class="fv-scene" data-scene="recap">
+    <div class="kicker" data-in="@0.1">Recap</div>
+    <div class="title" data-in="@0.2">Very Many Users Complain, Errors Really Frustrate And Hurt Humans</div>
+    <div class="grid" style="grid-template-columns:repeat(5,1fr);top:330px;font-size:40px">
+      <div class="tile" data-in="1.0" data-hl="1.0~1.2"><span class="n">01 🔄</span><span class="L">V</span>isibility</div>
+      <div class="tile" data-in="1.2" data-hl="1.2~1.4"><span class="n">02 🗑️</span><span class="L">M</span>atch real world</div>
+      <div class="tile" data-in="1.4" data-hl="1.4~1.6"><span class="n">03 ↩</span><span class="L">U</span>ser control</div>
+      <div class="tile" data-in="1.6" data-hl="1.6~1.8"><span class="n">04 🛒</span><span class="L">C</span>onsistency</div>
+      <div class="tile" data-in="1.8" data-hl="1.8~2.0"><span class="n">05 🚧</span><span class="L">E</span>rror prevention</div>
+      <div class="tile" data-in="2.0" data-hl="2.0~2.2"><span class="n">06 ☑️</span><span class="L">R</span>ecognition</div>
+      <div class="tile" data-in="2.2" data-hl="2.2~2.4"><span class="n">07 ⚡</span><span class="L">F</span>lexibility</div>
+      <div class="tile" data-in="2.4" data-hl="2.4~2.6"><span class="n">08 🔇</span><span class="L">A</span>esthetic</div>
+      <div class="tile" data-in="2.6" data-hl="2.6~2.8"><span class="n">09 🩹</span><span class="L">H</span>elp w/ errors</div>
+      <div class="tile" data-in="2.8" data-hl="2.8~3.0"><span class="n">10 📇</span><span class="L">H</span>elp &amp; docs</div>
+    </div>
+    <div class="endcard fv-endcard" data-in="3.2"></div>
+  </section>
+</div>
+<script src="timing.js"></script>
+<script src="fv-runtime.js"></script>
+<script src="../hci-kit/kit.js"></script>
+<script>K.init();</script>
+</body>
+</html>

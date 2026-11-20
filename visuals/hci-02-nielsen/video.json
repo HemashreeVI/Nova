@@ -1,0 +1,102 @@
+{
+  "title": "Nielsen's 10 Usability Heuristics — Visual Exam Revision",
+  "slug": "hci-02-nielsen",
+  "description": "All ten of Jakob Nielsen's usability heuristics, animated with one running example (a food ordering app), plus a mnemonic to remember the order.",
+  "tags": ["hci", "nielsen heuristics", "usability", "ux", "exam revision"],
+  "voice": "am_michael",
+  "speed": 1.0,
+  "fps": 30,
+  "captions": true,
+  "endCard": "📘 more to learn → github.com/HemashreeVI",
+  "thumbnail": "overview@14",
+  "pronounce": { "Ctrl+Z": "control Z", "Ctrl+S": "control S", "UI": "U I", "Nielsen": "Neelsen" },
+  "scenes": [
+    { "id": "intro", "title": "Intro", "pad": [0.6, 0.8], "lines": [
+      "How do you judge whether an interface is good, without running a big user study?",
+      "Jakob Nielsen gave us ten rules of thumb, called usability heuristics.",
+      "We will walk through all ten using one simple example: a food ordering app."
+    ]},
+    { "id": "overview", "title": "The 10 at a glance + mnemonic", "lines": [
+      "Here are the ten, in order.",
+      "Visibility of system status. Match with the real world. User control and freedom. Consistency and standards. Error prevention.",
+      "Recognition rather than recall. Flexibility and efficiency. Aesthetic and minimalist design. Help with errors. And help and documentation.",
+      "To remember the order, take the first letters: V, M, U, C, E, R, F, A, H, H.",
+      "Very Many Users Complain, Errors Really Frustrate And Hurt Humans."
+    ]},
+    { "id": "h1", "title": "1. Visibility of system status", "lines": [
+      "Heuristic one. Visibility of system status.",
+      "You tap Place Order. If nothing happens, you panic and tap again.",
+      "A good design always keeps users informed about what is going on, through feedback, within a reasonable time. Ideally, immediately.",
+      "No action with consequences should happen without telling the user.",
+      "Clear, continuous feedback makes interactions predictable, and that builds trust."
+    ]},
+    { "id": "h2", "title": "2. Match between system and real world", "lines": [
+      "Heuristic two. Match between the system and the real world.",
+      "Speak the user's language. Not system-oriented terms like this error code.",
+      "Say: your card was declined. Use familiar words, phrases and concepts.",
+      "Follow real-world conventions, so information appears in a natural and logical order. A shopping cart, a trash can.",
+      "Never assume your words match your users' words. User research reveals their terminology and mental models."
+    ]},
+    { "id": "h3", "title": "3. User control and freedom", "lines": [
+      "Heuristic three. User control and freedom.",
+      "Users often choose functions by mistake. Oops, the pizza got removed from the cart.",
+      "They need a clearly marked emergency exit, without an extended dialogue. Here, one tap on undo.",
+      "So: support undo and redo, and show a clear way out, like a Cancel button.",
+      "And make that exit clearly labeled and easy to discover."
+    ]},
+    { "id": "h4", "title": "4. Consistency and standards", "lines": [
+      "Heuristic four. Consistency and standards.",
+      "Users should not have to wonder whether different words or actions mean the same thing. Save, store and keep? Pick one.",
+      "Internal consistency means consistency within your own product, or your family of products.",
+      "External consistency means following conventions of the industry or the web at large. Like the cart icon at the top right.",
+      "Breaking consistency increases cognitive load, because users must learn something new. Consistency improves learnability."
+    ]},
+    { "id": "h5", "title": "5. Error prevention", "lines": [
+      "Heuristic five. Error prevention.",
+      "Good error messages are important, but the best designs prevent problems from happening in the first place.",
+      "Either remove the error-prone condition, like greying out past delivery dates, or ask for confirmation before a risky action.",
+      "Prioritize: prevent high-cost errors first, then the little frustrations.",
+      "Avoid slips with helpful constraints and good defaults. Reduce memory burden, support undo, and warn users."
+    ]},
+    { "id": "h6", "title": "6. Recognition rather than recall", "lines": [
+      "Heuristic six. Recognition rather than recall.",
+      "Think of an exam. Fill in the blank is recall. Multiple choice is recognition. Which is easier?",
+      "Minimize memory load by making elements, actions and options visible.",
+      "Users should not have to remember information from one screen to another. Show recent orders, labels and menus.",
+      "Offer help in context, instead of a long tutorial to memorize."
+    ]},
+    { "id": "h7", "title": "7. Flexibility and efficiency of use", "lines": [
+      "Heuristic seven. Flexibility and efficiency of use.",
+      "A beginner orders by browsing through menus, step by step.",
+      "An expert taps one shortcut: reorder last meal. Accelerators like keyboard shortcuts and gestures, hidden from novices, speed up experts.",
+      "So one design caters to both inexperienced and experienced users.",
+      "Also allow personalization, customization, and tailoring of frequent actions."
+    ]},
+    { "id": "h8", "title": "8. Aesthetic and minimalist design", "lines": [
+      "Heuristic eight. Aesthetic and minimalist design.",
+      "Interfaces should not contain information that is irrelevant or rarely needed.",
+      "Every extra unit of information competes with the relevant units, and reduces their visibility.",
+      "So strip the noise. Keep content and visuals focused on the essentials and the primary goal.",
+      "Minimalist does not mean ugly. It means nothing distracts from what matters."
+    ]},
+    { "id": "h9", "title": "9. Recognize, diagnose, recover from errors", "lines": [
+      "Heuristic nine. Help users recognize, diagnose, and recover from errors.",
+      "This message tells the user nothing.",
+      "Error messages should use plain language with no error codes, say precisely what the problem is, and constructively suggest a solution.",
+      "Give them a visual treatment, like red color and a highlighted field, so users notice them.",
+      "Exam tip: heuristic five is before an error happens. Heuristic nine is after."
+    ]},
+    { "id": "h10", "title": "10. Help and documentation", "lines": [
+      "Heuristic ten. Help and documentation.",
+      "Ideally the system needs no explanation at all.",
+      "But when help is needed, it should be easy to search, and focused on the user's task.",
+      "Keep it concise, and list the concrete steps to carry out."
+    ]},
+    { "id": "recap", "title": "Recap", "pad": [0.5, 2.0], "lines": [
+      "Quick recap. Very Many Users Complain, Errors Really Frustrate And Hurt Humans.",
+      "Visibility, Match, User control, Consistency, Error prevention.",
+      "Recognition, Flexibility, Aesthetic, Help with errors, Help and documentation.",
+      "Picture the food app for each one, and you will remember all ten."
+    ]}
+  ]
+}
