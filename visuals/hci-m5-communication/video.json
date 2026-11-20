@@ -1,0 +1,814 @@
+{
+ "title": "HCI Module 5 — Collaboration and Communication",
+ "slug": "hci-m5-communication",
+ "kicker": "HCI · Module 05 · Collaboration & Communication",
+ "description": "Exam revision: face-to-face communication, conversation mechanisms and rules, text-based communication, group working, media spaces, virtual worlds and dialog design.",
+ "tags": [
+  "HCI",
+  "conversation analysis",
+  "CSCW",
+  "media spaces"
+ ],
+ "voice": "af_heart",
+ "speed": 1.0,
+ "fps": 24,
+ "captions": true,
+ "endCard": "📘 Collaboration & Communication — revised. You've got this!",
+ "thumbnail": "greet@8",
+ "pronounce": {
+  "IM": "I M",
+  "MUDs": "muds",
+  "MOOs": "moos",
+  "ZORK": "zork",
+  "Zork": "zork",
+  "BNF": "B N F",
+  "CSCW": "C S C W",
+  "quoi": "kwah"
+ },
+ "scenes": [
+  {
+   "id": "intro",
+   "title": "Intro",
+   "pad": [
+    0.6,
+    1.0
+   ],
+   "viz": {
+    "type": "hook",
+    "icon": "🗣️💬",
+    "t": "Collaboration & Communication",
+    "s": "Why is face-to-face easy, and text so easy to misread?",
+    "sAt": 0.5,
+    "cAt": 2,
+    "chips": [
+     "Face-to-face",
+     "Conversation mechanisms",
+     "Sacks' 3 rules",
+     "Breakdowns",
+     "Text-based",
+     "Group working",
+     "Virtual worlds",
+     "Media spaces",
+     "Dialog notations"
+    ]
+   },
+   "lines": [
+    "Why can two people chat effortlessly face to face, but misunderstand each other over text?",
+    "This module is about collaboration and communication.",
+    "Face to face communication, conversation, text based communication, group working, and dialog design."
+   ]
+  },
+  {
+   "id": "f2f",
+   "title": "1. What is face-to-face communication?",
+   "viz": {
+    "type": "cards",
+    "cols": 2,
+    "items": [
+     {
+      "icon": "🧠",
+      "h": "Our edge",
+      "b": "along with intelligence, communication gives us the edge over other animals",
+      "c": "b",
+      "at": 0
+     },
+     {
+      "icon": "📚",
+      "h": "Transfers knowledge",
+      "b": "communication is a means of transferring knowledge",
+      "c": "g",
+      "at": 1
+     },
+     {
+      "icon": "🗣️",
+      "h": "Language = the tool",
+      "b": "language is a tool of communication",
+      "c": "y",
+      "at": 2
+     },
+     {
+      "icon": "🖨️",
+      "h": "Printing press",
+      "b": "greatest single discovery in communication <b>before the internet</b>",
+      "c": "k",
+      "at": 3
+     }
+    ]
+   },
+   "lines": [
+    "Along with intelligence, communication is what gives us the edge over other animals.",
+    "It is a means of transferring knowledge,",
+    "and language is the tool of communication.",
+    "Before the internet, the printing press was the greatest single discovery in the field of communication."
+   ]
+  },
+  {
+   "id": "social",
+   "title": "2. Social communication",
+   "viz": {
+    "type": "cards",
+    "items": [
+     {
+      "icon": "🎙️",
+      "h": "Verbal",
+      "b": "• Face to face<br>• Over phone<br>• Voice chat &amp; video conferencing",
+      "c": "b",
+      "at": 1
+     },
+     {
+      "icon": "✉️",
+      "h": "Non-verbal (written)",
+      "b": "• Mails (letters)<br>• Emails<br>• Instant messenger<br>• Text messaging",
+      "c": "p",
+      "at": 2
+     }
+    ]
+   },
+   "lines": [
+    "Social communication comes in two kinds.",
+    "Verbal communication: face to face, over the phone, voice chat, and video conferencing.",
+    "Non-verbal communication: mails, emails, instant messenger, and text messaging."
+   ]
+  },
+  {
+   "id": "greet",
+   "title": "3. Conversational mechanisms — greetings",
+   "viz": {
+    "type": "chat",
+    "x": 320,
+    "fs": 36,
+    "people": {
+     "A": {
+      "c": "b"
+     },
+     "B": {
+      "c": "k",
+      "side": "r"
+     },
+     "C": {
+      "c": "g"
+     }
+    },
+    "msgs": [
+     {
+      "who": "A",
+      "t": "Hi there",
+      "at": 1
+     },
+     {
+      "who": "B",
+      "t": "Hi!",
+      "at": 1.35
+     },
+     {
+      "who": "C",
+      "t": "Hi",
+      "at": 1.7
+     },
+     {
+      "who": "A",
+      "t": "All right?",
+      "at": 2
+     },
+     {
+      "who": "C",
+      "t": "Good, how's it going?",
+      "at": 2.3
+     },
+     {
+      "who": "A",
+      "t": "Fine, how are you?",
+      "at": 2.65
+     },
+     {
+      "who": "C",
+      "t": "OK",
+      "at": 3
+     },
+     {
+      "who": "B",
+      "t": "So-so. How's life treating you?",
+      "at": 3.35
+     }
+    ]
+   },
+   "lines": [
+    "Conversations follow mechanisms and rules. They start with mutual greetings.",
+    "A says, hi there. B, hi. C, hi.",
+    "A: all right? C: good, how's it going? A: fine, how are you?",
+    "C: OK. B: so-so, how's life treating you?",
+    "Everyone greets, and every greeting is returned. It's a ritual."
+   ]
+  },
+  {
+   "id": "turns",
+   "title": "4. Turn-taking & back-channelling",
+   "viz": {
+    "type": "chat",
+    "x": 320,
+    "fs": 36,
+    "people": {
+     "A": {
+      "c": "b"
+     },
+     "B": {
+      "c": "k",
+      "side": "r"
+     },
+     "L": {
+      "c": "y"
+     }
+    },
+    "msgs": [
+     {
+      "who": "A",
+      "t": "Shall we meet at 8?",
+      "at": 1
+     },
+     {
+      "who": "B",
+      "t": "Um, can we meet a bit later?",
+      "at": 1.5
+     },
+     {
+      "who": "A",
+      "t": "Shall we meet at 8?",
+      "at": 2.2
+     },
+     {
+      "who": "B",
+      "t": "Wow, look at him!",
+      "at": 2.45,
+      "note": "side-track",
+      "nc": "r"
+     },
+     {
+      "who": "A",
+      "t": "Yes, what a funny hairdo!",
+      "at": 2.7,
+      "note": "side-track",
+      "nc": "r"
+     },
+     {
+      "who": "B",
+      "t": "Um, can we meet a bit later?",
+      "at": 3,
+      "note": "back on track",
+      "nc": "g"
+     },
+     {
+      "who": "L",
+      "t": "Uh-uh … umm … ahh",
+      "at": 4,
+      "note": "back-channel: keep going, I'm following"
+     }
+    ]
+   },
+   "lines": [
+    "Turn taking is used to coordinate conversation.",
+    "A: shall we meet at eight? B: um, can we meet a bit later?",
+    "Turns can nest. A: shall we meet at eight? B: wow, look at him! A: yes, what a funny hairdo!",
+    "B: um, can we meet a bit later? The original question gets its answer after the side sequence.",
+    "Back channelling, like uh-uh, umm, ahh, signals the speaker to continue, and that the listener is following."
+   ]
+  },
+  {
+   "id": "bye",
+   "title": "5. Farewells & cues",
+   "viz": {
+    "type": "cards",
+    "items": [
+     {
+      "icon": "👋",
+      "h": "Farewell rituals",
+      "b": "“Bye then” · “See you” · “See you later…”",
+      "c": "b",
+      "at": 0
+     },
+     {
+      "icon": "⌚",
+      "h": "Implicit cues",
+      "b": "looking at your watch · fidgeting with coat and bags",
+      "c": "y",
+      "at": 1
+     },
+     {
+      "icon": "🏃",
+      "h": "Explicit cues",
+      "b": "“Oh dear, must go, look at the time, I'm late…”",
+      "c": "k",
+      "at": 2
+     }
+    ]
+   },
+   "lines": [
+    "Conversations close with farewell rituals: bye then, see you, see you later.",
+    "Before that, people send implicit cues, like looking at their watch, or fidgeting with coats and bags.",
+    "Or explicit cues: oh dear, must go, look at the time, I'm late."
+   ]
+  },
+  {
+   "id": "sacks",
+   "title": "6. Sacks et al. (1978) — 3 conversational rules",
+   "viz": {
+    "type": "cards",
+    "items": [
+     {
+      "icon": "👉",
+      "h": "Rule 1 · Speaker selects",
+      "b": "current speaker chooses the next speaker by asking an <b>opinion, question or request</b>",
+      "c": "b",
+      "at": 1
+     },
+     {
+      "icon": "🙋",
+      "h": "Rule 2 · Self-select",
+      "b": "another person decides to start speaking",
+      "c": "g",
+      "at": 2
+     },
+     {
+      "icon": "🔁",
+      "h": "Rule 3 · Continue",
+      "b": "the current speaker continues talking",
+      "c": "y",
+      "at": 3
+     }
+    ],
+    "note": "Pick · Jump in · Keep going"
+   },
+   "lines": [
+    "Sacks and colleagues, in nineteen seventy-eight, described three basic rules of conversation analysis.",
+    "Rule one: the current speaker chooses the next speaker, by asking an opinion, a question, or a request.",
+    "Rule two: another person decides to start speaking.",
+    "Rule three: the current speaker continues talking.",
+    "Memory hook: pick, jump in, or keep going."
+   ]
+  },
+  {
+   "id": "breakdown",
+   "title": "7. Breakdowns in conversation",
+   "viz": {
+    "type": "chat",
+    "x": 380,
+    "fs": 42,
+    "top": 300,
+    "people": {
+     "A": {
+      "c": "b"
+     },
+     "B": {
+      "c": "k",
+      "side": "r"
+     },
+     "?": {
+      "c": "y"
+     }
+    },
+    "msgs": [
+     {
+      "who": "A",
+      "t": "this one?",
+      "at": 1.3
+     },
+     {
+      "who": "B",
+      "t": "no, I meant <b style='color:#fbbf24'>THAT</b> one!",
+      "at": 1.7,
+      "note": "repeat with emphasis",
+      "nc": "g"
+     },
+     {
+      "who": "?",
+      "t": "Eh?",
+      "at": 2.1
+     },
+     {
+      "who": "?",
+      "t": "Quoi?",
+      "at": 2.3
+     },
+     {
+      "who": "?",
+      "t": "Huh?",
+      "at": 2.5
+     },
+     {
+      "who": "?",
+      "t": "What?",
+      "at": 2.7,
+      "note": "repair tokens"
+     }
+    ]
+   },
+   "lines": [
+    "Breakdowns happen when someone says something that is misunderstood.",
+    "The speaker repeats with emphasis. A: this one? B: no, I meant that one!",
+    "People also use tokens to flag a breakdown: eh? quoi? huh? what?"
+   ]
+  },
+  {
+   "id": "textcomm",
+   "title": "8. Text-based communication",
+   "viz": {
+    "type": "cards",
+    "cols": 4,
+    "items": [
+     {
+      "icon": "📞",
+      "h": "Phone",
+      "b": "voice only — no facial or gesture cues",
+      "c": "b",
+      "at": 2
+     },
+     {
+      "icon": "📧",
+      "h": "Email",
+      "b": "asynchronous — long delays between turns",
+      "c": "p",
+      "at": 2.25
+     },
+     {
+      "icon": "💬",
+      "h": "IM",
+      "b": "near real-time — turns overlap and interleave",
+      "c": "y",
+      "at": 2.5
+     },
+     {
+      "icon": "📱",
+      "h": "Text messaging",
+      "b": "short, abbreviated — tone easily misread",
+      "c": "g",
+      "at": 2.75
+     },
+     {
+      "icon": "❓",
+      "h": "Same rules?",
+      "b": "do the same conversational rules apply?",
+      "c": "w",
+      "at": 1
+     },
+     {
+      "icon": "💥",
+      "h": "More breakdowns?",
+      "b": "are there more breakdowns?",
+      "c": "r",
+      "at": 1.5
+     },
+     {
+      "icon": "🔧",
+      "h": "Repair?",
+      "b": "how do people repair them in each medium?",
+      "c": "o",
+      "at": 2
+     },
+     {
+      "icon": "😊",
+      "h": "Repair tools",
+      "b": "emoticons, quick follow-ups, clarifying questions",
+      "c": "k",
+      "at": 3
+     }
+    ]
+   },
+   "lines": [
+    "What happens in technology mediated conversations?",
+    "Do the same conversational rules apply? Are there more breakdowns?",
+    "How do people repair them, over the phone, by email, instant messaging and text messaging?",
+    "With fewer cues and more delay, breakdowns rise, so people repair with emoticons, quick follow-ups and clarifying questions."
+   ]
+  },
+  {
+   "id": "group",
+   "title": "9. Group working",
+   "viz": {
+    "type": "flow",
+    "nodes": [
+     {
+      "icon": "🤝",
+      "h": "Collaborative tech",
+      "b": "design technologies for group working",
+      "c": "b",
+      "at": 0
+     },
+     {
+      "icon": "🚧",
+      "h": "Challenge",
+      "b": "support communication where obstacles stop it happening ‘naturally’",
+      "c": "r",
+      "at": 1
+     },
+     {
+      "icon": "🌍",
+      "h": "Main aim",
+      "b": "let people in physically different locations communicate",
+      "c": "y",
+      "at": 2
+     },
+     {
+      "icon": "🏠",
+      "h": "Key issue",
+      "b": "carry on communicating as if in the same place",
+      "c": "g",
+      "at": 3
+     },
+     {
+      "icon": "👥",
+      "h": "Co-located too",
+      "b": "also help co-located groups communicate",
+      "c": "p",
+      "at": 4
+     }
+    ]
+   },
+   "lines": [
+    "Group working means designing collaborative technologies.",
+    "The challenge is to support communication where obstacles prevent it from happening naturally.",
+    "The main aim is to let people communicate when they are in physically different locations.",
+    "The key issue is letting them carry on communicating as if they were in the same place.",
+    "And designers also ask how collaborative technology can help co-located groups communicate."
+   ]
+  },
+  {
+   "id": "remote",
+   "title": "10. Communicating across locations",
+   "viz": {
+    "type": "cards",
+    "cols": 4,
+    "items": [
+     {
+      "icon": "📧",
+      "h": "Emails",
+      "c": "b",
+      "at": 0
+     },
+     {
+      "icon": "📹",
+      "h": "Video-conferencing",
+      "c": "p",
+      "at": 0.4
+     },
+     {
+      "icon": "☎️",
+      "h": "Videophones",
+      "c": "y",
+      "at": 0.8
+     },
+     {
+      "icon": "🖥️",
+      "h": "Computer conferencing",
+      "c": "g",
+      "at": 1
+     },
+     {
+      "icon": "💬",
+      "h": "Chat rooms",
+      "c": "k",
+      "at": 1.4
+     },
+     {
+      "icon": "⚡",
+      "h": "Instant messaging",
+      "c": "o",
+      "at": 1.8
+     },
+     {
+      "icon": "🏰",
+      "h": "MUDs &amp; MOOs",
+      "b": "text-based online worlds — communicate <b>exclusively using text</b>",
+      "c": "r",
+      "at": 2
+     }
+    ]
+   },
+   "lines": [
+    "Tools for communicating across physical locations: emails, video conferencing, and videophones,",
+    "computer conferencing, chat rooms, and instant messaging.",
+    "And online MUDs and MOOs, multi user dungeons and their object oriented versions, were created to let users communicate exclusively using text."
+   ]
+  },
+  {
+   "id": "zork",
+   "title": "11. Dialog design — same game, different dialog",
+   "viz": {
+    "type": "cards",
+    "items": [
+     {
+      "icon": "⌨️",
+      "h": "ZORK as text",
+      "b": "<span style='font-family:JetBrains Mono'>&gt; look<br>Forest path…<br>&gt; climb tree<br>You are 10 feet above the ground…</span><br>dialog = commands ↔ prose replies",
+      "c": "g",
+      "at": 1
+     },
+     {
+      "icon": "🧑‍🤝‍🧑",
+      "h": "ZORK as a 3D world",
+      "b": "avatars in the scene, chatting:<br>“does anyone have questions?” · “I'm Larry from Indiana University” · “good to meet you”<br>dialog = social, many-to-many",
+      "c": "p",
+      "at": 2
+     }
+    ],
+    "note": "The medium changes the conversation",
+    "noteLabel": "TAKEAWAY",
+    "noteAt": 3
+   },
+   "lines": [
+    "Activity: how do the conversations differ for the same game of Zork?",
+    "In the text version, you type commands like look, or climb tree, and the game answers in prose.",
+    "In the three D world version, avatars stand in the scene and chat, greeting each other, asking questions, introducing themselves.",
+    "Same game, but the dialog becomes social. The medium changes the conversation."
+   ]
+  },
+  {
+   "id": "worlds",
+   "title": "12. 3D virtual worlds",
+   "viz": {
+    "type": "timeline",
+    "y": 580,
+    "hUp": 290,
+    "hDn": 290,
+    "events": [
+     {
+      "y": "BowieWorld",
+      "icon": "🐧",
+      "h": "Rooftop garden",
+      "b": "dress up as an avatar — penguins to real people",
+      "c": "b",
+      "at": 0
+     },
+     {
+      "y": "Explore",
+      "icon": "🗨️",
+      "h": "Explore &amp; chat",
+      "b": "avatars explore the world and chat to other avatars",
+      "c": "g",
+      "at": 1
+     },
+     {
+      "y": "2000",
+      "icon": "🏨",
+      "h": "Habbo Hotel",
+      "b": "7 million+ players · massively multiplayer online game",
+      "c": "y",
+      "at": 3
+     },
+     {
+      "y": "2003",
+      "icon": "🌐",
+      "h": "Second Life",
+      "b": "2 million+ users",
+      "c": "k",
+      "at": 2
+     }
+    ]
+   },
+   "lines": [
+    "Three D virtual worlds. In BowieWorld's rooftop garden, users take part by dressing up as an avatar, including penguins and real people.",
+    "Once an avatar has entered a world, it can explore and chat to other avatars.",
+    "Massive worlds followed. Second Life, from two thousand three, with over two million users.",
+    "And Habbo Hotel, from two thousand, with over seven million players, a massively multiplayer online game.",
+    "Think about it: what kinds of conversation take place in these environments?"
+   ]
+  },
+  {
+   "id": "media",
+   "title": "13. Media spaces",
+   "viz": {
+    "type": "cards",
+    "cols": 3,
+    "items": [
+     {
+      "icon": "🎥🎤💻",
+      "h": "Media space",
+      "b": "combines audio, video and computer systems to “extend the world of desks, chairs, walls and ceilings”",
+      "c": "b",
+      "at": 0
+     },
+     {
+      "icon": "📺",
+      "h": "Typical node",
+      "b": "camera + monitor + mic on a desk — an always-on link to a colleague",
+      "c": "y",
+      "at": 2
+     },
+     {
+      "icon": "☕",
+      "h": "VideoWindow",
+      "b": "big wall screen linking two coffee lounges for casual chat across sites",
+      "c": "g",
+      "at": 3
+     },
+     {
+      "icon": "🏢",
+      "h": "Xerox Media Space",
+      "c": "p",
+      "at": 1
+     },
+     {
+      "icon": "🐍",
+      "h": "Hydra",
+      "c": "k",
+      "at": 1.3
+     },
+     {
+      "icon": "🚢",
+      "h": "Cruiser",
+      "c": "o",
+      "at": 1.6
+     }
+    ],
+    "bs": 25
+   },
+   "lines": [
+    "Media spaces combine audio, video and computer systems to extend the world of desks, chairs, walls and ceilings.",
+    "Examples: Xerox Media Space, Hydra, Cruiser, and the VideoWindow system.",
+    "A typical media space node is a camera, a monitor and a microphone on a desk, linking you to a remote colleague.",
+    "The VideoWindow was a large wall display connecting two coffee lounges, so people could chat casually across sites."
+   ]
+  },
+  {
+   "id": "notation",
+   "title": "14. Dialog notations, semantics & analysis",
+   "viz": {
+    "type": "cards",
+    "cols": 2,
+    "bs": 27,
+    "items": [
+     {
+      "icon": "🔀",
+      "h": "Diagrammatic notations",
+      "b": "state transition networks, statecharts, Petri nets — dialog as states + arrows",
+      "c": "b",
+      "at": 1
+     },
+     {
+      "icon": "📜",
+      "h": "Textual notations",
+      "b": "grammars (BNF), production rules — dialog as text rules",
+      "c": "y",
+      "at": 2
+     },
+     {
+      "icon": "🎯",
+      "h": "Dialog semantics",
+      "b": "what each user action <b>means</b> — the effect it has on the system",
+      "c": "g",
+      "at": 3
+     },
+     {
+      "icon": "🔎",
+      "h": "Dialog analysis &amp; design",
+      "b": "check completeness, determinism, consistency and reversibility before building",
+      "c": "k",
+      "at": 4
+     }
+    ],
+    "note": "Textbook background — the slides only name these topics",
+    "noteLabel": "NOTE",
+    "noteAt": 0
+   },
+   "lines": [
+    "The outline also names dialog design notations. These describe the structure of a dialog between user and system.",
+    "Diagrammatic notations draw the dialog, like state transition networks, statecharts, or Petri nets.",
+    "Textual notations write it down, like grammars in B N F, or production rules.",
+    "Dialog semantics is about what each user action means, the effect it has on the system.",
+    "Dialog analysis checks a design for completeness, determinism, consistency and reversibility, before it's built."
+   ]
+  },
+  {
+   "id": "recap",
+   "title": "Recap",
+   "pad": [
+    0.5,
+    2.0
+   ],
+   "viz": {
+    "type": "hook",
+    "icon": "✅",
+    "t": "Recap",
+    "s": "Greet · Take turns · Back-channel · Repair · Say goodbye",
+    "sAt": 1,
+    "cAt": 1.5,
+    "endcard": true,
+    "endAt": 2,
+    "chips": [
+     "Verbal vs non-verbal",
+     "Sacks 1978: 3 rules",
+     "Back-channel: uh-uh",
+     "Repair: Eh? Huh?",
+     "MUDs & MOOs",
+     "Second Life 2003 · 2M",
+     "Habbo 2000 · 7M",
+     "Media spaces",
+     "Hydra · Cruiser · VideoWindow"
+    ]
+   },
+   "lines": [
+    "Quick recap.",
+    "Conversations run on greetings, turn taking, back channelling, repair, and farewells. Sacks' three rules: speaker picks, someone jumps in, or the speaker continues.",
+    "Technology can stretch this across distance, with email, chat, MUDs, virtual worlds and media spaces. You've got this."
+   ]
+  }
+ ]
+}

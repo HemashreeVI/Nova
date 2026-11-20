@@ -1,0 +1,1370 @@
+{
+ "title": "HCI Module 7 — Usability Testing, UAT and Interface Testing",
+ "slug": "hci-m7-usability",
+ "kicker": "HCI · Module 7 · Usability Testing",
+ "description": "Exam revision: usability, ISO 9241-11, goals of usability testing, formal vs informal tests, the 5-step process, best practices, pros/cons, User Acceptance Testing, V-model and interface testing.",
+ "tags": [
+  "HCI",
+  "usability testing",
+  "UAT",
+  "V-model",
+  "interface testing"
+ ],
+ "voice": "af_heart",
+ "speed": 1.0,
+ "fps": 24,
+ "captions": true,
+ "endCard": "📘 Usability Testing — revised. You've got this!",
+ "thumbnail": "steps@10",
+ "pronounce": {
+  "V & V": "V and V",
+  "V&V": "V and V",
+  "UAT": "U A T",
+  "ISO": "eye-so",
+  "AUT": "A U T",
+  "API's": "A P eyes",
+  "APIs": "A P eyes",
+  "Kbps": "kilobits per second",
+  "SDLC": "S D L C",
+  "HCI": "H C I"
+ },
+ "scenes": [
+  {
+   "id": "intro",
+   "title": "Intro",
+   "pad": [
+    0.6,
+    1.0
+   ],
+   "viz": {
+    "type": "hook",
+    "icon": "🧪👀",
+    "t": "Usability Testing",
+    "s": "Watch real users — find the problems before launch",
+    "sAt": 1,
+    "cAt": 2,
+    "chips": [
+     "Why V&V",
+     "ISO 9241-11",
+     "Goals",
+     "Formal vs informal",
+     "5-step process",
+     "Best practices",
+     "Pros & cons",
+     "UAT",
+     "V-model",
+     "Interface testing"
+    ]
+   },
+   "lines": [
+    "You built it, and it works. But can real people actually use it?",
+    "That's what usability testing finds out.",
+    "We'll cover usability, its goals, the five step testing process, best practices, user acceptance testing, and interface testing."
+   ]
+  },
+  {
+   "id": "vv",
+   "title": "1. Why it matters for V & V",
+   "viz": {
+    "type": "cards",
+    "cols": 2,
+    "items": [
+     {
+      "icon": "⭐",
+      "h": "Quality attribute",
+      "b": "usability is an important attribute of good quality software",
+      "c": "b",
+      "at": 0
+     },
+     {
+      "icon": "🎯",
+      "h": "Quality = meets needs",
+      "b": "quality software meets the user's needs",
+      "c": "g",
+      "at": 1
+     },
+     {
+      "icon": "📖",
+      "h": "Needs include ease",
+      "b": "software easy to <b>understand, learn and use</b>",
+      "c": "y",
+      "at": 2
+     },
+     {
+      "icon": "📈",
+      "h": "Payoff",
+      "b": "usable software increases user <b>productivity</b> and <b>satisfaction</b>",
+      "c": "k",
+      "at": 3
+     }
+    ]
+   },
+   "lines": [
+    "Why is usability part of verification and validation? Because usability is an important attribute of good quality software.",
+    "Quality software is software that meets the user's needs.",
+    "Those needs may require software that's easy to understand, learn, and use.",
+    "And usable software increases user productivity and user satisfaction."
+   ]
+  },
+  {
+   "id": "goal",
+   "title": "2. Know your goal",
+   "viz": {
+    "type": "formula",
+    "f": "🎯 Identify problem areas → test → solve",
+    "fs": 62,
+    "at": 0,
+    "rtop": 430,
+    "rows": [
+     {
+      "t": "goal: identify the problem areas of your software / Web site by testing, to solve those problems",
+      "at": 0.5,
+      "fs": 36
+     },
+     {
+      "t": "and always keep your tests and analysis <b>simple!</b>",
+      "at": 1,
+      "fs": 44,
+      "c": "g"
+     }
+    ]
+   },
+   "lines": [
+    "The important point to remember: know your goal. Identify the problem areas of your software or web site by testing, so you can solve them.",
+    "And always keep your tests and analysis simple."
+   ]
+  },
+  {
+   "id": "usability",
+   "title": "3. What is usability? (ISO 9241-11)",
+   "viz": {
+    "type": "cards",
+    "cols": 3,
+    "items": [
+     {
+      "icon": "🤝",
+      "h": "Usability",
+      "b": "a measure of how easy it is to use something — understand, learn, operate · “user-friendliness”",
+      "c": "w",
+      "at": 0
+     },
+     {
+      "icon": "👤",
+      "h": "Specified users",
+      "b": "…can be used by <b>specified users</b>",
+      "c": "b",
+      "at": 1.3
+     },
+     {
+      "icon": "🎯",
+      "h": "Specified goals",
+      "b": "…to achieve <b>specified goals</b>",
+      "c": "b",
+      "at": 1.6
+     },
+     {
+      "icon": "✅",
+      "h": "Effectiveness",
+      "b": "can they achieve the goal?",
+      "c": "g",
+      "at": 2
+     },
+     {
+      "icon": "⚡",
+      "h": "Efficiency",
+      "b": "with how little effort / time?",
+      "c": "y",
+      "at": 2.3
+     },
+     {
+      "icon": "😊",
+      "h": "Satisfaction",
+      "b": "…in a specified <b>context of use</b>",
+      "c": "k",
+      "at": 2.6
+     }
+    ],
+    "note": "ISO 9241-11 → E E S: Effectiveness, Efficiency, Satisfaction",
+    "small": true,
+    "bs": 24
+   },
+   "lines": [
+    "Usability is a measure of how easy it is to use something: how easily a typical user can understand, learn and operate the software. In short, user friendliness.",
+    "The ISO definition, nine two four one dash eleven: the extent to which a product can be used by specified users to achieve specified goals,",
+    "with effectiveness, efficiency and satisfaction, in a specified context of use.",
+    "Remember E, E, S: effectiveness, efficiency, satisfaction."
+   ]
+  },
+  {
+   "id": "whatis",
+   "title": "4. What is usability testing?",
+   "viz": {
+    "type": "cards",
+    "cols": 4,
+    "items": [
+     {
+      "icon": "📏",
+      "h": "Definition",
+      "b": "ascertain the degree to which software meets the usability needs of its intended users — difficult to evaluate &amp; measure",
+      "c": "w",
+      "at": 0
+     },
+     {
+      "icon": "🎓",
+      "h": "Skill",
+      "b": "needed to learn the software",
+      "c": "b",
+      "at": 1.3
+     },
+     {
+      "icon": "⏱️",
+      "h": "Time",
+      "b": "to become efficient using it",
+      "c": "p",
+      "at": 1.6
+     },
+     {
+      "icon": "📈",
+      "h": "Productivity",
+      "b": "measured increase in user productivity",
+      "c": "g",
+      "at": 1.9
+     },
+     {
+      "icon": "💭",
+      "h": "Attitude",
+      "b": "subjective assessment of the user's attitude",
+      "c": "k",
+      "at": 2.2
+     },
+     {
+      "icon": "👀",
+      "h": "Method",
+      "b": "place users in front of a version of the software and <b>watch</b> them",
+      "c": "y",
+      "at": 3
+     },
+     {
+      "icon": "💸",
+      "h": "Cost",
+      "b": "can be expensive · not cost-effective if done <b>too late</b>",
+      "c": "r",
+      "at": 4
+     },
+     {
+      "icon": "🔍",
+      "h": "Value",
+      "b": "uncovers problems that guidelines &amp; inspections missed",
+      "c": "o",
+      "at": 5
+     }
+    ],
+    "small": true,
+    "bs": 24
+   },
+   "lines": [
+    "Usability testing tries to ascertain the degree to which software meets the usability needs of its intended users. And usability is difficult to evaluate and measure.",
+    "It tries to quantify user friendliness by four measures:",
+    "the skill needed to learn the software, the time to become efficient, the measured increase in productivity, and a subjective assessment of the user's attitude.",
+    "The idea: place users in front of some version of the software, and watch how they try to use it.",
+    "It can be expensive, depending on the tasks and what you watch for, and it's not cost effective if done too late in development.",
+    "But it can uncover usability problems that design guidelines and inspections may have missed."
+   ]
+  },
+  {
+   "id": "goals5",
+   "title": "5. Goals — is the application…",
+   "viz": {
+    "type": "acronym",
+    "ls": 140,
+    "ws": 38,
+    "ds": 26,
+    "h": 480,
+    "letters": [
+     {
+      "L": "U",
+      "w": "Useful",
+      "d": "adds value to the audience",
+      "c": "b",
+      "at": 1
+     },
+     {
+      "L": "F",
+      "w": "Findable",
+      "d": "content &amp; features easy to find",
+      "c": "g",
+      "at": 1.25
+     },
+     {
+      "L": "A",
+      "w": "Accessible",
+      "d": "usable by everyone",
+      "c": "y",
+      "at": 1.5
+     },
+     {
+      "L": "U",
+      "w": "Usable",
+      "d": "easy to learn &amp; operate",
+      "c": "p",
+      "at": 1.75
+     },
+     {
+      "L": "D",
+      "w": "Desirable",
+      "d": "aesthetically pleasing",
+      "c": "o",
+      "at": 2
+     }
+    ],
+    "note": "U-F-A-U-D: “Users Find Apps Useful Daily”"
+   },
+   "lines": [
+    "Usability testing determines whether an application is",
+    "useful, findable, accessible, usable,",
+    "and desirable.",
+    "Memory hook: Users Find Apps Useful Daily."
+   ]
+  },
+  {
+   "id": "params",
+   "title": "6. Parameters tested",
+   "viz": {
+    "type": "cards",
+    "cols": 2,
+    "small": true,
+    "bs": 25,
+    "items": [
+     {
+      "icon": "✅",
+      "h": "Effectiveness",
+      "b": "easy to learn? · useful, adds value? · content, colour, icons, images aesthetically pleasing?",
+      "c": "g",
+      "at": 1
+     },
+     {
+      "icon": "⚡",
+      "h": "Efficiency",
+      "b": "minimal navigation to reach a screen · scroll bars not used often · uniform page format · search provided",
+      "c": "y",
+      "at": 2
+     },
+     {
+      "icon": "🎯",
+      "h": "Accuracy",
+      "b": "no outdated or incorrect data (contact info, address) · no broken links",
+      "c": "b",
+      "at": 3
+     },
+     {
+      "icon": "🤗",
+      "h": "User friendliness",
+      "b": "self-explanatory controls, no training needed · help provided",
+      "c": "k",
+      "at": 4
+     }
+    ]
+   },
+   "lines": [
+    "The goal is to satisfy users, by checking four parameters of the system.",
+    "Effectiveness: is it easy to learn, is it useful and does it add value, and are the content, colours, icons and images aesthetically pleasing?",
+    "Efficiency: very little navigation to reach a screen, scroll bars not used frequently, a uniform format across pages, and a way to search.",
+    "Accuracy: no outdated or incorrect data like contact details or addresses, and no broken links.",
+    "User friendliness: self explanatory controls that need no training, and help for users. Aligning with these goals makes testing effective."
+   ]
+  },
+  {
+   "id": "formal",
+   "title": "7. Formal vs informal testing",
+   "viz": {
+    "type": "cards",
+    "items": [
+     {
+      "icon": "🏛️",
+      "h": "Formal",
+      "b": "build a usability <b>lab</b>: computers, audio-video equipment<br>staffed by psychologists, technicians and HCI specialists",
+      "c": "p",
+      "at": 0
+     },
+     {
+      "icon": "📝",
+      "h": "Informal",
+      "b": "no fancy lab — simple test plan + task list, notepad and pencil<br>observed by an <b>impartial moderator</b><br>✔ shows what people really do, in real work, in an ordinary setting",
+      "c": "g",
+      "at": 1
+     }
+    ]
+   },
+   "lines": [
+    "Formal testing might mean building a usability lab, with computers and audio video equipment, staffed by psychologists, technicians and HCI specialists.",
+    "The informal approach needs no fancy lab: a simple test plan and task list, a notepad and pencil, and an impartial moderator observing.",
+    "Its advantage: it shows what people actually do, doing real work, in an ordinary setting."
+   ]
+  },
+  {
+   "id": "steps",
+   "title": "8. The 5-step process",
+   "viz": {
+    "type": "flow",
+    "h": 340,
+    "nodes": [
+     {
+      "icon": "📋",
+      "h": "1 · Plan &amp; Prep",
+      "c": "b",
+      "at": 1
+     },
+     {
+      "icon": "🧑‍🤝‍🧑",
+      "h": "2 · Find Participants",
+      "c": "p",
+      "at": 1.3
+     },
+     {
+      "icon": "🎬",
+      "h": "3 · Conduct Tests",
+      "c": "y",
+      "at": 1.6
+     },
+     {
+      "icon": "📊",
+      "h": "4 · Analyze Results",
+      "c": "g",
+      "at": 1.9
+     },
+     {
+      "icon": "💡",
+      "h": "5 · Recommend",
+      "c": "k",
+      "at": 2.2
+     }
+    ],
+    "note": "Plan → People → Perform → Ponder → Propose"
+   },
+   "lines": [
+    "Testing basics follow a five step process.",
+    "Plan and prepare. Find participants. Conduct the tests. Analyze results. Make recommendations.",
+    "Memory hook: plan, people, perform, ponder, propose."
+   ]
+  },
+  {
+   "id": "step1",
+   "title": "9. Step 1 — Plan & prepare",
+   "viz": {
+    "type": "cards",
+    "small": true,
+    "bs": 25,
+    "items": [
+     {
+      "icon": "🗂️",
+      "h": "Test plan",
+      "b": "simple test → list of questions<br>detailed test → prepared script<br>creates a <b>framework</b> · communicates goals to the client, aligns expectations",
+      "c": "b",
+      "at": 0
+     },
+     {
+      "icon": "✅",
+      "h": "Task list",
+      "b": "tasks a typical user can finish in an <b>hour</b> · not too simple, not too hard<br>e.g. 1 find a concert · 2 buy tickets online · 3 find directions to venue",
+      "c": "y",
+      "at": 2
+     },
+     {
+      "icon": "✏️",
+      "h": "Materials",
+      "b": "pencil, paper, computer, browser · maybe a video camera · dev team may watch · user's own environment · printed site for notes",
+      "c": "g",
+      "at": 4
+     }
+    ]
+   },
+   "lines": [
+    "Step one: plan and prepare. Develop a test plan: a list of questions for simple testing, or a prepared script for detailed testing.",
+    "The plan creates a framework for testing, and lets you communicate goals with the client and align expectations.",
+    "Create a task list that a typical user can complete in an hour. Not too simple, not too difficult.",
+    "For example: find a concert you want to see, purchase tickets online, and find directions to the venue.",
+    "Informal tests need only pencil, paper, a computer and browser. Sometimes a video camera records sessions, or the dev team watches.",
+    "Tests can run in the user's own environment. Keep a printed version of the site for notes, then watch and learn."
+   ]
+  },
+  {
+   "id": "step2",
+   "title": "10. Step 2 — Find participants",
+   "viz": {
+    "type": "cards",
+    "cols": 2,
+    "items": [
+     {
+      "icon": "🔎",
+      "h": "Challenging",
+      "b": "finding suitable participants is a challenging aspect",
+      "c": "r",
+      "at": 0
+     },
+     {
+      "icon": "🔄",
+      "h": "Ongoing user base",
+      "b": "gather an ongoing base of users",
+      "c": "b",
+      "at": 1
+     },
+     {
+      "icon": "🚪",
+      "h": "Test outside the team",
+      "b": "people not associated with your company or Web site",
+      "c": "y",
+      "at": 2
+     },
+     {
+      "icon": "🧑‍💻",
+      "h": "Pilot first",
+      "b": "try the plan on co-workers / friends with Web experience · first test: fun, informative, low-stress",
+      "c": "g",
+      "at": 3
+     }
+    ]
+   },
+   "lines": [
+    "Step two: find participants. This is one of the most challenging parts of usability testing.",
+    "It's important to gather an ongoing user base.",
+    "Test outside the team, with people not associated with your company or your web site.",
+    "Before real sessions, try your test plan on co-workers or friends with decent web experience. The first test should be fun, informative and low stress."
+   ]
+  },
+  {
+   "id": "step3",
+   "title": "11. Step 3 — Conduct the session",
+   "viz": {
+    "type": "flow",
+    "dir": "v",
+    "w": 1300,
+    "nodes": [
+     {
+      "icon": "👋",
+      "h": "Introduce &amp; explain",
+      "b": "introduce yourself, explain the process",
+      "c": "b",
+      "at": 0
+     },
+     {
+      "icon": "🎲",
+      "h": "Pre-defined tasks",
+      "b": "don't tell them how many tasks or how long each takes",
+      "c": "p",
+      "at": 1
+     },
+     {
+      "icon": "🛋️",
+      "h": "Make them comfortable",
+      "b": "",
+      "c": "g",
+      "at": 2
+     },
+     {
+      "icon": "🤐",
+      "h": "Speak only to give a new task",
+      "b": "take notes during the process",
+      "c": "y",
+      "at": 2.5
+     },
+     {
+      "icon": "🧾",
+      "h": "Afterwards: short summary",
+      "b": "specific problem areas · unexpected results · personal observations",
+      "c": "k",
+      "at": 3
+     }
+    ]
+   },
+   "lines": [
+    "Step three: conduct the session. Introduce yourself and explain the process to the user.",
+    "The user performs a set of pre-defined tasks, but don't tell them how many, or how long each will take.",
+    "Make the user feel comfortable. Speak only to give a new task, and take notes during the process.",
+    "When the session is over, prepare a short summary of the session and results: specific problem areas, unexpected results, and your personal observations."
+   ]
+  },
+  {
+   "id": "data",
+   "title": "12. Collect basic data + post-test survey",
+   "viz": {
+    "type": "cards",
+    "cols": 4,
+    "small": true,
+    "bs": 24,
+    "items": [
+     {
+      "icon": "🏁",
+      "h": "Completed?",
+      "b": "could the user complete the task?",
+      "c": "g",
+      "at": 0
+     },
+     {
+      "icon": "🆘",
+      "h": "Needed help?",
+      "c": "r",
+      "at": 0.4
+     },
+     {
+      "icon": "⏱️",
+      "h": "Time taken",
+      "c": "b",
+      "at": 0.7
+     },
+     {
+      "icon": "🧱",
+      "h": "Stumbling blocks",
+      "b": "problems / obstacles",
+      "c": "o",
+      "at": 1
+     },
+     {
+      "icon": "🗒️",
+      "h": "Observations",
+      "b": "overall commentary",
+      "c": "p",
+      "at": 1.5
+     },
+     {
+      "icon": "🗣️",
+      "h": "Debrief",
+      "b": "let the user speak their mind",
+      "c": "y",
+      "at": 2
+     },
+     {
+      "icon": "📝",
+      "h": "Post-test survey",
+      "b": "online or paper · graphics, logic, content, navigation, overall satisfaction",
+      "c": "k",
+      "at": 3
+     },
+     {
+      "icon": "📊",
+      "h": "Effectiveness",
+      "b": "of the site vs. the goal of each task",
+      "c": "w",
+      "at": 4
+     }
+    ]
+   },
+   "lines": [
+    "Collect basic data. Could the user complete the task? Did they need help? How much time did it take?",
+    "Note any stumbling blocks, and your overall observations and commentary.",
+    "Debrief the user, and let them speak their mind.",
+    "Then the post-test survey, online or on paper: what they thought of the graphics, logic, content, navigation, and their overall satisfaction.",
+    "Gather data on the overall effectiveness of the site, in relation to the goals of each task."
+   ]
+  },
+  {
+   "id": "step4",
+   "title": "13. Step 4 — Analyze results",
+   "viz": {
+    "type": "cards",
+    "cols": 3,
+    "small": true,
+    "items": [
+     {
+      "icon": "🗃️",
+      "h": "Compile &amp; summarize",
+      "b": "transfer handwritten notes to the computer",
+      "c": "b",
+      "at": 0
+     },
+     {
+      "icon": "✍️",
+      "h": "Write while fresh",
+      "b": "write reports while fresh in your mind",
+      "c": "y",
+      "at": 1
+     },
+     {
+      "icon": "📋",
+      "h": "Summary table",
+      "b": "results of each test, problem areas, comments, survey feedback",
+      "c": "g",
+      "at": 2
+     },
+     {
+      "icon": "🚩",
+      "h": "Identify difficulties",
+      "b": "find the problem areas",
+      "c": "r",
+      "at": 3
+     },
+     {
+      "icon": "❓",
+      "h": "Find why",
+      "b": "source of the problem: navigation, text, graphics…",
+      "c": "p",
+      "at": 3.5
+     },
+     {
+      "icon": "🎯",
+      "h": "Task issues",
+      "b": "specific task-oriented issues",
+      "c": "k",
+      "at": 4
+     }
+    ]
+   },
+   "lines": [
+    "Step four: analyze results. Compile and summarize the data, transferring handwritten notes to the computer.",
+    "Write your reports while they're fresh in your mind.",
+    "Create a summary table showing the results of each test, with problem areas, comments, and survey feedback.",
+    "Identify difficulties and problem areas, and why they happened: specific factors like navigation, text or graphics.",
+    "And identify any specific task oriented issues."
+   ]
+  },
+  {
+   "id": "step5",
+   "title": "14. Step 5 — Make recommendations",
+   "viz": {
+    "type": "flow",
+    "nodes": [
+     {
+      "icon": "📥",
+      "h": "Compile",
+      "b": "gather all info → translate into recommendations",
+      "c": "b",
+      "at": 0
+     },
+     {
+      "icon": "🏗️",
+      "h": "High-level first",
+      "b": "concentrate on high-level functionality",
+      "c": "p",
+      "at": 1
+     },
+     {
+      "icon": "✨",
+      "h": "Then UX",
+      "b": "what works and what doesn't for users",
+      "c": "y",
+      "at": 2
+     },
+     {
+      "icon": "🗓️",
+      "h": "Implementation plan",
+      "c": "g",
+      "at": 3
+     },
+     {
+      "icon": "📄",
+      "h": "Formal report",
+      "c": "k",
+      "at": 3.5
+     }
+    ]
+   },
+   "lines": [
+    "Step five: compile and recommend. Gather all the compiled information and translate it into recommendations.",
+    "Concentrate on high level functionality first.",
+    "Then focus on improving the user experience: what works, and what doesn't work well for users.",
+    "Determine the implementation plan, and write up a formal report."
+   ]
+  },
+  {
+   "id": "best",
+   "title": "15. Best practices",
+   "viz": {
+    "type": "cards",
+    "cols": 4,
+    "small": true,
+    "bs": 24,
+    "items": [
+     {
+      "icon": "🌱",
+      "h": "Start early",
+      "b": "early stage of design &amp; development",
+      "c": "g",
+      "at": 1
+     },
+     {
+      "icon": "🥊",
+      "h": "Test competitors",
+      "b": "before development — sets usability standards for your audience",
+      "c": "b",
+      "at": 2
+     },
+     {
+      "icon": "👥",
+      "h": "Right users",
+      "b": "experts, non-experts, or 50-50",
+      "c": "p",
+      "at": 3
+     },
+     {
+      "icon": "🐢",
+      "h": "Bandwidth shaper",
+      "b": "poor connectivity audience → limit to e.g. 56 Kbps",
+      "c": "y",
+      "at": 4
+     },
+     {
+      "icon": "⭐",
+      "h": "Critical features",
+      "b": "focus on critical &amp; frequently used functions",
+      "c": "o",
+      "at": 5
+     },
+     {
+      "icon": "1️⃣",
+      "h": "One observer per tester",
+      "b": "multiple testers per observer compromises results",
+      "c": "k",
+      "at": 6
+     },
+     {
+      "icon": "🌈",
+      "h": "Not failure",
+      "b": "teach devs: outcomes are a sign of <b>improvement</b>",
+      "c": "r",
+      "at": 7
+     }
+    ]
+   },
+   "lines": [
+    "Best practices. The primary goal is to find crucial usability problems before the product is launched.",
+    "Start testing during the early stage of design and development.",
+    "Test your competitor's product before you begin development. It helps set usability standards for your target audience.",
+    "Select appropriate users: experts, non-experts, or a fifty fifty mix.",
+    "Use a bandwidth shaper. If your audience has poor connectivity, limit testers to something like fifty-six kilobits per second.",
+    "Concentrate on critical and frequently used functionality.",
+    "Assign a single observer to each tester. If one observer watches many testers, results may be compromised.",
+    "And teach designers and developers that test outcomes are not a sign of failure, but a sign of improvement."
+   ]
+  },
+  {
+   "id": "proscons",
+   "title": "16. Pros & cons",
+   "viz": {
+    "type": "cards",
+    "cols": 3,
+    "small": true,
+    "items": [
+     {
+      "icon": "🐞",
+      "h": "Pro · finds issues early",
+      "b": "uncovers usability issues before the product is marketed",
+      "c": "g",
+      "at": 0
+     },
+     {
+      "icon": "😊",
+      "h": "Pro · satisfaction",
+      "b": "improves end-user satisfaction",
+      "c": "g",
+      "at": 1
+     },
+     {
+      "icon": "⚡",
+      "h": "Pro · effective &amp; efficient",
+      "b": "makes the system highly effective and efficient",
+      "c": "g",
+      "at": 2
+     },
+     {
+      "icon": "🗣️",
+      "h": "Pro · true feedback",
+      "b": "from your real target audience — not “opinions” from random people",
+      "c": "g",
+      "at": 3
+     },
+     {
+      "icon": "💰",
+      "h": "Con · COST",
+      "b": "usability lab takes lots of resources · recruiting &amp; managing testers is expensive",
+      "c": "r",
+      "at": 4
+     }
+    ]
+   },
+   "lines": [
+    "Pros. It uncovers usability issues before the product is marketed.",
+    "It improves end user satisfaction.",
+    "It makes your system highly effective and efficient.",
+    "And it gathers true feedback from your real target audience, instead of opinions from random people.",
+    "The con is cost. Setting up a usability lab takes lots of resources, and recruiting and managing testers is expensive."
+   ]
+  },
+  {
+   "id": "uat",
+   "title": "17. User Acceptance Testing (UAT)",
+   "viz": {
+    "type": "cards",
+    "cols": 3,
+    "items": [
+     {
+      "icon": "📜",
+      "h": "Definition",
+      "b": "formal testing to determine whether a system satisfies its <b>acceptance criteria</b>, based on business requirements — lets functional users decide whether to accept the system",
+      "c": "o",
+      "at": 0
+     },
+     {
+      "icon": "🏆",
+      "h": "Most important phase",
+      "b": "confirms the system is <b>fit for purpose</b> to business stakeholders",
+      "c": "y",
+      "at": 2
+     },
+     {
+      "icon": "🗓️",
+      "h": "Plan it well",
+      "b": "plan properly · start as early as possible · allow time to test <b>and</b> fix problems",
+      "c": "b",
+      "at": 3
+     }
+    ]
+   },
+   "lines": [
+    "User acceptance testing, or U A T, is formal testing to determine whether a system satisfies its acceptance criteria, based on business requirements,",
+    "so that the functional users can decide whether or not to accept the system.",
+    "It's probably the most important test phase of all, because it confirms the system is fit for purpose for business stakeholders.",
+    "U A T must be planned properly, start as early as possible, and allow enough time to complete testing and fix any problems."
+   ]
+  },
+  {
+   "id": "sdlc",
+   "title": "18. Where does UAT fit in?",
+   "viz": {
+    "type": "table",
+    "fs": 34,
+    "top": 290,
+    "head": [
+     "Build side (who)",
+     "↔",
+     "Test side (who)"
+    ],
+    "rows": [
+     {
+      "cells": [
+       "Requirements (business analysts)",
+       "↔",
+       "User Acceptance Test (UAT testers, business users)"
+      ],
+      "c": "o",
+      "at": 0
+     },
+     {
+      "cells": [
+       "Functional specifications (system analysts)",
+       "↔",
+       "System test (system testers)"
+      ],
+      "c": "b",
+      "at": 1
+     },
+     {
+      "cells": [
+       "Technical specification (developers)",
+       "↔",
+       "Unit test (developers)"
+      ],
+      "c": "g",
+      "at": 2
+     }
+    ]
+   },
+   "lines": [
+    "Where does U A T fit in the software development life cycle? Requirements, written by business analysts, are verified by user acceptance testing, run by U A T testers and business users.",
+    "Functional specifications, from system analysts, are verified by the system test.",
+    "Technical specifications, from developers, are verified by unit tests."
+   ]
+  },
+  {
+   "id": "vmodel",
+   "title": "19. UAT and the V-model",
+   "viz": {
+    "type": "custom",
+    "name": "vmodel",
+    "beats": [
+     0,
+     1,
+     2,
+     3
+    ]
+   },
+   "lines": [
+    "The V model. Down the left side: client needs, requirements, functional specifications, technical specifications.",
+    "Up the right side: unit testing, integration testing, system testing, and finally U A T.",
+    "Each test level checks the matching level on the left.",
+    "U A T sits at the very top, checking the system against the client's needs."
+   ]
+  },
+  {
+   "id": "life",
+   "title": "20. UAT lifecycle",
+   "viz": {
+    "type": "flow",
+    "nodes": [
+     {
+      "icon": "🗺️",
+      "h": "Planning",
+      "b": "what to test · estimate time &amp; effort · prepare test plan",
+      "c": "b",
+      "at": 0
+     },
+     {
+      "icon": "🧰",
+      "h": "Preparation",
+      "b": "document test scenarios · everything in place",
+      "c": "p",
+      "at": 1
+     },
+     {
+      "icon": "▶️▶️",
+      "h": "Execution",
+      "b": "run all tests <b>twice</b>: cycle 1 finds bugs, devs fix, cycle 2 retests",
+      "c": "y",
+      "at": 2
+     },
+     {
+      "icon": "🏁",
+      "h": "Completion",
+      "b": "report findings → input to <b>go-live</b> decision",
+      "c": "g",
+      "at": 3
+     }
+    ]
+   },
+   "lines": [
+    "The U A T lifecycle has four phases. Planning: identify what needs testing, estimate time and effort, and prepare the test plan.",
+    "Preparation: document the test scenarios, and make sure everything is in place to run the tests.",
+    "Execution: run all planned tests twice. The first cycle finds bugs, developers fix them, and the second cycle retests.",
+    "Completion: report what was found to the project team, as input to their go live decision."
+   ]
+  },
+  {
+   "id": "design",
+   "title": "21. Test design process",
+   "viz": {
+    "type": "flow",
+    "h": 360,
+    "nodes": [
+     {
+      "icon": "📚",
+      "h": "Gather information",
+      "b": "from the test basis",
+      "c": "b",
+      "at": 0
+     },
+     {
+      "icon": "🧭",
+      "h": "High-level test definitions",
+      "b": "from user stories",
+      "c": "p",
+      "at": 1
+     },
+     {
+      "icon": "📑",
+      "h": "Formal test scenarios",
+      "b": "detailed scenarios",
+      "c": "y",
+      "at": 2
+     },
+     {
+      "icon": "📦",
+      "h": "UAT plan",
+      "b": "test estimates · test data requirements · resource estimates · test environment requirements",
+      "c": "g",
+      "at": 3
+     }
+    ]
+   },
+   "lines": [
+    "The test design process. Gather information from the test basis.",
+    "Create high level test definitions, from user stories.",
+    "Prepare formal test scenarios.",
+    "These feed the U A T plan: test estimates, test data requirements, resource estimates, and test environment requirements."
+   ]
+  },
+  {
+   "id": "good",
+   "title": "22. Good UAT tests…",
+   "viz": {
+    "type": "cards",
+    "cols": 3,
+    "small": true,
+    "bs": 25,
+    "items": [
+     {
+      "icon": "👔",
+      "h": "Business-based",
+      "b": "based on user roles &amp; business processes",
+      "c": "b",
+      "at": 0
+     },
+     {
+      "icon": "📖",
+      "h": "Readable",
+      "b": "a business user can easily understand them",
+      "c": "g",
+      "at": 1
+     },
+     {
+      "icon": "🎚️",
+      "h": "Minimal data",
+      "b": "specify data only where essential to the outcome",
+      "c": "y",
+      "at": 2
+     },
+     {
+      "icon": "🔀",
+      "h": "Room to vary",
+      "b": "a different user will execute it slightly differently",
+      "c": "p",
+      "at": 3
+     },
+     {
+      "icon": "🎯",
+      "h": "Clear results",
+      "b": "expected results clearly described",
+      "c": "k",
+      "at": 4
+     },
+     {
+      "icon": "✔️",
+      "h": "Pre-verified",
+      "b": "verified by business users before execution starts",
+      "c": "o",
+      "at": 5
+     }
+    ]
+   },
+   "lines": [
+    "Good user acceptance tests are based on the user roles and business processes needed to support the business.",
+    "They're written so that a business user can easily understand them.",
+    "They only specify the data to be used where it's essential to the outcome.",
+    "They're written so that a different user will execute the scenario slightly differently.",
+    "They clearly describe the expected results.",
+    "And they're verified by the business users before test execution starts."
+   ]
+  },
+  {
+   "id": "iface",
+   "title": "23. What is interface testing?",
+   "viz": {
+    "type": "flow",
+    "h": 330,
+    "nodes": [
+     {
+      "icon": "🖥️",
+      "h": "System A",
+      "b": "e.g. web server",
+      "c": "b",
+      "at": 1
+     },
+     {
+      "icon": "🔌",
+      "h": "Interface",
+      "b": "APIs, web services — commands, messages &amp; attributes that enable communication",
+      "c": "y",
+      "at": 2
+     },
+     {
+      "icon": "🗄️",
+      "h": "System B",
+      "b": "e.g. application / database server",
+      "c": "g",
+      "at": 1.5
+     }
+    ]
+   },
+   "lines": [
+    "Interface testing is done on the application under test, to verify that communication between two different software systems is done correctly.",
+    "A connection that integrates two components is called an interface. In computing it could be anything, like APIs or web services.",
+    "An interface is software made of commands, messages and other attributes that enable communication between a device and a user."
+   ]
+  },
+  {
+   "id": "iwhat",
+   "title": "24. What & why to test",
+   "viz": {
+    "type": "cards",
+    "cols": 4,
+    "small": true,
+    "bs": 23,
+    "items": [
+     {
+      "icon": "🌐↔️⚙️",
+      "h": "Web ↔ App server",
+      "c": "b",
+      "at": 0
+     },
+     {
+      "icon": "⚙️↔️🗄️",
+      "h": "App ↔ Database server",
+      "c": "b",
+      "at": 0.5
+     },
+     {
+      "icon": "▶️",
+      "h": "Servers execute properly?",
+      "c": "p",
+      "at": 1
+     },
+     {
+      "icon": "⚠️",
+      "h": "Errors handled?",
+      "b": "proper error message for any query",
+      "c": "p",
+      "at": 1.4
+     },
+     {
+      "icon": "🔌",
+      "h": "Connection reset?",
+      "b": "outcome when web server connection resets midway",
+      "c": "p",
+      "at": 1.8
+     },
+     {
+      "icon": "🙂",
+      "h": "Why · no end-user problems",
+      "b": "+ check user-friendliness of commonly used areas",
+      "c": "g",
+      "at": 2
+     },
+     {
+      "icon": "🔒",
+      "h": "Why · security",
+      "b": "verify security as communication propagates",
+      "c": "g",
+      "at": 3
+     },
+     {
+      "icon": "📡",
+      "h": "Why · network failure",
+      "b": "handle failures between app server and website",
+      "c": "g",
+      "at": 4
+     }
+    ]
+   },
+   "lines": [
+    "Interface testing covers two main segments: the web server to application server interface, and the application server to database server interface.",
+    "It checks that servers execute properly, that errors are handled with a proper error message for any query, and what happens when the connection to the web server resets midway.",
+    "Why do it? So end users don't hit problems, and to check the user friendliness of the areas they use most.",
+    "To verify security requirements as communication propagates between systems.",
+    "And to check the solution can handle network failures between the application server and the website."
+   ]
+  },
+  {
+   "id": "itypes",
+   "title": "25. Types of interface testing",
+   "viz": {
+    "type": "cards",
+    "cols": 2,
+    "items": [
+     {
+      "icon": "🔁",
+      "h": "Workflow",
+      "b": "interface engine handles your standard workflows as expected",
+      "c": "b",
+      "at": 0
+     },
+     {
+      "icon": "📅",
+      "h": "Edge cases",
+      "b": "unexpected values — e.g. date, month and day reversed",
+      "c": "y",
+      "at": 1
+     },
+     {
+      "icon": "📈",
+      "h": "Performance, load &amp; network",
+      "b": "high-volume interface may need more load testing than low-volume",
+      "c": "k",
+      "at": 2
+     },
+     {
+      "icon": "🧩",
+      "h": "Individual systems",
+      "b": "each system alone — e.g. billing and inventory of a retail store work separately",
+      "c": "g",
+      "at": 3
+     }
+    ]
+   },
+   "lines": [
+    "Types of interface testing. Workflow: the interface engine handles your standard workflows as expected.",
+    "Edge cases with unexpected values, like a date with the month and day reversed.",
+    "Performance, load and network testing: a high volume interface may need more load testing than a low volume one, depending on the engine and infrastructure.",
+    "And individual systems: test each system on its own. For a retail store, billing and inventory management should each work separately."
+   ]
+  },
+  {
+   "id": "istrat",
+   "title": "26. Interface testing strategy",
+   "viz": {
+    "type": "flow",
+    "dir": "v",
+    "w": 1200,
+    "nodes": [
+     {
+      "icon": "🧬",
+      "h": "Abstract (base) test case",
+      "b": "performs the implementation-neutral tests",
+      "c": "p",
+      "at": 0.5
+     },
+     {
+      "icon": "🅰️",
+      "h": "Concrete test case — implementation A",
+      "b": "instantiates the object, runs A-specific tests",
+      "c": "b",
+      "at": 1
+     },
+     {
+      "icon": "🅱️",
+      "h": "Concrete test case — implementation B",
+      "b": "instantiates the object, runs B-specific tests",
+      "c": "g",
+      "at": 1.5
+     }
+    ]
+   },
+   "lines": [
+    "Strategy: to test an interface with common tests regardless of implementation, use an abstract test case, then create concrete instances for each implementation.",
+    "The base, or abstract, test case performs the implementation neutral tests,",
+    "while the concrete tests instantiate the object to test, and perform any implementation specific tests."
+   ]
+  },
+  {
+   "id": "recap",
+   "title": "Recap",
+   "pad": [
+    0.5,
+    2.0
+   ],
+   "viz": {
+    "type": "hook",
+    "icon": "✅",
+    "t": "Recap",
+    "s": "ISO: effectiveness · efficiency · satisfaction",
+    "sAt": 1,
+    "cAt": 1.5,
+    "endcard": true,
+    "endAt": 2,
+    "chips": [
+     "Useful Findable Accessible Usable Desirable",
+     "Plan · People · Perform · Ponder · Propose",
+     "Formal lab vs informal",
+     "1 observer per tester",
+     "56 Kbps shaper",
+     "Con: cost",
+     "UAT = acceptance criteria",
+     "Plan · Prep · Execute ×2 · Complete",
+     "Web↔App↔DB",
+     "Abstract → concrete tests"
+    ]
+   },
+   "lines": [
+    "Quick recap.",
+    "Usability means effectiveness, efficiency and satisfaction. Test with five steps: plan, find people, conduct, analyze, recommend.",
+    "U A T confirms the system is fit for purpose, and interface testing checks systems talk correctly. You've got this."
+   ]
+  }
+ ]
+}

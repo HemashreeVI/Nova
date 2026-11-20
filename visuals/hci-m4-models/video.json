@@ -1,0 +1,389 @@
+{
+  "title": "HCI Interaction Design Models — MHP, KLM, GOMS, Fitts, Hick, STN, Three-State Model",
+  "slug": "hci-m4-models",
+  "kicker": "HCI · Interaction Design Models",
+  "description": "Exam revision: every concept from the Interaction Design Models deck, visualised.",
+  "tags": ["HCI", "MHP", "KLM", "GOMS", "Fitts law", "Hick law"],
+  "voice": "af_heart",
+  "speed": 1.0,
+  "fps": 24,
+  "captions": true,
+  "endCard": "📘 Interaction Design Models — revised. You've got this!",
+  "thumbnail": "mhp@20",
+  "pronounce": {"MHP": "M H P", "KLM": "K L M", "GOMS": "gomms", "NGOMSL": "N gomms L", "CMN": "C M N", "CPM": "C P M", "PERT": "pert", "ipconfig": "I P config", "mirtake": "meer-take", "Kieras": "Keeras", "Raskin": "Raskin", "Fitts'": "Fitts's", "LTM": "L T M"},
+  "scenes": [
+    { "id": "intro", "title": "Intro", "pad": [0.6, 1.0],
+      "viz": {"type": "hook", "icon": "🧠⏱️", "t": "Interaction Design Models", "s": "Predict user behaviour before a single real user arrives", "sAt": 1, "cAt": 2,
+        "chips": ["MHP", "Timing values", "MHP principles", "KLM", "Fitts' law", "GOMS", "Hick's law", "STN", "Three-State Model"]},
+      "lines": [
+        "Can we predict how long a user will take, before a single real user ever touches the design?",
+        "That is the promise of interaction design models.",
+        "We'll cover the Model Human Processor, the Keystroke Level Model, GOMS, Fitts' law, Hick's law, state transition networks, and the three state model."
+      ]},
+    { "id": "families", "title": "1. Predictive vs descriptive models",
+      "viz": {"type": "cards", "items": [
+        {"icon": "🔮", "h": "Predictive — a priori (pre-experience)", "b": "e.g. Model Human Processor (MHP), Keyboard Level Model (KLM)<br><br>Approximate user actions <b>before</b> real users are brought into testing", "c": "b", "at": 1},
+        {"icon": "🗺️", "h": "Descriptive", "b": "e.g. State Transition Networks, Three-State Model<br><br>A framework for thinking about interaction — how people interact with <b>dynamic systems</b>", "c": "p", "at": 3}
+      ]},
+      "lines": [
+        "Models come in two families.",
+        "Predictive models, like the Model Human Processor and the Keyboard Level Model, are a priori, meaning pre-experience.",
+        "They give approximations of user actions before real users are brought into the testing environment.",
+        "Descriptive models, like state networks and the Three State Model, give a framework for thinking about interaction.",
+        "They help us understand how people interact with dynamic systems."
+      ]},
+    { "id": "mhpparts", "title": "2. MHP — memories and processors",
+      "viz": {"type": "cards", "items": [
+        {"icon": "👁️👂✋👅", "h": "Perceptual system", "b": "<b>Sensors:</b> eyes, ears, touch, taste<br><b>Buffers (sensory image stores):</b><br>VIS visual · AIS auditory<br>HIS haptic · TIS taste", "c": "b", "at": 2},
+        {"icon": "🧠", "h": "Cognitive system", "b": "Working memory (WM)<br>Short-term memory<br>Long-term memory (LTM)", "c": "y", "at": 4},
+        {"icon": "💪", "h": "Motor system", "b": "arm–hand–finger system<br>head–eye system<br>leg–foot–toe system", "c": "k", "at": 5}
+      ]},
+      "lines": [
+        "The Model Human Processor makes general predictions about human performance.",
+        "It is a predictive model, described by a set of memories and processors that work according to principles of operation.",
+        "The perceptual system has sensors, eyes, ears, touch and taste,",
+        "and buffers called sensory image stores: the visual, auditory, haptic and taste memory stores.",
+        "The cognitive system holds working memory, short term memory and long term memory.",
+        "The motor system acts through the arm hand finger system, the head eye system, and the leg foot toe system."
+      ]},
+    { "id": "mhp", "title": "3. MHP — follow one signal",
+      "viz": {"type": "custom", "name": "mhp", "beats": [0, 0.5, 1, 1.6, 2, 2.6, 3, 3.6]},
+      "lines": [
+        "Follow one signal. Your eyes and ears feed the perceptual processor.",
+        "It drops the stimulus into the visual and auditory image stores, then into working memory.",
+        "The cognitive processor works between working memory and long term memory,",
+        "and the motor processor turns the decision into movement of arms, wrists and fingers.",
+        "Sense, perceive, store, think, recall, act."
+      ]},
+    { "id": "wm", "title": "4. Working memory and chunks",
+      "viz": {"type": "cards", "items": [
+        {"icon": "💡", "h": "WM = activated LTM", "b": "Working memory is a subset of “activated” elements from long-term memory", "c": "y", "at": 0},
+        {"icon": "📷", "h": "SIS are non-symbolic", "b": "Sensory image stores (VIS, AIS…) encode only <b>physical</b> parameters of the stimulus", "c": "b", "at": 1},
+        {"icon": "🔤", "h": "Then symbolic", "b": "Shortly after stimulus onset, a <b>symbolic</b> representation is registered in WM", "c": "b", "at": 2},
+        {"icon": "🧩", "h": "Chunks", "b": "The activated elements from LTM are called <b>chunks</b>", "c": "g", "at": 3},
+        {"icon": "🔗", "h": "Chunk size varies", "b": "letters in a word → one chunk<br>several words of a well-known phrase → one chunk", "c": "g", "at": 4},
+        {"icon": "⚡", "h": "Interference", "b": "Chunks in WM can interfere with each other due to LTM associations", "c": "r", "at": 5}
+      ]},
+      "lines": [
+        "Working memory consists of a subset of activated elements from long term memory.",
+        "The sensory image stores encode only non-symbolic, physical parameters of the stimulus.",
+        "Shortly after the stimulus begins, a symbolic representation is registered in working memory.",
+        "The activated elements from long term memory are called chunks.",
+        "A chunk can be made of smaller units, like the letters of a word, or of several words, as in a well known phrase.",
+        "Chunks in working memory can interfere with each other, because of long term memory associations."
+      ]},
+    { "id": "ltm", "title": "5. Long-term memory",
+      "viz": {"type": "flow", "nodes": [
+        {"icon": "🚫", "h": "Cognitive processor", "b": "can add items to WM — but NOT directly to LTM", "c": "r", "at": 0},
+        {"icon": "⏳", "h": "WM ⇄ LTM over time", "b": "WM must interact with LTM for a significant time before storage", "c": "y", "at": 1},
+        {"icon": "🔑", "h": "More cues", "b": "this increases the number of retrieval cues", "c": "b", "at": 2},
+        {"icon": "🎯", "h": "Better recall", "b": "items with numerous associations are more likely to be retrieved", "c": "g", "at": 3}
+      ]},
+      "lines": [
+        "The cognitive processor can add items to working memory, but not to long term memory.",
+        "Working memory must interact with long term memory over a significant length of time before an item can be stored there.",
+        "This increases the number of cues that can be used to retrieve the item later.",
+        "So items with numerous associations have a greater probability of being retrieved."
+      ]},
+    { "id": "proc", "title": "6. The three processors",
+      "viz": {"type": "cards", "bs": 27, "items": [
+        {"icon": "👁️", "h": "Perceptual", "b": "captures sensations via visual + auditory channels<br>• visual decay <b>shorter</b> than auditory<br>• cycle time varies with stimulus<br>• τp = 50–200 ms", "c": "b", "at": 1},
+        {"icon": "🧠", "h": "Cognitive", "b": "bridges perceptual ↔ motor<br>• simple conduit OR learning, fact retrieval, problem solving<br>• WM coding: visual + auditory<br>• LTM coding: associative, <b>semantic</b><br>• WM decay: wide range, sensitive to # chunks<br>• LTM decay: infinite", "c": "p", "at": 4},
+        {"icon": "✋", "h": "Motor", "b": "converts thought into action<br>• cycle time counted in discrete <b>micro-movements</b><br>• τm = 30–100 ms", "c": "k", "at": 8}
+      ]},
+      "lines": [
+        "Now the three processors.",
+        "The perceptual processor captures physical sensations through the visual and auditory receptor channels.",
+        "Perceptual decay is shorter for the visual channel than for the auditory channel.",
+        "Its cycle time varies with the nature of the stimulus: fifty to two hundred milliseconds.",
+        "The cognitive processor bridges the perceptual and motor systems.",
+        "It can be a simple conduit, or involve complex processes like learning, fact retrieval and problem solving.",
+        "Cognitive coding in working memory is mainly visual and auditory. In long term memory it is associative, mainly semantic.",
+        "Working memory decay has a large range and is very sensitive to the number of chunks. Long term memory decay is infinite.",
+        "The motor processor converts thought into action. Its cycle time is counted in discrete micro-movements."
+      ]},
+    { "id": "timing", "title": "7. Timing values to memorise",
+      "viz": {"type": "table", "fs": 29, "head": ["Processor", "Decay (3 dB)", "Capacity", "Cycle time"], "rows": [
+        {"cells": ["Perceptual", "Visual 90–1000 ms<br>Aural 900–3500 ms", "SIS: visual 7–17 letters<br>aural 5 letters", "τp = 50–200 ms"], "c": "b", "at": 1},
+        {"cells": ["Cognitive", "WM 5–226 s (1 chunk 73 s, 3 chunks 7 s)<br>LTM: lifetime", "WM 2–4 chunks<br>LTM: infinite", "τc = 25–170 ms"], "c": "p", "at": 3},
+        {"cells": ["Motor", "—", "—", "τm = 30–100 ms"], "c": "k", "at": 6},
+        {"cells": ["Response", "τp + τc + τm", "", "<b style='color:#fbbf24'>105–470 ms</b>"], "c": "y", "at": 7}
+      ]},
+      "lines": [
+        "Here are the timing values to memorise.",
+        "Perceptual processor: visual decay ninety to one thousand milliseconds, auditory decay nine hundred to thirty-five hundred.",
+        "Sensory store capacity is seven to seventeen letters visual, and five letters auditory. Cycle time, fifty to two hundred milliseconds.",
+        "Cognitive processor: working memory decays in five to two hundred twenty-six seconds. One chunk lasts seventy-three seconds, three chunks only seven.",
+        "Long term memory decay is a lifetime. Working memory stores two to four chunks, and long term memory is infinite.",
+        "Cognitive cycle time is twenty-five to one hundred seventy milliseconds.",
+        "Motor processor cycle time, thirty to one hundred milliseconds.",
+        "Add all three cycles: response time is one hundred five to four hundred seventy milliseconds."
+      ]},
+    { "id": "stroop", "title": "8. Cognition example",
+      "viz": {"type": "custom", "name": "stroop", "beats": [1, 2, 4]},
+      "lines": [
+        "A cognition example on perception and long term memory interaction.",
+        "Read out the ink colours of these words, and time it. Call it T one.",
+        "Now read these colour names. Time it, T two. Perception speed: T one is greater than T two.",
+        "In the first list, word meaning from long term memory fights the colour you perceive, so you slow down.",
+        "Finally, read this. The cat. The two middle letters are the same shape, yet you read H, then A.",
+        "Different interpretations, why? Because memory is associative. Context decides."
+      ]},
+    { "id": "p0p3", "title": "9. MHP principles P0–P3",
+      "viz": {"type": "cards", "cols": 2, "items": [
+        {"icon": "🔁", "h": "P0 · Recognize–act cycle", "b": "each cognitive cycle triggers interaction WM → LTM (WM ← LTM chunk)", "c": "p", "at": 0},
+        {"icon": "🔊", "h": "P1 · Perceptual cycle time", "b": "varies <b>inversely</b> with stimulus intensity — loud noise, electric shock = faster", "c": "b", "at": 2},
+        {"icon": "🏷️", "h": "P2 · Encoding", "b": "perceived info (visual, aural, tactile) is encoded before LTM storage; encoding decides its access cues", "c": "y", "at": 3},
+        {"icon": "🔍", "h": "P3 · Discrimination", "b": "number of cognitive cycles is context dependent; retrieval difficulty depends on the cues presented", "c": "g", "at": 4}
+      ]},
+      "lines": [
+        "The MHP runs on principles of operation. Principle zero: the cognitive processor's recognize act cycle.",
+        "Each cycle triggers interaction from working memory to long term memory, pulling a chunk into working memory.",
+        "Principle one: perceptual cycle time varies inversely with stimulus intensity. A loud noise or an electric shock is perceived faster.",
+        "Principle two: encoding. Perceived information is encoded before it is stored in long term memory, and the encoding decides how it maps to access cues.",
+        "Principle three: discrimination. The number of cycles is context dependent, and retrieval from long term memory depends on the cues presented."
+      ]},
+    { "id": "p4", "title": "10. P4 — variable rate & practice",
+      "viz": {"type": "custom", "name": "practice", "beats": [2],
+        "left": "<div class='ch' style='color:#34d399;font-size:38px'>P4 · Cognitive Processor Rate</div><div class='cb' style='font-size:28px;text-align:left'>Variable Rate Principle<br>• cycle time Tc <b>shorter</b> with increased task demand / info load (panic!)<br>• Tc also diminishes with <b>practice</b><br>n = attempts · T1 = initial time · Tn = time at nth repetition</div>"},
+      "lines": [
+        "Principle four: the cognitive processor rate, also called the variable rate principle.",
+        "Cycle time gets shorter when greater effort is demanded, like in a panic situation, and it also shrinks with practice.",
+        "The performance gain from practice follows a power law. T n equals T one times n to the power minus alpha.",
+        "Here n is the number of attempts, T one is the initial time, and T n the time at the n-th repetition. Alpha lies between point two and point six."
+      ]},
+    { "id": "p7", "title": "11. P7 — uncertainty & Hick's law",
+      "viz": {"type": "formula", "f": "T = k · H", "at": 2, "ftop": 270, "rtop": 420, "rows": [
+        {"t": "Decision time ↑ as uncertainty ↑ → more cognitive cycles", "at": 1, "c": "w"},
+        {"t": "H = entropy of the decision · k = constant", "at": 2.5},
+        {"t": "H = Σ p<sub>i</sub> log<sub>2</sub>(1/p<sub>i</sub> + 1)", "at": 3, "fs": 48},
+        {"t": "equal probabilities: <b>H = log<sub>2</sub>(n + 1)</b>", "at": 4, "fs": 48}
+      ]},
+      "lines": [
+        "Principle seven: the uncertainty principle.",
+        "Decision time increases with uncertainty about the judgment to be made, because it needs more cognitive cycles.",
+        "This is Hick's law of choice reaction time: T equals k times H, where H is the entropy of the decision and k is a constant.",
+        "In general, H is the sum of p i times log base two of one over p i, plus one.",
+        "If all n alternatives are equally likely, H is just log base two of n plus one."
+      ]},
+    { "id": "klm", "title": "12. Keystroke (Keyboard) Level Model",
+      "viz": {"type": "cards", "cols": 2, "items": [
+        {"icon": "🛠️", "h": "What it is", "b": "practical design tool — captures &amp; calculates the <b>physical actions</b> to complete a task; finds the most efficient method for a context", "c": "b", "at": 1},
+        {"icon": "📥", "h": "Given", "b": "a task (maybe subtasks) · the system's command language · user's motor skill parameters · response time parameters", "c": "y", "at": 3},
+        {"icon": "⏱️", "h": "Predicts", "b": "time an <b>expert</b> user takes to execute the task — provided they make <b>no errors</b>", "c": "g", "at": 4},
+        {"icon": "🧱", "h": "Made of", "b": "Operators · Encoding methods · Heuristics for placing M (mental) operators", "c": "p", "at": 5}
+      ]},
+      "lines": [
+        "Next, the Keyboard Level Model, better known as the Keystroke Level Model.",
+        "It is a practical design tool that captures and calculates the physical actions a user must carry out to complete a task.",
+        "It helps find the most efficient method, and judge its suitability for specific contexts.",
+        "Given a task, the system's command language, the user's motor skill parameters and the response time parameters,",
+        "it predicts the time an expert user will take to execute the task, provided they use the method without error.",
+        "The KLM is made of operators, encoding methods, and heuristics for placing mental operators."
+      ]},
+    { "id": "ops", "title": "13. KLM operators: K P H D M R",
+      "viz": {"type": "acronym", "ls": 130, "ws": 32, "ds": 25, "h": 560, "letters": [
+        {"L": "K", "w": "Key press", "d": "press a key or button<br><b>0.08 – 1.20 s</b>", "c": "b", "at": 0},
+        {"L": "P", "w": "Point", "d": "point with mouse<br><b>1.1 s</b><br>(Fitts' law)", "c": "p", "at": 1},
+        {"L": "H", "w": "Home", "d": "hands to keyboard or device<br><b>0.4 s</b>", "c": "y", "at": 2},
+        {"L": "D", "w": "Draw", "d": "line segments<br><b>0.9n + 0.16L</b>", "c": "k", "at": 3},
+        {"L": "M", "w": "Mental", "d": "mental preparation<br><b>1.35 s</b>", "c": "g", "at": 4},
+        {"L": "R", "w": "Response", "d": "system response<br><b>system / activity dependent</b>", "c": "o", "at": 5}
+      ]},
+      "lines": [
+        "Six operators. K: press a key or button, from point zero eight to one point two seconds.",
+        "P: point with the mouse, about one point one seconds, from Fitts' law.",
+        "H: home the hands on the keyboard or another device, point four seconds.",
+        "D: draw line segments, point nine times the number of segments, plus point one six times their total length.",
+        "M: mental preparation, one point three five seconds.",
+        "R: system response, which depends on the system and the activity.",
+        "Memory hook: Keep Pointing Home, Draw, Mind the Response."
+      ]},
+    { "id": "ktable", "title": "14. K depends on typing skill",
+      "viz": {"type": "table", "fs": 30, "head": ["Operator / user", "Detail", "Time (s)"], "rows": [
+        {"cells": ["Best typist", "135 wpm", ".08"], "c": "g", "at": 1},
+        {"cells": ["Good typist", "90 wpm", ".12"], "c": "g", "at": 2},
+        {"cells": ["Avg skilled typist", "55 wpm", ".20"], "c": "b", "at": 2.5},
+        {"cells": ["Avg non-secretary", "40 wpm", ".28"], "c": "b", "at": 3},
+        {"cells": ["Random letters / complex codes", "", ".50 / .75"], "c": "y", "at": 4},
+        {"cells": ["Worst typist", "unfamiliar with keyboard", "1.20"], "c": "r", "at": 5},
+        {"cells": ["P · H · M", "P excludes the click, range .8–1.5", "1.10 · .40 · 1.35"], "c": "p", "at": 6}
+      ]},
+      "lines": [
+        "K changes with typing skill. Pressing a modifier key like shift counts as a separate operation.",
+        "Best typist, one hundred thirty-five words per minute: point zero eight seconds.",
+        "Good typist, ninety words per minute: point one two. Average skilled typist, fifty-five words per minute: point two.",
+        "Average non-secretary typist, forty words per minute: point two eight.",
+        "Typing random letters: point five. Typing complex codes: point seven five.",
+        "Worst typist, unfamiliar with the keyboard: one point two seconds.",
+        "P ranges from point eight to one point five seconds and does not include the button click. H is point four, M is one point three five."
+      ]},
+    { "id": "encode", "title": "15. Encoding methods",
+      "viz": {"type": "formula", "f": "M 8K[ipconfig RETURN]", "fs": 68, "at": 2, "rtop": 410, "rows": [
+        {"t": "long form: MK[i] K[p] K[c] K[o] K[n] K[f] K[i] K[g] K[RETURN]", "at": 1, "fs": 32},
+        {"t": "1.35 + 8 × 0.20 = <b>2.95 s</b> (average skilled typist)", "at": 3, "fs": 44},
+        {"t": "Windows: Network → Repair", "at": 4, "fs": 36, "c": "b"},
+        {"t": "H[mouse] MP[Network icon] K[Right click] P[Prepare] K[Left click]", "at": 4.3, "fs": 32},
+        {"t": "0.4 + 1.35 + 1.1 + 0.2 + 1.1 + 0.2 = <b>4.35 s</b>", "at": 4.7, "fs": 40}
+      ]},
+      "lines": [
+        "Encoding methods define how the operators of a task are written.",
+        "Typing ipconfig in a command window is M, then a K for each letter, and K for return.",
+        "In short-hand, it's M, eight K, ipconfig return.",
+        "That's one point three five plus eight times point two, which is two point nine five seconds for an average skilled typist.",
+        "Using Windows Network, then Repair: H mouse, M P network icon, K right click, P prepare, K left click. Four point three five seconds."
+      ]},
+    { "id": "typo", "title": "16. KLM example: mirtake → mistake",
+      "viz": {"type": "flow", "dir": "v", "w": 1250, "nodes": [
+        {"icon": "🖱️", "h": "H[mouse]", "b": "move hand to mouse", "c": "y", "at": 1},
+        {"icon": "👉", "h": "P K[Left]", "b": "position after the bad char, click", "c": "p", "at": 1.5},
+        {"icon": "⌨️", "h": "H[keyboard]", "b": "return to keyboard", "c": "y", "at": 2},
+        {"icon": "⌫", "h": "M K[backspace]", "b": "delete bad char", "c": "g", "at": 2.5},
+        {"icon": "🔤", "h": "K[char]", "b": "type the new char", "c": "b", "at": 3},
+        {"icon": "↩️", "h": "H[mouse] M P K[Left]", "b": "reposition the insertion point · total ≈ 6.9 s (illustrative, K = 0.2)", "c": "k", "at": 3.5}
+      ]},
+      "lines": [
+        "Example two. Correct the typo mirtake into mistake.",
+        "Move hand to mouse, H. Position the mouse after the bad character and click, P K left.",
+        "Return to keyboard, H. Delete the bad character, M K backspace.",
+        "Type the new character, K. Then reposition the insertion point, H, M, P, K left.",
+        "With K at point two, that totals roughly six point nine seconds. That total is illustrative."
+      ]},
+    { "id": "fitts", "title": "17. Calculating P with Fitts' law",
+      "viz": {"type": "formula", "f": "P = a + b · log<sub>2</sub>(A/W + 1)", "at": 1, "rtop": 410, "rows": [
+        {"t": "A = distance to target · W = width (cross-section) of target", "at": 2},
+        {"t": "a, b depend on the input device — found by regression (here a = 0, b = 0.1)", "at": 2.6, "fs": 32},
+        {"t": "🖱️ middle of 19 cm screen → 2 cm toolbar at top", "at": 3, "c": "b"},
+        {"t": "0.1 × log<sub>2</sub>(19/2 + 1) = 0.1 × log<sub>2</sub>(10.5) ≈ <b>0.4 s</b>", "at": 4, "fs": 44}
+      ]},
+      "lines": [
+        "Where does P come from? Experiments give an average of one point one seconds, based on Fitts' law.",
+        "P equals a plus b, times log base two of A over W, plus one.",
+        "A is the distance from the target, and W is its width. a and b depend on the input device, and are found by regression.",
+        "Example: the mouse is in the middle of a nineteen centimetre screen, and must reach a two centimetre toolbar at the top.",
+        "With a zero and b point one, that's point one times log two of ten point five, about point four seconds."
+      ]},
+    { "id": "macwin", "title": "18. Menus: Mac vs Windows",
+      "viz": {"type": "custom", "name": "fittsMenu", "beats": [1, 2, 3]},
+      "lines": [
+        "Fitts' law explains menu placement.",
+        "On the Mac, the menu is aligned with the screen edge, with no offset. Users can't overshoot, so they need not be accurate. The target acts about fifty millimetres tall.",
+        "On Windows, the pull-down menu is offset by the title bar, so it needs more accuracy. The target is only five millimetres wide.",
+        "With distance eighty millimetres, a fifty and b one fifty: the Mac takes about two hundred fifty-six milliseconds, Windows about six hundred sixty-three.",
+        "Edge targets are effectively infinite in size, so they are fast."
+      ]},
+    { "id": "mrules", "title": "19. Rules for placing M",
+      "viz": {"type": "cards", "small": true, "bs": 26, "items": [
+        {"icon": "0️⃣", "h": "Rule 0 · Insert", "b": "M before every K that enters new text and every P that selects a command", "c": "b", "at": 1},
+        {"icon": "1️⃣", "h": "Rule 1 · Anticipated", "b": "M fully anticipated by previous operator → delete<br><b>PMK → PK</b>", "c": "p", "at": 2},
+        {"icon": "2️⃣", "h": "Rule 2 · Strings", "b": "string of M's → delete all but the first", "c": "y", "at": 3},
+        {"icon": "3️⃣", "h": "Rule 3 · Redundant terminator", "b": "M&lt;cmd&gt;K M&lt;arg&gt;K → M&lt;cmd&gt;K &lt;arg&gt;K", "c": "g", "at": 4},
+        {"icon": "4️⃣", "h": "Rule 4 · Terminators", "b": "K ends a <b>command</b> → delete M<br>K ends an <b>argument</b> → keep M", "c": "k", "at": 5}
+      ]},
+      "lines": [
+        "KLM operators are physical or cognitive. Physical ones come from the method, like clicking an icon. The mental M follows heuristics.",
+        "Rule zero: place M in front of every K that enters new text, and every P that selects a command.",
+        "Rule one: if M is anticipated by the previous operator, delete it. P M K becomes P K.",
+        "Rule two: in a string of M's, delete all except the first.",
+        "Rule three: if K is a redundant terminator, delete the M in front of it.",
+        "Rule four: delete M if K terminates a command string, but keep M if K terminates an argument string."
+      ]},
+    { "id": "klmlimits", "title": "20. KLM limits & applications",
+      "viz": {"type": "cards", "cols": 2, "items": [
+        {"icon": "🚫", "h": "KLM does NOT consider", "b": "Errors · Learning · Functionality · Recall · Concentration · Fatigue · Acceptability", "c": "r", "at": 0},
+        {"icon": "🧠", "h": "Memory hook", "b": "“<b>E</b>very <b>L</b>azy <b>F</b>ox <b>R</b>eally <b>C</b>an't <b>F</b>eel <b>A</b>nything”", "c": "y", "at": 1},
+        {"icon": "🖥️", "h": "Case 1 · Xerox Star", "b": "mouse-driven text editor — KLMs served as <b>expert proxies</b> during development", "c": "b", "at": 2},
+        {"icon": "☎️", "h": "Case 2 · Directory assistance", "b": "showed the trade-off between keystrokes in the query and number of returned fields", "c": "g", "at": 3}
+      ]},
+      "lines": [
+        "The KLM was not designed to consider errors, learning, functionality, recall, concentration, fatigue, or acceptability.",
+        "Memory hook: Every Lazy Fox Really Can't Feel Anything.",
+        "Applications. Case one: in developing the Xerox Star, a mouse driven text editor, KLMs served as expert proxies.",
+        "Case two: for a directory assistance workstation, the KLM clarified the trade-off between keystrokes in the query and the number of returned fields."
+      ]},
+    { "id": "goms", "title": "21. GOMS",
+      "viz": {"type": "acronym", "ls": 170, "ws": 40, "ds": 28, "h": 540, "letters": [
+        {"L": "G", "w": "Goals", "d": "tasks broken into goals and sub-goals", "c": "b", "at": 2},
+        {"L": "O", "w": "Operators", "d": "the specific actions needed to carry out the task", "c": "p", "at": 3},
+        {"L": "M", "w": "Methods", "d": "ways of achieving a goal, made of operators", "c": "y", "at": 4},
+        {"L": "S", "w": "Selection rules", "d": "decide which method the user chooses", "c": "g", "at": 5}
+      ]},
+      "lines": [
+        "GOMS: goals, operators, methods and selection rules. Goal and task models explore the methods people use.",
+        "Card and colleagues suggested describing interaction as the sequential actions a person takes to accomplish a task.",
+        "Goals: tasks are deconstructed into a set of goals and sub-goals.",
+        "Operators: tasks can only be done by undertaking specific actions.",
+        "Methods represent ways of achieving a goal, made of operators.",
+        "Selection rules determine which method the user chooses."
+      ]},
+    { "id": "gomsvar", "title": "22. GOMS family",
+      "viz": {"type": "cards", "items": [
+        {"icon": "🧾", "h": "CMN-GOMS", "b": "Card, Moran &amp; Newell — detailed expansion of GOMS with analysis procedures &amp; notation<br>• predicts behaviour<br>• judges memory needs (depth of nested goals)<br>• insight into performance", "c": "b", "at": 1},
+        {"icon": "📝", "h": "NGOMSL", "b": "Natural GOMS Language (Kieras, 1997) — structured natural-language notation<br>• measures time to <b>learn</b> a method<br>• checks <b>consistency</b> of methods", "c": "y", "at": 3},
+        {"icon": "⚙️", "h": "CPM-GOMS", "b": "Cognitive, Perceptual, Motor operators<br>• PERT charts + critical path method<br>• based directly on MHP<br>• processors work in <b>parallel</b>", "c": "k", "at": 5}
+      ]},
+      "lines": [
+        "There's a whole family of GOMS models.",
+        "CMN GOMS, named after Card, Moran and Newell, is a detailed expansion of GOMS, with specific analysis procedures and notation.",
+        "It can predict behaviour, judge memory requirements from the depth of nested goal structures, and give insight into performance.",
+        "NGOMSL, the Natural GOMS Language by Kieras, gives a structured natural language notation and analysis procedure.",
+        "It measures the time to learn a specific method of operation, and checks the consistency of a design's methods.",
+        "CPM GOMS represents cognitive, perceptual and motor operators."
+      ]},
+    { "id": "pert", "title": "23. CPM-GOMS & PERT charts",
+      "viz": {"type": "custom", "name": "pert", "beats": [0, 1, 2]},
+      "lines": [
+        "CPM GOMS uses PERT charts, the Program Evaluation Review Technique, and maps task durations with the critical path method.",
+        "It is based directly on the Model Human Processor, and assumes perceptual, cognitive and motor processors work in parallel. Start eye move, move eyes to target, perceive target, verify paragraph.",
+        "The longest chain of dependent operators is the critical path, and it sets the total time."
+      ]},
+    { "id": "hick", "title": "24. Modeling structure — Hick's law",
+      "viz": {"type": "custom", "name": "hick", "beats": [1, 2, 3, 4, 5]},
+      "lines": [
+        "Structural models show the relationship between conceptual and physical components, so we can judge a design's effectiveness.",
+        "Hick's law can be used to create menu structures.",
+        "The time to choose one item from n alternatives is proportional to log base two of the number of choices, plus one.",
+        "The coefficients come from experiments. Raskin suggests a equals fifty and b equals one fifty, for back of the envelope estimates.",
+        "So a menu of seven equally likely items takes about five hundred milliseconds.",
+        "The equation assumes every item has an equal probability of being chosen."
+      ]},
+    { "id": "hickforms", "title": "25. Other forms of Hick's law",
+      "viz": {"type": "formula", "f": "H = log<sub>2</sub>(n + 1) → T = a + b log<sub>2</sub>(n + 1)", "fs": 54, "at": 0, "rtop": 400, "rows": [
+        {"t": "different probabilities p<sub>j</sub>: H = Σ p<sub>j</sub> log<sub>2</sub>(1/p<sub>j</sub> + 1)", "at": 1, "fs": 42},
+        {"t": "generalises to: T = c + d · Σ p<sub>j</sub> log<sub>2</sub>(1/p<sub>j</sub> + 1)", "at": 2, "fs": 42},
+        {"t": "📋 Menu order must be logical &amp; relevant", "at": 3, "c": "g"},
+        {"t": "rules not understood → arrangement looks random → slow linear, sequential search", "at": 3.5, "fs": 32, "c": "r"}
+      ]},
+      "lines": [
+        "For n equally probable alternatives, H equals log two of n plus one, so T equals a plus b log two of n plus one.",
+        "For n alternatives, each with a different probability p j, H is the sum of p j log two of one over p j, plus one.",
+        "This generalises to c plus d times that sum.",
+        "Menus are lists grouped by some system, so the listing order must be logical and relevant. If users don't understand the rules, they search in a slow, linear, sequential way."
+      ]},
+    { "id": "stn", "title": "26. Modeling dynamics — STNs",
+      "viz": {"type": "custom", "name": "stn", "beats": [1, 2, 3]},
+      "lines": [
+        "Modeling dynamics. Interaction is a feedback loop: user actions alter the system's state, which influences the user's next action.",
+        "State transition networks explore how a system moves between states. Use them for menus, icons, tools, and to show how peripheral devices operate.",
+        "They are appropriate for sequential operations that involve choice by the user,",
+        "and for expressing iteration, looping back to repeat a step."
+      ]},
+    { "id": "tsm", "title": "27. Three-State Model",
+      "viz": {"type": "custom", "name": "tsm", "beats": [2, 2.5, 3, 4]},
+      "lines": [
+        "The three state model helps designers choose appropriate input devices for an interaction design.",
+        "It reveals a device's intrinsic states and transitions, so devices without the right states can be ruled out early.",
+        "Tracked: the mouse is tracked and shown as the cursor. Dragged: the mouse manipulates elements with drag and drop.",
+        "Disengaged: a light pen or a finger on a touch screen moves without being tracked, then re-engages anywhere. Lifting a mouse does the same.",
+        "Tracked, dragged, and disengaged: three kinds of pointer movement."
+      ]},
+    { "id": "recap", "title": "Recap", "pad": [0.5, 2.0],
+      "viz": {"type": "hook", "icon": "✅", "t": "Recap", "s": "MHP · K P H D M R · GOMS · Fitts · Hick · STN · TSM", "sAt": 1, "cAt": 1.5, "endcard": true, "endAt": 2,
+        "chips": ["τp 50–200", "τc 25–170", "τm 30–100", "Response 105–470 ms", "M = 1.35 s", "P = 1.1 s", "H = 0.4 s", "Tn = T1·n^−α", "T = a + b·log2(n+1)", "Mac 256 vs Win 663 ms"]},
+      "lines": [
+        "Quick recap.",
+        "MHP: perceptual, cognitive and motor processors. KLM operators: K, P, H, D, M, R. GOMS: goals, operators, methods, selection rules.",
+        "Fitts for pointing, Hick for choosing, state networks and the three state model for dynamics. You've got this."
+      ]}
+  ]
+}

@@ -1,0 +1,211 @@
+{
+  "title": "HCI — Multiple Window Strategies, Tightly Coupled Windows, Personal Role Manager, Elastic Windows",
+  "slug": "hci-windows",
+  "kicker": "HCI · Multiple-Window Design",
+  "description": "Exam revision: origins of windowing, ten multiple-window strategies, coordination by tightly coupled windows, overview + detail image browsing, personal role management and elastic windows.",
+  "tags": ["HCI", "window management", "tiling", "overview detail", "elastic windows"],
+  "voice": "af_heart",
+  "speed": 1.0,
+  "fps": 24,
+  "captions": true,
+  "endCard": "📘 Multiple-Window Design — revised. You've got this!",
+  "thumbnail": "layoutsA@14",
+  "pronounce": {"PARC": "park", "PRM": "P R M", "GUIs": "gooeys", "Smalltalk": "small talk"},
+  "scenes": [
+    { "id": "intro", "title": "Intro", "pad": [0.6, 1.0],
+      "viz": {"type": "hook", "icon": "🪟🪟🪟", "t": "Multiple-Window Strategies", "s": "How do you see many things at once on one screen?", "sAt": 0.5, "cAt": 2,
+        "chips": ["Origins", "10 layout strategies", "Tightly coupled windows", "7 coordinations", "Overview + detail", "Zoom factor 5–30", "Image-browser tasks", "Personal Role Manager", "Elastic windows"]},
+      "lines": [
+        "Your task needs an email, a document, and a chart, all at once. How should a screen show them?",
+        "That's the problem of multiple window design.",
+        "We'll cover where windows came from, ten layout strategies, tightly coupled windows, image browsing, the personal role manager, and elastic windows."
+      ]},
+    { "id": "origin", "title": "1. Where windows came from",
+      "viz": {"type": "flow", "nodes": [
+        {"icon": "📜", "h": "Teletype", "b": "printed output on an ever-growing scroll of paper", "c": "w", "at": 0},
+        {"icon": "🖥️", "h": "Electronic scrolling", "b": "displays let users scroll back through the session", "c": "b", "at": 1},
+        {"icon": "🦘", "h": "Jumping around", "b": "users need to jump to related text or graphics", "c": "y", "at": 2},
+        {"icon": "🪟", "h": "Xerox PARC", "b": "8010 <b>Star</b> + <b>Smalltalk</b> → multiple windows = multiple views on a large, high-res screen", "c": "g", "at": 3}
+      ]},
+      "lines": [
+        "Early computers used a teletype, printing output on an ever-growing scroll of paper.",
+        "When designers switched to displays, electronic scrolling let users go back through the session. Useful,",
+        "but designers saw similar situations where users had to jump around to related text or graphics.",
+        "The multiple window strategy evolved at Xerox PARC, with the eighty ten Star system and the Smalltalk programming system. On a large, high resolution screen, windows give multiple views that make a task easier."
+      ]},
+    { "id": "layoutsA", "title": "2. Strategies — part 1",
+      "viz": {"type": "custom", "name": "winlayouts", "cols": 3, "kinds": [
+        {"n": "Multiple monitors", "w": [[1, 15, 31, 70], [34.5, 15, 31, 70], [68, 15, 31, 70]], "l": ["1", "2", "3"], "at": 1},
+        {"n": "Split displays (WordPerfect 5)", "w": [[0, 0, 50, 100], [50, 0, 50, 50], [50, 50, 50, 50]], "at": 2},
+        {"n": "Rapid display flipping", "w": [[10, 8, 80, 84], [10, 8, 80, 84], [10, 8, 80, 84]], "l": ["A", "B", "C"], "anim": "flip", "at": 3},
+        {"n": "Fixed number, size, place · space-filling tiling", "w": [[0, 0, 50, 50], [50, 0, 50, 50], [0, 50, 50, 50], [50, 50, 50, 50]], "at": 4},
+        {"n": "Variable size, place, number · space-filling tiling", "w": [[0, 0, 64, 58], [64, 0, 36, 29], [64, 29, 36, 29], [0, 58, 36, 42], [36, 58, 64, 42]], "at": 5},
+        {"n": "Non-space-filling tiling", "w": [[5, 8, 38, 38], [55, 10, 38, 30], [10, 58, 30, 34], [52, 52, 42, 38]], "at": 6}
+      ]},
+      "lines": [
+        "The challenge of giving access to multiple sources of information has stimulated many solutions.",
+        "Multiple monitors: more than one monitor used for display.",
+        "Split displays: more than one window shown at once, like in WordPerfect five.",
+        "Rapid display flipping: switching quickly between full views.",
+        "Fixed number, size and place, with space filling tiling.",
+        "Variable size, place and number, still space filling tiling.",
+        "And non space filling tiling, where tiles don't cover the whole screen."
+      ]},
+    { "id": "layoutsB", "title": "3. Strategies — part 2",
+      "viz": {"type": "custom", "name": "winlayouts", "cols": 2, "kinds": [
+        {"n": "Piles of tiles (stacked taskbar icons)", "w": [[4, 22, 40, 66], [8, 15, 40, 66], [12, 8, 40, 66], [54, 22, 40, 66], [58, 15, 40, 66]], "at": 0},
+        {"n": "Window zooming", "w": [[62, 58, 30, 34], [6, 8, 40, 40]], "anim": "zoom", "at": 1},
+        {"n": "Arbitrary overlaps", "w": [[5, 6, 48, 55], [32, 26, 48, 50], [14, 46, 44, 46], [58, 8, 38, 42]], "at": 2},
+        {"n": "Cascades", "w": [[4, 4, 56, 56], [12, 13, 56, 56], [20, 22, 56, 56], [28, 31, 56, 56]], "at": 3}
+      ], "note": "10 strategies: Monitors · Split · Flip · Fixed tile · Variable tile · Non-filling · Piles · Zoom · Overlap · Cascade", "noteLabel": "ALL 10", "noteAt": 4},
+      "lines": [
+        "Piles of tiles: windows stacked in groups, like taskbar icons stacked when more than one window is open.",
+        "Window zooming: a window grows to fill the screen, then shrinks back.",
+        "Arbitrary overlaps: windows placed anywhere, overlapping freely.",
+        "And cascades: windows stacked diagonally so every title bar stays visible.",
+        "That's all ten strategies."
+      ]},
+    { "id": "coord", "title": "4. Coordination by tightly coupled windows",
+      "viz": {"type": "flow", "nodes": [
+        {"icon": "🖱️", "h": "User action", "b": "e.g. select, scroll, open", "c": "b", "at": 0},
+        {"icon": "🔄", "h": "Coordination", "b": "<b>task</b> concept — how information objects change based on user actions", "c": "y", "at": 0.5},
+        {"icon": "🔗", "h": "Tight coupling", "b": "<b>interface</b> concept that supports coordination among windows", "c": "g", "at": 1},
+        {"icon": "🧩", "h": "Task-specific + generic", "b": "study tasks → task-specific coordinations; developers also support generic ones", "c": "p", "at": 2}
+      ]},
+      "lines": [
+        "Coordination is a task concept: it describes how information objects change based on user actions.",
+        "Tight coupling among windows is the interface concept that supports coordination.",
+        "A careful study of user tasks can lead to task specific coordinations, based on sequences of actions. There are also generic coordinations that interface developers can support."
+      ]},
+    { "id": "generic", "title": "5. Seven generic coordinations",
+      "viz": {"type": "cards", "cols": 4, "small": true, "bs": 24, "items": [
+        {"icon": "↕️↕️", "h": "Synchronized scrolling", "b": "scroll one window, the other scrolls with it", "c": "b", "at": 0},
+        {"icon": "🌳", "h": "Hierarchical browsing", "b": "pick a node in a tree, its contents show in another window", "c": "g", "at": 1},
+        {"icon": "👆", "h": "Direct selection", "b": "select an item / tool, a detail window appears", "c": "y", "at": 2},
+        {"icon": "🗺️", "h": "Two-dimensional browsing", "b": "2D overview + detail view (e.g. charts)", "c": "p", "at": 3},
+        {"icon": "📂", "h": "Dependent-windows opening", "b": "opening one opens its related windows", "c": "k", "at": 4},
+        {"icon": "❎", "h": "Dependent-windows closing", "b": "closing one closes its dependents", "c": "r", "at": 4.5},
+        {"icon": "💾", "h": "Save / open window state", "b": "restore the whole arrangement later", "c": "o", "at": 5}
+      ], "note": "Sync · Hierarchy · Direct · 2-D · Open · Close · Save", "noteLabel": "LIST", "noteAt": 6},
+      "lines": [
+        "Seven generic coordinations. Synchronized scrolling: scroll one window, and the coupled one scrolls too.",
+        "Hierarchical browsing: select a node in a tree, and its contents appear in another window.",
+        "Direct selection: select an item or tool, and its detail appears.",
+        "Two dimensional browsing: a two D overview coupled to a detail view.",
+        "Dependent windows opening, and dependent windows closing, where related windows open and close together.",
+        "And save or open window state, to restore the whole arrangement later.",
+        "Sync, hierarchy, direct, two D, open, close, save."
+      ]},
+    { "id": "overview", "title": "6. Image browsing — overview + detail",
+      "viz": {"type": "custom", "name": "overview", "beats": [1, 2, 4]},
+      "lines": [
+        "When browsing large images, from medical, geographic, or graphic design systems, a pair of scroll bars is adequate if the image is less than three to five times the screen size.",
+        "For larger images, a tight coupling between an overview and a detail view beats single zooming, or several independent windows.",
+        "Move the field of view box on the overview, and the detail updates. Pan in the detail, and the box moves in the overview.",
+        "Well designed coupled windows have matching aspect ratios in the field of view box and the detail view. Change the shape of either, and the other changes too.",
+        "The magnification from overview to detail is the zoom factor. Between five and thirty works well. Beyond that, add an intermediate view."
+      ]},
+    { "id": "zoom", "title": "7. Zoom factor, layout & fisheye",
+      "viz": {"type": "cards", "items": [
+        {"icon": "🔍", "h": "Zoom factor", "b": "magnification overview → detail<br><b>5 – 30</b>: overview + detail pair works<br><b>&gt; 30</b>: add an intermediate view", "c": "y", "at": 0},
+        {"icon": "↔️", "h": "Side-by-side", "b": "the most common layout — see the big picture and the details at the same time", "c": "b", "at": 1},
+        {"icon": "🐟", "h": "Fisheye views", "b": "show detail and overview without obscuring anything — magnify the focus, compress the context", "c": "g", "at": 2}
+      ]},
+      "lines": [
+        "Recap the zoom factor: between five and thirty, a tightly coupled overview and detail pair is effective. Larger, and you need an intermediate view.",
+        "Side by side placement of overview and detail is the most common layout, since users see the big picture and details at once.",
+        "And attempts to show detail and overview without obscuring anything motivated interest in fisheye views."
+      ]},
+    { "id": "tasks", "title": "8. Image-browser tasks",
+      "viz": {"type": "cards", "cols": 3, "small": true, "items": [
+        {"icon": "🎨", "h": "Image generation", "c": "b", "at": 1},
+        {"icon": "🧭", "h": "Open-ended exploration", "c": "g", "at": 1.25},
+        {"icon": "🩺", "h": "Diagnostic", "c": "r", "at": 1.5},
+        {"icon": "🚗", "h": "Navigation", "c": "y", "at": 1.75},
+        {"icon": "📡", "h": "Monitoring", "c": "p", "at": 2},
+        {"icon": "🖱️", "h": "Low-level actions", "b": "moving focus · comparing · traversing · marking locations to return to later", "c": "o", "at": 3}
+      ], "note": "I-O-D-N-M: “I Often Draw New Maps”"},
+      "lines": [
+        "The design of image browsers should be governed by the user's tasks. These are classified into:",
+        "image generation, open-ended exploration, diagnostic,",
+        "navigation, and monitoring.",
+        "Within these high level tasks, users carry out many low level actions: moving focus, comparing, traversing, or marking locations to return to later.",
+        "Memory hook: I Often Draw New Maps."
+      ]},
+    { "id": "prm", "title": "9. Toward role-centred design",
+      "viz": {"type": "flow", "nodes": [
+        {"icon": "🗂️", "h": "Today's GUI desktop", "b": "applications as icons, documents in folders", "c": "w", "at": 0},
+        {"icon": "📄", "h": "Document-centred", "b": "documents become important, applications fade into the background", "c": "b", "at": 1},
+        {"icon": "🧑‍💼", "h": "Role-centred", "b": "next generation — emphasises the user's <b>tasks</b>, not documents", "c": "g", "at": 2}
+      ]},
+      "lines": [
+        "Current GUIs offer a desktop, with applications as icons and documents organised into folders.",
+        "A documentary design makes documents more important, and applications fade into the background.",
+        "To reach the next generation of user interfaces, the natural progression is role centred design, which emphasises the user's tasks rather than documents."
+      ]},
+    { "id": "prm2", "title": "10. Personal Role Manager (PRM)",
+      "viz": {"type": "cards", "cols": 3, "small": true, "bs": 25, "items": [
+        {"icon": "🧑‍💼", "h": "PRM vs window manager", "b": "improves performance, reduces distraction within a role, eases shifting attention between roles", "c": "g", "at": 0},
+        {"icon": "🔭", "h": "Vision statement", "b": "each role has one, set by the user or manager", "c": "y", "at": 1},
+        {"icon": "🔬", "h": "Origin", "b": "managing multiple projects with many participants + interviews with 15 experienced users", "c": "b", "at": 2},
+        {"icon": "🗃️", "h": "Organise by role", "b": "info organised by the roles a person has in an organisation", "c": "p", "at": 3},
+        {"icon": "👀", "h": "Visual cues", "b": "remind users of goals, related people, required tasks, scheduled events", "c": "k", "at": 4},
+        {"icon": "🖥️", "h": "Screen management", "b": "all roles visible; current focus occupies most of the screen", "c": "o", "at": 5}
+      ]},
+      "lines": [
+        "A personal role manager, instead of a window manager, could improve performance and reduce distraction while working in a role, and make it easier to shift attention between roles.",
+        "In a personal role manager, each role has a vision statement, established by the user or manager.",
+        "It was stimulated by experience managing multiple projects with many participants, plus observations and interviews with fifteen experienced users.",
+        "The key is organising information according to the roles an individual has in an organisation.",
+        "While working in a role, the most relevant information is visible, and these visual cues remind users of their goals, related people, required tasks, and scheduled events.",
+        "Screen management is a key function. All roles should be visible, but the current focus of attention can occupy most of the screen."
+      ]},
+    { "id": "subjects", "title": "11. Task subjects of a role",
+      "viz": {"type": "acronym", "ls": 120, "ws": 38, "ds": 26, "h": 470, "letters": [
+        {"L": "🔭", "w": "Vision statement", "d": "what this role is for", "c": "y", "at": 1},
+        {"L": "👥", "w": "Set of people", "d": "who you work with in the role", "c": "b", "at": 1.3},
+        {"L": "🌳", "w": "Task hierarchy", "d": "the role's tasks and subtasks", "c": "g", "at": 1.6},
+        {"L": "📅", "w": "Schedule", "d": "events and deadlines", "c": "k", "at": 1.9}
+      ], "note": "V-P-T-S: “Very Productive Team Schedule”"},
+      "lines": [
+        "The task subjects in a personal role manager are:",
+        "a vision statement, a set of people, a task hierarchy, and a schedule.",
+        "Memory hook: Very Productive Team Schedule."
+      ]},
+    { "id": "reqs", "title": "12. Requirements for personal role management",
+      "viz": {"type": "cards", "cols": 4, "small": true, "bs": 23, "items": [
+        {"icon": "🧱", "h": "Unified framework", "b": "organise info by users' roles", "c": "b", "at": 0},
+        {"icon": "🗺️", "h": "Visual, spatial layout", "b": "that matches tasks", "c": "g", "at": 1},
+        {"icon": "⚡", "h": "Multi-window actions", "b": "fast arrangement of information", "c": "y", "at": 2},
+        {"icon": "🧩", "h": "Partial-knowledge access", "b": "find info by nominal, spatial, temporal, visual attributes &amp; relationships", "c": "p", "at": 3},
+        {"icon": "🔀", "h": "Fast switching", "b": "and resumption among roles", "c": "k", "at": 4},
+        {"icon": "🧠", "h": "Free cognitive resources", "b": "for task-domain actions, not interface-domain actions", "c": "o", "at": 5},
+        {"icon": "📐", "h": "Efficient screen space", "b": "used productively for tasks", "c": "r", "at": 6}
+      ]},
+      "lines": [
+        "Seven requirements for personal role management. Support a unified framework for organising information according to users' roles.",
+        "Provide a visual, spatial layout that matches tasks.",
+        "Support multi-window actions for fast arrangement of information.",
+        "Support information access with partial knowledge of its nominal, spatial, temporal and visual attributes, and relationships to other information.",
+        "Allow fast switching and resumption among roles.",
+        "Free the user's cognitive resources to work on task domain actions, rather than interface domain actions.",
+        "And use screen space efficiently and productively for tasks."
+      ]},
+    { "id": "elastic", "title": "13. Elastic windows",
+      "viz": {"type": "custom", "name": "elastic", "beats": [0, 1]},
+      "lines": [
+        "Elastic windows organise windows in a space filling, hierarchically nested, tiled layout, designed to support the personal role manager's requirements.",
+        "Users change the layout quickly by applying operations to groups of windows.",
+        "Elastic resizing enlarges one window, or a group, while shrinking the others in the group,",
+        "so users can easily focus on information in different windows."
+      ]},
+    { "id": "recap", "title": "Recap", "pad": [0.5, 2.0],
+      "viz": {"type": "hook", "icon": "✅", "t": "Recap", "s": "Many views · coupled windows · roles, not documents", "sAt": 1, "cAt": 1.5, "endcard": true, "endAt": 2,
+        "chips": ["Xerox PARC · Star · Smalltalk", "Monitors · Split · Flip", "Fixed / variable / non-filling tiling", "Piles · Zoom · Overlap · Cascade", "Sync · Hierarchy · Direct · 2D · Open · Close · Save", "Scrollbars < 3–5× screen", "Zoom factor 5–30", "Fisheye", "Vision · People · Tasks · Schedule", "Elastic windows"]},
+      "lines": [
+        "Quick recap.",
+        "Windows began at Xerox PARC. Ten layout strategies, seven generic coordinations, and overview plus detail with zoom factors from five to thirty.",
+        "The personal role manager organises by roles, and elastic windows make it work. You've got this."
+      ]}
+  ]
+}
