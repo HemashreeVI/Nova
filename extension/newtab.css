@@ -256,6 +256,21 @@ textarea { resize: vertical; line-height: 1.45; }
 .save-bar { position: sticky; bottom: -40px; display: flex; justify-content: flex-end; align-items: center; gap: 14px; padding: 16px 0 6px; margin-top: 8px; background: linear-gradient(transparent, var(--glass-strong) 30%); }
 .primary { background: var(--text); color: #111; border: 0; border-radius: 12px; padding: 10px 26px; font-weight: 800; cursor: pointer; }
 
+/* ---------- shorter laptop screens: tighten so both cards fit ---------- */
+@media (max-height: 980px) {
+  :root { --gap: 16px; }
+  .card { padding: 16px 22px 12px; }
+  .rows > li { padding: 9px 2px; }
+  .big { font-size: 23px; margin: 10px 0 4px; }
+  .sub { font-size: 15px; }
+  .next-row { margin-top: 14px; }
+  .count b { font-size: 36px; }
+  .foot-stats { margin-top: 10px; }
+  .foot-stats div b { font-size: 18px; }
+  .clock { font-size: 52px; }
+  .right { top: 86px; }
+}
+
 /* ---------- smaller screens: stack everything and scroll ---------- */
 @media (max-width: 1180px) {
   body { overflow-y: auto; }

@@ -14,6 +14,8 @@ function h(tag, attrs = {}, ...kids) {
   for (const k of kids.flat()) if (k != null && k !== false) el.append(k instanceof Node ? k : String(k));
   return el;
 }
+// replaceChildren() would print "null" for skipped items, so drop them first.
+const put = (el, ...kids) => el.replaceChildren(...kids.flat().filter((k) => k != null && k !== false));
 const color = (p) => (p >= 70 ? "var(--green)" : p >= 45 ? "var(--amber)" : "var(--red)");
 const openUrl = (url) => { try { const u = new URL(url); if (/^https?:$/.test(u.protocol)) chrome.tabs.create({ url }); } catch { /* ignore */ } };
 
@@ -29,7 +31,7 @@ async function thisPage() {
   const looksJob = job || JOB_HOSTS.test(host) || /career|jobs?\b/i.test(tab.url || "");
 
   if (!looksJob) {
-    body.replaceChildren(
+    put(body, 
       h("div", {}, "Not a job posting."),
       h("div", { class: "btns" }, h("button", { class: "ghost", onclick: () => score(tab, null, host) }, "Score it as a job anyway")),
     );
@@ -48,7 +50,7 @@ async function score(tab, job, host) {
   save.onclick = async () => { await chrome.runtime.sendMessage({ type: "jobs:patch", id: j.id, patch: { saved: true } }); save.textContent = "♥ Saved"; };
   const applied = h("button", { class: "ghost" }, j.status === "Applied" ? "✓ Applied" : "Mark applied");
   applied.onclick = async () => { await chrome.runtime.sendMessage({ type: "jobs:patch", id: j.id, patch: { status: "Applied", saved: true } }); applied.textContent = "✓ Applied"; };
-  body.replaceChildren(
+  put(body, 
     h("div", { class: "row" },
       h("span", { class: "fit", style: `--p:${j.fit};--c:${color(j.fit)}` }, h("b", {}, `${j.fit}%`)),
       h("div", {}, h("div", { class: "title" }, j.title), h("div", { class: "muted" }, [j.company, j.location].filter(Boolean).join(" · ")),
@@ -67,7 +69,7 @@ async function leetcodeToday() {
   const [lc, daily] = await Promise.allSettled([leetcode(s.leetcode), leetcodeDaily()]);
   const done = solvedToday(lc.value, await get("lcLog"));
   const d = daily.value;
-  $("lc").replaceChildren(
+  put($("lc"), 
     h("div", { class: done ? "ok" : "warn" }, done ? "✓ Solved today" : "Not solved yet today", lc.value ? ` · ${lc.value.streak}🔥 streak` : ""),
     d ? h("div", {}, "Daily: ", h("a", { href: "#", onclick: (e) => { e.preventDefault(); openUrl(d.url); } }, d.title), ` (${d.difficulty})`) : null,
     s.leetcode ? null : h("div", { class: "muted" }, "Add your LeetCode username in dashboard settings."),
@@ -76,7 +78,7 @@ async function leetcodeToday() {
 
 async function matches() {
   const jobs = Object.values(await get("jobs")).filter((j) => !j.hidden && !j.status).sort((a, b) => b.fit - a.fit).slice(0, 4);
-  $("matches").replaceChildren(...(jobs.length ? jobs.map((j) => h("li", { onclick: () => openUrl(j.url), title: j.reasons.join(" · ") },
+  put($("matches"), ...(jobs.length ? jobs.map((j) => h("li", { onclick: () => openUrl(j.url), title: j.reasons.join(" · ") },
     h("span", { class: "p", style: `color:${color(j.fit)}` }, `${j.fit}%`),
     h("span", { class: "t" }, `${j.title} · ${j.company}`))) : [h("li", { class: "muted" }, "No jobs yet. Scan or browse a job site.")]));
 }

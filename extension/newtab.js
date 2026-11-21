@@ -227,14 +227,14 @@ function renderRadar() {
   let list;
   if (state.jobTab === "saved") list = all.filter((j) => j.saved && !j.status).sort((a, b) => (daysLeft(a.deadline) ?? 999) - (daysLeft(b.deadline) ?? 999) || b.fit - a.fit);
   else if (state.jobTab === "applied") list = all.filter((j) => j.status).sort((a, b) => (b.updated || 0) - (a.updated || 0));
-  else list = all.filter((j) => !j.status && (daysLeft(j.deadline) ?? 0) >= 0).sort((a, b) => b.fit - a.fit || b.firstSeen - a.firstSeen);
+  else list = all.filter((j) => !j.status && j.fit >= 40 && (daysLeft(j.deadline) ?? 0) >= 0).sort((a, b) => b.fit - a.fit || b.firstSeen - a.firstSeen);
   const ol = $("radar-rows");
   if (!list.length) {
     const msg = state.jobTab === "top"
       ? (Object.keys(state.jobs).length ? "No open matches right now." : "No jobs yet. Click “Scan now”, or just browse Naukri / Internshala / LinkedIn and Nova will read the listings.")
       : state.jobTab === "saved" ? "Nothing saved yet. Tap ♡ on a job." : "Nothing in your pipeline yet. Tap ✓ when you apply.";
     ol.replaceChildren(h("li", { class: "muted pad" }, msg));
-  } else ol.replaceChildren(...list.slice(0, 5).map((j) => jobRow(j)));
+  } else ol.replaceChildren(...list.slice(0, window.innerHeight < 900 ? 3 : 5).map((j) => jobRow(j)));
 
   const gaps = skillGaps(state.jobs);
   $("radar-gaps").replaceChildren(...(gaps.length ? [h("span", {}, "Top skill gaps:"), ...gaps.slice(0, 4).map(([s, n]) => h("span", { class: "chip", title: `Asked in ${n} jobs that fit you` }, s))] : []));
@@ -459,6 +459,7 @@ function wire() {
     } catch { $("save-msg").textContent = "That file isn't a Nova backup."; }
   });
 
+  window.addEventListener("resize", () => renderRadar());
   chrome.storage.onChanged.addListener((ch, area) => {
     if (area !== "local") return;
     if (ch.jobs) { state.jobs = ch.jobs.newValue || {}; renderRadar(); }
