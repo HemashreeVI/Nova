@@ -5,7 +5,7 @@ export const DEFAULTS = {
     name: "",
     leetcode: "",
     github: "HemashreeVI",
-    youtube: "@shreejith-l7o",          // your channel: @handle or link
+    youtube: "UCfy-4EMYEaiMKtlqkcYvKXw", // your channel (@shreejith-l7o): channel ID, @handle or link
     ghReminder: true,                   // also nudge if you haven't pushed to GitHub today
     lcReminders: ["19:00", "22:30"],   // local times; nudged only if you haven't solved today
     fitAlert: 70,                       // notify for new jobs at or above this fit %

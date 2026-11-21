@@ -170,22 +170,30 @@ export async function youtubeChannel(input, opts) {
     let id = (input.match(/UC[\w-]{22}/) || [])[0] || null;
     const handle = input.match(/@[\w.-]+/)?.[0];
     const page = id ? `https://www.youtube.com/channel/${id}` : `https://www.youtube.com/${handle || "@" + input.replace(/^.*youtube\.com\//, "")}`;
-    const r = await fetch(page);
-    if (!r.ok) throw new Error(`YouTube answered ${r.status}`);
-    const html = await r.text();
+    // The channel page gives name, photo and subscriber count. With a channel ID we can still
+    // show your videos from the RSS feed if YouTube refuses the page (consent wall, etc.).
+    let html = "";
+    try {
+      const r = await fetch(page);
+      if (!r.ok) throw new Error(`YouTube answered ${r.status}`);
+      html = await r.text();
+    } catch (e) {
+      if (!id) throw e;
+    }
     id ||= (html.match(/"(?:externalId|channelId|browseId)":"(UC[\w-]{22})"/) || html.match(/channel\/(UC[\w-]{22})/) || [])[1];
     if (!id) throw new Error("Couldn't find that channel");
     const og = (p) => decode((html.match(new RegExp(`<meta property="og:${p}" content="([^"]*)"`)) || [])[1] || "");
     const subs = (html.match(/"(?:simpleText|content|label)":"([\d.,]+\s?[KMBkmb]?)\s+subscribers?"/) || [])[1] || null;
     const videos = (html.match(/"(?:simpleText|content|label)":"([\d,.]+[KM]?)\s+videos?"/) || [])[1] || null;
-    return { id, name: og("title"), avatar: og("image"), url: `https://www.youtube.com/channel/${id}`, handle: handle || null, subs, videos };
+    return { id, name: og("title") || null, avatar: og("image") || null, url: `https://www.youtube.com/channel/${id}`, handle: handle || null, subs, videos };
   }, { ttl: 6 * 60 * 60 * 1000, ...opts });
 
-  const feed = await cached(`ytfeed:${meta.id}`, async () => {
+  const feed = await cached(`ytfeed2:${meta.id}`, async () => {
     const r = await fetch(`https://www.youtube.com/feeds/videos.xml?channel_id=${meta.id}`);
     if (!r.ok) throw new Error(`YouTube feed answered ${r.status}`);
     const xml = await r.text();
-    return [...xml.matchAll(/<entry>([\s\S]*?)<\/entry>/g)].map(([, e]) => {
+    const author = tag(xml.split("<entry>")[0], "name");
+    const items = [...xml.matchAll(/<entry>([\s\S]*?)<\/entry>/g)].map(([, e]) => {
       const vid = tag(e, "yt:videoId");
       return {
         id: vid,
@@ -197,9 +205,10 @@ export async function youtubeChannel(input, opts) {
         short: /#shorts/i.test(e),
       };
     });
+    return { author, items };
   }, { ttl: 30 * 60 * 1000, ...opts });
 
-  return { ...meta, videos: meta.videos, feed: Array.isArray(feed) ? feed : [] };
+  return { ...meta, name: meta.name || feed?.author || null, feed: Array.isArray(feed?.items) ? feed.items : [] };
 }
 
 /* ---------------- News ---------------- */
