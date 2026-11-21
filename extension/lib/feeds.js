@@ -211,6 +211,40 @@ export async function youtubeChannel(input, opts) {
   return { ...meta, name: meta.name || feed?.author || null, feed: Array.isArray(feed?.items) ? feed.items : [] };
 }
 
+/* ---------------- Gmail labels (Gmail's own unread feed, uses your signed-in Chrome session) ---------------- */
+
+// Unread mail in one Gmail label. `account` is the account number in Gmail's URL (0 = first
+// signed-in account) or the account's email address.
+export async function gmailLabel(label, account = "0", opts) {
+  return cached(`gm:${account}:${label}`, async () => {
+    const r = await fetch(`https://mail.google.com/mail/u/${encodeURIComponent(account)}/feed/atom/${encodeURIComponent(label)}`, { credentials: "include" });
+    if (r.status === 401 || r.status === 403) throw new Error("Sign in to Gmail in this Chrome profile");
+    if (!r.ok) throw new Error(`Gmail answered ${r.status}`);
+    const xml = await r.text();
+    if (!xml.includes("<feed")) throw new Error("Sign in to Gmail in this Chrome profile");
+    const count = Number(tag(xml, "fullcount") || 0);
+    const items = [...xml.matchAll(/<entry>([\s\S]*?)<\/entry>/g)].map(([, e]) => ({
+      id: tag(e, "id"),
+      title: tag(e, "title") || "(no subject)",
+      summary: tag(e, "summary"),
+      url: decode((e.match(/<link[^>]*href="([^"]+)"/) || [])[1] || ""),
+      at: Date.parse(tag(e, "issued") || tag(e, "modified")) || Date.now(),
+      from: tag(e.match(/<author>([\s\S]*?)<\/author>/)?.[1] || "", "name"),
+    }));
+    return { label, count, items };
+  }, { ttl: 5 * 60 * 1000, ...opts });
+}
+
+// Pull a due date out of subjects like "Complete Before 05-Jul-2026" or "… by 12 Dec 2026".
+export function mailDeadline(text = "") {
+  const m = text.match(/(?:before|by|deadline|last date|till|until)[:\s-]*(\d{1,2})[-\s/]([A-Za-z]{3,9})[-\s/,]*(\d{4})/i);
+  if (!m) return null;
+  const mi = "jan feb mar apr may jun jul aug sep oct nov dec".split(" ").indexOf(m[2].slice(0, 3).toLowerCase());
+  if (mi < 0) return null;
+  const d = new Date(Number(m[3]), mi, Number(m[1]), 23, 59);
+  return isNaN(d) ? null : d.getTime();
+}
+
 /* ---------------- News ---------------- */
 
 const decode = (s = "") => s

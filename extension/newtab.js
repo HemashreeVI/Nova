@@ -5,7 +5,7 @@ import { daysLeft } from "./lib/match.js";
 import { FACTS } from "./lib/facts.js";
 import {
   leetcode, leetcodeDaily, solvedToday, nextLeetCodeReset, utcDay, news, searchUrl,
-  github, ghStreak, youtubeChannel,
+  github, ghStreak, youtubeChannel, gmailLabel, mailDeadline,
 } from "./lib/feeds.js";
 
 /* ---------------- tiny DOM helper (text only, never raw HTML) ---------------- */
@@ -174,6 +174,45 @@ async function loadGitHub(force) {
     todayCount ? h("span", { class: "ok" }, `✓ ${todayCount} contribution${todayCount > 1 ? "s" : ""} today`) : h("span", { class: "warn" }, "No contributions yet today"),
     streak ? h("span", { class: "sep" }) : null,
     streak ? h("span", {}, `${streak}-day streak 🔥`) : null);
+  relayout();
+}
+
+/* ---------------- Mail (Gmail labels) ---------------- */
+async function loadMail(force) {
+  const s = state.settings;
+  const labels = s.mailLabels?.length ? s.mailLabels : ["CDC", "NeoPAT", "Jobs"];
+  const res = await Promise.allSettled(labels.map((l) => gmailLabel(l, s.gmailAccount || "0", { force })));
+  state.mail = labels.map((l, i) => ({ label: l, ...(res[i].status === "fulfilled" ? res[i].value : { count: 0, items: [], error: String(res[i].reason?.message || res[i].reason) }) }));
+  if (!state.mailTab || !labels.includes(state.mailTab)) state.mailTab = state.mail.find((m) => m.count)?.label || labels[0];
+  renderMail();
+}
+
+function renderMail() {
+  const acct = encodeURIComponent(state.settings.gmailAccount || "0");
+  put($("mail-tabs"), state.mail.map((m) => h("button", {
+    class: `tab ${m.label === state.mailTab ? "on" : ""}`,
+    onclick: () => { state.mailTab = m.label; renderMail(); },
+  }, m.label, h("b", { class: m.count ? "" : "zero" }, m.count > 99 ? "99+" : m.count))));
+  const cur = state.mail.find((m) => m.label === state.mailTab);
+  $("mail-open").href = `https://mail.google.com/mail/u/${acct}/#label/${encodeURIComponent(cur.label)}`;
+  if (cur.error) {
+    put($("mail-list"), h("li", { class: "muted" }, `⚠ ${cur.error}`));
+  } else if (!cur.items.length) {
+    put($("mail-list"), h("li", { class: "muted" }, `No unread mail in ${cur.label} 🎉`));
+  } else {
+    put($("mail-list"), cur.items.slice(0, 5).map((m) => {
+      const due = mailDeadline(`${m.title} ${m.summary}`);
+      const chips = [];
+      if (/eligible|register now|apply now/i.test(m.title) && !/confirmed/i.test(m.title)) chips.push(h("span", { class: "mchip todo" }, "Register"));
+      if (/confirmed|registration successful/i.test(m.title)) chips.push(h("span", { class: "mchip ok" }, "Registered"));
+      if (due && due > Date.now() - 864e5) chips.push(h("span", { class: "mchip due" }, `Due ${fmtDay(due)}`));
+      return h("li", { title: m.summary },
+        h("a", { class: "subj", href: m.url || $("mail-open").href, target: "_blank", rel: "noopener" }, m.title),
+        h("div", { class: "line2" }, ...chips, h("span", { class: "from" }, `${m.from || cur.label} · ${ago(m.at)}`)));
+    }));
+  }
+  const unread = state.mail.reduce((n, m) => n + (m.count || 0), 0);
+  $("mail-state").textContent = state.mail.some((m) => m.error) ? "" : `${unread} unread`;
   relayout();
 }
 
@@ -377,7 +416,14 @@ function applyLayout() {
   };
   col(["youtube", "github"], edge, edge);
   col(["jobs", "leetcode"], (w) => W - w - edge, corner);
-  { const el = document.querySelector('[data-box="clock"]'); const { w } = size(el); def.clock = { x: (W - w) / 2, y: 10 }; }
+  {
+    const clock = document.querySelector('[data-box="clock"]');
+    const c = size(clock);
+    def.clock = { x: (W - c.w) / 2, y: 10 };
+    const mail = document.querySelector('[data-box="mail"]');
+    const m = size(mail);
+    def.mail = { x: (W - m.w) / 2, y: (clock.hidden ? 10 : 10 + c.h + 10) };
+  }
 
   for (const el of BOXES()) {
     if (el.hidden || el.classList.contains("dragging")) continue;
@@ -437,7 +483,7 @@ function startDrag(e, el) {
   el.addEventListener("pointercancel", up);
 }
 
-const CHIP_ITEMS = [["clock", "Clock"], ["youtube", "YouTube"], ["github", "GitHub"], ["jobs", "Job Radar"], ["leetcode", "LeetCode"], ["news", "News ticker"]];
+const CHIP_ITEMS = [["clock", "Clock"], ["mail", "Mail"], ["youtube", "YouTube"], ["github", "GitHub"], ["jobs", "Job Radar"], ["leetcode", "LeetCode"], ["news", "News ticker"]];
 function renderChips() {
   put($("eb-chips"), CHIP_ITEMS.map(([id, label]) => h("button", {
     type: "button", class: state.layout.hidden[id] ? "off" : "", title: state.layout.hidden[id] ? "Show" : "Hide",
@@ -504,6 +550,9 @@ async function openSettings(welcome = false) {
   f.github.value = s.github || "";
   f.youtube.value = s.youtube || "";
   f.ghReminder.checked = s.ghReminder;
+  f.gmailAccount.value = s.gmailAccount || "0";
+  f.mailLabels.value = (s.mailLabels || []).join(", ");
+  f.mailAlerts.checked = s.mailAlerts;
   f.lcReminders.value = s.lcReminders.join(", ");
   f.fitAlert.value = s.fitAlert;
   f.scanHours.value = s.scanHours;
@@ -539,6 +588,9 @@ async function saveSettings(e) {
     github: f.github.value.trim().replace(/^.*github\.com\//i, "").replace(/\/.*$/, ""),
     youtube: f.youtube.value.trim(),
     ghReminder: f.ghReminder.checked,
+    gmailAccount: f.gmailAccount.value.trim() || "0",
+    mailLabels: list(f.mailLabels.value).slice(0, 5),
+    mailAlerts: f.mailAlerts.checked,
     lcReminders: list(f.lcReminders.value).filter((t) => /^\d{1,2}:\d{2}$/.test(t)),
     fitAlert: Number(f.fitAlert.value) || 70,
     scanHours: Math.max(0, Number(f.scanHours.value) || 0),
@@ -557,6 +609,7 @@ async function saveSettings(e) {
   if (settings.leetcode !== prev.leetcode) loadLeetCode(true);
   if (settings.github !== prev.github) loadGitHub(true);
   if (settings.youtube !== prev.youtube) loadYouTube(true);
+  if (settings.gmailAccount !== prev.gmailAccount || settings.mailLabels.join() !== (prev.mailLabels || []).join()) loadMail(true);
   if (settings.newsTopics.join() !== prev.newsTopics.join()) loadNews(true);
 }
 
@@ -667,6 +720,8 @@ async function main() {
   loadLeetCode();
   loadGitHub();
   loadYouTube();
+  loadMail();
+  setInterval(() => loadMail(), 5 * 60 * 1000);
   loadNews();
   if (location.hash === "#welcome") openSettings(true);
   else if (location.hash === "#jobs") { renderJobsDrawer(); openDrawer("drawer-jobs"); }

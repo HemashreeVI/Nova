@@ -4,6 +4,7 @@ Your personal Chrome new tab for the job hunt:
 
 - **YouTube:** your channel with its latest uploads.
 - **GitHub:** your profile and contribution graph.
+- **Mail:** unread CDC, NeoPAT and job-alert mail from Gmail.
 - **Job Radar:** jobs scored against your resume.
 - **LeetCode:** today's daily problem and your streak.
 - **Bottom:** a ticker of hot tech news.
@@ -34,6 +35,7 @@ Everything is stored only in your Chrome profile. Use **Settings → Export back
 | **Job alerts** | A notification for new jobs at or above your fit threshold (default 70%). A reminder 2 days before a saved job's deadline. |
 | **GitHub card** | Your profile and the same contribution graph as github.com (last ~5 months). Click it to open your profile. |
 | **YouTube card** | Your channel, subscriber count, latest video and recent uploads, read from your public channel page and its RSS feed (no API key). Click to open. |
+| **Mail box** | Import `gmail-filters.xml` into Gmail (Settings → Mail section has the link and steps). It sorts CDC, NeoPAT, job-alert and LinkedIn mail into labels. The box shows unread mail per label, tags "Register" (eligible drives), "Registered" and "Due" dates, and you get a notification for new CDC / NeoPAT mail (checked every 15 min). Reads Gmail's own unread feed with your signed-in session; nothing leaves your browser. |
 | **Edit layout (✎)** | Drag boxes anywhere, hide or show them, resize everything (70–120%). **Reset layout** puts them back. |
 | **LeetCode + GitHub reminders** | At 7:00 pm and 10:30 pm (editable), *only if you haven't solved a LeetCode problem or pushed to GitHub yet that day*. LeetCode's daily resets at 05:30 IST. |
 | **Tech news** | Google News for your topics (NVIDIA, GTA 6, OpenAI…) plus Hacker News, in the ticker. A notification every 4 h, quiet 11 pm–8 am. |

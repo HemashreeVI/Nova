@@ -21,6 +21,9 @@ export const DEFAULTS = {
     remoteBoards: true,                 // also poll Remotive's public API
     newsTopics: ["NVIDIA", "GTA 6", "OpenAI", "Data analytics", "Tech hiring India"],
     newsAlertHours: 4,                  // 0 = no news notifications
+    gmailAccount: "0",                  // Gmail account number (0 = first) or its email address
+    mailLabels: ["CDC", "NeoPAT", "Jobs"], // Gmail labels shown in the Mail box (see career/gmail-filters.xml)
+    mailAlerts: true,                   // notify for new unread CDC / NeoPAT mail
   },
   profile: null,      // filled from lib/profile.js on first run
   jobs: {},           // id -> job
@@ -28,6 +31,7 @@ export const DEFAULTS = {
   lcLog: {},          // "yyyy-mm-dd" -> true when you tick "solved" manually
   notified: {},       // notification bookkeeping
   newsSeen: [],       // links already pushed as notifications
+  mailSeen: null,     // ids of mails already notified (null = first run, notify nothing)
   cache: {},          // API cache {key: {ts, data}}
   wallpaper: null,    // data URL of your own background picture
   layout: { pos: {}, hidden: {}, scale: 1 },  // where you dragged each box

@@ -17,6 +17,7 @@
     "https://api.github.com/*",
     "https://github.com/users/*",
     "https://www.youtube.com/*",
+    "https://mail.google.com/*",
     "https://news.google.com/*",
     "https://hn.algolia.com/*",
     "https://remotive.com/*"

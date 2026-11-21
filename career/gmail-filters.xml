@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!--
+  Gmail filters for the job hunt.
+  Import them in Gmail: Settings (gear) → See all settings → Filters and Blocked Addresses →
+  Import filters → choose this file → Open file → tick "Apply new filters to existing email" → Create filters.
+
+  Labels created:
+    CDC      VIT CDC placement mails (drives, eligibility, registrations): stay in inbox, marked important
+    NeoPAT   NeoPAT tests and reminders from CDC: stay in inbox, marked important
+    Jobs     Job-alert emails from Naukri, Internshala, LinkedIn, Indeed, Unstop and similar: skip the inbox
+    LinkedIn LinkedIn messages (can be recruiters): stay in inbox
+  "Eligible for … Placement Drive" mails are also starred, because they need you to register.
+-->
+<feed xmlns='http://www.w3.org/2005/Atom' xmlns:apps='http://schemas.google.com/apps/2006'>
+  <title>Mail Filters</title>
+
+  <!-- NeoPAT (sent by CDC, subject contains NeoPAT) -->
+  <entry>
+    <category term='filter'></category>
+    <title>Mail Filter</title>
+    <content></content>
+    <apps:property name='from' value='noreplycdcinfo@vitstudent.ac.in OR noreplycdcinfo@vit.ac.in'/>
+    <apps:property name='subject' value='NeoPAT'/>
+    <apps:property name='label' value='NeoPAT'/>
+    <apps:property name='shouldAlwaysMarkAsImportant' value='true'/>
+    <apps:property name='shouldNeverSpam' value='true'/>
+    <apps:property name='sizeOperator' value='s_sl'/>
+    <apps:property name='sizeUnit' value='s_smb'/>
+  </entry>
+
+  <!-- CDC placement mails (everything else from CDC) -->
+  <entry>
+    <category term='filter'></category>
+    <title>Mail Filter</title>
+    <content></content>
+    <apps:property name='from' value='noreplycdcinfo@vitstudent.ac.in OR noreplycdcinfo@vit.ac.in'/>
+    <apps:property name='doesNotHaveTheWord' value='subject:NeoPAT'/>
+    <apps:property name='label' value='CDC'/>
+    <apps:property name='shouldAlwaysMarkAsImportant' value='true'/>
+    <apps:property name='shouldNeverSpam' value='true'/>
+    <apps:property name='sizeOperator' value='s_sl'/>
+    <apps:property name='sizeUnit' value='s_smb'/>
+  </entry>
+
+  <!-- CDC drives you're eligible for: star them, they need action -->
+  <entry>
+    <category term='filter'></category>
+    <title>Mail Filter</title>
+    <content></content>
+    <apps:property name='from' value='noreplycdcinfo@vitstudent.ac.in OR noreplycdcinfo@vit.ac.in'/>
+    <apps:property name='subject' value='Eligible'/>
+    <apps:property name='shouldStar' value='true'/>
+    <apps:property name='sizeOperator' value='s_sl'/>
+    <apps:property name='sizeUnit' value='s_smb'/>
+  </entry>
+
+  <!-- Job-alert emails: label and keep them out of the inbox (Nova shows them) -->
+  <entry>
+    <category term='filter'></category>
+    <title>Mail Filter</title>
+    <content></content>
+    <apps:property name='from' value='naukri.com OR internshala.com OR jobalerts-noreply@linkedin.com OR jobs-noreply@linkedin.com OR indeed.com OR unstop.com OR wellfound.com OR instahyre.com OR foundit.in OR glassdoor.com OR glassdoor.co.in OR cutshort.io OR hirist.tech'/>
+    <apps:property name='label' value='Jobs'/>
+    <apps:property name='shouldArchive' value='true'/>
+    <apps:property name='shouldNeverSpam' value='true'/>
+    <apps:property name='sizeOperator' value='s_sl'/>
+    <apps:property name='sizeUnit' value='s_smb'/>
+  </entry>
+
+  <!-- LinkedIn messages: could be recruiters, so keep them in the inbox -->
+  <entry>
+    <category term='filter'></category>
+    <title>Mail Filter</title>
+    <content></content>
+    <apps:property name='from' value='messages-noreply@linkedin.com OR inmail-hit-reply@linkedin.com'/>
+    <apps:property name='label' value='LinkedIn'/>
+    <apps:property name='shouldNeverSpam' value='true'/>
+    <apps:property name='sizeOperator' value='s_sl'/>
+    <apps:property name='sizeUnit' value='s_smb'/>
+  </entry>
+</feed>

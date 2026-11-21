@@ -86,6 +86,15 @@
       <div class="meta small" id="gh-state"></div>
     </section>
 
+    <section class="box card" data-box="mail" data-label="Mail" id="mail">
+      <div class="tabs" id="mail-tabs" role="tablist"></div>
+      <ul class="list mail-list" id="mail-list"><li class="muted">Loading mail…</li></ul>
+      <div class="radar-foot">
+        <a class="more inline" id="mail-open" href="https://mail.google.com/" target="_blank" rel="noopener">Open in Gmail <i class="chev right"></i></a>
+        <span class="scanline muted" id="mail-state"></span>
+      </div>
+    </section>
+
     <section class="box card" data-box="jobs" data-label="Job Radar" id="radar">
       <div class="tabs" role="tablist">
         <button class="tab on" data-jtab="top">Top matches</button>
@@ -176,6 +185,16 @@
           <label>Tech news notification every <input name="newsAlertHours" type="number" min="0" max="24"> hours <small>(0 = off, quiet 11pm–8am)</small></label>
           <label>News topics <input name="newsTopics" placeholder="NVIDIA, GTA 6, OpenAI"></label>
           <button type="button" class="ghost" id="test-notify">Send a test notification</button>
+        </fieldset>
+
+        <fieldset>
+          <legend>Gmail (CDC · NeoPAT · job alerts)</legend>
+          <p class="hint">1. <a class="link" href="gmail-filters.xml" download="nova-gmail-filters.xml">Download the Gmail filters</a>.
+            2. In Gmail: ⚙ → See all settings → Filters and Blocked Addresses → <b>Import filters</b> → pick the file → tick "Apply to existing email" → Create.
+            The labels CDC, NeoPAT, Jobs and LinkedIn are created for you, and the Mail box shows their unread mail.</p>
+          <label>Gmail account <input name="gmailAccount" placeholder="0 = first account, or your Gmail address"></label>
+          <label>Labels to show <input name="mailLabels" placeholder="CDC, NeoPAT, Jobs"></label>
+          <label class="check"><input type="checkbox" name="mailAlerts"> Notify me about new CDC / NeoPAT mail (checks every 15 min)</label>
         </fieldset>
 
         <fieldset>

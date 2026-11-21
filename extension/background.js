@@ -5,7 +5,7 @@ import { ingest, patchJob, rescoreAll } from "./lib/jobs.js";
 import { daysLeft } from "./lib/match.js";
 import {
   leetcode, leetcodeDaily, solvedToday, nextLeetCodeReset, news, remotive, searchUrl, AUTO_SCAN_SITES,
-  github, pushedToday, ghStreak,
+  github, pushedToday, ghStreak, gmailLabel,
 } from "./lib/feeds.js";
 
 const ICON = "icons/icon128.png";
@@ -72,6 +72,9 @@ async function schedule() {
   else await chrome.alarms.clear("news");
 
   if (!(await chrome.alarms.get("deadlines"))) chrome.alarms.create("deadlines", { when: nextAt("09:00"), periodInMinutes: 1440 });
+
+  if (s.mailAlerts) await ensureAlarm("mail", { delayInMinutes: 1, periodInMinutes: 15 });
+  else await chrome.alarms.clear("mail");
 }
 
 chrome.alarms.onAlarm.addListener(async (a) => {
@@ -80,6 +83,7 @@ chrome.alarms.onAlarm.addListener(async (a) => {
     else if (a.name === "jobscan" || a.name === "jobscan-first") await scanJobs();
     else if (a.name === "news") await newsAlert();
     else if (a.name === "deadlines") await deadlineCheck();
+    else if (a.name === "mail") await mailCheck();
   } catch (e) {
     console.warn("Nova alarm failed", a.name, e);
   }
@@ -270,6 +274,28 @@ async function deadlineCheck() {
   // forget reminders older than 60 days
   for (const [k, t] of Object.entries(notified)) if (Date.now() - t > 60 * 864e5) delete notified[k];
   await set("notified", notified);
+}
+
+/* ---------------- CDC / NeoPAT mail ---------------- */
+
+// Only the placement labels notify; job-alert mail is shown in the Mail box but stays quiet.
+async function mailCheck() {
+  const s = await get("settings");
+  if (!s.mailAlerts) return;
+  const labels = (s.mailLabels || []).filter((l) => /cdc|neopat/i.test(l));
+  const results = await Promise.allSettled(labels.map((l) => gmailLabel(l, s.gmailAccount, { force: true })));
+  const fresh = results.flatMap((r) => (r.status === "fulfilled" ? r.value.items.map((m) => ({ ...m, label: r.value.label })) : []));
+  const prev = await get("mailSeen");
+  const seen = new Set(prev || []);
+  const unseen = fresh.filter((m) => !seen.has(m.id));
+  await set("mailSeen", [...new Set([...fresh.map((m) => m.id), ...(prev || [])])].slice(0, 500));
+  if (prev === null || !unseen.length) return; // first run: just remember what's already there
+  const top = unseen.find((m) => /eligible|register|deadline|before/i.test(m.title)) || unseen[0];
+  await notify(`mail-${Date.now()}`, {
+    title: unseen.length === 1 ? `📩 ${top.label}: ${top.title}` : `📩 ${unseen.length} new ${[...new Set(unseen.map((m) => m.label))].join(" / ")} mails`,
+    message: unseen.length === 1 ? (top.summary || "").slice(0, 180) : unseen.slice(0, 3).map((m) => `• ${m.title}`).join("\n"),
+    url: unseen.length === 1 && top.url ? top.url : `https://mail.google.com/mail/u/${encodeURIComponent(s.gmailAccount || "0")}/#label/${encodeURIComponent(top.label)}`,
+  });
 }
 
 /* ---------------- news ---------------- */
