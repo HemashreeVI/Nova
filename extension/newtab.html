@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>New Tab</title>
+  <link rel="stylesheet" href="newtab.css">
+</head>
+<body>
+  <div class="bg" id="bg"></div>
+  <div class="shade"></div>
+
+  <!-- top centre: clock + greeting -->
+  <header class="hello">
+    <div class="clock" id="clock">--:--</div>
+    <div class="greet" id="greet"></div>
+    <div class="fact" id="fact"></div>
+  </header>
+
+  <!-- top right buttons -->
+  <nav class="corner">
+    <button class="round" id="btn-saved" title="Saved jobs" aria-label="Saved jobs">
+      <svg viewBox="0 0 24 24"><path d="M12 20.5s-7.5-4.6-9.4-9.3C1.4 8.2 3.3 4.8 6.6 4.5c2-.2 3.6.9 4.4 2.3h2c.8-1.4 2.4-2.5 4.4-2.3 3.3.3 5.2 3.7 4 6.7-1.9 4.7-9.4 9.3-9.4 9.3z"/></svg>
+      <span class="dot" id="saved-dot" hidden></span>
+    </button>
+    <button class="round" id="btn-wall" title="Change background" aria-label="Change background">
+      <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="3"/><circle cx="9" cy="10" r="1.8"/><path d="M4 18l5-5 3.5 3.5L15 14l5 5"/></svg>
+    </button>
+    <button class="round" id="btn-menu" title="Settings" aria-label="Settings">
+      <svg viewBox="0 0 24 24"><path d="M5 7h14M5 12h14M5 17h14"/></svg>
+    </button>
+    <input type="file" id="wall-file" accept="image/*" hidden>
+  </nav>
+
+  <!-- LEFT: F1 -->
+  <aside class="col left" id="col-left">
+    <section class="card" id="standings">
+      <div class="tabs" role="tablist">
+        <button class="tab on" data-tab="drivers">Drivers</button>
+        <button class="tab" data-tab="teams">Constructors</button>
+      </div>
+      <ol class="rows" id="standings-rows"><li class="muted pad">Loading standings…</li></ol>
+      <button class="more" data-expand="standings">View full standings <i class="chev"></i></button>
+    </section>
+
+    <section class="card" id="race">
+      <div class="race-top">
+        <div class="dates" id="race-dates">—</div>
+        <select id="race-pick" aria-label="Choose race"></select>
+      </div>
+      <h2 class="big" id="race-name">Loading race…</h2>
+      <div class="sub" id="race-circuit"></div>
+      <div class="meta" id="race-meta"></div>
+      <div class="next-row"><span class="red" id="race-session">—</span><span class="red" id="race-when"></span></div>
+      <div class="count" id="race-count"></div>
+      <div class="foot-stats" id="race-stats"></div>
+      <button class="more" data-expand="race">Grand Prix weekend schedule <i class="chev"></i></button>
+      <ul class="schedule" id="race-schedule"></ul>
+    </section>
+  </aside>
+
+  <!-- RIGHT: jobs + LeetCode -->
+  <aside class="col right" id="col-right">
+    <section class="card" id="radar">
+      <div class="tabs" role="tablist">
+        <button class="tab on" data-jtab="top">Top matches</button>
+        <button class="tab" data-jtab="saved">Saved</button>
+        <button class="tab" data-jtab="applied">Applied</button>
+      </div>
+      <ol class="rows jobs" id="radar-rows"><li class="muted pad">Looking for jobs…</li></ol>
+      <div class="gaps" id="radar-gaps"></div>
+      <div class="radar-foot">
+        <button class="more inline" id="open-jobs">View all jobs <i class="chev right"></i></button>
+        <span class="scanline"><span id="scan-status" class="muted"></span> <button class="link" id="scan-now">Scan now</button></span>
+      </div>
+    </section>
+
+    <section class="card" id="lc">
+      <div class="race-top">
+        <div class="dates">Daily challenge</div>
+        <span class="pill" id="lc-diff">—</span>
+      </div>
+      <h2 class="big"><a id="lc-title" href="https://leetcode.com/problemset/" target="_blank" rel="noopener">Loading…</a></h2>
+      <div class="sub" id="lc-tags"></div>
+      <div class="meta" id="lc-state"></div>
+      <div class="next-row"><span class="red">Daily resets in</span><span class="red" id="lc-reset"></span></div>
+      <div class="count" id="lc-count"></div>
+      <div class="foot-stats" id="lc-stats"></div>
+      <button class="more" data-expand="lc">Recent solves <i class="chev"></i></button>
+      <ul class="schedule" id="lc-recent"></ul>
+    </section>
+  </aside>
+
+  <!-- bottom news ticker -->
+  <footer class="ticker" id="ticker">
+    <span class="label">Hot now</span>
+    <div class="track-wrap"><div class="track" id="ticker-track"></div></div>
+  </footer>
+
+  <!-- drawer: jobs -->
+  <div class="drawer" id="drawer-jobs" hidden>
+    <div class="drawer-panel">
+      <header class="drawer-head">
+        <h3>Job Radar</h3>
+        <button class="x" data-close>×</button>
+      </header>
+      <p class="hint">Fit % = how well a posting matches your resume (skills 45%, role 25%, seniority 20%, location 10%). It's a guide, not your actual chance of getting hired.</p>
+      <div class="searchers" id="searchers"></div>
+      <div class="filters">
+        <div class="tabs small" id="jobs-tabs">
+          <button class="tab on" data-f="all">All</button>
+          <button class="tab" data-f="saved">Saved</button>
+          <button class="tab" data-f="applied">Pipeline</button>
+          <button class="tab" data-f="hidden">Hidden</button>
+        </div>
+        <input type="search" id="jobs-q" placeholder="Filter by title, company, skill…">
+        <label class="range">Min fit <input type="range" id="jobs-min" min="0" max="90" step="5" value="40"> <b id="jobs-min-v">40%</b></label>
+      </div>
+      <div class="gaps big-gaps" id="jobs-gaps"></div>
+      <ol class="rows jobs full" id="jobs-list"></ol>
+    </div>
+  </div>
+
+  <!-- drawer: settings -->
+  <div class="drawer" id="drawer-settings" hidden>
+    <div class="drawer-panel">
+      <header class="drawer-head">
+        <h3>Settings</h3>
+        <button class="x" data-close>×</button>
+      </header>
+      <div id="welcome" class="welcome" hidden>
+        <b>Welcome to Nova Launchpad 👋</b>
+        Add your name and LeetCode username, check the job searches, then click <b>Save</b>.
+        Your resume skills are already filled in under <i>Profile</i>.
+      </div>
+      <form id="settings-form" autocomplete="off">
+        <fieldset>
+          <legend>You</legend>
+          <label>Name <input name="name" placeholder="What should Nova call you?"></label>
+          <label>LeetCode username <input name="leetcode" placeholder="e.g. hemashree_vi"></label>
+          <label class="check"><input type="checkbox" name="showF1"> Show F1 panels on the left</label>
+        </fieldset>
+
+        <fieldset>
+          <legend>Reminders &amp; alerts</legend>
+          <label>LeetCode reminders (only if not solved yet) <input name="lcReminders" placeholder="19:00, 22:30"></label>
+          <label>Notify me about new jobs with fit ≥ <input name="fitAlert" type="number" min="30" max="95" step="5">%</label>
+          <label>Auto-scan jobs every <input name="scanHours" type="number" min="0" max="24"> hours <small>(0 = manual only)</small></label>
+          <label>Tech news notification every <input name="newsAlertHours" type="number" min="0" max="24"> hours <small>(0 = off, quiet 11pm–8am)</small></label>
+          <label>News topics <input name="newsTopics" placeholder="NVIDIA, GTA 6, OpenAI"></label>
+          <button type="button" class="ghost" id="test-notify">Send a test notification</button>
+        </fieldset>
+
+        <fieldset>
+          <legend>Job searches</legend>
+          <p class="hint">Naukri and Internshala searches are scanned automatically in a minimized window (3 per run). LinkedIn, Indeed and Unstop are read when you open them yourself. Remotive is checked through its public API.</p>
+          <div id="search-rows"></div>
+          <button type="button" class="ghost" id="add-search">+ Add search</button>
+          <label class="check"><input type="checkbox" name="remoteBoards"> Also check remote jobs on Remotive</label>
+          <div class="sources" id="sources"></div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Profile (from your resume)</legend>
+          <label>Skills <textarea name="skills" rows="4"></textarea></label>
+          <label>Target roles <textarea name="roles" rows="3"></textarea></label>
+          <label>Preferred locations <input name="locations"></label>
+        </fieldset>
+
+        <fieldset>
+          <legend>Your data</legend>
+          <p class="hint">Everything is stored only in this Chrome profile. Back it up now and then.</p>
+          <div class="btns">
+            <button type="button" class="ghost" id="export">Export backup</button>
+            <button type="button" class="ghost" id="import">Import backup</button>
+            <button type="button" class="ghost" id="wall-reset">Default background</button>
+            <input type="file" id="import-file" accept="application/json" hidden>
+          </div>
+        </fieldset>
+
+        <div class="save-bar"><span id="save-msg" class="muted"></span><button type="submit" class="primary">Save</button></div>
+      </form>
+    </div>
+  </div>
+
+  <script type="module" src="newtab.js"></script>
+</body>
+</html>

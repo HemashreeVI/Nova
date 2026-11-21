@@ -13,7 +13,7 @@ export const DEFAULT_PROFILE = {
     "spring boot", "fastapi", "rest api", "kafka", "postgresql", "redis", "sqlite",
     "docker", "github actions", "ci/cd", "prometheus", "grafana", "opentelemetry", "linux", "git",
     "pytorch", "opencv", "yolo", "llm", "rag", "machine learning", "deep learning", "computer vision",
-    "pandas", "numpy", "matplotlib", "data analysis", "statistics", "excel",
+    "pandas", "numpy", "matplotlib", "data analysis", "data visualization", "statistics", "excel",
     "raspberry pi", "arduino", "iot",
   ],
   locations: ["chennai", "bangalore", "bengaluru", "hyderabad", "remote", "india", "work from home"],
@@ -23,10 +23,10 @@ export const DEFAULT_PROFILE = {
 // Skills the matcher knows how to spot in a job description. Aliases map to one canonical name.
 export const SKILL_VOCAB = {
   python: ["python"], java: ["java(?!script)"], sql: ["sql", "mysql", "t-sql", "pl/sql"],
-  javascript: ["javascript", "js", "node\\.?js", "typescript"], html: ["html"], css: ["css"],
+  javascript: ["javascript", "node\\.?js", "typescript"], html: ["html"], css: ["css"],
   "c++": ["c\\+\\+"], r: ["\\br programming", "\\bin r\\b", "rstudio"], scala: ["scala"], go: ["golang"],
   "spring boot": ["spring boot", "spring"], fastapi: ["fastapi"], django: ["django"], flask: ["flask"],
-  react: ["react"], "rest api": ["rest api", "restful", "rest apis", "apis?"],
+  react: ["react"], "rest api": ["rest(ful)? apis?", "restful"],
   kafka: ["kafka"], spark: ["spark", "pyspark"], hadoop: ["hadoop"], airflow: ["airflow"],
   postgresql: ["postgres", "postgresql"], mongodb: ["mongo", "mongodb"], redis: ["redis"], sqlite: ["sqlite"],
   snowflake: ["snowflake"], bigquery: ["bigquery"], dbt: ["dbt"], etl: ["etl", "elt", "data pipelines?"],

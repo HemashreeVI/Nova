@@ -7,13 +7,22 @@ export const DEFAULTS = {
     showF1: true,
     lcReminders: ["19:00", "22:30"],   // local times; nudged only if you haven't solved today
     fitAlert: 70,                       // notify for new jobs at or above this fit %
-    jobPollHours: 3,
+    scanHours: 4,                       // auto-scan interval; 0 = only when you click "Scan now"
+    searches: [                         // what the auto-scan looks for
+      { site: "naukri", keyword: "data analyst", location: "chennai" },
+      { site: "naukri", keyword: "python developer fresher", location: "" },
+      { site: "naukri", keyword: "backend developer", location: "bangalore" },
+      { site: "internshala", keyword: "data analytics", location: "" },
+      { site: "internshala", keyword: "python", location: "" },
+      { site: "internshala", keyword: "machine learning", location: "" },
+    ],
+    remoteBoards: true,                 // also poll Remotive's public API
     newsTopics: ["NVIDIA", "GTA 6", "OpenAI", "Data analytics", "Tech hiring India"],
     newsAlertHours: 4,                  // 0 = no news notifications
   },
   profile: null,      // filled from lib/profile.js on first run
   jobs: {},           // id -> job
-  jobMeta: { lastPoll: 0, sources: {} },
+  jobMeta: { lastScan: 0, scanCursor: 0, sources: {} },
   lcLog: {},          // "yyyy-mm-dd" -> true when you tick "solved" manually
   notified: {},       // notification bookkeeping
   newsSeen: [],       // links already pushed as notifications

@@ -1,0 +1,28 @@
+:root { color-scheme: dark; --line: rgba(255,255,255,.12); --muted: rgba(244,244,246,.62); --green:#3ddc84; --amber:#ffb547; --red:#ff5a47; }
+* { box-sizing: border-box; }
+body { margin: 0; width: 360px; padding: 14px; background: #121218; color: #f4f4f6; font: 13px/1.45 Inter, "Segoe UI", system-ui, sans-serif; }
+header { display: flex; align-items: baseline; gap: 8px; margin-bottom: 10px; }
+header b { font-size: 16px; letter-spacing: .22em; }
+.muted { color: var(--muted); }
+.card { border: 1px solid var(--line); border-radius: 16px; padding: 12px 14px; margin-bottom: 10px; background: rgba(255,255,255,.04); }
+.k { font-size: 10.5px; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); font-weight: 700; margin-bottom: 6px; }
+.title { font-weight: 700; font-size: 14px; }
+.row { display: flex; gap: 12px; align-items: center; }
+.fit { width: 50px; height: 50px; border-radius: 50%; display: grid; place-items: center; flex: none; background: conic-gradient(var(--c) calc(var(--p) * 1%), rgba(255,255,255,.12) 0); }
+.fit b { width: 40px; height: 40px; border-radius: 50%; background: #121218; display: grid; place-items: center; font-size: 13px; }
+.chips { margin-top: 8px; }
+.chip { display: inline-block; margin: 2px 4px 0 0; padding: 2px 8px; border-radius: 99px; font-size: 11px; background: rgba(255,255,255,.08); }
+.chip.miss { background: rgba(255,90,71,.16); color: #ffc0b8; }
+.btns { display: flex; gap: 8px; margin-top: 10px; }
+button { font: inherit; cursor: pointer; border-radius: 10px; padding: 8px 12px; font-weight: 700; }
+.ghost { background: rgba(255,255,255,.08); color: #f4f4f6; border: 1px solid var(--line); }
+.primary { background: #f4f4f6; color: #111; border: 0; }
+.ok { color: var(--green); font-weight: 600; } .warn { color: var(--amber); font-weight: 600; }
+a { color: #f4f4f6; }
+.rows { list-style: none; margin: 0; padding: 0; }
+.rows li { display: flex; gap: 10px; align-items: center; padding: 7px 0; border-top: 1px solid rgba(255,255,255,.06); cursor: pointer; }
+.rows li:first-child { border-top: 0; }
+.rows .p { font-weight: 800; width: 40px; }
+.rows .t { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+footer { display: flex; gap: 8px; justify-content: space-between; }
+footer button { flex: 1; }

@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Nova</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <header><b>NOVA</b><span id="sub" class="muted">launchpad</span></header>
+
+  <section class="card" id="page">
+    <div class="k">This page</div>
+    <div id="page-body" class="muted">Reading…</div>
+  </section>
+
+  <section class="card">
+    <div class="k">LeetCode today</div>
+    <div id="lc" class="muted">Loading…</div>
+  </section>
+
+  <section class="card">
+    <div class="k">Best open matches</div>
+    <ol id="matches" class="rows"></ol>
+  </section>
+
+  <footer>
+    <button id="scan" class="ghost">Scan jobs now</button>
+    <button id="open" class="primary">Open dashboard</button>
+  </footer>
+  <script type="module" src="popup.js"></script>
+</body>
+</html>

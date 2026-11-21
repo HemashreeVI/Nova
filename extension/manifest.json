@@ -1,0 +1,50 @@
+{
+  "manifest_version": 3,
+  "name": "Nova Launchpad",
+  "version": "1.0.0",
+  "description": "Your personal new tab: resume-matched jobs from Naukri, Internshala & more, LeetCode reminders, F1 and hot tech news.",
+  "icons": { "16": "icons/icon16.png", "32": "icons/icon32.png", "48": "icons/icon48.png", "128": "icons/icon128.png" },
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Nova Launchpad",
+    "default_icon": { "16": "icons/icon16.png", "32": "icons/icon32.png" }
+  },
+  "chrome_url_overrides": { "newtab": "newtab.html" },
+  "background": { "service_worker": "background.js", "type": "module" },
+  "permissions": ["storage", "unlimitedStorage", "alarms", "notifications", "contextMenus", "activeTab"],
+  "host_permissions": [
+    "https://leetcode.com/*",
+    "https://api.jolpi.ca/*",
+    "https://api.open-meteo.com/*",
+    "https://news.google.com/*",
+    "https://hn.algolia.com/*",
+    "https://remotive.com/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "https://*.naukri.com/*",
+        "https://internshala.com/*",
+        "https://*.internshala.com/*",
+        "https://*.linkedin.com/jobs/*",
+        "https://*.indeed.com/*",
+        "https://unstop.com/*",
+        "https://*.unstop.com/*",
+        "https://wellfound.com/*",
+        "https://*.instahyre.com/*",
+        "https://*.foundit.in/*",
+        "https://*.glassdoor.co.in/*",
+        "https://*.glassdoor.com/*",
+        "https://cutshort.io/*",
+        "https://jobs.lever.co/*",
+        "https://boards.greenhouse.io/*",
+        "https://job-boards.greenhouse.io/*",
+        "https://*.myworkdayjobs.com/*",
+        "https://*/*careers*",
+        "https://*/jobs/*"
+      ],
+      "js": ["content/jobs.js"],
+      "run_at": "document_idle"
+    }
+  ]
+}
