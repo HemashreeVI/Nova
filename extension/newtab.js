@@ -389,9 +389,10 @@ function applyLayout() {
   $("ticker").hidden = !!L.hidden.news;
   for (const el of BOXES()) el.hidden = !!L.hidden[boxId(el)];
   if (document.body.classList.contains("stacked")) {
-    for (const el of BOXES()) { el.style.left = ""; el.style.top = ""; }
+    for (const el of BOXES()) { el.style.left = ""; el.style.top = ""; el.style.transform = ""; }
     return;
   }
+  for (const el of BOXES()) applyBoxSize(el);
   const W = window.innerWidth / scale(), H = window.innerHeight / scale();
   const maxY = H - bottomReserve() / scale();
   const corner = 70 / scale(); // keep clear of the round buttons on the right
@@ -444,9 +445,59 @@ async function saveLayout() {
   await set("layout", state.layout);
 }
 
+// Each box can be scaled on its own (layout.size[id], 1 = 100%). transform keeps the
+// box's position untouched, and getBoundingClientRect() already reports the scaled size.
+const boxScale = (el) => state.layout.size?.[boxId(el)] || 1;
+function applyBoxSize(el) {
+  const k = boxScale(el);
+  el.style.transform = k === 1 ? "" : `scale(${k})`;
+  const tag = el.querySelector(".box-tools span");
+  if (tag) tag.textContent = k === 1 ? el.dataset.label : `${el.dataset.label} · ${Math.round(k * 100)}%`;
+}
+
+function startResize(e, el) {
+  if (!state.editing || e.button !== 0) return;
+  e.preventDefault();
+  e.stopPropagation();
+  const handle = e.currentTarget;
+  handle.setPointerCapture(e.pointerId);
+  el.classList.add("dragging");
+  const start = boxScale(el);
+  const r = el.getBoundingClientRect();
+  const sx = e.clientX, sy = e.clientY;
+  const move = (ev) => {
+    // Grow with the diagonal you drag, like resizing a window from its corner.
+    const grow = ((ev.clientX - sx) + (ev.clientY - sy)) / (r.width + r.height);
+    const k = Math.round(Math.max(0.6, Math.min(1.8, start * (1 + grow))) * 100) / 100;
+    state.layout.size = { ...(state.layout.size || {}), [boxId(el)]: k };
+    applyBoxSize(el);
+  };
+  const up = () => {
+    el.classList.remove("dragging");
+    handle.removeEventListener("pointermove", move);
+    handle.removeEventListener("pointerup", up);
+    handle.removeEventListener("pointercancel", up);
+    saveLayout();
+    applyLayout(); // keep it on screen if it grew past the edge
+  };
+  handle.addEventListener("pointermove", move);
+  handle.addEventListener("pointerup", up);
+  handle.addEventListener("pointercancel", up);
+}
+
 function setupBoxes() {
   for (const el of BOXES()) {
     el.classList.add("placing");
+    const handle = h("div", { class: "resize-handle", title: "Drag to resize · double-click for 100%" });
+    handle.addEventListener("pointerdown", (e) => startResize(e, el));
+    handle.addEventListener("dblclick", (e) => {
+      e.stopPropagation();
+      if (state.layout.size) delete state.layout.size[boxId(el)];
+      applyBoxSize(el);
+      saveLayout();
+      applyLayout();
+    });
+    el.append(handle);
     const tools = h("div", { class: "box-tools" },
       h("span", {}, el.dataset.label),
       h("button", { type: "button", onclick: (e) => { e.stopPropagation(); toggleBox(boxId(el)); } }, "Hide"));
@@ -456,7 +507,7 @@ function setupBoxes() {
 }
 
 function startDrag(e, el) {
-  if (!state.editing || e.button !== 0 || e.target.closest(".box-tools button")) return;
+  if (!state.editing || e.button !== 0 || e.target.closest(".box-tools button, .resize-handle")) return;
   e.preventDefault();
   el.setPointerCapture(e.pointerId);
   el.classList.add("dragging");
@@ -655,7 +706,7 @@ function wire() {
   });
   $("eb-scale").addEventListener("change", saveLayout);
   $("eb-reset").addEventListener("click", async () => {
-    state.layout = { pos: {}, hidden: {}, scale: 1 };
+    state.layout = { pos: {}, hidden: {}, scale: 1, size: {} };
     await saveLayout();
     setEditing(true);
     applyLayout();
@@ -700,7 +751,7 @@ function wire() {
 async function main() {
   state.settings = await get("settings");
   const saved = await get("layout");
-  state.layout = { pos: {}, hidden: {}, scale: 1, ...(saved || {}) };
+  state.layout = { pos: {}, hidden: {}, scale: 1, size: {}, ...(saved || {}) };
   setupBoxes();
   wire();
   applyWallpaper();

@@ -45,7 +45,7 @@ a { color: inherit; text-decoration: none; }
 
 /* ---------- the board: every box is absolutely positioned and can be dragged ---------- */
 .board { position: fixed; inset: 0; zoom: var(--scale, 1); }
-.box { position: absolute; width: var(--col); }
+.box { position: absolute; width: var(--col); transform-origin: top left; }
 .box.placing { visibility: hidden; }
 
 .card {
@@ -241,6 +241,7 @@ a { color: inherit; text-decoration: none; }
   background: var(--glass-strong); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
 }
 .eb-title { font-weight: 700; }
+.eb-hint { color: var(--muted); font-size: 12px; }
 .eb-size { display: flex; align-items: center; gap: 8px; color: var(--muted); }
 .eb-size input { width: 110px; accent-color: var(--red); }
 .eb-chips { display: flex; gap: 6px; flex-wrap: wrap; }
@@ -250,7 +251,12 @@ a { color: inherit; text-decoration: none; }
 
 body.editing .box { cursor: grab; outline: 2px dashed rgba(255,255,255,.45); outline-offset: 3px; user-select: none; }
 body.editing .box.dragging { cursor: grabbing; outline-color: var(--red); z-index: 7; box-shadow: 0 24px 60px rgba(0,0,0,.5); }
-body.editing .box > *:not(.box-tools) { pointer-events: none; }
+body.editing .box > *:not(.box-tools):not(.resize-handle) { pointer-events: none; }
+.resize-handle { display: none; position: absolute; right: -9px; bottom: -9px; width: 22px; height: 22px; border-radius: 7px; cursor: nwse-resize; z-index: 3;
+  background: var(--text); box-shadow: 0 2px 8px rgba(0,0,0,.4); touch-action: none; }
+.resize-handle::after { content: ""; position: absolute; inset: 6px; border-right: 2px solid #111; border-bottom: 2px solid #111; }
+body.editing .resize-handle { display: block; }
+body.stacked .resize-handle { display: none !important; }
 .box-tools { display: none; position: absolute; top: -12px; left: 12px; gap: 6px; z-index: 2; }
 body.editing .box-tools { display: flex; }
 .box-tools span, .box-tools button { font-size: 11px; font-weight: 700; padding: 3px 9px; border-radius: 99px; border: 0; background: var(--text); color: #111; }
