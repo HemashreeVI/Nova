@@ -91,118 +91,115 @@ const localDay = (t) => {
 
 export async function github(username, opts) {
   if (!username) return null;
-  return cached(`gh:${username.toLowerCase()}`, async () => {
+  return cached(`gh2:${username.toLowerCase()}`, async () => {
     const u = encodeURIComponent(username);
-    const gh = async (path) => {
+    const api = async (path) => {
       const r = await fetch(`https://api.github.com${path}`, { headers: { Accept: "application/vnd.github+json" } });
       if (r.status === 404) throw new Error(`No GitHub user "${username}"`);
       if (r.status === 403 || r.status === 429) throw new Error("GitHub rate limit, try again in a bit");
       if (!r.ok) throw new Error(`GitHub answered ${r.status}`);
       return r.json();
     };
-    const [user, events, repos] = await Promise.all([
-      gh(`/users/${u}`),
-      gh(`/users/${u}/events/public?per_page=100`),
-      gh(`/users/${u}/repos?sort=pushed&per_page=8`),
+    const [user, calendar, events] = await Promise.all([
+      api(`/users/${u}`),
+      contributionCalendar(username).catch(() => null),
+      api(`/users/${u}/events/public?per_page=100`).catch(() => []),
     ]);
-    const activity = {};
-    let lastPush = 0;
-    for (const e of events) {
-      const t = Date.parse(e.created_at);
-      const n = e.type === "PushEvent" ? Math.max(1, e.payload?.distinct_size || e.payload?.size || 1) : 1;
-      activity[localDay(t)] = (activity[localDay(t)] || 0) + n;
-      if (e.type === "PushEvent" && t > lastPush) lastPush = t;
+
+    // Fallback when the calendar page can't be read: build levels from public events.
+    const days = calendar?.days || {};
+    if (!calendar) {
+      for (const e of events) {
+        const k = localDay(Date.parse(e.created_at));
+        const n = e.type === "PushEvent" ? Math.max(1, e.payload?.distinct_size || e.payload?.size || 1) : 1;
+        days[k] = { count: (days[k]?.count || 0) + n };
+      }
+      for (const d of Object.values(days)) d.level = d.count < 2 ? 1 : d.count < 4 ? 2 : d.count < 8 ? 3 : 4;
     }
+    const lastPush = events.filter((e) => e.type === "PushEvent").map((e) => Date.parse(e.created_at)).sort((a, b) => b - a)[0] || 0;
     return {
       login: user.login,
       name: user.name || user.login,
       avatar: user.avatar_url,
       url: user.html_url,
-      bio: user.bio,
-      repos: user.public_repos,
-      followers: user.followers,
-      activity,
+      days,
+      total: calendar?.total ?? null,
+      fromCalendar: !!calendar,
       lastPush,
-      recent: repos.filter((r) => !r.fork).slice(0, 5).map((r) => ({
-        name: r.name, url: r.html_url, lang: r.language, stars: r.stargazers_count, pushedAt: Date.parse(r.pushed_at),
-      })),
     };
   }, { ttl: 10 * 60 * 1000, ...opts });
 }
 
-export const pushedToday = (gh) => (gh?.activity?.[localDay(Date.now())] || 0) > 0;
+// The same contribution graph GitHub shows on your profile (public page, no token needed).
+async function contributionCalendar(username) {
+  const r = await fetch(`https://github.com/users/${encodeURIComponent(username)}/contributions`);
+  if (!r.ok) throw new Error(`GitHub calendar answered ${r.status}`);
+  const html = await r.text();
+  const tips = {};
+  for (const m of html.matchAll(/<tool-tip[^>]*\bfor="([^"]+)"[^>]*>([^<]*)<\/tool-tip>/g)) tips[m[1]] = m[2];
+  const days = {};
+  for (const m of html.matchAll(/<td\b[^>]*\bdata-date="(\d{4}-\d{2}-\d{2})"[^>]*>/g)) {
+    const tag = m[0];
+    const level = Number((tag.match(/data-level="(\d)"/) || [])[1] || 0);
+    const id = (tag.match(/\bid="([^"]+)"/) || [])[1];
+    const tip = tips[id] || "";
+    const count = /^No /.test(tip) ? 0 : Number((tip.match(/^(\d[\d,]*)/) || [])[1]?.replace(/,/g, "") || (level ? 1 : 0));
+    days[m[1]] = { level, count };
+  }
+  if (!Object.keys(days).length) throw new Error("Calendar layout not recognised");
+  const total = html.match(/([\d,]+)\s+contributions?\s+in the last year/);
+  return { days, total: total ? Number(total[1].replace(/,/g, "")) : null };
+}
+
+export const pushedToday = (gh) => (gh?.days?.[localDay(Date.now())]?.count || 0) > 0;
 
 export function ghStreak(gh) {
   const d = new Date();
-  if (!gh?.activity?.[localDay(d)]) d.setDate(d.getDate() - 1);
+  const on = (x) => (gh?.days?.[localDay(x)]?.count || 0) > 0;
+  if (!on(d)) d.setDate(d.getDate() - 1);
   let n = 0;
-  while (gh?.activity?.[localDay(d)]) { n++; d.setDate(d.getDate() - 1); }
+  while (on(d)) { n++; d.setDate(d.getDate() - 1); }
   return n;
 }
 
-/* ---------------- F1 (Jolpica, the community Ergast mirror) ---------------- */
+/* ---------------- YouTube (channel page + public RSS feed, no API key) ---------------- */
 
-const F1 = "https://api.jolpi.ca/ergast/f1";
+export async function youtubeChannel(input, opts) {
+  if (!input) return null;
+  const meta = await cached(`ytmeta:${input.toLowerCase()}`, async () => {
+    let id = (input.match(/UC[\w-]{22}/) || [])[0] || null;
+    const handle = input.match(/@[\w.-]+/)?.[0];
+    const page = id ? `https://www.youtube.com/channel/${id}` : `https://www.youtube.com/${handle || "@" + input.replace(/^.*youtube\.com\//, "")}`;
+    const r = await fetch(page);
+    if (!r.ok) throw new Error(`YouTube answered ${r.status}`);
+    const html = await r.text();
+    id ||= (html.match(/"(?:externalId|channelId|browseId)":"(UC[\w-]{22})"/) || html.match(/channel\/(UC[\w-]{22})/) || [])[1];
+    if (!id) throw new Error("Couldn't find that channel");
+    const og = (p) => decode((html.match(new RegExp(`<meta property="og:${p}" content="([^"]*)"`)) || [])[1] || "");
+    const subs = (html.match(/"(?:simpleText|content|label)":"([\d.,]+\s?[KMBkmb]?)\s+subscribers?"/) || [])[1] || null;
+    const videos = (html.match(/"(?:simpleText|content|label)":"([\d,.]+[KM]?)\s+videos?"/) || [])[1] || null;
+    return { id, name: og("title"), avatar: og("image"), url: `https://www.youtube.com/channel/${id}`, handle: handle || null, subs, videos };
+  }, { ttl: 6 * 60 * 60 * 1000, ...opts });
 
-export async function f1(opts) {
-  return cached("f1", async () => {
-    const [sched, drivers, teams] = await Promise.all([
-      json(`${F1}/current.json?limit=40`),
-      json(`${F1}/current/driverStandings.json?limit=40`),
-      json(`${F1}/current/constructorStandings.json?limit=20`),
-    ]);
-    const at = (s) => (s?.date ? Date.parse(`${s.date}T${s.time || "12:00:00Z"}`) : null);
-    const races = sched.MRData.RaceTable.Races.map((r) => {
-      const sessions = [
-        ["Practice 1", r.FirstPractice], ["Practice 2", r.SecondPractice], ["Practice 3", r.ThirdPractice],
-        ["Sprint Qualifying", r.SprintQualifying || r.SprintShootout], ["Sprint", r.Sprint],
-        ["Qualifying", r.Qualifying], ["Grand Prix", r],
-      ].filter(([, s]) => s?.date).map(([name, s]) => ({ name, at: at(s) })).sort((a, b) => a.at - b.at);
+  const feed = await cached(`ytfeed:${meta.id}`, async () => {
+    const r = await fetch(`https://www.youtube.com/feeds/videos.xml?channel_id=${meta.id}`);
+    if (!r.ok) throw new Error(`YouTube feed answered ${r.status}`);
+    const xml = await r.text();
+    return [...xml.matchAll(/<entry>([\s\S]*?)<\/entry>/g)].map(([, e]) => {
+      const vid = tag(e, "yt:videoId");
       return {
-        round: Number(r.round),
-        name: r.raceName,
-        circuit: r.Circuit.circuitName,
-        locality: r.Circuit.Location.locality,
-        country: r.Circuit.Location.country,
-        lat: r.Circuit.Location.lat,
-        lon: r.Circuit.Location.long,
-        url: r.url,
-        start: at(r),
-        sessions,
+        id: vid,
+        title: tag(e, "title"),
+        url: `https://www.youtube.com/watch?v=${vid}`,
+        thumb: `https://i.ytimg.com/vi/${vid}/mqdefault.jpg`,
+        at: Date.parse(tag(e, "published")),
+        views: Number((e.match(/<media:statistics views="(\d+)"/) || [])[1] || 0),
+        short: /#shorts/i.test(e),
       };
     });
-    const ds = drivers.MRData.StandingsTable.StandingsLists[0]?.DriverStandings || [];
-    const cs = teams.MRData.StandingsTable.StandingsLists[0]?.ConstructorStandings || [];
-    return {
-      season: sched.MRData.RaceTable.season,
-      races,
-      drivers: ds.map((d) => ({
-        pos: Number(d.position), points: Number(d.points), wins: Number(d.wins),
-        name: `${d.Driver.givenName} ${d.Driver.familyName}`, nationality: d.Driver.nationality,
-        team: d.Constructors?.[0]?.name, teamId: d.Constructors?.[0]?.constructorId,
-      })),
-      teams: cs.map((c) => ({
-        pos: Number(c.position), points: Number(c.points), wins: Number(c.wins),
-        name: c.Constructor.name, nationality: c.Constructor.nationality, teamId: c.Constructor.constructorId,
-      })),
-    };
-  }, { ttl: 60 * 60 * 1000, ...opts });
-}
+  }, { ttl: 30 * 60 * 1000, ...opts });
 
-const WEATHER = {
-  0: ["Clear sky", "☀"], 1: ["Mostly clear", "🌤"], 2: ["Partly cloudy", "⛅"], 3: ["Overcast", "☁"],
-  45: ["Fog", "🌫"], 48: ["Fog", "🌫"], 51: ["Drizzle", "🌦"], 53: ["Drizzle", "🌦"], 55: ["Drizzle", "🌦"],
-  61: ["Rain", "🌧"], 63: ["Rain", "🌧"], 65: ["Heavy rain", "🌧"], 71: ["Snow", "🌨"], 80: ["Showers", "🌦"],
-  81: ["Showers", "🌦"], 82: ["Heavy showers", "⛈"], 95: ["Thunderstorm", "⛈"],
-};
-
-export async function weather(lat, lon) {
-  if (!lat || !lon) return null;
-  return cached(`wx:${lat},${lon}`, async () => {
-    const j = await json(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weather_code`);
-    const [label, icon] = WEATHER[j.current.weather_code] || ["", "🌡"];
-    return { temp: Math.round(j.current.temperature_2m), label, icon };
-  }, { ttl: 30 * 60 * 1000 });
+  return { ...meta, videos: meta.videos, feed: Array.isArray(feed) ? feed : [] };
 }
 
 /* ---------------- News ---------------- */

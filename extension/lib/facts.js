@@ -11,8 +11,6 @@ export const FACTS = [
   "Git was written by Linus Torvalds in about 10 days in 2005 to manage the Linux kernel.",
   "Anscombe's quartet: four datasets with identical means, variances and correlation that look nothing alike. Always plot your data.",
   "Simpson's paradox: a trend can appear in every group and reverse when the groups are combined.",
-  "An F1 car produces enough downforce at speed to, in theory, drive upside down on a tunnel ceiling.",
-  "F1 teams stream hundreds of sensor channels per car, and race strategy is a live data-analytics problem.",
   "PostgreSQL began as the POSTGRES project at UC Berkeley in 1986.",
   "Docker containers share the host's kernel, which is why they start in milliseconds rather than minutes.",
   "Tableau grew out of a Stanford research project on visual query languages.",

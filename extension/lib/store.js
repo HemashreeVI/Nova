@@ -5,7 +5,7 @@ export const DEFAULTS = {
     name: "",
     leetcode: "",
     github: "HemashreeVI",
-    showF1: true,
+    youtube: "",                        // your channel: @handle or link
     ghReminder: true,                   // also nudge if you haven't pushed to GitHub today
     lcReminders: ["19:00", "22:30"],   // local times; nudged only if you haven't solved today
     fitAlert: 70,                       // notify for new jobs at or above this fit %
@@ -30,6 +30,7 @@ export const DEFAULTS = {
   newsSeen: [],       // links already pushed as notifications
   cache: {},          // API cache {key: {ts, data}}
   wallpaper: null,    // data URL of your own background picture
+  layout: { pos: {}, hidden: {}, scale: 1 },  // where you dragged each box
 };
 
 const clone = (v) => (v === undefined ? v : JSON.parse(JSON.stringify(v)));

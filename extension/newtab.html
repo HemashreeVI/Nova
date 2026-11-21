@@ -10,15 +10,11 @@
   <div class="bg" id="bg"></div>
   <div class="shade"></div>
 
-  <!-- top centre: clock + greeting -->
-  <header class="hello">
-    <div class="clock" id="clock">--:--</div>
-    <div class="greet" id="greet"></div>
-    <div class="fact" id="fact"></div>
-  </header>
-
   <!-- top right buttons -->
   <nav class="corner">
+    <button class="round" id="btn-edit" title="Edit layout: move, hide and resize boxes" aria-label="Edit layout">
+      <svg viewBox="0 0 24 24"><path d="M4 20h4L19 9l-4-4L4 16v4z"/><path d="M13.5 6.5l4 4"/></svg>
+    </button>
     <button class="round" id="btn-saved" title="Saved jobs" aria-label="Saved jobs">
       <svg viewBox="0 0 24 24"><path d="M12 20.5s-7.5-4.6-9.4-9.3C1.4 8.2 3.3 4.8 6.6 4.5c2-.2 3.6.9 4.4 2.3h2c.8-1.4 2.4-2.5 4.4-2.3 3.3.3 5.2 3.7 4 6.7-1.9 4.7-9.4 9.3-9.4 9.3z"/></svg>
       <span class="dot" id="saved-dot" hidden></span>
@@ -32,55 +28,65 @@
     <input type="file" id="wall-file" accept="image/*" hidden>
   </nav>
 
-  <!-- LEFT: F1 -->
-  <aside class="col left" id="col-left">
-    <section class="card" id="standings">
-      <div class="tabs" role="tablist">
-        <button class="tab on" data-tab="drivers">Drivers</button>
-        <button class="tab" data-tab="teams">Constructors</button>
-      </div>
-      <ol class="rows" id="standings-rows"><li class="muted pad">Loading standings…</li></ol>
-      <button class="more" data-expand="standings">View full standings <i class="chev"></i></button>
+  <!-- edit-mode toolbar -->
+  <div class="editbar" id="editbar" hidden>
+    <span class="eb-title">✥ Drag boxes anywhere</span>
+    <label class="eb-size">Size <input type="range" id="eb-scale" min="70" max="120" step="5"> <b id="eb-scale-v">100%</b></label>
+    <span class="eb-chips" id="eb-chips"></span>
+    <button class="ghost sm" id="eb-reset">Reset layout</button>
+    <button class="primary sm" id="eb-done">Done</button>
+  </div>
+
+  <!-- all movable boxes live on the board -->
+  <main class="board" id="board">
+    <header class="box hello" data-box="clock" data-label="Clock">
+      <div class="clock" id="clock">--:--</div>
+      <div class="greet" id="greet"></div>
+      <div class="fact" id="fact"></div>
+    </header>
+
+    <section class="box card" data-box="youtube" data-label="YouTube" id="yt">
+      <a class="prof" id="yt-link" href="https://www.youtube.com/" target="_blank" rel="noopener" title="Open your channel">
+        <img id="yt-avatar" alt="">
+        <div class="prof-who">
+          <div class="prof-name" id="yt-name">YouTube</div>
+          <div class="muted" id="yt-sub">Add your channel in settings</div>
+        </div>
+        <svg class="yt-logo" viewBox="0 0 28 20" aria-hidden="true"><rect width="28" height="20" rx="5" fill="#ff0033"/><path d="M11 5.5v9l8-4.5z" fill="#fff"/></svg>
+      </a>
+      <a class="yt-latest" id="yt-latest" target="_blank" rel="noopener" hidden>
+        <span class="thumb"><img id="yt-thumb" alt=""><span class="badge">Latest</span></span>
+        <span class="yt-title" id="yt-title"></span>
+        <span class="muted small" id="yt-meta"></span>
+      </a>
+      <ul class="list" id="yt-list"></ul>
+      <div class="meta small" id="yt-state"></div>
     </section>
 
-    <section class="card" id="race">
-      <div class="race-top">
-        <div class="dates" id="race-dates">—</div>
-        <select id="race-pick" aria-label="Choose race"></select>
-      </div>
-      <h2 class="big" id="race-name">Loading race…</h2>
-      <div class="sub" id="race-circuit"></div>
-      <div class="meta" id="race-meta"></div>
-      <div class="next-row"><span class="red" id="race-session">—</span><span class="red" id="race-when"></span></div>
-      <div class="count" id="race-count"></div>
-      <div class="foot-stats" id="race-stats"></div>
-      <button class="more" data-expand="race">Grand Prix weekend schedule <i class="chev"></i></button>
-      <ul class="schedule" id="race-schedule"></ul>
-    </section>
-
-    <section class="card" id="gh">
-      <a class="gh-head" id="gh-link" href="https://github.com/" target="_blank" rel="noopener" title="Open your GitHub profile">
+    <section class="box card" data-box="github" data-label="GitHub" id="gh">
+      <a class="prof" id="gh-link" href="https://github.com/" target="_blank" rel="noopener" title="Open your GitHub profile">
         <img id="gh-avatar" alt="">
-        <div class="gh-who">
-          <div class="gh-name" id="gh-name">GitHub</div>
+        <div class="prof-who">
+          <div class="prof-name" id="gh-name">GitHub</div>
           <div class="muted" id="gh-login"></div>
         </div>
-        <span class="pill">Open profile ↗</span>
+        <svg class="gh-logo" viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
       </a>
-      <div class="meta" id="gh-state"></div>
-      <div class="heat" id="gh-heat" title="Your public GitHub activity, last 12 weeks"></div>
-      <div class="foot-stats" id="gh-stats"></div>
-      <button class="more" data-expand="gh">Recent repos <i class="chev"></i></button>
-      <ul class="schedule" id="gh-repos"></ul>
+      <div class="cal">
+        <div class="cal-months" id="gh-months"></div>
+        <div class="cal-body">
+          <div class="cal-days"><span></span><span>Mon</span><span></span><span>Wed</span><span></span><span>Fri</span><span></span></div>
+          <div class="cal-grid" id="gh-grid"></div>
+        </div>
+      </div>
+      <div class="cal-foot">
+        <span class="muted small" id="gh-total"></span>
+        <span class="legend">Less <i></i><i class="l1"></i><i class="l2"></i><i class="l3"></i><i class="l4"></i> More</span>
+      </div>
+      <div class="meta small" id="gh-state"></div>
     </section>
-  </aside>
 
-  <!-- CENTRE BOTTOM: GitHub card lives here on wide screens (moved by newtab.js) -->
-  <aside class="col center" id="col-center"></aside>
-
-  <!-- RIGHT: jobs + LeetCode -->
-  <aside class="col right" id="col-right">
-    <section class="card" id="radar">
+    <section class="box card" data-box="jobs" data-label="Job Radar" id="radar">
       <div class="tabs" role="tablist">
         <button class="tab on" data-jtab="top">Top matches</button>
         <button class="tab" data-jtab="saved">Saved</button>
@@ -89,26 +95,26 @@
       <ol class="rows jobs" id="radar-rows"><li class="muted pad">Looking for jobs…</li></ol>
       <div class="gaps" id="radar-gaps"></div>
       <div class="radar-foot">
-        <button class="more inline" id="open-jobs">View all jobs <i class="chev right"></i></button>
+        <button class="more inline" id="open-jobs">All jobs <i class="chev right"></i></button>
         <span class="scanline"><span id="scan-status" class="muted"></span> <button class="link" id="scan-now">Scan now</button></span>
       </div>
     </section>
 
-    <section class="card" id="lc">
-      <div class="race-top">
-        <div class="dates">Daily challenge</div>
+    <section class="box card" data-box="leetcode" data-label="LeetCode" id="lc">
+      <div class="lc-top">
+        <span class="kicker">Daily challenge</span>
         <span class="pill" id="lc-diff">—</span>
       </div>
       <h2 class="big"><a id="lc-title" href="https://leetcode.com/problemset/" target="_blank" rel="noopener">Loading…</a></h2>
       <div class="sub" id="lc-tags"></div>
-      <div class="meta" id="lc-state"></div>
-      <div class="next-row"><span class="red">Daily resets in</span><span class="red" id="lc-reset"></span></div>
+      <div class="meta small" id="lc-state"></div>
+      <div class="next-row"><span class="red">Resets in</span><span class="red" id="lc-reset"></span></div>
       <div class="count" id="lc-count"></div>
       <div class="foot-stats" id="lc-stats"></div>
       <button class="more" data-expand="lc">Recent solves <i class="chev"></i></button>
-      <ul class="schedule" id="lc-recent"></ul>
+      <ul class="list collapsible" id="lc-recent"></ul>
     </section>
-  </aside>
+  </main>
 
   <!-- bottom news ticker -->
   <footer class="ticker" id="ticker">
@@ -149,8 +155,8 @@
       </header>
       <div id="welcome" class="welcome" hidden>
         <b>Welcome to Nova Launchpad 👋</b>
-        Add your name and LeetCode username, check the job searches, then click <b>Save</b>.
-        Your resume skills are already filled in under <i>Profile</i>.
+        Add your name, LeetCode, GitHub and YouTube, check the job searches, then click <b>Save</b>.
+        Your resume skills are already filled in under <i>Profile</i>. Use the ✎ button to move boxes around.
       </div>
       <form id="settings-form" autocomplete="off">
         <fieldset>
@@ -158,7 +164,7 @@
           <label>Name <input name="name" placeholder="What should Nova call you?"></label>
           <label>LeetCode username <input name="leetcode" placeholder="e.g. hemashree_vi"></label>
           <label>GitHub username <input name="github" placeholder="e.g. HemashreeVI"></label>
-          <label class="check"><input type="checkbox" name="showF1"> Show F1 panels on the left</label>
+          <label>YouTube channel <input name="youtube" placeholder="@yourhandle or channel link"></label>
         </fieldset>
 
         <fieldset>
