@@ -4,7 +4,9 @@ export const DEFAULTS = {
   settings: {
     name: "",
     leetcode: "",
+    github: "HemashreeVI",
     showF1: true,
+    ghReminder: true,                   // also nudge if you haven't pushed to GitHub today
     lcReminders: ["19:00", "22:30"],   // local times; nudged only if you haven't solved today
     fitAlert: 70,                       // notify for new jobs at or above this fit %
     scanHours: 4,                       // auto-scan interval; 0 = only when you click "Scan now"

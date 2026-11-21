@@ -1,5 +1,5 @@
 import { get } from "./lib/store.js";
-import { leetcode, leetcodeDaily, solvedToday } from "./lib/feeds.js";
+import { leetcode, leetcodeDaily, solvedToday, github, pushedToday } from "./lib/feeds.js";
 
 const $ = (id) => document.getElementById(id);
 function h(tag, attrs = {}, ...kids) {
@@ -66,13 +66,16 @@ async function score(tab, job, host) {
 
 async function leetcodeToday() {
   const s = await get("settings");
-  const [lc, daily] = await Promise.allSettled([leetcode(s.leetcode), leetcodeDaily()]);
+  const [lc, daily, gh] = await Promise.allSettled([leetcode(s.leetcode), leetcodeDaily(), github(s.github)]);
   const done = solvedToday(lc.value, await get("lcLog"));
   const d = daily.value;
   put($("lc"), 
     h("div", { class: done ? "ok" : "warn" }, done ? "✓ Solved today" : "Not solved yet today", lc.value ? ` · ${lc.value.streak}🔥 streak` : ""),
     d ? h("div", {}, "Daily: ", h("a", { href: "#", onclick: (e) => { e.preventDefault(); openUrl(d.url); } }, d.title), ` (${d.difficulty})`) : null,
     s.leetcode ? null : h("div", { class: "muted" }, "Add your LeetCode username in dashboard settings."),
+    gh.value ? h("div", { class: pushedToday(gh.value) ? "ok" : "warn", style: "margin-top:4px" },
+      pushedToday(gh.value) ? "✓ Pushed to GitHub today" : "No GitHub push yet today", " · ",
+      h("a", { href: "#", onclick: (e) => { e.preventDefault(); openUrl(gh.value.url); } }, "open profile")) : null,
   );
 }
 

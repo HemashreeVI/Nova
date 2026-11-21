@@ -82,6 +82,64 @@ export function nextLeetCodeReset() {
   return Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate() + 1);
 }
 
+/* ---------------- GitHub (public API, 60 requests/hour without a token) ---------------- */
+
+const localDay = (t) => {
+  const d = new Date(t);
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+};
+
+export async function github(username, opts) {
+  if (!username) return null;
+  return cached(`gh:${username.toLowerCase()}`, async () => {
+    const u = encodeURIComponent(username);
+    const gh = async (path) => {
+      const r = await fetch(`https://api.github.com${path}`, { headers: { Accept: "application/vnd.github+json" } });
+      if (r.status === 404) throw new Error(`No GitHub user "${username}"`);
+      if (r.status === 403 || r.status === 429) throw new Error("GitHub rate limit, try again in a bit");
+      if (!r.ok) throw new Error(`GitHub answered ${r.status}`);
+      return r.json();
+    };
+    const [user, events, repos] = await Promise.all([
+      gh(`/users/${u}`),
+      gh(`/users/${u}/events/public?per_page=100`),
+      gh(`/users/${u}/repos?sort=pushed&per_page=8`),
+    ]);
+    const activity = {};
+    let lastPush = 0;
+    for (const e of events) {
+      const t = Date.parse(e.created_at);
+      const n = e.type === "PushEvent" ? Math.max(1, e.payload?.distinct_size || e.payload?.size || 1) : 1;
+      activity[localDay(t)] = (activity[localDay(t)] || 0) + n;
+      if (e.type === "PushEvent" && t > lastPush) lastPush = t;
+    }
+    return {
+      login: user.login,
+      name: user.name || user.login,
+      avatar: user.avatar_url,
+      url: user.html_url,
+      bio: user.bio,
+      repos: user.public_repos,
+      followers: user.followers,
+      activity,
+      lastPush,
+      recent: repos.filter((r) => !r.fork).slice(0, 5).map((r) => ({
+        name: r.name, url: r.html_url, lang: r.language, stars: r.stargazers_count, pushedAt: Date.parse(r.pushed_at),
+      })),
+    };
+  }, { ttl: 10 * 60 * 1000, ...opts });
+}
+
+export const pushedToday = (gh) => (gh?.activity?.[localDay(Date.now())] || 0) > 0;
+
+export function ghStreak(gh) {
+  const d = new Date();
+  if (!gh?.activity?.[localDay(d)]) d.setDate(d.getDate() - 1);
+  let n = 0;
+  while (gh?.activity?.[localDay(d)]) { n++; d.setDate(d.getDate() - 1); }
+  return n;
+}
+
 /* ---------------- F1 (Jolpica, the community Ergast mirror) ---------------- */
 
 const F1 = "https://api.jolpi.ca/ergast/f1";

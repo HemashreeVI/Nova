@@ -5,6 +5,7 @@ import { ingest, patchJob, rescoreAll } from "./lib/jobs.js";
 import { daysLeft } from "./lib/match.js";
 import {
   leetcode, leetcodeDaily, solvedToday, nextLeetCodeReset, news, remotive, searchUrl, AUTO_SCAN_SITES,
+  github, pushedToday, ghStreak,
 } from "./lib/feeds.js";
 
 const ICON = "icons/icon128.png";
@@ -109,18 +110,28 @@ const fmtDate = (iso) => new Date(iso).toLocaleDateString(undefined, { day: "num
 async function leetcodeReminder() {
   const s = await get("settings");
   const lcLog = await get("lcLog");
-  let lc = null;
-  try { lc = await leetcode(s.leetcode, { force: true }); } catch { /* offline: still remind */ }
-  if (solvedToday(lc, lcLog)) return;
-  let daily = null;
-  try { daily = await leetcodeDaily(); } catch { /* fine */ }
+  const [lcR, ghR, dailyR] = await Promise.allSettled([
+    leetcode(s.leetcode, { force: true }),
+    s.ghReminder ? github(s.github, { force: true }) : Promise.resolve(null),
+    leetcodeDaily(),
+  ]);
+  const lc = lcR.value || null, gh = ghR.value || null, daily = dailyR.value || null;
+  const lcDone = solvedToday(lc, lcLog);
+  // Only nag about GitHub when we could actually check it.
+  const ghDone = !s.ghReminder || !s.github || ghR.status === "rejected" || pushedToday(gh);
+  if (lcDone && ghDone) return;
+
   const hrs = Math.max(0, Math.floor((nextLeetCodeReset() - Date.now()) / 36e5));
+  const lines = [];
+  if (!lcDone) lines.push(daily ? `LeetCode: ${daily.title} (${daily.difficulty}), ${hrs}h before reset` : `LeetCode: nothing solved yet, ${hrs}h before reset`);
+  if (!ghDone) lines.push(`GitHub: no push today${ghStreak(gh) ? ` (keep your ${ghStreak(gh)}-day streak)` : ""}. Commit something small.`);
+  const title = !lcDone && !ghDone ? "⏰ LeetCode + GitHub: not done yet today"
+    : !lcDone ? (lc?.streak ? `🔥 Your ${lc.streak}-day LeetCode streak is at risk` : "⏰ LeetCode time")
+    : "⏰ No GitHub push yet today";
   await notify(`lc-${Date.now()}`, {
-    title: lc?.streak ? `🔥 Your ${lc.streak}-day LeetCode streak is at risk` : "⏰ LeetCode time",
-    message: daily
-      ? `Today's daily: ${daily.title} (${daily.difficulty}). ${hrs}h left before the daily resets.`
-      : `You haven't solved anything today. ${hrs}h left before reset.`,
-    url: daily?.url || "https://leetcode.com/problemset/",
+    title,
+    message: lines.join("\n"),
+    url: !lcDone ? (daily?.url || "https://leetcode.com/problemset/") : (gh?.url || `https://github.com/${s.github}`),
   });
 }
 

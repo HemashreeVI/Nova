@@ -57,6 +57,8 @@ a { color: inherit; text-decoration: none; }
 }
 .col::-webkit-scrollbar { display: none; }
 .left { left: 22px; }
+.center { top: auto; bottom: 74px; left: 50%; transform: translateX(-50%); width: min(var(--col), calc(100vw - 2 * var(--col) - 90px)); overflow: visible; }
+.center:empty { display: none; }
 .right { right: 22px; top: 92px; }
 
 /* ---------- top centre & corner ---------- */
@@ -153,6 +155,19 @@ select {
 .schedule a:hover { text-decoration: underline; }
 .standings-full > li:nth-child(n+4) { display: none; }
 .open .standings-full > li:nth-child(n+4) { display: flex; }
+
+/* ---------- GitHub ---------- */
+.gh-head { display: flex; align-items: center; gap: 14px; border-radius: 16px; margin: -4px -6px 0; padding: 4px 6px; transition: background .2s; }
+.gh-head:hover { background: rgba(255,255,255,.06); }
+.gh-head img { width: 48px; height: 48px; border-radius: 50%; border: 2px solid var(--line); background: rgba(255,255,255,.08); flex: none; }
+.gh-head img:not([src]) { visibility: hidden; }
+.gh-who { flex: 1; min-width: 0; }
+.gh-name { font-size: 19px; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.heat { display: grid; grid-auto-flow: column; grid-template-rows: repeat(7, 1fr); gap: 3px; margin-top: 14px; height: 84px; }
+.heat i { border-radius: 2px; background: rgba(255,255,255,.07); }
+.heat i.l1 { background: #0e4429; } .heat i.l2 { background: #006d32; } .heat i.l3 { background: #26a641; } .heat i.l4 { background: #39d353; }
+.heat i.today { outline: 1.5px solid rgba(255,255,255,.7); outline-offset: -1px; }
+.schedule .lang { color: var(--faint); font-size: 12px; margin-left: 6px; }
 
 /* ---------- jobs ---------- */
 .jobs > li { cursor: pointer; position: relative; }
@@ -269,12 +284,14 @@ textarea { resize: vertical; line-height: 1.45; }
   .foot-stats div b { font-size: 18px; }
   .clock { font-size: 52px; }
   .right { top: 86px; }
+  .heat { height: 70px; }
 }
 
 /* ---------- smaller screens: stack everything and scroll ---------- */
 @media (max-width: 1180px) {
   body { overflow-y: auto; }
   .col, .hello, .ticker { position: static; transform: none; width: auto; }
+  .center { display: none; }
   .hello { margin: 90px auto 20px; padding: 0 16px; }
   .col { padding: 0 16px; margin: 0 auto 22px; max-width: 560px; overflow: visible; }
   .ticker { margin: 0 16px 16px; }

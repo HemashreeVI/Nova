@@ -57,7 +57,26 @@
       <button class="more" data-expand="race">Grand Prix weekend schedule <i class="chev"></i></button>
       <ul class="schedule" id="race-schedule"></ul>
     </section>
+
+    <section class="card" id="gh">
+      <a class="gh-head" id="gh-link" href="https://github.com/" target="_blank" rel="noopener" title="Open your GitHub profile">
+        <img id="gh-avatar" alt="">
+        <div class="gh-who">
+          <div class="gh-name" id="gh-name">GitHub</div>
+          <div class="muted" id="gh-login"></div>
+        </div>
+        <span class="pill">Open profile ↗</span>
+      </a>
+      <div class="meta" id="gh-state"></div>
+      <div class="heat" id="gh-heat" title="Your public GitHub activity, last 12 weeks"></div>
+      <div class="foot-stats" id="gh-stats"></div>
+      <button class="more" data-expand="gh">Recent repos <i class="chev"></i></button>
+      <ul class="schedule" id="gh-repos"></ul>
+    </section>
   </aside>
+
+  <!-- CENTRE BOTTOM: GitHub card lives here on wide screens (moved by newtab.js) -->
+  <aside class="col center" id="col-center"></aside>
 
   <!-- RIGHT: jobs + LeetCode -->
   <aside class="col right" id="col-right">
@@ -138,12 +157,14 @@
           <legend>You</legend>
           <label>Name <input name="name" placeholder="What should Nova call you?"></label>
           <label>LeetCode username <input name="leetcode" placeholder="e.g. hemashree_vi"></label>
+          <label>GitHub username <input name="github" placeholder="e.g. HemashreeVI"></label>
           <label class="check"><input type="checkbox" name="showF1"> Show F1 panels on the left</label>
         </fieldset>
 
         <fieldset>
           <legend>Reminders &amp; alerts</legend>
           <label>LeetCode reminders (only if not solved yet) <input name="lcReminders" placeholder="19:00, 22:30"></label>
+          <label class="check"><input type="checkbox" name="ghReminder"> Also remind me if I haven't pushed to GitHub that day</label>
           <label>Notify me about new jobs with fit ≥ <input name="fitAlert" type="number" min="30" max="95" step="5">%</label>
           <label>Auto-scan jobs every <input name="scanHours" type="number" min="0" max="24"> hours <small>(0 = manual only)</small></label>
           <label>Tech news notification every <input name="newsAlertHours" type="number" min="0" max="24"> hours <small>(0 = off, quiet 11pm–8am)</small></label>

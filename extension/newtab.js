@@ -5,6 +5,7 @@ import { daysLeft } from "./lib/match.js";
 import { FACTS } from "./lib/facts.js";
 import {
   f1, weather, leetcode, leetcodeDaily, solvedToday, nextLeetCodeReset, utcDay, news, searchUrl,
+  github, pushedToday, ghStreak,
 } from "./lib/feeds.js";
 
 /* ---------------- tiny DOM helper (text only, never raw HTML) ---------------- */
@@ -187,6 +188,58 @@ async function renderLeetCode() {
     : [h("li", { class: "muted" }, settings.leetcode ? "No recent accepted submissions." : "Add your username in settings to see your solves.")]));
 }
 
+/* ---------------- GitHub ---------------- */
+function localDay(d) {
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+}
+
+async function loadGitHub(force) {
+  const user = state.settings.github;
+  let gh = null, err = null;
+  if (user) {
+    try { gh = await github(user, { force }); } catch (e) { err = String(e.message || e); }
+  }
+  const profileUrl = gh?.url || (user ? `https://github.com/${encodeURIComponent(user)}` : "https://github.com/");
+  $("gh-link").href = safeUrl(profileUrl);
+  if (gh?.avatar) $("gh-avatar").src = safeUrl(gh.avatar);
+  $("gh-name").textContent = gh?.name || user || "GitHub";
+  $("gh-login").textContent = gh ? `@${gh.login}${gh.bio ? ` · ${gh.bio}` : ""}` : "";
+
+  const st = $("gh-state");
+  st.replaceChildren();
+  if (!user) st.append(h("button", { class: "link", onclick: () => openSettings() }, "Add your GitHub username"));
+  else if (!gh) st.append(h("span", { class: "warn", title: err || "" }, "⚠ Couldn't reach GitHub"), h("span", { class: "sep" }), h("span", {}, err || ""));
+  else if (pushedToday(gh)) st.append(h("span", { class: "ok" }, "✓ Active on GitHub today"), h("span", { class: "sep" }), h("span", {}, `last push ${ago(gh.lastPush)}`));
+  else st.append(h("span", { class: "warn" }, "No push yet today"), gh.lastPush ? h("span", { class: "sep" }) : null, gh.lastPush ? h("span", {}, `last push ${ago(gh.lastPush)}`) : null);
+
+  // 12-week heatmap of public activity, Sunday-first columns like GitHub's own graph.
+  const cells = [];
+  const start = new Date();
+  start.setHours(12, 0, 0, 0);
+  start.setDate(start.getDate() - start.getDay() - 11 * 7);
+  const today = localDay(new Date());
+  for (let i = 0; i < 12 * 7; i++) {
+    const d = new Date(start);
+    d.setDate(start.getDate() + i);
+    const k = localDay(d);
+    if (k > today) { cells.push(h("i", { style: "visibility:hidden" })); continue; }
+    const n = gh?.activity?.[k] || 0;
+    const lvl = n === 0 ? "" : n < 2 ? "l1" : n < 4 ? "l2" : n < 8 ? "l3" : "l4";
+    cells.push(h("i", { class: `${lvl} ${k === today ? "today" : ""}`, title: `${k}: ${n} contribution${n === 1 ? "" : "s"}` }));
+  }
+  $("gh-heat").replaceChildren(...cells);
+
+  const active = gh ? Object.keys(gh.activity).length : null;
+  $("gh-stats").replaceChildren(
+    h("div", {}, h("span", {}, "Repos"), h("b", {}, gh?.repos ?? "—")),
+    h("div", {}, h("span", {}, "Streak"), h("b", {}, gh ? `${ghStreak(gh)}🔥` : "—")),
+    h("div", {}, h("span", {}, "Active days"), h("b", {}, active ?? "—")),
+  );
+  $("gh-repos").replaceChildren(...(gh?.recent?.length
+    ? gh.recent.map((r) => h("li", {}, h("a", { href: r.url, target: "_blank", rel: "noopener" }, r.name, r.lang ? h("span", { class: "lang" }, r.lang) : null), h("span", { class: "muted" }, `${r.stars ? `★ ${r.stars} · ` : ""}${ago(r.pushedAt)}`)))
+    : [h("li", { class: "muted" }, user ? "No public repos found." : "Add your username in settings.")]));
+}
+
 /* ---------------- jobs ---------------- */
 const STATUSES = ["", "Applied", "OA / Test", "Interview", "Offer", "Rejected"];
 
@@ -333,6 +386,8 @@ async function openSettings(welcome = false) {
   const f = $("settings-form");
   f.name.value = s.name;
   f.leetcode.value = s.leetcode;
+  f.github.value = s.github || "";
+  f.ghReminder.checked = s.ghReminder;
   f.showF1.checked = s.showF1;
   f.lcReminders.value = s.lcReminders.join(", ");
   f.fitAlert.value = s.fitAlert;
@@ -366,6 +421,8 @@ async function saveSettings(e) {
     ...state.settings,
     name: f.name.value.trim(),
     leetcode: f.leetcode.value.trim().replace(/^.*leetcode\.com\/(u\/)?/i, "").replace(/\/$/, ""),
+    github: f.github.value.trim().replace(/^.*github\.com\//i, "").replace(/\/.*$/, ""),
+    ghReminder: f.ghReminder.checked,
     showF1: f.showF1.checked,
     lcReminders: list(f.lcReminders.value).filter((t) => /^\d{1,2}:\d{2}$/.test(t)),
     fitAlert: Number(f.fitAlert.value) || 70,
@@ -377,6 +434,7 @@ async function saveSettings(e) {
   };
   const profile = { ...((await get("profile")) || DEFAULT_PROFILE), skills: list(f.skills.value.toLowerCase()), roles: list(f.roles.value.toLowerCase()), locations: list(f.locations.value.toLowerCase()) };
   const lcChanged = settings.leetcode !== state.settings.leetcode;
+  const ghChanged = settings.github !== state.settings.github;
   const topicsChanged = settings.newsTopics.join() !== state.settings.newsTopics.join();
   await set("settings", settings);
   await set("profile", profile);
@@ -385,11 +443,23 @@ async function saveSettings(e) {
   applyLayout();
   tickClock();
   if (lcChanged) loadLeetCode(true);
+  if (ghChanged) loadGitHub(true);
   if (topicsChanged) loadNews(true);
 }
 
+// Wide screens: GitHub card sits bottom-centre. Narrower: it joins the left column.
+function placeGitHub() {
+  const card = $("gh");
+  const wide = window.innerWidth >= 1400 && window.innerHeight >= 700;
+  const target = wide ? $("col-center") : $("col-left");
+  if (card.parentElement !== target) target.append(card);
+}
+
 function applyLayout() {
-  $("col-left").hidden = !state.settings.showF1;
+  placeGitHub();
+  // The GitHub card always shows; the F1 cards can be turned off.
+  $("standings").hidden = !state.settings.showF1;
+  $("race").hidden = !state.settings.showF1;
   if (state.settings.showF1 && !state.f1) loadF1();
 }
 
@@ -459,7 +529,7 @@ function wire() {
     } catch { $("save-msg").textContent = "That file isn't a Nova backup."; }
   });
 
-  window.addEventListener("resize", () => renderRadar());
+  window.addEventListener("resize", () => { renderRadar(); placeGitHub(); });
   chrome.storage.onChanged.addListener((ch, area) => {
     if (area !== "local") return;
     if (ch.jobs) { state.jobs = ch.jobs.newValue || {}; renderRadar(); }
@@ -490,6 +560,7 @@ async function main() {
   chrome.runtime.sendMessage({ type: "jobs:seen" }).catch(() => {});
 
   loadLeetCode();
+  loadGitHub();
   loadNews();
   if (location.hash === "#welcome" || (!state.settings.name && !state.settings.leetcode && !(await get("profile")))) openSettings(true);
   else if (location.hash === "#jobs") { renderJobsDrawer(); openDrawer("drawer-jobs"); }
