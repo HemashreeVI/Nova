@@ -55,6 +55,12 @@ The first time you run Nova, he puts his purple helmet icon on your **desktop** 
   ```
   (`--shortcut off` removes it.)
 
+## Move and resize Nova
+
+- **Move him:** drag Nova anywhere on your screen. He remembers the spot next time.
+- **Resize him:** scroll the mouse wheel over Nova, use **➖ Smaller / ➕ Bigger** in his click menu, or the tray icon's **Size** menu (with **Reset size**). He remembers his size too.
+- **Lost him?** Tray icon > **Bring Nova back to his corner**.
+
 ## Nova in your taskbar
 
 While Nova runs, his purple helmet sits in the taskbar's system tray (next to the clock).

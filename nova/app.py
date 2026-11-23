@@ -75,26 +75,44 @@ class NovaApp:
         self.body.on_hide = self.hide
         self.body.on_quit = self.shutdown
         self.body.on_ready = lambda: self.companion.welcome("start") if self.companion else None
+        if hasattr(self.body, "on_resized"):  # remember his size and spot for next time
+            self.body.on_resized = lambda size: self._remember(size=size)
+            self.body.on_moved = lambda x, y: self._remember(pos=[x, y])
+
+    def _remember(self, **values):
+        self.memory.data.update(values)
+        self.memory.save()
+
+    def resize(self, delta: int = 0, reset: bool = False):
+        """Make Nova bigger or smaller (tray, menu, mouse wheel)."""
+        if not self.body or not hasattr(self.body, "resize_by"):
+            return
+        if reset:
+            self.body.resize_to(self.settings["buddy"]["size"])
+        else:
+            self.body.resize_by(delta)
 
     def _make_body(self):
         buddy = self.settings["buddy"]
+        saved = {k: self.memory.data[k] for k in ("size", "pos") if self.memory.data.get(k)}
+        cfg = {**self.settings, "buddy": {**buddy, **saved}}  # the size and spot you last left him at
         if buddy.get("style", "3d") == "3d":
             renderer = buddy.get("renderer", "auto")
             if renderer == "webview":  # only if asked for: it can't hide its background box on Windows
                 try:
                     from nova.body3d import Body3D
-                    return Body3D(self.settings)
+                    return Body3D(cfg)
                 except Exception as e:
                     print(f"[nova] basic 3D window unavailable: {e}")
             else:
                 try:
                     from nova.body_electron import BodyElectron
-                    return BodyElectron(self.settings)
+                    return BodyElectron(cfg)
                 except Exception as e:
                     print(f"[nova] transparent 3D window unavailable: {e}")
             print("[nova] using the 2D Nova (no background box)")
         from nova.buddy import Buddy
-        return Buddy(self.settings)
+        return Buddy(cfg)
 
     def _init_voice(self):
         try:

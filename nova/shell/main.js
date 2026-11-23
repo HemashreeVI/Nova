@@ -24,15 +24,50 @@ app.setPath('userData', path.join(__dirname, '..', '..', 'data', 'window-profile
 let win = null;
 let walkX = null;
 
+// Nova's size: the window grows with him (it also needs room for the menu), and the 3D crew is scaled to fit.
+// Same formula as body_electron.py.
+let size = opts.size || 120;
+const dims = s => {
+  const W = Math.max(230, Math.round(s * 2.4)), H = Math.max(300, Math.round(s * 2.9));
+  return { W, H, scale: (s / 120) * (300 / H) };
+};
+let { W: curW, H: curH } = dims(size);
+
+// Always move with an explicit width and height. On Windows with display scaling (125%, 150%...)
+// moving with setPosition makes the window creep a pixel bigger every call, so Nova grew while he crawled.
+function place(x, y) {
+  if (win) win.setBounds({ x: Math.round(x), y: Math.round(y), width: curW, height: curH });
+}
+
+function resizeTo(newSize) {
+  if (!win) return;
+  size = Math.max(40, Math.min(220, Math.round(newSize)));
+  const b = win.getBounds(), d = dims(size);
+  const cx = b.x + b.width / 2, bottom = b.y + b.height; // keep his feet where they are
+  curW = d.W; curH = d.H;
+  place(cx - curW / 2, bottom - curH);
+  walkX = null;
+  keepOnScreen();
+  win.webContents.executeJavaScript(`window.nova && nova.setScale(${d.scale})`).catch(() => {});
+  send({ event: 'resized', args: [size] });
+}
+
+function reportPosition() {
+  if (!win) return;
+  const b = win.getBounds();
+  send({ event: 'moved', args: [b.x, b.y] });
+}
+
 function createWindow() {
   const { workArea } = screen.getPrimaryDisplay();
-  const W = opts.width || 288, H = opts.height || 348;
+  const W = curW, H = curH;
   const right = (opts.corner || 'bottom-right').includes('right');
   const bottom = (opts.corner || 'bottom-right').includes('bottom');
+  const saved = Number.isFinite(opts.x) && Number.isFinite(opts.y); // where you last put him
   win = new BrowserWindow({
     width: W, height: H,
-    x: right ? workArea.x + workArea.width - W - 8 : workArea.x + 8,
-    y: bottom ? workArea.y + workArea.height - H : workArea.y + 8,
+    x: saved ? opts.x : right ? workArea.x + workArea.width - W - 8 : workArea.x + 8,
+    y: saved ? opts.y : bottom ? workArea.y + workArea.height - H : workArea.y + 8,
     transparent: true, backgroundColor: '#00000000', frame: false, hasShadow: false, thickFrame: false,
     resizable: false, maximizable: false, fullscreenable: false, skipTaskbar: true, alwaysOnTop: true,
     show: false, title: 'Nova',
@@ -71,7 +106,9 @@ app.whenReady().then(() => {
 
 ipcMain.on('api', (_e, name, args) => {
   if (!win) return;
-  if (name === 'move_by') { const [x, y] = win.getPosition(); win.setPosition(Math.round(x + args[0]), Math.round(y + args[1])); walkX = null; return; }
+  if (name === 'move_by') { const [x, y] = win.getPosition(); place(x + args[0], y + args[1]); walkX = null; return; }
+  if (name === 'drag_end') { keepOnScreen(); reportPosition(); return; }
+  if (name === 'resize_by') { resizeTo(size + Number(args[0] || 0)); return; }
   if (name === 'set_ignore') { win.setIgnoreMouseEvents(!!args[0], { forward: true }); return; }
   if (name === 'focus') { win.focus(); return; }
   if (name === 'set_shape') return; // not needed: this window is truly transparent
@@ -87,26 +124,26 @@ ipcMain.handle('nudge', (_e, dx) => {
   walkX = Math.max(lo, Math.min(hi, walkX ?? x)) + dx;
   const hit = walkX <= lo || walkX >= hi;
   walkX = Math.max(lo, Math.min(hi, walkX));
-  if (Math.round(walkX) !== x) win.setPosition(Math.round(walkX), y);
+  if (Math.round(walkX) !== x) place(walkX, y);
   return { hit_edge: hit, x: walkX, lo, hi };
 });
 
 function cornerPosition() {
   const { workArea } = screen.getPrimaryDisplay();
-  const { width: W, height: H } = win.getBounds();
+  const W = curW, H = curH;
   const corner = opts.corner || 'bottom-right';
   return [corner.includes('right') ? workArea.x + workArea.width - W - 8 : workArea.x + 8,
           corner.includes('bottom') ? workArea.y + workArea.height - H : workArea.y + 8];
 }
 
-// safety net: if Nova ever ends up partly off-screen, bring her back
+// safety net: if Nova ever ends up partly off-screen (or the window size drifted), put him back
 function keepOnScreen() {
   if (!win || !win.isVisible()) return;
   const b = win.getBounds();
   const { workArea: a } = screen.getDisplayMatching(b);
   const x = Math.max(a.x, Math.min(a.x + a.width - b.width, b.x));
   const y = Math.max(a.y, Math.min(a.y + a.height - b.height, b.y));
-  if (x !== b.x || y !== b.y) { win.setPosition(x, y); walkX = null; }
+  if (x !== b.x || y !== b.y || b.width !== curW || b.height !== curH) { place(x, y); walkX = null; }
 }
 
 readline.createInterface({ input: link }).on('line', line => {
@@ -117,6 +154,8 @@ readline.createInterface({ input: link }).on('line', line => {
   else if (msg.cmd === 'show') win.showInactive();
   else if (msg.cmd === 'hide') win.hide();
   else if (msg.cmd === 'quit') app.quit();
-  else if (msg.cmd === 'home') { win.setPosition(...cornerPosition()); walkX = null; win.showInactive(); }
+  else if (msg.cmd === 'home') { place(...cornerPosition()); walkX = null; win.showInactive(); reportPosition(); }
+  else if (msg.cmd === 'resize_by') resizeTo(size + Number(msg.delta || 0));
+  else if (msg.cmd === 'resize_to') resizeTo(Number(msg.size) || size);
 });
 app.on('window-all-closed', () => app.quit());

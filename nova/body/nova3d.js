@@ -327,7 +327,7 @@ scene.add(world);
 world.add(nova.root, pip.root);
 let crewScale = 1;
 function setScale(s) {
-  crewScale = Math.max(0.3, Math.min(1.5, Number(s) || 1));
+  crewScale = Math.max(0.25, Math.min(1.5, Number(s) || 1));
   world.scale.setScalar(crewScale);
   camera.position.x = CAM_TARGET.x = -0.42 * crewScale;
   camera.lookAt(CAM_TARGET);
@@ -661,6 +661,7 @@ function frame() {
       cur.yaw = ((cur.yaw % TAU) + TAU + Math.PI) % TAU - Math.PI; // unwind spins without spinning back
       S.action = null;
     } else {
+      if (A.move && ak > 0.5 && !S.action.turned) { S.action.turned = true; S.dir *= -1; } // head back, end where he started
       A.pose(target, ak, t - S.action.start);
       k = 1 - Math.exp(-dt * 16);
       if (A.move) stepMovement(A.move, dt);
@@ -769,6 +770,7 @@ window.addEventListener('mousemove', ev => {
 window.addEventListener('mouseup', ev => {
   if (!press || ev.button !== 0) return;
   const moved = press.moved; press = null;
+  if (moved) bridge()?.drag_end?.(); // remember where you put him
   if (moved || menu.contains(ev.target)) return;
   const who = hitTest(ev);
   if (who === 'pip') return petPip();
@@ -779,6 +781,15 @@ window.addEventListener('mouseup', ev => {
   } else closeMenu();
 });
 canvas.addEventListener('dblclick', ev => { clearTimeout(clickTimer); if (hitTest(ev)) { closeMenu(); openInput(); } });
+// scroll the mouse wheel over Nova to make him bigger or smaller
+let wheelAt = 0;
+window.addEventListener('wheel', ev => {
+  if (!hitTest(ev) && !menu.contains(ev.target)) return;
+  ev.preventDefault();
+  if (performance.now() - wheelAt < 60) return;
+  wheelAt = performance.now();
+  bridge()?.resize_by?.(ev.deltaY < 0 ? 6 : -6);
+}, { passive: false });
 window.addEventListener('contextmenu', ev => { ev.preventDefault(); openMenu(ev.clientX, ev.clientY); });
 window.addEventListener('blur', closeMenu); // clicked somewhere else on the desktop
 
@@ -802,6 +813,8 @@ menu.addEventListener('click', ev => {
   else if (act === 'pet') petPip();
   else if (act === 'voice') api?.next_voice();
   else if (act === 'mute') api?.toggle_mute();
+  else if (act === 'bigger') api?.resize_by?.(12);
+  else if (act === 'smaller') api?.resize_by?.(-12);
   else if (act === 'quiet') api?.quiet(60);
   else if (act === 'hide') api?.hide();
   else if (act === 'quit') api?.quit();

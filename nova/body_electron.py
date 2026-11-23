@@ -60,11 +60,11 @@ def ensure_electron() -> Path:
 class BodyElectron:
     def __init__(self, settings: dict):
         self.exe = ensure_electron()
-        size = settings["buddy"]["size"]
-        # the window stays big enough for the menu; Nova herself is scaled to `size`
-        self.width, self.height = max(230, int(size * 2.4)), max(300, int(size * 2.9))
-        self.scale = size / 120
+        self._set_size(settings["buddy"]["size"])
         self.corner = settings["buddy"].get("corner", "bottom-right")
+        self.pos = settings["buddy"].get("pos")  # where you last dragged him: [x, y]
+        self.on_resized = lambda size: None
+        self.on_moved = lambda x, y: None
 
         self.on_click = lambda: None
         self.on_text = lambda text: None
@@ -83,6 +83,18 @@ class BodyElectron:
         self._ready = False
         self._pending: list[dict] = []
         self._lock = threading.Lock()
+
+    def _set_size(self, size):
+        # the window stays big enough for the menu and grows with Nova; he is scaled to fit (same formula as shell/main.js)
+        self.size = max(40, min(220, int(size)))
+        self.width, self.height = max(230, round(self.size * 2.4)), max(300, round(self.size * 2.9))
+        self.scale = (self.size / 120) * (300 / self.height)
+
+    def resize_by(self, delta: int):
+        self._send({"cmd": "resize_by", "delta": int(delta)})
+
+    def resize_to(self, size: int):
+        self._send({"cmd": "resize_to", "size": int(size)})
 
     # same public API as the other bodies
     def set_emotion(self, emotion: str, hold: float = 40.0):
@@ -109,7 +121,7 @@ class BodyElectron:
         self._send({"cmd": "hide"})
 
     def home(self):
-        """Put Nova back in her corner."""
+        """Put Nova back in his corner."""
         self._send({"cmd": "home"})
 
     def after(self, ms: int, fn):
@@ -144,8 +156,10 @@ class BodyElectron:
         server.bind(("127.0.0.1", 0))
         server.listen(1)
         server.settimeout(0.5)
-        env = {**os.environ, "NOVA_OPTS": json.dumps({"width": self.width, "height": self.height,
-                                                      "corner": self.corner, "port": server.getsockname()[1]})}
+        opts = {"size": self.size, "corner": self.corner, "port": server.getsockname()[1]}
+        if isinstance(self.pos, (list, tuple)) and len(self.pos) == 2:
+            opts["x"], opts["y"] = int(self.pos[0]), int(self.pos[1])
+        env = {**os.environ, "NOVA_OPTS": json.dumps(opts)}
         env.pop("ELECTRON_RUN_AS_NODE", None)
         log = open(LOG, "w", encoding="utf-8", errors="replace")
         extra = os.environ.get("NOVA_ELECTRON_FLAGS", "").split()  # for testing / troubleshooting
@@ -212,6 +226,12 @@ class BodyElectron:
             self.on_hide()
         elif event == "quit":
             self.on_quit()
+        elif event == "resized":
+            self._set_size(args[0])
+            self.on_resized(self.size)
+        elif event == "moved":
+            self.pos = [int(args[0]), int(args[1])]
+            self.on_moved(*self.pos)
         elif event == "log":
             print("[window]", *args)
 

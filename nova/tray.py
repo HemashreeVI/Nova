@@ -61,6 +61,11 @@ def start_tray(app):
             item("💃 Dance", move("dance")),
             item("🌈 Cheer me up", move("cheer")),
         )),
+        pystray.MenuItem("Size", pystray.Menu(
+            item("➕ Bigger", lambda: app.resize(+15)),
+            item("➖ Smaller", lambda: app.resize(-15)),
+            item("Reset size", lambda: app.resize(reset=True)),
+        )),
         pystray.Menu.SEPARATOR,
         item("Mute voice", app._toggle_mute, checked=lambda _item: muted()),
         item("Change voice", app.next_voice),
