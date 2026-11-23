@@ -5,6 +5,7 @@
     python main.py --no-voice skip microphone and speakers
     python main.py --2d       use the simple 2D body
     python main.py --autostart on|off   start Nova whenever you log in (Windows)
+    python main.py --shortcut on|off    Nova icon on your desktop and in the Start Menu (Windows)
 """
 import argparse
 import os
@@ -40,12 +41,24 @@ def main():
     parser.add_argument("--no-voice", action="store_true", help="disable microphone and speech")
     parser.add_argument("--2d", dest="flat", action="store_true", help="use the simple 2D body instead of 3D")
     parser.add_argument("--autostart", choices=["on", "off"], help="start Nova when you log in (Windows)")
+    parser.add_argument("--shortcut", choices=["on", "off"], help="Nova icon on the desktop and Start Menu (Windows)")
     args = parser.parse_args()
+
+    if args.shortcut:
+        from nova.launcher import set_shortcuts
+        print(set_shortcuts(args.shortcut == "on"))
+        return
 
     if args.autostart:
         from nova.autostart import set_autostart
         print(set_autostart(args.autostart == "on"))
         return
+
+    if not args.terminal:
+        from nova.launcher import ring_running_nova
+        if ring_running_nova():  # Nova is already running: bring him back instead of starting a second one
+            print("Nova is already running, so I brought him back on screen.")
+            return
 
     settings = load_settings()
     if args.no_voice:
@@ -58,6 +71,10 @@ def main():
     if args.terminal:
         app.run_terminal()
     else:
+        import threading
+        from nova.launcher import ensure_shortcuts_once, listen_for_doorbell
+        listen_for_doorbell(app.bring_back)
+        threading.Thread(target=ensure_shortcuts_once, daemon=True, name="shortcuts").start()
         app.run_gui()
 
 

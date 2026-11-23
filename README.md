@@ -1,5 +1,10 @@
 <p align="center">
-  <img src="./assets/readme/nova-card.svg" width="100%" alt="Hi there! I'm Nova: a tiny 3D robot who lives on your screen, does your work, and feels with you. 100% local brain, built with Python, Ollama, Whisper, three.js and Electron.">
+  <img src="./assets/readme/nova-card.svg" width="100%" alt="Hi there! I'm Nova: a purple armored 3D robot who lives on your screen, does your work, and feels with you. 100% local brain, built with Python, Ollama, Whisper, three.js and Electron.">
+</p>
+
+<p align="center">
+  <img src="./assets/readme/nova-poses.png" width="100%" alt="Nova's 3D body: idle, waving, thumbs up, arms crossed, hero pose and flying on his thrusters">
+  <br/><sub>The real 3D Nova: idle · wave · thumbs up · arms crossed · hero pose · flying. Right-click him for 🚀 fly, 👉 point, 👍 thumbs up, 🙅 cross arms and 🦸 hero pose.</sub>
 </p>
 
 ## Setup (Windows 10/11)
@@ -14,7 +19,7 @@
    ollama pull nomic-embed-text
    ```
    Without it, Nova still remembers and searches by keywords.
-2. **Install Node.js** (LTS) from https://nodejs.org. Nova uses it for her see-through window. The first start sets it up automatically (about a minute).
+2. **Install Node.js** (LTS) from https://nodejs.org. Nova uses it for his see-through window. The first start sets it up automatically (about a minute).
 3. **Install Nova** (Python 3.11 to 3.14. Not 3.15 yet: many packages don't support it):
    ```bash
    git clone https://github.com/HemashreeVI/JarvisAI.git Nova
@@ -24,16 +29,40 @@
    pip install -r requirements.txt
    ```
 4. **Edit `settings.toml`**: your name, city, voice, the pet's name, and companion options.
+   Nova speaks with a male voice (Andrew) by default. Others: Brian, Guy, Christopher, Prabhat (Indian English) and Ryan (British), or right-click Nova > "Change my voice".
 5. **Run**:
    ```bash
    start_nova.bat                 # double-click: picks the right Python for you
    python main.py                 # 3D Nova on your desktop
    python main.py --autostart on  # start Nova every time you log in
+   python main.py --shortcut on   # Nova icon on your desktop and Start Menu
    python main.py --no-voice      # typing only
    python main.py --2d            # lightweight 2D body
    python main.py --terminal      # chat in the terminal
    ```
    The first run downloads the speech-recognition model (~150 MB).
+
+
+## Nova as a desktop app
+
+The first time you run Nova, he puts his purple helmet icon on your **desktop** and in the **Start Menu** (so you can also search for "Nova").
+
+- **Double-click the icon** to start Nova. No black console window pops up.
+- **Already running?** Double-clicking brings him back on screen instead of starting a second Nova.
+- Deleted the icon and want it back? Right-click the tray icon > **Put Nova on my desktop**, or run:
+  ```bash
+  python main.py --shortcut on
+  ```
+  (`--shortcut off` removes it.)
+
+## Nova in your taskbar
+
+While Nova runs, his purple helmet sits in the taskbar's system tray (next to the clock).
+
+- **Left-click** the icon to show or hide Nova.
+- **Right-click** it for: bring him back to his corner, put Nova on my desktop, talk, moves (fly, wave, thumbs up, hero pose, dance, cheer me up), mute voice, change voice, quiet time, start Nova when I log in, and **Turn off Nova**.
+
+Windows hides new tray icons behind the **^** arrow at first. To keep Nova always visible, drag his icon from there onto the taskbar, or turn him on in **Settings > Personalization > Taskbar > Other system tray icons**.
 
 
 ## Optional: WhatsApp and Gmail
@@ -98,16 +127,17 @@ nova/
   emotion.py         reads your mood, decides how Nova reacts
   voice_tone.py      mood from how you sound (learns your normal voice)
   listener.py        mic, "Hey Nova", speech-to-text
-  speaker.py         neural voice styled by mood (+ offline backup)
+  speaker.py         male neural voice styled by mood (+ offline backup)
   companion.py       welcome/goodbye, check-ins, breaks, activity log
   presence.py        lid open/close, lock/unlock, sleep/wake, active app (Windows)
   body_electron.py   the see-through always-on-top 3D window (Electron, in shell/)
   body3d.py          fallback 3D window (pywebview)
-  body/              three.js: Nova's 3D body, eyes (eyes.js) and Pip
+  body/              three.js: Nova's armored 3D body, visor eyes (eyes.js) and Pip
   buddy.py           lightweight 2D body (fallback)
   memory.py          chat history, simple facts and mood diary
   mind/              long-term memory engine: search by meaning, fading, deadlines (data/mind.db)
-  tray.py            tray icon (hide / quiet / turn off)
+  tray.py            tray icon (show / hide, moves, quiet, turn off)
+  launcher.py        desktop + Start Menu icon, one Nova at a time
   skills/            everything Nova can do
 tests/               automated tests (python -m pytest tests)
 data/                private stuff (git-ignored)

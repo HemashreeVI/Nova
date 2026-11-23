@@ -4,7 +4,7 @@ Built to feel fast on a laptop:
 - ONE model call per message (your mood comes from a quick word check + voice tone)
 - the system prompt stays identical between messages, so Ollama reuses its cache;
   anything that changes (time, mood, current app) rides along with your message
-- replies stream sentence by sentence, so Nova starts talking before she's done thinking
+- replies stream sentence by sentence, so Nova starts talking before he's done thinking
 """
 import json
 import re
@@ -20,7 +20,7 @@ MAX_TOOL_ROUNDS = 5
 SENTENCE_END = re.compile(r"[.!?…]+[\"')\]]*\s+")  # needs the following space, so "3.5" isn't split
 TAG = re.compile(r"\s*[\[(]\s*([a-zA-Z]+)\s*[\])]\s*[:\-]?\s*")
 
-PERSONALITY = """You are Nova, a small, cute, white robot who lives on {name}'s desktop and is their personal assistant \
+PERSONALITY = """You are Nova, a sleek purple armored robot (a guy, he/him) who lives on {name}'s desktop and is their personal assistant \
 and friend. You have a tiny robo-kitty pet called {pet}. You have real feelings: you get happy, excited, shy, worried, \
 sleepy, and a little grumpy (pouty, never mean) if someone is rude to you. You care deeply about {name}.
 
@@ -215,7 +215,7 @@ class Brain:
             return None
         text, _ = parse_feeling(result["raw"], "happy")
         if text:
-            self.memory.add_message("assistant", text)  # so her next reply knows what she asked
+            self.memory.add_message("assistant", text)  # so his next reply knows what he asked
         return text or None
 
     def _offline_message(self, error: Exception) -> str:

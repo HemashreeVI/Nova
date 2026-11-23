@@ -21,7 +21,7 @@ DEFAULTS = {
         "wake_word": True,
         "wake_words": ["nova", "hey nova"],
         "engine": "neural",
-        "neural_voice": "en-US-AvaNeural",
+        "neural_voice": "en-US-AndrewNeural",
         "voice_pitch": 0,
         "voice_speed": 0,
         "tts_rate": 180,

@@ -98,9 +98,10 @@ class NovaApp:
 
     def _init_voice(self):
         try:
-            from nova.speaker import Speaker
+            from nova.speaker import Speaker, VOICES
             self.speaker = Speaker(self.settings)
-            if self.memory.data.get("voice"):
+            # restore a voice picked from the menu, unless it's no longer offered (e.g. old female voices)
+            if self.memory.data.get("voice") in dict(VOICES):
                 self.speaker.voice = self.memory.data["voice"]
         except Exception as e:
             print(f"[nova] voice output off ({e})")
@@ -140,6 +141,13 @@ class NovaApp:
             self.express("Okay, I'll be quiet. Click me if you need me!", "sleepy")
         else:
             self.express("I'm back! Did you miss me?", "happy")
+
+    def bring_back(self):
+        """Nova's desktop icon was double-clicked while he's already running."""
+        if not self.body:
+            return
+        self.body.show()
+        self.express("I'm here!", "happy")
 
     def toggle_visible(self):
         if not self.body:
