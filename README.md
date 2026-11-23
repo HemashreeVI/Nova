@@ -1,24 +1,11 @@
 <p align="center">
-  <img src="./assets/readme/hero.svg" width="100%" alt="Nova: A tiny 3D robot who lives on your screen, does your work, and feels with you.">
+  <img src="./assets/readme/nova-card.svg" width="100%" alt="Hi there! I'm Nova: a purple armored 3D robot who lives on your screen, does your work, and feels with you. 100% local brain, built with Python, Ollama, Whisper, three.js and Electron.">
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Python-5BE0FF?style=for-the-badge" alt="Python"> <img src="https://img.shields.io/badge/Ollama-5BE0FF?style=for-the-badge" alt="Ollama"> <img src="https://img.shields.io/badge/Whisper-5BE0FF?style=for-the-badge" alt="Whisper"> <img src="https://img.shields.io/badge/three.js-5BE0FF?style=for-the-badge" alt="three.js"> <img src="https://img.shields.io/badge/Electron-5BE0FF?style=for-the-badge" alt="Electron"> <img src="https://img.shields.io/badge/Neural_TTS-5BE0FF?style=for-the-badge" alt="Neural TTS">
+  <img src="./assets/readme/nova-poses.png" width="100%" alt="Nova's 3D body: idle, waving, thumbs up, arms crossed, hero pose and flying on his thrusters">
+  <br/><sub>The real 3D Nova: idle · wave · thumbs up · arms crossed · hero pose · flying. Right-click him for 🚀 fly, 👉 point, 👍 thumbs up, 🙅 cross arms and 🦸 hero pose.</sub>
 </p>
-
-<img src="./assets/readme/title-features.svg" width="100%" alt="01 Features: What it does.">
-<img src="./assets/readme/features.svg" width="100%" alt="Nova features">
-
-<img src="./assets/readme/title-flow.svg" width="100%" alt="02 How She Works: Listen, feel, act.">
-<img src="./assets/readme/flow.svg" width="100%" alt="Hear → Feel → Think → Act → Show → Speak">
-
-<img src="./assets/readme/title-table.svg" width="100%" alt="03 Talk To Her: Say it, click it.">
-<img src="./assets/readme/table.svg" width="100%" alt="Talk To Her">
-
-<img src="./assets/readme/title-stack.svg" width="100%" alt="04 Tech stack: The tools behind it.">
-<img src="./assets/readme/stack.svg" width="100%" alt="Nova tech stack">
-
-<img src="./assets/readme/title-run.svg" width="100%" alt="05 Run it: Try it yourself.">
 
 ## Setup (Windows 10/11)
 
@@ -32,7 +19,7 @@
    ollama pull nomic-embed-text
    ```
    Without it, Nova still remembers and searches by keywords.
-2. **Install Node.js** (LTS) from https://nodejs.org. Nova uses it for her see-through window. The first start sets it up automatically (about a minute).
+2. **Install Node.js** (LTS) from https://nodejs.org. Nova uses it for his see-through window. The first start sets it up automatically (about a minute).
 3. **Install Nova** (Python 3.11 to 3.14. Not 3.15 yet: many packages don't support it):
    ```bash
    git clone https://github.com/HemashreeVI/JarvisAI.git Nova
@@ -42,6 +29,7 @@
    pip install -r requirements.txt
    ```
 4. **Edit `settings.toml`**: your name, city, voice, the pet's name, and companion options.
+   Nova speaks with a male voice (Andrew) by default. Others: Brian, Guy, Christopher, Prabhat (Indian English) and Ryan (British), or right-click Nova > "Change my voice".
 5. **Run**:
    ```bash
    start_nova.bat                 # double-click: picks the right Python for you
@@ -116,12 +104,12 @@ nova/
   emotion.py         reads your mood, decides how Nova reacts
   voice_tone.py      mood from how you sound (learns your normal voice)
   listener.py        mic, "Hey Nova", speech-to-text
-  speaker.py         neural voice styled by mood (+ offline backup)
+  speaker.py         male neural voice styled by mood (+ offline backup)
   companion.py       welcome/goodbye, check-ins, breaks, activity log
   presence.py        lid open/close, lock/unlock, sleep/wake, active app (Windows)
   body_electron.py   the see-through always-on-top 3D window (Electron, in shell/)
   body3d.py          fallback 3D window (pywebview)
-  body/              three.js: Nova's 3D body, eyes (eyes.js) and Pip
+  body/              three.js: Nova's armored 3D body, visor eyes (eyes.js) and Pip
   buddy.py           lightweight 2D body (fallback)
   memory.py          chat history, simple facts and mood diary
   mind/              long-term memory engine: search by meaning, fading, deadlines (data/mind.db)
@@ -133,10 +121,7 @@ data/                private stuff (git-ignored)
 
 <div align="center">
 
-💙 Built by [Hemashree VI](https://github.com/HemashreeVI)
+<sub>Thinking happens on your PC. Nothing leaves it ✨</sub><br/>
+💜 Built by <a href="https://github.com/HemashreeVI">Hemashree VI</a>
 
 </div>
-
-<p align="center">
-  <img src="./assets/readme/footer.svg" width="100%" alt="Thinking happens on your PC. Nothing leaves it. Built by Hemashree.">
-</p>
