@@ -35,6 +35,7 @@
    start_nova.bat                 # double-click: picks the right Python for you
    python main.py                 # 3D Nova on your desktop
    python main.py --autostart on  # start Nova every time you log in
+   python main.py --shortcut on   # Nova icon on your desktop and Start Menu
    python main.py --no-voice      # typing only
    python main.py --2d            # lightweight 2D body
    python main.py --terminal      # chat in the terminal
@@ -42,12 +43,24 @@
    The first run downloads the speech-recognition model (~150 MB).
 
 
+## Nova as a desktop app
+
+The first time you run Nova, he puts his purple helmet icon on your **desktop** and in the **Start Menu** (so you can also search for "Nova").
+
+- **Double-click the icon** to start Nova. No black console window pops up.
+- **Already running?** Double-clicking brings him back on screen instead of starting a second Nova.
+- Deleted the icon and want it back? Right-click the tray icon > **Put Nova on my desktop**, or run:
+  ```bash
+  python main.py --shortcut on
+  ```
+  (`--shortcut off` removes it.)
+
 ## Nova in your taskbar
 
 While Nova runs, his purple helmet sits in the taskbar's system tray (next to the clock).
 
 - **Left-click** the icon to show or hide Nova.
-- **Right-click** it for: bring him back to his corner, talk, moves (fly, wave, thumbs up, hero pose, dance, cheer me up), mute voice, change voice, quiet time, start Nova when I log in, and **Turn off Nova**.
+- **Right-click** it for: bring him back to his corner, put Nova on my desktop, talk, moves (fly, wave, thumbs up, hero pose, dance, cheer me up), mute voice, change voice, quiet time, start Nova when I log in, and **Turn off Nova**.
 
 Windows hides new tray icons behind the **^** arrow at first. To keep Nova always visible, drag his icon from there onto the taskbar, or turn him on in **Settings > Personalization > Taskbar > Other system tray icons**.
 
@@ -123,7 +136,8 @@ nova/
   buddy.py           lightweight 2D body (fallback)
   memory.py          chat history, simple facts and mood diary
   mind/              long-term memory engine: search by meaning, fading, deadlines (data/mind.db)
-  tray.py            tray icon (hide / quiet / turn off)
+  tray.py            tray icon (show / hide, moves, quiet, turn off)
+  launcher.py        desktop + Start Menu icon, one Nova at a time
   skills/            everything Nova can do
 tests/               automated tests (python -m pytest tests)
 data/                private stuff (git-ignored)

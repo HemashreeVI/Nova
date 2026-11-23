@@ -142,6 +142,13 @@ class NovaApp:
         else:
             self.express("I'm back! Did you miss me?", "happy")
 
+    def bring_back(self):
+        """Nova's desktop icon was double-clicked while he's already running."""
+        if not self.body:
+            return
+        self.body.show()
+        self.express("I'm here!", "happy")
+
     def toggle_visible(self):
         if not self.body:
             return

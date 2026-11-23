@@ -72,6 +72,8 @@ def start_tray(app):
     ]
     if platform.system() == "Windows":
         from nova.autostart import LAUNCHER, set_autostart
+        from nova.launcher import set_shortcuts
+        entries.append(item("Put Nova on my desktop", lambda: print("[nova]", set_shortcuts(True))))
         entries.append(item("Start Nova when I log in", lambda: print("[nova]", set_autostart(not LAUNCHER.exists())),
                             checked=lambda _item: LAUNCHER.exists()))
     entries += [pystray.Menu.SEPARATOR, item("Turn off Nova", app.shutdown)]
