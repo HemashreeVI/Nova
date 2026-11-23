@@ -91,11 +91,14 @@ def set_shortcuts(enabled: bool) -> str:
         body = ("foreach ($d in @([Environment]::GetFolderPath('Desktop'), [Environment]::GetFolderPath('Programs'))) { "
                 "  Remove-Item -ErrorAction SilentlyContinue (Join-Path $d 'Nova.lnk') }")
     try:
-        subprocess.run(["powershell", "-NoProfile", "-ExecutionPolicy", "Bypass", "-Command", body],
-                       check=True, capture_output=True, timeout=30,
-                       creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0))
+        r = subprocess.run(["powershell", "-NoProfile", "-ExecutionPolicy", "Bypass", "-Command", body],
+                           capture_output=True, text=True, timeout=30,
+                           creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0))
     except Exception as e:
         return f"Couldn't update the Nova shortcuts ({e})."
+    if r.returncode != 0:
+        detail = (r.stderr or r.stdout or "").strip().splitlines()
+        return f"Couldn't update the Nova shortcuts: {detail[0] if detail else 'PowerShell error ' + str(r.returncode)}"
     if not enabled:
         MARKER.unlink(missing_ok=True)
         return "Removed the Nova icon from your desktop and Start Menu."
