@@ -1,0 +1,186 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="940" height="1164" viewBox="0 0 940 1164" role="img" aria-label="Nova: a tiny 3D robot who lives on your screen, does your work, and feels with you. 100% local, built with Python, Ollama, Whisper, three.js and Electron.">
+  <defs>
+    <linearGradient id="border" x1="0" y1="0" x2="0.25" y2="1">
+      <stop offset="0" stop-color="#7dd3fc"/><stop offset=".3" stop-color="#818cf8"/><stop offset=".65" stop-color="#a855f7"/><stop offset="1" stop-color="#ec4899"/>
+    </linearGradient>
+    <filter id="neonOuter" x="-15%" y="-15%" width="130%" height="130%"><feGaussianBlur stdDeviation="16"/></filter>
+    <filter id="neonMid" x="-10%" y="-10%" width="120%" height="120%"><feGaussianBlur stdDeviation="5"/></filter>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#060608"/><stop offset="1" stop-color="#020203"/></linearGradient>
+    <linearGradient id="grad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#818cf8"/><stop offset="1" stop-color="#f472b6"/>
+    </linearGradient>
+    <radialGradient id="visor" cx="50%" cy="40%" r="70%">
+      <stop offset="0" stop-color="#1e1b4b"/><stop offset="1" stop-color="#05060d"/>
+    </radialGradient>
+    <filter id="glow" x="-10%" y="-10%" width="120%" height="120%">
+      <feGaussianBlur stdDeviation="7" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="eyeglow" x="-100%" y="-100%" width="300%" height="300%">
+      <feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <style>
+      svg { fill: #e5e7eb; }
+      text { font-family: 'Segoe UI', Ubuntu, 'Helvetica Neue', Arial, sans-serif; }
+      .mono { font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', monospace; }
+      .muted { fill: #9ca3af; }
+      .h { font-size: 19px; font-weight: 700; fill: #fff; }
+      .b { font-size: 14px; }
+      .panel { fill: #0b0b0f; stroke: #2a2a33; stroke-width: 1.3; }
+      .tile { fill: #101015; stroke-width: 1.4; }
+      .pulse { animation: p 4s ease-in-out infinite; } @keyframes p { 0%,100% { opacity: .55 } 50% { opacity: 1 } }
+      .blink { animation: bl 5s infinite; transform-box: fill-box; transform-origin: center; }
+      @keyframes bl { 0%,92%,100% { transform: scaleY(1) } 95% { transform: scaleY(.1) } }
+      .float { animation: fl 5s ease-in-out infinite; } @keyframes fl { 0%,100% { transform: translateY(0) } 50% { transform: translateY(-5px) } }
+      .fade { opacity: 0; animation: in .8s ease-out forwards; }
+      .d1 { animation-delay: .1s } .d2 { animation-delay: .3s } .d3 { animation-delay: .5s } .d4 { animation-delay: .7s } .d5 { animation-delay: .9s }
+      @keyframes in { from { opacity: 0; transform: translateY(6px) } to { opacity: 1; transform: none } }
+    </style>
+  </defs>
+  <!-- neon card -->
+  <g transform="translate(20,130)">
+  <rect class="pulse" x="14" y="14" width="872" height="986" rx="34" fill="none" stroke="url(#border)" stroke-width="14" filter="url(#neonOuter)"/>
+  <rect x="14" y="14" width="872" height="986" rx="34" fill="url(#bg)"/>
+  <rect x="14" y="14" width="872" height="986" rx="34" fill="none" stroke="url(#border)" stroke-width="7" filter="url(#neonMid)"/>
+  <rect x="14" y="14" width="872" height="986" rx="34" fill="none" stroke="url(#border)" stroke-width="3.5"/>
+  <rect x="410.0" y="26" width="80" height="12" rx="6" fill="#141419" stroke="#3a3a44" stroke-width="1.5"/>
+
+
+  <!-- header -->
+  <g class="fade d1">
+    <rect x="44" y="44" width="11" height="11" rx="2" fill="none" stroke="#9ca3af" stroke-width="1.5"/>
+    <text x="64" y="54" class="mono muted" font-size="13">README.md</text>
+    <text x="44" y="108" font-size="42" font-weight="800" fill="#fff">Hi there! 👋</text>
+    <text x="44" y="158" font-size="42" font-weight="800" fill="#fff">I'm <tspan fill="url(#grad)">Nova</tspan></text>
+    <text x="44" y="190" font-size="15.5" class="muted">Your 3D desktop companion  |  100% local brain  |  Built by Hemashree</text>
+  </g>
+
+  <!-- avatar: robot head -->
+  <g class="fade d1">
+    <circle cx="764" cy="118" r="76" fill="#0b0b0f" stroke="url(#border)" stroke-width="5" filter="url(#glow)"/>
+    <g class="float">
+      <line x1="764" y1="62" x2="764" y2="76" stroke="#a5b4fc" stroke-width="3"/>
+      <circle cx="764" cy="58" r="5" fill="#f472b6" filter="url(#eyeglow)"/>
+      <rect x="716" y="76" width="96" height="80" rx="26" fill="#e5e7eb"/>
+      <rect x="726" y="88" width="76" height="48" rx="18" fill="url(#visor)"/>
+      <g fill="#5be0ff" filter="url(#eyeglow)">
+        <ellipse class="blink" cx="748" cy="112" rx="7" ry="9"/>
+        <ellipse class="blink" cx="780" cy="112" rx="7" ry="9"/>
+      </g>
+      <path d="M754 146 q10 6 20 0" stroke="#8b5cf6" stroke-width="3" fill="none" stroke-linecap="round"/>
+      <rect x="708" y="104" width="8" height="22" rx="4" fill="#c4b5fd"/>
+      <rect x="812" y="104" width="8" height="22" rx="4" fill="#c4b5fd"/>
+    </g>
+  </g>
+
+  <!-- About -->
+  <g class="fade d2">
+    <rect class="panel" x="44" y="222" width="400" height="176" rx="16"/>
+    <text x="66" y="256" class="h">🤖 About Nova</text>
+    <text x="66" y="288" class="b">A tiny 3D robot who lives on your screen,</text>
+    <text x="66" y="310" class="b">does your work, and feels with you.</text>
+    <text x="66" y="342" class="b muted">Talks, listens, remembers, and cheers you</text>
+    <text x="66" y="364" class="b muted">up. Thinking happens on your PC. Nothing</text>
+    <text x="66" y="386" class="b muted">leaves it.</text>
+  </g>
+
+  <!-- Tech stack -->
+  <g class="fade d2">
+    <rect class="panel" x="460" y="222" width="396" height="176" rx="16"/>
+    <text x="482" y="256" class="h">🛠️ Tech Stack</text>
+    <g font-size="13" font-weight="600" text-anchor="middle">
+      <rect class="tile" x="482" y="276" width="82" height="46" rx="10" stroke="#3b82f6"/><text x="523" y="304" fill="#93c5fd">Python</text>
+      <rect class="tile" x="574" y="276" width="82" height="46" rx="10" stroke="#e5e7eb"/><text x="615" y="304">Ollama</text>
+      <rect class="tile" x="666" y="276" width="82" height="46" rx="10" stroke="#10b981"/><text x="707" y="304" fill="#6ee7b7">Whisper</text>
+      <rect class="tile" x="758" y="276" width="78" height="46" rx="10" stroke="#a78bfa"/><text x="797" y="304" fill="#c4b5fd">three.js</text>
+      <rect class="tile" x="482" y="334" width="82" height="46" rx="10" stroke="#38bdf8"/><text x="523" y="362" fill="#7dd3fc">Electron</text>
+      <rect class="tile" x="574" y="334" width="82" height="46" rx="10" stroke="#f472b6"/><text x="615" y="362" fill="#f9a8d4">Neural TTS</text>
+      <rect class="tile" x="666" y="334" width="82" height="46" rx="10" stroke="#60a5fa"/><text x="707" y="362" fill="#bfdbfe">SQLite</text>
+      <rect class="tile" x="758" y="334" width="78" height="46" rx="10" stroke="#facc15"/><text x="797" y="362" fill="#fde68a">pytest</text>
+    </g>
+  </g>
+
+  <!-- Features -->
+  <g class="fade d3">
+    <rect class="panel" x="44" y="414" width="400" height="290" rx="16"/>
+    <text x="66" y="448" class="h">✨ What She Does</text>
+    <g class="b">
+      <text x="66" y="478">💎 Real 3D, always on top of your apps</text>
+      <text x="66" y="504">👀 Glowing eyes for every mood</text>
+      <text x="66" y="530">🐱 Pip the robo-kitty, loves head pats</text>
+      <text x="66" y="556">💗 Reads your mood from words and voice</text>
+      <text x="66" y="582">🎙️ Neural voice: excited, soft or sleepy</text>
+      <text x="66" y="608">💻 Waves hello when your lid opens</text>
+      <text x="66" y="634">⏰ Breaks, check-ins and reminders</text>
+      <text x="66" y="660">🧠 Remembers by meaning, real dates</text>
+      <text x="66" y="686">🔒 Private brain: runs fully offline</text>
+    </g>
+  </g>
+
+  <!-- How she works -->
+  <g class="fade d3">
+    <rect class="panel" x="460" y="414" width="396" height="290" rx="16"/>
+    <text x="482" y="448" class="h">⚡ How She Works</text>
+    <g font-size="14">
+      <g transform="translate(482,468)"><circle cx="14" cy="14" r="14" fill="url(#grad)"/><text x="14" y="19" text-anchor="middle" font-weight="700" fill="#fff">1</text><text x="40" y="19" font-weight="700" fill="#fff">Hear</text><text x="352" y="19" text-anchor="end" class="muted mono" font-size="12">Whisper speech-to-text</text></g>
+      <g transform="translate(482,506)"><circle cx="14" cy="14" r="14" fill="url(#grad)"/><text x="14" y="19" text-anchor="middle" font-weight="700" fill="#fff">2</text><text x="40" y="19" font-weight="700" fill="#fff">Feel</text><text x="352" y="19" text-anchor="end" class="muted mono" font-size="12">mood from words + tone</text></g>
+      <g transform="translate(482,544)"><circle cx="14" cy="14" r="14" fill="url(#grad)"/><text x="14" y="19" text-anchor="middle" font-weight="700" fill="#fff">3</text><text x="40" y="19" font-weight="700" fill="#fff">Think</text><text x="352" y="19" text-anchor="end" class="muted mono" font-size="12">local LLM + memory</text></g>
+      <g transform="translate(482,582)"><circle cx="14" cy="14" r="14" fill="url(#grad)"/><text x="14" y="19" text-anchor="middle" font-weight="700" fill="#fff">4</text><text x="40" y="19" font-weight="700" fill="#fff">Act</text><text x="352" y="19" text-anchor="end" class="muted mono" font-size="12">apps, web, reminders</text></g>
+      <g transform="translate(482,620)"><circle cx="14" cy="14" r="14" fill="url(#grad)"/><text x="14" y="19" text-anchor="middle" font-weight="700" fill="#fff">5</text><text x="40" y="19" font-weight="700" fill="#fff">Show</text><text x="352" y="19" text-anchor="end" class="muted mono" font-size="12">3D body, eyes and Pip</text></g>
+      <g transform="translate(482,658)"><circle cx="14" cy="14" r="14" fill="url(#grad)"/><text x="14" y="19" text-anchor="middle" font-weight="700" fill="#fff">6</text><text x="40" y="19" font-weight="700" fill="#fff">Speak</text><text x="352" y="19" text-anchor="end" class="muted mono" font-size="12">neural voice, by mood</text></g>
+      <line x1="496" y1="496" x2="496" y2="658" stroke="#8b5cf6" stroke-opacity=".35" stroke-width="2" stroke-dasharray="3 4"/>
+    </g>
+  </g>
+
+  <!-- Talk to her -->
+  <g class="fade d4">
+    <rect class="panel" x="44" y="720" width="500" height="200" rx="16"/>
+    <text x="66" y="754" class="h">💬 Talk To Her</text>
+    <g font-size="14">
+      <text x="66" y="786" font-weight="600">"Hey Nova, …"</text><text x="522" y="786" text-anchor="end" class="muted">wakes up and does it</text>
+      <text x="66" y="812" font-weight="600">Click, or Ctrl+Alt+N</text><text x="522" y="812" text-anchor="end" class="muted">listens right away</text>
+      <text x="66" y="838" font-weight="600">Double-click Nova</text><text x="522" y="838" text-anchor="end" class="muted">opens a box to type in</text>
+      <text x="66" y="864" font-weight="600">Click Pip</text><text x="522" y="864" text-anchor="end" class="muted">Pip gets head pats</text>
+      <text x="66" y="890" font-weight="600">Right-click</text><text x="522" y="890" text-anchor="end" class="muted">spin, dance, walk, cheer me up</text>
+    </g>
+  </g>
+
+  <!-- At a glance -->
+  <g class="fade d4">
+    <rect class="panel" x="560" y="720" width="296" height="200" rx="16"/>
+    <text x="582" y="754" class="h">📊 At a Glance</text>
+    <g font-size="14">
+      <text x="582" y="788">🔐 Local brain</text><text x="834" y="788" text-anchor="end" font-weight="700" fill="url(#grad)">100%</text>
+      <text x="582" y="818">🔑 API keys needed</text><text x="834" y="818" text-anchor="end" font-weight="700" fill="url(#grad)">0</text>
+      <text x="582" y="848">✨ Features</text><text x="834" y="848" text-anchor="end" font-weight="700" fill="url(#grad)">9</text>
+      <text x="582" y="878">🧩 Files per new skill</text><text x="834" y="878" text-anchor="end" font-weight="700" fill="url(#grad)">1</text>
+      <text x="582" y="908">🪟 Platform</text><text x="834" y="908" text-anchor="end" font-weight="700" fill="url(#grad)">Win 10/11</text>
+    </g>
+  </g>
+
+  <!-- footer -->
+  <g class="fade d5">
+    <rect class="panel" x="44" y="936" width="812" height="48" rx="14"/>
+    <text x="66" y="966" font-size="16" font-weight="700" fill="#fff">🚀 Run it yourself  ↓</text>
+    <text x="834" y="966" text-anchor="end" font-size="12.5" class="muted">Thinking happens on your PC. Nothing leaves it ✨</text>
+  </g>
+  </g>
+
+  <!-- lanyard -->
+  <g>
+    <line x1="170.0" y1="-20" x2="444.0" y2="112" stroke="#34343f" stroke-width="48" stroke-linecap="square"/>
+    <line x1="170.0" y1="-20" x2="444.0" y2="112" stroke="#0a0a0d" stroke-width="44" stroke-linecap="square"/>
+    <line x1="184.0" y1="-13" x2="430.0" y2="105" stroke="#e5e7eb" stroke-width="9" stroke-linecap="round" stroke-dasharray="0 46"/>
+    <line x1="770.0" y1="-20" x2="496.0" y2="112" stroke="#34343f" stroke-width="48" stroke-linecap="square"/>
+    <line x1="770.0" y1="-20" x2="496.0" y2="112" stroke="#0a0a0d" stroke-width="44" stroke-linecap="square"/>
+    <line x1="756.0" y1="-13" x2="510.0" y2="105" stroke="#e5e7eb" stroke-width="9" stroke-linecap="round" stroke-dasharray="0 46"/>
+    <!-- hanging tag -->
+    <line x1="620.0" y1="52" x2="620.0" y2="78" stroke="#9ca3af" stroke-width="2" stroke-dasharray="3 3"/>
+    <rect x="588.0" y="78" width="64" height="64" rx="14" fill="#060608" stroke="url(#border)" stroke-width="3" filter="url(#eyeglow)"/>
+    <text x="620.0" y="112" text-anchor="middle" class="mono" font-size="20" font-weight="700" fill="#e5e7eb">&lt;/&gt;</text>
+    <text x="620.0" y="131" text-anchor="middle" font-size="10" fill="#e5e7eb">Nova</text>
+    <!-- clip -->
+    <rect x="440.0" y="96" width="60" height="44" rx="9" fill="#2b2b33" stroke="#6b7280" stroke-width="2"/>
+    <rect x="456.0" y="106" width="28" height="22" rx="4" fill="#0a0a0d" stroke="#9ca3af" stroke-width="1.5"/>
+    <rect x="462.0" y="138" width="16" height="24" rx="4" fill="#3a3a44" stroke="#6b7280" stroke-width="1.5"/>
+  </g>
+</svg>
