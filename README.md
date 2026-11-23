@@ -71,6 +71,12 @@ While Nova runs, his purple helmet sits in the taskbar's system tray (next to th
 Windows hides new tray icons behind the **^** arrow at first. To keep Nova always visible, drag his icon from there onto the taskbar, or turn him on in **Settings > Personalization > Taskbar > Other system tray icons**.
 
 
+## If Nova won't start
+
+- Give him up to a minute: the first start downloads his speech model and sets up his window. Double-clicking again won't start a second Nova, it just waits for the first one.
+- Started from the desktop icon, Nova writes what's happening to **`data/nova.log`** (and the 3D window to `data/window.log`). Open it to see what went wrong.
+- Still stuck? Double-click `start_nova.bat` instead: it shows everything in a console window.
+
 ## Optional: WhatsApp and Gmail
 
 - **WhatsApp:** run `pip install pywhatkit`, copy `data/contacts.example.json` to `data/contacts.json`, and fill in the numbers. You need to be logged in to WhatsApp Web.

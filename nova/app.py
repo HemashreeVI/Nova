@@ -393,8 +393,8 @@ class NovaApp:
         for k, v in lines:
             print(f"  {k:<6} {v}")
         if self.body:
-            print("\n  Click her for options (talk, moves, voice, quiet, turn off). Double-click to type.")
-            print("  Turn her off from the tray icon, the right-click menu, or by closing this window.\n")
+            print("\n  Click him for options (talk, moves, voice, quiet, turn off). Double-click to type.")
+            print("  Turn him off from the tray icon, the right-click menu, or by closing this window.\n")
 
     # run
     def _warm_up(self):

@@ -19,6 +19,21 @@ warnings.filterwarnings("ignore", module="huggingface_hub")
 
 import sys  # noqa: E402
 
+# Started from the desktop icon (pythonw): there's no console, so keep Nova's messages in data/nova.log
+if sys.stdout is None or sys.stderr is None:
+    from pathlib import Path
+    _log_path = Path(__file__).resolve().parent / "data" / "nova.log"
+    _log_path.parent.mkdir(exist_ok=True)
+    sys.stdout = sys.stderr = open(_log_path, "w", encoding="utf-8", errors="replace", buffering=1)
+
+# Only one Nova at a time. Claim that right away, before the slow loading below, so double-clicking
+# the icon again while he's still waking up doesn't start (and fight with) a second Nova.
+if __name__ == "__main__" and not {"--terminal", "--shortcut", "--autostart", "-h", "--help"} & set(sys.argv):
+    from nova.launcher import claim_single_instance
+    if not claim_single_instance():
+        print("Nova is already running, so I asked him to come back on screen.")
+        sys.exit(0)
+
 if sys.version_info >= (3, 15):
     print(f"\nYou're running Python {sys.version.split()[0]}, a preview version many of Nova's packages don't support yet.")
     print("Start Nova with Python 3.14 instead:   py -3.14 main.py   (or double-click start_nova.bat)\n")
@@ -54,12 +69,6 @@ def main():
         print(set_autostart(args.autostart == "on"))
         return
 
-    if not args.terminal:
-        from nova.launcher import ring_running_nova
-        if ring_running_nova():  # Nova is already running: bring him back instead of starting a second one
-            print("Nova is already running, so I brought him back on screen.")
-            return
-
     settings = load_settings()
     if args.no_voice:
         settings["voice"]["enabled"] = False
@@ -72,8 +81,8 @@ def main():
         app.run_terminal()
     else:
         import threading
-        from nova.launcher import ensure_shortcuts_once, listen_for_doorbell
-        listen_for_doorbell(app.bring_back)
+        from nova.launcher import ensure_shortcuts_once, on_show
+        on_show(app.bring_back)
         threading.Thread(target=ensure_shortcuts_once, daemon=True, name="shortcuts").start()
         app.run_gui()
 

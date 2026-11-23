@@ -19,24 +19,30 @@ MARKER = ROOT / "data" / ".shortcut_made"
 
 
 # one Nova at a time
+_on_show = None
+
+
 def ring_running_nova() -> bool:
-    """If a Nova is already running, ask it to show itself and return True."""
+    """If a Nova is already running, ask it to show itself and return True.
+    Only counts if Nova itself answers, so another program on the same port can't block him."""
     try:
-        with socket.create_connection(("127.0.0.1", PORT), timeout=0.5) as s:
+        with socket.create_connection(("127.0.0.1", PORT), timeout=1) as s:
             s.sendall(b"show\n")
-        return True
+            s.settimeout(3)
+            return s.recv(8).startswith(b"nova")
     except OSError:
         return False
 
 
-def listen_for_doorbell(on_show) -> bool:
-    """Run on_show() whenever another launch rings. False if the port is taken."""
+def claim_single_instance() -> bool:
+    """Call first thing, before anything slow. True: this is the one running Nova.
+    False: another Nova answered and was asked to show itself, so this launch should quit."""
     srv = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     try:
         srv.bind(("127.0.0.1", PORT))
     except OSError:
         srv.close()
-        return False
+        return not ring_running_nova()  # port taken by something that isn't Nova: start anyway
     srv.listen(4)
 
     def loop():
@@ -46,12 +52,20 @@ def listen_for_doorbell(on_show) -> bool:
                 with conn:
                     conn.settimeout(1)
                     if conn.recv(16).startswith(b"show"):
-                        on_show()
+                        conn.sendall(b"nova\n")
+                        if _on_show:  # still starting up? He'll appear by himself in a moment.
+                            _on_show()
             except Exception as e:
                 print("[nova] doorbell:", e)
 
     threading.Thread(target=loop, daemon=True, name="doorbell").start()
     return True
+
+
+def on_show(fn):
+    """What to do when Nova's icon is double-clicked while he's running."""
+    global _on_show
+    _on_show = fn
 
 
 # app icon
