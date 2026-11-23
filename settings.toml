@@ -22,13 +22,14 @@ enabled = true              # false = typing only (no mic / speakers needed)
 stt_model = "base.en"       # faster-whisper model: tiny.en, base.en, small.en
 wake_word = true            # always listen for "Hey Nova"
 wake_words = ["nova", "hey nova", "hi nova", "okay nova"]
-engine = "neural"           # "neural" = natural cute voice (free, needs internet), "system" = offline PC voice
-neural_voice = "en-US-AvaNeural"   # natural & warm. Others: en-US-EmmaNeural, en-IN-NeerjaExpressiveNeural,
-                                   # en-US-JennyNeural, en-GB-SoniaNeural. Or click Nova > "Change my voice"
+engine = "neural"           # "neural" = natural voice (free, needs internet), "system" = offline PC voice
+neural_voice = "en-US-AndrewNeural" # warm male voice. Others: en-US-BrianNeural, en-US-GuyNeural,
+                                    # en-US-ChristopherNeural, en-IN-PrabhatNeural, en-GB-RyanNeural.
+                                    # Or click Nova > "Change my voice"
 voice_pitch = 0             # extra pitch in Hz (keep near 0 - shifting makes voices sound robotic)
 voice_speed = 0             # extra speed in % (+10 = faster)
-tts_rate = 180              # system voice: words per minute (Nova adjusts this with her mood)
-tts_voice = "Zira"          # system voice: part of a voice name installed on your PC ("" = default)
+tts_rate = 180              # system voice: words per minute (Nova adjusts this with his mood)
+tts_voice = "David"         # system voice (Windows male voice): part of a voice name installed on your PC ("" = default)
 mic_sensitivity = 1.0       # raise to 1.5-2.0 if Nova doesn't hear you
 hotkey = "<ctrl>+<alt>+n"   # press anywhere to talk to Nova
 

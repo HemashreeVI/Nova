@@ -1,8 +1,8 @@
-"""Nova's voice. Pitch, speed and loudness follow her mood.
+"""Nova's voice. Pitch, speed and loudness follow his mood.
 
-engine = "neural": Microsoft Edge neural voices (natural and cute, free, needs internet)
+engine = "neural": Microsoft Edge neural voices (natural, free, needs internet)
 engine = "system": your PC's built-in voice (offline, more robotic)
-If the neural voice can't be reached, Nova switches to the system voice by herself.
+If the neural voice can't be reached, Nova switches to the system voice by himself.
 """
 import asyncio
 import queue
@@ -11,12 +11,12 @@ import threading
 
 # Natural voices to choose from ("Change my voice" in Nova's menu cycles through them).
 VOICES = [
-    ("en-US-AvaNeural", "Ava"),             # warm, very natural (default)
-    ("en-US-EmmaNeural", "Emma"),           # bright and friendly
-    ("en-IN-NeerjaExpressiveNeural", "Neerja"),  # Indian English, expressive
-    ("en-US-JennyNeural", "Jenny"),         # clear and cheerful
-    ("en-GB-SoniaNeural", "Sonia"),         # British
-    ("en-US-AnaNeural", "Ana"),             # a child's voice
+    ("en-US-AndrewNeural", "Andrew"),       # warm, confident, very natural (default)
+    ("en-US-BrianNeural", "Brian"),         # relaxed and friendly
+    ("en-US-GuyNeural", "Guy"),             # clear and energetic
+    ("en-US-ChristopherNeural", "Christopher"),  # deep and calm
+    ("en-IN-PrabhatNeural", "Prabhat"),     # Indian English
+    ("en-GB-RyanNeural", "Ryan"),           # British
 ]
 
 # per emotion: (rate %, volume %). No pitch shifting: it makes neural voices sound robotic.

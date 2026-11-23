@@ -1,4 +1,4 @@
-// Nova in real 3D: a jointed robot with glossy plastic, reflections and shadows,
+// Nova in real 3D: a jointed armored robot with iridescent metal, reflections and shadows,
 // plus Pip the robo-kitty. Every pose is computed procedurally each frame, so
 // emotions blend smoothly and actions (spin, dance, crawl, walk...) can interrupt anything.
 import * as THREE from 'three';
@@ -187,72 +187,101 @@ function mesh(geo, mat, parent, pos = [0, 0, 0], rot = [0, 0, 0]) {
 }
 function group(parent, pos = [0, 0, 0]) { const g = new THREE.Group(); g.position.set(...pos); parent.add(g); return g; }
 
-// Nova
+// Nova: a sleek armored robot. Deep-purple iridescent armor plates over a dark undersuit,
+// a glowing hexagonal chest core, a visor with the eye screen, and thrusters in palms and boots.
 const eyes = new EyeScreen();
 const eyeTex = new THREE.CanvasTexture(eyes.canvas);
-const VISOR_W = 1.26, VISOR_H = 0.86;
-const HIP_HEIGHT = 0.64;
+const VISOR_W = 0.46, VISOR_H = 0.31;
+const HIP_HEIGHT = 1.15;
+const LEG_SCALE = HIP_HEIGHT / 0.64; // poses were tuned for shorter legs; vertical offsets scale with leg length
+
+const armor = new THREE.MeshPhysicalMaterial({ color: 0x3a1478, metalness: 0.8, roughness: 0.2, clearcoat: 1, clearcoatRoughness: 0.08,
+  iridescence: 0.7, iridescenceIOR: 1.6, iridescenceThicknessRange: [200, 600], envMapIntensity: 1.4 });
+const armorDeep = new THREE.MeshPhysicalMaterial({ color: 0x1d0b45, metalness: 0.75, roughness: 0.25, clearcoat: 1, iridescence: 0.5, envMapIntensity: 1.2 });
+const suit = new THREE.MeshPhysicalMaterial({ color: 0x0c0a16, metalness: 0.5, roughness: 0.4, clearcoat: 0.5 });
+const glow = () => new THREE.MeshStandardMaterial({ color: 0x000000, emissive: 0x4cc9ff, emissiveIntensity: 1.4 });
 
 function buildNova() {
   const root = group(scene);
   const hips = group(root, [0, HIP_HEIGHT, 0]);
-  const R = { root, hips, shoulder: {}, elbow: {}, hip: {}, knee: {} };
+  const R = { root, hips, shoulder: {}, elbow: {}, hip: {}, knee: {}, fingers: {}, thumb: {}, glowMats: [], thrustMats: [] };
+  const strip = (parent, pos, size, rot = [0, 0, 0]) => { const m = glow(); R.glowMats.push(m); mesh(new RoundedBoxGeometry(...size, 2, Math.min(...size) / 2.2), m, parent, pos, rot); };
 
-  // torso + chest light
-  mesh(new RoundedBoxGeometry(0.8, 0.66, 0.56, 5, 0.2), plastic, hips, [0, 0.36, 0]);
-  mesh(new RoundedBoxGeometry(0.36, 0.3, 0.06, 3, 0.03), joint, hips, [0, 0.39, 0.27]);
+  // pelvis, abs, chest
+  mesh(new RoundedBoxGeometry(0.52, 0.24, 0.34, 4, 0.09), armorDeep, hips, [0, -0.02, 0]);
+  mesh(new THREE.CylinderGeometry(0.23, 0.25, 0.3, 24), suit, hips, [0, 0.2, 0]);
+  for (let i = 0; i < 3; i++) for (const s of [-1, 1]) mesh(new RoundedBoxGeometry(0.17, 0.09, 0.12, 3, 0.03), armor, hips, [s * 0.09, 0.13 + i * 0.1, 0.17]);
+  for (const s of [-1, 1]) strip(hips, [s * 0.215, 0.24, 0.15], [0.02, 0.22, 0.02], [0, 0, -s * 0.15]);
+  mesh(new RoundedBoxGeometry(0.84, 0.46, 0.46, 5, 0.17), armorDeep, hips, [0, 0.62, -0.01]);
+  for (const s of [-1, 1]) mesh(new RoundedBoxGeometry(0.4, 0.3, 0.14, 4, 0.07), armor, hips, [s * 0.2, 0.66, 0.2], [0.08, s * 0.18, 0]);
+  mesh(new RoundedBoxGeometry(0.66, 0.22, 0.16, 4, 0.07), armor, hips, [0, 0.82, -0.2]); // upper back
+  mesh(new THREE.CylinderGeometry(0.11, 0.11, 0.05, 6), suit, hips, [0, 0.64, 0.27], [Math.PI / 2, 0, 0]);
   R.chestMat = new THREE.MeshStandardMaterial({ color: 0x000000, emissive: 0x5ef0ff, emissiveIntensity: 2 });
-  mesh(new THREE.SphereGeometry(0.055, 20, 12), R.chestMat, hips, [0, 0.39, 0.31]);
-  mesh(new THREE.CylinderGeometry(0.33, 0.36, 0.12, 28), joint, hips, [0, 0.02, 0]); // waist ring
+  mesh(new THREE.CylinderGeometry(0.075, 0.075, 0.03, 6), R.chestMat, hips, [0, 0.64, 0.29], [Math.PI / 2, 0, 0]);
 
-  // neck + head
-  R.neck = group(hips, [0, 0.7, 0]);
-  mesh(new THREE.CylinderGeometry(0.15, 0.18, 0.16, 20), joint, R.neck, [0, 0.04, 0]);
+  // neck + helmet with visor
+  R.neck = group(hips, [0, 0.86, 0]);
+  mesh(new THREE.CylinderGeometry(0.11, 0.15, 0.14, 18), suit, R.neck, [0, 0.04, 0]);
   R.head = group(R.neck, [0, 0.1, 0]);
-  const headMesh = mesh(new RoundedBoxGeometry(1.6, 1.2, 1.18, 7, 0.44), plastic, R.head, [0, 0.6, 0]);
-  // top vents
-  for (const [i, dx] of [[0, 0.28], [1, 0.36]]) mesh(new THREE.CapsuleGeometry(0.018, 0.2, 4, 8), joint, R.head, [dx, 1.17 - i * 0.03, -0.2 + i * 0.1], [Math.PI / 2, 0, 0.25]);
-  // visor with the glowing eye screen
-  const visorGeo = new THREE.ExtrudeGeometry(roundedRectShape(VISOR_W, VISOR_H, 0.3), { depth: 0.04, bevelEnabled: true, bevelThickness: 0.03, bevelSize: 0.03, bevelSegments: 5, curveSegments: 18 });
+  R.headMesh = mesh(new RoundedBoxGeometry(0.56, 0.6, 0.58, 6, 0.22), armor, R.head, [0, 0.3, 0]);
+  mesh(new RoundedBoxGeometry(0.08, 0.1, 0.5, 3, 0.035), armorDeep, R.head, [0, 0.6, -0.02]); // crest
+  mesh(new RoundedBoxGeometry(0.34, 0.12, 0.12, 3, 0.05), armorDeep, R.head, [0, 0.07, 0.23]); // jaw guard
+  const visorGeo = new THREE.ExtrudeGeometry(roundedRectShape(VISOR_W, VISOR_H, 0.1), { depth: 0.02, bevelEnabled: true, bevelThickness: 0.015, bevelSize: 0.015, bevelSegments: 4, curveSegments: 14 });
   R.visorMats = glassWithScreen(eyeTex, VISOR_W, VISOR_H);
-  mesh(visorGeo, R.visorMats, R.head, [0, 0.63, 0.555]);
-  // ear pods
+  Object.assign(R.visorMats[0], { envMapIntensity: 0.05, clearcoat: 0, roughness: 0.9, specularIntensity: 0.05 }); // small visor: keep the eyes readable, not mirror-white
+  mesh(visorGeo, R.visorMats, R.head, [0, 0.33, 0.275]);
   R.earMats = [];
   for (const side of [-1, 1]) {
-    const ear = group(R.head, [side * 0.82, 0.62, 0]);
-    mesh(new THREE.CylinderGeometry(0.26, 0.26, 0.16, 32), plastic, ear, [0, 0, 0], [0, 0, Math.PI / 2]);
-    mesh(new THREE.TorusGeometry(0.15, 0.045, 12, 32), joint, ear, [side * 0.085, 0, 0], [0, Math.PI / 2, 0]);
-    const m = new THREE.MeshStandardMaterial({ color: 0x000000, emissive: 0x5ef0ff, emissiveIntensity: 1.2 });
-    R.earMats.push(m);
-    mesh(new THREE.CircleGeometry(0.09, 24), m, ear, [side * 0.082, 0, 0], [0, side * Math.PI / 2, 0]);
+    mesh(new THREE.CylinderGeometry(0.085, 0.085, 0.06, 24), armorDeep, R.head, [side * 0.29, 0.3, 0], [0, 0, Math.PI / 2]);
+    const m = glow(); R.earMats.push(m);
+    mesh(new THREE.CircleGeometry(0.05, 20), m, R.head, [side * 0.322, 0.3, 0], [0, side * Math.PI / 2, 0]);
   }
-  R.headMesh = headMesh;
 
-  // arms: shoulder -> upper arm -> elbow -> forearm -> hand
+  // arms: pauldron -> upper arm -> elbow -> gauntlet -> hand with fingers
   for (const side of [-1, 1]) {
     const k = side < 0 ? 'L' : 'R';
-    const sh = group(hips, [side * 0.49, 0.56, 0]);
-    mesh(new THREE.SphereGeometry(0.13, 20, 14), plastic, sh);
-    mesh(new THREE.CapsuleGeometry(0.1, 0.24, 6, 14), plastic, sh, [0, -0.2, 0]);
-    const el = group(sh, [0, -0.4, 0]);
-    mesh(new THREE.SphereGeometry(0.085, 16, 12), joint, el);
-    mesh(new THREE.CapsuleGeometry(0.095, 0.2, 6, 14), plastic, el, [0, -0.17, 0]);
+    const sh = group(hips, [side * 0.56, 0.78, 0]);
+    mesh(new THREE.SphereGeometry(0.13, 18, 12), suit, sh);
+    mesh(new THREE.SphereGeometry(0.22, 24, 16, 0, TAU, 0, Math.PI * 0.6), armor, sh, [side * 0.02, 0.02, 0]).scale.set(1.05, 1, 1.1);
+    mesh(new THREE.CapsuleGeometry(0.12, 0.2, 6, 14), armorDeep, sh, [0, -0.2, 0]);
+    mesh(new RoundedBoxGeometry(0.17, 0.22, 0.2, 3, 0.06), armor, sh, [side * 0.02, -0.2, 0.03]);
+    const el = group(sh, [0, -0.42, 0]);
+    mesh(new THREE.SphereGeometry(0.095, 16, 12), suit, el);
+    mesh(new THREE.CylinderGeometry(0.13, 0.095, 0.28, 18), armor, el, [0, -0.18, 0]);
+    strip(el, [side * 0.08, -0.18, 0.08], [0.015, 0.18, 0.015]);
     const hand = group(el, [0, -0.36, 0]);
-    mesh(new THREE.SphereGeometry(0.1, 18, 14), joint, hand);
-    for (const f of [-1, 0, 1]) mesh(new THREE.CapsuleGeometry(0.026, 0.07, 4, 8), joint, hand, [f * 0.045, -0.09, 0.04], [0.3, 0, f * 0.15]);
+    mesh(new RoundedBoxGeometry(0.08, 0.13, 0.13, 3, 0.03), suit, hand, [0, -0.04, 0]);
+    const pm = glow(); R.thrustMats.push(pm);
+    mesh(new THREE.CircleGeometry(0.032, 18), pm, hand, [-side * 0.032, -0.04, 0], [0, -side * Math.PI / 2, 0]);
+    R.fingers[k] = [];
+    for (let f = 0; f < 4; f++) {
+      const fg = group(hand, [0, -0.1, 0.04 - f * 0.027]);
+      mesh(new THREE.CapsuleGeometry(0.012, 0.06, 4, 8), armorDeep, fg, [0, -0.035, 0]);
+      R.fingers[k].push(fg);
+    }
+    const th = group(hand, [-side * 0.02, -0.05, 0.055]);
+    mesh(new THREE.CapsuleGeometry(0.013, 0.05, 4, 8), armorDeep, th, [0, -0.03, 0.01]);
+    R.thumb[k] = th;
     R.shoulder[k] = sh; R.elbow[k] = el;
   }
-  // legs: hip -> thigh -> knee -> boot
+  // legs: thigh -> knee -> shin -> boot with thruster
   for (const side of [-1, 1]) {
     const k = side < 0 ? 'L' : 'R';
-    const hp = group(hips, [side * 0.18, 0, 0]);
-    mesh(new THREE.CapsuleGeometry(0.085, 0.16, 6, 12), joint, hp, [0, -0.14, 0]);
-    const kn = group(hp, [0, -0.29, 0]);
-    mesh(new THREE.SphereGeometry(0.09, 14, 10), joint, kn);
-    mesh(new RoundedBoxGeometry(0.24, 0.3, 0.3, 4, 0.1), plastic, kn, [0, -0.17, 0.02]);
-    mesh(new RoundedBoxGeometry(0.25, 0.06, 0.32, 3, 0.025), rubber, kn, [0, -0.32, 0.03]);
+    const hp = group(hips, [side * 0.16, -0.05, 0]);
+    mesh(new THREE.CapsuleGeometry(0.15, 0.3, 6, 14), armorDeep, hp, [0, -0.26, 0]);
+    mesh(new RoundedBoxGeometry(0.22, 0.32, 0.14, 3, 0.06), armor, hp, [0, -0.26, 0.08]);
+    const kn = group(hp, [0, -0.54, 0]);
+    mesh(new THREE.SphereGeometry(0.11, 16, 12), suit, kn);
+    mesh(new RoundedBoxGeometry(0.16, 0.15, 0.1, 3, 0.05), armor, kn, [0, 0.01, 0.1]);
+    mesh(new THREE.CylinderGeometry(0.135, 0.1, 0.38, 18), armorDeep, kn, [0, -0.24, 0]);
+    mesh(new RoundedBoxGeometry(0.19, 0.3, 0.1, 3, 0.05), armor, kn, [0, -0.24, 0.09]);
+    strip(kn, [0, -0.24, 0.145], [0.02, 0.2, 0.012]);
+    mesh(new RoundedBoxGeometry(0.21, 0.13, 0.36, 4, 0.05), armor, kn, [0, -0.495, 0.06]);
+    const bm = glow(); R.thrustMats.push(bm);
+    mesh(new THREE.CircleGeometry(0.05, 18), bm, kn, [0, -0.561, 0.0], [Math.PI / 2, 0, 0]);
     R.hip[k] = hp; R.knee[k] = kn;
   }
+  root.scale.setScalar(1.12); // a bit taller than Pip's world was built for
   root.traverse(o => { if (o.isMesh) o.userData.who = 'nova'; });
   return R;
 }
@@ -316,7 +345,8 @@ const now = () => performance.now() / 1000;
 // poses. Shoulder: [forward(-)/back(+), out]; elbow: bend; hip: forward(-); knee: bend
 function rest() {
   return { y: 0, x: 0, yaw: 0, lean: 0, roll: 0, headX: 0, headY: 0, headZ: 0,
-    shLx: 0, shLz: 0.12, shRx: 0, shRz: 0.12, elL: 0.15, elR: 0.15, hipL: 0, hipR: 0, knL: 0, knR: 0, petX: -1.5, petHop: 0 };
+    shLx: 0, shLz: 0.12, shRx: 0, shRz: 0.12, elL: 0.15, elR: 0.15, hipL: 0, hipR: 0, knL: 0, knR: 0, petX: -1.5, petHop: 0,
+    fistL: 0.35, fistR: 0.35, pointR: 0, thumbR: 0, thrust: 0 };
 }
 
 function expressionPose(e, t) {
@@ -379,7 +409,7 @@ function expressionPose(e, t) {
   return p;
 }
 
-// actions: things Nova does with her whole body
+// actions: things Nova does with his whole body
 const ease = k => k < 0.5 ? 2 * k * k : 1 - (-2 * k + 2) ** 2 / 2;
 const ACTIONS = {
   spin: { dur: 1.5, pose(p, k) {
@@ -414,13 +444,32 @@ const ACTIONS = {
     const inK = Math.min(1, k / 0.12, (1 - k) / 0.12); // get down, crawl, stand back up
     const L = 1.25 * inK;
     p.yaw = S.dir * Math.PI / 2; p.headY = -S.dir * 0.85 * inK;
-    p.x = (-0.42 - S.dir * 0.55) * inK; // keep her big head inside the window
+    p.x = (-0.42 - S.dir * 0.55) * inK; // keep him inside the window
     p.lean = L; p.y = -0.33 * inK + Math.abs(Math.cos(c)) * 0.025 * inK;
     p.headX = -L * 0.75; p.headZ = Math.sin(c / 2) * 0.1 * inK;
     p.shLx = -L - 0.25 * inK + sw * 0.35 * inK; p.shRx = -L - 0.25 * inK - sw * 0.35 * inK; p.shLz = p.shRz = 0.08;
     p.elL = 0.25 * inK + Math.max(0, sw) * 0.3 * inK; p.elR = 0.25 * inK + Math.max(0, -sw) * 0.3 * inK;
     p.hipL = -L + 0.05 - sw * 0.25 * inK; p.hipR = -L + 0.05 + sw * 0.25 * inK;
     p.knL = 1.5 * inK + Math.max(0, -sw) * 0.25 * inK; p.knR = 1.5 * inK + Math.max(0, sw) * 0.25 * inK;
+  } },
+  fly: { dur: 5, pose(p, k, t) {
+    const up = Math.min(1, k / 0.2, (1 - k) / 0.2);
+    p.y = up * (0.24 + Math.sin(t * 2.2) * 0.04); p.lean = 0.12 * up; p.thrust = up;
+    p.shLz = p.shRz = 0.55 * up + 0.12; p.shLx = p.shRx = 0.25 * up; p.elL = p.elR = 0.15; p.fistL = p.fistR = 0;
+    p.hipL = p.hipR = 0.08 * up; p.knL = p.knR = 0.2 * up; p.headX = -0.15 * up;
+  } },
+  point: { dur: 2.6, pose(p, k, t) {
+    p.shRx = -1.45; p.shRz = 0.12; p.elR = 0.08; p.fistR = 1; p.pointR = 1; p.headY = -0.1; p.lean = 0.04;
+  } },
+  thumbs: { dur: 2.6, pose(p, k, t) {
+    p.shRx = -0.9; p.shRz = 0.15; p.elR = 1.35; p.fistR = 1; p.thumbR = 1; p.headZ = 0.12; p.roll = 0.03;
+  } },
+  cross: { dur: 4, pose(p, k, t) {
+    p.shLx = p.shRx = -0.62; p.shLz = p.shRz = -0.5; p.elL = p.elR = 2.05; p.fistL = p.fistR = 1; p.headX = -0.06; p.hipR = 0.05;
+  } },
+  hero: { dur: 3.5, pose(p, k, t) {
+    p.shLz = p.shRz = 0.78; p.shLx = p.shRx = 0.3; p.elL = p.elR = 1.65; p.fistL = p.fistR = 1; p.headX = -0.12;
+    p.y = 0.01; p.thrust = 0.3;
   } },
   hug: { dur: 3, pose(p, k, t) {
     const open = k < 0.4 ? k / 0.4 : 1, close = k > 0.55 ? Math.min(1, (k - 0.55) / 0.2) : 0;
@@ -468,7 +517,7 @@ function spawn(kind, pos, { vel = [0, 0.5, 0], life = 1.6, size = 0.22, gravity 
   particles.push({ sp, vel: new THREE.Vector3(...vel), born: now(), life, size, gravity, kind });
 }
 const angerMark = new THREE.Sprite(new THREE.SpriteMaterial({ map: TEX.anger, transparent: true, depthWrite: false }));
-angerMark.scale.setScalar(0.32); angerMark.position.set(0.62, 1.22, 0.45); nova.head.add(angerMark);
+angerMark.scale.setScalar(0.24); angerMark.position.set(0.3, 0.62, 0.3); nova.head.add(angerMark);
 
 let spawnClock = 0;
 function updateParticles(dt, t) {
@@ -478,11 +527,11 @@ function updateParticles(dt, t) {
   if (spawnClock > 0.4) {
     spawnClock = 0;
     const r = Math.random(), rnd = (a, b) => a + Math.random() * (b - a);
-    if (e === 'love' && r < 0.7) spawn('heart', head.clone().add(new THREE.Vector3(rnd(-0.8, 0.8), 1.2, 0.4)), { vel: [rnd(-0.1, 0.1), 0.45, 0], size: rnd(0.16, 0.26) });
-    else if (e === 'cute' && r < 0.35) spawn('heart', head.clone().add(new THREE.Vector3(rnd(-0.9, 0.9), 1.1, 0.4)), { size: 0.15 });
-    else if (e === 'excited' && r < 0.8) spawn('sparkle', head.clone().add(new THREE.Vector3(rnd(-1.1, 1.1), rnd(0, 1.3), 0.6)), { vel: [0, 0, 0], life: 0.8, size: rnd(0.12, 0.24) });
-    else if (e === 'sleepy' && r < 0.4) spawn('z', head.clone().add(new THREE.Vector3(0.7, 1.1, 0.3)), { vel: [0.18, 0.3, 0], life: 2.6, size: rnd(0.15, 0.25) });
-    else if (e === 'angry' && r < 0.55) { const s = Math.random() < 0.5 ? -1 : 1; spawn('steam', head.clone().add(new THREE.Vector3(s * 1.0, 0.75, 0)), { vel: [s * 0.25, 0.6, 0], life: 1, size: rnd(0.15, 0.25) }); }
+    if (e === 'love' && r < 0.7) spawn('heart', head.clone().add(new THREE.Vector3(rnd(-0.5, 0.5), 0.8, 0.3)), { vel: [rnd(-0.1, 0.1), 0.45, 0], size: rnd(0.16, 0.26) });
+    else if (e === 'cute' && r < 0.35) spawn('heart', head.clone().add(new THREE.Vector3(rnd(-0.5, 0.5), 0.75, 0.3)), { size: 0.15 });
+    else if (e === 'excited' && r < 0.8) spawn('sparkle', head.clone().add(new THREE.Vector3(rnd(-0.7, 0.7), rnd(-0.2, 0.9), 0.4)), { vel: [0, 0, 0], life: 0.8, size: rnd(0.12, 0.24) });
+    else if (e === 'sleepy' && r < 0.4) spawn('z', head.clone().add(new THREE.Vector3(0.4, 0.7, 0.3)), { vel: [0.18, 0.3, 0], life: 2.6, size: rnd(0.15, 0.25) });
+    else if (e === 'angry' && r < 0.55) { const s = Math.random() < 0.5 ? -1 : 1; spawn('steam', head.clone().add(new THREE.Vector3(s * 0.4, 0.5, 0)), { vel: [s * 0.25, 0.6, 0], life: 1, size: rnd(0.15, 0.25) }); }
     else if (e === 'thinking' && r < 0.2) spawn('question', pip.root.position.clone().add(new THREE.Vector3(0.2, 1.05, 0)), { vel: [0, 0.15, 0], life: 1.4, size: 0.22 });
   }
   for (let i = particles.length - 1; i >= 0; i--) {
@@ -525,13 +574,18 @@ function openness(t) {
 function apply(p) {
   const R = nova;
   R.root.position.x = p.x; R.root.rotation.y = p.yaw;
-  R.hips.position.y = HIP_HEIGHT + p.y;
+  R.hips.position.y = HIP_HEIGHT + p.y * LEG_SCALE;
   R.hips.rotation.set(p.lean, 0, p.roll);
   R.head.rotation.set(p.headX, p.headY, p.headZ);
   R.shoulder.L.rotation.set(p.shLx, 0, -p.shLz); R.shoulder.R.rotation.set(p.shRx, 0, p.shRz);
   R.elbow.L.rotation.x = -p.elL; R.elbow.R.rotation.x = -p.elR;
   R.hip.L.rotation.x = p.hipL; R.hip.R.rotation.x = p.hipR;
   R.knee.L.rotation.x = p.knL; R.knee.R.rotation.x = p.knR;
+  for (const [k, fist] of [['L', p.fistL], ['R', p.fistR]]) {
+    R.fingers[k].forEach((f, i) => { f.rotation.x = 1.9 * fist * (k === 'R' && i === 0 ? 1 - p.pointR : 1); });
+    R.thumb[k].rotation.x = 1.1 * fist * (k === 'R' ? 1 - p.thumbR : 1);
+  }
+  R.thumb.R.rotation.z = p.thumbR * 0.4;
 }
 
 function petMood(t) {
@@ -597,7 +651,7 @@ function frame() {
     if (ACTIONS[name].move) faceOpenSpace();
   }
   const e = exprNow(t);
-  if (e !== S.expr) { S.exprSince = t; S.blinkStart = t; if (e === 'surprised' || S.expr === 'sleepy') spawn('bang', new THREE.Vector3(0.8, 3.1, 0.5), { vel: [0, 0.3, 0], life: 1, size: 0.4 }); }
+  if (e !== S.expr) { S.exprSince = t; S.blinkStart = t; if (e === 'surprised' || S.expr === 'sleepy') spawn('bang', new THREE.Vector3(0.6, 3.0, 0.5), { vel: [0, 0.3, 0], life: 1, size: 0.4 }); }
   S.expr = e; S.since = t - S.exprSince;
 
   let target = expressionPose(e, t), k = 1 - Math.exp(-dt * 9);
@@ -631,6 +685,13 @@ function frame() {
   nova.chestMat.emissiveIntensity = 1.2 + Math.sin(t * (e === 'angry' || e === 'excited' ? 8 : 2.5)) * 0.8;
   const listening = S.activity === 'listening';
   nova.earMats.forEach(m => { m.emissive.copy(S.color); m.emissiveIntensity = listening ? 1.5 + Math.sin(t * 10) * 1.2 : 1.0; });
+  nova.glowMats.forEach(m => { m.emissive.copy(S.color); m.emissiveIntensity = 1.1 + Math.sin(t * 2.5) * 0.3; });
+  nova.thrustMats.forEach((m, i) => { m.emissive.copy(S.color); m.emissiveIntensity = 0.5 + cur.thrust * (4 + Math.sin(t * 40 + i) * 1.2); });
+  if (cur.thrust > 0.6 && Math.random() < dt * 14) {
+    const foot = new THREE.Vector3();
+    world.worldToLocal(nova.knee[Math.random() < 0.5 ? 'L' : 'R'].localToWorld(foot.set(0, -0.6, 0)));
+    spawn('steam', foot, { vel: [(Math.random() - 0.5) * 0.2, -0.9, 0], life: 0.45, size: 0.16 });
+  }
 
   animatePip(t, dt);
   updateParticles(dt, t);
@@ -649,7 +710,7 @@ let bubbleTimer = null;
 const headTop = new THREE.Vector3();
 function placeBubble() {
   if (!bubble.classList.contains('show')) return;
-  nova.head.localToWorld(headTop.set(0, 1.3, 0)).project(camera);
+  nova.head.localToWorld(headTop.set(0, 0.72, 0)).project(camera);
   const x = (headTop.x + 1) / 2 * innerWidth, y = (1 - headTop.y) / 2 * innerHeight;
   const bw = bubble.offsetWidth, bh = bubble.offsetHeight;
   const left = Math.max(4, Math.min(innerWidth - bw - 4, x - bw / 2));

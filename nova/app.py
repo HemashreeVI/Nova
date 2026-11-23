@@ -98,9 +98,10 @@ class NovaApp:
 
     def _init_voice(self):
         try:
-            from nova.speaker import Speaker
+            from nova.speaker import Speaker, VOICES
             self.speaker = Speaker(self.settings)
-            if self.memory.data.get("voice"):
+            # restore a voice picked from the menu, unless it's no longer offered (e.g. old female voices)
+            if self.memory.data.get("voice") in dict(VOICES):
                 self.speaker.voice = self.memory.data["voice"]
         except Exception as e:
             print(f"[nova] voice output off ({e})")
