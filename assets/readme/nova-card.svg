@@ -1,11 +1,11 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="900" height="1014" viewBox="0 0 900 1014" role="img" aria-label="Nova: a tiny 3D robot who lives on your screen, does your work, and feels with you. 100% local, built with Python, Ollama, Whisper, three.js and Electron.">
+<svg xmlns="http://www.w3.org/2000/svg" width="940" height="1164" viewBox="0 0 940 1164" role="img" aria-label="Nova: a tiny 3D robot who lives on your screen, does your work, and feels with you. 100% local, built with Python, Ollama, Whisper, three.js and Electron.">
   <defs>
-    <linearGradient id="border" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#38bdf8"/><stop offset=".5" stop-color="#8b5cf6"/><stop offset="1" stop-color="#ec4899"/>
+    <linearGradient id="border" x1="0" y1="0" x2="0.25" y2="1">
+      <stop offset="0" stop-color="#7dd3fc"/><stop offset=".3" stop-color="#818cf8"/><stop offset=".65" stop-color="#a855f7"/><stop offset="1" stop-color="#ec4899"/>
     </linearGradient>
-    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#0b0f19"/><stop offset="1" stop-color="#07090f"/>
-    </linearGradient>
+    <filter id="neonOuter" x="-15%" y="-15%" width="130%" height="130%"><feGaussianBlur stdDeviation="16"/></filter>
+    <filter id="neonMid" x="-10%" y="-10%" width="120%" height="120%"><feGaussianBlur stdDeviation="5"/></filter>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#060608"/><stop offset="1" stop-color="#020203"/></linearGradient>
     <linearGradient id="grad" x1="0" y1="0" x2="1" y2="0">
       <stop offset="0" stop-color="#818cf8"/><stop offset="1" stop-color="#f472b6"/>
     </linearGradient>
@@ -25,8 +25,8 @@
       .muted { fill: #9ca3af; }
       .h { font-size: 19px; font-weight: 700; fill: #fff; }
       .b { font-size: 14px; }
-      .panel { fill: #111522; stroke: #262b3b; stroke-width: 1.2; }
-      .tile { fill: #161b2b; stroke-width: 1.4; }
+      .panel { fill: #0b0b0f; stroke: #2a2a33; stroke-width: 1.3; }
+      .tile { fill: #101015; stroke-width: 1.4; }
       .pulse { animation: p 4s ease-in-out infinite; } @keyframes p { 0%,100% { opacity: .55 } 50% { opacity: 1 } }
       .blink { animation: bl 5s infinite; transform-box: fill-box; transform-origin: center; }
       @keyframes bl { 0%,92%,100% { transform: scaleY(1) } 95% { transform: scaleY(.1) } }
@@ -36,9 +36,14 @@
       @keyframes in { from { opacity: 0; transform: translateY(6px) } to { opacity: 1; transform: none } }
     </style>
   </defs>
+  <!-- neon card -->
+  <g transform="translate(20,130)">
+  <rect class="pulse" x="14" y="14" width="872" height="986" rx="34" fill="none" stroke="url(#border)" stroke-width="14" filter="url(#neonOuter)"/>
+  <rect x="14" y="14" width="872" height="986" rx="34" fill="url(#bg)"/>
+  <rect x="14" y="14" width="872" height="986" rx="34" fill="none" stroke="url(#border)" stroke-width="7" filter="url(#neonMid)"/>
+  <rect x="14" y="14" width="872" height="986" rx="34" fill="none" stroke="url(#border)" stroke-width="3.5"/>
+  <rect x="410.0" y="26" width="80" height="12" rx="6" fill="#141419" stroke="#3a3a44" stroke-width="1.5"/>
 
-  <rect x="14" y="14" width="872" height="986" rx="30" fill="url(#bg)"/>
-  <rect class="pulse" x="14" y="14" width="872" height="986" rx="30" fill="none" stroke="url(#border)" stroke-width="4" filter="url(#glow)"/>
 
   <!-- header -->
   <g class="fade d1">
@@ -51,7 +56,7 @@
 
   <!-- avatar: robot head -->
   <g class="fade d1">
-    <circle cx="764" cy="118" r="76" fill="#111522" stroke="url(#border)" stroke-width="5" filter="url(#glow)"/>
+    <circle cx="764" cy="118" r="76" fill="#0b0b0f" stroke="url(#border)" stroke-width="5" filter="url(#glow)"/>
     <g class="float">
       <line x1="764" y1="62" x2="764" y2="76" stroke="#a5b4fc" stroke-width="3"/>
       <circle cx="764" cy="58" r="5" fill="#f472b6" filter="url(#eyeglow)"/>
@@ -157,5 +162,25 @@
     <rect class="panel" x="44" y="936" width="812" height="48" rx="14"/>
     <text x="66" y="966" font-size="16" font-weight="700" fill="#fff">🚀 Run it yourself  ↓</text>
     <text x="834" y="966" text-anchor="end" font-size="12.5" class="muted">Thinking happens on your PC. Nothing leaves it ✨</text>
+  </g>
+  </g>
+
+  <!-- lanyard -->
+  <g>
+    <line x1="170.0" y1="-20" x2="444.0" y2="112" stroke="#34343f" stroke-width="48" stroke-linecap="square"/>
+    <line x1="170.0" y1="-20" x2="444.0" y2="112" stroke="#0a0a0d" stroke-width="44" stroke-linecap="square"/>
+    <line x1="184.0" y1="-13" x2="430.0" y2="105" stroke="#e5e7eb" stroke-width="9" stroke-linecap="round" stroke-dasharray="0 46"/>
+    <line x1="770.0" y1="-20" x2="496.0" y2="112" stroke="#34343f" stroke-width="48" stroke-linecap="square"/>
+    <line x1="770.0" y1="-20" x2="496.0" y2="112" stroke="#0a0a0d" stroke-width="44" stroke-linecap="square"/>
+    <line x1="756.0" y1="-13" x2="510.0" y2="105" stroke="#e5e7eb" stroke-width="9" stroke-linecap="round" stroke-dasharray="0 46"/>
+    <!-- hanging tag -->
+    <line x1="620.0" y1="52" x2="620.0" y2="78" stroke="#9ca3af" stroke-width="2" stroke-dasharray="3 3"/>
+    <rect x="588.0" y="78" width="64" height="64" rx="14" fill="#060608" stroke="url(#border)" stroke-width="3" filter="url(#eyeglow)"/>
+    <text x="620.0" y="112" text-anchor="middle" class="mono" font-size="20" font-weight="700" fill="#e5e7eb">&lt;/&gt;</text>
+    <text x="620.0" y="131" text-anchor="middle" font-size="10" fill="#e5e7eb">Nova</text>
+    <!-- clip -->
+    <rect x="440.0" y="96" width="60" height="44" rx="9" fill="#2b2b33" stroke="#6b7280" stroke-width="2"/>
+    <rect x="456.0" y="106" width="28" height="22" rx="4" fill="#0a0a0d" stroke="#9ca3af" stroke-width="1.5"/>
+    <rect x="462.0" y="138" width="16" height="24" rx="4" fill="#3a3a44" stroke="#6b7280" stroke-width="1.5"/>
   </g>
 </svg>
