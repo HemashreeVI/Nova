@@ -16,7 +16,7 @@
   ],
   "voice": "am_michael",
   "speed": 1.07,
-  "lineGap": 0.28,
+  "lineGap": 0.2,
   "captions": true,
   "endCard": "📘 code & docs → github.com/HemashreeVI/SeatLock",
   "thumbnail": "title@5",
@@ -79,8 +79,8 @@
       "id": "title",
       "title": "Intro: what this video covers",
       "pad": [
-        0.8,
-        0.8
+        0.4,
+        0.55
       ],
       "lines": [
         "This is a complete deep dive into SeatLock, a ticket booking backend I built to answer one hard question.",
@@ -93,8 +93,8 @@
       "id": "roadmap",
       "title": "Roadmap",
       "pad": [
-        0.5,
-        0.8
+        0.4,
+        0.55
       ],
       "lines": [
         "Here is the plan. First, the problem and the goals. Then the architecture, and the tech stack, piece by piece.",
@@ -107,8 +107,8 @@
       "id": "goals",
       "title": "The problem and the goals",
       "pad": [
-        0.5,
-        0.8
+        0.4,
+        0.55
       ],
       "lines": [
         "Think of a concert ticket drop. Five hundred people, one hundred seats, everyone clicking in the same second.",
@@ -123,8 +123,8 @@
       "id": "flow",
       "title": "The user flow",
       "pad": [
-        0.5,
-        0.8
+        0.4,
+        0.55
       ],
       "lines": [
         "Let's follow one buyer through the system. She logs in and gets a token.",
@@ -140,8 +140,8 @@
       "id": "monolith",
       "title": "Architecture: modular monolith",
       "pad": [
-        0.5,
-        0.8
+        0.4,
+        0.55
       ],
       "lines": [
         "SeatLock is a modular monolith. That means one application, deployed as a single unit, but split inside into clearly separated modules.",
@@ -155,8 +155,8 @@
       "id": "whynotmicro",
       "title": "Why not microservices",
       "pad": [
-        0.5,
-        0.8
+        0.4,
+        0.55
       ],
       "lines": [
         "Why not microservices from day one? Because of the most important operation, the seat hold.",
@@ -171,8 +171,8 @@
       "id": "twopc",
       "title": "Two-phase commit vs saga",
       "pad": [
-        0.5,
-        0.8
+        0.4,
+        0.55
       ],
       "lines": [
         "Two phase commit deserves a quick explanation, because interviewers love it.",
@@ -187,8 +187,8 @@
       "id": "stack",
       "title": "The tech stack at a glance",
       "pad": [
-        0.5,
-        0.8
+        0.4,
+        0.55
       ],
       "lines": [
         "Here is the whole stack, and the one job each piece does.",
@@ -203,8 +203,8 @@
       "id": "java",
       "title": "Java 21, virtual threads, Spring Boot",
       "pad": [
-        0.5,
-        0.8
+        0.4,
+        0.55
       ],
       "lines": [
         "Why Java 21? Mainly for virtual threads.",
@@ -218,8 +218,8 @@
       "id": "postgres",
       "title": "PostgreSQL, Flyway and Hibernate",
       "pad": [
-        0.5,
-        0.8
+        0.4,
+        0.55
       ],
       "lines": [
         "Postgres is the source of truth because it gives three things this project depends on: real transactions, row level locks, and constraints.",
@@ -233,8 +233,8 @@
       "id": "model",
       "title": "Data model and state machines",
       "pad": [
-        0.5,
-        0.8
+        0.4,
+        0.55
       ],
       "lines": [
         "The core tables: events have seats. Bookings link to seats through booking seats. Plus payments, the outbox, processed messages, tickets and users.",
@@ -248,8 +248,8 @@
       "id": "race",
       "title": "The double-booking race",
       "pad": [
-        0.5,
-        0.8
+        0.4,
+        0.55
       ],
       "lines": [
         "Now, the heart of the project. Here's the bug every naive booking system has.",
@@ -264,8 +264,8 @@
       "id": "layers",
       "title": "Defence in depth: three layers",
       "pad": [
-        0.5,
-        0.8
+        0.4,
+        0.55
       ],
       "lines": [
         "The idea is defence in depth. Three independent layers, and any one of them alone would prevent a double booking.",
@@ -279,8 +279,8 @@
       "id": "pessimistic",
       "title": "Layer 1a: pessimistic locking",
       "pad": [
-        0.5,
-        0.8
+        0.4,
+        0.55
       ],
       "lines": [
         "Pessimistic locking means: lock first, then work. You assume a conflict will happen.",
@@ -296,8 +296,8 @@
       "id": "optimistic",
       "title": "Layer 1b: optimistic locking",
       "pad": [
-        0.5,
-        0.8
+        0.4,
+        0.55
       ],
       "lines": [
         "Optimistic locking assumes conflicts are rare. Read freely, no locks.",
@@ -311,8 +311,8 @@
       "id": "redislock",
       "title": "Layer 1c: the Redis lock",
       "pad": [
-        0.5,
-        0.8
+        0.4,
+        0.55
       ],
       "lines": [
         "The third option is a distributed lock in Redis.",
@@ -328,8 +328,8 @@
       "id": "version",
       "title": "Layer 2: the version as a fencing token",
       "pad": [
-        0.5,
-        0.8
+        0.4,
+        0.55
       ],
       "lines": [
         "If layer one works, why layer two? Because a lock with a timeout can expire while its owner is still working.",
@@ -344,8 +344,8 @@
       "id": "uniqueindex",
       "title": "Layer 3: the partial unique index",
       "pad": [
-        0.5,
-        0.8
+        0.4,
+        0.55
       ],
       "lines": [
         "Layer three is the last line of defence, and it lives in the database.",
@@ -361,8 +361,8 @@
       "id": "deadlock",
       "title": "Deadlocks and lock ordering",
       "pad": [
-        0.5,
-        0.8
+        0.4,
+        0.55
       ],
       "lines": [
         "Multi seat bookings hide a trap: deadlocks.",
@@ -376,8 +376,8 @@
       "id": "fastreject",
       "title": "Fast reject",
       "pad": [
-        0.5,
-        0.8
+        0.4,
+        0.55
       ],
       "lines": [
         "After a sell out, nearly every request is doomed. So before taking any lock, SeatLock checks the cached seat map in Redis.",
@@ -391,8 +391,8 @@
       "id": "status",
       "title": "HTTP status codes: why 409",
       "pad": [
-        0.5,
-        0.8
+        0.4,
+        0.55
       ],
       "lines": [
         "Every losing path ends in the same answer: four oh nine conflict.",
@@ -407,8 +407,8 @@
       "id": "holds",
       "title": "Seat holds",
       "pad": [
-        0.5,
-        0.8
+        0.4,
+        0.55
       ],
       "lines": [
         "Why hold first, instead of booking directly? Because paying takes time.",
@@ -422,8 +422,8 @@
       "id": "sweeper",
       "title": "The expiry sweeper",
       "pad": [
-        0.5,
-        0.8
+        0.4,
+        0.55
       ],
       "lines": [
         "A sweeper is a background job that runs on a timer, and cleans up whatever has expired.",
@@ -438,8 +438,8 @@
       "id": "whyfive",
       "title": "Why every 5 seconds",
       "pad": [
-        0.5,
-        0.8
+        0.4,
+        0.55
       ],
       "lines": [
         "Why five seconds? It's a trade off between freshness and load.",
@@ -453,8 +453,8 @@
       "id": "paylast",
       "title": "Race: paying at the last second",
       "pad": [
-        0.5,
-        0.8
+        0.4,
+        0.55
       ],
       "lines": [
         "Here's a race interviewers love. A user pays at the exact moment the hold expires.",
@@ -468,8 +468,8 @@
       "id": "idem",
       "title": "Idempotency",
       "pad": [
-        0.5,
-        0.8
+        0.4,
+        0.55
       ],
       "lines": [
         "An operation is idempotent if doing it twice has the same effect as doing it once.",
@@ -483,8 +483,8 @@
       "id": "payidem",
       "title": "Payment idempotency: five layers",
       "pad": [
-        0.5,
-        0.8
+        0.4,
+        0.55
       ],
       "lines": [
         "For payments, the key is required, and protected in five ways.",
@@ -498,8 +498,8 @@
       "id": "async",
       "title": "Why payments are asynchronous",
       "pad": [
-        0.5,
-        0.8
+        0.4,
+        0.55
       ],
       "lines": [
         "Why not charge the card inside the HTTP request?",
@@ -512,8 +512,8 @@
       "id": "dualwrite",
       "title": "The dual-write problem",
       "pad": [
-        0.5,
-        0.8
+        0.4,
+        0.55
       ],
       "lines": [
         "Now the classic distributed systems bug: the dual write.",
@@ -527,8 +527,8 @@
       "id": "outbox",
       "title": "The transactional outbox",
       "pad": [
-        0.5,
-        0.8
+        0.4,
+        0.55
       ],
       "lines": [
         "The transactional outbox. Instead of publishing to Kafka, the code inserts the message as a row in an outbox table, in the same database transaction as the business change.",
@@ -541,8 +541,8 @@
       "id": "atleastonce",
       "title": "At-least-once, ordering, inbox",
       "pad": [
-        0.5,
-        0.8
+        0.4,
+        0.55
       ],
       "lines": [
         "There is one gap left. The relay sends a message, Kafka acknowledges it, and then the relay crashes before marking the row published.",
@@ -556,8 +556,8 @@
       "id": "saga",
       "title": "The payment saga end to end",
       "pad": [
-        0.5,
-        0.8
+        0.4,
+        0.55
       ],
       "lines": [
         "Here is the full saga. It's a choreography: there's no central orchestrator, each module reacts to messages.",
@@ -572,8 +572,8 @@
       "id": "dlt",
       "title": "Poison messages and the reconciler",
       "pad": [
-        0.5,
-        0.8
+        0.4,
+        0.55
       ],
       "lines": [
         "What about a poison message, one that fails every time? Kafka retries it three times, one second apart, then parks it on a dead letter topic, so it can't block its partition forever.",
@@ -587,8 +587,8 @@
       "id": "demomode",
       "title": "Demo mode without Kafka",
       "pad": [
-        0.5,
-        0.8
+        0.4,
+        0.55
       ],
       "lines": [
         "There's no affordable free Kafka for a public demo. So SeatLock has a demo mode, chosen purely by configuration.",
@@ -601,8 +601,8 @@
       "id": "whyredis",
       "title": "Why Redis",
       "pad": [
-        0.5,
-        0.8
+        0.4,
+        0.55
       ],
       "lines": [
         "Now, the rush. Why Redis?",
@@ -616,8 +616,8 @@
       "id": "cache",
       "title": "Seat-map cache and eviction after commit",
       "pad": [
-        0.5,
-        0.8
+        0.4,
+        0.55
       ],
       "lines": [
         "Browsing is by far the most frequent request during a sale. So the seat map is cached in Redis, per event, with a five second expiry.",
@@ -631,8 +631,8 @@
       "id": "ratelimit",
       "title": "Token-bucket rate limiting",
       "pad": [
-        0.5,
-        0.8
+        0.4,
+        0.55
       ],
       "lines": [
         "Rate limiting uses a token bucket. Each client has a bucket of twenty tokens that refills at five per second.",
@@ -647,8 +647,8 @@
       "id": "queue",
       "title": "The virtual waiting room",
       "pad": [
-        0.5,
-        0.8
+        0.4,
+        0.55
       ],
       "lines": [
         "For hot events, there's a virtual waiting room.",
@@ -662,8 +662,8 @@
       "id": "sse",
       "title": "Live seat map with Server-Sent Events",
       "pad": [
-        0.5,
-        0.8
+        0.4,
+        0.55
       ],
       "lines": [
         "When someone holds a seat, it turns amber on every open screen within a second. That's Server Sent Events.",
@@ -678,8 +678,8 @@
       "id": "security",
       "title": "Security: JWT, BCrypt, CSRF",
       "pad": [
-        0.5,
-        0.8
+        0.4,
+        0.55
       ],
       "lines": [
         "Security. Passwords are stored as BCrypt hashes: salted, and deliberately slow.",
@@ -694,8 +694,8 @@
       "id": "tickets",
       "title": "E-tickets and check-in",
       "pad": [
-        0.5,
-        0.8
+        0.4,
+        0.55
       ],
       "lines": [
         "Confirming a booking issues one ticket per seat, in the same transaction. A unique pair of booking and seat makes double issuing impossible.",
@@ -709,8 +709,8 @@
       "id": "testing",
       "title": "Testing: Testcontainers and start gates",
       "pad": [
-        0.5,
-        0.8
+        0.4,
+        0.55
       ],
       "lines": [
         "How do you prove concurrency code works? Not with mocks.",
@@ -725,8 +725,8 @@
       "id": "loadtest",
       "title": "Load test: the numbers",
       "pad": [
-        0.5,
-        0.8
+        0.4,
+        0.55
       ],
       "lines": [
         "Then the load test, with k6. Five hundred virtual users, one hundred seats.",
@@ -741,8 +741,8 @@
       "id": "observability",
       "title": "Observability",
       "pad": [
-        0.5,
-        0.8
+        0.4,
+        0.55
       ],
       "lines": [
         "You can't run what you can't see. Micrometer records business metrics and exports them to Prometheus, with a Grafana dashboard on top.",
@@ -755,8 +755,8 @@
       "id": "docker",
       "title": "Docker and Docker Compose",
       "pad": [
-        0.5,
-        0.8
+        0.4,
+        0.55
       ],
       "lines": [
         "Postgres, Redis and Kafka are servers: separate programs listening on network ports. The app talks to them through client libraries, configured with host, port and password.",
@@ -769,8 +769,8 @@
       "id": "render",
       "title": "Free deployment: Render, Neon, Upstash",
       "pad": [
-        0.5,
-        0.8
+        0.4,
+        0.55
       ],
       "lines": [
         "The free public demo is split across managed services. Render runs the app as a Docker container. Neon hosts Postgres. Upstash hosts Redis. Brevo sends emails.",
@@ -782,8 +782,8 @@
       "id": "aws",
       "title": "AWS: EC2 with the full stack",
       "pad": [
-        0.5,
-        0.8
+        0.4,
+        0.55
       ],
       "lines": [
         "Then I deployed the full stack on A W S, including real Kafka, on one E C two instance.",
@@ -798,8 +798,8 @@
       "id": "s3",
       "title": "AWS: S3 backups with an IAM role",
       "pad": [
-        0.5,
-        0.8
+        0.4,
+        0.55
       ],
       "lines": [
         "On one server, terminating the instance would lose every booking. So I added nightly backups to S three.",
@@ -814,8 +814,8 @@
       "id": "production",
       "title": "Production path, and why not Lambda",
       "pad": [
-        0.5,
-        0.8
+        0.4,
+        0.55
       ],
       "lines": [
         "One E C two instance is the right choice for a demo: cheap, and identical to my laptop. For a real company, I'd change four things.",
@@ -828,8 +828,8 @@
       "id": "tradeoffs",
       "title": "Trade-offs and known limitations",
       "pad": [
-        0.5,
-        0.8
+        0.4,
+        0.55
       ],
       "lines": [
         "Knowing the limits of your own design is what separates a good answer from a great one. Here are SeatLock's, honestly.",
@@ -843,8 +843,8 @@
       "id": "qa1",
       "title": "Interview questions: core",
       "pad": [
-        0.5,
-        0.8
+        0.4,
+        0.55
       ],
       "lines": [
         "Now, the interview. Here's how the core questions sound, and how to answer.",
@@ -859,8 +859,8 @@
       "id": "qa2",
       "title": "Interview questions: the hard ones",
       "pad": [
-        0.5,
-        0.8
+        0.4,
+        0.55
       ],
       "lines": [
         "Then come the harder ones.",
@@ -875,8 +875,8 @@
       "id": "pitch",
       "title": "Your 30-second pitch",
       "pad": [
-        0.5,
-        0.8
+        0.4,
+        0.55
       ],
       "lines": [
         "Finally, your thirty second pitch. Say it in your own words.",
@@ -890,7 +890,7 @@
       "id": "recap",
       "title": "Recap",
       "pad": [
-        0.5,
+        0.4,
         1.6
       ],
       "lines": [
