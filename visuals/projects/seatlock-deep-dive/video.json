@@ -1,0 +1,904 @@
+{
+  "title": "SeatLock Deep Dive: every design decision, explained (interview prep)",
+  "slug": "seatlock-deep-dive",
+  "description": "A complete walkthrough of SeatLock, a ticket booking backend that never sells a seat twice. Architecture, the double-booking race and its three layers of defence, holds and the expiry sweeper, idempotency, the Kafka payment saga with a transactional outbox, Redis caching, rate limiting and the waiting room, live seat maps over Server-Sent Events, security, testing and load testing, deployment on Render and AWS, and the interview questions you should expect.",
+  "tags": [
+    "system design",
+    "spring boot",
+    "java",
+    "postgresql",
+    "redis",
+    "kafka",
+    "concurrency",
+    "interview preparation",
+    "aws",
+    "backend"
+  ],
+  "voice": "am_michael",
+  "speed": 1.07,
+  "lineGap": 0.2,
+  "captions": true,
+  "endCard": "📘 code & docs → github.com/HemashreeVI/SeatLock",
+  "thumbnail": "title@5",
+  "endHold": 0.6,
+  "pronounce": {
+    "SeatLock": "Seat Lock",
+    "Redis": "Red iss",
+    "JWT": "J W T",
+    "k6": "K six",
+    "SQL": "sequel",
+    "EC2": "E C two",
+    "S3": "S three",
+    "IAM": "I A M",
+    "SSH": "S S H",
+    "SSE": "S S E",
+    "BCrypt": "B crypt",
+    "CSRF": "C S R F",
+    "HMAC": "H mac",
+    "TTL": "T T L",
+    "MVCC": "M V C C",
+    "ACID": "acid",
+    "ORM": "O R M",
+    "JPA": "J P A",
+    "DLT": "D L T",
+    "ECS": "E C S",
+    "RDS": "R D S",
+    "ALB": "A L B",
+    "MSK": "M S K",
+    "UUID": "U U I D",
+    "NX": "N X",
+    "PX": "P X",
+    "ZADD": "Z add",
+    "QR": "Q R",
+    "JSON": "jason",
+    "Testcontainers": "test containers",
+    "CountDownLatch": "count down latch",
+    "TransactionTemplate": "transaction template",
+    "Upstash": "up stash",
+    "pg_dump": "P G dump",
+    "cron": "cron",
+    "Lua": "Lua",
+    "FIFO": "fife oh",
+    "Flyway": "fly way",
+    "Hikari": "hickory",
+    "Micrometer": "micro meter",
+    "Brevo": "brev oh",
+    "ZXing": "zebra crossing",
+    "WebSockets": "web sockets",
+    "Kafka": "Kafka",
+    "KRaft": "K raft",
+    "IMDSv2": "I M D S version two",
+    "idempotency": "eye dem potency",
+    "Idempotency": "Eye dem potency",
+    "idempotent": "eye dem potent",
+    "Idempotent": "Eye dem potent",
+    "ElastiCache": "Elasti cache"
+  },
+  "scenes": [
+    {
+      "id": "title",
+      "title": "Intro: what this video covers",
+      "pad": [
+        0.4,
+        0.55
+      ],
+      "lines": [
+        "This is a complete deep dive into SeatLock, a ticket booking backend I built to answer one hard question.",
+        "When thousands of people click the same seat at the same instant, how do you guarantee that exactly one of them gets it?",
+        "We will go through every decision, from the first design sketch to the deployment on A W S, and for each one, what I used, and why I used it.",
+        "And because this is interview preparation, every chapter ends with the way an interviewer will actually ask about it."
+      ]
+    },
+    {
+      "id": "roadmap",
+      "title": "Roadmap",
+      "pad": [
+        0.4,
+        0.55
+      ],
+      "lines": [
+        "Here is the plan. First, the problem and the goals. Then the architecture, and the tech stack, piece by piece.",
+        "Then the heart of the project: the double booking race, and the three layers that stop it.",
+        "After that, holds and the expiry sweeper, idempotency, and payments as a Kafka saga with a transactional outbox.",
+        "Then Redis for the rush, live seat maps, security, testing with real numbers, deployment on Render and on A W S, and finally the interview questions."
+      ]
+    },
+    {
+      "id": "goals",
+      "title": "The problem and the goals",
+      "pad": [
+        0.4,
+        0.55
+      ],
+      "lines": [
+        "Think of a concert ticket drop. Five hundred people, one hundred seats, everyone clicking in the same second.",
+        "SeatLock has three guarantees that must hold, always.",
+        "One: a seat is never sold to two people. Two: a customer is never charged twice for one booking.",
+        "Three: a seat that is held but never paid for goes back on sale automatically.",
+        "And two softer goals under load: traffic spikes should degrade gracefully, with queues and polite errors, instead of taking the database down.",
+        "And browsing the seat map should never compete with booking for database capacity."
+      ]
+    },
+    {
+      "id": "flow",
+      "title": "The user flow",
+      "pad": [
+        0.4,
+        0.55
+      ],
+      "lines": [
+        "Let's follow one buyer through the system. She logs in and gets a token.",
+        "She browses events, and the seat map comes from a cache, not the database.",
+        "For a hot event, she first waits in a virtual waiting room, and gets an admission token when it's her turn.",
+        "She picks seats and places a hold. The seats are reserved for ten minutes.",
+        "She pays. The payment is processed asynchronously, through Kafka.",
+        "If the payment succeeds, the booking is confirmed, and she gets an e-ticket with a QR code. If it fails, the seats are released.",
+        "Finally she gets an email, and at the venue, staff scan her QR code to let her in."
+      ]
+    },
+    {
+      "id": "monolith",
+      "title": "Architecture: modular monolith",
+      "pad": [
+        0.4,
+        0.55
+      ],
+      "lines": [
+        "SeatLock is a modular monolith. That means one application, deployed as a single unit, but split inside into clearly separated modules.",
+        "Event, seat, booking, payment, notification, queue, rate limiting, auth and tickets, each in its own package.",
+        "Think of it as one building with separate rooms and proper doors. A classic monolith is one big open hall. Microservices are separate buildings connected by roads.",
+        "The key rule: booking, payment and notification never call each other directly. They only talk through Kafka messages.",
+        "So payment could be pulled out into its own service later, without touching the booking code."
+      ]
+    },
+    {
+      "id": "whynotmicro",
+      "title": "Why not microservices",
+      "pad": [
+        0.4,
+        0.55
+      ],
+      "lines": [
+        "Why not microservices from day one? Because of the most important operation, the seat hold.",
+        "A hold must change three tables together: seats, bookings, and booking seats. Either all three change, or none do.",
+        "In one Postgres database, that's just a normal transaction. Begin, three writes, commit. Atomic, and fast.",
+        "Split those tables across three services with three databases, and there is no shared transaction any more.",
+        "You would need two phase commit, or a saga with compensations, just to hold a seat. More failure modes, and no benefit.",
+        "And the database can enforce correctness with a constraint, which only works inside one database."
+      ]
+    },
+    {
+      "id": "twopc",
+      "title": "Two-phase commit vs saga",
+      "pad": [
+        0.4,
+        0.55
+      ],
+      "lines": [
+        "Two phase commit deserves a quick explanation, because interviewers love it.",
+        "A coordinator asks every database to prepare. Each one does the work, locks its rows, and votes yes or no.",
+        "If everyone votes yes, the coordinator tells them all to commit. If anyone says no, everyone rolls back.",
+        "The problems: it's slow, because rows stay locked across network round trips. And it blocks: if the coordinator crashes after the votes, participants hold their locks until it comes back.",
+        "A saga instead commits each step locally, and undoes earlier steps with compensating actions if a later step fails. That gives eventual consistency, not instant consistency.",
+        "SeatLock uses neither for the hold, because it's one local transaction. It uses a saga only for payments, where an external gateway can never join a database transaction anyway."
+      ]
+    },
+    {
+      "id": "stack",
+      "title": "The tech stack at a glance",
+      "pad": [
+        0.4,
+        0.55
+      ],
+      "lines": [
+        "Here is the whole stack, and the one job each piece does.",
+        "Java 21 with Spring Boot is the application. Postgres is the source of truth, the judge whose decision is final.",
+        "Redis is the bouncer that keeps the crowd away from the judge: cache, waiting room, rate limits, and optional fast locks.",
+        "Kafka is the postman, carrying messages between modules, at least once.",
+        "Flyway manages the database structure. Hibernate maps Java objects to rows. Docker packages and runs everything.",
+        "And for proof: Testcontainers for real integration tests, k6 for load tests, and Micrometer with Prometheus and Grafana for metrics."
+      ]
+    },
+    {
+      "id": "java",
+      "title": "Java 21, virtual threads, Spring Boot",
+      "pad": [
+        0.4,
+        0.55
+      ],
+      "lines": [
+        "Why Java 21? Mainly for virtual threads.",
+        "This workload is mostly waiting: waiting for a database lock, for Redis, for Kafka. Classic threads are expensive operating system threads, so thousands of waiting requests means thousands of heavy threads.",
+        "Virtual threads are cheap. A waiting request parks, and the real thread is free to serve someone else. It's one line of config: spring threads virtual enabled.",
+        "Careful though: virtual threads don't make the database faster. The real limit becomes the connection pool, twenty connections by default, and that's exactly where back pressure belongs.",
+        "Spring Boot gives the rest: web, security, data access, Kafka listeners, scheduling and metrics, wired together by configuration."
+      ]
+    },
+    {
+      "id": "postgres",
+      "title": "PostgreSQL, Flyway and Hibernate",
+      "pad": [
+        0.4,
+        0.55
+      ],
+      "lines": [
+        "Postgres is the source of truth because it gives three things this project depends on: real transactions, row level locks, and constraints.",
+        "The schema is managed by Flyway. Every change is a numbered SQL file, version one to version eight, applied in order at startup and recorded in a history table.",
+        "So a brand new database, like a fresh cloud server, builds itself automatically. And you never edit an old migration. You add a new one.",
+        "Hibernate is the O R M. You write Java, like seat dot hold, and Hibernate generates the SQL update.",
+        "It runs in validate mode, so if the Java entities and the tables ever disagree, the app refuses to start. Mistakes surface on day one, not in production."
+      ]
+    },
+    {
+      "id": "model",
+      "title": "Data model and state machines",
+      "pad": [
+        0.4,
+        0.55
+      ],
+      "lines": [
+        "The core tables: events have seats. Bookings link to seats through booking seats. Plus payments, the outbox, processed messages, tickets and users.",
+        "A seat moves from available, to held, to booked. Or from held back to available, on cancel, expiry, or failed payment.",
+        "A booking moves from held, to payment pending, to confirmed. Or to cancelled or expired.",
+        "Money is stored as whole cents in a big integer, never as a floating point number, because floating point can't represent a value like zero point one exactly.",
+        "And a check constraint ties status to ownership: an available seat has no booking, a held seat has a booking and an expiry time."
+      ]
+    },
+    {
+      "id": "race",
+      "title": "The double-booking race",
+      "pad": [
+        0.4,
+        0.55
+      ],
+      "lines": [
+        "Now, the heart of the project. Here's the bug every naive booking system has.",
+        "Alice and Bob both open seat forty two. Both requests read the row, and both see available.",
+        "Both write booked. Two tickets, one seat.",
+        "You might think an if statement fixes it. If the seat is available, book it.",
+        "It doesn't. The check and the write are two separate steps, and another request can slip in between them. This is called a check then act race condition.",
+        "The fix has to make the check and the write atomic. SeatLock does that, and then backs it up twice."
+      ]
+    },
+    {
+      "id": "layers",
+      "title": "Defence in depth: three layers",
+      "pad": [
+        0.4,
+        0.55
+      ],
+      "lines": [
+        "The idea is defence in depth. Three independent layers, and any one of them alone would prevent a double booking.",
+        "Layer one is a locking strategy, and you choose one of three: pessimistic, optimistic, or a Redis lock.",
+        "Layer two is a version column on every seat, checked on every write, whatever strategy you chose.",
+        "Layer three is inside Postgres itself: a partial unique index that refuses two active bookings for one seat.",
+        "Together they survive bugs in each other. Think brakes, A B S, and airbags. Good brakes don't make airbags useless."
+      ]
+    },
+    {
+      "id": "pessimistic",
+      "title": "Layer 1a: pessimistic locking",
+      "pad": [
+        0.4,
+        0.55
+      ],
+      "lines": [
+        "Pessimistic locking means: lock first, then work. You assume a conflict will happen.",
+        "SeatLock loads the seats with select for update. The first transaction locks the row. Everyone else waits.",
+        "When the winner commits the seat as held, the next waiter gets the lock, reads the fresh value, sees held, and gets a four oh nine conflict.",
+        "Important detail: this is a row level lock. Row means one database record, one seat. Not a row of seats in the theatre.",
+        "Locking seat forty two blocks only requests for seat forty two. Seat forty three, right next to it, stays fully available.",
+        "And normal reads, like the seat map, aren't blocked at all, thanks to M V C C: Postgres keeps versions, so readers see the last committed data without waiting.",
+        "The cost: waiters hold a database connection while they wait. With a pool of twenty, a big rush can exhaust it. That's why the other protections exist."
+      ]
+    },
+    {
+      "id": "optimistic",
+      "title": "Layer 1b: optimistic locking",
+      "pad": [
+        0.4,
+        0.55
+      ],
+      "lines": [
+        "Optimistic locking assumes conflicts are rare. Read freely, no locks.",
+        "Then update with a condition: set the seat to held, where the version is still the one I read.",
+        "If someone else changed the seat first, the version moved on, zero rows match, and Hibernate throws an optimistic lock exception, which becomes a four oh nine.",
+        "No waiting, and no locks held. Great when conflicts are rare.",
+        "But in a flash sale, most transactions do all their work and then fail at the very end. That's wasted effort, which is why it was the slowest strategy in the load test."
+      ]
+    },
+    {
+      "id": "redislock",
+      "title": "Layer 1c: the Redis lock",
+      "pad": [
+        0.4,
+        0.55
+      ],
+      "lines": [
+        "The third option is a distributed lock in Redis.",
+        "For each seat, SeatLock runs SET, with the key seat lock forty two, a random token as the value, N X, and P X five thousand.",
+        "N X means only if the key does not exist. Redis runs commands one at a time, so out of fifty requests, exactly one succeeds.",
+        "The other forty nine fail instantly, with no database transaction and no connection used.",
+        "P X five thousand means the lock expires after five seconds, so a crashed app can never block a seat forever.",
+        "Releasing it uses a small Lua script: delete the key only if it still holds my token. A plain delete could remove someone else's lock, after mine expired.",
+        "Redis runs the script atomically, so the check and the delete can't be interrupted."
+      ]
+    },
+    {
+      "id": "version",
+      "title": "Layer 2: the version as a fencing token",
+      "pad": [
+        0.4,
+        0.55
+      ],
+      "lines": [
+        "If layer one works, why layer two? Because a lock with a timeout can expire while its owner is still working.",
+        "Watch. Buyer A takes the Redis lock and reads seat forty two at version seven. Then her process freezes, maybe a long garbage collection pause.",
+        "Five seconds pass. The lock expires. Buyer B takes the lock, reads version seven, writes held, and the version becomes eight.",
+        "Buyer A wakes up, still believing she holds the lock, and writes, where version equals seven. Zero rows match. Her stale write is rejected.",
+        "That's a fencing token: proof that what you read is still current. Hibernate adds this check to every seat update automatically, because of the at version annotation.",
+        "It also protects against lost updates from other code paths, and future bugs, like someone accidentally removing select for update."
+      ]
+    },
+    {
+      "id": "uniqueindex",
+      "title": "Layer 3: the partial unique index",
+      "pad": [
+        0.4,
+        0.55
+      ],
+      "lines": [
+        "Layer three is the last line of defence, and it lives in the database.",
+        "Create unique index on booking seats, seat id, where active.",
+        "It means a seat id can appear only once among the active rows. Insert a second active booking for seat forty two, and Postgres itself refuses.",
+        "Why partial, with where active? Because a seat legitimately appears in many bookings over time. Held, expired, then sold to someone else.",
+        "When a booking is released, active becomes false, so only the current owner is constrained.",
+        "The same trick appears twice more: one successful payment per booking, and one booking per user and idempotency key.",
+        "So even if every line of Java were wrong, the database would still refuse to sell one seat twice."
+      ]
+    },
+    {
+      "id": "deadlock",
+      "title": "Deadlocks and lock ordering",
+      "pad": [
+        0.4,
+        0.55
+      ],
+      "lines": [
+        "Multi seat bookings hide a trap: deadlocks.",
+        "Transaction one locks seat five, then wants seat three. Transaction two locks seat three, then wants seat five. Each waits for the other, forever.",
+        "The fix is simple and classic: always lock in the same global order.",
+        "SeatLock sorts the seat ids before locking, and every query orders by id. Now both transactions lock seat three first. One simply waits behind the other, and no cycle can form.",
+        "And if Postgres ever does detect a deadlock or a lock timeout, the exception is mapped to a four oh nine, not a crash."
+      ]
+    },
+    {
+      "id": "fastreject",
+      "title": "Fast reject",
+      "pad": [
+        0.4,
+        0.55
+      ],
+      "lines": [
+        "After a sell out, nearly every request is doomed. So before taking any lock, SeatLock checks the cached seat map in Redis.",
+        "If a requested seat is already shown as taken, it answers four oh nine immediately. No transaction, no lock, no connection.",
+        "Why is that safe, when a cache can be stale? Because it can only reject. A seat shown as available still goes through the full locked database path.",
+        "The worst case is a false conflict in the few milliseconds between a release and the cache eviction.",
+        "The effect was big: pessimistic throughput went from eight hundred ninety seven to two thousand one hundred seventy one requests per second."
+      ]
+    },
+    {
+      "id": "status",
+      "title": "HTTP status codes: why 409",
+      "pad": [
+        0.4,
+        0.55
+      ],
+      "lines": [
+        "Every losing path ends in the same answer: four oh nine conflict.",
+        "Four oh nine means your request is valid, but it conflicts with the current state of the resource. The seat is simply taken.",
+        "Not four hundred, because nothing is wrong with the request. Not five hundred, because nothing broke. Losing a race is normal behaviour, and should never trigger alerts.",
+        "And not four oh eight. Four oh eight is request timeout: the client was too slow to send its request. Here the request arrived fine, and was fully processed.",
+        "Four oh nine also tells the client: retrying the same request won't help. Pick another seat.",
+        "The others: four twenty nine for rate limiting, with a retry after header. Four twenty two when an idempotency key is reused for a different request. Two oh two for an accepted payment that is still processing."
+      ]
+    },
+    {
+      "id": "holds",
+      "title": "Seat holds",
+      "pad": [
+        0.4,
+        0.55
+      ],
+      "lines": [
+        "Why hold first, instead of booking directly? Because paying takes time.",
+        "Without a hold, someone else could grab the seat while you type your card details.",
+        "So a hold reserves the seat for ten minutes. The booking gets an expiry time, and each seat is marked held.",
+        "Pay in time, and the seat becomes booked. Cancel, or let the timer run out, and the seat goes back on sale.",
+        "That last part is guarantee number three, and it's handled by the sweeper."
+      ]
+    },
+    {
+      "id": "sweeper",
+      "title": "The expiry sweeper",
+      "pad": [
+        0.4,
+        0.55
+      ],
+      "lines": [
+        "A sweeper is a background job that runs on a timer, and cleans up whatever has expired.",
+        "Every five seconds, Spring's at scheduled annotation runs it. It selects up to two hundred held bookings whose time is up, oldest first.",
+        "With for update skip locked. Skip locked means: if a row is already locked by someone else, skip it instead of waiting.",
+        "So three app instances can sweep in parallel. Each one takes different rows, nobody waits, and no booking is processed twice.",
+        "For each expired booking, in one transaction: the booking becomes expired, the seats become available, and an event is written to the outbox. After commit, the cache is cleared and every open seat map updates.",
+        "The method is at transactional, so all of that commits together, or rolls back together."
+      ]
+    },
+    {
+      "id": "whyfive",
+      "title": "Why every 5 seconds",
+      "pad": [
+        0.4,
+        0.55
+      ],
+      "lines": [
+        "Why five seconds? It's a trade off between freshness and load.",
+        "The hold lasts six hundred seconds, so five extra seconds is under one percent. Nobody notices.",
+        "Sweeping every hundred milliseconds would mostly run empty queries, and take connections during a flash sale, on every instance.",
+        "Sweeping every minute would leave released seats looking taken, exactly when demand is highest.",
+        "Each run is cheap, thanks to a partial index on held bookings. And correctness doesn't depend on it at all: payment checks the expiry time itself, under a row lock."
+      ]
+    },
+    {
+      "id": "paylast",
+      "title": "Race: paying at the last second",
+      "pad": [
+        0.4,
+        0.55
+      ],
+      "lines": [
+        "Here's a race interviewers love. A user pays at the exact moment the hold expires.",
+        "The payment request locks the booking row with select for update, checks the status is held, and checks the deadline hasn't passed.",
+        "The sweeper uses skip locked, so it simply skips the booking that payment is holding. Payment commits, and the status becomes payment pending.",
+        "The sweeper only touches held bookings, so it will never release a seat that is being paid for.",
+        "If the sweeper got there first, the booking is expired, and payment answers four oh nine, hold expired. Either way, exactly one wins."
+      ]
+    },
+    {
+      "id": "idem",
+      "title": "Idempotency",
+      "pad": [
+        0.4,
+        0.55
+      ],
+      "lines": [
+        "An operation is idempotent if doing it twice has the same effect as doing it once.",
+        "Networks fail. A phone times out and retries. A user double clicks. Kafka redelivers. Without idempotency, you get duplicate bookings, or worse, double charges.",
+        "For holds, the client can send an idempotency key header. A unique index on user and key makes same key means same booking a database fact.",
+        "A retry gets the original booking back, with an idempotent replayed header. The same key with different seats gets a four twenty two.",
+        "And a nice detail: if two copies of the same request race each other, the loser sees a conflict, notices the winner was its own twin, and returns that booking instead of an error."
+      ]
+    },
+    {
+      "id": "payidem",
+      "title": "Payment idempotency: five layers",
+      "pad": [
+        0.4,
+        0.55
+      ],
+      "lines": [
+        "For payments, the key is required, and protected in five ways.",
+        "One: the idempotency key column is unique. Two: a SHA two fifty six fingerprint of user, booking and token detects a key reused for a different request.",
+        "Three: a partial unique index allows only one successful payment per booking, even with different keys.",
+        "Four: the payment gateway receives the same key, the way Stripe works, so a redelivered message can never charge twice.",
+        "Five: when the result is recorded, the payment row is locked, and only a payment that is still pending is updated."
+      ]
+    },
+    {
+      "id": "async",
+      "title": "Why payments are asynchronous",
+      "pad": [
+        0.4,
+        0.55
+      ],
+      "lines": [
+        "Why not charge the card inside the HTTP request?",
+        "Because payment gateways can be slow, or down. Holding database locks while waiting on a third party would stall everything that touches that booking.",
+        "So the payment endpoint answers two oh two accepted immediately. The real charge happens in the background.",
+        "And it decouples the modules. Payment could scale, or move to its own service, independently."
+      ]
+    },
+    {
+      "id": "dualwrite",
+      "title": "The dual-write problem",
+      "pad": [
+        0.4,
+        0.55
+      ],
+      "lines": [
+        "Now the classic distributed systems bug: the dual write.",
+        "The naive code saves the payment to the database, then publishes a message to Kafka. Two systems, two writes.",
+        "Failure one: the database commits, then the app crashes before publishing. The message is lost, and the booking is stuck in payment pending forever.",
+        "Failure two: the message is published, then the transaction rolls back. Now there's a phantom message about something that never happened.",
+        "You can't make two separate systems commit together, without two phase commit. So SeatLock avoids the second write entirely."
+      ]
+    },
+    {
+      "id": "outbox",
+      "title": "The transactional outbox",
+      "pad": [
+        0.4,
+        0.55
+      ],
+      "lines": [
+        "The transactional outbox. Instead of publishing to Kafka, the code inserts the message as a row in an outbox table, in the same database transaction as the business change.",
+        "The booking update and the message now commit together, or fail together. Nothing is lost, and nothing is phantom.",
+        "A separate relay runs every two hundred milliseconds. It reads unpublished rows in id order, with for update skip locked, sends them to Kafka with acks all, and marks them published.",
+        "If a send fails, it stops the batch, so later messages never overtake earlier ones."
+      ]
+    },
+    {
+      "id": "atleastonce",
+      "title": "At-least-once, ordering, inbox",
+      "pad": [
+        0.4,
+        0.55
+      ],
+      "lines": [
+        "There is one gap left. The relay sends a message, Kafka acknowledges it, and then the relay crashes before marking the row published.",
+        "On restart, it sends the message again. So the outbox gives at least once delivery, not exactly once.",
+        "Which means every consumer must be idempotent. The payment processor skips payments that are no longer pending. The booking listener only acts if the booking is still payment pending, under a row lock.",
+        "The notification consumer uses an inbox table, processed messages. It inserts the message id, with on conflict do nothing, in the same transaction as the side effect. Zero rows inserted means duplicate, so skip.",
+        "Ordering: every message is keyed by booking id, so all messages for one booking land on the same partition, and Kafka keeps them in order."
+      ]
+    },
+    {
+      "id": "saga",
+      "title": "The payment saga end to end",
+      "pad": [
+        0.4,
+        0.55
+      ],
+      "lines": [
+        "Here is the full saga. It's a choreography: there's no central orchestrator, each module reacts to messages.",
+        "The payment endpoint, in one transaction, locks the booking, records a pending payment, moves the booking to payment pending, and writes payment requested to the outbox.",
+        "The relay publishes it. The payment module consumes it, and calls the gateway with no database transaction open.",
+        "Then, in a short transaction, it records succeeded or failed, and writes payment completed to the outbox.",
+        "The booking module consumes that. On success: the booking is confirmed, the seats become booked, and tickets are issued, all in one transaction.",
+        "On failure, the compensating action: the booking is cancelled, and the seats are released. Then notifications pick up the booking event, and send an email after commit."
+      ]
+    },
+    {
+      "id": "dlt",
+      "title": "Poison messages and the reconciler",
+      "pad": [
+        0.4,
+        0.55
+      ],
+      "lines": [
+        "What about a poison message, one that fails every time? Kafka retries it three times, one second apart, then parks it on a dead letter topic, so it can't block its partition forever.",
+        "A subtle detail: the dead letter publisher writes to the same partition number. If the dead letter topic is auto created with one partition, records from partitions one and two can't be parked. So every dead letter topic is declared with three partitions.",
+        "And if the payment provider is down for ten minutes? The message lands on the dead letter topic, and the payment stays pending, with its seats locked.",
+        "So a reconciler runs every thirty seconds. It re-drives payments that have been pending for over a minute, using the original idempotency key, so a charge that already happened is returned, never repeated.",
+        "After fifteen minutes it gives up, fails the payment, and the saga releases the seats, with a log entry asking for a refund check."
+      ]
+    },
+    {
+      "id": "demomode",
+      "title": "Demo mode without Kafka",
+      "pad": [
+        0.4,
+        0.55
+      ],
+      "lines": [
+        "There's no affordable free Kafka for a public demo. So SeatLock has a demo mode, chosen purely by configuration.",
+        "In local mode, a local dispatcher reads the same outbox rows, and calls the very same message handler classes that the Kafka listeners use.",
+        "It marks a row published only after its handler succeeds, so delivery is still at least once, and survives restarts.",
+        "Business code doesn't know the difference. What you lose is scaling across instances, so the demo runs a single instance."
+      ]
+    },
+    {
+      "id": "whyredis",
+      "title": "Why Redis",
+      "pad": [
+        0.4,
+        0.55
+      ],
+      "lines": [
+        "Now, the rush. Why Redis?",
+        "Redis is an in memory data store. It answers in well under a millisecond, its commands are atomic, keys can expire on their own, and Lua scripts run without interruption.",
+        "And unlike Java memory, it's shared by every app instance.",
+        "SeatLock uses it for four jobs: the seat map cache, rate limiting, the virtual waiting room, and the optional seat lock.",
+        "But Redis is never the source of truth. If it goes down, the cache falls back to Postgres, and the rate limiter fails open. The system degrades, but stays correct."
+      ]
+    },
+    {
+      "id": "cache",
+      "title": "Seat-map cache and eviction after commit",
+      "pad": [
+        0.4,
+        0.55
+      ],
+      "lines": [
+        "Browsing is by far the most frequent request during a sale. So the seat map is cached in Redis, per event, with a five second expiry.",
+        "When seats change, the cache entry is deleted. But timing matters. It's deleted after the transaction commits, using a transactional event listener.",
+        "Why not before? If you evict before commit, another reader can miss the cache, read the old data from the database, and put it straight back. The stale value survives.",
+        "Evicting after commit guarantees the next reader sees the new state. The five second expiry is the safety net for an eviction that's missed.",
+        "And the cache is display only. Holding a seat always takes the locked database path."
+      ]
+    },
+    {
+      "id": "ratelimit",
+      "title": "Token-bucket rate limiting",
+      "pad": [
+        0.4,
+        0.55
+      ],
+      "lines": [
+        "Rate limiting uses a token bucket. Each client has a bucket of twenty tokens that refills at five per second.",
+        "Each request costs one token. An empty bucket means four twenty nine, with a retry after header.",
+        "The whole step, read, refill, take, and write back, is one Lua script, so two concurrent requests can't both take the last token.",
+        "It uses Redis's own clock, so app servers with slightly different clocks still agree.",
+        "There are two buckets: per user and per IP address, because a client could invent new identities. And a small login bucket, against password guessing.",
+        "If Redis is down, it fails open, because correctness is still protected by the database."
+      ]
+    },
+    {
+      "id": "queue",
+      "title": "The virtual waiting room",
+      "pad": [
+        0.4,
+        0.55
+      ],
+      "lines": [
+        "For hot events, there's a virtual waiting room.",
+        "Joining adds you to a Redis sorted set, scored by join time. That's a first in, first out line. Z add with N X means rejoining never moves you to the back.",
+        "Every second, an admission job runs one Lua script. It drops expired admissions, computes free room, pops the next users, and gives each one a token.",
+        "Because it's one atomic script, several app instances can run the job at once, without admitting anyone twice or overfilling the room.",
+        "The booking endpoint then requires that token. So at most one hundred shoppers compete for seats at any moment, however many people arrive."
+      ]
+    },
+    {
+      "id": "sse",
+      "title": "Live seat map with Server-Sent Events",
+      "pad": [
+        0.4,
+        0.55
+      ],
+      "lines": [
+        "When someone holds a seat, it turns amber on every open screen within a second. That's Server Sent Events.",
+        "The browser opens one long lived HTTP response, and the server pushes updates down it.",
+        "Why not web sockets? The traffic is one way, server to browser. S S E is plain HTTP, reconnects automatically, and passes through proxies without special setup.",
+        "Updates are coalesced. A commit only marks the event dirty. Every three hundred milliseconds, one query sends each dirty event's seat statuses once.",
+        "So a thousand holds cost a few small queries, not a thousand messages per viewer.",
+        "There's a heartbeat every twenty seconds, and a cap of one thousand viewers. The honest limit: subscribers live in one instance's memory. Scaling out would need Redis pub sub."
+      ]
+    },
+    {
+      "id": "security",
+      "title": "Security: JWT, BCrypt, CSRF",
+      "pad": [
+        0.4,
+        0.55
+      ],
+      "lines": [
+        "Security. Passwords are stored as BCrypt hashes: salted, and deliberately slow.",
+        "Logging in returns a JWT, signed with HMAC SHA two fifty six, valid for seven days. Every request carries it in the authorization header, and the server checks the signature without a database lookup.",
+        "Because there are no cookies and no sessions, there's no C S R F risk. C S R F abuses cookies that browsers attach automatically.",
+        "Wrong email and wrong password give the same answer, in the same time, by checking a dummy hash, so attackers can't discover which accounts exist.",
+        "And someone else's booking returns four oh four, not four oh three, so they can't even learn that it exists.",
+        "The honest weakness: a stolen token stays valid until it expires. The fix would be short lived tokens with refresh tokens."
+      ]
+    },
+    {
+      "id": "tickets",
+      "title": "E-tickets and check-in",
+      "pad": [
+        0.4,
+        0.55
+      ],
+      "lines": [
+        "Confirming a booking issues one ticket per seat, in the same transaction. A unique pair of booking and seat makes double issuing impossible.",
+        "Each ticket code is one hundred twenty eight random bits, so guessing one is hopeless, and it's checked on the server at every scan.",
+        "Check in is a single conditional update: set status to used, where the code matches, and the status is still valid.",
+        "If two gates scan the same ticket at the same instant, the database lets exactly one update match. Tested with twenty simultaneous scans: one admitted, nineteen rejected.",
+        "Scanning works three ways: the live camera, a photo decoded on the server with Zebra crossing, or the code typed by hand."
+      ]
+    },
+    {
+      "id": "testing",
+      "title": "Testing: Testcontainers and start gates",
+      "pad": [
+        0.4,
+        0.55
+      ],
+      "lines": [
+        "How do you prove concurrency code works? Not with mocks.",
+        "Row locks, skip locked, partial indexes and Lua scripts can't be faithfully mocked. So every integration test runs against real Postgres, Redis and Kafka, started in Docker by Testcontainers.",
+        "The concurrency test uses a start gate. Every task waits on a count down latch, and then all of them are released at the same instant.",
+        "It fires two hundred attempts at one seat, once for each locking strategy. The result, every time: exactly one winner, one hundred ninety nine conflicts, and zero seats in two bookings.",
+        "Honest detail for interviews: those two hundred attempts run on a pool of sixty four threads, so at most sixty four are truly simultaneous. Still heavy contention on one row.",
+        "Saga tests run end to end, from HTTP through the outbox and Kafka to the consumers, using Awaitility to wait for the asynchronous results."
+      ]
+    },
+    {
+      "id": "loadtest",
+      "title": "Load test: the numbers",
+      "pad": [
+        0.4,
+        0.55
+      ],
+      "lines": [
+        "Then the load test, with k6. Five hundred virtual users, one hundred seats.",
+        "And it fails the whole run if the stats endpoint ever reports a double booked seat, across every booking ever made.",
+        "Pessimistic: about two thousand four hundred requests per second, p ninety five of four hundred forty eight milliseconds.",
+        "Optimistic: about two thousand one hundred. Redis lock: about two thousand five hundred, the fastest, because losers never touch the database.",
+        "All three: one hundred out of one hundred seats held, and zero double bookings.",
+        "And the cost of security, measured honestly: verifying the token on every request dropped the rush from about two thousand four hundred to one thousand five hundred requests per second. Still zero double bookings."
+      ]
+    },
+    {
+      "id": "observability",
+      "title": "Observability",
+      "pad": [
+        0.4,
+        0.55
+      ],
+      "lines": [
+        "You can't run what you can't see. Micrometer records business metrics and exports them to Prometheus, with a Grafana dashboard on top.",
+        "Holds by result and strategy: success, conflict, replayed. Hold latency as a histogram for p fifty, p ninety five and p ninety nine. Booking transitions by status.",
+        "And the most important health signal: the outbox backlog. If it keeps growing, the relay or Kafka is stuck.",
+        "Logs carry a trace id and span id, propagated over HTTP and through Kafka headers, so one request can be followed across modules."
+      ]
+    },
+    {
+      "id": "docker",
+      "title": "Docker and Docker Compose",
+      "pad": [
+        0.4,
+        0.55
+      ],
+      "lines": [
+        "Postgres, Redis and Kafka are servers: separate programs listening on network ports. The app talks to them through client libraries, configured with host, port and password.",
+        "Docker Compose starts all three with one command, the same versions on every machine. And it binds their ports to localhost only, so they can't be reached from the network.",
+        "The app itself is built with a multi stage Dockerfile. One stage compiles with the full JDK, the next runs on a small runtime image, as a non root user.",
+        "It even uses class data sharing, recorded at build time, which halved startup on a tiny free server, from one hundred fifty seconds to sixty seven."
+      ]
+    },
+    {
+      "id": "render",
+      "title": "Free deployment: Render, Neon, Upstash",
+      "pad": [
+        0.4,
+        0.55
+      ],
+      "lines": [
+        "The free public demo is split across managed services. Render runs the app as a Docker container. Neon hosts Postgres. Upstash hosts Redis. Brevo sends emails.",
+        "The same code connects to all of them. Only environment variables change.",
+        "It runs the demo profile: no Kafka, a pool of five connections because free databases allow few, metrics not exposed publicly, and a slower admission tick to stay inside the Redis free quota."
+      ]
+    },
+    {
+      "id": "aws",
+      "title": "AWS: EC2 with the full stack",
+      "pad": [
+        0.4,
+        0.55
+      ],
+      "lines": [
+        "Then I deployed the full stack on A W S, including real Kafka, on one E C two instance.",
+        "Ubuntu Linux, an m seven i flex large with eight gigabytes of memory, because Kafka, Java, Postgres and Redis together need about three. A one gigabyte instance simply runs out of memory.",
+        "The security group is the firewall. Port eight zero eight zero is open to everyone, for the website. S S H is open only to my own IP address.",
+        "And Postgres, Redis and Kafka have no firewall rule at all, and are bound to localhost. Two layers of protection.",
+        "I connect over S S H with a key pair. A W S keeps the public key on the server, I keep the private key. No passwords to guess.",
+        "One gotcha: the public IP changes every time the instance stops and starts, because IP version four addresses are scarce. An elastic IP keeps it fixed, but costs money even while stopped."
+      ]
+    },
+    {
+      "id": "s3",
+      "title": "AWS: S3 backups with an IAM role",
+      "pad": [
+        0.4,
+        0.55
+      ],
+      "lines": [
+        "On one server, terminating the instance would lose every booking. So I added nightly backups to S three.",
+        "A cron job runs P G dump, compresses the output, and streams it into a private S three bucket. A lifecycle rule deletes backups after thirty days.",
+        "S three doesn't pull data. The server pushes it. And to be allowed, the server wears an I A M role.",
+        "The role has a least privilege policy: read and write objects only in the postgres folder of that one bucket. Nothing else, not even delete.",
+        "A role means no access keys are stored on the server. The instance gets temporary credentials that rotate automatically. Nothing to leak.",
+        "And a backup you have never restored isn't a real backup, so the guide includes a restore into a separate test database."
+      ]
+    },
+    {
+      "id": "production",
+      "title": "Production path, and why not Lambda",
+      "pad": [
+        0.4,
+        0.55
+      ],
+      "lines": [
+        "One E C two instance is the right choice for a demo: cheap, and identical to my laptop. For a real company, I'd change four things.",
+        "The app would run on E C S Fargate across availability zones, behind an application load balancer with HTTPS.",
+        "Postgres would move to R D S, with automated backups and point in time recovery. Redis to ElastiCache. Kafka to M S K.",
+        "Why not Lambda? SeatLock holds long lived S S E connections, and runs background jobs and Kafka consumers continuously. That suits a long running service, not short functions."
+      ]
+    },
+    {
+      "id": "tradeoffs",
+      "title": "Trade-offs and known limitations",
+      "pad": [
+        0.4,
+        0.55
+      ],
+      "lines": [
+        "Knowing the limits of your own design is what separates a good answer from a great one. Here are SeatLock's, honestly.",
+        "Live seat map subscribers live in one instance's memory. Refunds after a late payment success are only logged, not automated.",
+        "Redis keys and Lua scripts aren't ready for Redis cluster yet; they would need hash tags. The seat map is cached as one blob, fine for tens of thousands of seats.",
+        "The outbox relay holds a database transaction while waiting for Kafka. A cleaner design sends first, then marks published in a short transaction, or uses change data capture.",
+        "And the load test ran on one machine, from one IP, with rate limiting off. It proves correctness and relative cost, not production capacity."
+      ]
+    },
+    {
+      "id": "qa1",
+      "title": "Interview questions: core",
+      "pad": [
+        0.4,
+        0.55
+      ],
+      "lines": [
+        "Now, the interview. Here's how the core questions sound, and how to answer.",
+        "How do you stop two people booking the same seat? Three layers: a row lock, a version check, and a partial unique index. Each one alone would be enough.",
+        "Pessimistic or optimistic? Pessimistic for high contention, like a flash sale. Optimistic when conflicts are rare.",
+        "Why isn't a Redis lock enough? It can expire during a pause. The version column fences the stale writer, and the unique index is the final guarantee.",
+        "Why a transactional outbox? Because writing to the database and then to Kafka can lose a message. The outbox commits both together.",
+        "What delivery guarantee? At least once, so every consumer is idempotent."
+      ]
+    },
+    {
+      "id": "qa2",
+      "title": "Interview questions: the hard ones",
+      "pad": [
+        0.4,
+        0.55
+      ],
+      "lines": [
+        "Then come the harder ones.",
+        "What if the Redis lock expires mid transaction? The version check or the unique index rejects the late writer. Correctness holds, you only lose the shielding benefit.",
+        "What if Redis goes down? The cache falls back to Postgres, rate limiting fails open, and bookings stay correct.",
+        "Why not Kafka exactly once? It only covers Kafka to Kafka. My side effects go to Postgres and an external gateway.",
+        "How would you scale to a million users? The waiting room first, more stateless app instances, Redis pub sub for live updates, partitioning by event, and managed data stores.",
+        "What would you do differently? Store the trace context in the outbox, use change data capture instead of polling, and add short lived access tokens."
+      ]
+    },
+    {
+      "id": "pitch",
+      "title": "Your 30-second pitch",
+      "pad": [
+        0.4,
+        0.55
+      ],
+      "lines": [
+        "Finally, your thirty second pitch. Say it in your own words.",
+        "SeatLock is a ticket booking backend built for flash sales, where thousands of people want the same seat at once. Its core guarantee is zero double bookings.",
+        "I enforce it in three layers: a configurable lock, a version column, and a partial unique index in Postgres.",
+        "Payments run as a Kafka saga with a transactional outbox, and Redis handles the waiting room, rate limiting and caching.",
+        "I proved it with two hundred concurrent requests against real infrastructure, and a load test of five hundred users at about two thousand four hundred requests per second, with zero double bookings. And it runs on A W S, with nightly backups."
+      ]
+    },
+    {
+      "id": "recap",
+      "title": "Recap",
+      "pad": [
+        0.4,
+        1.6
+      ],
+      "lines": [
+        "To recap. A modular monolith, so the seat hold is one ACID transaction.",
+        "Three layers against double booking. Holds with a skip locked sweeper. Idempotency everywhere money is involved.",
+        "A Kafka saga with an outbox and an inbox. Redis to protect the database. Real tests, real numbers, and an honest list of limits.",
+        "The code, the design document and the deployment guides are all on GitHub. Good luck in your interview."
+      ]
+    }
+  ]
+}

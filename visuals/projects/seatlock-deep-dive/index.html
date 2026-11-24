@@ -1,0 +1,1182 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SeatLock Deep Dive</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{--ink:#f3eefc;--mut:#a59cbf;--bg:#120c24;--card:rgba(28,20,52,.94);--line:rgba(190,170,240,.22);
+        --amber:#f2b134;--violet:#8b6cf6;--grn:#34d399;--red:#f87171;--blu:#60a5fa;--pink:#f472b6;--cyan:#22d3ee;--org:#fb923c}
+  #fv-stage{background:radial-gradient(1500px 1000px at 78% 10%,#3a2380 0%,#1a1236 45%,#0c0818 80%);color:var(--ink);font-family:Inter,system-ui,sans-serif}
+  #bg-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(160,130,240,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(160,130,240,.08) 1px,transparent 1px);background-size:80px 80px}
+  .abs{position:absolute}
+  .mono{font-family:'JetBrains Mono',monospace;font-variant-ligatures:none;font-feature-settings:'liga' 0,'calt' 0}
+  .brand{position:absolute;left:120px;top:50px;display:flex;align-items:center;gap:14px;font:800 26px Inter;color:#d9cff7;z-index:5}
+  .brand i{width:40px;height:40px;border-radius:11px;background:linear-gradient(135deg,#7c5cf0,#4b2fb8);display:flex;align-items:center;justify-content:center;font-style:normal;font-size:22px}
+  .brand span{font:600 18px 'JetBrains Mono';color:var(--mut);margin-left:6px}
+  #chap{position:absolute;right:120px;top:56px;font:700 20px 'JetBrains Mono';color:var(--mut);letter-spacing:.08em;z-index:5}
+  .kicker{position:absolute;left:120px;top:118px;font:800 22px 'JetBrains Mono';letter-spacing:.18em;color:var(--amber)}
+  .title{position:absolute;left:120px;top:150px;font:900 58px/1.05 Inter;letter-spacing:-.03em;width:1700px}
+  .card{position:absolute;border:2px solid var(--line);border-radius:22px;background:var(--card);box-sizing:border-box;padding:22px 28px}
+  .pill{display:inline-block;padding:10px 22px;border-radius:40px;font:800 26px Inter;border:2px solid var(--c,#8b6cf6);background:color-mix(in srgb,var(--c,#8b6cf6) 16%,transparent);white-space:nowrap}
+  .lbl{font:800 20px 'JetBrains Mono';letter-spacing:.08em;color:var(--mut);text-transform:uppercase}
+  .code{font:600 25px/1.55 'JetBrains Mono',monospace;white-space:pre;font-variant-ligatures:none;font-feature-settings:'liga' 0,'calt' 0;color:#e6e0f6}
+  .code .k{color:#f2b134}.code .t{color:#60a5fa}.code .s{color:#86efac}.code .c{color:#8a80a8}.code .r{color:#fca5a5}.code .h{background:rgba(242,177,52,.2);border-radius:6px}
+  .node{position:absolute;border-radius:18px;border:3px solid var(--c);background:color-mix(in srgb,var(--c) 15%,#160f2e);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;box-sizing:border-box;font:800 28px Inter;padding:8px}
+  .node small{font:600 19px 'JetBrains Mono';color:var(--mut);margin-top:6px;line-height:1.3}
+  .row{display:flex;align-items:flex-start;gap:20px;border:2px solid var(--line);border-radius:18px;background:var(--card);padding:16px 24px;margin-bottom:14px;font:600 28px/1.32 Inter;box-sizing:border-box}
+  .row b{color:var(--c,var(--amber))}
+  .row .ic{font-size:34px;line-height:1;flex:0 0 auto;width:44px;text-align:center}
+  .row .num{flex:0 0 auto;width:48px;height:48px;border-radius:50%;background:var(--c,var(--violet));color:#120c24;font:900 26px Inter;display:flex;align-items:center;justify-content:center}
+  .q{font:800 27px/1.3 Inter;color:var(--amber)}
+  .a{font:500 25px/1.35 Inter;color:#e6e0f6;margin-top:6px}
+  .big{font:900 120px/1 Inter;letter-spacing:-.04em}
+  .tag{display:inline-block;padding:5px 14px;border-radius:10px;font:800 21px 'JetBrains Mono';white-space:nowrap;background:color-mix(in srgb,var(--c,#8b6cf6) 22%,transparent);color:var(--c,#cbbcf7);border:2px solid var(--c,#8b6cf6)}
+  .shot{position:absolute;border-radius:16px;overflow:hidden;border:2px solid rgba(255,255,255,.2);box-shadow:0 30px 80px rgba(0,0,0,.55);background:#fff}
+  .shot img{display:block;width:100%}
+  .shot .cap{position:absolute;left:0;right:0;bottom:0;padding:8px 16px;background:rgba(12,8,24,.85);font:700 20px 'JetBrains Mono';color:#d9cff7}
+  table.t{border-collapse:separate;border-spacing:0 10px;font:600 26px Inter;width:100%}
+  table.t td{padding:12px 18px;background:var(--card);border-top:2px solid var(--line);border-bottom:2px solid var(--line)}
+  table.t td:first-child{border-left:2px solid var(--line);border-radius:14px 0 0 14px}
+  table.t td:last-child{border-right:2px solid var(--line);border-radius:0 14px 14px 0}
+  table.t th{font:800 20px 'JetBrains Mono';color:var(--mut);text-align:left;padding:0 18px;letter-spacing:.06em}
+  .seat{width:44px;height:40px;border-radius:9px 9px 5px 5px;background:color-mix(in srgb,var(--c,#34d399) 30%,#1a1236);border:2px solid var(--c,#34d399)}
+  svg .ar{fill:none;stroke-width:5;stroke-linecap:round}
+  .x{color:var(--red);font-weight:900}.ok{color:var(--grn);font-weight:900}
+  .fv-endcard{display:inline-block;padding:16px 34px;border-radius:40px;border:2px solid var(--amber);background:rgba(242,177,52,.14);font:800 32px Inter;color:#ffe2a8}
+</style>
+</head>
+<body>
+<div id="fv-stage">
+  <div id="bg-grid"></div>
+  <div class="brand"><i>🎟️</i>SeatLock <span>· deep dive</span></div>
+  <div id="chap"></div>
+  <svg width="0" height="0" style="position:absolute">
+    <defs>
+      <marker id="mA" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#f2b134"/></marker>
+      <marker id="mG" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#34d399"/></marker>
+      <marker id="mR" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#f87171"/></marker>
+      <marker id="mB" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#60a5fa"/></marker>
+      <marker id="mV" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#a78bfa"/></marker>
+    </defs>
+  </svg>
+
+<!-- ============================ INTRO ============================ -->
+<section class="fv-scene" data-scene="title" data-chap="00 · INTRO">
+  <div class="abs" data-at="s0.3" style="left:120px;top:220px;font:900 150px/1 Inter;letter-spacing:-.05em">Seat<span style="color:var(--amber)">Lock</span></div>
+  <div class="abs" data-at="s0.8" style="left:124px;top:390px;font:700 44px Inter;color:#d6cdf2">The complete deep dive · interview prep</div>
+  <div class="abs" data-at="1.3" style="left:120px;top:480px;font:900 54px/1.15 Inter;width:960px">1 seat. Thousands of clicks.<br><span style="color:var(--grn)">Exactly one</span> winner.</div>
+  <div class="abs" data-at="2" style="left:120px;top:660px;display:flex;flex-wrap:wrap;gap:12px;width:960px">
+    <span class="pill" style="--c:var(--org)">Java 21</span><span class="pill" style="--c:var(--grn)">Spring Boot</span><span class="pill" style="--c:var(--blu)">PostgreSQL</span><span class="pill" style="--c:var(--red)">Redis</span><span class="pill" style="--c:var(--amber)">Kafka</span><span class="pill" style="--c:var(--cyan)">Docker</span><span class="pill" style="--c:var(--pink)">AWS</span>
+  </div>
+  <div class="abs" data-at="3" style="left:120px;top:800px;font:700 32px Inter;color:var(--amber)">what I used → why I used it → how it's asked</div>
+  <div id="ti-grid" class="abs" style="left:1180px;top:260px;display:grid;grid-template-columns:repeat(10,44px);gap:12px"></div>
+  <svg id="ti-svg" class="abs" width="1920" height="1080" style="left:0;top:0"></svg>
+</section>
+
+<section class="fv-scene" data-scene="roadmap" data-chap="00 · ROADMAP">
+  <div class="kicker">ROADMAP</div><div class="title">What we'll cover</div>
+  <div class="abs" style="left:120px;top:260px;width:820px">
+    <div class="row" data-at="0" style="--c:var(--violet)"><div class="num">1</div><div>The problem &amp; the goals</div></div>
+    <div class="row" data-at="0.4" style="--c:var(--violet)"><div class="num">2</div><div>Architecture: modular monolith</div></div>
+    <div class="row" data-at="0.7" style="--c:var(--violet)"><div class="num">3</div><div>Tech stack: what &amp; why</div></div>
+    <div class="row" data-at="1" style="--c:var(--red)"><div class="num">4</div><div><b>Double booking &amp; 3 layers</b></div></div>
+    <div class="row" data-at="2" style="--c:var(--amber)"><div class="num">5</div><div>Holds &amp; the expiry sweeper</div></div>
+    <div class="row" data-at="2.4" style="--c:var(--amber)"><div class="num">6</div><div>Idempotency</div></div>
+  </div>
+  <div class="abs" style="left:980px;top:260px;width:820px">
+    <div class="row" data-at="2.7" style="--c:var(--amber)"><div class="num">7</div><div>Kafka saga + transactional outbox</div></div>
+    <div class="row" data-at="3" style="--c:var(--red)"><div class="num">8</div><div>Redis: cache · rate limit · queue · live map</div></div>
+    <div class="row" data-at="3.25" style="--c:var(--pink)"><div class="num">9</div><div>Security &amp; e-tickets</div></div>
+    <div class="row" data-at="3.45" style="--c:var(--grn)"><div class="num">10</div><div>Testing &amp; real numbers</div></div>
+    <div class="row" data-at="3.65" style="--c:var(--cyan)"><div class="num">11</div><div>Deployment: Render &amp; AWS</div></div>
+    <div class="row" data-at="3.85" style="--c:var(--blu)"><div class="num">12</div><div><b>Interview questions</b></div></div>
+  </div>
+</section>
+
+<section class="fv-scene" data-scene="goals" data-chap="01 · PROBLEM">
+  <div class="kicker">THE PROBLEM</div><div class="title">A flash sale, and three guarantees</div>
+  <div class="card" data-at="0" style="left:120px;top:260px;width:560px;height:330px;text-align:center">
+    <div class="lbl">ticket drop · illustrative</div>
+    <div style="margin-top:20px;font:900 96px Inter;color:var(--pink)"><span data-count="0-0.9" data-to="500">0</span></div>
+    <div style="font:700 30px Inter">buyers</div>
+    <div style="margin-top:12px;font:800 36px Inter;color:var(--grn)">→ 100 seats · same second</div>
+  </div>
+  <div class="abs" style="left:740px;top:260px;width:1060px">
+    <div class="lbl" data-at="1" style="margin-bottom:14px;color:var(--amber)">must hold, always</div>
+    <div class="row" data-at="2" style="--c:var(--red)"><div class="num">1</div><div>A seat is <b>never sold to two people</b></div></div>
+    <div class="row" data-at="2.5" style="--c:var(--amber)"><div class="num">2</div><div>A customer is <b>never charged twice</b></div></div>
+    <div class="row" data-at="3" style="--c:var(--grn)"><div class="num">3</div><div>An unpaid hold <b>returns to sale automatically</b></div></div>
+  </div>
+  <div class="abs" style="left:120px;top:640px;width:1680px">
+    <div class="lbl" data-at="4" style="margin-bottom:12px">should hold under load</div>
+    <div class="row" data-at="4" style="--c:var(--blu)"><div class="ic">🌊</div><div>Spikes <b>degrade gracefully</b>: queue, 409, 429, never a dead database</div></div>
+    <div class="row" data-at="5" style="--c:var(--blu)"><div class="ic">👀</div><div>Browsing <b>never competes</b> with booking for database capacity</div></div>
+  </div>
+</section>
+
+<section class="fv-scene" data-scene="flow" data-chap="01 · USER FLOW">
+  <div class="kicker">ONE BUYER, END TO END</div><div class="title">The user flow</div>
+  <svg class="abs" width="1920" height="1080" style="left:0;top:0">
+    <path id="fl-p" class="ar" d="M225,470 L1695,470" stroke="rgba(242,177,52,.55)" data-draw="0-6.9"/>
+    <circle data-move="0-6.9" data-path="fl-p" r="16" fill="#f2b134"/>
+  </svg>
+  <div class="node" data-at="0" style="--c:var(--violet);left:120px;top:370px;width:210px;height:200px">🔑 Log in<small>JWT token</small></div>
+  <div class="node" data-at="1" style="--c:var(--red);left:365px;top:370px;width:210px;height:200px">👀 Browse<small>seat map<br>from cache</small></div>
+  <div class="node" data-at="2" style="--c:var(--cyan);left:610px;top:370px;width:210px;height:200px">⏳ Queue<small>admission<br>token</small></div>
+  <div class="node" data-at="3" style="--c:var(--amber);left:855px;top:370px;width:210px;height:200px">🔒 Hold<small>10 minutes</small></div>
+  <div class="node" data-at="4" style="--c:var(--blu);left:1100px;top:370px;width:210px;height:200px">💳 Pay<small>async via<br>Kafka</small></div>
+  <div class="node" data-at="5" style="--c:var(--grn);left:1345px;top:370px;width:210px;height:200px">🎫 Confirm<small>e-ticket<br>+ QR</small></div>
+  <div class="node" data-at="6" style="--c:var(--pink);left:1590px;top:370px;width:210px;height:200px">✉️ Notify<small>email ·<br>check-in</small></div>
+  <div class="abs" data-at="5.5" style="left:1250px;top:620px;width:560px;text-align:center"><span class="pill" style="--c:var(--red)">payment fails → seats released</span></div>
+  <div class="abs" data-at="3.3" style="left:120px;top:720px;width:1680px;text-align:center;font:700 30px Inter;color:#d6cdf2">AVAILABLE → <span style="color:var(--amber)">HELD</span> → <span style="color:var(--violet)">BOOKED</span>  (or back to AVAILABLE)</div>
+</section>
+
+<!-- ============================ ARCHITECTURE ============================ -->
+<section class="fv-scene" data-scene="monolith" data-chap="02 · ARCHITECTURE">
+  <div class="kicker">ARCHITECTURE</div><div class="title">A modular monolith</div>
+  <div class="card" data-at="0" style="left:120px;top:260px;width:1100px;height:330px">
+    <div class="lbl" style="color:#cbbcf7">☕ ONE SPRING BOOT APP · ONE DEPLOYABLE</div>
+    <div style="display:flex;flex-wrap:wrap;gap:14px;margin-top:22px" data-at="1">
+      <span class="pill" style="--c:var(--blu)">event</span><span class="pill" style="--c:var(--blu)">seat</span><span class="pill" style="--c:var(--amber)">booking</span><span id="mo-pay" class="pill" style="--c:var(--grn)">payment</span><span class="pill" style="--c:var(--pink)">notification</span><span class="pill" style="--c:var(--cyan)">queue</span><span class="pill" style="--c:var(--cyan)">ratelimit</span><span class="pill" style="--c:var(--violet)">auth</span><span class="pill" style="--c:var(--violet)">ticket</span><span class="pill" style="--c:var(--mut)">messaging</span>
+    </div>
+    <div data-at="3" style="margin-top:26px;font:700 28px Inter;color:var(--amber)">booking ⇄ payment ⇄ notification: <u>only via Kafka messages</u></div>
+  </div>
+  <div class="card" data-at="4" style="left:1260px;top:260px;width:540px;height:330px;text-align:center">
+    <div class="lbl">later, if needed</div>
+    <div style="margin-top:34px"><span class="pill" style="--c:var(--grn);font-size:34px">payment →</span></div>
+    <div style="margin-top:28px;font:700 28px/1.35 Inter">extract into its own service<br><span style="color:var(--grn)">without touching booking</span></div>
+  </div>
+  <div class="abs" style="left:120px;top:640px;width:1680px;display:flex;gap:30px">
+    <div class="card" data-at="2" style="position:relative;flex:1;text-align:center"><div style="font-size:60px">🏟️</div><div style="font:800 30px Inter">Classic monolith</div><div style="font:500 24px Inter;color:var(--mut)">one big open hall</div></div>
+    <div class="card" data-at="2.35" style="position:relative;flex:1;text-align:center;border-color:var(--amber)"><div style="font-size:60px">🏢</div><div style="font:800 30px Inter;color:var(--amber)">Modular monolith ✓</div><div style="font:500 24px Inter;color:var(--mut)">one building, rooms with doors</div></div>
+    <div class="card" data-at="2.7" style="position:relative;flex:1;text-align:center"><div style="font-size:60px">🏘️</div><div style="font:800 30px Inter">Microservices</div><div style="font:500 24px Inter;color:var(--mut)">separate buildings, roads between</div></div>
+  </div>
+</section>
+
+<section class="fv-scene" data-scene="whynotmicro" data-chap="02 · ARCHITECTURE">
+  <div class="kicker">WHY NOT MICROSERVICES?</div><div class="title">The seat hold must be atomic</div>
+  <div class="card code" data-at="1" style="left:120px;top:270px;width:800px;font-size:28px"><span class="lbl" style="color:var(--grn)">ONE DATABASE ✓</span>
+<span class="k">BEGIN</span>;
+  <span class="k">UPDATE</span> seats         <span class="c">-- HELD</span>
+  <span class="k">INSERT INTO</span> bookings
+  <span class="k">INSERT INTO</span> booking_seats
+<span class="k">COMMIT</span>;   <span class="s">all three, or none</span></div>
+  <div class="abs" data-at="2" style="left:120px;top:640px;width:800px"><span class="pill" style="--c:var(--grn)">plain ACID transaction · atomic · fast</span></div>
+  <div class="card" data-at="3" style="left:980px;top:270px;width:820px;height:420px">
+    <div class="lbl" style="color:var(--red)">THREE SERVICES, THREE DATABASES ✗</div>
+    <div class="node" style="--c:var(--blu);left:30px;top:90px;width:220px;height:110px;font-size:24px">seat svc<small>🐘 db 1</small></div>
+    <div class="node" style="--c:var(--amber);left:295px;top:90px;width:220px;height:110px;font-size:24px">booking svc<small>🐘 db 2</small></div>
+    <div class="node" style="--c:var(--violet);left:560px;top:90px;width:220px;height:110px;font-size:24px">link svc<small>🐘 db 3</small></div>
+    <div class="abs" style="left:0;right:0;top:230px;text-align:center;font:900 64px Inter;color:var(--red)">? no shared tx</div>
+    <div class="abs" data-at="4" style="left:0;right:0;top:330px;text-align:center"><span class="pill" style="--c:var(--red)">2PC or saga · just to hold a seat</span></div>
+  </div>
+  <div class="abs" data-at="5" style="left:980px;top:730px;width:820px"><div class="row" style="--c:var(--grn)"><div class="ic">🛡️</div><div>A DB <b>constraint</b> can only guard data inside <b>one database</b></div></div></div>
+</section>
+
+<section class="fv-scene" data-scene="twopc" data-chap="02 · 2PC vs SAGA">
+  <div class="kicker">TWO-PHASE COMMIT vs SAGA</div><div class="title">Coordinating across databases</div>
+  <svg class="abs" width="1920" height="1080" style="left:0;top:0">
+    <path id="tp1" class="ar" d="M470,370 L310,500" stroke="#60a5fa" marker-end="url(#mB)" data-draw="1-1.4"/>
+    <path id="tp2" class="ar" d="M570,370 L730,500" stroke="#60a5fa" marker-end="url(#mB)" data-draw="1-1.4"/>
+    <path class="ar" d="M330,500 L490,375" stroke="#34d399" marker-end="url(#mG)" data-draw="1.6-1.95"/>
+    <path class="ar" d="M710,500 L550,375" stroke="#34d399" marker-end="url(#mG)" data-draw="1.6-1.95"/>
+  </svg>
+  <div class="node" data-at="1" style="--c:var(--amber);left:400px;top:270px;width:240px;height:100px;font-size:26px">Coordinator</div>
+  <div class="node" data-at="1" style="--c:var(--blu);left:140px;top:500px;width:240px;height:110px;font-size:26px">DB A<small id="tp-a">prepare → lock</small></div>
+  <div class="node" data-at="1" style="--c:var(--blu);left:660px;top:500px;width:240px;height:110px;font-size:26px">DB B<small>prepare → lock</small></div>
+  <div class="abs mono" data-at="1.6" style="left:120px;top:640px;width:800px;text-align:center;font:800 26px 'JetBrains Mono';color:var(--grn)">votes: YES · YES → phase 2: COMMIT</div>
+  <div class="abs" style="left:120px;top:700px;width:800px">
+    <div class="row" data-at="3" style="--c:var(--red)"><div class="ic">🐢</div><div><b>Slow</b>: rows locked across round trips</div></div>
+    <div class="row" data-at="3.5" style="--c:var(--red)"><div class="ic">🧊</div><div><b>Blocking</b>: coordinator dies → locks stuck</div></div>
+  </div>
+  <div class="card" data-at="4" style="left:980px;top:270px;width:820px;height:330px">
+    <div class="lbl" style="color:var(--grn)">SAGA · local commits + compensation</div>
+    <div style="display:flex;gap:14px;margin-top:30px;align-items:center;font:800 26px Inter">
+      <span class="tag" style="--c:var(--grn)">step 1 ✓</span>→<span class="tag" style="--c:var(--grn)">step 2 ✓</span>→<span class="tag" style="--c:var(--red)">step 3 ✗</span>
+    </div>
+    <div style="margin-top:26px;font:800 28px Inter;color:var(--amber)">← undo step 2, undo step 1</div>
+    <div style="margin-top:20px;font:600 25px Inter;color:var(--mut)">eventual consistency, not instant</div>
+  </div>
+  <div class="card" data-at="5" style="left:980px;top:640px;width:820px;border-color:var(--amber)">
+    <div style="font:800 28px/1.45 Inter">🎟️ Hold → <span class="ok">one local transaction</span><br>💳 Payment → <span style="color:var(--amber)">saga</span> (a gateway can't join a DB tx)</div>
+  </div>
+</section>
+
+<section class="fv-scene" data-scene="stack" data-chap="03 · TECH STACK">
+  <div class="kicker">TECH STACK</div><div class="title">One job per piece</div>
+  <table class="t abs" style="left:120px;top:250px;width:1680px">
+    <tr data-at="0"><th>TOOL</th><th>JOB IN SEATLOCK</th><th>THINK OF IT AS</th></tr>
+    <tr data-at="1"><td>☕ <b>Java 21 + Spring Boot</b></td><td>the application, virtual threads</td><td>the staff</td></tr>
+    <tr data-at="1.5"><td>🐘 <b style="color:var(--blu)">PostgreSQL</b></td><td>source of truth: tx, row locks, constraints</td><td><b>the judge</b>: final say</td></tr>
+    <tr data-at="2"><td>🧱 <b style="color:var(--red)">Redis</b></td><td>cache · waiting room · rate limits · fast lock</td><td><b>the bouncer</b></td></tr>
+    <tr data-at="3"><td>📨 <b style="color:var(--amber)">Kafka</b></td><td>messages between modules, at-least-once</td><td><b>the postman</b></td></tr>
+    <tr data-at="4"><td>🧬 Flyway · Hibernate · 🐳 Docker</td><td>schema · object↔row mapping · packaging</td><td>blueprints &amp; boxes</td></tr>
+    <tr data-at="5"><td>🧪 Testcontainers · k6 · 📈 Micrometer</td><td>real tests · load tests · metrics</td><td>the proof</td></tr>
+  </table>
+</section>
+
+<section class="fv-scene" data-scene="java" data-chap="03 · JAVA 21">
+  <div class="kicker">JAVA 21 · SPRING BOOT</div><div class="title">Virtual threads for a waiting-heavy workload</div>
+  <div class="card" data-at="1" style="left:120px;top:270px;width:820px;height:360px">
+    <div class="lbl" style="color:var(--red)">platform threads</div>
+    <div id="jv-plat" style="display:grid;grid-template-columns:repeat(10,62px);gap:12px;margin-top:20px"></div>
+    <div style="margin-top:18px;font:600 25px Inter;color:var(--mut)">1 waiting request = 1 heavy OS thread</div>
+  </div>
+  <div class="card" data-at="2" style="left:980px;top:270px;width:820px;height:360px">
+    <div class="lbl" style="color:var(--grn)">virtual threads</div>
+    <div id="jv-virt" style="display:grid;grid-template-columns:repeat(20,26px);gap:10px;margin-top:20px"></div>
+    <div style="margin-top:18px;font:600 25px Inter;color:var(--mut)">waiting request parks · carrier thread serves others</div>
+  </div>
+  <div class="card code" data-at="2.6" style="left:120px;top:670px;width:820px">spring.threads.virtual.enabled: <span class="s">true</span></div>
+  <div class="card" data-at="3" style="left:980px;top:670px;width:820px;border-color:var(--amber)"><div style="font:800 28px/1.4 Inter">⚠️ The real limit: <span style="color:var(--amber)">Hikari pool = 20 connections</span><br><span style="font-weight:500;font-size:25px;color:var(--mut)">that's where back-pressure belongs</span></div></div>
+</section>
+
+<section class="fv-scene" data-scene="postgres" data-chap="03 · POSTGRES">
+  <div class="kicker">POSTGRESQL · FLYWAY · HIBERNATE</div><div class="title">Structure, data, and the bridge</div>
+  <div class="abs" data-at="0" style="left:120px;top:260px;display:flex;gap:14px"><span class="pill" style="--c:var(--blu)">transactions</span><span class="pill" style="--c:var(--blu)">row-level locks</span><span class="pill" style="--c:var(--blu)">constraints</span></div>
+  <div class="card" style="left:120px;top:350px;width:780px;height:470px" data-at="1">
+    <div class="lbl" style="color:var(--cyan)">FLYWAY · db/migration</div>
+    <div class="code" style="font-size:23px;margin-top:10px"><span data-at="1.1">V1__create_core_tables.sql</span>
+<span data-at="1.2" class="h">V2__holds_locking_idempotency.sql</span>
+<span data-at="1.3">V3__outbox_saga_notifications.sql</span>
+<span data-at="1.4">V4__waiting_room.sql</span>
+<span data-at="1.5">V5__payment_reconciliation_….sql</span>
+<span data-at="1.6">V6__customer_contact_and_email.sql</span>
+<span data-at="1.7">V7__users_and_tickets.sql</span>
+<span data-at="1.8">V8__event_category.sql</span></div>
+    <div data-at="2" style="margin-top:12px;font:700 25px Inter;color:var(--grn)">fresh DB → V1…V8 at startup · never edit old ones</div>
+  </div>
+  <div class="card" data-at="3" style="left:960px;top:350px;width:840px;height:300px">
+    <div class="lbl" style="color:var(--amber)">HIBERNATE (JPA ORM)</div>
+    <div class="code" style="margin-top:12px;font-size:24px"><span class="t">seat</span>.hold(bookingId, expiresAt);
+<span class="c">        ↓ generates</span>
+<span class="k">UPDATE</span> seats <span class="k">SET</span> status=<span class="s">'HELD'</span>, …
+<span class="k">WHERE</span> id = 42 <span class="k">AND</span> version = 7</div>
+  </div>
+  <div class="card" data-at="4" style="left:960px;top:680px;width:840px;border-color:var(--red)"><div class="code" style="font-size:24px">ddl-auto: <span class="s">validate</span></div><div style="font:700 25px Inter;margin-top:6px">entity ≠ table → <span class="x">app refuses to start</span></div></div>
+</section>
+
+<section class="fv-scene" data-scene="model" data-chap="03 · DATA MODEL">
+  <div class="kicker">DATA MODEL</div><div class="title">Tables and state machines</div>
+  <div class="card" data-at="0" style="left:120px;top:260px;width:800px;height:300px">
+    <div class="code" style="font-size:24px">events  <span class="c">1──*</span>  seats
+bookings <span class="c">1──*</span> booking_seats <span class="c">*──1</span> seats
+bookings <span class="c">1──*</span> payments</div>
+    <div style="margin-top:18px;display:flex;flex-wrap:wrap;gap:10px"><span class="tag" style="--c:var(--amber)">outbox_events</span><span class="tag" style="--c:var(--amber)">processed_messages</span><span class="tag" style="--c:var(--pink)">tickets</span><span class="tag" style="--c:var(--violet)">users</span></div>
+  </div>
+  <div class="card" data-at="1" style="left:960px;top:260px;width:840px;height:140px">
+    <div class="lbl">seat</div>
+    <div style="margin-top:12px;font:800 28px Inter"><span style="color:var(--grn)">AVAILABLE</span> → <span style="color:var(--amber)">HELD</span> → <span style="color:var(--violet)">BOOKED</span> <span style="color:var(--mut);font-weight:600"> (HELD → AVAILABLE)</span></div>
+  </div>
+  <div class="card" data-at="2" style="left:960px;top:420px;width:840px;height:140px">
+    <div class="lbl">booking</div>
+    <div style="margin-top:12px;font:800 26px Inter"><span style="color:var(--amber)">HELD</span> → <span style="color:var(--blu)">PAYMENT_PENDING</span> → <span style="color:var(--grn)">CONFIRMED</span> <span style="color:var(--mut);font-weight:600">· CANCELLED · EXPIRED</span></div>
+  </div>
+  <div class="card code" data-at="3" style="left:120px;top:600px;width:800px;font-size:24px"><span class="lbl" style="color:var(--grn)">MONEY</span>
+total_cents <span class="t">BIGINT</span>   <span class="ok">✓ exact</span>
+0.1 + 0.2  = <span class="r">0.30000000000000004</span></div>
+  <div class="card code" data-at="4" style="left:960px;top:600px;width:840px;font-size:22px"><span class="k">CHECK</span> (
+ (status=<span class="s">'AVAILABLE'</span> <span class="k">AND</span> booking_id <span class="k">IS NULL</span>) <span class="k">OR</span>
+ (status=<span class="s">'HELD'</span> <span class="k">AND</span> booking_id <span class="k">IS NOT NULL</span>
+                  <span class="k">AND</span> hold_expires_at <span class="k">IS NOT NULL</span>) <span class="k">OR</span> …)</div>
+</section>
+
+<!-- ============================ DOUBLE BOOKING ============================ -->
+<section class="fv-scene" data-scene="race" data-chap="04 · DOUBLE BOOKING">
+  <div class="kicker">THE CORE PROBLEM</div><div class="title">The double-booking race</div>
+  <div class="node" data-at="1" style="--c:var(--blu);left:120px;top:280px;width:260px;height:140px">👩 Alice<small>opens seat 42</small></div>
+  <div class="node" data-at="1" style="--c:var(--pink);left:120px;top:460px;width:260px;height:140px">🧑 Bob<small>opens seat 42</small></div>
+  <div class="abs" style="left:440px;top:290px;width:900px">
+    <div class="row" data-at="1.4"><div class="ic">📖</div><div>Alice reads → <b style="color:var(--grn)">AVAILABLE</b></div></div>
+    <div class="row" data-at="1.7"><div class="ic">📖</div><div>Bob reads → <b style="color:var(--grn)">AVAILABLE</b></div></div>
+    <div class="row" data-at="2" style="--c:var(--red)"><div class="ic">✍️</div><div>Alice writes BOOKED · Bob writes BOOKED</div></div>
+  </div>
+  <div class="node" id="ra-seat" style="--c:var(--grn);left:1440px;top:300px;width:340px;height:260px"><div style="font-size:60px">💺</div>seat 42<small id="ra-st" style="font-size:26px;font-weight:800;color:var(--grn)">AVAILABLE</small></div>
+  <div class="card code" data-at="3" style="left:120px;top:660px;width:1680px;font-size:28px"><span class="k">if</span> (seat.isAvailable()) {     <span class="r" data-at="4">⟵ another request slips in HERE</span>
+    seat.book();
+}</div>
+  <div class="abs" data-at="5" style="left:1400px;top:590px;width:400px;text-align:center"><span class="pill" style="--c:var(--grn)">make check + write atomic</span></div>
+</section>
+
+<section class="fv-scene" data-scene="layers" data-chap="04 · DEFENCE IN DEPTH">
+  <div class="kicker">DEFENCE IN DEPTH</div><div class="title">Three independent layers</div>
+  <div class="abs" style="left:120px;top:270px;width:1300px">
+    <div class="row" data-at="1" style="--c:var(--amber);padding:24px"><div class="num">1</div><div><b>Locking strategy</b> (choose one)<div style="margin-top:12px;display:flex;gap:12px"><span class="tag" style="--c:var(--blu)">PESSIMISTIC · default</span><span class="tag" style="--c:var(--violet)">OPTIMISTIC</span><span class="tag" style="--c:var(--red)">REDIS lock</span></div></div></div>
+    <div class="row" data-at="2" style="--c:var(--blu);padding:24px"><div class="num">2</div><div><b>@Version on every seat</b> · always on<div class="mono" style="font-size:24px;color:var(--mut);margin-top:6px">UPDATE … WHERE id=42 AND version=7</div></div></div>
+    <div class="row" data-at="3" style="--c:var(--grn);padding:24px"><div class="num">3</div><div><b>Partial unique index</b> · inside Postgres<div class="mono" style="font-size:24px;color:var(--mut);margin-top:6px">UNIQUE (seat_id) WHERE active</div></div></div>
+  </div>
+  <div class="abs" style="left:1470px;top:270px;width:330px;font:800 30px/1 Inter">
+    <div data-at="4" style="height:178px;display:flex;align-items:center;gap:14px">🛑 brakes</div>
+    <div data-at="4.3" style="height:150px;display:flex;align-items:center;gap:14px">🛞 ABS</div>
+    <div data-at="4.6" style="height:150px;display:flex;align-items:center;gap:14px">🎈 airbags</div>
+  </div>
+</section>
+
+<section class="fv-scene" data-scene="pessimistic" data-chap="04 · LAYER 1a">
+  <div class="kicker">LAYER 1a · PESSIMISTIC</div><div class="title">Lock first, then work</div>
+  <div class="card code" data-at="1" style="left:120px;top:250px;width:820px;font-size:24px"><span class="k">SELECT</span> * <span class="k">FROM</span> seats <span class="k">WHERE</span> id <span class="k">IN</span> (42)
+<span class="k">ORDER BY</span> id <span class="h"><span class="k">FOR UPDATE</span></span>;</div>
+  <div class="abs" style="left:120px;top:400px;width:820px">
+    <div class="row" data-at="1.3" style="--c:var(--grn)"><div class="ic">👩</div><div>A takes the lock 🔒 → writes <b>HELD</b> → commit</div></div>
+    <div class="row" data-at="1.6" style="--c:var(--mut)"><div class="ic">⏳</div><div>B waits… C waits…</div></div>
+    <div class="row" data-at="2" style="--c:var(--red)"><div class="ic">🧑</div><div>B gets lock → reads <b style="color:var(--amber)">HELD</b> → <b>409</b></div></div>
+  </div>
+  <div class="card" data-at="3" style="left:980px;top:250px;width:820px;height:330px">
+    <div class="lbl">"row" = one DATABASE record</div>
+    <table class="t" style="margin-top:6px;font-size:25px">
+      <tr><td class="mono">41</td><td>AVAILABLE</td><td class="ok">free</td></tr>
+      <tr data-hl="3.3-4.15"><td class="mono">42</td><td>AVAILABLE</td><td style="color:var(--amber);font-weight:900">🔒 locked</td></tr>
+      <tr data-hl="4.2-4.95"><td class="mono">43</td><td>AVAILABLE</td><td class="ok">free ✓</td></tr>
+    </table>
+  </div>
+  <div class="card" data-at="5" style="left:980px;top:610px;width:820px"><div style="font:700 26px/1.35 Inter">👀 Seat-map <span class="mono">SELECT</span> → <span class="ok">no wait</span> (MVCC)<br><span style="color:var(--mut);font-weight:500">readers never block writers</span></div></div>
+  <div class="card" data-at="6" style="left:120px;top:770px;width:820px;border-color:var(--red)"><div style="font:700 26px Inter">Cost: waiters hold a connection · pool = 20</div><div style="margin-top:10px;height:22px;border-radius:11px;background:#2b2248;overflow:hidden"><div data-bar="6.2-6.9" data-w="95" style="height:100%;width:0;background:linear-gradient(90deg,var(--amber),var(--red))"></div></div></div>
+</section>
+
+<section class="fv-scene" data-scene="optimistic" data-chap="04 · LAYER 1b">
+  <div class="kicker">LAYER 1b · OPTIMISTIC</div><div class="title">Read freely, check at write time</div>
+  <div class="card code" data-at="1" style="left:120px;top:260px;width:1680px;font-size:28px"><span class="k">UPDATE</span> seats <span class="k">SET</span> status=<span class="s">'HELD'</span>, version = <span class="t">8</span>
+<span class="k">WHERE</span> id = 42 <span class="h"><span class="k">AND</span> version = <span class="t">7</span></span>;    <span class="c">-- "only if nobody changed it"</span></div>
+  <div class="abs" style="left:120px;top:470px;width:1000px">
+    <div class="row" data-at="2"><div class="ic">👩</div><div>A reads v7 · B reads v7</div></div>
+    <div class="row" data-at="2.4" style="--c:var(--grn)"><div class="ic">✅</div><div>A updates → <b>1 row</b> → version 8</div></div>
+    <div class="row" data-at="2.75" style="--c:var(--red)"><div class="ic">❌</div><div>B updates WHERE version=7 → <b>0 rows</b> → OptimisticLockException → <b>409</b></div></div>
+  </div>
+  <div class="card" data-at="3" style="left:1160px;top:470px;width:640px;border-color:var(--grn)"><div style="font:800 28px/1.4 Inter;color:var(--grn)">✓ no waiting<br>✓ no locks held</div><div style="font:600 24px Inter;color:var(--mut);margin-top:6px">great when conflicts are rare</div></div>
+  <div class="card" data-at="4" style="left:120px;top:760px;width:1680px;border-color:var(--red)"><div style="font:700 27px Inter">⚡ Flash sale: most do all the work, then fail at the end → <span class="x">wasted effort</span> → slowest in the load test</div></div>
+</section>
+
+<section class="fv-scene" data-scene="redislock" data-chap="04 · LAYER 1c">
+  <div class="kicker">LAYER 1c · REDIS LOCK</div><div class="title">Fail fast, before the database</div>
+  <div class="card code" data-at="1" style="left:120px;top:250px;width:1680px;font-size:30px;text-align:center"><span class="k">SET</span> seatlock:seat-lock:<span class="t">42</span>  <span class="s">9f1c…uuid</span>  <span class="h"><span class="k">NX</span></span>  <span class="k">PX</span> <span class="t">5000</span></div>
+  <div class="abs" data-at="1.5" style="left:120px;top:350px;width:1680px;display:flex;justify-content:space-around;font:700 23px 'JetBrains Mono';color:var(--mut)"><span>key per seat</span><span>my random token</span><span style="color:var(--amber)">only if not exists</span><span>expire in 5 s</span></div>
+  <svg class="abs" width="1920" height="1080" style="left:0;top:0" id="rl-svg"></svg>
+  <div class="node" data-at="2" style="--c:var(--red);left:760px;top:470px;width:260px;height:140px">🧱 Redis<small>one command at a time</small></div>
+  <div class="node" data-at="3" style="--c:var(--blu);left:1500px;top:440px;width:300px;height:130px">🐘 Postgres<small>only the winner</small></div>
+  <div class="abs mono" data-at="3.3" style="left:1100px;top:640px;font:800 30px 'JetBrains Mono';color:var(--red)">49 × 409 · instantly · no DB connection</div>
+  <div class="card" data-at="4" style="left:120px;top:690px;width:640px;border-color:var(--amber)"><div style="font:700 26px/1.4 Inter">⏱️ PX 5000 → crashed app can't block a seat forever</div></div>
+  <div class="card code" data-at="5" style="left:800px;top:700px;width:1000px;font-size:23px"><span class="k">if</span> redis.call(<span class="s">'get'</span>, KEYS[1]) == ARGV[1] <span class="k">then</span>   <span class="c">-- still MY token?</span>
+    <span class="k">return</span> redis.call(<span class="s">'del'</span>, KEYS[1])
+<span class="k">else return</span> 0 <span class="k">end</span>                      <span class="c">-- not mine: leave it</span></div>
+</section>
+
+<section class="fv-scene" data-scene="version" data-chap="04 · LAYER 2">
+  <div class="kicker">LAYER 2 · @VERSION</div><div class="title">The version is a fencing token</div>
+  <svg class="abs" width="1920" height="1080" style="left:0;top:0">
+    <line x1="300" y1="560" x2="1780" y2="560" stroke="rgba(255,255,255,.25)" stroke-width="3"/>
+    <rect data-at="1.6" x="560" y="290" width="720" height="70" rx="12" fill="rgba(248,113,113,.18)" stroke="#f87171" stroke-width="2"/>
+    <line data-at="2" x1="1280" y1="250" x2="1280" y2="560" stroke="#f2b134" stroke-width="4" stroke-dasharray="10 10"/>
+  </svg>
+  <div class="abs" style="left:120px;top:300px;font:800 30px Inter;color:var(--blu)">Buyer A</div>
+  <div class="abs" style="left:120px;top:440px;font:800 30px Inter;color:var(--pink)">Buyer B</div>
+  <div class="abs mono" style="left:120px;top:540px;font:700 22px 'JetBrains Mono';color:var(--mut)">time →</div>
+  <span class="abs tag" data-at="1" style="--c:var(--blu);left:320px;top:305px">lock · read v7</span>
+  <div class="abs" data-at="1.6" style="left:700px;top:305px;font:800 26px Inter;color:var(--red)">⏸️ frozen (GC pause)</div>
+  <div class="abs mono" data-at="2" style="left:1170px;top:220px;font:800 22px 'JetBrains Mono';color:var(--amber)">5 s · lock expires</div>
+  <span class="abs tag" data-at="2.4" style="--c:var(--pink);left:1300px;top:445px">lock · read v7 · write → v8 ✓</span>
+  <span class="abs tag" data-at="3.3" style="--c:var(--red);left:1300px;top:305px">WHERE version=7 → 0 rows ✗</span>
+  <div class="card code" data-at="4" style="left:120px;top:620px;width:820px;font-size:24px"><span class="t">@Version</span>
+<span class="k">private</span> Long version;   <span class="c">// Hibernate adds the check</span></div>
+  <div class="abs" data-at="4.4" style="left:980px;top:630px"><span class="pill" style="--c:var(--amber);font-size:30px">fencing token = proof your read is current</span></div>
+  <div class="abs" data-at="5" style="left:120px;top:800px;width:1680px;display:flex;gap:14px"><span class="tag" style="--c:var(--grn)">lost updates from other paths</span><span class="tag" style="--c:var(--grn)">someone removes FOR UPDATE</span><span class="tag" style="--c:var(--grn)">future bugs</span></div>
+</section>
+
+<section class="fv-scene" data-scene="uniqueindex" data-chap="04 · LAYER 3">
+  <div class="kicker">LAYER 3 · THE DATABASE ITSELF</div><div class="title">A partial unique index</div>
+  <div class="card code" data-at="1" style="left:120px;top:250px;width:1680px;font-size:30px"><span class="k">CREATE UNIQUE INDEX</span> uq_booking_seats_one_active <span class="k">ON</span> booking_seats (seat_id) <span class="h"><span class="k">WHERE</span> active</span>;</div>
+  <div class="card" data-at="2" style="left:120px;top:370px;width:1000px;height:400px">
+    <div class="lbl">booking_seats</div>
+    <table class="t" style="font-size:25px">
+      <tr><th>SEAT</th><th>BOOKING</th><th>ACTIVE</th><th></th></tr>
+      <tr data-hl="3.3-3.95"><td class="mono">42</td><td class="mono">#7</td><td style="color:var(--mut)">false</td><td style="color:var(--mut)">expired</td></tr>
+      <tr data-hl="3.3-3.95"><td class="mono">42</td><td class="mono">#9</td><td style="color:var(--mut)">false</td><td style="color:var(--mut)">cancelled</td></tr>
+      <tr><td class="mono">42</td><td class="mono">#12</td><td class="ok">true</td><td class="ok">current owner</td></tr>
+      <tr data-at="2.5"><td class="mono">42</td><td class="mono">#15</td><td style="color:var(--amber)">true</td><td class="x">✗ REJECTED</td></tr>
+    </table>
+  </div>
+  <div class="card code" data-at="2.7" style="left:1160px;top:370px;width:640px;font-size:21px;color:#fca5a5;white-space:pre-wrap">ERROR: duplicate key value violates unique constraint "uq_booking_seats_one_active"</div>
+  <div class="card" data-at="5" style="left:1160px;top:560px;width:640px;height:210px">
+    <div class="lbl">same trick</div>
+    <div class="code" style="font-size:20px;margin-top:8px">payments(booking_id)
+  <span class="k">WHERE</span> status=<span class="s">'SUCCEEDED'</span>
+bookings(user_id, idempotency_key)</div>
+  </div>
+  <div class="abs" data-at="6" style="left:120px;top:800px;width:1680px;text-align:center"><span class="pill" style="--c:var(--grn);font-size:30px">even if every line of Java were wrong, Postgres refuses</span></div>
+</section>
+
+<section class="fv-scene" data-scene="deadlock" data-chap="04 · DEADLOCKS">
+  <div class="kicker">THE MULTI-SEAT TRAP</div><div class="title">Deadlocks, and lock ordering</div>
+  <div class="card" data-at="1" style="left:120px;top:260px;width:820px;height:440px">
+    <div class="lbl" style="color:var(--red)">✗ any order</div>
+    <svg width="820" height="380" style="position:absolute;left:0;top:50px">
+      <path class="ar" d="M250,110 C410,40 410,40 560,110" stroke="#f87171" marker-end="url(#mR)" data-draw="1.3-1.7"/>
+      <path class="ar" d="M560,240 C410,310 410,310 250,240" stroke="#f87171" marker-end="url(#mR)" data-draw="1.5-1.9"/>
+    </svg>
+    <div class="node" style="--c:var(--blu);left:40px;top:120px;width:220px;height:110px;font-size:24px">T1<small>holds 5 · wants 3</small></div>
+    <div class="node" style="--c:var(--pink);left:560px;top:120px;width:220px;height:110px;font-size:24px">T2<small>holds 3 · wants 5</small></div>
+    <div class="abs" data-at="1.8" style="left:0;right:0;top:375px;text-align:center;font:900 34px Inter;color:var(--red)">wait forever ♾️</div>
+  </div>
+  <div class="card" data-at="3" style="left:980px;top:260px;width:820px;height:440px">
+    <div class="lbl" style="color:var(--grn)">✓ always sorted by id</div>
+    <div style="margin-top:40px;font:800 30px/1.8 Inter">T1 → lock <span class="tag" style="--c:var(--grn)">3</span> then <span class="tag" style="--c:var(--grn)">5</span><br>T2 → lock <span class="tag" style="--c:var(--grn)">3</span> ⏳ waits behind T1</div>
+    <div style="margin-top:20px;font:800 32px Inter;color:var(--grn)">no cycle can form</div>
+  </div>
+  <div class="card code" data-at="3.3" style="left:120px;top:730px;width:1100px;font-size:24px">seatIds = request.seatIds().stream().distinct()<span class="h">.sorted()</span>.toList();</div>
+  <div class="abs" data-at="4" style="left:1260px;top:745px"><span class="pill" style="--c:var(--amber)">deadlock / timeout → 409</span></div>
+</section>
+
+<section class="fv-scene" data-scene="fastreject" data-chap="04 · FAST REJECT">
+  <div class="kicker">AFTER THE SELL-OUT</div><div class="title">Fast reject from the cache</div>
+  <svg class="abs" width="1920" height="1080" style="left:0;top:0">
+    <path class="ar" d="M390,400 L560,400" stroke="#f2b134" marker-end="url(#mA)" data-draw="0.3-0.6"/>
+    <path class="ar" d="M890,370 L1100,300" stroke="#f87171" marker-end="url(#mR)" data-draw="1-1.3"/>
+    <path class="ar" d="M890,430 L1100,520" stroke="#34d399" marker-end="url(#mG)" data-draw="2.3-2.6"/>
+  </svg>
+  <div class="node" data-at="0" style="--c:var(--violet);left:120px;top:330px;width:260px;height:140px">🙋 hold seat 42</div>
+  <div class="node" data-at="0.4" style="--c:var(--red);left:570px;top:320px;width:310px;height:160px">🧱 cached map<small>taken?</small></div>
+  <div class="node" data-at="1" style="--c:var(--red);left:1110px;top:230px;width:690px;height:130px">taken → <b>409 now</b><small>no tx · no lock · no connection</small></div>
+  <div class="node" data-at="2.3" style="--c:var(--grn);left:1110px;top:460px;width:690px;height:130px">available → full locked DB path<small>cache can only REJECT, never approve</small></div>
+  <div class="card" data-at="4" style="left:120px;top:640px;width:1680px;height:230px">
+    <div class="lbl">pessimistic throughput · k6</div>
+    <div style="display:flex;align-items:center;gap:20px;margin-top:20px"><span style="width:200px;font:700 26px Inter">before</span><div style="height:44px;border-radius:10px;background:var(--mut)" data-bar="4-4.4" data-w="38"></div><span class="mono" style="font:800 30px 'JetBrains Mono'"><span data-count="4-4.4" data-to="897">0</span> req/s</span></div>
+    <div style="display:flex;align-items:center;gap:20px;margin-top:16px"><span style="width:200px;font:700 26px Inter;color:var(--grn)">fast reject</span><div style="height:44px;border-radius:10px;background:var(--grn)" data-bar="4.4-4.9" data-w="62"></div><span class="mono" style="font:800 30px 'JetBrains Mono';color:var(--grn)"><span data-count="4.4-4.9" data-to="2171">0</span> req/s</span></div>
+  </div>
+</section>
+
+<section class="fv-scene" data-scene="status" data-chap="04 · HTTP 409">
+  <div class="kicker">STATUS CODES</div><div class="title">Why 409, and not 408, 400 or 500</div>
+  <div class="card" data-at="0" style="left:120px;top:260px;width:760px;height:330px;border-color:var(--amber);text-align:center">
+    <div style="font:900 130px/1 Inter;color:var(--amber);margin-top:14px">409</div>
+    <div style="font:800 36px Inter">Conflict</div>
+    <div style="font:600 25px/1.35 Inter;color:var(--mut);margin-top:10px" data-at="1">valid request · clashes with the<br>current state of the resource</div>
+  </div>
+  <div class="abs" style="left:930px;top:260px;width:870px">
+    <div class="row" data-at="2" style="--c:var(--red)"><div class="ic">400</div><div style="margin-left:24px">✗ nothing wrong with the request</div></div>
+    <div class="row" data-at="2.5" style="--c:var(--red)"><div class="ic">500</div><div style="margin-left:24px">✗ nothing broke · no alerts for a lost race</div></div>
+    <div class="row" data-at="3" style="--c:var(--red)"><div class="ic">408</div><div style="margin-left:24px">✗ client too slow <i>sending</i> · ours arrived fine</div></div>
+  </div>
+  <div class="card" data-at="4" style="left:120px;top:620px;width:760px"><div style="font:800 28px Inter">Retry the same request? <span class="x">No</span> → pick another seat</div></div>
+  <div class="abs" data-at="5" style="left:930px;top:620px;width:870px;display:flex;flex-direction:column;gap:12px">
+    <div style="font:700 26px Inter"><span class="tag" style="--c:var(--org)">429</span> rate limited + Retry-After</div>
+    <div style="font:700 26px Inter"><span class="tag" style="--c:var(--pink)">422</span> idempotency key reused, different body</div>
+    <div style="font:700 26px Inter"><span class="tag" style="--c:var(--grn)">202</span> payment accepted, still processing</div>
+  </div>
+</section>
+
+<!-- ============================ HOLDS ============================ -->
+<section class="fv-scene" data-scene="holds" data-chap="05 · HOLDS">
+  <div class="kicker">SEAT HOLDS</div><div class="title">Reserve now, pay within ten minutes</div>
+  <svg class="abs" width="1920" height="1080" style="left:0;top:0">
+    <path class="ar" d="M480,450 L760,450" stroke="#f2b134" marker-end="url(#mA)" data-draw="2-2.4"/>
+    <path class="ar" d="M1160,450 L1440,450" stroke="#a78bfa" marker-end="url(#mV)" data-draw="3-3.4"/>
+    <path class="ar" d="M960,560 C960,680 330,680 330,560" stroke="#34d399" marker-end="url(#mG)" data-draw="3.5-3.9"/>
+  </svg>
+  <div class="node" data-at="0" style="--c:var(--grn);left:150px;top:380px;width:330px;height:150px">AVAILABLE</div>
+  <div class="node" data-at="2" style="--c:var(--amber);left:770px;top:360px;width:380px;height:190px">HELD<small id="ho-clk" style="font:900 44px 'JetBrains Mono';color:var(--amber)">10:00</small></div>
+  <div class="node" data-at="3" style="--c:var(--violet);left:1450px;top:380px;width:330px;height:150px">BOOKED<small>paid ✓</small></div>
+  <div class="abs" data-at="3.5" style="left:420px;top:690px;font:800 28px Inter;color:var(--grn)">cancel · timer runs out · payment fails</div>
+  <div class="card" data-at="1" style="left:120px;top:250px;width:1680px;padding:14px 28px"><div style="font:700 27px Inter">💳 Paying takes time. Without a hold, someone grabs the seat while you type your card.</div></div>
+  <div class="abs" data-at="4" style="left:120px;top:790px;width:1680px;text-align:center"><span class="pill" style="--c:var(--grn)">guarantee #3 → the sweeper</span></div>
+</section>
+
+<section class="fv-scene" data-scene="sweeper" data-chap="05 · SWEEPER">
+  <div class="kicker">THE EXPIRY SWEEPER</div><div class="title">@Scheduled + SKIP LOCKED</div>
+  <div class="card code" data-at="1" style="left:120px;top:250px;width:900px;font-size:25px"><span class="c">-- every 5 s · @Scheduled(fixedDelay)</span>
+<span class="k">SELECT</span> id <span class="k">FROM</span> bookings
+<span class="k">WHERE</span> status=<span class="s">'HELD'</span> <span class="k">AND</span> expires_at &lt; now()
+<span class="k">ORDER BY</span> expires_at <span class="k">LIMIT</span> 200
+<span class="h" data-hl="2-2.95"><span class="k">FOR UPDATE SKIP LOCKED</span></span></div>
+  <div class="card" data-at="3" style="left:1060px;top:250px;width:740px;height:380px">
+    <div class="lbl">3 app instances, in parallel</div>
+    <div id="sw-rows" style="display:grid;grid-template-columns:repeat(6,96px);gap:12px;margin-top:20px"></div>
+    <div style="display:flex;gap:14px;margin-top:20px"><span class="tag" style="--c:var(--blu)">app 1</span><span class="tag" style="--c:var(--pink)">app 2</span><span class="tag" style="--c:var(--cyan)">app 3</span></div>
+    <div style="margin-top:14px;font:700 24px Inter;color:var(--grn)">different rows · nobody waits · no double processing</div>
+  </div>
+  <div class="abs" style="left:120px;top:560px;width:900px">
+    <div class="row" data-at="4" style="--c:var(--amber)"><div class="ic">1</div><div>booking → <b>EXPIRED</b>, seats → <b style="color:var(--grn)">AVAILABLE</b></div></div>
+    <div class="row" data-at="4.3" style="--c:var(--amber)"><div class="ic">2</div><div>BookingExpired → <b>outbox</b></div></div>
+    <div class="row" data-at="4.6" style="--c:var(--amber)"><div class="ic">3</div><div>after commit: cache evicted · live map updates</div></div>
+  </div>
+  <div class="card" data-at="5" style="left:1060px;top:680px;width:740px;border-color:var(--grn)"><div class="code" style="font-size:26px"><span class="t">@Transactional</span></div><div style="font:700 25px Inter;margin-top:6px">all of it commits together, or rolls back together</div></div>
+</section>
+
+<section class="fv-scene" data-scene="whyfive" data-chap="05 · WHY 5 SECONDS">
+  <div class="kicker">TUNING</div><div class="title">Why every five seconds?</div>
+  <div class="card" data-at="0" style="left:120px;top:260px;width:1680px;height:280px">
+    <div style="position:absolute;left:80px;right:80px;top:140px;height:8px;background:linear-gradient(90deg,var(--red),var(--grn) 45%,var(--grn) 55%,var(--red));border-radius:4px"></div>
+    <div data-at="2" style="position:absolute;left:60px;top:50px;width:460px;font:800 28px Inter;color:var(--red)">100 ms<div style="font:600 22px Inter;color:var(--mut)">empty queries · burns connections</div></div>
+    <div data-at="1" style="position:absolute;left:690px;top:40px;width:300px;text-align:center;font:900 44px Inter;color:var(--grn)">5 s ✓</div>
+    <div data-at="3" style="position:absolute;right:60px;top:50px;width:460px;text-align:right;font:800 28px Inter;color:var(--red)">60 s<div style="font:600 22px Inter;color:var(--mut)">released seats look taken</div></div>
+    <div style="position:absolute;left:0;right:0;top:180px;text-align:center;font:700 26px Inter;color:var(--mut)">freshness ←——— trade-off ———→ load</div>
+  </div>
+  <div class="card" data-at="1" style="left:120px;top:580px;width:820px;text-align:center"><div class="mono" style="font:900 54px 'JetBrains Mono'">5 / 600 s = <span style="color:var(--grn)">0.8%</span></div><div style="font:600 25px Inter;color:var(--mut)">nobody notices five extra seconds</div></div>
+  <div class="abs" style="left:980px;top:580px;width:820px">
+    <div class="row" data-at="4" style="--c:var(--grn)"><div class="ic">⚡</div><div>cheap: partial index <span class="mono" style="font-size:22px">WHERE status='HELD'</span></div></div>
+    <div class="row" data-at="4.5" style="--c:var(--grn)"><div class="ic">🛡️</div><div>correctness doesn't depend on it</div></div>
+  </div>
+</section>
+
+<section class="fv-scene" data-scene="paylast" data-chap="05 · LAST-SECOND RACE">
+  <div class="kicker">INTERVIEW FAVOURITE</div><div class="title">Paying at the last second</div>
+  <div class="node" data-at="1" style="--c:var(--blu);left:120px;top:280px;width:420px;height:180px">💳 Payment<small>FOR UPDATE on booking<br>status HELD? deadline ok?</small></div>
+  <div class="node" data-at="2" style="--c:var(--amber);left:120px;top:520px;width:420px;height:180px">🧹 Sweeper<small>SKIP LOCKED<br>→ skips this row</small></div>
+  <svg class="abs" width="1920" height="1080" style="left:0;top:0">
+    <path class="ar" d="M545,370 L860,450" stroke="#60a5fa" marker-end="url(#mB)" data-draw="1.3-1.7"/>
+    <path class="ar" d="M545,610 L760,560" stroke="#f2b134" stroke-dasharray="12 12" data-draw="2.2-2.6"/>
+  </svg>
+  <div class="node" data-at="1" style="--c:var(--violet);left:870px;top:380px;width:460px;height:200px">booking #12 🔒<small id="pl-st" style="font-size:26px;font-weight:900">HELD</small></div>
+  <div class="abs" data-at="2.6" style="left:640px;top:600px;font:900 50px Inter;color:var(--amber)">↷ skip</div>
+  <div class="card" data-at="3" style="left:1380px;top:380px;width:420px;border-color:var(--grn)"><div style="font:700 25px/1.4 Inter">Sweeper only touches <b style="color:var(--amber)">HELD</b> → never releases a seat being paid for</div></div>
+  <div class="card" data-at="4" style="left:870px;top:640px;width:930px;border-color:var(--red)"><div style="font:700 26px Inter">Sweeper first? → EXPIRED → payment gets <span class="x">409 hold expired</span></div><div style="font:900 30px Inter;color:var(--grn);margin-top:8px">either way, exactly one wins</div></div>
+</section>
+
+<!-- ============================ IDEMPOTENCY ============================ -->
+<section class="fv-scene" data-scene="idem" data-chap="06 · IDEMPOTENCY">
+  <div class="kicker">IDEMPOTENCY</div><div class="title">Twice = once</div>
+  <div class="card" data-at="0" style="left:120px;top:260px;width:1680px;text-align:center"><div style="font:800 36px Inter">f( f(x) ) = f(x)   <span style="color:var(--mut);font-weight:600;font-size:28px">· doing it twice has the effect of doing it once</span></div></div>
+  <div class="abs" data-at="1" style="left:120px;top:400px;width:1680px;display:flex;gap:16px"><span class="pill" style="--c:var(--red)">📶 timeout + retry</span><span class="pill" style="--c:var(--red)">🖱️ double click</span><span class="pill" style="--c:var(--red)">📨 Kafka redelivery</span><span class="pill" style="--c:var(--red)">💸 double charge?</span></div>
+  <div class="card code" data-at="2" style="left:120px;top:500px;width:900px;font-size:24px">POST /api/bookings
+<span class="t">Idempotency-Key</span>: <span class="s">a7f3-…</span>
+
+<span class="k">UNIQUE</span> (user_id, idempotency_key)</div>
+  <div class="abs" style="left:1060px;top:500px;width:740px">
+    <div class="row" data-at="3" style="--c:var(--grn)"><div class="ic">↩️</div><div>retry → <b>same booking</b> + <span class="mono" style="font-size:22px">Idempotent-Replayed</span></div></div>
+    <div class="row" data-at="3.6" style="--c:var(--pink)"><div class="ic">422</div><div style="margin-left:14px">same key, different seats</div></div>
+    <div class="row" data-at="4" style="--c:var(--violet)"><div class="ic">👯</div><div>loser of a twin race returns the twin's booking</div></div>
+  </div>
+</section>
+
+<section class="fv-scene" data-scene="payidem" data-chap="06 · PAYMENT IDEMPOTENCY">
+  <div class="kicker">NEVER CHARGE TWICE</div><div class="title">Five layers for payments</div>
+  <div class="abs" style="left:120px;top:260px;width:1680px">
+    <div class="row" data-at="1" style="--c:var(--amber)"><div class="num">1</div><div><b>Idempotency-Key required</b> · <span class="mono" style="font-size:24px">UNIQUE(idempotency_key)</span></div></div>
+    <div class="row" data-at="1.5" style="--c:var(--amber)"><div class="num">2</div><div><b>SHA-256 fingerprint</b> of user + booking + token → key reused differently → 422</div></div>
+    <div class="row" data-at="2" style="--c:var(--grn)"><div class="num">3</div><div><b>One success per booking</b> · <span class="mono" style="font-size:24px">UNIQUE(booking_id) WHERE status='SUCCEEDED'</span></div></div>
+    <div class="row" data-at="3" style="--c:var(--blu)"><div class="num">4</div><div><b>Gateway gets the same key</b> (like Stripe) → redelivery can't charge twice</div></div>
+    <div class="row" data-at="4" style="--c:var(--violet)"><div class="num">5</div><div><b>Row lock on record</b> · update only if still PENDING</div></div>
+  </div>
+</section>
+
+<!-- ============================ PAYMENTS ============================ -->
+<section class="fv-scene" data-scene="async" data-chap="07 · PAYMENTS">
+  <div class="kicker">PAYMENTS</div><div class="title">Why asynchronous?</div>
+  <div class="node" data-at="0" style="--c:var(--violet);left:120px;top:300px;width:300px;height:150px">🙋 client<small>POST /payments</small></div>
+  <div class="node" data-at="0" style="--c:var(--grn);left:620px;top:300px;width:340px;height:150px">SeatLock API</div>
+  <div class="node" data-at="1" style="--c:var(--red);left:1460px;top:300px;width:340px;height:150px">🏦 gateway<small>slow · sometimes down</small></div>
+  <svg class="abs" width="1920" height="1080" style="left:0;top:0">
+    <path class="ar" d="M425,350 L610,350" stroke="#a78bfa" marker-end="url(#mV)" data-draw="0.2-0.5"/>
+    <path class="ar" d="M610,420 L425,420" stroke="#34d399" marker-end="url(#mG)" data-draw="2-2.3"/>
+    <path class="ar" d="M965,375 L1450,375" stroke="#f87171" stroke-dasharray="14 12" marker-end="url(#mR)" data-draw="1-1.5"/>
+  </svg>
+  <div class="abs" data-at="1.3" style="left:1040px;top:300px;font:800 28px Inter;color:var(--red)">⏳ locks held while waiting?</div>
+  <div class="abs mono" data-at="2" style="left:440px;top:440px;font:900 40px 'JetBrains Mono';color:var(--grn)">202</div>
+  <div class="card" data-at="2" style="left:120px;top:560px;width:1680px"><div style="font:700 28px Inter">✅ answer <b style="color:var(--grn)">202 Accepted</b> immediately · the charge happens in the background</div></div>
+  <div class="card" data-at="3" style="left:120px;top:690px;width:1680px"><div style="font:700 28px Inter">🔌 decoupled: payment can scale, or move to its own service</div></div>
+</section>
+
+<section class="fv-scene" data-scene="dualwrite" data-chap="07 · DUAL WRITE">
+  <div class="kicker">THE CLASSIC BUG</div><div class="title">The dual-write problem</div>
+  <div class="card code" data-at="1" style="left:120px;top:260px;width:1680px;font-size:30px">db.save(payment);      <span class="c">// write 1 → Postgres</span>
+kafka.send(message);   <span class="c">// write 2 → Kafka</span></div>
+  <div class="card" data-at="2" style="left:120px;top:450px;width:820px;height:330px;border-color:var(--red)">
+    <div class="lbl" style="color:var(--red)">failure 1 · lost message</div>
+    <div style="font:800 30px/1.7 Inter;margin-top:12px">DB commit <span class="ok">✓</span><br>💥 crash<br>Kafka send <span class="x">never happens</span></div>
+    <div style="font:700 24px Inter;color:var(--mut)">booking stuck in PAYMENT_PENDING</div>
+  </div>
+  <div class="card" data-at="3" style="left:980px;top:450px;width:820px;height:330px;border-color:var(--red)">
+    <div class="lbl" style="color:var(--red)">failure 2 · phantom message</div>
+    <div style="font:800 30px/1.7 Inter;margin-top:12px">Kafka send <span class="ok">✓</span><br>DB <span class="x">rollback</span><br>message about nothing</div>
+  </div>
+  <div class="abs" data-at="4" style="left:120px;top:810px;width:1680px;text-align:center"><span class="pill" style="--c:var(--amber)">two systems can't commit together (without 2PC) → avoid the second write</span></div>
+</section>
+
+<section class="fv-scene" data-scene="outbox" data-chap="07 · OUTBOX">
+  <div class="kicker">THE FIX</div><div class="title">The transactional outbox</div>
+  <div class="card" data-at="0" style="left:120px;top:260px;width:720px;height:330px;border-color:var(--grn)">
+    <div class="lbl" style="color:var(--grn)">ONE DB TRANSACTION</div>
+    <div class="code" style="margin-top:14px;font-size:24px"><span class="k">UPDATE</span> bookings … <span class="s">PAYMENT_PENDING</span>
+<span class="k">INSERT INTO</span> payments …
+<span class="h"><span class="k">INSERT INTO</span> outbox_events</span>
+   (topic, key=bookingId, payload)
+<span class="k">COMMIT</span></div>
+  </div>
+  <div class="abs" data-at="1" style="left:120px;top:620px;width:720px;font:800 28px Inter;color:var(--grn)">commit together, or fail together</div>
+  <svg class="abs" width="1920" height="1080" style="left:0;top:0">
+    <path id="ob-p" class="ar" d="M845,420 L1010,420 L1180,420 L1400,420 L1560,420" stroke="rgba(242,177,52,.5)" data-draw="2-2.4"/>
+    <circle data-move="2.3-3" data-path="ob-p" r="14" fill="#f2b134"/>
+    <circle data-move="2.6-3.3" data-path="ob-p" r="14" fill="#f2b134"/>
+    <circle data-move="2.9-3.6" data-path="ob-p" r="14" fill="#f2b134"/>
+  </svg>
+  <div class="node" data-at="2" style="--c:var(--violet);left:1010px;top:350px;width:250px;height:140px">relay<small>every 200 ms<br>SKIP LOCKED</small></div>
+  <div class="node" data-at="2" style="--c:var(--amber);left:1560px;top:350px;width:240px;height:140px">📨 Kafka<small>acks=all</small></div>
+  <div class="abs mono" data-at="2.5" style="left:1010px;top:520px;width:790px;font:700 24px 'JetBrains Mono';color:var(--mut)">read unpublished (id order) → send → set published_at</div>
+  <div class="card" data-at="3" style="left:1010px;top:620px;width:790px;border-color:var(--amber)"><div style="font:700 26px Inter">send fails → <b>stop the batch</b> → order preserved</div></div>
+</section>
+
+<section class="fv-scene" data-scene="atleastonce" data-chap="07 · AT-LEAST-ONCE">
+  <div class="kicker">THE REMAINING GAP</div><div class="title">At-least-once, so consumers are idempotent</div>
+  <div class="abs" data-at="0" style="left:120px;top:260px;width:1680px;display:flex;gap:14px;align-items:center;font:800 28px Inter">
+    <span class="tag" style="--c:var(--grn)">send ✓</span>→<span class="tag" style="--c:var(--grn)">Kafka ack ✓</span>→<span class="tag" style="--c:var(--red)">💥 crash before published_at</span>→<span class="tag" style="--c:var(--amber)" data-at="1">restart: send AGAIN</span>
+  </div>
+  <div class="abs" style="left:120px;top:360px;width:820px">
+    <div class="row" data-at="2" style="--c:var(--blu)"><div class="ic">💳</div><div>payment processor: skip if not <b>PENDING</b></div></div>
+    <div class="row" data-at="2.5" style="--c:var(--amber)"><div class="ic">🎟️</div><div>booking listener: act only if <b>PAYMENT_PENDING</b>, row-locked</div></div>
+  </div>
+  <div class="card code" data-at="3" style="left:980px;top:360px;width:820px;font-size:23px"><span class="c">-- inbox, same tx as the side effect</span>
+<span class="k">INSERT INTO</span> processed_messages
+  (consumer, message_id) <span class="k">VALUES</span> (?, ?)
+<span class="h"><span class="k">ON CONFLICT DO NOTHING</span></span>;
+<span class="c">-- 0 rows → duplicate → skip</span></div>
+  <div class="card" data-at="4" style="left:120px;top:640px;width:1680px;height:220px">
+    <div class="lbl">ordering · key = booking id</div>
+    <div style="display:flex;gap:24px;margin-top:20px">
+      <div style="flex:1;font:700 25px Inter">partition 0 <span class="tag" style="--c:var(--blu)">#12 requested</span> <span class="tag" style="--c:var(--blu)">#12 completed</span></div>
+      <div style="flex:1;font:700 25px Inter">partition 1 <span class="tag" style="--c:var(--pink)">#15 requested</span> <span class="tag" style="--c:var(--pink)">#15 completed</span></div>
+    </div>
+    <div style="margin-top:16px;font:700 25px Inter;color:var(--grn)">same booking → same partition → in order</div>
+  </div>
+</section>
+
+<section class="fv-scene" data-scene="saga" data-chap="07 · THE SAGA">
+  <div class="kicker">CHOREOGRAPHY · NO ORCHESTRATOR</div><div class="title">The payment saga, end to end</div>
+  <div class="abs" style="left:120px;top:250px;width:1680px">
+    <div class="row" data-at="1" style="--c:var(--grn)"><div class="num">1</div><div><b>API</b> · one tx: lock booking · payment PENDING · booking PAYMENT_PENDING · outbox <span class="tag" style="--c:var(--amber)">PaymentRequested</span></div></div>
+    <div class="row" data-at="2" style="--c:var(--blu)"><div class="num">2</div><div><b>Payment module</b> consumes → calls gateway, <b>no DB transaction open</b></div></div>
+    <div class="row" data-at="3" style="--c:var(--blu)"><div class="num">3</div><div>short tx: SUCCEEDED / FAILED · outbox <span class="tag" style="--c:var(--amber)">PaymentCompleted</span></div></div>
+    <div class="row" data-at="4" style="--c:var(--grn)"><div class="num">4</div><div><b>Booking module</b> ✓ success → CONFIRMED · seats BOOKED · tickets issued (one tx)</div></div>
+    <div class="row" data-at="5" style="--c:var(--red)"><div class="num">5</div><div>✗ failure → <b>compensate</b>: CANCELLED · seats released</div></div>
+    <div class="row" data-at="5.6" style="--c:var(--pink)"><div class="num">6</div><div><b>Notification</b> consumes booking event → email <b>after commit</b></div></div>
+  </div>
+</section>
+
+<section class="fv-scene" data-scene="dlt" data-chap="07 · FAILURES">
+  <div class="kicker">WHEN THINGS FAIL</div><div class="title">Dead letters and the reconciler</div>
+  <div class="card" data-at="0" style="left:120px;top:250px;width:820px;height:240px">
+    <div class="lbl">poison message</div>
+    <div style="display:flex;gap:12px;align-items:center;margin-top:24px;font:800 28px Inter"><span class="tag" style="--c:var(--red)">try 1</span><span class="tag" style="--c:var(--red)">2</span><span class="tag" style="--c:var(--red)">3</span><span class="tag" style="--c:var(--red)">4</span>→<span class="tag" style="--c:var(--amber)">topic-dlt</span></div>
+    <div style="margin-top:20px;font:600 24px Inter;color:var(--mut)">3 retries, 1 s apart · partition never blocked</div>
+  </div>
+  <div class="card" data-at="1" style="left:980px;top:250px;width:820px;height:240px">
+    <div class="lbl">DLT partition gotcha</div>
+    <div style="margin-top:20px;font:700 26px/1.55 Inter">record from partition 2 → <span class="mono">dlt</span> partition 2<br>auto-created DLT (1 partition) <span class="x">✗</span> · declared with 3 <span class="ok">✓</span></div>
+  </div>
+  <div class="card" data-at="2" style="left:120px;top:520px;width:1680px;height:340px">
+    <div class="lbl">provider down for 10 minutes</div>
+    <div style="display:flex;gap:30px;margin-top:20px">
+      <div class="node" style="position:relative;--c:var(--red);width:360px;height:130px;font-size:24px">payment PENDING<small>seats still locked</small></div>
+      <div data-at="3" class="node" style="position:relative;--c:var(--grn);width:520px;height:130px;font-size:24px">🔁 reconciler · every 30 s<small>re-drive after 1 min, SAME key → no double charge</small></div>
+      <div data-at="4" class="node" style="position:relative;--c:var(--amber);width:560px;height:130px;font-size:24px">⌛ give up after 15 min<small>FAILED → saga releases seats · refund check logged</small></div>
+    </div>
+  </div>
+</section>
+
+<section class="fv-scene" data-scene="demomode" data-chap="07 · DEMO MODE">
+  <div class="kicker">NO FREE KAFKA?</div><div class="title">Same outbox, different transport</div>
+  <div class="card" data-at="0" style="left:120px;top:260px;width:820px;height:360px">
+    <div class="lbl" style="color:var(--amber)">messaging.mode = kafka</div>
+    <div style="margin-top:30px;font:800 30px/2 Inter">outbox → relay → 📨 Kafka<br>→ <span style="color:var(--grn)">MessageHandler beans</span></div>
+  </div>
+  <div class="card" data-at="1" style="left:980px;top:260px;width:820px;height:360px;border-color:var(--grn)">
+    <div class="lbl" style="color:var(--grn)">messaging.mode = local (demo)</div>
+    <div style="margin-top:30px;font:800 30px/2 Inter">outbox → local dispatcher<br>→ <span style="color:var(--grn)">the SAME handler beans</span></div>
+  </div>
+  <div class="card" data-at="2" style="left:120px;top:660px;width:820px"><div style="font:700 26px Inter">marked published only after success → still at-least-once</div></div>
+  <div class="card" data-at="3" style="left:980px;top:660px;width:820px;border-color:var(--amber)"><div style="font:700 26px Inter">business code unchanged · lose: multi-instance scaling</div></div>
+</section>
+
+<!-- ============================ REDIS ============================ -->
+<section class="fv-scene" data-scene="whyredis" data-chap="08 · REDIS">
+  <div class="kicker">SURVIVING THE RUSH</div><div class="title">Why Redis?</div>
+  <div class="abs" data-at="1" style="left:120px;top:260px;display:flex;gap:14px;flex-wrap:wrap;width:1680px"><span class="pill" style="--c:var(--red)">⚡ &lt; 1 ms · in memory</span><span class="pill" style="--c:var(--red)">⚛️ atomic commands</span><span class="pill" style="--c:var(--red)">⏱️ keys expire (TTL)</span><span class="pill" style="--c:var(--red)">📜 Lua scripts</span><span class="pill" style="--c:var(--amber)" data-at="2">🔗 shared by all instances</span></div>
+  <div class="abs" style="left:120px;top:400px;width:1680px;display:grid;grid-template-columns:repeat(4,1fr);gap:20px">
+    <div class="card" data-at="3" style="position:relative;text-align:center"><div style="font-size:52px">🗺️</div><div style="font:800 28px Inter">seat-map cache</div></div>
+    <div class="card" data-at="3.25" style="position:relative;text-align:center"><div style="font-size:52px">🪣</div><div style="font:800 28px Inter">rate limiting</div></div>
+    <div class="card" data-at="3.5" style="position:relative;text-align:center"><div style="font-size:52px">⏳</div><div style="font:800 28px Inter">waiting room</div></div>
+    <div class="card" data-at="3.75" style="position:relative;text-align:center"><div style="font-size:52px">🔒</div><div style="font:800 28px Inter">seat lock (optional)</div></div>
+  </div>
+  <div class="card" data-at="4" style="left:120px;top:640px;width:1680px;border-color:var(--grn)"><div style="font:700 27px/1.45 Inter">Never the source of truth. Redis down → cache falls back to Postgres · rate limiter fails open · <span class="ok">bookings stay correct</span></div></div>
+</section>
+
+<section class="fv-scene" data-scene="cache" data-chap="08 · CACHE">
+  <div class="kicker">SEAT-MAP CACHE</div><div class="title">Evict after commit, not before</div>
+  <div class="card code" data-at="0" style="left:120px;top:250px;width:1680px;font-size:26px">seatlock:cache:seats:{eventId}   <span class="c">TTL 5 s</span>   →   <span class="t">X-Cache: HIT</span> / <span class="t">MISS</span></div>
+  <div class="card" data-at="2" style="left:120px;top:370px;width:820px;height:420px;border-color:var(--red)">
+    <div class="lbl" style="color:var(--red)">✗ evict BEFORE commit</div>
+    <div style="font:700 26px/1.75 Inter;margin-top:12px">1. writer evicts cache<br>2. reader misses → reads <span style="color:var(--red)">OLD</span> row<br>3. reader re-caches <span style="color:var(--red)">OLD</span> data<br>4. writer commits<br><span class="x">stale value survives</span></div>
+  </div>
+  <div class="card" data-at="3" style="left:980px;top:370px;width:820px;height:420px;border-color:var(--grn)">
+    <div class="lbl" style="color:var(--grn)">✓ evict AFTER commit</div>
+    <div class="code" style="font-size:22px;margin-top:12px"><span class="t">@TransactionalEventListener</span>(
+    phase = <span class="k">AFTER_COMMIT</span>)</div>
+    <div style="font:700 26px/1.6 Inter;margin-top:16px">next reader sees the new state<br>TTL = safety net for a missed eviction</div>
+    <div data-at="4" style="margin-top:16px;font:800 26px Inter;color:var(--amber)">display only · holds use the locked DB path</div>
+  </div>
+</section>
+
+<section class="fv-scene" data-scene="ratelimit" data-chap="08 · RATE LIMITING">
+  <div class="kicker">TOKEN BUCKET</div><div class="title">Rate limiting in one Lua script</div>
+  <div class="card" data-at="0" style="left:120px;top:250px;width:760px;height:420px">
+    <div class="lbl">per user · capacity 20 · refill 5/s</div>
+    <div id="rt-tok" style="display:grid;grid-template-columns:repeat(10,52px);gap:12px;margin-top:24px"></div>
+    <div id="rt-st" class="mono" style="margin-top:30px;font:900 34px 'JetBrains Mono'"></div>
+  </div>
+  <div class="card code" data-at="2" style="left:930px;top:250px;width:870px;font-size:23px"><span class="c">-- ONE atomic step</span>
+<span class="k">local</span> now = redis.call(<span class="s">'TIME'</span>)   <span class="c">-- Redis clock</span>
+tokens = min(cap, tokens + elapsed*refill)
+<span class="k">if</span> tokens &gt;= 1 <span class="k">then</span> tokens -= 1; allowed
+<span class="k">else</span> retryAfterMs = …    <span class="c">-- → 429</span>
+HSET key tokens ts; PEXPIRE …</div>
+  <div class="abs" style="left:930px;top:590px;width:870px">
+    <div class="row" data-at="4" style="--c:var(--amber)"><div class="ic">🪣</div><div><b>user</b> 20/5s · <b>IP</b> 200/50s · <b>login</b> 10, then 1 per 10 s</div></div>
+    <div class="row" data-at="5" style="--c:var(--grn)"><div class="ic">🔓</div><div>Redis down → <b>fail open</b> · DB still guards correctness</div></div>
+  </div>
+</section>
+
+<section class="fv-scene" data-scene="queue" data-chap="08 · WAITING ROOM">
+  <div class="kicker">VIRTUAL WAITING ROOM</div><div class="title">A fair line, admitted atomically</div>
+  <div class="card" data-at="1" style="left:120px;top:250px;width:1680px;height:250px">
+    <div class="lbl">ZADD NX queue:{event}:waiting  user → join time  (FIFO)</div>
+    <div id="qu-line" style="position:relative;height:120px;margin-top:30px"></div>
+  </div>
+  <div class="card code" data-at="2" style="left:120px;top:530px;width:900px;font-size:22px"><span class="c">-- every second · ONE Lua script</span>
+ZREMRANGEBYSCORE admitted -inf now   <span class="c">-- expired</span>
+room = min(maxActive - ZCARD(admitted), batch)
+ZPOPMIN waiting room → ZADD admitted
+SET token:{user} uuid PX ttl</div>
+  <div class="card" data-at="3" style="left:1060px;top:530px;width:740px;height:150px"><div style="font:700 26px/1.4 Inter">several instances run it → <span class="ok">nobody admitted twice</span>, room never overfilled</div></div>
+  <div class="card" data-at="4" style="left:1060px;top:700px;width:740px;border-color:var(--amber)"><div style="font:800 27px Inter">booking requires <span class="mono">X-Queue-Token</span><br><span style="color:var(--amber)">≤ 100 active shoppers</span></div></div>
+</section>
+
+<section class="fv-scene" data-scene="sse" data-chap="08 · LIVE SEAT MAP">
+  <div class="kicker">SERVER-SENT EVENTS</div><div class="title">A live seat map on every screen</div>
+  <div class="shot" data-at="0" style="left:120px;top:250px;width:720px"><img src="shots/02-seatmap.png"><div class="cap">live seat map</div></div>
+  <div class="card" data-at="2" style="left:880px;top:250px;width:920px;height:200px">
+    <div class="lbl">SSE vs WebSockets</div>
+    <div style="font:700 26px/1.5 Inter;margin-top:10px">one-way server → browser · plain HTTP<br>auto-reconnect · proxy friendly</div>
+  </div>
+  <div class="card" data-at="3" style="left:880px;top:480px;width:920px;height:200px">
+    <div class="lbl">coalesced · flush every 300 ms</div>
+    <div id="ss-ticks" style="display:flex;gap:10px;margin-top:20px"></div>
+  </div>
+  <div class="abs" data-at="4" style="left:880px;top:710px;width:920px;font:800 30px Inter;color:var(--grn)">1,000 holds → a few small queries</div>
+  <div class="abs" data-at="5" style="left:120px;top:780px;width:1680px;display:flex;gap:14px"><span class="tag" style="--c:var(--blu)">heartbeat 20 s</span><span class="tag" style="--c:var(--blu)">cap 1,000 → 503</span><span class="tag" style="--c:var(--red)">in-memory · scale-out needs Redis pub/sub</span></div>
+</section>
+
+<!-- ============================ SECURITY ============================ -->
+<section class="fv-scene" data-scene="security" data-chap="09 · SECURITY">
+  <div class="kicker">SECURITY</div><div class="title">JWT, BCrypt, and no CSRF</div>
+  <div class="card code" data-at="0" style="left:120px;top:250px;width:1680px;font-size:24px"><span class="lbl">BCrypt</span>  <span class="s">$2a$10$N9qo8uLOickgx2ZMRZoMye</span>IjZAgcfl7p92ldGxad68LJZdL17lhWy   <span class="c">salted · slow on purpose</span></div>
+  <div class="card" data-at="1" style="left:120px;top:370px;width:1680px;height:150px">
+    <div class="lbl">JWT · HMAC-SHA256 · 7 days · checked without a DB lookup</div>
+    <div class="mono" style="font:800 28px 'JetBrains Mono';margin-top:16px"><span style="color:var(--red)">eyJhbGciOiJIUzI1NiJ9</span>.<span style="color:var(--violet)">eyJzdWIiOiJ1c2VyLTQyIiwicm9sZXMiOlsiVVNFUiJdfQ</span>.<span style="color:var(--cyan)">Q2y6…sig</span></div>
+  </div>
+  <div class="abs" style="left:120px;top:550px;width:820px">
+    <div class="row" data-at="2" style="--c:var(--grn)"><div class="ic">🍪</div><div>no cookies, no sessions → <b>no CSRF</b></div></div>
+    <div class="row" data-at="3" style="--c:var(--grn)"><div class="ic">🕵️</div><div>same answer, same time (dummy hash) → no account probing</div></div>
+  </div>
+  <div class="abs" style="left:980px;top:550px;width:820px">
+    <div class="row" data-at="4" style="--c:var(--blu)"><div class="ic">404</div><div style="margin-left:14px">for someone else's booking, not 403</div></div>
+    <div class="row" data-at="5" style="--c:var(--red)"><div class="ic">⚠️</div><div>stolen token valid until expiry → short-lived + refresh tokens</div></div>
+  </div>
+</section>
+
+<section class="fv-scene" data-scene="tickets" data-chap="09 · E-TICKETS">
+  <div class="kicker">E-TICKETS &amp; CHECK-IN</div><div class="title">One scan wins</div>
+  <div class="card" data-at="0" style="left:120px;top:250px;width:560px;height:420px;text-align:center">
+    <div class="lbl">ticket · one per seat</div>
+    <div id="tk-qr" style="margin:22px auto 0;display:grid;grid-template-columns:repeat(13,16px);gap:2px;width:230px;padding:12px;background:#fff;border-radius:10px"></div>
+    <div class="mono" data-at="1" style="margin-top:18px;font:800 20px 'JetBrains Mono';color:var(--amber)">SEATLOCK-9F1C…E07A</div>
+    <div data-at="1" style="font:600 22px Inter;color:var(--mut)">128 random bits · checked server-side</div>
+  </div>
+  <div class="card code" data-at="2" style="left:740px;top:250px;width:1060px;font-size:25px"><span class="k">UPDATE</span> tickets <span class="k">SET</span> status=<span class="s">'USED'</span>
+<span class="k">WHERE</span> code = ? <span class="h"><span class="k">AND</span> status = <span class="s">'VALID'</span></span>;   <span class="c">-- 1 row = admit</span></div>
+  <div class="card" data-at="3" style="left:740px;top:420px;width:1060px;height:250px">
+    <div class="lbl">20 gates scan the same ticket at once</div>
+    <div id="tk-gates" style="display:flex;gap:10px;margin-top:24px;flex-wrap:wrap"></div>
+    <div class="mono" data-at="3.5" style="margin-top:18px;font:900 30px 'JetBrains Mono'"><span class="ok">1 admitted</span> · <span class="x">19 already used</span></div>
+  </div>
+  <div class="abs" data-at="4" style="left:120px;top:720px;width:1680px;display:flex;gap:14px"><span class="pill" style="--c:var(--blu)">📷 live camera</span><span class="pill" style="--c:var(--blu)">🖼️ photo → ZXing on server</span><span class="pill" style="--c:var(--blu)">⌨️ typed code</span></div>
+</section>
+
+<!-- ============================ TESTING ============================ -->
+<section class="fv-scene" data-scene="testing" data-chap="10 · TESTING">
+  <div class="kicker">PROVING IT</div><div class="title">Real infrastructure, real races</div>
+  <div class="abs" data-at="1" style="left:120px;top:250px;display:flex;gap:14px"><span class="pill" style="--c:var(--cyan)">🐳 Testcontainers</span><span class="pill" style="--c:var(--blu)">Postgres</span><span class="pill" style="--c:var(--red)">Redis</span><span class="pill" style="--c:var(--amber)">Kafka</span><span class="pill" style="--c:var(--mut)">no mocks</span></div>
+  <div class="card" data-at="2" style="left:120px;top:340px;width:1100px;height:420px">
+    <div class="lbl">CountDownLatch start gate · 200 attempts · 1 seat</div>
+    <svg id="te-svg" width="1100" height="320" style="position:absolute;left:0;top:70px"></svg>
+  </div>
+  <div class="card" data-at="3" style="left:1260px;top:340px;width:540px;height:420px;text-align:center">
+    <div class="lbl">every strategy</div>
+    <div style="font:900 96px Inter;color:var(--grn);margin-top:20px">1</div><div style="font:700 26px Inter">winner</div>
+    <div style="font:900 64px Inter;color:var(--red);margin-top:10px"><span data-count="3-3.8" data-to="199">0</span></div><div style="font:700 26px Inter">× 409 · 0 double</div>
+  </div>
+  <div class="abs" data-at="4" style="left:120px;top:790px;width:1680px;display:flex;gap:14px"><span class="tag" style="--c:var(--amber)">honest: pool of 64 threads → ≤ 64 truly simultaneous</span><span class="tag" style="--c:var(--grn)" data-at="5">saga tests end-to-end · Awaitility</span></div>
+</section>
+
+<section class="fv-scene" data-scene="loadtest" data-chap="10 · LOAD TEST">
+  <div class="kicker">k6 · 500 VIRTUAL USERS · 100 SEATS</div><div class="title">The numbers</div>
+  <div class="card" data-at="1" style="left:120px;top:250px;width:1680px;padding:16px 28px"><div style="font:700 27px Inter">🚨 run <b style="color:var(--red)">fails</b> if <span class="mono">/stats</span> ever reports a double-booked seat, across every booking ever made</div></div>
+  <div class="abs" style="left:120px;top:370px;width:1680px">
+    <div style="display:flex;align-items:center;gap:20px;margin-bottom:22px" data-at="2"><span style="width:300px;font:800 28px Inter;color:var(--blu)">Pessimistic</span><div style="height:54px;border-radius:10px;background:var(--blu)" data-bar="2-2.6" data-w="46"></div><span class="mono" style="font:800 28px 'JetBrains Mono';white-space:nowrap"><span data-count="2-2.6" data-to="2411">0</span> req/s · p95 448 ms</span></div>
+    <div style="display:flex;align-items:center;gap:20px;margin-bottom:22px" data-at="3"><span style="width:300px;font:800 28px Inter;color:var(--violet)">Optimistic</span><div style="height:54px;border-radius:10px;background:var(--violet)" data-bar="3-3.4" data-w="41"></div><span class="mono" style="font:800 28px 'JetBrains Mono';white-space:nowrap"><span data-count="3-3.4" data-to="2148">0</span> req/s · p95 473 ms</span></div>
+    <div style="display:flex;align-items:center;gap:20px;margin-bottom:22px" data-at="3.5"><span style="width:300px;font:800 28px Inter;color:var(--red)">Redis lock</span><div style="height:54px;border-radius:10px;background:var(--red)" data-bar="3.5-3.9" data-w="48"></div><span class="mono" style="font:800 28px 'JetBrains Mono';white-space:nowrap"><span data-count="3.5-3.9" data-to="2491">0</span> req/s · p95 418 ms</span></div>
+  </div>
+  <div class="abs" data-at="4" style="left:120px;top:640px;display:flex;gap:16px"><span class="pill" style="--c:var(--grn);font-size:30px">100 / 100 seats held</span><span class="pill" style="--c:var(--grn);font-size:30px">0 double-bookings</span></div>
+  <div class="card" data-at="5" style="left:120px;top:740px;width:1680px;border-color:var(--amber)"><div style="font:700 27px Inter">🔐 JWT on every request: <span class="mono">2,411 → 1,506 req/s</span> (p95 631 ms) · <span class="ok">still 0 double-bookings</span></div></div>
+</section>
+
+<section class="fv-scene" data-scene="observability" data-chap="10 · OBSERVABILITY">
+  <div class="kicker">OBSERVABILITY</div><div class="title">Micrometer → Prometheus → Grafana</div>
+  <div class="card code" data-at="1" style="left:120px;top:250px;width:1100px;font-size:23px">seatlock_holds_total{result=<span class="s">"success"</span>,strategy=<span class="s">"PESSIMISTIC"</span>}     4
+seatlock_holds_total{result=<span class="s">"conflict"</span>,strategy=<span class="s">"PESSIMISTIC"</span>}  129
+seatlock_hold_duration_seconds  <span class="c">→ p50 · p95 · p99</span>
+seatlock_booking_transitions_total{status}
+<span class="h">seatlock_outbox_backlog                                    0</span></div>
+  <div class="card" data-at="2" style="left:1260px;top:250px;width:540px;height:340px">
+    <div class="lbl" style="color:var(--amber)">outbox backlog</div>
+    <svg width="490" height="230" style="margin-top:14px"><polyline points="0,200 60,198 120,199 180,196 240,170 300,130 360,90 420,50 480,15" fill="none" stroke="#f87171" stroke-width="6" data-draw="2.2-2.9"/></svg>
+    <div style="font:700 22px Inter;color:var(--red)">growing → relay or Kafka stuck</div>
+  </div>
+  <div class="card code" data-at="3" style="left:120px;top:630px;width:1680px;font-size:22px">INFO [seatlock,<span class="t">6f1a2c…</span>,<span class="t">9b3e…</span>] Booking 12 confirmed      <span class="c">← same traceId across HTTP and Kafka headers</span></div>
+</section>
+
+<!-- ============================ DEPLOYMENT ============================ -->
+<section class="fv-scene" data-scene="docker" data-chap="11 · DOCKER">
+  <div class="kicker">DOCKER</div><div class="title">Servers, clients, and containers</div>
+  <div class="card" data-at="0" style="left:120px;top:250px;width:820px;height:330px">
+    <div class="lbl">app = client libraries · servers = separate programs</div>
+    <div style="font:700 26px/1.9 Inter;margin-top:12px">postgresql driver → <span class="mono">:5432</span><br>spring-data-redis → <span class="mono">:6379</span><br>spring-kafka → <span class="mono">:9092</span></div>
+  </div>
+  <div class="card code" data-at="1" style="left:980px;top:250px;width:820px;font-size:23px"><span class="c"># docker-compose.yml</span>
+postgres:  ports: [<span class="s">"127.0.0.1:5432:5432"</span>]
+redis:     ports: [<span class="s">"127.0.0.1:6379:6379"</span>]
+kafka:     ports: [<span class="s">"127.0.0.1:9092:9092"</span>]
+<span class="c"># localhost only → not reachable from the network</span></div>
+  <div class="card" data-at="2" style="left:120px;top:620px;width:820px;height:250px">
+    <div class="lbl">multi-stage Dockerfile</div>
+    <div style="display:flex;align-items:center;gap:14px;margin-top:24px;font:800 26px Inter"><span class="tag" style="--c:var(--org)">JDK 21 · build jar</span>→<span class="tag" style="--c:var(--grn)">JRE 21 · run · non-root</span></div>
+  </div>
+  <div class="card" data-at="3" style="left:980px;top:620px;width:820px;height:250px">
+    <div class="lbl">class data sharing · free 0.1 CPU</div>
+    <div style="display:flex;align-items:center;gap:16px;margin-top:22px"><div style="height:40px;border-radius:8px;background:var(--mut)" data-bar="3-3.3" data-w="70"></div><span class="mono" style="font:800 26px 'JetBrains Mono'">150 s</span></div>
+    <div style="display:flex;align-items:center;gap:16px;margin-top:14px"><div style="height:40px;border-radius:8px;background:var(--grn)" data-bar="3.3-3.6" data-w="31"></div><span class="mono" style="font:800 26px 'JetBrains Mono';color:var(--grn)">67 s</span></div>
+  </div>
+</section>
+
+<section class="fv-scene" data-scene="render" data-chap="11 · FREE DEMO">
+  <div class="kicker">FREE PUBLIC DEMO</div><div class="title">Render · Neon · Upstash · Brevo</div>
+  <div class="node" data-at="0" style="--c:var(--violet);left:120px;top:300px;width:420px;height:170px">🚀 Render<small>app · Docker container</small></div>
+  <div class="node" data-at="0.3" style="--c:var(--blu);left:640px;top:300px;width:360px;height:170px">🐘 Neon<small>Postgres</small></div>
+  <div class="node" data-at="0.55" style="--c:var(--red);left:1100px;top:300px;width:330px;height:170px">🧱 Upstash<small>Redis</small></div>
+  <div class="node" data-at="0.8" style="--c:var(--pink);left:1530px;top:300px;width:270px;height:170px">✉️ Brevo<small>email</small></div>
+  <div class="card code" data-at="1" style="left:120px;top:520px;width:820px;font-size:24px">DB_URL=<span class="s">jdbc:postgresql://…neon…</span>
+REDIS_HOST=<span class="s">…upstash.io</span>  REDIS_SSL=<span class="s">true</span></div>
+  <div class="abs" data-at="2" style="left:980px;top:520px;width:820px;display:flex;flex-wrap:wrap;gap:12px"><span class="tag" style="--c:var(--amber)">no Kafka · local outbox</span><span class="tag" style="--c:var(--amber)">pool = 5</span><span class="tag" style="--c:var(--amber)">metrics private</span><span class="tag" style="--c:var(--amber)">admit tick 30 s</span></div>
+</section>
+
+<section class="fv-scene" data-scene="aws" data-chap="11 · AWS EC2">
+  <div class="kicker">AWS · FULL STACK WITH KAFKA</div><div class="title">One EC2 instance</div>
+  <div class="card" data-at="0" style="left:120px;top:250px;width:820px;height:400px;border-color:var(--org)">
+    <div class="lbl" style="color:var(--org)">EC2 · Ubuntu · m7i-flex.large · 8 GB</div>
+    <div style="margin-top:18px;display:grid;grid-template-columns:1fr 1fr;gap:12px">
+      <span class="tag" style="--c:var(--grn)">app :8080 public</span><span class="tag" style="--c:var(--blu)">postgres 127.0.0.1</span>
+      <span class="tag" style="--c:var(--red)">redis 127.0.0.1</span><span class="tag" style="--c:var(--amber)">kafka 127.0.0.1</span>
+    </div>
+    <div data-at="1" style="margin-top:22px;font:700 25px Inter;color:var(--mut)">~3 GB needed → a 1 GB instance runs out of memory</div>
+    <div data-at="2" style="margin-top:18px;font:800 26px/1.5 Inter">🔥 security group<br><span class="ok">8080 ← anywhere</span> · <span style="color:var(--amber)">SSH 22 ← my IP /32</span></div>
+  </div>
+  <div class="shot" data-at="1" style="left:980px;top:250px;width:820px"><img src="shots/01-ec2-instance.png"><div class="cap">seatlock-server · running · IAM role attached</div></div>
+  <div class="abs" style="left:120px;top:690px;width:1680px;display:flex;gap:20px">
+    <div class="row" data-at="3" style="--c:var(--grn);flex:1"><div class="ic">🧱</div><div>data stores: no rule <b>+</b> localhost</div></div>
+    <div class="row" data-at="4" style="--c:var(--blu);flex:1"><div class="ic">🔑</div><div>SSH key pair · no passwords</div></div>
+    <div class="row" data-at="5" style="--c:var(--amber);flex:1"><div class="ic">🌐</div><div>IP changes on stop/start → Elastic IP</div></div>
+  </div>
+</section>
+
+<section class="fv-scene" data-scene="s3" data-chap="11 · AWS S3">
+  <div class="kicker">AWS · BACKUPS</div><div class="title">Nightly backups to S3 with an IAM role</div>
+  <svg class="abs" width="1920" height="1080" style="left:0;top:0">
+    <path id="s3-p" class="ar" d="M470,400 L1300,400" stroke="rgba(52,211,153,.6)" marker-end="url(#mG)" data-draw="1-1.6"/>
+    <circle data-move="1.3-2.3" data-path="s3-p" r="14" fill="#34d399"/>
+  </svg>
+  <div class="node" data-at="0" style="--c:var(--org);left:120px;top:320px;width:350px;height:160px">🖥️ EC2<small>cron · 02:00 IST</small></div>
+  <div class="abs mono" data-at="1" style="left:500px;top:330px;font:800 24px 'JetBrains Mono';color:var(--grn)">pg_dump | gzip | aws s3 cp -</div>
+  <div class="node" data-at="1" style="--c:var(--grn);left:1310px;top:320px;width:490px;height:160px">🪣 S3 · private<small>postgres/*.sql.gz · expire 30 d</small></div>
+  <div class="card" data-at="2" style="left:120px;top:520px;width:820px;height:330px;border-color:var(--amber)">
+    <div class="lbl" style="color:var(--amber)">IAM role · least privilege</div>
+    <div class="code" style="font-size:21px;margin-top:10px">"Action": [<span class="s">"s3:PutObject"</span>, <span class="s">"s3:GetObject"</span>,
+           <span class="s">"s3:AbortMultipartUpload"</span>]
+"Resource": <span class="s">"arn:aws:s3:::bucket/postgres/*"</span>
+<span class="c">+ s3:ListBucket on that bucket · no delete</span></div>
+  </div>
+  <div class="abs" style="left:980px;top:520px;width:820px">
+    <div class="row" data-at="2.4" style="--c:var(--blu)"><div class="ic">⬆️</div><div>S3 doesn't pull · the <b>server pushes</b></div></div>
+    <div class="row" data-at="4" style="--c:var(--grn)"><div class="ic">🎫</div><div>no access keys · temporary, rotating credentials</div></div>
+    <div class="row" data-at="5" style="--c:var(--violet)"><div class="ic">♻️</div><div>restore test into a separate database</div></div>
+  </div>
+</section>
+
+<section class="fv-scene" data-scene="production" data-chap="11 · PRODUCTION PATH">
+  <div class="kicker">IF THIS WERE A COMPANY</div><div class="title">The production path</div>
+  <div class="node" data-at="1" style="--c:var(--violet);left:120px;top:290px;width:340px;height:150px">⚖️ ALB<small>HTTPS · ACM cert</small></div>
+  <div class="node" data-at="1.3" style="--c:var(--org);left:560px;top:260px;width:420px;height:210px">ECS Fargate<small>app tasks across<br>2+ availability zones</small></div>
+  <div class="node" data-at="2" style="--c:var(--blu);left:1100px;top:250px;width:700px;height:80px;font-size:26px">RDS PostgreSQL · PITR · Multi-AZ</div>
+  <div class="node" data-at="2.3" style="--c:var(--red);left:1100px;top:345px;width:700px;height:80px;font-size:26px">ElastiCache Redis</div>
+  <div class="node" data-at="2.6" style="--c:var(--amber);left:1100px;top:440px;width:700px;height:80px;font-size:26px">Amazon MSK (Kafka)</div>
+  <svg class="abs" width="1920" height="1080" style="left:0;top:0"><path class="ar" d="M465,365 L550,365" stroke="#a78bfa" marker-end="url(#mV)" data-draw="1.3-1.5"/><path class="ar" d="M985,365 L1090,365" stroke="#f2b134" marker-end="url(#mA)" data-draw="2-2.3"/></svg>
+  <div class="card" data-at="3" style="left:120px;top:580px;width:1680px;border-color:var(--red)">
+    <div style="font:800 30px Inter">λ Lambda? <span class="x">Not a fit</span></div>
+    <div style="display:flex;gap:14px;margin-top:16px"><span class="tag" style="--c:var(--red)">long-lived SSE streams</span><span class="tag" style="--c:var(--red)">sweeper · relay · reconciler</span><span class="tag" style="--c:var(--red)">Kafka consumers</span><span class="tag" style="--c:var(--red)">JVM cold starts</span></div>
+  </div>
+</section>
+
+<!-- ============================ INTERVIEW ============================ -->
+<section class="fv-scene" data-scene="tradeoffs" data-chap="12 · TRADE-OFFS">
+  <div class="kicker">KNOW YOUR LIMITS</div><div class="title">Trade-offs, honestly</div>
+  <div class="abs" style="left:120px;top:250px;width:1680px">
+    <div class="row" data-at="1" style="--c:var(--amber)"><div class="ic">📡</div><div><b>SSE subscribers in one instance's memory</b> → Redis pub/sub fan-out</div></div>
+    <div class="row" data-at="1.5" style="--c:var(--amber)"><div class="ic">💸</div><div><b>Late payment success after cancel</b> is logged, not refunded → RefundRequired event</div></div>
+    <div class="row" data-at="2" style="--c:var(--amber)"><div class="ic">🧩</div><div><b>Redis Cluster</b> needs hash tags · <b>seat map</b> is one blob → per-section keys</div></div>
+    <div class="row" data-at="3" style="--c:var(--amber)"><div class="ic">📤</div><div><b>Relay holds a DB tx while waiting for Kafka</b> → send, then mark in a short tx · or CDC</div></div>
+    <div class="row" data-at="4" style="--c:var(--amber)"><div class="ic">🧪</div><div><b>Load test: one machine, one IP, rate limit off</b> → correctness, not capacity</div></div>
+  </div>
+</section>
+
+<section class="fv-scene" data-scene="qa1" data-chap="12 · INTERVIEW Q&amp;A">
+  <div class="kicker">INTERVIEW · CORE</div><div class="title">Questions you will hear</div>
+  <div class="abs" style="left:120px;top:250px;width:1680px">
+    <div class="row" data-at="1" style="display:block"><div class="q">Q · How do you stop two people booking the same seat?</div><div class="a">Row lock + version check + partial unique index. Each alone is enough.</div></div>
+    <div class="row" data-at="2" style="display:block"><div class="q">Q · Pessimistic or optimistic?</div><div class="a">Pessimistic for high contention (flash sale). Optimistic when conflicts are rare.</div></div>
+    <div class="row" data-at="3" style="display:block"><div class="q">Q · Why isn't a Redis lock enough?</div><div class="a">It can expire mid-pause. The version fences the stale writer; the index is final.</div></div>
+    <div class="row" data-at="4" style="display:block"><div class="q">Q · Why a transactional outbox?</div><div class="a">DB-then-Kafka can lose a message. The outbox commits both together.</div></div>
+    <div class="row" data-at="5" style="display:block"><div class="q">Q · Delivery guarantee?</div><div class="a">At-least-once → every consumer is idempotent.</div></div>
+  </div>
+</section>
+
+<section class="fv-scene" data-scene="qa2" data-chap="12 · INTERVIEW Q&amp;A">
+  <div class="kicker">INTERVIEW · THE HARD ONES</div><div class="title">Follow-ups that test depth</div>
+  <div class="abs" style="left:120px;top:250px;width:1680px">
+    <div class="row" data-at="1" style="display:block;--c:var(--red)"><div class="q">Q · Redis lock expires mid-transaction?</div><div class="a">Version check / unique index rejects the late writer. Correct; only the shielding is lost.</div></div>
+    <div class="row" data-at="2" style="display:block"><div class="q">Q · Redis goes down?</div><div class="a">Cache → Postgres, rate limiter fails open, bookings stay correct.</div></div>
+    <div class="row" data-at="3" style="display:block"><div class="q">Q · Why not Kafka exactly-once?</div><div class="a">Only covers Kafka→Kafka. My side effects hit Postgres and an external gateway.</div></div>
+    <div class="row" data-at="4" style="display:block"><div class="q">Q · Scale to a million users?</div><div class="a">Waiting room · stateless instances · Redis pub/sub · partition by event · managed stores.</div></div>
+    <div class="row" data-at="5" style="display:block"><div class="q">Q · What would you change?</div><div class="a">Trace context in the outbox · CDC instead of polling · short-lived access tokens.</div></div>
+  </div>
+</section>
+
+<section class="fv-scene" data-scene="pitch" data-chap="12 · YOUR PITCH">
+  <div class="kicker">SAY IT IN YOUR OWN WORDS</div><div class="title">The 30-second pitch</div>
+  <div class="card" style="left:120px;top:260px;width:1680px;height:590px;border-color:var(--amber);padding:40px 50px">
+    <div style="font:500 38px/1.55 Inter;color:#efe9fb">
+      <span data-at="1">“SeatLock is a ticket-booking backend for flash sales, where thousands want the same seat at once. Its core guarantee is <b style="color:var(--grn)">zero double-bookings</b>.</span>
+      <span data-at="2"> I enforce it in <b style="color:var(--amber)">three layers</b>: a configurable lock, a version column, and a partial unique index.</span>
+      <span data-at="3"> Payments run as a <b style="color:var(--amber)">Kafka saga</b> with a transactional outbox; Redis handles the waiting room, rate limiting and caching.</span>
+      <span data-at="4"> Proven with 200 concurrent requests on real infrastructure and a 500-user load test at ~2,400 req/s, <b style="color:var(--grn)">zero double-bookings</b>, running on AWS with nightly backups.”</span>
+    </div>
+  </div>
+</section>
+
+<section class="fv-scene" data-scene="recap" data-chap="RECAP">
+  <div class="kicker">RECAP</div><div class="title">Everything, in one screen</div>
+  <div class="abs" style="left:120px;top:250px;width:1680px;display:grid;grid-template-columns:1fr 1fr;gap:16px">
+    <div class="row" data-at="0" style="margin:0;--c:var(--violet)"><div class="ic">🏢</div><div>Modular monolith → <b>one ACID hold</b></div></div>
+    <div class="row" data-at="1" style="margin:0;--c:var(--red)"><div class="ic">🛡️</div><div>3 layers: <b>lock · version · unique index</b></div></div>
+    <div class="row" data-at="1.4" style="margin:0;--c:var(--amber)"><div class="ic">🧹</div><div>Holds + <b>SKIP LOCKED</b> sweeper</div></div>
+    <div class="row" data-at="1.7" style="margin:0;--c:var(--amber)"><div class="ic">🔁</div><div><b>Idempotency</b> wherever money moves</div></div>
+    <div class="row" data-at="2" style="margin:0;--c:var(--amber)"><div class="ic">📨</div><div>Kafka saga · <b>outbox + inbox</b></div></div>
+    <div class="row" data-at="2.3" style="margin:0;--c:var(--red)"><div class="ic">🧱</div><div><b>Redis</b> shields the database</div></div>
+    <div class="row" data-at="2.6" style="margin:0;--c:var(--grn)"><div class="ic">🧪</div><div>Real tests · <b>real numbers</b></div></div>
+    <div class="row" data-at="2.85" style="margin:0;--c:var(--cyan)"><div class="ic">☁️</div><div>Render + <b>AWS</b> · honest limits</div></div>
+  </div>
+  <div class="abs" data-at="3" style="left:0;right:0;top:720px;text-align:center"><span class="fv-endcard"></span></div>
+</section>
+
+</div>
+<script src="timing.js"></script>
+<script src="fv-runtime.js"></script>
+<script>
+const { seg, pulse, css, ease, clamp, lerp } = FV;
+const $ = (s, r = document) => r.querySelector(s), $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+
+/* ---------- time specs: "2" line 2 start · "2.5" halfway through line 2 · "e2" end of line 2 · "s1.2" absolute ---------- */
+function T(spec, ctx) {
+  spec = String(spec).trim();
+  if (spec[0] === 's') return +spec.slice(1);
+  if (spec[0] === 'e') return ctx.lineEnd(+spec.slice(1));
+  const v = +spec, i = Math.floor(v), f = v - i;
+  const a = ctx.line(i), b = ctx.lineEnd(i);
+  return a + (b - a) * f;
+}
+const range = (spec, ctx) => { const [a, b] = spec.split('-'); const ta = T(a, ctx); return [ta, b === undefined ? ta + 0.6 : Math.max(ta + 0.05, T(b, ctx))]; };
+
+/* ---------- one-time static construction (no per-frame state) ---------- */
+function build() {
+  // title seat grid
+  const g = $('#ti-grid');
+  for (let i = 0; i < 100; i++) { const d = document.createElement('div'); d.className = 'seat'; d.id = 'ti-s' + i; g.appendChild(d); }
+  // java threads
+  for (let i = 0; i < 20; i++) { const d = document.createElement('div'); d.style.cssText = 'height:48px;border-radius:8px;background:#5b2330;border:2px solid #f87171'; $('#jv-plat').appendChild(d); }
+  for (let i = 0; i < 100; i++) { const d = document.createElement('div'); d.className = 'vt'; d.style.cssText = 'width:26px;height:26px;border-radius:50%;background:#34d399'; $('#jv-virt').appendChild(d); }
+  // sweeper rows
+  for (let i = 0; i < 18; i++) { const d = document.createElement('div'); d.className = 'mono'; d.style.cssText = 'height:44px;border-radius:8px;border:2px solid rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font:700 18px JetBrains Mono;color:#a59cbf'; d.textContent = '#' + (100 + i); $('#sw-rows').appendChild(d); }
+  // rate-limit tokens
+  for (let i = 0; i < 20; i++) { const d = document.createElement('div'); d.style.cssText = 'width:52px;height:52px;border-radius:50%;background:#f2b134;border:3px solid #ffd27a'; $('#rt-tok').appendChild(d); }
+  // queue people
+  for (let i = 0; i < 16; i++) { const d = document.createElement('div'); d.className = 'qp'; d.style.cssText = 'position:absolute;top:10px;width:84px;height:84px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:44px;background:rgba(34,211,238,.15);border:3px solid #22d3ee'; d.textContent = ['🧑','👩','🧔','👧','👨','👱'][i % 6]; $('#qu-line').appendChild(d); }
+  // sse flush ticks
+  for (let i = 0; i < 16; i++) { const d = document.createElement('div'); d.style.cssText = 'width:44px;height:44px;border-radius:10px;border:2px solid #60a5fa'; $('#ss-ticks').appendChild(d); }
+  // QR-ish pattern (deterministic)
+  const r = FV.rand(42);
+  for (let i = 0; i < 169; i++) { const x = i % 13, y = Math.floor(i / 13); const finder = (x < 3 && y < 3) || (x > 9 && y < 3) || (x < 3 && y > 9); const d = document.createElement('div'); d.style.cssText = `width:16px;height:16px;background:${finder || r() > 0.5 ? '#120c24' : '#fff'}`; $('#tk-qr').appendChild(d); }
+  for (let i = 0; i < 20; i++) { const d = document.createElement('div'); d.className = 'gate'; d.style.cssText = 'width:62px;height:50px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:28px;border:2px solid #a59cbf'; d.textContent = '📱'; $('#tk-gates').appendChild(d); }
+  // redis lock: 50 converging dots
+  const rs = $('#rl-svg'); const rr = FV.rand(7);
+  for (let i = 0; i < 50; i++) { const c = document.createElementNS('http://www.w3.org/2000/svg', 'circle'); c.setAttribute('r', 9); c.dataset.sx = 140 + rr() * 420; c.dataset.sy = 430 + rr() * 300; c.setAttribute('fill', '#a78bfa'); rs.appendChild(c); }
+  // testing: 200 dots behind the gate
+  const ts = $('#te-svg'); const tr = FV.rand(3);
+  for (let i = 0; i < 200; i++) { const c = document.createElementNS('http://www.w3.org/2000/svg', 'circle'); c.setAttribute('r', 6); c.dataset.sx = 40 + (i % 20) * 16; c.dataset.sy = 30 + Math.floor(i / 20) * 26 + tr() * 6; c.setAttribute('fill', '#a78bfa'); ts.appendChild(c); }
+  const gl = document.createElementNS('http://www.w3.org/2000/svg', 'line'); gl.id = 'te-gate'; gl.setAttribute('x1', 390); gl.setAttribute('x2', 390); gl.setAttribute('y1', 10); gl.setAttribute('y2', 300); gl.setAttribute('stroke', '#f2b134'); gl.setAttribute('stroke-width', 8); ts.appendChild(gl);
+  const seatC = document.createElementNS('http://www.w3.org/2000/svg', 'rect'); seatC.setAttribute('x', 960); seatC.setAttribute('y', 120); seatC.setAttribute('width', 90); seatC.setAttribute('height', 80); seatC.setAttribute('rx', 14); seatC.setAttribute('fill', 'rgba(52,211,153,.25)'); seatC.setAttribute('stroke', '#34d399'); seatC.setAttribute('stroke-width', 4); ts.appendChild(seatC);
+  // paths for draw / move
+  $$('[data-draw]').forEach((p) => { p.setAttribute('pathLength', 1); p.style.strokeDasharray = p.getAttribute('stroke-dasharray') ? p.getAttribute('stroke-dasharray') : '1 1'; if (!p.getAttribute('stroke-dasharray')) { p.style.strokeDashoffset = 1; } });
+  $$('[data-type]').forEach((e) => (e.dataset.full = e.textContent));
+}
+
+/* ---------- generic, declarative animation for every scene ---------- */
+const extra = {};
+function generic(t, ctx) {
+  const el = ctx.el;
+  const k = $('.kicker', el), ti = $('.title', el);
+  if (k) FV.enter(k, t, 0.05); if (ti) FV.enter(ti, t, 0.15);
+  $$('[data-at]', el).forEach((e) => {
+    const a = T(e.dataset.at, ctx);
+    const p = seg(t, a, a + 0.6, ease.out);
+    let o = p;
+    if (e.dataset.out) o *= 1 - seg(t, T(e.dataset.out, ctx), T(e.dataset.out, ctx) + 0.4);
+    if (e instanceof SVGElement) e.style.opacity = o;
+    else css(e, { o, y: (1 - p) * 22 });
+  });
+  $$('[data-draw]', el).forEach((p) => {
+    const [a, b] = range(p.dataset.draw, ctx); const q = seg(t, a, b);
+    p.style.opacity = q > 0 ? 1 : 0;
+    if (!p.getAttribute('stroke-dasharray')) p.style.strokeDashoffset = 1 - q;
+  });
+  $$('[data-move]', el).forEach((c) => {
+    const [a, b] = range(c.dataset.move, ctx); const path = document.getElementById(c.dataset.path);
+    const q = seg(t, a, b, ease.inOut); const L = path.getTotalLength(); const pt = path.getPointAtLength(L * q);
+    c.setAttribute('cx', pt.x); c.setAttribute('cy', pt.y);
+    c.style.opacity = t >= a && t <= b + 0.3 ? 1 : 0;
+  });
+  $$('[data-hl]', el).forEach((e) => {
+    let g = 0; e.dataset.hl.split(',').forEach((r) => { const [a, b] = range(r, ctx); g = Math.max(g, seg(t, a, a + 0.3) * (1 - seg(t, b - 0.3, b))); });
+    const tg = e.tagName === 'TR' ? Array.from(e.children) : [e];
+    tg.forEach((x) => { x.style.boxShadow = g ? `inset 0 0 0 3px rgba(242,177,52,${g}), 0 0 ${30 * g}px rgba(242,177,52,${0.6 * g})` : 'none'; x.style.background = g ? `rgba(242,177,52,${0.18 * g})` : ''; });
+  });
+  $$('[data-count]', el).forEach((e) => {
+    const [a, b] = range(e.dataset.count, ctx); const v = Math.round(+e.dataset.to * seg(t, a, b, ease.out));
+    e.textContent = v.toLocaleString('en-US');
+  });
+  $$('[data-bar]', el).forEach((e) => { const [a, b] = range(e.dataset.bar, ctx); e.style.width = (+e.dataset.w * seg(t, a, b, ease.out)) + '%'; });
+  $$('[data-type]', el).forEach((e) => { const [a, b] = range(e.dataset.type, ctx); e.textContent = FV.type(e.dataset.full, seg(t, a, b, ease.linear)); });
+  const chap = $('#chap'); if (el.dataset.chap && chap.textContent !== el.dataset.chap) chap.textContent = el.dataset.chap;
+  if (extra[ctx.id]) extra[ctx.id](t, ctx);
+}
+
+/* ---------- scene-specific motion ---------- */
+extra.title = (t, ctx) => {
+  const r = FV.rand(11), hot = 44;
+  for (let i = 0; i < 100; i++) {
+    const s = $('#ti-s' + i); const a = 0.2 + r() * 1.2; const p = seg(t, a, a + 0.4, ease.out);
+    css(s, { o: p, s: 0.6 + 0.4 * p });
+    const taken = i !== hot && r() < 0.35 && t > T('2', ctx) + (i % 10) * 0.08;
+    s.style.setProperty('--c', i === hot ? (t > T('1.6', ctx) ? '#f2b134' : '#34d399') : taken ? '#8b6cf6' : '#34d399');
+    s.style.boxShadow = i === hot && t > T('1.6', ctx) ? `0 0 ${20 + 12 * Math.sin(t * 4)}px #f2b134` : 'none';
+  }
+};
+extra.java = (t, ctx) => {
+  const vts = $$('.vt', ctx.el);
+  vts.forEach((v, i) => { const ph = (t * 1.3 + i * 0.37) % 2; v.style.opacity = ph < 1 ? 1 : 0.25; });
+};
+extra.race = (t, ctx) => {
+  const st = $('#ra-st'), seat = $('#ra-seat'); const bad = t > T('2.4', ctx);
+  st.textContent = bad ? '2 TICKETS ✗' : 'AVAILABLE'; st.style.color = bad ? '#f87171' : '#34d399';
+  seat.style.setProperty('--c', bad ? '#f87171' : '#34d399');
+  if (bad) css(seat, { x: Math.sin(t * 40) * 6 * pulse(t, T('2.4', ctx), T('2.4', ctx) + 0.8) });
+};
+extra.redislock = (t, ctx) => {
+  const a = T('2', ctx), b = T('3.2', ctx);
+  $$('#rl-svg circle').forEach((c, i) => {
+    const p = seg(t, a + i * 0.012, a + 0.9 + i * 0.012, ease.inOut);
+    const sx = +c.dataset.sx, sy = +c.dataset.sy;
+    let x = lerp(sx, 760, p), y = lerp(sy, 540, p);
+    if (i === 0) { const q = seg(t, b - 0.6, b + 0.4); x = lerp(x, 1500, q); y = lerp(y, 505, q); c.setAttribute('fill', '#34d399'); c.setAttribute('r', 13); }
+    else { const q = seg(t, b - 0.3, b + 0.5); x = lerp(x, 1150 + (i % 7) * 85, q); y = lerp(y, 720 + Math.floor(i / 7) * 3, q); c.setAttribute('fill', q > 0.5 ? '#f87171' : '#a78bfa'); }
+    c.setAttribute('cx', x); c.setAttribute('cy', y);
+    c.style.opacity = t < a ? 0 : (i === 0 ? 1 : 1 - seg(t, b + 0.6, b + 1.2) * 0.9);
+  });
+};
+extra.holds = (t, ctx) => {
+  const a = T('2', ctx), secs = Math.max(0, 600 - Math.floor(Math.max(0, t - a) * 37));
+  $('#ho-clk').textContent = `${String(Math.floor(secs / 60)).padStart(2, '0')}:${String(secs % 60).padStart(2, '0')}`;
+};
+extra.sweeper = (t, ctx) => {
+  const cols = ['#60a5fa', '#f472b6', '#22d3ee'];
+  $$('#sw-rows div').forEach((d, i) => {
+    const a = T('3', ctx) + 0.3 + Math.floor(i / 3) * 0.25; const on = t > a;
+    d.style.borderColor = on ? cols[i % 3] : 'rgba(255,255,255,.2)'; d.style.color = on ? cols[i % 3] : '#a59cbf';
+    d.style.background = on ? cols[i % 3] + '33' : 'transparent';
+  });
+};
+extra.paylast = (t, ctx) => {
+  const st = $('#pl-st'); const on = t > T('2.8', ctx);
+  st.textContent = on ? 'PAYMENT_PENDING' : 'HELD'; st.style.color = on ? '#60a5fa' : '#f2b134';
+};
+extra.ratelimit = (t, ctx) => {
+  const a = T('0.3', ctx), drain = T('1.2', ctx), refill = T('3.5', ctx);
+  let n = 20 - Math.floor(seg(t, a, drain, ease.linear) * 20);
+  if (t > refill) n = Math.min(20, Math.floor((t - refill) * 1.5));
+  $$('#rt-tok div').forEach((d, i) => { d.style.opacity = i < n ? 1 : 0.12; });
+  const st = $('#rt-st'); const empty = n === 0;
+  st.textContent = empty ? '429 · Retry-After' : `${n} tokens left`; st.style.color = empty ? '#f87171' : '#f2b134';
+};
+extra.queue = (t, ctx) => {
+  const a = T('2.5', ctx), step = 1.4;
+  const done = Math.min(2, Math.floor(Math.max(0, t - a) / step));
+  $$('.qp', ctx.el).forEach((d, i) => {
+    const batch = Math.floor(i / 4);
+    const leave = batch < 2 ? seg(t, a + batch * step, a + batch * step + 0.6) : 0;
+    const slide = done > 0 ? seg(t, a + (done - 1) * step, a + (done - 1) * step + 0.6) : 0;
+    const shift = batch >= 2 && done > 0 ? ((done - 1) * 4 + 4 * slide) * 100 : 0;
+    const appear = seg(t, T('1', ctx) + i * 0.05, T('1', ctx) + i * 0.05 + 0.4);
+    css(d, { o: appear * (1 - leave), x: 20 + i * 100 - shift - leave * 120, y: -leave * 40 });
+  });
+};
+extra.sse = (t, ctx) => {
+  $$('#ss-ticks div', ctx.el).forEach((d, i) => { const ph = Math.floor(t / 0.3) % 16; d.style.background = i === ph ? '#60a5fa' : 'transparent'; });
+};
+extra.tickets = (t, ctx) => {
+  const a = T('3.3', ctx);
+  $$('.gate', ctx.el).forEach((d, i) => { const on = t > a + i * 0.04; d.style.borderColor = !on ? '#a59cbf' : i === 7 ? '#34d399' : '#f87171'; d.style.background = !on ? 'transparent' : i === 7 ? 'rgba(52,211,153,.25)' : 'rgba(248,113,113,.15)'; });
+};
+extra.testing = (t, ctx) => {
+  const open = T('2.8', ctx);
+  const gate = $('#te-gate'); gate.style.opacity = 1 - seg(t, open, open + 0.3);
+  $$('#te-svg circle').forEach((c, i) => {
+    const p = seg(t, open + (i % 20) * 0.01, open + 0.8 + (i % 20) * 0.01, ease.inOut);
+    const sx = +c.dataset.sx, sy = +c.dataset.sy;
+    const win = i === 0; const tx = win ? 1005 : 700 + (i % 12) * 10, ty = win ? 160 : 40 + Math.floor(i / 12) * 15;
+    c.setAttribute('cx', lerp(sx, tx, p)); c.setAttribute('cy', lerp(sy, ty, p));
+    c.setAttribute('fill', p > 0.9 ? (win ? '#34d399' : '#f87171') : '#a78bfa');
+    if (win) c.setAttribute('r', 6 + 8 * p);
+  });
+};
+
+FV.ready.then(() => {});
+build();
+FV.$$('.fv-scene').forEach((s) => FV.scene(s.dataset.scene, generic));
+</script>
+</body>
+</html>
