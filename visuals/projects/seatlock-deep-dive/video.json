@@ -15,8 +15,8 @@
     "backend"
   ],
   "voice": "am_michael",
-  "speed": 1.0,
-  "lineGap": 0.32,
+  "speed": 1.07,
+  "lineGap": 0.28,
   "captions": true,
   "endCard": "📘 code & docs → github.com/HemashreeVI/SeatLock",
   "thumbnail": "title@5",

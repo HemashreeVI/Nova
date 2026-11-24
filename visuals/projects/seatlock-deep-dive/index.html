@@ -297,7 +297,7 @@ total_cents <span class="t">BIGINT</span>   <span class="ok">✓ exact</span>
   <div class="card code" data-at="3" style="left:120px;top:660px;width:1680px;font-size:28px"><span class="k">if</span> (seat.isAvailable()) {     <span class="r" data-at="4">⟵ another request slips in HERE</span>
     seat.book();
 }</div>
-  <div class="abs" data-at="5" style="left:1080px;top:690px"><span class="pill" style="--c:var(--grn)">make check + write atomic</span></div>
+  <div class="abs" data-at="5" style="left:1400px;top:590px;width:400px;text-align:center"><span class="pill" style="--c:var(--grn)">make check + write atomic</span></div>
 </section>
 
 <section class="fv-scene" data-scene="layers" data-chap="04 · DEFENCE IN DEPTH">
@@ -327,7 +327,7 @@ total_cents <span class="t">BIGINT</span>   <span class="ok">✓ exact</span>
     <div class="lbl">"row" = one DATABASE record</div>
     <table class="t" style="margin-top:6px;font-size:25px">
       <tr><td class="mono">41</td><td>AVAILABLE</td><td class="ok">free</td></tr>
-      <tr data-hl="3.3-4.9"><td class="mono">42</td><td>AVAILABLE</td><td style="color:var(--amber);font-weight:900">🔒 locked</td></tr>
+      <tr data-hl="3.3-4.15"><td class="mono">42</td><td>AVAILABLE</td><td style="color:var(--amber);font-weight:900">🔒 locked</td></tr>
       <tr data-hl="4.2-4.95"><td class="mono">43</td><td>AVAILABLE</td><td class="ok">free ✓</td></tr>
     </table>
   </div>
@@ -416,7 +416,7 @@ bookings(user_id, idempotency_key)</div>
     </svg>
     <div class="node" style="--c:var(--blu);left:40px;top:120px;width:220px;height:110px;font-size:24px">T1<small>holds 5 · wants 3</small></div>
     <div class="node" style="--c:var(--pink);left:560px;top:120px;width:220px;height:110px;font-size:24px">T2<small>holds 3 · wants 5</small></div>
-    <div class="abs" data-at="1.8" style="left:0;right:0;top:300px;text-align:center;font:900 38px Inter;color:var(--red)">wait forever ♾️</div>
+    <div class="abs" data-at="1.8" style="left:0;right:0;top:375px;text-align:center;font:900 34px Inter;color:var(--red)">wait forever ♾️</div>
   </div>
   <div class="card" data-at="3" style="left:980px;top:260px;width:820px;height:440px">
     <div class="lbl" style="color:var(--grn)">✓ always sorted by id</div>
@@ -506,9 +506,9 @@ bookings(user_id, idempotency_key)</div>
   <div class="kicker">TUNING</div><div class="title">Why every five seconds?</div>
   <div class="card" data-at="0" style="left:120px;top:260px;width:1680px;height:280px">
     <div style="position:absolute;left:80px;right:80px;top:140px;height:8px;background:linear-gradient(90deg,var(--red),var(--grn) 45%,var(--grn) 55%,var(--red));border-radius:4px"></div>
-    <div data-at="2" style="position:absolute;left:60px;top:60px;width:300px;font:800 28px Inter;color:var(--red)">100 ms<div style="font:600 22px Inter;color:var(--mut)">empty queries · burns connections</div></div>
+    <div data-at="2" style="position:absolute;left:60px;top:50px;width:460px;font:800 28px Inter;color:var(--red)">100 ms<div style="font:600 22px Inter;color:var(--mut)">empty queries · burns connections</div></div>
     <div data-at="1" style="position:absolute;left:690px;top:40px;width:300px;text-align:center;font:900 44px Inter;color:var(--grn)">5 s ✓</div>
-    <div data-at="3" style="position:absolute;right:60px;top:60px;width:330px;text-align:right;font:800 28px Inter;color:var(--red)">60 s<div style="font:600 22px Inter;color:var(--mut)">released seats look taken</div></div>
+    <div data-at="3" style="position:absolute;right:60px;top:50px;width:460px;text-align:right;font:800 28px Inter;color:var(--red)">60 s<div style="font:600 22px Inter;color:var(--mut)">released seats look taken</div></div>
     <div style="position:absolute;left:0;right:0;top:180px;text-align:center;font:700 26px Inter;color:var(--mut)">freshness ←——— trade-off ———→ load</div>
   </div>
   <div class="card" data-at="1" style="left:120px;top:580px;width:820px;text-align:center"><div class="mono" style="font:900 54px 'JetBrains Mono'">5 / 600 s = <span style="color:var(--grn)">0.8%</span></div><div style="font:600 25px Inter;color:var(--mut)">nobody notices five extra seconds</div></div>
@@ -820,9 +820,9 @@ SET token:{user} uuid PX ttl</div>
   <div class="kicker">k6 · 500 VIRTUAL USERS · 100 SEATS</div><div class="title">The numbers</div>
   <div class="card" data-at="1" style="left:120px;top:250px;width:1680px;padding:16px 28px"><div style="font:700 27px Inter">🚨 run <b style="color:var(--red)">fails</b> if <span class="mono">/stats</span> ever reports a double-booked seat, across every booking ever made</div></div>
   <div class="abs" style="left:120px;top:370px;width:1680px">
-    <div style="display:flex;align-items:center;gap:20px;margin-bottom:22px" data-at="2"><span style="width:300px;font:800 28px Inter;color:var(--blu)">Pessimistic</span><div style="height:54px;border-radius:10px;background:var(--blu)" data-bar="2-2.6" data-w="58"></div><span class="mono" style="font:800 28px 'JetBrains Mono'"><span data-count="2-2.6" data-to="2411">0</span> req/s · p95 448 ms</span></div>
-    <div style="display:flex;align-items:center;gap:20px;margin-bottom:22px" data-at="3"><span style="width:300px;font:800 28px Inter;color:var(--violet)">Optimistic</span><div style="height:54px;border-radius:10px;background:var(--violet)" data-bar="3-3.4" data-w="52"></div><span class="mono" style="font:800 28px 'JetBrains Mono'"><span data-count="3-3.4" data-to="2148">0</span> req/s · p95 473 ms</span></div>
-    <div style="display:flex;align-items:center;gap:20px;margin-bottom:22px" data-at="3.5"><span style="width:300px;font:800 28px Inter;color:var(--red)">Redis lock</span><div style="height:54px;border-radius:10px;background:var(--red)" data-bar="3.5-3.9" data-w="60"></div><span class="mono" style="font:800 28px 'JetBrains Mono'"><span data-count="3.5-3.9" data-to="2491">0</span> req/s · p95 418 ms</span></div>
+    <div style="display:flex;align-items:center;gap:20px;margin-bottom:22px" data-at="2"><span style="width:300px;font:800 28px Inter;color:var(--blu)">Pessimistic</span><div style="height:54px;border-radius:10px;background:var(--blu)" data-bar="2-2.6" data-w="46"></div><span class="mono" style="font:800 28px 'JetBrains Mono';white-space:nowrap"><span data-count="2-2.6" data-to="2411">0</span> req/s · p95 448 ms</span></div>
+    <div style="display:flex;align-items:center;gap:20px;margin-bottom:22px" data-at="3"><span style="width:300px;font:800 28px Inter;color:var(--violet)">Optimistic</span><div style="height:54px;border-radius:10px;background:var(--violet)" data-bar="3-3.4" data-w="41"></div><span class="mono" style="font:800 28px 'JetBrains Mono';white-space:nowrap"><span data-count="3-3.4" data-to="2148">0</span> req/s · p95 473 ms</span></div>
+    <div style="display:flex;align-items:center;gap:20px;margin-bottom:22px" data-at="3.5"><span style="width:300px;font:800 28px Inter;color:var(--red)">Redis lock</span><div style="height:54px;border-radius:10px;background:var(--red)" data-bar="3.5-3.9" data-w="48"></div><span class="mono" style="font:800 28px 'JetBrains Mono';white-space:nowrap"><span data-count="3.5-3.9" data-to="2491">0</span> req/s · p95 418 ms</span></div>
   </div>
   <div class="abs" data-at="4" style="left:120px;top:640px;display:flex;gap:16px"><span class="pill" style="--c:var(--grn);font-size:30px">100 / 100 seats held</span><span class="pill" style="--c:var(--grn);font-size:30px">0 double-bookings</span></div>
   <div class="card" data-at="5" style="left:120px;top:740px;width:1680px;border-color:var(--amber)"><div style="font:700 27px Inter">🔐 JWT on every request: <span class="mono">2,411 → 1,506 req/s</span> (p95 631 ms) · <span class="ok">still 0 double-bookings</span></div></div>
@@ -970,7 +970,7 @@ REDIS_HOST=<span class="s">…upstash.io</span>  REDIS_SSL=<span class="s">true<
 <section class="fv-scene" data-scene="pitch" data-chap="12 · YOUR PITCH">
   <div class="kicker">SAY IT IN YOUR OWN WORDS</div><div class="title">The 30-second pitch</div>
   <div class="card" style="left:120px;top:260px;width:1680px;height:590px;border-color:var(--amber);padding:40px 50px">
-    <div style="font:500 34px/1.55 Inter;color:#efe9fb">
+    <div style="font:500 38px/1.55 Inter;color:#efe9fb">
       <span data-at="1">“SeatLock is a ticket-booking backend for flash sales, where thousands want the same seat at once. Its core guarantee is <b style="color:var(--grn)">zero double-bookings</b>.</span>
       <span data-at="2"> I enforce it in <b style="color:var(--amber)">three layers</b>: a configurable lock, a version column, and a partial unique index.</span>
       <span data-at="3"> Payments run as a <b style="color:var(--amber)">Kafka saga</b> with a transactional outbox; Redis handles the waiting room, rate limiting and caching.</span>
@@ -1135,19 +1135,23 @@ extra.paylast = (t, ctx) => {
   st.textContent = on ? 'PAYMENT_PENDING' : 'HELD'; st.style.color = on ? '#60a5fa' : '#f2b134';
 };
 extra.ratelimit = (t, ctx) => {
-  const a = T('0.4', ctx), drain = T('1.4', ctx), refill = T('3', ctx);
-  let n = 20 - Math.floor(seg(t, a, drain, ease.linear) * 20); n = Math.min(20, n + Math.floor(Math.max(0, t - refill) * 5));
+  const a = T('0.3', ctx), drain = T('1.2', ctx), refill = T('3.5', ctx);
+  let n = 20 - Math.floor(seg(t, a, drain, ease.linear) * 20);
+  if (t > refill) n = Math.min(20, Math.floor((t - refill) * 1.5));
   $$('#rt-tok div').forEach((d, i) => { d.style.opacity = i < n ? 1 : 0.12; });
   const st = $('#rt-st'); const empty = n === 0;
   st.textContent = empty ? '429 · Retry-After' : `${n} tokens left`; st.style.color = empty ? '#f87171' : '#f2b134';
 };
 extra.queue = (t, ctx) => {
-  const a = T('2.5', ctx);
+  const a = T('2.5', ctx), step = 1.4;
+  const done = Math.min(2, Math.floor(Math.max(0, t - a) / step));
   $$('.qp', ctx.el).forEach((d, i) => {
-    const batch = Math.floor(i / 4); const leave = seg(t, a + batch * 0.9, a + batch * 0.9 + 0.6);
-    const shift = Math.min(4, Math.floor(Math.max(0, t - a) / 0.9) * 4);
-    const x = (i - Math.min(shift, i - (i % 4) < shift ? shift : 0)) * 100;
-    css(d, { o: (seg(t, T('1', ctx) + i * 0.05, T('1', ctx) + i * 0.05 + 0.4)) * (1 - leave), x: 20 + i * 100 - leave * 160, y: -leave * 30 });
+    const batch = Math.floor(i / 4);
+    const leave = batch < 2 ? seg(t, a + batch * step, a + batch * step + 0.6) : 0;
+    const slide = done > 0 ? seg(t, a + (done - 1) * step, a + (done - 1) * step + 0.6) : 0;
+    const shift = batch >= 2 && done > 0 ? ((done - 1) * 4 + 4 * slide) * 100 : 0;
+    const appear = seg(t, T('1', ctx) + i * 0.05, T('1', ctx) + i * 0.05 + 0.4);
+    css(d, { o: appear * (1 - leave), x: 20 + i * 100 - shift - leave * 120, y: -leave * 40 });
   });
 };
 extra.sse = (t, ctx) => {
