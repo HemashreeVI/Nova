@@ -827,7 +827,7 @@ META = {
     "slug": "triageiq-deep-dive",
     "description": "A complete walkthrough of TriageIQ, an AI support inbox that reads real email, classifies every ticket by category, priority and mood with a local LLM, drafts grounded replies with RAG, and lets a human approve every reply. The email gateway and its hardening, Kafka topics, offsets, consumer groups and delivery guarantees, Qwen 2.5 on Ollama with a JSON schema and temperature 0, the safe fallback, embeddings, cosine similarity, Qdrant, the similarity threshold, the grounded prompt, the live console over Server-Sent Events, threaded SMTP replies, security, privacy, demo mode, honest limits, evaluation, and the interview questions you should expect.",
     "tags": ["llm", "rag", "kafka", "ollama", "qdrant", "vector database", "python", "fastapi", "ai engineering", "interview preparation", "system design"],
-    "voice": "am_michael", "speed": 1.07, "lineGap": 0.2, "captions": True,
+    "voice": "am_michael", "speed": 1.0, "lineGap": 0.2, "captions": True,
     "endCard": "📘 code & demo → github.com/HemashreeVI/TriageIQ",
     "thumbnail": "title@5", "endHold": 0.6,
     "pronounce": {

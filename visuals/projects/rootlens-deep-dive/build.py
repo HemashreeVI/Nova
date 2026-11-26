@@ -202,7 +202,7 @@ add("arch", "Architecture overview", "03 · ARCHITECTURE", "ARCHITECTURE", "Eigh
     node(120, 670, 740, 170, "🗂️ order-service also hosts", "incidents API · investigator · dashboard", "violet", "4"),
     node(960, 670, 380, 170, "🐘 SQLite", "/data/incidents.db · volume", "pink", "4.4"),
     svg(arrow("M450,345 L550,345", "org", "1-1.4") + arrow("M860,345 L950,345", "amber", "1.5-2") + arrow("M285,420 L550,545", "cyan", "2-2.5")
-        + arrow("M860,320 C1100,220 1200,280 1330,330", "red", "3-3.4") + arrow("M1570,620 L1180,670", "blu", "3.6-4")),
+        + arrow("M710,266 C710,212 1570,212 1570,260", "red", "3-3.4") + arrow("M1570,620 L1180,670", "blu", "3.6-4")),
 ])
 
 add("whysplit", "Why detector and controller are separate", "03 · ARCHITECTURE", "DESIGN DECISION", "Why separate processes?", [
@@ -540,8 +540,10 @@ add("changed", "What changed? Change correlation", "07 · WHAT CHANGED", "WHAT C
     text(1060, 620, 560, '<div style="text-align:center;font:800 26px Inter;color:var(--grn)">≤ 5 min · strong</div>', "3"),
     text(560, 620, 500, '<div style="text-align:center;font:800 26px Inter;color:var(--amber)">≤ 15 min · moderate</div>', "3.4"),
     text(160, 620, 400, '<div style="text-align:center;font:800 26px Inter;color:var(--mut)">older · weak</div>', "3.6"),
-    text(1580, 420, 240, '<div style="text-align:center;font:800 26px Inter;color:var(--red)">🚨 detected</div>', "2"),
-    text(1420, 300, 300, '<div style="text-align:center;font:800 26px Inter;color:var(--violet)">🚀 v2 · 62 s before</div>', "4"),
+    svg('<line x1="1620" x2="1620" y1="460" y2="600" stroke="#f87171" stroke-width="5" data-at="2"/>'
+        '<line x1="1504" x2="1504" y1="400" y2="600" stroke="#a78bfa" stroke-width="5" data-at="4"/>'),
+    text(1500, 410, 240, '<div style="text-align:center;font:800 26px Inter;color:var(--red)">🚨 detected</div>', "2"),
+    text(1300, 340, 400, '<div style="text-align:center;font:800 26px Inter;color:var(--violet)">🚀 v2 · 62 s before</div>', "4"),
     center(750, pill("→ roll back payment-service from v2 to v1", "amber"), "4.5"),
 ])
 
@@ -936,7 +938,7 @@ META = {
     "slug": "rootlens-deep-dive",
     "description": "A complete walkthrough of RootLens, an incident-response lab that detects failures, finds the root cause, links it to the release that caused it, and rolls back safely. The lab and its planted bugs, Prometheus metrics and PromQL, p95 latency, OpenTelemetry tracing with Jaeger, detection with hysteresis and fingerprints, explainable root-cause scoring and confidence, change correlation, a pure-function rulebook with guardrails, dry-run and enforce modes, preflight checks, the executor, recovery verification, the audit log, Telegram notices, a real incident end to end, 118 unit tests, deployment, honest limits, and the interview questions you should expect.",
     "tags": ["sre", "incident response", "observability", "prometheus", "opentelemetry", "python", "fastapi", "docker", "devops", "interview preparation", "system design"],
-    "voice": "am_michael", "speed": 1.07, "lineGap": 0.2, "captions": True,
+    "voice": "am_michael", "speed": 1.0, "lineGap": 0.2, "captions": True,
     "endCard": "📘 code & demo → github.com/HemashreeVI/RootLens",
     "thumbnail": "title@5", "endHold": 0.6,
     "pronounce": {
