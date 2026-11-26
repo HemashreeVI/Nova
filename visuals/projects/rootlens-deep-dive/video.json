@@ -1,0 +1,880 @@
+{
+ "title": "RootLens Deep Dive: automated incident response, explained (interview prep)",
+ "slug": "rootlens-deep-dive",
+ "description": "A complete walkthrough of RootLens, an incident-response lab that detects failures, finds the root cause, links it to the release that caused it, and rolls back safely. The lab and its planted bugs, Prometheus metrics and PromQL, p95 latency, OpenTelemetry tracing with Jaeger, detection with hysteresis and fingerprints, explainable root-cause scoring and confidence, change correlation, a pure-function rulebook with guardrails, dry-run and enforce modes, preflight checks, the executor, recovery verification, the audit log, Telegram notices, a real incident end to end, 118 unit tests, deployment, honest limits, and the interview questions you should expect.",
+ "tags": [
+  "sre",
+  "incident response",
+  "observability",
+  "prometheus",
+  "opentelemetry",
+  "python",
+  "fastapi",
+  "docker",
+  "devops",
+  "interview preparation",
+  "system design"
+ ],
+ "voice": "am_michael",
+ "speed": 1.07,
+ "lineGap": 0.2,
+ "captions": true,
+ "endCard": "📘 code & demo → github.com/HemashreeVI/RootLens",
+ "thumbnail": "title@5",
+ "endHold": 0.6,
+ "pronounce": {
+  "RootLens": "Root Lens",
+  "PromQL": "prom Q L",
+  "FastAPI": "Fast A P I",
+  "SQLite": "S Q L ite",
+  "OpenTelemetry": "Open Telemetry",
+  "Jaeger": "yay ger",
+  "Grafana": "Gra fana",
+  "MTTR": "M T T R",
+  "JSON": "jason",
+  "LLM": "L L M",
+  "p95": "P ninety five",
+  "v1": "V one",
+  "v2": "V two",
+  "TOCTOU": "tock too",
+  "Codespaces": "code spaces",
+  "SLO": "S L O",
+  "dry run": "dry run",
+  "idempotency": "eye dem potency",
+  "Idempotency": "Eye dem potency",
+  "idempotent": "eye dem potent"
+ },
+ "scenes": [
+  {
+   "id": "title",
+   "title": "Intro: what this video covers",
+   "pad": [
+    0.4,
+    0.55
+   ],
+   "lines": [
+    "This is a complete deep dive into RootLens, an incident response lab I built around one question.",
+    "When a service breaks in production, can software do what an on-call engineer does? Notice it, find out why, fix it safely, and prove that it worked.",
+    "We will go through every decision, from the tiny shop it watches to the rulebook that decides when a robot is allowed to roll back a release.",
+    "For each part: what I used, why I used it, and how an interviewer will ask about it."
+   ]
+  },
+  {
+   "id": "roadmap",
+   "title": "Roadmap",
+   "pad": [
+    0.4,
+    0.55
+   ],
+   "lines": [
+    "Here's the plan. First the problem, and the five step loop that the whole project is built around.",
+    "Then the lab: three small services with bugs I planted on purpose, plus the architecture and the observability stack.",
+    "Then the core, one stage at a time: detect, investigate, find what changed, decide, act and verify.",
+    "After that, a real incident from start to finish, the dashboard, the tests, and how it runs in the cloud.",
+    "And we finish with the honest limits, the interview questions, and a thirty second pitch you can use."
+   ]
+  },
+  {
+   "id": "problem",
+   "title": "The problem: 3 a.m. on call",
+   "pad": [
+    0.4,
+    0.55
+   ],
+   "lines": [
+    "Picture an online shop. At three in the morning, orders start failing, and an engineer's phone goes off.",
+    "They open a dashboard. Half of all orders are failing. But which service is actually to blame?",
+    "They check each dependency, they read logs, and they ask the question that solves most incidents: did anyone deploy something recently?",
+    "If someone did, the usual fix is to roll that release back, and then watch the graphs to make sure it really recovered.",
+    "That whole routine is slow when a tired human does it, and the time it takes is the time customers are seeing errors.",
+    "RootLens automates that routine. Not with magic, but with the same steps an engineer follows, written down as code."
+   ]
+  },
+  {
+   "id": "mttr",
+   "title": "Why it matters: MTTR",
+   "pad": [
+    0.4,
+    0.55
+   ],
+   "lines": [
+    "Teams measure this with a number called mean time to recovery, or M T T R. It's the time from when something breaks to when it works again.",
+    "It splits into stages. Time to notice, time to understand, and time to fix and confirm.",
+    "Humans are slow at the first two stages, especially at night. A computer can check a metric every ten seconds without getting tired.",
+    "So RootLens attacks all three stages. A detector notices, an investigator explains, and a controller fixes and verifies.",
+    "In the real run you'll see later, the whole incident lasted one minute and fifty seconds, from detection to recovery."
+   ]
+  },
+  {
+   "id": "loop",
+   "title": "The five-step loop",
+   "pad": [
+    0.4,
+    0.55
+   ],
+   "lines": [
+    "Here's the idea the whole project is built around. Five steps, in the same order, every time.",
+    "Detect: notice that something is wrong, without crying wolf.",
+    "Investigate: rank the possible causes, using evidence, and say how confident we are.",
+    "Decide: a rulebook chooses whether to act, wait, or hand the problem to a human.",
+    "Act: carry out exactly one safe action, like a rollback. And verify: check that it really recovered.",
+    "Every step writes to an audit log, including the times it chose not to act. That record matters as much as the fix."
+   ]
+  },
+  {
+   "id": "lab",
+   "title": "The lab: a tiny shop",
+   "pad": [
+    0.4,
+    0.55
+   ],
+   "lines": [
+    "To test any of this, I needed something to break. So the lab is a tiny shop made of three Python services, built with Fast A P I.",
+    "The user service looks up a customer. The payment service charges the order.",
+    "And the order service is the front door. For each order, it calls the user service, then the payment service.",
+    "That dependency is the whole point. When payment breaks, the customer sees the order fail, even though the order service itself is fine.",
+    "So the symptom shows up in one place, and the cause lives somewhere else. That's exactly what makes real incidents hard."
+   ]
+  },
+  {
+   "id": "timeouts",
+   "title": "Timeouts and failure kinds",
+   "pad": [
+    0.4,
+    0.55
+   ],
+   "lines": [
+    "Here's a detail that matters later. The order service calls each dependency with an H T T P client, using a three second timeout.",
+    "If the dependency doesn't answer in time, that's a timeout, and the order returns five oh four, gateway timeout.",
+    "If it can't even connect, that's unreachable. If it answers with an error, that's an error. Both of those return five oh three.",
+    "And crucially, every failure is counted with two labels: which dependency, and what kind of failure.",
+    "That one counter is what lets the investigator later tell the difference between a service that is down, broken, or just slow."
+   ]
+  },
+  {
+   "id": "bugs",
+   "title": "Planted bugs and chaos switches",
+   "pad": [
+    0.4,
+    0.55
+   ],
+   "lines": [
+    "Next, I needed ways to break the shop on demand. Every service has chaos switches: small H T T P endpoints that inject errors or latency.",
+    "For example, posting to chaos errors with a rate of zero point five makes the payment service fail half of its requests.",
+    "Then there are releases. Every service reads a version from an environment variable, and version two carries a bug I planted on purpose.",
+    "User service version two adds four seconds of latency, which is longer than the three second timeout. Payment service version two fails fifty percent of requests.",
+    "So I can simulate the two most common real incidents: a slow dependency, and a bad release that starts throwing errors."
+   ]
+  },
+  {
+   "id": "traffic",
+   "title": "Fake customers and versioned deploys",
+   "pad": [
+    0.4,
+    0.55
+   ],
+   "lines": [
+    "A broken service with no traffic looks perfectly healthy, so a small script called traffic dot py plays the customers, about five orders a second.",
+    "Releases go through a deploy script. It updates the version in the environment file and recreates only that one container.",
+    "It waits until the service reports the new version on its version endpoint.",
+    "And then it records the deployment: which service, which version, and which version it replaced.",
+    "That last step is easy to skip, and it's the most important one. Without a release record, nothing can ever answer the question, what changed?"
+   ]
+  },
+  {
+   "id": "arch",
+   "title": "Architecture overview",
+   "pad": [
+    0.4,
+    0.55
+   ],
+   "lines": [
+    "Here's the whole system. Eight containers, started with one Docker Compose file.",
+    "The three shop services expose metrics. Prometheus scrapes them every five seconds, and Grafana draws the graphs.",
+    "Each service also sends traces to Jaeger through Open Telemetry, so one slow order can be followed across every service.",
+    "Then come the two parts I'd call RootLens itself. The detector, which watches Prometheus, and the controller, which decides and acts.",
+    "The order service also hosts the incident A P I, the investigator and the live dashboard, backed by a SQLite file on a Docker volume."
+   ]
+  },
+  {
+   "id": "whysplit",
+   "title": "Why detector and controller are separate",
+   "pad": [
+    0.4,
+    0.55
+   ],
+   "lines": [
+    "An interviewer will ask: why is the detector a separate process, and why is the controller separate again?",
+    "First, failure isolation. If the thing you're watching crashes, the watcher must keep running. A detector inside the order service would die with it.",
+    "Second, least privilege. Only the controller is allowed to change the running system. The detector can only read metrics and write incidents.",
+    "Third, the single responsibility principle. Noticing, explaining and acting are different jobs, with different tests and different risks.",
+    "It's the same shape as Kubernetes: something observes, and a controller reconciles the real state towards the desired state."
+   ]
+  },
+  {
+   "id": "sqlite",
+   "title": "SQLite as the incident store",
+   "pad": [
+    0.4,
+    0.55
+   ],
+   "lines": [
+    "All state lives in three SQLite tables.",
+    "Incidents: the fingerprint, the status, when it opened and resolved, and the evidence snapshot stored as JSON.",
+    "Deployments: every release and every rollback, with the previous version. This is what change correlation reads.",
+    "And the audit log: every decision the controller made, what it did, and what happened.",
+    "Why SQLite and not Postgres? It's a single node lab, the write rate is tiny, and it needs zero setup. On a real team with many writers I'd move to Postgres, and that's on the roadmap."
+   ]
+  },
+  {
+   "id": "metrics",
+   "title": "Metrics: counters and histograms",
+   "pad": [
+    0.4,
+    0.55
+   ],
+   "lines": [
+    "RootLens can only be as smart as its data, so let's look at the observability stack, starting with metrics.",
+    "Each service exposes a metrics endpoint using the Prometheus client library.",
+    "A counter only goes up. For example, requests total, labelled with the endpoint and the status code. You never read a counter directly. You ask how fast it is growing.",
+    "A histogram counts requests into latency buckets: under a tenth of a second, under half a second, and so on. That lets you compute percentiles later.",
+    "One warning interviewers like: keep labels low cardinality. Status code is fine. A user I D as a label would explode the number of time series."
+   ]
+  },
+  {
+   "id": "prometheus",
+   "title": "Prometheus: the pull model",
+   "pad": [
+    0.4,
+    0.55
+   ],
+   "lines": [
+    "Prometheus works on a pull model. Every five seconds it visits each service's metrics endpoint and stores the numbers as time series.",
+    "Pull has a nice side effect. If a service is down, the scrape fails, and Prometheus records a metric called up, set to zero.",
+    "So up equals zero is free evidence that a service is unreachable, and the investigator uses it directly.",
+    "The alternative is push, where services send metrics to a collector. Push suits short lived jobs. For long running services, pull is simpler and tells you who is missing."
+   ]
+  },
+  {
+   "id": "promql",
+   "title": "PromQL: the failure ratio",
+   "pad": [
+    0.4,
+    0.55
+   ],
+   "lines": [
+    "The detector is driven by one PromQL query. Let's read it.",
+    "The top half takes the order requests counter, keeps only status codes starting with five, and asks for its per second rate over the last minute.",
+    "The bottom half is the same rate for every order request.",
+    "Divide one by the other, and you get the failure ratio: the share of orders that failed in the last minute. Zero is perfect. One means everything fails.",
+    "Why a ratio and not a raw count? Because a count grows with traffic. Ten errors a second is a disaster at night and nothing during a sale. A ratio means the same thing at any load."
+   ]
+  },
+  {
+   "id": "p95",
+   "title": "p95 latency with histogram_quantile",
+   "pad": [
+    0.4,
+    0.55
+   ],
+   "lines": [
+    "For latency, the detector also records the ninety fifth percentile, using histogram quantile over the latency buckets.",
+    "P ninety five means ninety five percent of orders were faster than this number.",
+    "Why not the average? Averages hide pain. If most orders take a tenth of a second and one in ten takes four seconds, the average looks fine, but every tenth customer is waiting.",
+    "Percentiles show the tail, and the tail is where timeouts live. The investigator compares p ninety five with the three second timeout."
+   ]
+  },
+  {
+   "id": "tracing",
+   "title": "Tracing with OpenTelemetry and Jaeger",
+   "pad": [
+    0.4,
+    0.55
+   ],
+   "lines": [
+    "Metrics tell you that something is slow. Traces tell you where.",
+    "Each service runs with Open Telemetry auto instrumentation, so every incoming request and every outgoing call becomes a span, without changing the business code.",
+    "The trace I D travels in an H T T P header from order to user to payment, so Jaeger can stitch the spans into one timeline.",
+    "With the user service version two bug, you can open one slow order and see the user call taking four seconds while everything else is quick.",
+    "I excluded noisy endpoints like metrics and health from tracing. Otherwise the scrapes every five seconds would drown out the real traffic."
+   ]
+  },
+  {
+   "id": "grafana",
+   "title": "Grafana and the three signals",
+   "pad": [
+    0.4,
+    0.55
+   ],
+   "lines": [
+    "Grafana sits on top of Prometheus with a dashboard for request rates, failure ratios and latency.",
+    "It helps to know the three pillars of observability and which question each one answers.",
+    "Metrics answer: is something wrong, and how bad is it? They are cheap, so you keep them for a long time and alert on them.",
+    "Traces answer: where in the chain is the time going? Logs answer: what exactly happened in this one request?",
+    "RootLens uses metrics for detection and diagnosis, and traces for a human to confirm. Centralized logs are the next item on the roadmap."
+   ]
+  },
+  {
+   "id": "detect",
+   "title": "Detect: the detector loop",
+   "pad": [
+    0.4,
+    0.55
+   ],
+   "lines": [
+    "Now, step one: detection. The detector is a small Python loop.",
+    "Every ten seconds, it runs the failure ratio query against Prometheus.",
+    "If the ratio is at or above zero point three, it counts a breach. If it's below zero point one, it counts an OK. Anything else resets both counters.",
+    "Three breaches in a row open an incident. Three OKs in a row resolve it.",
+    "So with ten second checks, an incident opens about thirty seconds after failures start. Plus up to a minute for the one minute rate window to fill."
+   ]
+  },
+  {
+   "id": "hysteresis",
+   "title": "Hysteresis: two thresholds",
+   "pad": [
+    0.4,
+    0.55
+   ],
+   "lines": [
+    "Why two thresholds, point three to open and point one to resolve? This is called hysteresis, and it's a favourite interview topic.",
+    "Imagine a single threshold at point three, and a failure ratio wobbling around point three.",
+    "The incident would open, close, open, close. Every flip pages someone. That's called flapping, and it destroys trust in alerts.",
+    "With two thresholds, there's a dead zone between point one and point three. Once open, the incident stays open until the system is clearly healthy.",
+    "A thermostat works the same way. It heats until twenty one degrees and doesn't start again until nineteen."
+   ]
+  },
+  {
+   "id": "evidence",
+   "title": "Evidence snapshot at open",
+   "pad": [
+    0.4,
+    0.55
+   ],
+   "lines": [
+    "When an incident opens, the detector immediately snapshots the evidence, because metrics change quickly and the interesting moment is now.",
+    "For each dependency, it records: is it up, what share of its own requests are failing, and how calls to it failed, split into errors, timeouts and unreachable.",
+    "It also records the order status rates and the p ninety five latency.",
+    "And it pulls every deployment from the last thirty minutes, with how many seconds before detection each one happened.",
+    "All of this is stored as JSON on the incident. That makes the diagnosis reproducible: you can re-run the investigator later on exactly the same evidence."
+   ]
+  },
+  {
+   "id": "fingerprint",
+   "title": "Fingerprints: no duplicates",
+   "pad": [
+    0.4,
+    0.55
+   ],
+   "lines": [
+    "One more detection detail: deduplication.",
+    "While failures continue, the detector keeps seeing breaches. Without care, it would open a new incident every thirty seconds.",
+    "So every incident has a fingerprint, a stable name for the problem, like order failure ratio high.",
+    "Before opening, the A P I looks for an open incident with the same fingerprint. If there is one, nothing new is created.",
+    "That's idempotency applied to alerting: sending the same signal twice has the same effect as sending it once."
+   ]
+  },
+  {
+   "id": "investigate",
+   "title": "Investigate: three causes per dependency",
+   "pad": [
+    0.4,
+    0.55
+   ],
+   "lines": [
+    "Step two: investigate. We know orders are failing. Now, why?",
+    "For every dependency, the investigator considers three possible causes. The service is down. The service is returning errors. Or the service is too slow and hitting timeouts.",
+    "With two dependencies, that's six hypotheses. Each one gets a score between zero and one.",
+    "And each score comes with its reasons: the evidence for it, and the evidence against it. The dashboard shows them, like four for, zero against.",
+    "This is the key design choice. A ranked list with reasons, not a single guess. A human can check the reasoning in seconds."
+   ]
+  },
+  {
+   "id": "scoring",
+   "title": "How the scores add up",
+   "pad": [
+    0.4,
+    0.55
+   ],
+   "lines": [
+    "Let's see how one score is built. Take the cause: payment service is returning errors.",
+    "If the service is running, meaning up equals one, that adds zero point two five.",
+    "If it is failing at least twenty percent of its own requests, that adds zero point four five. That's the strongest clue, because the error comes from inside the service.",
+    "If almost all failed calls to it were error responses, not timeouts, add zero point one five.",
+    "And if responses are not unusually slow, add another zero point one five. Together, that's a perfect one point zero.",
+    "The weights are hand-tuned, and every rule is a unit test. That makes it explainable: you can point at the line of code that produced a score."
+   ]
+  },
+  {
+   "id": "scoring2",
+   "title": "Competing hypotheses",
+   "pad": [
+    0.4,
+    0.55
+   ],
+   "lines": [
+    "Meanwhile, the competing hypotheses are scored from the same evidence.",
+    "Payment service is down? The up metric is one, so it's running. That's evidence against, and it scores zero.",
+    "Payment service too slow? It's running, which adds point two. But there are no timeouts, so that's evidence against. It ends at point two.",
+    "User service? Calls to it aren't failing at all, so it isn't even implicated. It's skipped.",
+    "So the final ranking is one point zero for errors, against point two for the runner up. A clear winner."
+   ]
+  },
+  {
+   "id": "confidence",
+   "title": "The confidence rule",
+   "pad": [
+    0.4,
+    0.55
+   ],
+   "lines": [
+    "Next, how confident are we? This rule decides whether the robot may act at all.",
+    "Confidence is high only when the top cause scores at least zero point seven five, and it beats the runner up by at least zero point three.",
+    "Why the gap? Because a high score alone isn't enough. If two causes both score point eight, the evidence can't tell them apart, and acting on either one is a coin flip.",
+    "Medium means the top score is at least point five. Anything lower is low.",
+    "In the real run, the top score was one point zero against point two, a gap of point eight. So, high confidence."
+   ]
+  },
+  {
+   "id": "slowcase",
+   "title": "Worked example: the slow release",
+   "pad": [
+    0.4,
+    0.55
+   ],
+   "lines": [
+    "Let's run the other planted bug through the same scoring, so you can explain both in an interview.",
+    "User service version two sleeps four seconds. The order service gives up after three, so every call times out, and orders return five oh four.",
+    "Too slow gets point two for running, point four because most failures are timeouts, and point three more because p ninety five is near the three second timeout. Plus point one for no errors of its own.",
+    "That's one point zero again. And returning errors scores low, because the service itself reports no errors and responses are very slow.",
+    "Same code, different evidence, different answer. That's the test of a good diagnosis rule."
+   ]
+  },
+  {
+   "id": "blast",
+   "title": "Blast radius",
+   "pad": [
+    0.4,
+    0.55
+   ],
+   "lines": [
+    "The investigator also reports the blast radius: which other services depend on the culprit.",
+    "It reads a small dependency graph. Order service depends on user service and payment service.",
+    "So if payment is the culprit, the blast radius is the order service. That's what the customer actually feels.",
+    "In a bigger system, this tells you who to notify, and which other alerts are just symptoms of the same root cause."
+   ]
+  },
+  {
+   "id": "whyrules",
+   "title": "Why rules, not machine learning",
+   "pad": [
+    0.4,
+    0.55
+   ],
+   "lines": [
+    "An obvious question: why not use machine learning, or ask a large language model what went wrong?",
+    "First, there's no training data. Incidents are rare, and every system's incidents look different.",
+    "Second, explainability. When a robot is about to roll back production, someone will ask why. A rule with listed evidence answers that. A model's output doesn't.",
+    "Third, testability. Every rule is a pure function with unit tests. You can't unit test an L L M's judgement the same way.",
+    "Where an L L M would help is writing a friendly explanation from the evidence, after the decision is made. That's on the roadmap, and it should never be the thing that decides."
+   ]
+  },
+  {
+   "id": "changed",
+   "title": "What changed? Change correlation",
+   "pad": [
+    0.4,
+    0.55
+   ],
+   "lines": [
+    "Now the question that solves most real incidents. What changed?",
+    "Studies of outages keep finding the same thing: a large share are caused by a change, usually a deployment or a config change.",
+    "So for the culprit service, the investigator finds its most recent deployment from the evidence.",
+    "A release up to five minutes before detection is a strong link. Up to fifteen minutes is moderate. Older than that is weak.",
+    "In the real run, payment service version two went out sixty two seconds before detection. Strong. And the next step reads: roll back from v two to v one."
+   ]
+  },
+  {
+   "id": "rollbackguard",
+   "title": "Never roll back a rollback",
+   "pad": [
+    0.4,
+    0.55
+   ],
+   "lines": [
+    "There's a trap here. What if the most recent change was itself a rollback?",
+    "Say we rolled payment back from v two to v one, and it still fails. The latest change is now the rollback.",
+    "Rolling back again would mean going back to v two, the broken version, or to something even older. That's going in circles.",
+    "So the investigator compares version numbers. If the new version is lower than the previous one, it's a rollback, and the advice changes to: investigate manually, do not roll back again.",
+    "The rule: a rollback can't explain a new failure, so the robot hands over to a human."
+   ]
+  },
+  {
+   "id": "decide",
+   "title": "Decide: the rulebook is a pure function",
+   "pad": [
+    0.4,
+    0.55
+   ],
+   "lines": [
+    "Step three: decide. This lives in one file, policy dot py, and it's the most important design choice in the project.",
+    "The rulebook is a pure function. It takes the diagnosis, the past attempts for this incident, and how many actions this service had in the last hour.",
+    "It returns one of three decisions: act, wait, or escalate to a human.",
+    "It never touches Docker, the network or the database. Same input, same output, every time.",
+    "That means every rule can be unit tested in milliseconds, with no containers running. And you can read the whole policy in one screen."
+   ]
+  },
+  {
+   "id": "tree",
+   "title": "The decision tree",
+   "pad": [
+    0.4,
+    0.55
+   ],
+   "lines": [
+    "Let's walk the rulebook in order. Every question that fails sends the incident to a human.",
+    "Is a clear cause named? Is the target the user or payment service, the only ones the robot is allowed to touch?",
+    "Is confidence high? And is only one service failing? If two are failing at once, it's probably something bigger, like the network.",
+    "Are we under two attempts for this incident, and under three actions for this service in the last hour?",
+    "Was the last attempt less than sixty seconds ago? Then wait, because the previous action might still be taking effect.",
+    "Finally: is there a recent release to undo, which isn't itself a rollback and hasn't been tried? Roll back. Otherwise, if a restart hasn't been tried, restart. Otherwise, escalate."
+   ]
+  },
+  {
+   "id": "guardrails",
+   "title": "Guardrails: attempts, rate limit, cooldown",
+   "pad": [
+    0.4,
+    0.55
+   ],
+   "lines": [
+    "Three of those rules are guardrails, and each one stops a specific disaster.",
+    "Max two attempts per incident. If two actions didn't fix it, a third one won't either. Stop and call a human.",
+    "Max three actions per service per hour. This stops a restart loop, where the robot keeps restarting a service that crashes for a reason it can't see.",
+    "And a sixty second cooldown. After an action, metrics need time to reflect it. Acting again too soon means acting on stale data.",
+    "The general principle: automation should fail safe. When in doubt, it stops and asks, rather than doing more."
+   ]
+  },
+  {
+   "id": "rollbackvsrestart",
+   "title": "Rollback versus restart",
+   "pad": [
+    0.4,
+    0.55
+   ],
+   "lines": [
+    "Why does the rulebook prefer a rollback over a restart?",
+    "If a release just went out and things broke, the bug is most likely in the new code. Restarting the same buggy code just restarts the bug.",
+    "A rollback removes the cause. It's the most reliable fix in operations, which is why good teams make rollbacks fast and boring.",
+    "A restart helps when there's no recent release: a memory leak, a stuck connection pool, a process in a bad state.",
+    "So: if a change explains it, undo the change. If not, try a restart once. If that fails too, it's a human's problem."
+   ]
+  },
+  {
+   "id": "modes",
+   "title": "Modes: off, dry-run, enforce",
+   "pad": [
+    0.4,
+    0.55
+   ],
+   "lines": [
+    "Step four: act. But first, a safety switch. The controller has three modes.",
+    "Off does nothing at all.",
+    "Dry run makes every decision and records it in the audit log, but never acts. This is the default.",
+    "Enforce actually carries out the decision.",
+    "Dry run is how you build trust in automation. You run it for weeks, compare its suggestions with what the humans did, and only then switch it on. Real teams roll out auto remediation exactly like this."
+   ]
+  },
+  {
+   "id": "preflight",
+   "title": "Preflight checks",
+   "pad": [
+    0.4,
+    0.55
+   ],
+   "lines": [
+    "In enforce mode, there's one more gate: preflight checks. The decision was made from evidence, but evidence ages. So right before acting, it re-checks the world.",
+    "Is the incident recent? More than thirty minutes old, and it won't act automatically.",
+    "Is it still failing right now? If the live failure ratio has dropped below point three, the system already recovered, and acting would only cause risk.",
+    "For a rollback: is the target really an earlier version? And is the bad version still the one running? If someone already rolled back by hand, the situation has changed, so do nothing.",
+    "This is the classic time of check versus time of use problem. Decide on old data, re-verify on fresh data before you act."
+   ]
+  },
+  {
+   "id": "executor",
+   "title": "The executor: the only code that acts",
+   "pad": [
+    0.4,
+    0.55
+   ],
+   "lines": [
+    "Only one file is allowed to change the running system: the executor.",
+    "It first checks the request against an allow list: only roll back or restart, and only on the user or payment service.",
+    "It builds the command as a list of arguments, never as a shell string. So nothing from the incident data can ever be injected into a shell command.",
+    "For a rollback, it writes the target version into the environment file, recreates just that container, waits until the version endpoint reports the right version, and records the deployment as done by the robot.",
+    "Keeping all side effects in one small file means there's exactly one place to review, test and lock down."
+   ]
+  },
+  {
+   "id": "verify",
+   "title": "Verify recovery",
+   "pad": [
+    0.4,
+    0.55
+   ],
+   "lines": [
+    "Step five: verify. Doing an action isn't the same as fixing the problem.",
+    "After acting, the controller keeps reading the live failure ratio.",
+    "Three readings in a row below zero point one means recovered.",
+    "If two minutes pass without that, it decides. Still failing means failed, and it escalates to a human. Dropped but not for long enough means inconclusive. No data at all is also inconclusive.",
+    "Notice the four outcomes. A lazy version would just say success or failure. Being honest about uncertainty is what makes the audit log trustworthy."
+   ]
+  },
+  {
+   "id": "audit",
+   "title": "The audit log",
+   "pad": [
+    0.4,
+    0.55
+   ],
+   "lines": [
+    "Every decision goes into the audit log, and that includes the decisions not to act.",
+    "Escalated because confidence was medium. Waited because of the cooldown. Suggested a rollback, but in dry run. Refused by preflight, because the system had already recovered.",
+    "Why log inaction? Because after an incident, the first question in the review is: why didn't the automation do anything? You need that answer written down.",
+    "The audit log is also an input. The rulebook counts past attempts and actions per hour from it, so the guardrails survive a controller restart."
+   ]
+  },
+  {
+   "id": "notify",
+   "title": "Telegram notifications to owners",
+   "pad": [
+    0.4,
+    0.55
+   ],
+   "lines": [
+    "When a human is needed, the controller tells the right human. It sends Telegram messages through a bot.",
+    "Routing is per service. An environment variable like notify chat payment service lists the owners of payment. If none is set, it falls back to a default chat.",
+    "There are six kinds of message: opened, needs human, reminder, acted, fix failed, and resolved. A reminder goes out every fifteen minutes while a human is still needed.",
+    "Old incidents aren't announced late, and messages are capped in length. If sending fails, it retries after sixty seconds, and a notification failure never blocks the remediation itself."
+   ]
+  },
+  {
+   "id": "realrun",
+   "title": "A real incident, start to finish",
+   "pad": [
+    0.4,
+    0.55
+   ],
+   "lines": [
+    "Now let's put it all together with a real run of the lab.",
+    "At twelve twenty five and two seconds, payment service version two is released.",
+    "Sixty two seconds later, the incident opens with an order failure ratio of point five two.",
+    "In the same second, the diagnosis: payment service is returning errors, one point zero against point two, high confidence, strong trigger. And within a second, the controller decides to roll back to v one.",
+    "At twelve twenty six and fifty seconds, the rollback to v one happens.",
+    "And at twelve twenty seven fifty four, after three healthy checks, the incident resolves. Total: one minute and fifty seconds."
+   ]
+  },
+  {
+   "id": "dash1",
+   "title": "Dashboard: overview",
+   "pad": [
+    0.4,
+    0.55
+   ],
+   "lines": [
+    "Here's what that looked like on the live dashboard, which is plain H T M L served by the order service.",
+    "On the left, something looks wrong. Fifty two percent of orders fail, and the detector is still counting checks before it opens an incident.",
+    "On the right, the problem is detected. Detect, investigate and decide are done. Payment service is returning errors, so roll back to v one.",
+    "The steps light up in the same order as the five step loop, so anyone watching knows exactly where the automation is."
+   ]
+  },
+  {
+   "id": "dash2",
+   "title": "Dashboard: incident detail",
+   "pad": [
+    0.4,
+    0.55
+   ],
+   "lines": [
+    "Opening the incident shows the full diagnosis: score one point zero with high confidence, what changed, every cause that was considered with its reasons, and a timeline.",
+    "The automation page shows the robot mode, the safety rules, and the decision log. Here: roll back payment service to v one, dry run, so suggested only.",
+    "That's the explainability goal in practice. Everything the robot thinks is on screen, in plain English."
+   ]
+  },
+  {
+   "id": "dash3",
+   "title": "Dashboard: deployments and recovery",
+   "pad": [
+    0.4,
+    0.55
+   ],
+   "lines": [
+    "The deployments page lists every release and rollback, which is exactly the table that change correlation reads.",
+    "And finally, healthy again. Three healthy checks resolve the incident, after one minute and fifty seconds.",
+    "One detail about the hosted version: visitors get a read only view, so nobody on the internet can trigger chaos or deployments."
+   ]
+  },
+  {
+   "id": "testing",
+   "title": "Testing: 118 unit tests",
+   "pad": [
+    0.4,
+    0.55
+   ],
+   "lines": [
+    "Now testing. There are one hundred and eighteen unit tests across six files.",
+    "They cover the investigator, the rulebook, the safety checks, the executor, the controller loop and the notifications.",
+    "Because the rulebook and the safety checks are pure functions, their tests need no Docker and no network. You pass in a diagnosis and assert on the decision.",
+    "The executor is tested with fakes. The command runner, the version probe and the deployment recorder are passed in as functions, so a test can pretend Docker failed, or the version never changed.",
+    "That's dependency injection used for testability. The code that decides is pure, and the code with side effects takes its tools as parameters."
+   ]
+  },
+  {
+   "id": "ci",
+   "title": "CI with GitHub Actions",
+   "pad": [
+    0.4,
+    0.55
+   ],
+   "lines": [
+    "GitHub Actions runs two jobs on every push.",
+    "The test job runs all six test files.",
+    "The build job validates the compose file and builds every Docker image, so a broken Dockerfile is caught before anyone tries to run the lab.",
+    "There's also a release workflow that publishes the all in one demo image to the GitHub container registry, which is what the one command docker run uses."
+   ]
+  },
+  {
+   "id": "compose",
+   "title": "Running the full lab",
+   "pad": [
+    0.4,
+    0.55
+   ],
+   "lines": [
+    "To run the full lab on a laptop, it's docker compose up, and eight containers start.",
+    "The incident database lives in a named Docker volume, so it survives restarts. One warning in the docs: never run compose down with the volumes flag, because it deletes the incident history.",
+    "The controller mounts the Docker socket, so it can recreate containers. On one laptop that's acceptable. In real production it's a big permission, and I'd replace it with a narrower one.",
+    "There's also a Codespaces setup, so anyone can open the full lab in a browser with one click, with fake traffic already running."
+   ]
+  },
+  {
+   "id": "hosted",
+   "title": "The hosted demo: one container",
+   "pad": [
+    0.4,
+    0.55
+   ],
+   "lines": [
+    "The hosted demo had an interesting constraint. A free web host gives you one container, not eight.",
+    "So a supervisor script runs the whole lab as processes inside one image: Prometheus, the three services, the detector, the traffic generator, and the controller in enforce mode.",
+    "The executor has a second runtime called process. Instead of docker compose, it asks the supervisor to recreate the service. The policy, the safety checks and the audit log are exactly the same code.",
+    "A release train ships the buggy payment version two about every twenty minutes. That spacing respects the rule of three actions per service per hour.",
+    "So any visitor can watch RootLens detect a bad release, blame it, and roll it back on its own."
+   ]
+  },
+  {
+   "id": "limits",
+   "title": "Honest limits",
+   "pad": [
+    0.4,
+    0.55
+   ],
+   "lines": [
+    "Every good project has honest limits, and interviewers respect you for naming them before they do.",
+    "The bugs are planted. The rollback is real release mechanics, but this is a simulated pipeline on one machine.",
+    "The write endpoints, like recording a deployment, aren't authenticated yet.",
+    "The controller mounts the Docker socket, which is too much permission for real production.",
+    "And slowness that stays under the three second timeout isn't detected, because detection is based on failures, not latency."
+   ]
+  },
+  {
+   "id": "next",
+   "title": "What I'd build next",
+   "pad": [
+    0.4,
+    0.55
+   ],
+   "lines": [
+    "And here's what I'd build next, in order of value.",
+    "A latency based detector, comparing p ninety five against a target, so slowness is caught before it becomes timeouts.",
+    "Authentication on the write endpoints, Postgres instead of SQLite, and a narrower permission than the Docker socket.",
+    "Kubernetes, where a rollback becomes a rollout undo on a deployment, and centralized logs.",
+    "And finally, an L L M that writes a friendly explanation grounded in the stored evidence, never one that decides."
+   ]
+  },
+  {
+   "id": "qa1",
+   "title": "Interview questions: core",
+   "pad": [
+    0.4,
+    0.55
+   ],
+   "lines": [
+    "Now, the interview. Here's how the core questions sound, and how to answer.",
+    "How does it detect an incident? It polls a PromQL failure ratio every ten seconds. Three checks at or above point three open it, three below point one resolve it.",
+    "Why two thresholds? Hysteresis. One threshold flaps open and closed. The gap keeps it stable.",
+    "How does it find the root cause? It scores three causes per dependency from the evidence, with reasons for and against, and only calls it high confidence with a score of point seven five and a lead of point three.",
+    "How does it know what changed? Every release is recorded. A release within five minutes of detection is a strong link."
+   ]
+  },
+  {
+   "id": "qa2",
+   "title": "Interview questions: safety",
+   "pad": [
+    0.4,
+    0.55
+   ],
+   "lines": [
+    "Then they'll push on safety. How do you stop the robot making things worse?",
+    "Answer: a pure function rulebook that escalates on any doubt, guardrails of two attempts per incident, three actions per service per hour and a sixty second cooldown, and preflight checks on live data right before acting.",
+    "What if it rolls back and the problem continues? It verifies with three healthy checks within two minutes. If not, it marks the fix as failed and escalates. And it never rolls back a rollback.",
+    "Why not let it act from day one? Dry run first. You compare its suggestions with what humans did, and switch to enforce only when it's earned trust.",
+    "How did you test it? One hundred and eighteen unit tests. Pure functions for decisions, and injected fakes for anything that touches Docker."
+   ]
+  },
+  {
+   "id": "qa3",
+   "title": "Interview questions: design",
+   "pad": [
+    0.4,
+    0.55
+   ],
+   "lines": [
+    "And some design follow ups that test depth.",
+    "Why a ratio instead of an error count? A count scales with traffic, so a fixed threshold would be wrong at night or during a sale. A ratio means the same thing at any load.",
+    "Why p ninety five and not the average? Averages hide the tail, and the tail is where timeouts happen.",
+    "How would this scale to a hundred services? Generate the dependency graph from traces instead of hard coding it, move to Postgres, run detection per service, and use Kubernetes rollouts as the actions.",
+    "Why not use an L L M? No training data, decisions must be explainable and testable. I'd use an L L M to explain, not to decide."
+   ]
+  },
+  {
+   "id": "pitch",
+   "title": "Your 30-second pitch",
+   "pad": [
+    0.4,
+    0.55
+   ],
+   "lines": [
+    "If you get one minute to describe RootLens, say this.",
+    "I built an incident response lab that does what an on call engineer does: detect, investigate, decide, act and verify.",
+    "It detects failures with a PromQL ratio and hysteresis, ranks root causes from evidence with an explainable score, and links the failure to the release that caused it.",
+    "A pure function rulebook decides whether to roll back, restart or escalate, with guardrails and preflight checks, and every decision is audited, including not acting.",
+    "In a real run, it found a bad payment release and recovered in one minute fifty, and it's covered by one hundred and eighteen unit tests."
+   ]
+  },
+  {
+   "id": "recap",
+   "title": "Recap",
+   "pad": [
+    0.4,
+    1.6
+   ],
+   "lines": [
+    "To recap. A tiny shop with planted bugs, watched by Prometheus and traced with Open Telemetry.",
+    "A detector with hysteresis and fingerprints. An investigator that ranks causes with reasons, and links failures to releases.",
+    "A pure function rulebook with guardrails, preflight checks, a single executor, verification, and an audit log that records even the decision to do nothing.",
+    "The code, the screenshots and the one click demo are all on GitHub. Good luck in your interview."
+   ]
+  }
+ ]
+}

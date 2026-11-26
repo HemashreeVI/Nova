@@ -1,0 +1,554 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RootLens Deep Dive</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{--ink:#f3eefc;--mut:#a59cbf;--bg:#120c24;--card:rgba(28,20,52,.94);--line:rgba(190,170,240,.22);
+        --amber:#f2b134;--violet:#8b6cf6;--grn:#34d399;--red:#f87171;--blu:#60a5fa;--pink:#f472b6;--cyan:#22d3ee;--org:#fb923c}
+  #fv-stage{background:radial-gradient(1500px 1000px at 78% 10%,#3a2380 0%,#1a1236 45%,#0c0818 80%);color:var(--ink);font-family:Inter,system-ui,sans-serif}
+  #bg-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(160,130,240,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(160,130,240,.08) 1px,transparent 1px);background-size:80px 80px}
+  .abs{position:absolute}
+  .mono{font-family:'JetBrains Mono',monospace;font-variant-ligatures:none;font-feature-settings:'liga' 0,'calt' 0}
+  .brand{position:absolute;left:120px;top:50px;display:flex;align-items:center;gap:14px;font:800 26px Inter;color:#d9cff7;z-index:5}
+  .brand i{width:40px;height:40px;border-radius:11px;background:linear-gradient(135deg,#7c5cf0,#4b2fb8);display:flex;align-items:center;justify-content:center;font-style:normal;font-size:22px}
+  .brand span{font:600 18px 'JetBrains Mono';color:var(--mut);margin-left:6px}
+  #chap{position:absolute;right:120px;top:56px;font:700 20px 'JetBrains Mono';color:var(--mut);letter-spacing:.08em;z-index:5}
+  .kicker{position:absolute;left:120px;top:118px;font:800 22px 'JetBrains Mono';letter-spacing:.18em;color:var(--amber)}
+  .title{position:absolute;left:120px;top:150px;font:900 58px/1.05 Inter;letter-spacing:-.03em;width:1700px}
+  .card{position:absolute;border:2px solid var(--line);border-radius:22px;background:var(--card);box-sizing:border-box;padding:22px 28px}
+  .pill{display:inline-block;padding:10px 22px;border-radius:40px;font:800 26px Inter;border:2px solid var(--c,#8b6cf6);background:color-mix(in srgb,var(--c,#8b6cf6) 16%,transparent);white-space:nowrap}
+  .lbl{font:800 20px 'JetBrains Mono';letter-spacing:.08em;color:var(--mut);text-transform:uppercase}
+  .code{font:600 25px/1.55 'JetBrains Mono',monospace;white-space:pre;font-variant-ligatures:none;font-feature-settings:'liga' 0,'calt' 0;color:#e6e0f6}
+  .code .k{color:#f2b134}.code .t{color:#60a5fa}.code .s{color:#86efac}.code .c{color:#8a80a8}.code .r{color:#fca5a5}.code .h{background:rgba(242,177,52,.2);border-radius:6px}
+  .node{position:absolute;border-radius:18px;border:3px solid var(--c);background:color-mix(in srgb,var(--c) 15%,#160f2e);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;box-sizing:border-box;font:800 28px Inter;padding:8px}
+  .node small{font:600 19px 'JetBrains Mono';color:var(--mut);margin-top:6px;line-height:1.3}
+  .row{display:flex;align-items:flex-start;gap:20px;border:2px solid var(--line);border-radius:18px;background:var(--card);padding:16px 24px;margin-bottom:14px;font:600 28px/1.32 Inter;box-sizing:border-box}
+  .row b{color:var(--c,var(--amber))}
+  .row .ic{font-size:34px;line-height:1;flex:0 0 auto;width:44px;text-align:center}
+  .row .num{flex:0 0 auto;width:48px;height:48px;border-radius:50%;background:var(--c,var(--violet));color:#120c24;font:900 26px Inter;display:flex;align-items:center;justify-content:center}
+  .q{font:800 27px/1.3 Inter;color:var(--amber)}
+  .a{font:500 25px/1.35 Inter;color:#e6e0f6;margin-top:6px}
+  .big{font:900 120px/1 Inter;letter-spacing:-.04em}
+  .tag{display:inline-block;padding:5px 14px;border-radius:10px;font:800 21px 'JetBrains Mono';white-space:nowrap;background:color-mix(in srgb,var(--c,#8b6cf6) 22%,transparent);color:var(--c,#cbbcf7);border:2px solid var(--c,#8b6cf6)}
+  .shot{position:absolute;border-radius:16px;overflow:hidden;border:2px solid rgba(255,255,255,.2);box-shadow:0 30px 80px rgba(0,0,0,.55);background:#fff}
+  .shot img{display:block;width:100%}
+  .shot .cap{position:absolute;left:0;right:0;bottom:0;padding:8px 16px;background:rgba(12,8,24,.85);font:700 20px 'JetBrains Mono';color:#d9cff7}
+  table.t{border-collapse:separate;border-spacing:0 10px;font:600 26px Inter;width:100%}
+  table.t td{padding:12px 18px;background:var(--card);border-top:2px solid var(--line);border-bottom:2px solid var(--line)}
+  table.t td:first-child{border-left:2px solid var(--line);border-radius:14px 0 0 14px}
+  table.t td:last-child{border-right:2px solid var(--line);border-radius:0 14px 14px 0}
+  table.t th{font:800 20px 'JetBrains Mono';color:var(--mut);text-align:left;padding:0 18px;letter-spacing:.06em}
+  .seat{width:44px;height:40px;border-radius:9px 9px 5px 5px;background:color-mix(in srgb,var(--c,#34d399) 30%,#1a1236);border:2px solid var(--c,#34d399)}
+  svg .ar{fill:none;stroke-width:5;stroke-linecap:round}
+  .x{color:var(--red);font-weight:900}.ok{color:var(--grn);font-weight:900}
+  .fv-endcard{display:inline-block;padding:16px 34px;border-radius:40px;border:2px solid var(--amber);background:rgba(242,177,52,.14);font:800 32px Inter;color:#ffe2a8}
+
+  .chip{display:inline-flex;align-items:center;gap:8px;padding:8px 16px;border-radius:12px;font:700 22px 'JetBrains Mono';border:2px solid var(--c,#8b6cf6);background:color-mix(in srgb,var(--c,#8b6cf6) 14%,transparent);white-space:nowrap}
+  .rows2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .rows2 .row{margin:0}
+  .note{font:600 24px/1.4 Inter;color:var(--mut)}
+  .kv{font:700 26px 'JetBrains Mono';color:#e6e0f6}
+  .kv b{color:var(--c,var(--amber))}
+</style>
+</head>
+<body>
+<div id="fv-stage">
+  <div id="bg-grid"></div>
+  <div class="brand"><i>🔎</i>RootLens <span>· deep dive</span></div>
+  <div id="chap"></div>
+  <svg width="0" height="0" style="position:absolute">
+    <defs>
+      <marker id="mA" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#f2b134"/></marker>
+      <marker id="mG" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#34d399"/></marker>
+      <marker id="mR" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#f87171"/></marker>
+      <marker id="mB" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#60a5fa"/></marker>
+      <marker id="mV" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#a78bfa"/></marker>
+    </defs>
+  </svg>
+
+<section class="fv-scene" data-scene="title" data-chap="00 · INTRO">
+  
+  <div class="abs" data-at="s0.3" style="left:120px;top:220px;width:1100px;"><span style="font:900 150px/1 Inter;letter-spacing:-.05em">Root<span style="color:var(--amber)">Lens</span></span></div>
+  <div class="abs" data-at="s0.8" style="left:124px;top:390px;width:1100px;"><span style="font:700 44px Inter;color:#d6cdf2">The complete deep dive · interview prep</span></div>
+  <div class="abs" data-at="1" style="left:120px;top:480px;width:1000px;"><span style="font:900 54px/1.15 Inter">Something broke.<br><span style="color:var(--grn)">Why</span>, and is it <span style="color:var(--amber)">safe</span> to fix?</span></div>
+  <div class="abs" data-at="2" style="left:120px;top:670px;width:1000px;"><div style="display:flex;flex-wrap:wrap;gap:12px"><span class="pill" style="--c:var(--blu);">Python</span><span class="pill" style="--c:var(--grn);">FastAPI</span><span class="pill" style="--c:var(--org);">Prometheus</span><span class="pill" style="--c:var(--amber);">Grafana</span><span class="pill" style="--c:var(--violet);">OpenTelemetry</span><span class="pill" style="--c:var(--cyan);">Jaeger</span><span class="pill" style="--c:var(--blu);">Docker</span><span class="pill" style="--c:var(--pink);">SQLite</span></div></div>
+  <div class="abs" data-at="3" style="left:120px;top:830px;width:1100px;"><span style="font:700 32px Inter;color:var(--amber)">what I used → why I used it → how it's asked</span></div>
+  <div class="card" data-at="1" style="left:1260px;top:260px;width:540px;height:560px;"><div class="lbl">the loop, every time</div><div class="row" data-at="1.00" style="--c:var(--red);margin-top:14px"><div class="num">1</div><div>Detect</div></div><div class="row" data-at="1.15" style="--c:var(--amber);margin-top:14px"><div class="num">2</div><div>Investigate</div></div><div class="row" data-at="1.30" style="--c:var(--violet);margin-top:14px"><div class="num">3</div><div>Decide</div></div><div class="row" data-at="1.45" style="--c:var(--blu);margin-top:14px"><div class="num">4</div><div>Act</div></div><div class="row" data-at="1.60" style="--c:var(--grn);margin-top:14px"><div class="num">5</div><div>Verify</div></div></div>
+</section>
+<section class="fv-scene" data-scene="roadmap" data-chap="00 · ROADMAP">
+  <div class="kicker">ROADMAP</div><div class="title">What we'll cover</div>
+  <div class="abs" style="left:120px;top:260px;width:820px"><div><div class="row" data-at="0" style="--c:var(--violet);"><div class="num">1</div><div>The problem &amp; the 5-step loop</div></div><div class="row" data-at="1" style="--c:var(--violet);"><div class="num">2</div><div>The lab: a shop with planted bugs</div></div><div class="row" data-at="1.4" style="--c:var(--violet);"><div class="num">3</div><div>Architecture &amp; observability</div></div><div class="row" data-at="2" style="--c:var(--red);"><div class="num">4</div><div><b>Detect</b>: thresholds, hysteresis</div></div><div class="row" data-at="2.3" style="--c:var(--amber);"><div class="num">5</div><div><b>Investigate</b>: ranking causes</div></div><div class="row" data-at="2.6" style="--c:var(--amber);"><div class="num">6</div><div><b>What changed?</b> releases</div></div></div></div>
+  <div class="abs" style="left:980px;top:260px;width:820px"><div><div class="row" data-at="2.8" style="--c:var(--violet);"><div class="num">7</div><div><b>Decide</b>: the rulebook</div></div><div class="row" data-at="3" style="--c:var(--blu);"><div class="num">8</div><div><b>Act &amp; verify</b> safely</div></div><div class="row" data-at="3.3" style="--c:var(--grn);"><div class="num">9</div><div>A real incident, end to end</div></div><div class="row" data-at="3.6" style="--c:var(--cyan);"><div class="num">10</div><div>Tests, CI &amp; deployment</div></div><div class="row" data-at="4" style="--c:var(--pink);"><div class="num">11</div><div>Honest limits</div></div><div class="row" data-at="4.3" style="--c:var(--blu);"><div class="num">12</div><div><b>Interview questions</b></div></div></div></div>
+</section>
+<section class="fv-scene" data-scene="problem" data-chap="01 · PROBLEM">
+  <div class="kicker">THE PROBLEM</div><div class="title">Three in the morning, the pager goes off</div>
+  <div class="card" data-at="0" style="left:120px;top:260px;width:520px;height:330px;"><div class="lbl">03:00 · illustrative</div><div style="font-size:120px;text-align:center;margin-top:10px">📟</div><div style="text-align:center;font:800 32px Inter;color:var(--red)">orders failing</div></div>
+  <div class="card" data-at="1" style="left:700px;top:260px;width:520px;height:330px;"><div class="lbl">order failure ratio</div><div style="font:900 130px Inter;color:var(--red);text-align:center;margin-top:20px"><span data-count="1-1.6" data-to="52">0</span>%</div></div>
+  <div class="card" data-at="2" style="left:1280px;top:260px;width:520px;height:330px;"><div class="lbl">the questions</div><div style="font:700 30px/1.6 Inter;margin-top:14px">which service?<br><span style="color:var(--amber)">what changed?</span><br>roll back?<br>did it work?</div></div>
+  <div class="abs" style="left:120px;top:640px;width:1680px"><div><div class="row" data-at="3" style="--c:var(--amber);"><div class="ic">↩️</div><div>Usual fix: <b>roll back the recent release</b>, then watch the graphs</div></div><div class="row" data-at="4" style="--c:var(--red);"><div class="ic">⏱️</div><div>Every minute of diagnosis is a minute of <b>customer-facing errors</b></div></div><div class="row" data-at="5" style="--c:var(--grn);"><div class="ic">🤖</div><div>RootLens: the same routine, <b>written down as code</b></div></div></div></div>
+</section>
+<section class="fv-scene" data-scene="mttr" data-chap="01 · PROBLEM">
+  <div class="kicker">WHY IT MATTERS</div><div class="title">Time to recover is what customers feel</div>
+  <div class="abs" data-at="0" style="left:120px;top:270px;width:1680px;"><div style="display:flex;height:120px;border-radius:20px;overflow:hidden;font:800 30px Inter"><div data-at="1" style="flex:3;background:rgba(248,113,113,.3);display:flex;align-items:center;justify-content:center">notice</div><div data-at="1.4" style="flex:4;background:rgba(242,177,52,.3);display:flex;align-items:center;justify-content:center">understand</div><div data-at="1.8" style="flex:3;background:rgba(96,165,250,.3);display:flex;align-items:center;justify-content:center">fix + confirm</div></div></div>
+  <div class="abs" style="left:120px;top:410px;width:1680px;"><div style="display:flex;gap:30px"><div style="flex:3" data-at="3"><span class="pill" style="--c:var(--red)">🔎 detector</span></div><div style="flex:4" data-at="3.3"><span class="pill" style="--c:var(--amber)">🧠 investigator</span></div><div style="flex:3" data-at="3.6"><span class="pill" style="--c:var(--blu)">🤖 controller</span></div></div></div>
+  <div class="card" data-at="4" style="left:120px;top:520px;width:1680px;height:300px;"><div class="lbl">mean time to recovery · M T T R</div><div style="display:flex;align-items:center;gap:60px;margin-top:20px"><div style="font:900 130px Inter;color:var(--grn)">1m 50s</div><div style="font:600 30px/1.5 Inter;color:#e6e0f6">real run: detection → rollback → three healthy checks<br><span class="note">payment-service v2, a planted 50% error bug</span></div></div></div>
+</section>
+<section class="fv-scene" data-scene="loop" data-chap="01 · THE LOOP">
+  <div class="kicker">THE BIG IDEA</div><div class="title">Detect → Investigate → Decide → Act → Verify</div>
+  <svg class="abs" width="1920" height="1080" style="left:0;top:0"><path class="ar" d="M330,470 L430,470" stroke="#f2b134" stroke-width="5" marker-end="url(#mA)" data-draw="1.5-2"/><path class="ar" d="M650,470 L750,470" stroke="#f2b134" stroke-width="5" marker-end="url(#mA)" data-draw="2.5-3"/><path class="ar" d="M970,470 L1070,470" stroke="#f2b134" stroke-width="5" marker-end="url(#mA)" data-draw="3.5-4"/><path class="ar" d="M1290,470 L1390,470" stroke="#f2b134" stroke-width="5" marker-end="url(#mA)" data-draw="4-4.5"/><path class="ar" d="M1500,580 C1500,720 260,720 220,590" stroke="#a78bfa" stroke-width="5" marker-end="url(#mV)" data-draw="5-e5" stroke-dasharray="10 10"/></svg>
+  <div class="node" data-at="1" style="--c:var(--red);left:120px;top:370px;width:210px;height:200px;">🔎 Detect<small>is it broken?</small></div>
+  <div class="node" data-at="2" style="--c:var(--amber);left:440px;top:370px;width:210px;height:200px;">🧠 Investigate<small>why?</small></div>
+  <div class="node" data-at="3" style="--c:var(--violet);left:760px;top:370px;width:210px;height:200px;">📘 Decide<small>act · wait ·<br>escalate</small></div>
+  <div class="node" data-at="4" style="--c:var(--blu);left:1080px;top:370px;width:210px;height:200px;">🛠️ Act<small>one safe<br>action</small></div>
+  <div class="node" data-at="4.5" style="--c:var(--grn);left:1400px;top:370px;width:210px;height:200px;">✅ Verify<small>3 healthy<br>checks</small></div>
+  <div class="abs" data-at="5" style="left:0;right:0;top:760px;text-align:center;"><span class="pill" style="--c:var(--pink);">📜 audit log: every decision, including <b>not</b> acting</span></div>
+</section>
+<section class="fv-scene" data-scene="lab" data-chap="02 · THE LAB">
+  <div class="kicker">THE LAB</div><div class="title">Three FastAPI services form a tiny shop</div>
+  <svg class="abs" width="1920" height="1080" style="left:0;top:0"><path id="lb1" class="ar" d="M500,520 L760,380" stroke="#60a5fa" stroke-width="5" marker-end="url(#mB)" data-draw="2-2.6"/><path id="lb2" class="ar" d="M500,560 L760,700" stroke="#60a5fa" stroke-width="5" marker-end="url(#mB)" data-draw="2.4-3"/><circle data-move="2.2-3" data-path="lb1" r="14" fill="#60a5fa"/><circle data-move="2.6-3.4" data-path="lb2" r="14" fill="#f87171"/></svg>
+  <div class="node" data-at="2" style="--c:var(--amber);left:150px;top:430px;width:340px;height:220px;">🛒 order-service<small>:8002 · front door</small></div>
+  <div class="node" data-at="1" style="--c:var(--grn);left:770px;top:260px;width:380px;height:200px;">👤 user-service<small>:8001 · who is buying</small></div>
+  <div class="node" data-at="1.4" style="--c:var(--red);left:770px;top:620px;width:380px;height:200px;">💳 payment-service<small>:8003 · charge</small></div>
+  <div class="card" data-at="3.5" style="left:1230px;top:300px;width:570px;height:460px;"><div class="lbl" style="color:var(--amber)">symptom vs cause</div><div style="font:700 30px/1.6 Inter;margin-top:18px">symptom: <span style="color:var(--amber)">orders fail</span><br>cause: <span style="color:var(--red)">payment errors</span></div><div class="note" style="margin-top:24px">the service that hurts is not the service that's broken</div></div>
+</section>
+<section class="fv-scene" data-scene="timeouts" data-chap="02 · THE LAB">
+  <div class="kicker">HOW ORDER CALLS ITS DEPENDENCIES</div><div class="title">A 3-second timeout, and three ways to fail</div>
+  <div class="card code" data-at="0" style="left:120px;top:260px;width:900px;font-size:26px"><span class="k">async with</span> httpx.AsyncClient(timeout=<span class="s">3.0</span>) <span class="k">as</span> client:
+    r = <span class="k">await</span> client.post(payment_url)
+
+<span class="k">except</span> <span class="t">TimeoutException</span>:
+    FAILURES.labels(dependency, <span class="s">"timeout"</span>).inc()
+    <span class="k">return</span> <span class="r">504</span>
+<span class="k">except</span> <span class="t">HTTPError</span>:
+    FAILURES.labels(dependency, <span class="s">"unreachable"</span>).inc()
+    <span class="k">return</span> <span class="r">503</span></div>
+  <div class="abs" style="left:1080px;top:260px;width:720px"><div><div class="row" data-at="1" style="--c:var(--amber);"><div class="ic">⏳</div><div><b>timeout</b> · no answer in 3 s → 504</div></div><div class="row" data-at="2" style="--c:var(--red);"><div class="ic">🔌</div><div><b>unreachable</b> · can't connect → 503</div></div><div class="row" data-at="2.5" style="--c:var(--pink);"><div class="ic">💥</div><div><b>error</b> · answered 5xx → 503</div></div></div></div>
+  <div class="card" data-at="3" style="left:1080px;top:640px;width:720px;height:200px;"><div class="lbl">one counter, two labels</div><div class="kv" style="margin-top:14px">dependency_failures{<b>dependency</b>, <b>kind</b>}</div></div>
+</section>
+<section class="fv-scene" data-scene="bugs" data-chap="02 · THE LAB">
+  <div class="kicker">BREAKING THINGS ON PURPOSE</div><div class="title">Chaos switches and planted release bugs</div>
+  <div class="card code" data-at="0" style="left:120px;top:260px;width:860px;font-size:26px"><span class="c"># chaos switches (any service)</span>
+POST /chaos/errors?rate=<span class="s">0.5</span>
+POST /chaos/latency?seconds=<span class="s">4</span>
+POST /chaos/reset
+
+<span class="c"># planted release bugs</span>
+BUGS = {<span class="s">"v2"</span>: {<span class="s">"error_rate"</span>: <span class="r">0.5</span>}}</div>
+  <div class="node" data-at="3" style="--c:var(--amber);left:1040px;top:260px;width:760px;height:190px;">👤 user-service v2<small>+4 s latency → beyond the 3 s timeout</small></div>
+  <div class="node" data-at="3.5" style="--c:var(--red);left:1040px;top:480px;width:760px;height:190px;">💳 payment-service v2<small>fails 50% of requests</small></div>
+  <div class="abs" data-at="4" style="left:0;right:0;top:760px;text-align:center;"><span class="pill" style="--c:var(--amber);">🐢 slow dependency</span>&nbsp;&nbsp;<span class="pill" style="--c:var(--red);">💥 bad release</span></div>
+</section>
+<section class="fv-scene" data-scene="traffic" data-chap="02 · THE LAB">
+  <div class="kicker">TRAFFIC AND RELEASES</div><div class="title">Fake customers, and a real release record</div>
+  <div class="node" data-at="0" style="--c:var(--cyan);left:120px;top:290px;width:300px;height:200px;">🧑‍🤝‍🧑 traffic.py<small>≈5 orders / s</small></div>
+  <div class="abs" style="left:500px;top:270px;width:1300px"><div><div class="row" data-at="1" style="--c:var(--violet);"><div class="num">1</div><div>update <b>.env</b>: PAYMENT_SERVICE_VERSION=v2</div></div><div class="row" data-at="1.5" style="--c:var(--violet);"><div class="num">2</div><div>recreate <b>only that container</b></div></div><div class="row" data-at="2" style="--c:var(--violet);"><div class="num">3</div><div>wait for <b>/version</b> to report v2</div></div><div class="row" data-at="3" style="--c:var(--amber);"><div class="num">4</div><div><b>POST /deployments</b>: service · version · previous</div></div></div></div>
+  <div class="card" data-at="4" style="left:120px;top:700px;width:1680px;height:140px;"><div style="font:800 34px Inter;text-align:center;margin-top:18px">no release record → <span style="color:var(--red)">nobody can answer "what changed?"</span></div></div>
+</section>
+<section class="fv-scene" data-scene="arch" data-chap="03 · ARCHITECTURE">
+  <div class="kicker">ARCHITECTURE</div><div class="title">Eight containers, one Docker Compose file</div>
+  <div class="node" data-at="0" style="--c:var(--amber);left:120px;top:270px;width:330px;height:150px;">🛒👤💳 3 services<small>FastAPI · /metrics</small></div>
+  <div class="node" data-at="1" style="--c:var(--org);left:560px;top:270px;width:300px;height:150px;">📈 Prometheus<small>scrape every 5 s</small></div>
+  <div class="node" data-at="1.5" style="--c:var(--amber);left:960px;top:270px;width:280px;height:150px;">📊 Grafana<small>:3000</small></div>
+  <div class="node" data-at="2" style="--c:var(--cyan);left:560px;top:470px;width:300px;height:150px;">🧵 Jaeger<small>OpenTelemetry traces</small></div>
+  <div class="node" data-at="3" style="--c:var(--red);left:1340px;top:270px;width:460px;height:150px;">🔎 detector<small>polls Prometheus · opens incidents</small></div>
+  <div class="node" data-at="3.4" style="--c:var(--blu);left:1340px;top:470px;width:460px;height:150px;">🤖 controller<small>decide · act · verify</small></div>
+  <div class="node" data-at="4" style="--c:var(--violet);left:120px;top:670px;width:740px;height:170px;">🗂️ order-service also hosts<small>incidents API · investigator · dashboard</small></div>
+  <div class="node" data-at="4.4" style="--c:var(--pink);left:960px;top:670px;width:380px;height:170px;">🐘 SQLite<small>/data/incidents.db · volume</small></div>
+  <svg class="abs" width="1920" height="1080" style="left:0;top:0"><path class="ar" d="M450,345 L550,345" stroke="#fb923c" stroke-width="5" marker-end="url(#mA)" data-draw="1-1.4"/><path class="ar" d="M860,345 L950,345" stroke="#f2b134" stroke-width="5" marker-end="url(#mA)" data-draw="1.5-2"/><path class="ar" d="M285,420 L550,545" stroke="#22d3ee" stroke-width="5" marker-end="url(#mA)" data-draw="2-2.5"/><path class="ar" d="M860,320 C1100,220 1200,280 1330,330" stroke="#f87171" stroke-width="5" marker-end="url(#mR)" data-draw="3-3.4"/><path class="ar" d="M1570,620 L1180,670" stroke="#60a5fa" stroke-width="5" marker-end="url(#mB)" data-draw="3.6-4"/></svg>
+</section>
+<section class="fv-scene" data-scene="whysplit" data-chap="03 · ARCHITECTURE">
+  <div class="kicker">DESIGN DECISION</div><div class="title">Why separate processes?</div>
+  <div class="abs" style="left:120px;top:260px;width:1100px"><div><div class="row" data-at="1" style="--c:var(--red);"><div class="ic">🧯</div><div><b>Failure isolation</b> · the watcher survives what it watches</div></div><div class="row" data-at="2" style="--c:var(--amber);"><div class="ic">🔐</div><div><b>Least privilege</b> · only the controller can change things</div></div><div class="row" data-at="3" style="--c:var(--violet);"><div class="ic">🧩</div><div><b>One job each</b> · notice ≠ explain ≠ act</div></div><div class="row" data-at="4" style="--c:var(--cyan);"><div class="ic">☸️</div><div><b>Controller pattern</b> · observe → reconcile</div></div></div></div>
+  <div class="card" data-at="2" style="left:1280px;top:260px;width:520px;height:560px;"><div class="lbl">who may do what</div><div style="font:700 28px/1.8 Inter;margin-top:16px">🔎 detector<br><span class="note">reads metrics · writes incidents</span><br>🧠 investigator<br><span class="note">reads evidence · ranks causes</span><br>🤖 controller<br><span class="note" style="color:var(--amber)">the only one that acts</span></div></div>
+</section>
+<section class="fv-scene" data-scene="sqlite" data-chap="03 · ARCHITECTURE">
+  <div class="kicker">THE DATA</div><div class="title">Three tables in SQLite</div>
+  <div class="card" data-at="1" style="left:120px;top:260px;width:540px;height:400px;"><div class="lbl" style="color:var(--red)">incidents</div><div class="kv" style="margin-top:14px;line-height:1.7">id<br>fingerprint<br>status<br>opened_at · resolved_at<br><b>evidence_json</b></div></div>
+  <div class="card" data-at="2" style="left:690px;top:260px;width:540px;height:400px;"><div class="lbl" style="color:var(--amber)">deployments</div><div class="kv" style="margin-top:14px;line-height:1.7">service<br>version<br><b>previous_version</b><br>deployed_at<br>by (human · robot)</div></div>
+  <div class="card" data-at="3" style="left:1260px;top:260px;width:540px;height:400px;"><div class="lbl" style="color:var(--pink)">audit_log</div><div class="kv" style="margin-top:14px;line-height:1.7">incident_id<br>decision<br>action · service<br><b>outcome</b><br>logged_at</div></div>
+  <div class="abs" data-at="4" style="left:0;right:0;top:720px;text-align:center;"><span class="pill" style="--c:var(--grn);">single node · tiny write rate · zero setup → SQLite</span>&nbsp;&nbsp;<span class="pill" style="--c:var(--blu);">many writers → Postgres</span></div>
+</section>
+<section class="fv-scene" data-scene="metrics" data-chap="04 · OBSERVABILITY">
+  <div class="kicker">OBSERVABILITY · METRICS</div><div class="title">Counters and histograms</div>
+  <div class="card code" data-at="1" style="left:120px;top:260px;width:940px;font-size:25px"><span class="c"># GET /metrics</span>
+rootlens_order_requests_total{
+   endpoint=<span class="s">"/orders"</span>, status=<span class="s">"503"</span>} <span class="k">1342</span>
+
+rootlens_order_request_duration_seconds_bucket{
+   le=<span class="s">"0.5"</span>} <span class="k">9120</span>
+rootlens_order_request_duration_seconds_bucket{
+   le=<span class="s">"3.0"</span>} <span class="k">9874</span></div>
+  <div class="abs" style="left:1120px;top:260px;width:680px"><div><div class="row" data-at="2" style="--c:var(--org);"><div class="ic">📈</div><div><b>Counter</b> · only goes up · read its <b>rate</b></div></div><div class="row" data-at="3" style="--c:var(--amber);"><div class="ic">🪣</div><div><b>Histogram</b> · latency buckets → percentiles</div></div><div class="row" data-at="4" style="--c:var(--red);"><div class="ic">⚠️</div><div><b>Low cardinality</b> labels · status ✓ · user id ✗</div></div></div></div>
+</section>
+<section class="fv-scene" data-scene="prometheus" data-chap="04 · OBSERVABILITY">
+  <div class="kicker">OBSERVABILITY · PROMETHEUS</div><div class="title">Prometheus pulls every 5 seconds</div>
+  <div class="node" data-at="0" style="--c:var(--org);left:760px;top:430px;width:400px;height:200px;">📈 Prometheus<small>scrape_interval: 5s</small></div>
+  <div class="node" data-at="0.3" style="--c:var(--grn);left:140px;top:260px;width:330px;height:140px;">👤 user<small>up = 1</small></div>
+  <div class="node" data-at="0.5" style="--c:var(--amber);left:140px;top:470px;width:330px;height:140px;">🛒 order<small>up = 1</small></div>
+  <div class="node" data-at="1" style="--c:var(--red);left:140px;top:680px;width:330px;height:140px;">💳 payment<small><span style="color:var(--red)">up = 0 ✗</span></small></div>
+  <svg class="abs" width="1920" height="1080" style="left:0;top:0"><path class="ar" d="M750,500 L480,330" stroke="#fb923c" stroke-width="5" marker-end="url(#mA)" data-draw="0.3-0.8"/><path class="ar" d="M750,530 L480,540" stroke="#fb923c" stroke-width="5" marker-end="url(#mA)" data-draw="0.5-1"/><path class="ar" d="M750,560 L480,750" stroke="#f87171" stroke-width="5" marker-end="url(#mR)" data-draw="1-1.5" stroke-dasharray="12 10"/></svg>
+  <div class="card" data-at="3" style="left:1240px;top:300px;width:560px;height:460px;"><div class="lbl">pull vs push</div><div style="font:700 28px/1.6 Inter;margin-top:16px"><span style="color:var(--org)">pull</span> · long-running services<br><span class="note">a missing target is visible</span><br><br><span style="color:var(--blu)">push</span> · short-lived jobs<br><span class="note">e.g. batch jobs via a gateway</span></div></div>
+</section>
+<section class="fv-scene" data-scene="promql" data-chap="04 · OBSERVABILITY">
+  <div class="kicker">THE ONE QUERY THAT MATTERS</div><div class="title">Failure ratio = 5xx rate ÷ all-requests rate</div>
+  <div class="card code" data-at="0" style="left:120px;top:260px;width:1680px;font-size:30px"><span class="k">sum</span>(<span class="k">rate</span>(rootlens_order_requests_total{endpoint=<span class="s">"/orders"</span>, status=~<span class="r">"5.."</span>}[<span class="t">1m</span>]))
+  <span class="h"> ÷ </span>
+<span class="k">sum</span>(<span class="k">rate</span>(rootlens_order_requests_total{endpoint=<span class="s">"/orders"</span>}[<span class="t">1m</span>]))</div>
+  <div class="abs" data-at="1" style="left:120px;top:560px;width:820px;"><div class="row" style="--c:var(--red);"><div class="ic">🔴</div><div><b>numerator</b>: failed orders / second</div></div></div>
+  <div class="abs" data-at="2" style="left:980px;top:560px;width:820px;"><div class="row" style="--c:var(--mut);"><div class="ic">⚪</div><div><b>denominator</b>: all orders / second</div></div></div>
+  <div class="card" data-at="3" style="left:120px;top:690px;width:820px;height:160px;"><div class="lbl">failure ratio</div><div style="font:900 64px Inter;color:var(--amber)">0.00 → 1.00</div></div>
+  <div class="card" data-at="4" style="left:980px;top:690px;width:820px;height:160px;"><div class="lbl">why a ratio?</div><div style="font:700 28px/1.4 Inter;margin-top:8px">a count scales with traffic · <span style="color:var(--grn)">a ratio doesn't</span></div></div>
+</section>
+<section class="fv-scene" data-scene="p95" data-chap="04 · OBSERVABILITY">
+  <div class="kicker">LATENCY</div><div class="title">The 95th percentile, not the average</div>
+  <div class="card code" data-at="0" style="left:120px;top:260px;width:1680px;font-size:29px"><span class="k">histogram_quantile</span>(<span class="s">0.95</span>, <span class="k">sum by</span> (le) (
+   <span class="k">rate</span>(rootlens_order_request_duration_seconds_bucket{endpoint=<span class="s">"/orders"</span>}[<span class="t">1m</span>])))</div>
+  <div class="abs" style="left:120px;top:480px;width:1680px;"><div style="display:flex;align-items:flex-end;gap:10px;height:250px"><div data-at="2.00" style="flex:1;height:30px;border-radius:6px;background:#34d399"></div><div data-at="2.02" style="flex:1;height:30px;border-radius:6px;background:#34d399"></div><div data-at="2.04" style="flex:1;height:30px;border-radius:6px;background:#34d399"></div><div data-at="2.06" style="flex:1;height:30px;border-radius:6px;background:#34d399"></div><div data-at="2.08" style="flex:1;height:30px;border-radius:6px;background:#34d399"></div><div data-at="2.10" style="flex:1;height:30px;border-radius:6px;background:#34d399"></div><div data-at="2.12" style="flex:1;height:30px;border-radius:6px;background:#34d399"></div><div data-at="2.14" style="flex:1;height:30px;border-radius:6px;background:#34d399"></div><div data-at="2.16" style="flex:1;height:30px;border-radius:6px;background:#34d399"></div><div data-at="2.18" style="flex:1;height:240px;border-radius:6px;background:#f87171"></div><div data-at="2.20" style="flex:1;height:30px;border-radius:6px;background:#34d399"></div><div data-at="2.22" style="flex:1;height:30px;border-radius:6px;background:#34d399"></div><div data-at="2.24" style="flex:1;height:30px;border-radius:6px;background:#34d399"></div><div data-at="2.26" style="flex:1;height:30px;border-radius:6px;background:#34d399"></div><div data-at="2.28" style="flex:1;height:30px;border-radius:6px;background:#34d399"></div><div data-at="2.30" style="flex:1;height:30px;border-radius:6px;background:#34d399"></div><div data-at="2.32" style="flex:1;height:30px;border-radius:6px;background:#34d399"></div><div data-at="2.34" style="flex:1;height:30px;border-radius:6px;background:#34d399"></div><div data-at="2.36" style="flex:1;height:30px;border-radius:6px;background:#34d399"></div><div data-at="2.38" style="flex:1;height:240px;border-radius:6px;background:#f87171"></div><div data-at="2.40" style="flex:1;height:30px;border-radius:6px;background:#34d399"></div><div data-at="2.42" style="flex:1;height:30px;border-radius:6px;background:#34d399"></div><div data-at="2.44" style="flex:1;height:30px;border-radius:6px;background:#34d399"></div><div data-at="2.46" style="flex:1;height:30px;border-radius:6px;background:#34d399"></div><div data-at="2.48" style="flex:1;height:30px;border-radius:6px;background:#34d399"></div><div data-at="2.50" style="flex:1;height:30px;border-radius:6px;background:#34d399"></div><div data-at="2.52" style="flex:1;height:30px;border-radius:6px;background:#34d399"></div><div data-at="2.54" style="flex:1;height:30px;border-radius:6px;background:#34d399"></div><div data-at="2.56" style="flex:1;height:30px;border-radius:6px;background:#34d399"></div><div data-at="2.58" style="flex:1;height:240px;border-radius:6px;background:#f87171"></div><div data-at="2.60" style="flex:1;height:30px;border-radius:6px;background:#34d399"></div><div data-at="2.62" style="flex:1;height:30px;border-radius:6px;background:#34d399"></div><div data-at="2.64" style="flex:1;height:30px;border-radius:6px;background:#34d399"></div><div data-at="2.66" style="flex:1;height:30px;border-radius:6px;background:#34d399"></div><div data-at="2.68" style="flex:1;height:30px;border-radius:6px;background:#34d399"></div><div data-at="2.70" style="flex:1;height:30px;border-radius:6px;background:#34d399"></div><div data-at="2.72" style="flex:1;height:30px;border-radius:6px;background:#34d399"></div><div data-at="2.74" style="flex:1;height:30px;border-radius:6px;background:#34d399"></div><div data-at="2.76" style="flex:1;height:30px;border-radius:6px;background:#34d399"></div><div data-at="2.78" style="flex:1;height:240px;border-radius:6px;background:#f87171"></div></div></div>
+  <div class="abs" data-at="2.6" style="left:120px;top:760px;width:820px;"><div class="row" style="--c:var(--grn);"><div class="ic">😌</div><div>average ≈ 0.5 s · <b>looks fine</b></div></div></div>
+  <div class="abs" data-at="3" style="left:980px;top:760px;width:820px;"><div class="row" style="--c:var(--red);"><div class="ic">😣</div><div>p95 ≈ 4 s · <b>every 10th customer waits</b></div></div></div>
+</section>
+<section class="fv-scene" data-scene="tracing" data-chap="04 · OBSERVABILITY">
+  <div class="kicker">OBSERVABILITY · TRACES</div><div class="title">Follow one order across every service</div>
+  <div class="abs" style="left:120px;top:280px;width:1680px;"><div class="lbl" style="margin-bottom:16px">one trace · illustrative</div><div style="position:relative;height:300px;font:700 24px JetBrains Mono"><div data-at="1" style="position:absolute;left:0;top:0;width:100%;height:62px;border-radius:12px;background:rgba(242,177,52,.3);border:2px solid var(--amber);padding:14px">POST /orders · 4.2 s</div><div data-at="3" style="position:absolute;left:3%;top:80px;width:88%;height:62px;border-radius:12px;background:rgba(248,113,113,.3);border:2px solid var(--red);padding:14px">GET user-service /users/7 · 4.0 s ⚠</div><div data-at="2" style="position:absolute;left:92%;top:160px;width:7%;height:62px;border-radius:12px;background:rgba(52,211,153,.3);border:2px solid var(--grn)"></div><div data-at="2" style="position:absolute;left:60%;top:170px;font:700 22px JetBrains Mono;color:var(--grn)">payment · 0.1 s →</div></div></div>
+  <div class="abs" data-at="2" style="left:120px;top:640px;width:820px;"><div class="row" style="--c:var(--cyan);"><div class="ic">🧵</div><div><b>traceparent</b> header carries the trace id</div></div></div>
+  <div class="abs" data-at="4" style="left:980px;top:640px;width:820px;"><div class="row" style="--c:var(--mut);"><div class="ic">🔇</div><div>excluded: <b>/metrics, /health, /version</b></div></div></div>
+</section>
+<section class="fv-scene" data-scene="grafana" data-chap="04 · OBSERVABILITY">
+  <div class="kicker">OBSERVABILITY</div><div class="title">Metrics, traces, logs: who answers what</div>
+  <div class="card" data-at="2" style="left:120px;top:270px;width:540px;height:420px;"><div style="font-size:70px">📈</div><div style="font:900 40px Inter;color:var(--org)">Metrics</div><div class="note" style="margin-top:10px">is something wrong?<br>how bad?</div></div>
+  <div class="card" data-at="3" style="left:690px;top:270px;width:540px;height:420px;"><div style="font-size:70px">🧵</div><div style="font:900 40px Inter;color:var(--cyan)">Traces</div><div class="note" style="margin-top:10px">where is the time going?</div></div>
+  <div class="card" data-at="3.5" style="left:1260px;top:270px;width:540px;height:420px;"><div style="font-size:70px">📄</div><div style="font:900 40px Inter;color:var(--mut)">Logs</div><div class="note" style="margin-top:10px">what exactly happened?<br><span style="color:var(--amber)">roadmap: centralized</span></div></div>
+  <div class="abs" data-at="4" style="left:0;right:0;top:740px;text-align:center;"><span class="pill" style="--c:var(--violet);">RootLens: metrics → detect + diagnose · traces → human confirms</span></div>
+</section>
+<section class="fv-scene" data-scene="detect" data-chap="05 · DETECT">
+  <div class="kicker">STEP 1 · DETECT</div><div class="title">Every 10 seconds: one question</div>
+  <div class="card code" data-at="0" style="left:120px;top:260px;width:900px;font-size:26px"><span class="k">while True</span>:
+    value = query_number(QUERY)
+    breaches = breaches + <span class="s">1</span> <span class="k">if</span> value >= <span class="r">0.3</span> <span class="k">else</span> <span class="s">0</span>
+    oks      = oks + <span class="s">1</span> <span class="k">if</span> value <  <span class="s">0.1</span> <span class="k">else</span> <span class="s">0</span>
+    <span class="k">if</span> breaches >= <span class="s">3</span>: open_incident()
+    <span class="k">if</span> oks >= <span class="s">3</span>:      resolve_incident()
+    time.sleep(<span class="s">10</span>)</div>
+  <div class="abs" style="left:1080px;top:270px;width:720px;"><div class="lbl" style="margin-bottom:14px">checks · illustrative</div><div style="display:flex;gap:12px"><div data-at="3.00" style="flex:1;height:120px;border-radius:14px;display:flex;align-items:flex-end;justify-content:center;padding-bottom:8px;font:800 22px JetBrains Mono;background:rgba(52,211,153,.25);border:2px solid #34d399">0.02</div><div data-at="3.12" style="flex:1;height:120px;border-radius:14px;display:flex;align-items:flex-end;justify-content:center;padding-bottom:8px;font:800 22px JetBrains Mono;background:rgba(248,113,113,.3);border:2px solid #f87171">0.41</div><div data-at="3.24" style="flex:1;height:120px;border-radius:14px;display:flex;align-items:flex-end;justify-content:center;padding-bottom:8px;font:800 22px JetBrains Mono;background:rgba(248,113,113,.3);border:2px solid #f87171">0.52</div><div data-at="3.36" style="flex:1;height:120px;border-radius:14px;display:flex;align-items:flex-end;justify-content:center;padding-bottom:8px;font:800 22px JetBrains Mono;background:rgba(248,113,113,.3);border:2px solid #f87171">0.5</div></div></div>
+  <div class="card" data-at="3" style="left:1080px;top:470px;width:720px;height:170px;"><div style="font:800 32px Inter;margin-top:8px">3 in a row ≥ 0.3 → <span style="color:var(--red)">OPEN</span></div><div style="font:800 32px Inter;margin-top:10px">3 in a row &lt; 0.1 → <span style="color:var(--grn)">RESOLVE</span></div></div>
+  <div class="card" data-at="4" style="left:1080px;top:670px;width:720px;height:170px;"><div class="lbl">time to detect</div><div style="font:800 32px Inter;margin-top:8px">≈30 s of checks + up to 1 min window</div></div>
+</section>
+<section class="fv-scene" data-scene="hysteresis" data-chap="05 · DETECT">
+  <div class="kicker">STEP 1 · DETECT</div><div class="title">Why two thresholds? Hysteresis</div>
+  <svg class="abs" width="1920" height="1080" style="left:0;top:0"><rect x="120" y="300" width="1100" height="440" rx="18" fill="rgba(28,20,52,.9)" stroke="rgba(190,170,240,.22)" stroke-width="2"/><line x1="140" x2="1200" y1="480" y2="480" stroke="#f87171" stroke-width="3" stroke-dasharray="10 8"/><line x1="140" x2="1200" y1="640" y2="640" stroke="#34d399" stroke-width="3" stroke-dasharray="10 8"/><text x="1210" y="488" fill="#f87171" font-family="JetBrains Mono" font-size="24" font-weight="800">0.3</text><text x="1210" y="648" fill="#34d399" font-family="JetBrains Mono" font-size="24" font-weight="800">0.1</text><path class="ar" d="M150,700 L260,690 L330,500 L380,470 L430,490 L480,465 L530,495 L580,470 L640,500 L700,480 L760,560 L820,600 L880,660 L940,670 L1000,675 L1180,680" stroke="#f2b134" stroke-width="5" data-draw="1-3.5"/></svg>
+  <div class="abs" data-at="1" style="left:150px;top:320px;width:600px;"><span class="lbl">failure ratio · illustrative</span></div>
+  <div class="abs" style="left:1320px;top:300px;width:480px"><div><div class="row" data-at="2" style="--c:var(--red);"><div class="ic">🔁</div><div>one threshold → <b>flapping</b></div></div><div class="row" data-at="3" style="--c:var(--amber);"><div class="ic">🟨</div><div>dead zone 0.1–0.3 → <b>stays put</b></div></div><div class="row" data-at="4" style="--c:var(--grn);"><div class="ic">🌡️</div><div>like a <b>thermostat</b></div></div></div></div>
+</section>
+<section class="fv-scene" data-scene="evidence" data-chap="05 · DETECT">
+  <div class="kicker">STEP 1 · DETECT</div><div class="title">Snapshot the evidence the moment it opens</div>
+  <div class="card code" data-at="1" style="left:120px;top:260px;width:1000px;font-size:23px">{ <span class="s">"dependencies"</span>: {
+    <span class="s">"payment-service"</span>: {
+      <span class="s">"up"</span>: <span class="k">1</span>,
+      <span class="s">"own_error_ratio"</span>: <span class="r">0.51</span>,
+      <span class="s">"failure_rates_per_second"</span>: {<span class="s">"error"</span>: <span class="r">2.4</span>, <span class="s">"timeout"</span>: <span class="k">0</span>} } },
+  <span class="s">"order_p95_latency_seconds"</span>: <span class="k">0.21</span>,
+  <span class="s">"recent_deployments"</span>: [{ <span class="s">"service"</span>: <span class="s">"payment-service"</span>,
+      <span class="s">"version"</span>: <span class="s">"v2"</span>, <span class="s">"previous_version"</span>: <span class="s">"v1"</span>,
+      <span class="s">"seconds_before_detection"</span>: <span class="k">62</span> }] }</div>
+  <div class="abs" style="left:1170px;top:260px;width:630px"><div><div class="row" data-at="1" style="--c:var(--blu);"><div class="ic">🩺</div><div>per dependency: <b>up · own errors · how calls failed</b></div></div><div class="row" data-at="2" style="--c:var(--amber);"><div class="ic">⏱️</div><div>order status rates + <b>p95</b></div></div><div class="row" data-at="3" style="--c:var(--violet);"><div class="ic">🚀</div><div><b>deployments</b> in the last 30 min</div></div><div class="row" data-at="4" style="--c:var(--grn);"><div class="ic">🔁</div><div>stored as JSON → <b>reproducible</b></div></div></div></div>
+  <div class="abs" data-at="1" style="left:120px;top:790px;width:1000px;"><span class="note">illustrative values, shaped like the real run</span></div>
+</section>
+<section class="fv-scene" data-scene="fingerprint" data-chap="05 · DETECT">
+  <div class="kicker">STEP 1 · DETECT</div><div class="title">One problem, one incident</div>
+  <div class="node" data-at="1" style="--c:var(--red);left:120px;top:300px;width:380px;height:200px;">breach × 3<small>t = 30 s</small></div>
+  <div class="node" data-at="1.5" style="--c:var(--red);left:120px;top:560px;width:380px;height:200px;">breach × 3 again<small>t = 60 s</small></div>
+  <svg class="abs" width="1920" height="1080" style="left:0;top:0"><path class="ar" d="M510,400 L760,470" stroke="#f2b134" stroke-width="5" marker-end="url(#mA)" data-draw="3-3.5"/><path class="ar" d="M510,660 L760,540" stroke="#f2b134" stroke-width="5" marker-end="url(#mA)" data-draw="3.3-3.8"/></svg>
+  <div class="node" data-at="2" style="--c:var(--amber);left:780px;top:400px;width:500px;height:200px;">fingerprint<small>order-failure-ratio-high</small></div>
+  <div class="node" data-at="3.5" style="--c:var(--grn);left:1360px;top:300px;width:440px;height:200px;">✅ incident #12<small>opened once</small></div>
+  <div class="node" data-at="3.8" style="--c:var(--mut);left:1360px;top:560px;width:440px;height:200px;">↩️ already open<small>no duplicate</small></div>
+  <div class="abs" data-at="4" style="left:0;right:0;top:800px;text-align:center;"><span class="pill" style="--c:var(--violet);">same signal twice = same effect as once → idempotent</span></div>
+</section>
+<section class="fv-scene" data-scene="investigate" data-chap="06 · INVESTIGATE">
+  <div class="kicker">STEP 2 · INVESTIGATE</div><div class="title">Three possible causes, for every dependency</div>
+  <div class="abs" style="left:120px;top:270px;width:1680px;"><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:22px"><div class="card" data-at="1.00" style="position:relative;text-align:center"><div style="font-size:64px">🔌</div><div style="font:900 34px Inter;color:var(--red)">is down</div><div class="note">up = 0 · can't connect</div></div><div class="card" data-at="1.25" style="position:relative;text-align:center"><div style="font-size:64px">💥</div><div style="font:900 34px Inter;color:var(--pink)">returning errors</div><div class="note">running, but answers 5xx</div></div><div class="card" data-at="1.50" style="position:relative;text-align:center"><div style="font-size:64px">🐢</div><div style="font:900 34px Inter;color:var(--amber)">too slow</div><div class="note">timeouts · p95 near 3 s</div></div></div></div>
+  <div class="abs" data-at="2" style="left:0;right:0;top:570px;text-align:center;"><span class="pill" style="--c:var(--violet);">2 dependencies × 3 causes = 6 hypotheses, each scored 0 → 1</span></div>
+  <div class="abs" data-at="3" style="left:0;right:0;top:680px;text-align:center;"><span class="pill" style="--c:var(--grn)">✓ 4 for</span>&nbsp;&nbsp;<span class="pill" style="--c:var(--red)">✗ 0 against</span></div>
+  <div class="abs" data-at="4" style="left:0;right:0;top:790px;text-align:center;"><span style="font:800 32px Inter;color:var(--amber)">a ranked list with reasons, not one guess</span></div>
+</section>
+<section class="fv-scene" data-scene="scoring" data-chap="06 · INVESTIGATE">
+  <div class="kicker">STEP 2 · INVESTIGATE</div><div class="title">Evidence adds points: 'returning errors'</div>
+  <div class="abs" style="left:120px;top:270px;width:1100px;"><div class="row" data-at="1" style="--c:var(--grn)"><div class="ic">+</div><div style="flex:1">running (up = 1)</div><div style="font:900 32px JetBrains Mono;color:var(--grn)">0.25</div></div><div class="row" data-at="2" style="--c:var(--grn)"><div class="ic">+</div><div style="flex:1">own error ratio ≥ 20%</div><div style="font:900 32px JetBrains Mono;color:var(--grn)">0.45</div></div><div class="row" data-at="3" style="--c:var(--grn)"><div class="ic">+</div><div style="flex:1">≥ 80% of failures are error responses</div><div style="font:900 32px JetBrains Mono;color:var(--grn)">0.15</div></div><div class="row" data-at="4" style="--c:var(--grn)"><div class="ic">+</div><div style="flex:1">p95 well under the timeout</div><div style="font:900 32px JetBrains Mono;color:var(--grn)">0.15</div></div></div>
+  <div class="card" data-at="1" style="left:1280px;top:270px;width:520px;height:420px;"><div class="lbl">payment-service · returning errors</div><div style="font:900 140px Inter;color:var(--grn);text-align:center;margin-top:30px"><span data-count="1-4.6" data-to="1" data-dec="2">0</span></div></div>
+  <div class="abs" data-at="5" style="left:0;right:0;top:790px;text-align:center;"><span class="pill" style="--c:var(--violet);">hand-tuned weights · every rule unit-tested · explainable</span></div>
+</section>
+<section class="fv-scene" data-scene="scoring2" data-chap="06 · INVESTIGATE">
+  <div class="kicker">STEP 2 · INVESTIGATE</div><div class="title">The other hypotheses lose points</div>
+  <div class="abs" style="left:120px;top:260px;width:1680px"><table class="t" style="font-size:26px"><tr><th>hypothesis</th><th>for</th><th>against</th><th>score</th></tr><tr data-at="0" data-hl="4"><td>💳 payment · <b>returning errors</b></td><td>running · 51% own errors · …</td><td>none</td><td><b style="color:var(--grn)">1.00</b></td></tr><tr data-at="1"><td>💳 payment · down</td><td></td><td>up = 1, it's running</td><td><b style="color:var(--red)">0.00</b></td></tr><tr data-at="2" data-hl="4"><td>💳 payment · too slow</td><td>running</td><td>few or no timeouts</td><td>0.20</td></tr><tr data-at="3"><td>👤 user · <span class="note">any</span></td><td></td><td>no failed calls → not implicated</td><td>—</td></tr></table></div>
+  <div class="abs" data-at="4" style="left:0;right:0;top:720px;text-align:center;"><span style="font:900 60px Inter"><span style="color:var(--grn)">1.00</span> vs <span style="color:var(--mut)">0.20</span></span></div>
+</section>
+<section class="fv-scene" data-scene="confidence" data-chap="06 · INVESTIGATE">
+  <div class="kicker">STEP 2 · INVESTIGATE</div><div class="title">High confidence needs a score AND a gap</div>
+  <div class="card code" data-at="1" style="left:120px;top:260px;width:900px;font-size:27px"><span class="k">def</span> _confidence(ranked):
+    top, second = ranked[<span class="s">0</span>], ranked[<span class="s">1</span>]
+    <span class="k">if</span> top >= <span class="s">0.75</span> <span class="k">and</span> top - second >= <span class="s">0.3</span>:
+        <span class="k">return</span> <span class="s">"high"</span>
+    <span class="k">if</span> top >= <span class="s">0.5</span>:
+        <span class="k">return</span> <span class="s">"medium"</span>
+    <span class="k">return</span> <span class="s">"low"</span></div>
+  <div class="card" data-at="2" style="left:1080px;top:260px;width:720px;height:250px;"><div class="lbl" style="color:var(--red)">high score, no gap</div><div style="font:800 34px Inter;margin-top:14px">0.80 vs 0.80 → <span style="color:var(--red)">coin flip</span></div></div>
+  <div class="card" data-at="4" style="left:1080px;top:540px;width:720px;height:250px;"><div class="lbl" style="color:var(--grn)">real run</div><div style="font:800 34px Inter;margin-top:14px">1.00 vs 0.20 · gap 0.80 → <span style="color:var(--grn)">HIGH</span></div></div>
+</section>
+<section class="fv-scene" data-scene="slowcase" data-chap="06 · INVESTIGATE">
+  <div class="kicker">STEP 2 · INVESTIGATE</div><div class="title">The other bug: user-service v2 is slow</div>
+  <svg class="abs" width="1920" height="1080" style="left:0;top:0"><path id="sl1" class="ar" d="M380,420 L900,420" stroke="#f2b134" stroke-width="5" marker-end="url(#mA)" data-draw="1-1.8"/><circle data-move="1-1.8" data-path="sl1" r="14" fill="#f2b134"/><line x1="700" x2="700" y1="330" y2="510" stroke="#f87171" stroke-width="4" stroke-dasharray="8 8"/></svg>
+  <div class="node" data-at="1" style="--c:var(--amber);left:120px;top:330px;width:260px;height:180px;">🛒 order<small>timeout = 3 s</small></div>
+  <div class="node" data-at="1" style="--c:var(--red);left:910px;top:330px;width:300px;height:180px;">👤 user v2<small>sleeps 4 s</small></div>
+  <div class="abs" data-at="1.5" style="left:600px;top:520px;width:220px;"><span class="lbl" style="color:var(--red)">3 s · gives up</span></div>
+  <div class="abs" style="left:1280px;top:300px;width:520px;"><div class="row" data-at="2" style="--c:var(--amber)"><div style="flex:1">running</div><b>+0.2</b></div><div class="row" data-at="2.3" style="--c:var(--amber)"><div style="flex:1">mostly timeouts</div><b>+0.4</b></div><div class="row" data-at="2.6" style="--c:var(--amber)"><div style="flex:1">p95 ≈ 3 s</div><b>+0.3</b></div><div class="row" data-at="2.9" style="--c:var(--amber)"><div style="flex:1">no own errors</div><b>+0.1</b></div></div>
+  <div class="abs" data-at="3" style="left:0;right:0;top:780px;text-align:center;"><span class="pill" style="--c:var(--amber);">too slow · <b>1.00</b></span>&nbsp;&nbsp;<span class="pill" style="--c:var(--mut);">returning errors · low</span></div>
+</section>
+<section class="fv-scene" data-scene="blast" data-chap="06 · INVESTIGATE">
+  <div class="kicker">STEP 2 · INVESTIGATE</div><div class="title">Blast radius: who else is hurt?</div>
+  <div class="card code" data-at="1" style="left:120px;top:270px;width:760px;font-size:28px">DEPENDENCY_GRAPH = {
+  <span class="s">"order-service"</span>: [
+     <span class="s">"user-service"</span>,
+     <span class="s">"payment-service"</span>] }</div>
+  <div class="node" data-at="2" style="--c:var(--red);left:1200px;top:270px;width:420px;height:170px;">💳 payment-service<small>root cause</small></div>
+  <div class="node" data-at="2.4" style="--c:var(--amber);left:1200px;top:600px;width:420px;height:170px;">🛒 order-service<small>impacted</small></div>
+  <svg class="abs" width="1920" height="1080" style="left:0;top:0"><path class="ar" d="M1410,440 L1410,590" stroke="#f87171" stroke-width="5" marker-end="url(#mR)" data-draw="2.2-2.6"/></svg>
+  <div class="card" data-at="3" style="left:120px;top:560px;width:760px;height:230px;"><div class="lbl">why it matters</div><div style="font:700 28px/1.5 Inter;margin-top:10px">who to notify · which alerts are <span style="color:var(--amber)">just symptoms</span></div></div>
+</section>
+<section class="fv-scene" data-scene="whyrules" data-chap="06 · INVESTIGATE">
+  <div class="kicker">DESIGN DECISION</div><div class="title">Why hand-written rules, not ML or an LLM?</div>
+  <div class="abs" style="left:120px;top:260px;width:1100px"><div><div class="row" data-at="1" style="--c:var(--red);"><div class="ic">📉</div><div><b>No training data</b> · incidents are rare and unique</div></div><div class="row" data-at="2" style="--c:var(--amber);"><div class="ic">🗣️</div><div><b>Explainable</b> · "why did you roll back?"</div></div><div class="row" data-at="3" style="--c:var(--grn);"><div class="ic">🧪</div><div><b>Testable</b> · pure functions, unit tests</div></div><div class="row" data-at="4" style="--c:var(--violet);"><div class="ic">✍️</div><div>LLM later: <b>explain</b>, never <b>decide</b></div></div></div></div>
+  <div class="card" data-at="2" style="left:1280px;top:260px;width:520px;height:500px;"><div class="lbl">rule vs model</div><div style="font:700 28px/1.7 Inter;margin-top:16px">rule → <span style="color:var(--grn)">evidence listed</span><br>rule → <span style="color:var(--grn)">same input, same output</span><br>model → <span style="color:var(--red)">hard to audit</span><br>model → <span style="color:var(--red)">can be confidently wrong</span></div></div>
+</section>
+<section class="fv-scene" data-scene="changed" data-chap="07 · WHAT CHANGED">
+  <div class="kicker">WHAT CHANGED?</div><div class="title">Link the failure to a recent release</div>
+  <svg class="abs" width="1920" height="1080" style="left:0;top:0"><line x1="160" x2="1760" y1="560" y2="560" stroke="rgba(255,255,255,.3)" stroke-width="4"/><rect x="1060" y="520" width="560" height="80" fill="rgba(52,211,153,.18)" data-at="3"/><rect x="560" y="520" width="500" height="80" fill="rgba(242,177,52,.15)" data-at="3.4"/></svg>
+  <div class="abs" data-at="3" style="left:1060px;top:620px;width:560px;"><div style="text-align:center;font:800 26px Inter;color:var(--grn)">≤ 5 min · strong</div></div>
+  <div class="abs" data-at="3.4" style="left:560px;top:620px;width:500px;"><div style="text-align:center;font:800 26px Inter;color:var(--amber)">≤ 15 min · moderate</div></div>
+  <div class="abs" data-at="3.6" style="left:160px;top:620px;width:400px;"><div style="text-align:center;font:800 26px Inter;color:var(--mut)">older · weak</div></div>
+  <div class="abs" data-at="2" style="left:1580px;top:420px;width:240px;"><div style="text-align:center;font:800 26px Inter;color:var(--red)">🚨 detected</div></div>
+  <div class="abs" data-at="4" style="left:1420px;top:300px;width:300px;"><div style="text-align:center;font:800 26px Inter;color:var(--violet)">🚀 v2 · 62 s before</div></div>
+  <div class="abs" data-at="4.5" style="left:0;right:0;top:750px;text-align:center;"><span class="pill" style="--c:var(--amber);">→ roll back payment-service from v2 to v1</span></div>
+</section>
+<section class="fv-scene" data-scene="rollbackguard" data-chap="07 · WHAT CHANGED">
+  <div class="kicker">WHAT CHANGED?</div><div class="title">Never roll back twice</div>
+  <div class="abs" style="left:120px;top:270px;width:1680px"><table class="t" style="font-size:28px"><tr><th>time</th><th>change</th><th>kind</th></tr><tr data-at="1"><td>12:25</td><td>payment v1 → <b>v2</b></td><td><span class="tag" style="--c:var(--violet)">release</span></td></tr><tr data-at="1.4" data-hl="2-3"><td>12:26</td><td>payment v2 → <b>v1</b></td><td><span class="tag" style="--c:var(--amber)">rollback</span></td></tr><tr data-at="2"><td>12:28</td><td>still failing… roll back again?</td><td><span class="x">✗ no</span></td></tr></table></div>
+  <div class="card code" data-at="3" style="left:120px;top:600px;width:900px;font-size:28px">is_rollback = current &lt; previous   <span class="c"># v1 &lt; v2</span></div>
+  <div class="card" data-at="4" style="left:1080px;top:600px;width:720px;height:200px;"><div style="font:800 32px/1.4 Inter;margin-top:16px">a rollback can't explain a new failure → <span style="color:var(--amber)">human</span></div></div>
+</section>
+<section class="fv-scene" data-scene="decide" data-chap="08 · DECIDE">
+  <div class="kicker">STEP 3 · DECIDE</div><div class="title">The rulebook: a pure function</div>
+  <div class="node" data-at="1" style="--c:var(--blu);left:120px;top:360px;width:420px;height:300px;">📥 input<small>diagnosis<br>attempts so far<br>actions last hour</small></div>
+  <div class="node" data-at="0" style="--c:var(--violet);left:720px;top:330px;width:480px;height:360px;">📘 decide()<small>pure function<br>no Docker · no network<br>no database</small></div>
+  <svg class="abs" width="1920" height="1080" style="left:0;top:0"><path class="ar" d="M540,510 L710,510" stroke="#60a5fa" stroke-width="5" marker-end="url(#mB)" data-draw="1-1.5"/><path class="ar" d="M1210,420 L1380,340" stroke="#34d399" stroke-width="5" marker-end="url(#mG)" data-draw="2-2.4"/><path class="ar" d="M1210,510 L1380,510" stroke="#f2b134" stroke-width="5" marker-end="url(#mA)" data-draw="2.2-2.6"/><path class="ar" d="M1210,600 L1380,680" stroke="#f87171" stroke-width="5" marker-end="url(#mR)" data-draw="2.4-2.8"/></svg>
+  <div class="node" data-at="2" style="--c:var(--grn);left:1390px;top:270px;width:410px;height:140px;">🛠️ act<small>rollback · restart</small></div>
+  <div class="node" data-at="2.2" style="--c:var(--amber);left:1390px;top:440px;width:410px;height:140px;">⏸️ wait<small>cooldown</small></div>
+  <div class="node" data-at="2.4" style="--c:var(--red);left:1390px;top:610px;width:410px;height:140px;">🙋 escalate<small>hand to a human</small></div>
+  <div class="abs" data-at="4" style="left:0;right:0;top:790px;text-align:center;"><span class="pill" style="--c:var(--grn);">same input → same output · tested in milliseconds</span></div>
+</section>
+<section class="fv-scene" data-scene="tree" data-chap="08 · DECIDE">
+  <div class="kicker">STEP 3 · DECIDE</div><div class="title">Walking the rulebook</div>
+  <div class="abs" style="left:120px;top:255px;width:1100px;"><div class="row" data-at="1" style="--c:var(--violet);padding:10px 20px;margin-bottom:10px;font-size:26px"><div class="ic">❓</div><div>clear cause named?</div></div><div class="row" data-at="1.5" style="--c:var(--violet);padding:10px 20px;margin-bottom:10px;font-size:26px"><div class="ic">🎯</div><div>target is user or payment service?</div></div><div class="row" data-at="2" style="--c:var(--violet);padding:10px 20px;margin-bottom:10px;font-size:26px"><div class="ic">💪</div><div>confidence high?</div></div><div class="row" data-at="2.5" style="--c:var(--violet);padding:10px 20px;margin-bottom:10px;font-size:26px"><div class="ic">1️⃣</div><div>only one service failing?</div></div><div class="row" data-at="3" style="--c:var(--violet);padding:10px 20px;margin-bottom:10px;font-size:26px"><div class="ic">🔢</div><div>&lt; 2 attempts · &lt; 3 actions / service / hour?</div></div><div class="row" data-at="4" style="--c:var(--amber);padding:10px 20px;margin-bottom:10px;font-size:26px"><div class="ic">⏸️</div><div>last attempt &lt; 60 s ago → <b>wait</b></div></div><div class="row" data-at="5" style="--c:var(--grn);padding:10px 20px;margin-bottom:10px;font-size:26px"><div class="ic">↩️</div><div>recent release to undo → <b>roll back</b></div></div><div class="row" data-at="5.6" style="--c:var(--blu);padding:10px 20px;margin-bottom:10px;font-size:26px"><div class="ic">🔄</div><div>else restart not tried → <b>restart</b></div></div></div>
+  <div class="card" data-at="0" style="left:1280px;top:255px;width:520px;height:580px;"><div style="font-size:90px;text-align:center;margin-top:60px">🙋</div><div style="text-align:center;font:900 40px Inter;color:var(--red)">any "no"</div><div style="text-align:center;font:800 34px Inter;margin-top:12px">→ escalate to a human</div></div>
+</section>
+<section class="fv-scene" data-scene="guardrails" data-chap="08 · DECIDE">
+  <div class="kicker">STEP 3 · DECIDE</div><div class="title">Three guardrails against a runaway robot</div>
+  <div class="abs" style="left:120px;top:270px;width:1680px;"><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:22px"><div class="card" data-at="1" style="position:relative;text-align:center;height:380px"><div style="font:900 110px Inter;color:var(--amber)">2</div><div style="font:800 30px Inter">attempts / incident</div><div class="note" style="margin-top:12px">two misses → a third won't help</div></div><div class="card" data-at="2" style="position:relative;text-align:center;height:380px"><div style="font:900 110px Inter;color:var(--red)">3</div><div style="font:800 30px Inter">actions / service / hour</div><div class="note" style="margin-top:12px">no restart loops</div></div><div class="card" data-at="3" style="position:relative;text-align:center;height:380px"><div style="font:900 110px Inter;color:var(--blu)">60s</div><div style="font:800 30px Inter">cooldown</div><div class="note" style="margin-top:12px">let metrics catch up</div></div></div></div>
+  <div class="abs" data-at="4" style="left:0;right:0;top:720px;text-align:center;"><span class="pill" style="--c:var(--grn);">fail safe: when in doubt, stop and ask</span></div>
+</section>
+<section class="fv-scene" data-scene="rollbackvsrestart" data-chap="08 · DECIDE">
+  <div class="kicker">STEP 3 · DECIDE</div><div class="title">Why rollback first, then restart?</div>
+  <div class="card" data-at="2" style="left:120px;top:270px;width:820px;height:430px;"><div style="font-size:70px">↩️</div><div style="font:900 44px Inter;color:var(--grn)">Rollback</div><div style="font:600 28px/1.5 Inter;margin-top:14px">a recent release explains it<br><span class="note">removes the cause</span></div></div>
+  <div class="card" data-at="3" style="left:980px;top:270px;width:820px;height:430px;"><div style="font-size:70px">🔄</div><div style="font:900 44px Inter;color:var(--blu)">Restart</div><div style="font:600 28px/1.5 Inter;margin-top:14px">no recent change<br><span class="note">leak · stuck pool · bad state</span></div></div>
+  <div class="abs" data-at="4" style="left:0;right:0;top:760px;text-align:center;"><span style="font:800 32px Inter">change explains it → <span style="color:var(--grn)">undo</span> · else → <span style="color:var(--blu)">restart once</span> · else → <span style="color:var(--red)">human</span></span></div>
+</section>
+<section class="fv-scene" data-scene="modes" data-chap="09 · ACT">
+  <div class="kicker">STEP 4 · ACT</div><div class="title">Three modes: off, dry-run, enforce</div>
+  <div class="abs" style="left:120px;top:280px;width:1680px;"><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:22px"><div class="card" data-at="1" style="position:relative;text-align:center;height:380px"><div style="font-size:80px">⏻</div><div style="font:900 44px JetBrains Mono;color:var(--mut)">off</div><div class="note" style="margin-top:12px">does nothing</div></div><div class="card" data-at="2" style="position:relative;text-align:center;height:380px;border-color:var(--amber)"><div style="font-size:80px">📝</div><div style="font:900 44px JetBrains Mono;color:var(--amber)">dry-run</div><div class="note" style="margin-top:12px">decides + records<br>never acts</div><div style=margin-top:16px><span class="pill" style="--c:var(--amber);">default</span></div></div><div class="card" data-at="3" style="position:relative;text-align:center;height:380px"><div style="font-size:80px">🛠️</div><div style="font:900 44px JetBrains Mono;color:var(--grn)">enforce</div><div class="note" style="margin-top:12px">acts for real</div></div></div></div>
+  <div class="abs" data-at="4" style="left:0;right:0;top:730px;text-align:center;"><span class="pill" style="--c:var(--violet);">build trust: weeks of dry-run → compare with humans → enforce</span></div>
+</section>
+<section class="fv-scene" data-scene="preflight" data-chap="09 · ACT">
+  <div class="kicker">STEP 4 · ACT</div><div class="title">Preflight: is it still true right now?</div>
+  <div class="abs" style="left:120px;top:260px;width:1100px"><div><div class="row" data-at="1" style="--c:var(--blu);"><div class="ic">⏳</div><div>incident ≤ <b>30 min</b> old</div></div><div class="row" data-at="2" style="--c:var(--red);"><div class="ic">📉</div><div>live failure ratio still ≥ <b>0.3</b></div></div><div class="row" data-at="3" style="--c:var(--violet);"><div class="ic">🔢</div><div>target version &lt; bad version</div></div><div class="row" data-at="3.5" style="--c:var(--amber);"><div class="ic">🏷️</div><div>bad version is <b>still running</b></div></div></div></div>
+  <div class="card" data-at="4" style="left:1280px;top:260px;width:520px;height:520px;"><div class="lbl">TOCTOU</div><div style="font:800 32px/1.5 Inter;margin-top:16px">time of <span style="color:var(--amber)">check</span><br>≠<br>time of <span style="color:var(--grn)">use</span></div><div class="note" style="margin-top:18px">decide on evidence,<br>re-verify on live data</div></div>
+</section>
+<section class="fv-scene" data-scene="executor" data-chap="09 · ACT">
+  <div class="kicker">STEP 4 · ACT</div><div class="title">executor.py: the only code allowed to act</div>
+  <div class="card code" data-at="2" style="left:120px;top:260px;width:1000px;font-size:24px"><span class="k">def</span> build_command(action, service):
+    <span class="c"># a list, never a shell string</span>
+    <span class="k">if</span> action == <span class="s">"rollback_deployment"</span>:
+        <span class="k">return</span> [<span class="s">"docker"</span>, <span class="s">"compose"</span>, <span class="s">"up"</span>, <span class="s">"-d"</span>,
+                <span class="s">"--no-deps"</span>, <span class="s">"--force-recreate"</span>, service]
+    <span class="k">if</span> action == <span class="s">"restart_service"</span>:
+        <span class="k">return</span> [<span class="s">"docker"</span>, <span class="s">"compose"</span>, <span class="s">"restart"</span>, service]</div>
+  <div class="abs" style="left:1170px;top:260px;width:630px"><div><div class="row" data-at="1" style="--c:var(--grn);"><div class="ic">✅</div><div>allow list: <b>2 actions · 2 services</b></div></div><div class="row" data-at="2" style="--c:var(--red);"><div class="ic">🧱</div><div>argument list → <b>no shell injection</b></div></div><div class="row" data-at="3" style="--c:var(--blu);"><div class="ic">🏷️</div><div>write version · recreate · <b>wait for /version</b></div></div><div class="row" data-at="3.6" style="--c:var(--amber);"><div class="ic">📜</div><div>record deployment <b>by: robot</b></div></div></div></div>
+</section>
+<section class="fv-scene" data-scene="verify" data-chap="09 · VERIFY">
+  <div class="kicker">STEP 5 · VERIFY</div><div class="title">Did the fix actually work?</div>
+  <div class="abs" style="left:120px;top:270px;width:1000px;"><div class="lbl" style="margin-bottom:14px">live failure ratio after rollback · illustrative</div><div style="display:flex;gap:14px"><div data-at="1.00" style="flex:1;height:150px;border-radius:14px;display:flex;align-items:center;justify-content:center;font:800 28px JetBrains Mono;background:rgba(248,113,113,.3);border:2px solid #f87171">0.48</div><div data-at="1.25" style="flex:1;height:150px;border-radius:14px;display:flex;align-items:center;justify-content:center;font:800 28px JetBrains Mono;background:rgba(248,113,113,.3);border:2px solid #f87171">0.21</div><div data-at="1.50" style="flex:1;height:150px;border-radius:14px;display:flex;align-items:center;justify-content:center;font:800 28px JetBrains Mono;background:rgba(52,211,153,.25);border:2px solid #34d399">0.04</div><div data-at="1.75" style="flex:1;height:150px;border-radius:14px;display:flex;align-items:center;justify-content:center;font:800 28px JetBrains Mono;background:rgba(52,211,153,.25);border:2px solid #34d399">0.0</div><div data-at="2.00" style="flex:1;height:150px;border-radius:14px;display:flex;align-items:center;justify-content:center;font:800 28px JetBrains Mono;background:rgba(52,211,153,.25);border:2px solid #34d399">0.01</div></div></div>
+  <div class="abs" data-at="2" style="left:120px;top:470px;width:1000px;"><div class="row" style="--c:var(--grn);"><div class="ic">✅</div><div>3 in a row &lt; 0.1 → <b>recovered</b></div></div></div>
+  <div class="abs" style="left:1180px;top:260px;width:620px"><table class="t" style="font-size:25px"><tr><th>state</th><th>when</th></tr><tr data-at="2"><td><b style="color:var(--grn)">recovered</b></td><td>3 OKs in a row</td></tr><tr data-at="3"><td>pending</td><td>&lt; 120 s</td></tr><tr data-at="3.3"><td><b style="color:var(--red)">failed</b></td><td>still bad → human</td></tr><tr data-at="3.6"><td><b style="color:var(--amber)">inconclusive</b></td><td>brief dip · no data</td></tr></table></div>
+  <div class="abs" data-at="4" style="left:0;right:0;top:760px;text-align:center;"><span class="pill" style="--c:var(--violet);">honest about uncertainty → a trustworthy audit log</span></div>
+</section>
+<section class="fv-scene" data-scene="audit" data-chap="09 · VERIFY">
+  <div class="kicker">RECORD EVERYTHING</div><div class="title">The audit log, including 'did nothing'</div>
+  <div class="abs" style="left:120px;top:260px;width:1680px"><table class="t" style="font-size:25px"><tr><th>time</th><th>decision</th><th>outcome</th></tr><tr data-at="1"><td>12:26:05</td><td>roll back payment-service to v1</td><td><span class="tag" style="--c:var(--amber)">suggested · dry-run</span></td></tr><tr data-at="1.3"><td>12:31:10</td><td>escalate: confidence medium</td><td><span class="tag" style="--c:var(--red)">needs human</span></td></tr><tr data-at="1.6"><td>12:40:02</td><td>wait: last attempt 20 s ago</td><td><span class="tag" style="--c:var(--blu)">waiting</span></td></tr><tr data-at="1.9"><td>12:52:44</td><td>refused: live ratio 4%, already recovered</td><td><span class="tag" style="--c:var(--mut)">no action</span></td></tr></table></div>
+  <div class="abs" style="left:120px;top:650px;width:1680px"><div><div class="row" data-at="2" style="--c:var(--amber);"><div class="ic">❓</div><div>post-incident review: <b>"why didn't it act?"</b> → written down</div></div><div class="row" data-at="3" style="--c:var(--grn);"><div class="ic">🔁</div><div>guardrails count from the log → <b>survive restarts</b></div></div></div></div>
+</section>
+<section class="fv-scene" data-scene="notify" data-chap="09 · VERIFY">
+  <div class="kicker">PEOPLE IN THE LOOP</div><div class="title">Telegram notices to the service owner</div>
+  <div class="card" data-at="0" style="left:120px;top:260px;width:760px;height:560px;"><div class="lbl">📱 telegram · illustrative</div><div style="margin-top:18px;padding:22px;border-radius:18px;background:rgba(96,165,250,.15);border:2px solid var(--blu);font:600 26px/1.5 Inter">🚨 <b>payment-service</b> incident #12<br>returning errors · high confidence<br>trigger: v2, 62 s before<br>🤖 robot: roll back to v1</div><div data-at="2" style="margin-top:16px;padding:22px;border-radius:18px;background:rgba(52,211,153,.15);border:2px solid var(--grn);font:600 26px/1.5 Inter">✅ resolved after 1 min 50 s</div></div>
+  <div class="card code" data-at="1" style="left:940px;top:260px;width:860px;font-size:25px">NOTIFY_CHAT_PAYMENT_SERVICE=<span class="s">"1234,5678"</span>
+NOTIFY_CHAT_DEFAULT=<span class="s">"9999"</span></div>
+  <div class="abs" data-at="2" style="left:940px;top:420px;width:860px;"><div style="display:flex;flex-wrap:wrap;gap:10px"><span class="tag" style="--c:var(--red)">opened</span><span class="tag" style="--c:var(--amber)">needs_human</span><span class="tag" style="--c:var(--amber)">reminder · 15 min</span><span class="tag" style="--c:var(--blu)">acted</span><span class="tag" style="--c:var(--red)">fix_failed</span><span class="tag" style="--c:var(--grn)">resolved</span></div></div>
+  <div class="abs" style="left:940px;top:560px;width:860px"><div><div class="row" data-at="3" style="--c:var(--grn);"><div class="ic">🔁</div><div>retry after 60 s · <b>never blocks the fix</b></div></div></div></div>
+</section>
+<section class="fv-scene" data-scene="realrun" data-chap="10 · A REAL RUN">
+  <div class="kicker">A REAL INCIDENT</div><div class="title">12:25:02 → 12:27:54</div>
+  <div class="abs" style="left:120px;top:260px;width:1680px"><table class="t" style="font-size:27px"><tr><th>time</th><th>what happened</th></tr><tr data-at="1" data-hl="1-e1"><td>12:25:02</td><td>🚀 payment-service <b>v2</b> released</td></tr><tr data-at="2" data-hl="2-e2"><td>12:26:04</td><td>🚨 incident opened · failure ratio <b>0.52</b> · 62 s after release</td></tr><tr data-at="3" data-hl="3-3.6"><td>12:26:04</td><td>🧠 returning errors · <b>1.00 vs 0.20</b> · high · strong trigger</td></tr><tr data-at="3.6" data-hl="3.6-e3"><td>12:26:05</td><td>📘 decide: <b>roll back to v1</b></td></tr><tr data-at="4" data-hl="4-e4"><td>12:26:50</td><td>↩️ rollback to v1</td></tr><tr data-at="5" data-hl="5-e5"><td>12:27:54</td><td>✅ resolved · total <b style="color:var(--grn)">1 min 50 s</b></td></tr></table></div>
+</section>
+<section class="fv-scene" data-scene="dash1" data-chap="10 · DASHBOARD">
+  <div class="kicker">THE DASHBOARD</div><div class="title">Something looks wrong → problem detected</div>
+  <div class="shot" data-at="1" style="left:120px;top:260px;width:820px;"><img src="shots/1-overview-something-wrong.png"><div class="cap">1 · something looks wrong</div></div>
+  <div class="shot" data-at="2" style="left:980px;top:260px;width:820px;"><img src="shots/2-overview-problem-detected.png"><div class="cap">2 · problem detected</div></div>
+</section>
+<section class="fv-scene" data-scene="dash2" data-chap="10 · DASHBOARD">
+  <div class="kicker">THE DASHBOARD</div><div class="title">Incident detail and the decision log</div>
+  <div class="shot" data-at="0" style="left:120px;top:260px;width:820px;"><img src="shots/3-incident-detail.png"><div class="cap">3 · incident detail</div></div>
+  <div class="shot" data-at="1" style="left:980px;top:260px;width:820px;"><img src="shots/4-automation-decision-log.png"><div class="cap">4 · automation & decision log</div></div>
+</section>
+<section class="fv-scene" data-scene="dash3" data-chap="10 · DASHBOARD">
+  <div class="kicker">THE DASHBOARD</div><div class="title">Deployments, and healthy again</div>
+  <div class="shot" data-at="0" style="left:120px;top:260px;width:820px;"><img src="shots/5-deployments.png"><div class="cap">5 · deployments</div></div>
+  <div class="shot" data-at="1" style="left:980px;top:260px;width:820px;"><img src="shots/6-overview-healthy-again.png"><div class="cap">6 · healthy again</div></div>
+</section>
+<section class="fv-scene" data-scene="testing" data-chap="11 · TESTING">
+  <div class="kicker">TESTING</div><div class="title">118 unit tests, no Docker needed</div>
+  <div class="card" data-at="0" style="left:120px;top:260px;width:520px;height:330px;"><div class="lbl">unit tests</div><div style="font:900 150px Inter;color:var(--grn);text-align:center"><span data-count="0-0.8" data-to="118">0</span></div></div>
+  <div class="abs" data-at="1" style="left:700px;top:260px;width:1100px;"><div style="display:flex;flex-wrap:wrap;gap:12px"><span class="tag" style="--c:var(--violet)">test_investigator</span><span class="tag" style="--c:var(--violet)">test_policy</span><span class="tag" style="--c:var(--violet)">test_safety</span><span class="tag" style="--c:var(--violet)">test_executor</span><span class="tag" style="--c:var(--violet)">test_controller</span><span class="tag" style="--c:var(--violet)">test_notify</span></div></div>
+  <div class="card code" data-at="2" style="left:700px;top:380px;width:1100px;font-size:25px"><span class="k">def</span> test_escalates_when_two_services_fail():
+    d = decide(diagnosis_with(<span class="s">"payment"</span>, <span class="s">"user"</span>))
+    <span class="k">assert</span> d[<span class="s">"kind"</span>] == <span class="s">"escalate"</span></div>
+  <div class="card code" data-at="3" style="left:120px;top:640px;width:1680px;font-size:25px">execute(action, service, runner=<span class="t">fake_runner</span>, probe=<span class="t">fake_probe</span>, recorder=<span class="t">fake_recorder</span>)   <span class="c"># Docker never runs</span></div>
+</section>
+<section class="fv-scene" data-scene="ci" data-chap="11 · TESTING">
+  <div class="kicker">CONTINUOUS INTEGRATION</div><div class="title">Two jobs on every push</div>
+  <div class="node" data-at="1" style="--c:var(--grn);left:120px;top:300px;width:520px;height:200px;">🧪 test<small>6 test files · 118 tests</small></div>
+  <div class="node" data-at="2" style="--c:var(--blu);left:700px;top:300px;width:520px;height:200px;">🐳 build<small>compose config · build images</small></div>
+  <div class="node" data-at="3" style="--c:var(--violet);left:1280px;top:300px;width:520px;height:200px;">📦 release<small>ghcr.io/hemashreevi/rootlens</small></div>
+  <div class="card code" data-at="3" style="left:120px;top:600px;width:1680px;font-size:30px">docker run --rm -p 10000:10000 ghcr.io/hemashreevi/rootlens:latest</div>
+</section>
+<section class="fv-scene" data-scene="compose" data-chap="12 · DEPLOYMENT">
+  <div class="kicker">DEPLOYMENT</div><div class="title">The full lab: docker compose up</div>
+  <div class="card code" data-at="0" style="left:120px;top:260px;width:860px;font-size:28px">docker compose up -d
+docker compose ps   <span class="c"># 8 containers</span>
+
+<span class="r">docker compose down -v</span>   <span class="c"># ✗ deletes incidents</span></div>
+  <div class="abs" style="left:1040px;top:260px;width:760px"><div><div class="row" data-at="1" style="--c:var(--grn);"><div class="ic">💾</div><div>named volume <b>rootlens-data</b></div></div><div class="row" data-at="2" style="--c:var(--red);"><div class="ic">⚠️</div><div>Docker socket = <b>big permission</b></div></div><div class="row" data-at="3" style="--c:var(--cyan);"><div class="ic">☁️</div><div><b>Codespaces</b>: one click, traffic running</div></div></div></div>
+</section>
+<section class="fv-scene" data-scene="hosted" data-chap="12 · DEPLOYMENT">
+  <div class="kicker">DEPLOYMENT</div><div class="title">Free hosting gives you one container</div>
+  <div class="card" data-at="1" style="left:120px;top:260px;width:820px;height:560px;"><div class="lbl">one container · demo/run.py supervisor</div><div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:20px"><span class="pill" style="--c:var(--org);">prometheus</span><span class="pill" style="--c:var(--grn);">user</span><span class="pill" style="--c:var(--amber);">order</span><span class="pill" style="--c:var(--red);">payment</span><span class="pill" style="--c:var(--red);">detector</span><span class="pill" style="--c:var(--cyan);">traffic</span><span class="pill" style="--c:var(--blu);">controller · enforce</span></div></div>
+  <div class="card code" data-at="2" style="left:1000px;top:260px;width:800px;font-size:26px">EXECUTOR_RUNTIME=<span class="s">process</span>
+<span class="c"># compose → supervisor</span>
+<span class="c"># same policy · safety · audit</span></div>
+  <div class="card" data-at="3" style="left:1000px;top:560px;width:800px;height:260px;"><div class="lbl">release train</div><div style="font:800 34px/1.4 Inter;margin-top:12px">v2 every ≈<span style="color:var(--amber)">20 min</span><br><span class="note">≤ 3 actions / service / hour</span></div></div>
+</section>
+<section class="fv-scene" data-scene="limits" data-chap="13 · LIMITS">
+  <div class="kicker">HONEST NOTES</div><div class="title">What RootLens doesn't do (yet)</div>
+  <div class="abs" style="left:120px;top:260px;width:1680px"><div><div class="row" data-at="1" style="--c:var(--amber);"><div class="ic">🧪</div><div>bugs are <b>planted</b> · simulated pipeline on one machine</div></div><div class="row" data-at="2" style="--c:var(--red);"><div class="ic">🔓</div><div>write endpoints <b>not authenticated</b> yet</div></div><div class="row" data-at="3" style="--c:var(--red);"><div class="ic">🐳</div><div>Docker socket → <b>too much permission</b></div></div><div class="row" data-at="4" style="--c:var(--amber);"><div class="ic">🐢</div><div>slow but &lt; 3 s → <b>not detected</b></div></div></div></div>
+</section>
+<section class="fv-scene" data-scene="next" data-chap="13 · LIMITS">
+  <div class="kicker">ROADMAP</div><div class="title">What I'd build next</div>
+  <div class="abs" style="left:120px;top:260px;width:1680px"><div><div class="row" data-at="1" style="--c:var(--amber);"><div class="num">1</div><div><b>Latency detector</b> · p95 vs a target (SLO)</div></div><div class="row" data-at="2" style="--c:var(--red);"><div class="num">2</div><div><b>Auth</b> · <b>Postgres</b> · narrower permissions</div></div><div class="row" data-at="3" style="--c:var(--cyan);"><div class="num">3</div><div><b>Kubernetes</b> · kubectl rollout undo · central logs</div></div><div class="row" data-at="4" style="--c:var(--violet);"><div class="num">4</div><div><b>LLM explanations</b> grounded in evidence</div></div></div></div>
+</section>
+<section class="fv-scene" data-scene="qa1" data-chap="14 · INTERVIEW Q&amp;A">
+  <div class="kicker">INTERVIEW · CORE</div><div class="title">Questions you will hear</div>
+  <div class="abs" style="left:120px;top:250px;width:1680px"><div class="row" data-at="1" style="display:block;"><div class="q">Q · How do you detect an incident?</div><div class="a">PromQL failure ratio every 10 s · 3 × ≥ 0.3 opens · 3 × &lt; 0.1 resolves.</div></div><div class="row" data-at="2" style="display:block;"><div class="q">Q · Why two thresholds?</div><div class="a">Hysteresis: one threshold flaps; the gap keeps the state stable.</div></div><div class="row" data-at="3" style="display:block;"><div class="q">Q · How do you find the root cause?</div><div class="a">Score 3 causes per dependency · reasons for and against · high = ≥ 0.75 and lead ≥ 0.3.</div></div><div class="row" data-at="4" style="display:block;"><div class="q">Q · How do you know what changed?</div><div class="a">Every release is recorded · ≤ 5 min before detection = strong link.</div></div></div>
+</section>
+<section class="fv-scene" data-scene="qa2" data-chap="14 · INTERVIEW Q&amp;A">
+  <div class="kicker">INTERVIEW · SAFETY</div><div class="title">The questions about trust</div>
+  <div class="abs" style="left:120px;top:250px;width:1680px"><div class="row" data-at="1" style="display:block;--c:var(--red);"><div class="q">Q · How do you stop the robot making it worse?</div><div class="a">Pure rulebook · escalate on doubt · 2 attempts · 3/hour · 60 s cooldown · preflight.</div></div><div class="row" data-at="2" style="display:block;--c:var(--red);"><div class="q">Q · Rolled back, still broken?</div><div class="a">Verify 3 healthy checks in 120 s · else fix_failed → human · never roll back a rollback.</div></div><div class="row" data-at="3" style="display:block;--c:var(--red);"><div class="q">Q · Why not act from day one?</div><div class="a">Dry-run first, compare with humans, then enforce.</div></div><div class="row" data-at="4" style="display:block;--c:var(--red);"><div class="q">Q · How did you test it?</div><div class="a">118 unit tests · pure decisions · injected fakes for Docker.</div></div></div>
+</section>
+<section class="fv-scene" data-scene="qa3" data-chap="14 · INTERVIEW Q&amp;A">
+  <div class="kicker">INTERVIEW · DESIGN</div><div class="title">Follow-ups that test depth</div>
+  <div class="abs" style="left:120px;top:250px;width:1680px"><div class="row" data-at="1" style="display:block;--c:var(--violet);"><div class="q">Q · Ratio, not count?</div><div class="a">A count scales with traffic; a ratio means the same at any load.</div></div><div class="row" data-at="2" style="display:block;--c:var(--violet);"><div class="q">Q · p95, not average?</div><div class="a">Averages hide the tail, and the tail is where timeouts live.</div></div><div class="row" data-at="3" style="display:block;--c:var(--violet);"><div class="q">Q · 100 services?</div><div class="a">Dependency graph from traces · Postgres · per-service detection · k8s rollouts.</div></div><div class="row" data-at="4" style="display:block;--c:var(--violet);"><div class="q">Q · Why not an LLM?</div><div class="a">No data · must be explainable and testable · LLM explains, rules decide.</div></div></div>
+</section>
+<section class="fv-scene" data-scene="pitch" data-chap="14 · PITCH">
+  <div class="kicker">THE PITCH</div><div class="title">RootLens in 30 seconds</div>
+  <div class="card" data-at="0" style="left:120px;top:250px;width:1680px;height:600px;"><div style="font:600 34px/1.6 Inter"><span data-at="1">An incident-response lab that does what an on-call engineer does: <b style="color:var(--amber)">detect → investigate → decide → act → verify</b>.</span><br><br><span data-at="2">PromQL ratio with <b style="color:var(--red)">hysteresis</b> · <b style="color:var(--amber)">explainable</b> root-cause scores · <b style="color:var(--violet)">change correlation</b>.</span><br><br><span data-at="3">Pure rulebook · <b style="color:var(--grn)">guardrails + preflight</b> · everything audited.</span><br><br><span data-at="4">Real run: <b style="color:var(--grn)">1 min 50 s</b> to recover · <b>118</b> unit tests.</span></div></div>
+</section>
+<section class="fv-scene" data-scene="recap" data-chap="RECAP">
+  <div class="kicker">RECAP</div><div class="title">Everything, in one screen</div>
+  <div class="abs" style="left:120px;top:250px;width:1680px;"><div class="rows2"><div class="row" data-at="0" style="--c:var(--violet);margin:0"><div class="ic">🛒</div><div>Shop with <b>planted bugs</b></div></div><div class="row" data-at="0.5" style="--c:var(--org);margin:0"><div class="ic">📈</div><div>Prometheus + <b>OpenTelemetry</b></div></div><div class="row" data-at="1" style="--c:var(--red);margin:0"><div class="ic">🔎</div><div>Detector · <b>hysteresis · fingerprints</b></div></div><div class="row" data-at="1.5" style="--c:var(--amber);margin:0"><div class="ic">🧠</div><div>Ranked causes <b>with reasons</b></div></div><div class="row" data-at="1.8" style="--c:var(--violet);margin:0"><div class="ic">🚀</div><div><b>What changed?</b> release links</div></div><div class="row" data-at="2" style="--c:var(--blu);margin:0"><div class="ic">📘</div><div>Pure <b>rulebook</b> + guardrails</div></div><div class="row" data-at="2.5" style="--c:var(--grn);margin:0"><div class="ic">🛡️</div><div>Preflight · executor · <b>verify</b></div></div><div class="row" data-at="2.8" style="--c:var(--pink);margin:0"><div class="ic">📜</div><div>Audit log, <b>even inaction</b></div></div></div></div>
+  <div class="abs" data-at="3" style="left:0;right:0;top:720px;text-align:center;"><span class="fv-endcard"></span></div>
+</section>
+
+</div>
+<script src="timing.js"></script>
+<script src="fv-runtime.js"></script>
+<script>
+
+const { seg, pulse, css, ease, clamp, lerp } = FV;
+const $ = (s, r = document) => r.querySelector(s), $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+function T(spec, ctx) {
+  spec = String(spec).trim();
+  if (spec[0] === 's') return +spec.slice(1);
+  if (spec[0] === 'e') return ctx.lineEnd(+spec.slice(1));
+  const v = +spec, i = Math.floor(v), f = v - i;
+  const a = ctx.line(i), b = ctx.lineEnd(i);
+  return a + (b - a) * f;
+}
+const range = (spec, ctx) => { const [a, b] = spec.split('-'); const ta = T(a, ctx); return [ta, b === undefined ? ta + 0.6 : Math.max(ta + 0.05, T(b, ctx))]; };
+function build() {
+  $$('[data-draw]').forEach((p) => { p.setAttribute('pathLength', 1); p.style.strokeDasharray = p.getAttribute('stroke-dasharray') ? p.getAttribute('stroke-dasharray') : '1 1'; if (!p.getAttribute('stroke-dasharray')) { p.style.strokeDashoffset = 1; } });
+  $$('[data-type]').forEach((e) => (e.dataset.full = e.textContent));
+}
+const extra = {};
+function generic(t, ctx) {
+  const el = ctx.el;
+  const k = $('.kicker', el), ti = $('.title', el);
+  if (k) FV.enter(k, t, 0.05); if (ti) FV.enter(ti, t, 0.15);
+  $$('[data-at]', el).forEach((e) => {
+    const a = T(e.dataset.at, ctx);
+    const p = seg(t, a, a + 0.6, ease.out);
+    let o = p;
+    if (e.dataset.out) o *= 1 - seg(t, T(e.dataset.out, ctx), T(e.dataset.out, ctx) + 0.4);
+    if (e instanceof SVGElement) e.style.opacity = o;
+    else css(e, { o, y: (1 - p) * 22 });
+  });
+  $$('[data-draw]', el).forEach((p) => {
+    const [a, b] = range(p.dataset.draw, ctx); const q = seg(t, a, b);
+    p.style.opacity = q > 0 ? 1 : 0;
+    if (!p.getAttribute('stroke-dasharray')) p.style.strokeDashoffset = 1 - q;
+  });
+  $$('[data-move]', el).forEach((c) => {
+    const [a, b] = range(c.dataset.move, ctx); const path = document.getElementById(c.dataset.path);
+    const q = seg(t, a, b, ease.inOut); const L = path.getTotalLength(); const pt = path.getPointAtLength(L * q);
+    c.setAttribute('cx', pt.x); c.setAttribute('cy', pt.y);
+    c.style.opacity = t >= a && t <= b + 0.3 ? 1 : 0;
+  });
+  $$('[data-hl]', el).forEach((e) => {
+    let g = 0; e.dataset.hl.split(',').forEach((r) => { const [a, b] = range(r, ctx); g = Math.max(g, seg(t, a, a + 0.3) * (1 - seg(t, b - 0.3, b))); });
+    const tg = e.tagName === 'TR' ? Array.from(e.children) : [e];
+    tg.forEach((x) => { x.style.boxShadow = g ? `inset 0 0 0 3px rgba(242,177,52,${g}), 0 0 ${30 * g}px rgba(242,177,52,${0.6 * g})` : 'none'; x.style.background = g ? `rgba(242,177,52,${0.18 * g})` : ''; });
+  });
+  $$('[data-count]', el).forEach((e) => {
+    const [a, b] = range(e.dataset.count, ctx); const v = +e.dataset.to * seg(t, a, b, ease.out);
+    const d = +(e.dataset.dec || 0);
+    e.textContent = d ? v.toFixed(d) : Math.round(v).toLocaleString('en-US');
+  });
+  $$('[data-bar]', el).forEach((e) => { const [a, b] = range(e.dataset.bar, ctx); e.style.width = (+e.dataset.w * seg(t, a, b, ease.out)) + '%'; });
+  $$('[data-type]', el).forEach((e) => { const [a, b] = range(e.dataset.type, ctx); e.textContent = FV.type(e.dataset.full, seg(t, a, b, ease.linear)); });
+  $$('[data-blink]', el).forEach((e) => { const [a, b] = range(e.dataset.blink, ctx); const on = t >= a && t <= b; e.style.opacity = on ? 0.45 + 0.55 * Math.abs(Math.sin(t * 3)) : (t > b ? 1 : 0); });
+  const chap = $('#chap'); if (el.dataset.chap && chap.textContent !== el.dataset.chap) chap.textContent = el.dataset.chap;
+  if (extra[ctx.id]) extra[ctx.id](t, ctx);
+}
+
+
+build();
+FV.$$('.fv-scene').forEach((s) => FV.scene(s.dataset.scene, generic));
+</script>
+</body>
+</html>
