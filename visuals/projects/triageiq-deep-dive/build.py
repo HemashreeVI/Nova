@@ -42,8 +42,8 @@ add("title", "Intro: what this video covers", "00 · INTRO", None, None, [
 ], [
     text(120, 220, 1100, '<span style="font:900 150px/1 Inter;letter-spacing:-.05em">Triage<span style="color:var(--amber)">IQ</span></span>', "s0.3"),
     text(124, 390, 1100, '<span style="font:700 44px Inter;color:#d6cdf2">The complete deep dive · interview prep</span>', "s0.8"),
-    text(120, 480, 1000, '<span style="font:900 54px/1.15 Inter">Sort every ticket. Draft every reply.<br><span style="color:var(--grn)">Invent nothing.</span> Send nothing unapproved.</span>', "1"),
-    text(120, 690, 1050, '<div style="display:flex;flex-wrap:wrap;gap:12px">' + "".join(
+    text(120, 470, 1110, '<span style="font:900 50px/1.15 Inter">Sort every ticket. Draft every reply.<br><span style="color:var(--grn)">Invent nothing.</span> Send nothing unapproved.</span>', "1"),
+    text(120, 700, 1050, '<div style="display:flex;flex-wrap:wrap;gap:12px">' + "".join(
         pill(n, col) for n, col in [("Python", "blu"), ("Kafka", "amber"), ("Ollama", "grn"), ("Qwen 2.5 3B", "violet"),
                                     ("Qdrant", "red"), ("RAG", "pink"), ("FastAPI", "cyan"), ("SSE", "org")]) + "</div>", "2"),
     text(120, 840, 1100, '<span style="font:700 32px Inter;color:var(--amber)">what I used → why I used it → how it\'s asked</span>', "3"),
@@ -565,7 +565,7 @@ add("threads", "Kafka thread to async server", "07 · CONSOLE", "CONCURRENCY", "
     node(120, 300, 560, 220, "🧵 Kafka thread", "consumer.poll(1.0) · blocking", "amber", "1"),
     node(1240, 300, 560, 220, "⚡ asyncio loop", "FastAPI · never block", "cyan", "1.3"),
     svg(arrow("M690,410 L1230,410", "violet", "2-2.6", pid="th1") + mover("th1", "2.2-3", "violet")),
-    text(700, 330, 520, '<div style="text-align:center;font:700 24px JetBrains Mono;color:var(--violet)">loop.call_soon_threadsafe(publish, event)</div>', "2"),
+    text(700, 330, 520, '<div style="text-align:center;font:700 19px JetBrains Mono;color:var(--violet)">call_soon_threadsafe(publish, event)</div>', "2"),
     node(1240, 580, 560, 200, "📣 publish", "history + every viewer's queue", "grn", "3"),
     svg(arrow("M1520,520 L1520,570", "grn", "3-3.3")),
     node(120, 580, 560, 200, "🔒 db_lock", "shared SQLite, many threads", "red", "4"),
